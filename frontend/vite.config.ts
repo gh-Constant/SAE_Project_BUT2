@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: __dirname,
+    base: noBackend ? '/SAE_Project_BUT2/' : '/',
     cacheDir: '../node_modules/.vite/frontend',
     server: {
       port: 4200,
