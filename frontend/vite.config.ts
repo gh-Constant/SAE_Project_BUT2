@@ -8,9 +8,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   const noBackend = env.VITE_NO_BACKEND === 'true';
   
-  // Only use GitHub Pages base path when running in GitHub Actions
-  const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
-  const base = noBackend && isGitHubActions ? '/SAE_Project_BUT2/' : '/';
+  // Use root base path for both local and GitHub Pages
+  const base = '/';
 
   return {
     root: __dirname,
