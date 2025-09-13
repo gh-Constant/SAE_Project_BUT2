@@ -7,10 +7,14 @@ export default defineConfig(({ mode }) => {
   // Charger les variables d'environnement
   const env = loadEnv(mode, process.cwd());
   const noBackend = env.VITE_NO_BACKEND === 'true';
+  
+  // Only use GitHub Pages base path when running in GitHub Actions
+  const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
+  const base = noBackend && isGitHubActions ? '/SAE_Project_BUT2/' : '/';
 
   return {
     root: __dirname,
-    base: noBackend ? '/SAE_Project_BUT2/' : '/',
+    base: base,
     cacheDir: '../node_modules/.vite/frontend',
     server: {
       port: 4200,
