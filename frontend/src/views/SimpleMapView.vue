@@ -21,18 +21,46 @@ let map: L.Map;
 let markers: L.Marker[] = [];
 
 onMounted(() => {
-  // Initialize the map
-  map = L.map('map').setView([48.8566, 2.3522], 13); // Paris coordinates
+  // Initialize the map - using image coordinates instead of geographic coordinates
+  // For image overlays, we use pixel coordinates (0,0 is top-left)
+  map = L.map('map', {
+    crs: L.CRS.Simple, // Use simple coordinate system for image overlays
+    minZoom: -2,
+    maxZoom: 4,
+    zoomDelta: 0.5, // Smaller zoom steps for more precise control
+    wheelDebounceTime: 100, // Debounce wheel events to prevent multiple zooms
+    wheelPxPerZoomLevel: 120 // Increase this to make zoom less sensitive
+  }).setView([250, 250], 0); // Center the view
 
-  // Add OpenStreetMap tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
+  // Define the image dimensions (adjust based on your map.png size)
+  const imageUrl = './maps/50shrinkcompressed.png';
+  const imageWidth = 6500; // Adjust to your actual image width
+  const imageHeight = 3300; // Adjust to your actual image height
+  
+  // Define the image bounds in pixel coordinates
+  // [y, x] format where [0,0] is top-left
+  const imageBounds: L.LatLngBoundsExpression = [[0, 0], [imageHeight, imageWidth]];
+  
+  // Add your custom map.png as the main map overlay
+  L.imageOverlay(imageUrl, imageBounds).addTo(map);
+  
+  // Fit the map to the image bounds
+  map.fitBounds(imageBounds);
+
+  // Add zoom control with custom options
+  L.control.zoom({
+    position: 'topleft',
+    zoomInTitle: 'Zoom in (+)',
+    zoomOutTitle: 'Zoom out (-)'
   }).addTo(map);
 
-  // Add a default marker
-  const defaultMarker = L.marker([48.8566, 2.3522])
+  // Disable double-click zoom to prevent accidental zooming
+  map.doubleClickZoom.disable();
+
+  // Add a default marker at the center of your image
+  const defaultMarker = L.marker([imageHeight/2, imageWidth/2])
     .addTo(map)
-    .bindPopup('Paris, France')
+    .bindPopup('Center of your custom map')
     .openPopup();
   
   markers.push(defaultMarker);
@@ -41,7 +69,7 @@ onMounted(() => {
   map.on('click', (e) => {
     const marker = L.marker(e.latlng)
       .addTo(map)
-      .bindPopup(`Marker at ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`)
+      .bindPopup(`Marker at ${e.latlng.lat.toFixed(0)}, ${e.latlng.lng.toFixed(0)}`)
       .openPopup();
     
     // Add click handler to remove marker

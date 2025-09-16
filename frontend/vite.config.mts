@@ -9,8 +9,10 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   const noBackend = env.VITE_NO_BACKEND === 'true';
   
-  // Use root base path for both local and GitHub Pages
-  const base = '/';
+  // Detect if we're deploying to GitHub Pages
+  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+  const repoName = 'SAE_Project_BUT2';
+  const base = isGitHubPages ? `/${repoName}/` : '/';
 
   return {
     root: __dirname,
