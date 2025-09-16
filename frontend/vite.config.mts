@@ -9,10 +9,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   const noBackend = env.VITE_NO_BACKEND === 'true';
   
-  // Detect if we're deploying to GitHub Pages
-  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
-  const repoName = 'SAE_Project_BUT2';
-  const base = isGitHubPages ? `/${repoName}/` : '/';
+  // Base path for deployment (use '/' for Oracle Cloud)
+  const base = '/';
 
   return {
     root: __dirname,
