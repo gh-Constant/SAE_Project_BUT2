@@ -3,7 +3,10 @@
     <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-5 md:mb-8">
       Simple Interactive Map
     </h1>
-    <div id="map" class="h-96 md:h-[500px] w-full border border-gray-300 rounded-lg shadow-lg"></div>
+    <div
+      id="map"
+      class="h-96 md:h-[500px] w-full border border-gray-300 rounded-lg shadow-lg"
+    />
     <div class="mt-4 text-center">
       <p class="text-sm text-gray-600 italic">
         Click on the map to add markers. Click on markers to remove them.
@@ -21,6 +24,12 @@ let map: L.Map;
 let markers: L.Marker[] = [];
 
 onMounted(() => {
+  // Fix Leaflet marker icons path
+  delete (L.Icon.Default.prototype as any)._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconUrl: '/images/marker.png',
+  });
+
   // Initialize the map - using image coordinates instead of geographic coordinates
   // For image overlays, we use pixel coordinates (0,0 is top-left)
   map = L.map('map', {
