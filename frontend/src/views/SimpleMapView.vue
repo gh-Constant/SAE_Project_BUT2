@@ -56,12 +56,6 @@ onMounted(() => {
   // Fit the map to the image bounds
   map.fitBounds(imageBounds);
 
-  // Add zoom control with custom options
-  L.control.zoom({
-    position: 'topleft',
-    zoomInTitle: 'Zoom in (+)',
-    zoomOutTitle: 'Zoom out (-)'
-  }).addTo(map);
 
   // Disable double-click zoom to prevent accidental zooming
   map.doubleClickZoom.disable();
