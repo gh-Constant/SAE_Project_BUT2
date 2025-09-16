@@ -1,9 +1,13 @@
 <template>
-  <div class="simple-map-container">
-    <h1>Simple Interactive Map</h1>
-    <div id="map" class="map"></div>
-    <div class="map-info">
-      <p>Click on the map to add markers. Click on markers to remove them.</p>
+  <div class="p-5 md:p-10 max-w-7xl mx-auto">
+    <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-5 md:mb-8">
+      Simple Interactive Map
+    </h1>
+    <div id="map" class="h-96 md:h-[500px] w-full border border-gray-300 rounded-lg shadow-lg"></div>
+    <div class="mt-4 text-center">
+      <p class="text-sm text-gray-600 italic">
+        Click on the map to add markers. Click on markers to remove them.
+      </p>
     </div>
   </div>
 </template>
@@ -53,42 +57,3 @@ onMounted(() => {
   });
 });
 </script>
-
-<style scoped>
-.simple-map-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.map {
-  height: 500px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.map-info {
-  margin-top: 15px;
-  text-align: center;
-  color: #666;
-  font-style: italic;
-}
-
-@media (max-width: 768px) {
-  .simple-map-container {
-    padding: 10px;
-  }
-  
-  .map {
-    height: 400px;
-  }
-}
-</style>

@@ -1,6 +1,7 @@
 /// <reference types='vitest' />
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite'
 import path from 'path';
 
 export default defineConfig(({ mode }) => {
@@ -23,7 +24,10 @@ export default defineConfig(({ mode }) => {
       port: 4300,
       host: 'localhost',
     },
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      tailwindcss(),
+    ],
     build: {
       outDir: path.resolve(__dirname, './dist'),
       emptyOutDir: true,
