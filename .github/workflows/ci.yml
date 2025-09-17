@@ -6,9 +6,11 @@ on:
       - main
     paths:
       - 'frontend/**'
+      - 'backend/**'
   pull_request:
     paths:
       - 'frontend/**'
+      - 'backend/**'
 
 permissions:
   actions: read

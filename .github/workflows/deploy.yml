@@ -6,6 +6,7 @@ on:
       - main   # or master
     paths:
       - 'frontend/**'
+      - 'backend/**'
 
 jobs:
   build-and-deploy:
@@ -45,7 +46,17 @@ jobs:
           echo "Build output contents:"
           find frontend/dist/ -type f | head -10
 
-      # 7. Setup SSH key
+      # 7. Build backend
+      - name: Build backend
+        run: npx nx build @sae-project-but2/backend
+
+      # 8. Verify backend build output
+      - name: Check backend build output
+        run: |
+          echo "Checking backend build output..."
+          ls -la backend/dist/
+
+      # 9. Setup SSH key
       - name: Setup SSH key
         if: success()
         run: |
@@ -54,20 +65,34 @@ jobs:
           chmod 600 ~/.ssh/oracle_key
           ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
 
-      # 8. Fix permissions on server
+      # 10. Deploy backend to Oracle Cloud
+      - name: Deploy backend to Oracle Cloud
+        run: |
+          echo "Uploading backend build files to Oracle Cloud..."
+          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/dist ${{ secrets.ORALCE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/
+
+      # 11. Install backend dependencies on server
+      - name: Install backend dependencies on server
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORALCE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npm install --production"
+
+      # 12. Restart backend service
+      - name: Restart backend service
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORALCE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && pm2 restart backend || pm2 start main.js --name backend"
+
+      # 13. Fix permissions on server
       - name: Fix server permissions
         if: success()
         run: |
           ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORALCE_USER }}@${{ secrets.ORACLE_HOST }} "sudo chown -R ${{ secrets.ORALCE_USER }}:${{ secrets.ORALCE_USER }} /var/www/html && sudo chmod -R 755 /var/www/html"
 
-      # 9. Deploy to Oracle Cloud
-      - name: Deploy to Oracle Cloud
+      # 14. Deploy frontend to Oracle Cloud
+      - name: Deploy frontend to Oracle Cloud
         if: success()   # only deploy if tests + build succeed
         run: |
-          echo "Uploading build files to Oracle Cloud..."
+          echo "Uploading frontend build files to Oracle Cloud..."
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r frontend/dist/* ${{ secrets.ORALCE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/html/
 
-      # 10. Restart Nginx
+      # 15. Restart Nginx
       - name: Restart Nginx
         if: success()
         uses: appleboy/ssh-action@v1.0.0
