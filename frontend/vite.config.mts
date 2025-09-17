@@ -16,6 +16,11 @@ export default defineConfig(({ mode }) => {
     root: __dirname,
     base: base,
     cacheDir: '../node_modules/.vite/frontend',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
     server: {
       port: 4200,
       host: 'localhost',
