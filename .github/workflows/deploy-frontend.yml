@@ -1,0 +1,64 @@
+name: Deploy Frontend to Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    environment:
+      name: frontend
+      url: http://livrable.constantsuchet.fr
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run frontend tests
+        run: npx nx test @sae-project-but2/frontend
+
+      - name: Build frontend (nobackend)
+        run: npx nx build @sae-project-but2/frontend --mode=nobackend
+
+      - name: Check build output
+        run: |
+          echo "Checking build output..."
+          ls -la frontend/dist/
+          echo "Build output contents:"
+          find frontend/dist/ -type f | head -10
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ORACLE_SSH_KEY }}" > ~/.ssh/oracle_key
+          chmod 600 ~/.ssh/oracle_key
+          ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy frontend to Oracle Cloud
+        run: |
+          echo "Uploading frontend build files to Oracle Cloud..."
+          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r frontend/dist/* ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/html/
+
+      - name: Fix permissions on server
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "sudo chown -R ${{ secrets.ORACLE_USER }}:${{ secrets.ORACLE_USER }} /var/www/html && sudo chmod -R 755 /var/www/html"
+
+      - name: Restart Nginx
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ${{ secrets.ORACLE_USER }}
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          script: sudo systemctl restart nginx
