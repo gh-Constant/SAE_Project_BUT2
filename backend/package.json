@@ -16,11 +16,12 @@
           "format": [
             "cjs"
           ],
-          "bundle": false,
+          "bundle": true,
           "main": "backend/src/main.ts",
           "tsConfig": "backend/tsconfig.app.json",
           "assets": [
-            "backend/src/assets"
+            "backend/src/assets",
+            "backend/.env"
           ],
           "esbuildOptions": {
             "sourcemap": true,
