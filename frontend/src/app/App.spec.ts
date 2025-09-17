@@ -6,7 +6,12 @@ import App from './App.vue';
 
 describe('App', () => {
   it('renders properly', async () => {
-    const wrapper = mount(App, { global: { plugins: [router, i18n] } });
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router, i18n],
+        stubs: ['SimpleMapView']
+      }
+    });
     await router.isReady();
     expect(wrapper.exists()).toBe(true);
   });
