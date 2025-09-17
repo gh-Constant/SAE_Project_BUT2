@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto">
       <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
         <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 md:mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
-          Interactive Map Explorer
+          {{ t('map.title') }}
         </h1>
         <div
           id="map"
@@ -11,7 +11,7 @@
         />
         <div class="mt-6 text-center">
           <p class="text-sm text-gray-600 italic bg-gray-50 rounded-lg p-3 inline-block">
-            🖱️ Click on the map to add markers • 🗑️ Click on markers to remove them
+            {{ t('map.instructions') }}
           </p>
         </div>
       </div>
@@ -21,10 +21,13 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { addPredefinedMarkers } from '../utils/map/predefinedMarkers';
 import { clickIcon } from '../utils/map/iconsMarkers';
+
+const { t } = useI18n();
 
 let map: L.Map;
 let markers: L.Marker[] = [];
@@ -39,7 +42,7 @@ function setupLeafletIcons() {
 function addClickMarker(e: L.LeafletMouseEvent) {
   const marker = L.marker(e.latlng, { icon: clickIcon })
     .addTo(map)
-    .bindPopup(`Location at ${e.latlng.lat.toFixed(0)}, ${e.latlng.lng.toFixed(0)}`)
+    .bindPopup(t('map.popup', { lat: e.latlng.lat.toFixed(0), lng: e.latlng.lng.toFixed(0) }))
     .openPopup();
   marker.on('click', () => {
     map.removeLayer(marker);
