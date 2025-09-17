@@ -8,7 +8,10 @@
     "frontend:test": "nx test frontend",
     "frontend:lint": "nx lint frontend",
     "frontend:typecheck": "nx typecheck frontend",
-    "frontend:preview": "nx preview frontend"
+    "frontend:preview": "nx preview frontend",
+    "backend:dev": "nx serve backend",
+    "backend:build": "nx build backend",
+    "backend:serve": "nx serve backend"
   },
   "private": true,
   "devDependencies": {
