@@ -28,10 +28,10 @@ jobs:
         run: npm ci
 
       - name: Run frontend tests
-        run: npx nx test @sae-project-but2/frontend
+        run: npx nx test @sae-project-but2/frontend --no-cloud
 
       - name: Build frontend (nobackend)
-        run: npx nx build @sae-project-but2/frontend
+        run: npx nx build @sae-project-but2/frontend --no-cloud
 
       - name: Check build output
         run: |
