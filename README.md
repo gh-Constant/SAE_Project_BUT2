@@ -10,4 +10,4 @@
 
 ⚠️ **Pour chaque page, vous devez faire les traductions avec i18n dans le dossier locales**
 
-⚠️ **Pour chaque marqueur, vous devez les mettre dans predefinedmarkers dans utils**
+⚠️ **Pour chaque marqueur prédéfini, vous devez les mettre dans /utils/predefinedmarkers.ts **
