@@ -8,7 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: production   # this makes it show up in the "Environments" tab
+      url: http://minecraft.constantsuchet.fr   # link that appears in the deployment status
     steps:
       # 1. Checkout code
       - name: Checkout repository
