@@ -70,6 +70,7 @@ const selectLanguage = (language: typeof languages[0]) => {
         :src="currentLanguage.flag"
         :alt="currentLanguage.name"
         class="w-5 h-5 rounded-full"
+        :class="{ 'spin': currentLanguage.code === 'mc' }"
       >
       <span class="text-sm font-medium">{{ currentLanguage.name }}</span>
       <svg
@@ -111,6 +112,7 @@ const selectLanguage = (language: typeof languages[0]) => {
               :src="lang.flag"
               :alt="lang.name"
               class="w-5 h-5 rounded-full"
+              :class="{ 'spin': lang.code === 'mc' && currentLanguage.code === 'mc' }"
             >
             <span class="text-sm font-medium text-gray-900">{{ lang.name }}</span>
           </span>
@@ -150,6 +152,10 @@ const selectLanguage = (language: typeof languages[0]) => {
   background: linear-gradient(45deg, rgba(0, 255, 0, 0.1), rgba(0, 200, 0, 0.05));
 }
 
+.spin {
+  animation: spin 2s linear infinite;
+}
+
 @keyframes minecraft-glow {
   0% {
     box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.2);
@@ -162,6 +168,15 @@ const selectLanguage = (language: typeof languages[0]) => {
   100% {
     box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.2);
     transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>
