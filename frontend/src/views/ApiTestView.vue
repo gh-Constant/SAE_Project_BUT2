@@ -10,7 +10,7 @@ onMounted(async () => {
     return;
   }
   try {
-    const apiUrl = import.meta.env.DEV ? 'http://localhost:3000/' : 'http://api.minecraft.constantsuchet.fr/';
+    const apiUrl = import.meta.env.DEV ? 'http://localhost:3000/' : 'http://api.livrable.constantsuchet.fr/';
     const response = await fetch(apiUrl);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
