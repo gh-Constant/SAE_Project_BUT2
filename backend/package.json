@@ -26,7 +26,8 @@
             "sourcemap": true,
             "outExtension": {
               ".js": ".js"
-            }
+            },
+            "packages": "bundle"
           }
         },
         "configurations": {
