@@ -36,6 +36,21 @@ function setupLeafletIcons() {
   });
 }
 
+function addClickMarker(e: L.LeafletMouseEvent) {
+  const marker = L.marker(e.latlng, { icon: clickIcon })
+    .addTo(map)
+    .bindPopup(`Location at ${e.latlng.lat.toFixed(0)}, ${e.latlng.lng.toFixed(0)}`)
+    .openPopup();
+  marker.on('click', () => {
+    map.removeLayer(marker);
+    const index = markers.indexOf(marker);
+    if (index > -1) {
+      markers.splice(index, 1);
+    }
+  });
+  markers.push(marker);
+}
+
 function initializeMap() {
   map = L.map('map', {
     crs: L.CRS.Simple,
@@ -57,22 +72,13 @@ function initializeMap() {
 
 
 onMounted(() => {
-  setupLeafletIcons();
-  initializeMap();
-  addPredefinedMarkers(map, markers);
-  map.on('click', (e) => {
-    const marker = L.marker(e.latlng, { icon: clickIcon })
-      .addTo(map)
-      .bindPopup(`Location at ${e.latlng.lat.toFixed(0)}, ${e.latlng.lng.toFixed(0)}`)
-      .openPopup();
-    marker.on('click', () => {
-      map.removeLayer(marker);
-      const index = markers.indexOf(marker);
-      if (index > -1) {
-        markers.splice(index, 1);
-      }
-    });
-    markers.push(marker);
-  });
+  setupLeafletIcons(); // Set the base icon of leaflet to a local icon to fix deployment issues with lib images
+  initializeMap(); // Creation of the map with her parameters (mapsize etc)
+  addPredefinedMarkers(map, markers); // Importation of all the predefined markers into the map (in utils/map/predefinedMarkers.ts)
+
+  if (import.meta.env.DEV) {
+    // For testing purposes (creation of markers when clicking)
+    map.on('click', addClickMarker);
+  }
 });
 </script>
