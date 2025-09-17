@@ -31,7 +31,7 @@ jobs:
         run: npx nx test @sae-project-but2/frontend
 
       - name: Build frontend (nobackend)
-        run: npx nx build @sae-project-but2/frontend --mode=nobackend
+        run: npx nx build @sae-project-but2/frontend
 
       - name: Check build output
         run: |
