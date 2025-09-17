@@ -15,6 +15,9 @@ const { t } = useI18n();
           </h1>
         </div>
         <div class="flex items-center">
+          <router-link to="/apitest" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+            API Test
+          </router-link>
           <LanguageSwitcher />
         </div>
       </div>

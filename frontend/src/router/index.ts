@@ -8,6 +8,11 @@ const router = createRouter({
       name: 'map',
       component: () => import('../views/SimpleMapView.vue'),
     },
+    {
+      path: '/apitest',
+      name: 'apitest',
+      component: () => import('../views/ApiTestView.vue'),
+    },
   ],
 });
 
