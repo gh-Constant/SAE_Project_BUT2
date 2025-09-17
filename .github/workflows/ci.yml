@@ -13,9 +13,6 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
-    environment:
-      name: lint   # this makes it show up in the "Environments" tab
-      url: http://minecraft.constantsuchet.fr   # link that appears in the deployment status
     steps:
       - uses: actions/checkout@v4
         with:
