@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-5 md:p-10">
     <div class="max-w-7xl mx-auto">
       <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 md:mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 md:mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
           Interactive Map Explorer
         </h1>
         <div
