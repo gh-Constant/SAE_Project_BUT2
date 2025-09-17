@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
 const showPopup = ref(false)
+const showMinecraft = ref(false)
 
 const languages = reactive([
   {
@@ -25,8 +26,18 @@ const languages = reactive([
     code: 'es',
     name: 'Español',
     flag: 'https://flagcdn.com/w40/es.png'
+  },
+  {
+    code: 'mc',
+    name: 'Minecraft',
+    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Minecraft-creeper-face.svg/1024px-Minecraft-creeper-face.svg.png?20240523145431',
+    special: true
   }
 ])
+
+const displayedLanguages = computed(() => {
+  return showMinecraft.value ? languages : languages.filter(lang => lang.code !== 'mc')
+})
 
 const currentLanguage = computed(() => {
   return languages.find(lang => lang.code === locale.value) || languages[0]
@@ -51,6 +62,7 @@ const selectLanguage = (language: typeof languages[0]) => {
     <!-- Language Switcher Button -->
     <button
       class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+      :class="{ 'minecraft-selected': currentLanguage.special }"
       @click="togglePopup"
     >
       <!--  made flag rounded -->
@@ -88,10 +100,10 @@ const selectLanguage = (language: typeof languages[0]) => {
       </div>
       <div class="py-2">
         <button
-          v-for="lang in languages"
+          v-for="lang in displayedLanguages"
           :key="lang.code"
           class="flex items-center justify-between w-full px-4 py-3 hover:bg-gray-50 transition-colors text-left"
-          :class="{ 'bg-blue-50': currentLanguage.code === lang.code }"
+          :class="{ 'bg-blue-50': currentLanguage.code === lang.code, 'minecraft-selected': lang.special && currentLanguage.code === lang.code }"
           @click="selectLanguage(lang)"
         >
           <span class="flex items-center gap-3">
@@ -120,6 +132,36 @@ const selectLanguage = (language: typeof languages[0]) => {
           </span>
         </button>
       </div>
+      <div v-if="!showMinecraft" class="px-4 py-2 border-t border-gray-200">
+        <button
+          class="text-xs text-gray-500 hover:text-gray-700 underline"
+          @click="showMinecraft = true"
+        >
+          Don't click
+        </button>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.minecraft-selected {
+  animation: minecraft-glow 1.5s ease-in-out infinite alternate;
+  background: linear-gradient(45deg, rgba(0, 255, 0, 0.1), rgba(0, 200, 0, 0.05));
+}
+
+@keyframes minecraft-glow {
+  0% {
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.4);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.2);
+    transform: scale(1);
+  }
+}
+</style>

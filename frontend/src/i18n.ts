@@ -9,6 +9,8 @@ import enNavbar from './locales/en/navbar.json';
 import frNavbar from './locales/fr/navbar.json';
 import deNavbar from './locales/de/navbar.json';
 import esNavbar from './locales/es/navbar.json';
+import mcMap from './locales/mc/map.json';
+import mcNavbar from './locales/mc/navbar.json';
 
 const messages = {
   en: {
@@ -26,6 +28,10 @@ const messages = {
   es: {
     map: esMap,
     navbar: esNavbar
+  },
+  mc: {
+    map: mcMap,
+    navbar: mcNavbar
   }
 };
 
