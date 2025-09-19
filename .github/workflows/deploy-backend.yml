@@ -35,7 +35,7 @@ jobs:
       - name: Check for nx binary
         run: ls -la node_modules/.bin/
 
-      - name: Setup SSH
+      - name: Setup SSHe
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.ORACLE_SSH_KEY }}" > ~/.ssh/oracle_key
