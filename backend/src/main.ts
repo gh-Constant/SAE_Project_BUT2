@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+// @ts-expect-error eslint-disable-next-line
 import db from '../models/index.js';
 import { Request, Response } from 'express';
 

@@ -15,7 +15,7 @@
           "platform": "node",
           "outputPath": "backend/dist",
           "format": [
-            "cjs"
+            "esm"
           ],
           "bundle": true,
           "main": "backend/src/main.ts",
