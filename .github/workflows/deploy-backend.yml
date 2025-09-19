@@ -34,10 +34,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # --- ADD THIS STEP FOR DEBUGGING ---
       - name: Check for nx binary
         run: ls -la node_modules/.bin/
-      # ------------------------------------
 
       - name: Setup SSH
         run: |
