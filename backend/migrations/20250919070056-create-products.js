@@ -1,7 +1,15 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
+export default {
+/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
+  /**
+   * Create the products table
+   * @param {import('sequelize-cli').QueryInterface} queryInterface - The query interface for the ORM
+   * @param {import('sequelize').Sequelize} Sequelize - The Sequelize instance
+   * @returns {Promise<void>} - A promise that resolves when the table is created
+   */
+/* <<<<<<<<<<  e577b3d6-232c-4de4-a57c-6fb103388f7f  >>>>>>>>>>> */
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('products', {
       id: {
