@@ -59,6 +59,9 @@ jobs:
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend/config/config.cjs ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no .sequelizerc ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/
 
+      - name: Create .env file on server
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > /var/www/backend/.env"
+
       - name: Install backend dependencies on server
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npm install --production"
 
