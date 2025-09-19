@@ -49,7 +49,7 @@ jobs:
 
       # --- Now build the backend bundle ---
       - name: Build backend
-        run: npx nx prune @sae-project-but2/backend --no-cloud
+        run: npx nx build backend --no-cloud
 
       - name: Package backend artifact
         run: tar -czf backend.tar.gz -C backend/dist .
