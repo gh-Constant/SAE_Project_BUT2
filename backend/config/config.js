@@ -24,7 +24,7 @@ const config = {
   development: getDevConfig(),
   test: getDevConfig(),
   production: {
-    url: '',
+    url: process.env.DATABASE_URL,
     dialect: 'postgres',
   },
 };
