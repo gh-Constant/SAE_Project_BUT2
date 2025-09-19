@@ -26,7 +26,7 @@ app.get('/api/roles', async (req: Request, res: Response) => {
 
 // Sync database
 db.sequelize.sync().then(() => {
-  console.log('Database synced');
+  console.log('Database synced !');
   app.listen(port, host, () => {
     console.log(`[ ready ] http://${host}:${port}`);
   });
