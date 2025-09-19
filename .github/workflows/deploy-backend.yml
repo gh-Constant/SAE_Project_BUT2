@@ -29,9 +29,15 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: package-lock.json # <-- Add this line
 
       - name: Install dependencies
         run: npm ci
+
+      # --- ADD THIS STEP FOR DEBUGGING ---
+      - name: Check for nx binary
+        run: ls -la node_modules/.bin/
+      # ------------------------------------
 
       - name: Setup SSH
         run: |
@@ -49,7 +55,7 @@ jobs:
 
       # --- Now build the backend bundle ---
       - name: Build backend
-        run: npx nx build backend --no-cloud
+        run: npx nx prune @sae-project-but2/backend --no-cloud
 
       - name: Package backend artifact
         run: tar -czf backend.tar.gz -C backend/dist .
