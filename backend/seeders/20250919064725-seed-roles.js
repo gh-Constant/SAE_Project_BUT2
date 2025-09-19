@@ -10,13 +10,13 @@ export default {
     ];
 
     for (const role of roles) {
-      await queryInterface.upsert('roles', {
-        ...role,
-        created_at: new Date(),
-        updated_at: new Date(),
-      }, {
-        name: role.name,
-      });
+      await queryInterface.sequelize.query(
+        `INSERT INTO roles (name, created_at, updated_at) VALUES (?, ?, ?) ON CONFLICT (name) DO NOTHING`,
+        {
+          replacements: [role.name, new Date(), new Date()],
+          type: Sequelize.QueryTypes.INSERT,
+        }
+      );
     }
   },
 
