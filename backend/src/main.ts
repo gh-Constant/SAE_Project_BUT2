@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 // @ts-expect-error eslint-disable-next-line
 import db from '../models/index.js';
-import { runMigrations } from './utils/migrationRunner.js';
 import { Request, Response } from 'express';
 
 const host = process.env.HOST ?? '0.0.0.0';
@@ -27,14 +26,13 @@ app.get('/api/roles', async (req: Request, res: Response) => {
   }
 });
 
-// Run migrations and sync database
-runMigrations().then(() => {
-  return db.sequelize.sync();
-}).then(() => {
-  console.log('Database synced !');
-  app.listen(port, host, () => {
-    console.log(`[ ready ] http://${host}:${port}`);
-  });
-}).catch((err: any) => {
-  console.error('Unable to run migrations or sync database:', err);
+// Sync database
+db.sequelize.sync()
+  .then(() => {
+    console.log('Database synced !');
+    app.listen(port, host, () => {
+      console.log(`[ ready ] http://${host}:${port}`);
+    });
+  }).catch((err: any) => {
+  console.error('Unable to sync database:', err);
 });
