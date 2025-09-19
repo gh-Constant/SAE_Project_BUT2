@@ -1,7 +1,7 @@
+import express from 'express';
+import cors from 'cors';
+import db from '../models/index.js';
 import { Request, Response } from 'express';
-const express = require('express');
-const cors = require('cors');
-const db = require('../models/index.js');
 
 const host = process.env.HOST ?? '0.0.0.0';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
