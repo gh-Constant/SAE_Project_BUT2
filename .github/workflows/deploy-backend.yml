@@ -66,7 +66,7 @@ jobs:
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npm install sequelize-cli"
 
       - name: Run database migrations
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && export DATABASE_URL='${{ secrets.DATABASE_URL }}' && npx sequelize-cli db:migrate"
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && export DATABASE_URL='${{ secrets.DATABASE_URL }}' && npx sequelize-cli --esm db:migrate"
 
       - name: Restart backend service
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && pm2 restart backend || pm2 start main.js --name backend"
