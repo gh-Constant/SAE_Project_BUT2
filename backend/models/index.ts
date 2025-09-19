@@ -18,20 +18,32 @@ if (config.url) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      (file.slice(-3) === '.ts' || file.slice(-3) === '.js') &&
-      file.indexOf('.test.') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize);
-    db[model.name] = model;
-  });
+const activity = require('./activity')(sequelize);
+db[activity.name] = activity;
+
+const location = require('./location')(sequelize);
+db[location.name] = location;
+
+const locationService = require('./locationService')(sequelize);
+db[locationService.name] = locationService;
+
+const product = require('./product')(sequelize);
+db[product.name] = product;
+
+const quest = require('./quest')(sequelize);
+db[quest.name] = quest;
+
+const role = require('./role')(sequelize);
+db[role.name] = role;
+
+const service = require('./service')(sequelize);
+db[service.name] = service;
+
+const user = require('./user')(sequelize);
+db[user.name] = user;
+
+const userQuest = require('./userQuest')(sequelize);
+db[userQuest.name] = userQuest;
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
