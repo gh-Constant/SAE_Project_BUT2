@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Sequelize } from 'sequelize';
 import { fileURLToPath } from 'url';
-import configJson from '../config/config.js';
+import configJson from '../config/config.cjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
