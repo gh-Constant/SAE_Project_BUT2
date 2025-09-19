@@ -2,7 +2,7 @@ import { Umzug } from 'umzug';
 import { Sequelize } from 'sequelize';
 import path from 'path';
 import { fileURLToPath } from 'url';
-// @ts-ignore
+// @ts-expect-error ignore-next-line
 import configJson from '../../config/config.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,7 +21,8 @@ if (config.url) {
 const umzug = new Umzug({
   migrations: {
     glob: path.join(__dirname, '../../migrations/*.js'),
-    resolve: ({ name, path: migrationPath, context }) => {
+    resolve: (params: any) => {
+      const { name, path: migrationPath, context } = params;
       if (!migrationPath) throw new Error(`Migration path is undefined for ${name}`);
       const migration = import(migrationPath);
       return {
@@ -38,13 +39,15 @@ const umzug = new Umzug({
       const [results] = await sequelize.query('SELECT name FROM "SequelizeMeta" ORDER BY name');
       return (results as any[]).map((r: any) => r.name);
     },
-    async logMigration({ name }) {
+    async logMigration(params: any) {
+      const { name } = params;
       // Insert migration name into SequelizeMeta table
       await sequelize.query('INSERT INTO "SequelizeMeta" (name) VALUES (?)', {
         replacements: [name],
       });
     },
-    async unlogMigration({ name }) {
+    async unlogMigration(params: any) {
+      const { name } = params;
       // Remove migration name from SequelizeMeta table
       await sequelize.query('DELETE FROM "SequelizeMeta" WHERE name = ?', {
         replacements: [name],
