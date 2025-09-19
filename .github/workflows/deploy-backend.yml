@@ -35,10 +35,10 @@ jobs:
 
       # --- Run migrations BEFORE building the bundle ---
       - name: Run Sequelize migrations (pre-build)
-        run: npx sequelize-cli db:migrate --config backend/config/config.js --env production
+        run: npx sequelize-cli db:migrate --config backend/config/config.mjs --env production
 
       - name: Run Sequelize seeders (pre-build)
-        run: npx sequelize-cli db:seed:all --config backend/config/config.js --env production
+        run: npx sequelize-cli db:seed:all --config backend/config/config.mjs --env production
 
       # --- Now build the backend bundle ---
       - name: Build backend
