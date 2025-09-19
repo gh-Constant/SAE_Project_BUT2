@@ -1,3 +1,9 @@
+const path = require('path');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+}
+
 const getDevConfig = () => {
   if (process.env.DATABASE_URL) {
     return {
