@@ -1,7 +1,3 @@
-const dotenv = require('dotenv');
-
-dotenv.config();
-
 const getDevConfig = () => {
   if (process.env.DATABASE_URL) {
     return {
