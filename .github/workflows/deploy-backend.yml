@@ -15,6 +15,11 @@ jobs:
       name: backend
       url: http://api.livrable.constantsuchet.fr
 
+    env:
+      # Force the production database URL
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NODE_ENV: production
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,6 +33,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # --- Run migrations BEFORE building the bundle ---
+      - name: Run Sequelize migrations (pre-build)
+        run: npx sequelize-cli db:migrate --config backend/config/config.js --env production
+
+      - name: Run Sequelize seeders (pre-build)
+        run: npx sequelize-cli db:seed:all --config backend/config/config.js --env production
+
+      # --- Now build the backend bundle ---
       - name: Build backend
         run: npx nx build @sae-project-but2/backend --no-cloud
 
@@ -40,8 +53,6 @@ jobs:
           echo "${{ secrets.ORACLE_SSH_KEY }}" > ~/.ssh/oracle_key
           chmod 600 ~/.ssh/oracle_key
           ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
-        env:
-          ORACLE_HOST: ${{ secrets.ORACLE_HOST }}
 
       - name: Upload backend to server
         run: scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend.tar.gz ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/tmp/backend.tar.gz
@@ -55,12 +66,6 @@ jobs:
             cd /var/www/backend &&
             npm ci --omit=dev
           "
-
-      - name: Run Sequelize migrations
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npx sequelize-cli db:migrate --env production"
-
-      - name: Run Sequelize seeders
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npx sequelize-cli db:seed:all --env production"
 
       - name: Restart backend service
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "pm2 reload backend || pm2 start main.js --name backend"
