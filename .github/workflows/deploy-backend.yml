@@ -32,7 +32,7 @@ jobs:
           cache-dependency-path: package-lock.json # <-- Add this line
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-cache
 
       - name: Check for nx binary
         run: ls -la node_modules/.bin/
@@ -53,7 +53,7 @@ jobs:
 
       # --- Now build the backend bundle ---
       - name: Build backend
-        run: npx nx prune @sae-project-but2/backend --no-cloud
+        run: npx nx build backend
 
       - name: Package backend artifact
         run: tar -czf backend.tar.gz -C backend/dist .
