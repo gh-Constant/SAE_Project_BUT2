@@ -42,6 +42,10 @@ jobs:
           chmod 600 ~/.ssh/oracle_key
           ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Create .env file
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > backend/.env
+
       - name: Run Sequelize migrations (pre-build)
         run: npx sequelize-cli db:migrate --env production
 
