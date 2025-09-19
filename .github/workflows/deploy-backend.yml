@@ -78,4 +78,4 @@ jobs:
 
       - name: Tail logs on failure
         if: failure()
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "pm2 logs backend --lines 50"
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "timeout 5 pm2 logs backend --lines 50 --no-interactive || true"

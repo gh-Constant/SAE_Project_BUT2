@@ -3,23 +3,21 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('roles', [
-      {
-        name: 'aventurier',
+    const roles = [
+      { name: 'aventurier' },
+      { name: 'artisan' },
+      { name: 'senechal' },
+    ];
+
+    for (const role of roles) {
+      await queryInterface.upsert('roles', {
+        ...role,
         created_at: new Date(),
         updated_at: new Date(),
-      },
-      {
-        name: 'artisan',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        name: 'senechal',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ], {});
+      }, {
+        name: role.name,
+      });
+    }
   },
 
   async down (queryInterface, Sequelize) {
