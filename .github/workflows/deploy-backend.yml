@@ -50,12 +50,14 @@ jobs:
           echo "Uploading backend build files to Oracle Cloud..."
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/dist/* ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
 
-      - name: Upload migrations and config to server
+      - name: Upload migrations, models, seeders, config and sequelize config to server
         run: |
-          echo "Uploading migrations and config to Oracle Cloud..."
+          echo "Uploading migrations, models, seeders, config and sequelize config to Oracle Cloud..."
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/migrations ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
+          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/models ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
+          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/seeders ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend/config/config.js ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
-          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no .sequelizerc ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
+          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no .sequelizerc ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/
 
       - name: Install backend dependencies on server
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npm install --production"
