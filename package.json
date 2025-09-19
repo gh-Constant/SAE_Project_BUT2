@@ -70,6 +70,7 @@
     "sequelize-auto": "^0.8.8",
     "sequelize-cli": "^6.6.3",
     "sqlite3": "^5.1.7",
+    "umzug": "^3.8.2",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.12",
     "vue-router": "^4.5.0"

@@ -50,26 +50,8 @@ jobs:
           echo "Uploading backend build files to Oracle Cloud..."
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/dist/* ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
 
-      - name: Upload migrations, models, seeders, config and sequelize config to server
-        run: |
-          echo "Uploading migrations, models, seeders, config and sequelize config to Oracle Cloud..."
-          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/migrations ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
-          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/models ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
-          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no -r backend/seeders ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
-          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend/config/config.cjs ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/backend/
-          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no .sequelizerc ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/var/www/
-
-      - name: Create .env file on server
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > /var/www/backend/.env"
-
       - name: Install backend dependencies on server
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npm install --production"
-
-      - name: Install sequelize-cli on server
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && npm install sequelize-cli"
-
-      - name: Run database migrations
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && export DATABASE_URL='${{ secrets.DATABASE_URL }}' && npx sequelize-cli db:migrate"
 
       - name: Restart backend service
         run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && pm2 restart backend || pm2 start main.js --name backend"
