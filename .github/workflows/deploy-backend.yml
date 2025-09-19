@@ -49,7 +49,7 @@ jobs:
         run: npx sequelize-cli db:seed:all --env production
 
       - name: Build backend
-        run: npx nx build backend
+        run: npx nx prune backend
 
       - name: Package backend artifact
         run: tar -czf backend.tar.gz -C backend/dist .
@@ -78,4 +78,4 @@ jobs:
 
       - name: Tail logs on failure
         if: failure()
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "timeout 5 pm2 logs backend --lines 50 --no-interactive || true"
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "timeout 5 pm2 logs backend --lines 50"
