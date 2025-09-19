@@ -1,8 +1,5 @@
-const path = require('path');
-
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
-}
+import dotenv from 'dotenv';
+dotenv.config();
 
 const getDevConfig = () => {
   if (process.env.DATABASE_URL) {
@@ -31,4 +28,4 @@ const config = {
   },
 };
 
-module.exports = config;
+export default config;

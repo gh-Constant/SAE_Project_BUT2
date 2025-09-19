@@ -21,9 +21,7 @@
           "main": "backend/src/main.ts",
           "tsConfig": "backend/tsconfig.app.json",
           "assets": [
-            "backend/src/assets",
-            ".env",
-            ".sequelizerc"
+            "backend/src/assets"
           ],
           "esbuildOptions": {
             "sourcemap": true,
