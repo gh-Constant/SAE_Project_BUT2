@@ -9,7 +9,7 @@ export interface LocationMock {
   // Les infos dynamiques de la BDD
   price: number;
   available: boolean;
-  userId: string | null;
+  userId: number | null;
 }
 
 export const FORGE_LOCATION_ID = 1;
