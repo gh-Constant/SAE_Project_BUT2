@@ -1,18 +1,20 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: sae_project_postgres
+  mysql:
+    image: mysql:8
+    container_name: sae_project_mysql
     environment:
-      POSTGRES_DB: sae_project_db
-      POSTGRES_USER: sae_user
-      POSTGRES_PASSWORD: sae_password
+      MYSQL_DATABASE: sae_project_db
+      MYSQL_USER: sae_user
+      MYSQL_PASSWORD: sae_password
+      MYSQL_ROOT_PASSWORD: root_password
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
 
 volumes:
-  postgres_data:
+  mysql_data:

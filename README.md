@@ -5,10 +5,10 @@
 1. Installer les dépendances : `npm install` (dans le répertoire racine)
 2. Configurer la base de données :
    - **Option 1 : Utiliser Docker Compose (recommandé pour le développement)**
-     - Exécuter `docker-compose up -d` pour démarrer PostgreSQL
+     - Exécuter `docker-compose up -d` pour démarrer MYSQL
      - Copier `.env.example` vers `.env` et mettre à jour les informations d'authentification si nécessaire (par défaut : `postgresql://sae_user:sae_password@localhost:5432/sae_project_db`)
    - **Option 2 : Base de données auto-hébergée**
-     - Configurer votre propre base de données PostgreSQL
+     - Configurer votre propre base de données MYSQL
      - Copier `.env.example` vers `.env` et remplir le `DATABASE_URL` ou les variables individuelles de base de données
 3. Exécuter les migrations de base de données : `npx sequelize-cli db:migrate` (depuis le répertoire backend ou racine si configuré)
 
