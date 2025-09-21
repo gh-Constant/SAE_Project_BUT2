@@ -1,28 +1,43 @@
-import express from 'express';
-import cors from 'cors';
+import { createApp } from './app.js';
+import { config } from './config/app.js';
 
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+/**
+ * Start the server
+ */
+const startServer = async (): Promise<void> => {
+  try {
+    // Create Express application
+    const app = createApp();
+    
+    // Start server
+    const server = app.listen(config.port, config.host, () => {
+      console.log(`🚀 Server running on http://${config.host}:${config.port}`);
+      console.log(`📱 Environment: ${config.nodeEnv}`);
+      console.log(`⏰ Started at: ${new Date().toISOString()}`);
+    });
 
-const app = express();
+    // Graceful shutdown handling
+    process.on('SIGTERM', () => {
+      console.log('🛑 SIGTERM received, shutting down gracefully...');
+      server.close(() => {
+        console.log('✅ Server closed');
+        process.exit(0);
+      });
+    });
 
-// Configure CORS for production deployment
-const corsOptions = {
-  origin: [
-    'http://localhost:4200',                    // Local development       // Production frontend
-    'http://livrable.constantsuchet.fr'         // If not using HTTPS
-  ],
-  credentials: true,                            // Allow cookies if needed
-  optionsSuccessStatus: 200                     // For older browsers
+    process.on('SIGINT', () => {
+      console.log('🛑 SIGINT received, shutting down gracefully...');
+      server.close(() => {
+        console.log('✅ Server closed');
+        process.exit(0);
+      });
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
 };
 
-app.use(cors(corsOptions));
-app.use(express.json());                        // Parse JSON requests
-
-app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
-});
-
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
-});
+// Start the server
+startServer();
