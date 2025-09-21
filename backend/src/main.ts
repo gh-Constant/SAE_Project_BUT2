@@ -1,28 +1,21 @@
-import 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
-import { Request, Response } from 'express';
+/**
+ * This is not a production server yet!
+ * This is only a minimal backend to get started.
+ */
 
-const host = process.env.HOST ?? '0.0.0.0';
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+import express from 'express';
+import * as path from 'path';
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-app.get('/', (req: Request, res: Response) => {
-  res.send({ message: 'Hello eAPI' });
+app.get('/api', (req, res) => {
+  res.send({ message: 'Welcome to backend!' });
 });
 
-app.get('/api/roles', async (req: Request, res: Response) => {
-  try {
-    res.send({ message: 'Not yet implemented' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch roles' });
-  }
+const port = process.env.PORT || 3333;
+const server = app.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}/api`);
 });
-
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
-});
+server.on('error', console.error);

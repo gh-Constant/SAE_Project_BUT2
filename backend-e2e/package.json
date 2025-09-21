@@ -1,0 +1,26 @@
+{
+  "name": "@sae-project-but2/backend-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@sae-project-but2/backend"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "backend-e2e/jest.config.ts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "@sae-project-but2/backend:build",
+          "@sae-project-but2/backend:serve"
+        ]
+      }
+    }
+  }
+}
