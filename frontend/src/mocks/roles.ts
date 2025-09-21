@@ -1,14 +1,14 @@
 export interface RoleMock {
   id: number;
-  name: 'Aventurier' | 'Artisan' | 'Sénéchal';
+  name: 'aventurer' | 'artisan' | 'admin';
 }
 
 export const ROLES: RoleMock[] = [
-  { id: 1, name: 'Aventurier' },
-  { id: 2, name: 'Artisan' },
-  { id: 3, name: 'Sénéchal' },
+  { id: 1, name: 'aventurer' },
+  { id: 2, name: 'artisan' },
+  { id: 3, name: 'admin' },
 ];
 
-export const AVENTURIER_ROLE_ID = 1;
+export const AVENTURER_ROLE_ID = 1;
 export const ARTISAN_ROLE_ID = 2;
-export const SENECHAL_ROLE_ID = 3;
+export const ADMIN_ROLE_ID = 3;

@@ -1,7 +1,7 @@
-import { ARTISAN_ROLE_ID, AVENTURIER_ROLE_ID, SENECHAL_ROLE_ID, ROLES } from './roles';
+import { ARTISAN_ROLE_ID, AVENTURER_ROLE_ID, ADMIN_ROLE_ID, ROLES } from './roles';
 
 export interface UserMock {
-  id: string; // UUID
+  id: number; // AUTO_INCREMENT integer from database
   firstname: string;
   lastname: string;
   email: string;
@@ -14,9 +14,9 @@ export interface UserMock {
   level: number;
 }
 
-export const ARTISAN_USER_ID = 'a1b2c3d4-e5f6-7890-1234-567890abcdef';
-export const AVENTURIER_USER_ID = 'b2c3d4e5-f6a7-8901-2345-67890abcdef0';
-export const SENECHAL_USER_ID = 'c3d4e5f6-a7b8-9012-3456-7890abcdef01';
+export const ARTISAN_USER_ID = 1;
+export const AVENTURER_USER_ID = 2;
+export const ADMIN_USER_ID = 3;
 
 export const USERS: UserMock[] = [
   {
@@ -28,33 +28,33 @@ export const USERS: UserMock[] = [
     roleId: ARTISAN_ROLE_ID,
     role: ROLES.find(r => r.id === ARTISAN_ROLE_ID)!,
     is_active: true,
-    is_verified: true,
+    is_verified: false,
     xp: 250,
     level: 5,
   },
   {
-    id: AVENTURIER_USER_ID,
+    id: AVENTURER_USER_ID,
     firstname: 'Alice',
     lastname: 'L\'Aventurière',
     email: 'aventurier@medieval.com',
     password_hashed: 'password123',
-    roleId: AVENTURIER_ROLE_ID,
-    role: ROLES.find(r => r.id === AVENTURIER_ROLE_ID)!,
+    roleId: AVENTURER_ROLE_ID,
+    role: ROLES.find(r => r.id === AVENTURER_ROLE_ID)!,
     is_active: true,
-    is_verified: true,
+    is_verified: false,
     xp: 80,
     level: 2,
   },
   {
-    id: SENECHAL_USER_ID,
+    id: ADMIN_USER_ID,
     firstname: 'Godefroy',
     lastname: 'Le Sénéchal',
     email: 'admin@medieval.com',
     password_hashed: 'password123',
-    roleId: SENECHAL_ROLE_ID,
-    role: ROLES.find(r => r.id === SENECHAL_ROLE_ID)!,
+    roleId: ADMIN_ROLE_ID,
+    role: ROLES.find(r => r.id === ADMIN_ROLE_ID)!,
     is_active: true,
-    is_verified: true,
+    is_verified: false,
     xp: 9999,
     level: 99,
   },

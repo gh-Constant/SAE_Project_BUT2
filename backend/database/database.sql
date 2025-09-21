@@ -137,6 +137,6 @@ CREATE TABLE IF NOT EXISTS `userQuests` (
 -- L'utilisation de 'INSERT IGNORE' empêche les erreurs si les rôles existent déjà
 -- (grâce à la contrainte UNIQUE sur la colonne 'name').
 INSERT IGNORE INTO `roles` (`name`) VALUES
-('aventurier'),
+('aventurer'),
 ('artisan'),
 ('admin');
