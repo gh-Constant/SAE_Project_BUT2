@@ -3,10 +3,7 @@
 -- =================================================================
 -- Crée la base de données uniquement si elle n'existe pas déjà.
 -- REMPLACEZ 'votre_base_de_donnees' PAR LE NOM DE VOTRE BASE DE DONNÉES.
-CREATE DATABASE IF NOT EXISTS `votre_base_de_donnees` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- Sélectionne la base de données pour les commandes suivantes.
-USE `votre_base_de_donnees`;
+CREATE DATABASE IF NOT EXISTS `sae_project_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- =================================================================
 -- II. CRÉATION DES TABLES (SI ELLES N'EXISTENT PAS)

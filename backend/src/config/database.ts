@@ -13,7 +13,7 @@ export interface DatabaseConfig {
 export const getDatabaseConfig = (): DatabaseConfig => {
   return {
     host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_DATABASE || 'sae_project_db',
@@ -31,6 +31,7 @@ export const createDatabasePool = (config: DatabaseConfig) => {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    multipleStatements: true,
   });
 };
 

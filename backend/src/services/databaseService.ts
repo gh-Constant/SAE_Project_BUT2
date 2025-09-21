@@ -44,7 +44,7 @@ export class DatabaseService {
       // Execute each statement
       for (const statement of statements) {
         if (statement.trim()) {
-          await this.pool.execute(statement);
+          await this.pool.query(statement);
         }
       }
 
@@ -118,7 +118,7 @@ export class DatabaseService {
     }
 
     try {
-      const [rows] = await this.pool.execute(sql, params);
+      const [rows] = await this.pool.query(sql, params);
       return rows;
     } catch (error) {
       console.error('❌ Database query failed:', error);

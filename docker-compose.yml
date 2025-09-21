@@ -10,11 +10,10 @@ services:
       MYSQL_PASSWORD: sae_password
       MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "5432:5432"
+      - "5432:3306" # <-- The container port is 3306 (mysql port) but the public is 5432 bc my server has his port already open for it
     volumes:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
-    command: --default-authentication-plugin=mysql_native_password
 
 volumes:
   mysql_data:
