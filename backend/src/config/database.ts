@@ -18,7 +18,7 @@ export const getDatabaseConfig = (): DatabaseConfig => {
       const url = new URL(databaseUrl);
       return {
         host: url.hostname,
-        port: url.port ? parseInt(url.port, 10) : 5432,
+        port: url.port ? parseInt(url.port, 10) : 3306,
         username: url.username,
         password: url.password,
         database: url.pathname.slice(1), // Remove leading slash
@@ -31,7 +31,7 @@ export const getDatabaseConfig = (): DatabaseConfig => {
   // Fallback to individual environment variables
   return {
     host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_DATABASE || 'sae_project_db',
