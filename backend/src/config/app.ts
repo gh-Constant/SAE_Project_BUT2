@@ -16,8 +16,8 @@ export const corsOptions: CorsOptions = {
     'https://livrable.constantsuchet.fr',       // Production frontend HTTPS
     'http://livrable.constantsuchet.fr'         // Production frontend HTTP
   ],
-  credentials: true,                            // Allow cookies if needed
-  optionsSuccessStatus: 200,                    // For older browsers
+  credentials: true,
+  optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 };
@@ -27,7 +27,7 @@ export const apiConfig = {
   prefix: '/api',
   version: 'v1',
   rateLimit: {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000,
+    max: 100,
   },
 } as const;

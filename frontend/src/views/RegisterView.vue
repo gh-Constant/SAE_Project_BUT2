@@ -1,21 +1,42 @@
 <template>
-  <div
-    class="h-screen w-screen flex overflow-hidden"
-    style="z-index: -1;"
-  >
-    <!-- Left side - Image (Hidden on mobile) -->
-    <div class="hidden md:flex w-1/2 bg-gray-100 items-center justify-center p-8">
-      <div class="max-w-xl text-center">
-        <img
-          src="/images/login_image.png"
-          alt="MedievalEvent Register"
-          class="w-4/5 h-auto rounded-lg shadow-lg mx-auto transform scale-150 rotate-3"
-        />
+  <div class="h-screen w-screen overflow-hidden">
+    <!-- Loading overlay -->
+    <div v-if="isLoading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="flex items-center space-x-3">
+          <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+          <span>Creating account...</span>
+        </div>
       </div>
     </div>
 
-    <!-- Right side - Register Form (Full width on mobile) -->
-    <div class="w-full md:w-1/2 bg-gray-50 flex items-center justify-center p-8">
+    <!-- Error message -->
+    <div v-if="errorMessage" class="fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-40">
+      <div class="flex items-center justify-between">
+        <span>{{ errorMessage }}</span>
+        <button @click="errorMessage = ''" class="ml-4 text-red-200 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Register Form -->
+    <div class="h-full w-full flex overflow-hidden" style="z-index: -1;">
+      <!-- Left side - Image (Hidden on mobile) -->
+      <div class="hidden md:flex w-1/2 bg-gray-100 items-center justify-center p-8">
+        <div class="max-w-xl text-center">
+          <img
+            src="/images/login_image.png"
+            alt="MedievalEvent Register"
+            class="w-4/5 h-auto rounded-lg shadow-lg mx-auto transform scale-150 rotate-3"
+          />
+        </div>
+      </div>
+
+      <!-- Right side - Register Form (Full width on mobile) -->
+      <div class="w-full md:w-1/2 bg-gray-50 flex items-center justify-center p-8">
       <div class="w-full max-w-md">
         <!-- Page Title -->
         <div class="mb-8 text-left">
@@ -172,7 +193,7 @@
         </div>
 
         <!-- Step 2: Account Information -->
-        <div v-if="showStep2" class="mb-8">
+        <form v-if="showStep2" @submit.prevent="handleRegister" class="mb-8">
           <!-- Email Input -->
           <div class="mb-6">
             <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
@@ -287,12 +308,13 @@
             </button>
             <button
               type="submit"
-              class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm"
+              :disabled="isLoading"
+              class="flex-1 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm"
             >
-              Create Account
+              {{ isLoading ? 'Creating Account...' : 'Create Account' }}
             </button>
           </div>
-        </div>
+        </form>
 
         <!-- Sign In Link -->
         <div class="mt-8 text-center">
@@ -306,10 +328,16 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const authStore = useAuthStore()
 
 const email = ref('')
 const password = ref('')
@@ -320,6 +348,8 @@ const selectedRole = ref<'adventurer' | 'artisan'>('adventurer')
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const showStep2 = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('')
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
@@ -329,14 +359,29 @@ const toggleConfirmPasswordVisibility = () => {
   showConfirmPassword.value = !showConfirmPassword.value
 }
 
-const handleRegister = () => {
-  console.log('Register attempt:', {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    password: password.value,
-    confirmPassword: confirmPassword.value,
-    role: selectedRole.value,
-  })
+const handleRegister = async () => {
+  if (!firstName.value || !lastName.value || !email.value || !password.value || !confirmPassword.value) {
+    errorMessage.value = 'Please fill in all fields'
+    return
+  }
+
+  if (password.value !== confirmPassword.value) {
+    errorMessage.value = 'Passwords do not match'
+    return
+  }
+
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value)
+    console.log('Registration successful:', authStore.user)
+    router.push('/')
+  } catch (error) {
+    console.error('Registration failed:', error)
+    errorMessage.value = error instanceof Error ? error.message : 'Registration failed'
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>

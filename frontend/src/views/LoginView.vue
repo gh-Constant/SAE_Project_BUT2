@@ -152,10 +152,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { apiService } from '@/services/mock/apiService'
+import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 // Form data
 const email = ref('')
@@ -179,15 +180,9 @@ const handleLogin = async () => {
   errorMessage.value = ''
 
   try {
-    const user = await apiService.login(email.value, password.value)
+    await authStore.login(email.value, password.value)
 
-    // Store user session
-    localStorage.setItem('currentUser', JSON.stringify(user))
-    if (rememberMe.value) {
-      localStorage.setItem('rememberMe', 'true')
-    }
-
-    console.log('Login successful:', user)
+    console.log('Login successful:', authStore.user)
     router.push('/')
 
   } catch (error) {
