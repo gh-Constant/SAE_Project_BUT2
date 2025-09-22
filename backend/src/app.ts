@@ -29,7 +29,7 @@ export const createApp = (): Application => {
   app.get('/ping', (req, res) => {
     res.json({ 
       success: true, 
-      message: 'pong',
+      message: 'pong!',
       timestamp: new Date().toISOString()
     });
   });
