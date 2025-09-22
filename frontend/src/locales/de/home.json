@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "title": "Begeben Sie sich auf ein Mittelalterliches Abenteuer",
+    "subtitle": "Entdecken Sie die reiche Geschichte und Legenden der mittelalterlichen Welt durch interaktive Karten und immersive Erfahrungen",
+    "cta": "Beginnen Sie Ihre Reise"
+  },
+  "features": {
+    "title": "Erkunden Sie das Mittelalter",
+    "subtitle": "Tauchen Sie mit unseren umfassenden Funktionen in die Geschichte ein",
+    "discover": {
+      "title": "Interaktive Karten",
+      "description": "Navigieren Sie durch detaillierte Karten historischer Stätten und Schlachtfelder"
+    },
+    "events": {
+      "title": "Historische Zeitlinien",
+      "description": "Erkunden Sie Schlüsselereignisse, die die mittelalterliche Periode prägten"
+    },
+    "community": {
+      "title": "Treten Sie den Entdeckern bei",
+      "description": "Verbinden Sie sich mit einer Gemeinschaft von Geschichtsenthusiasten"
+    }
+  },
+  "cta": {
+    "title": "Beginnen Sie Ihre Quest",
+    "subtitle": "Melden Sie sich jetzt an und schalten Sie die Wunder der mittelalterlichen Welt frei",
+    "button": "Jetzt Beitreten"
+  }
+}

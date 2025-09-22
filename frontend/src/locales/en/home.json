@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "title": "Embark on a Medieval Adventure",
+    "subtitle": "Discover the rich history and legends of the medieval world through interactive maps and immersive experiences",
+    "cta": "Start Your Journey"
+  },
+  "features": {
+    "title": "Explore the Medieval Era",
+    "subtitle": "Dive into history with our comprehensive features",
+    "discover": {
+      "title": "Interactive Maps",
+      "description": "Navigate through detailed maps of historical sites and battlefields"
+    },
+    "events": {
+      "title": "Historical Timelines",
+      "description": "Explore key events that shaped the medieval period"
+    },
+    "community": {
+      "title": "Join Fellow Explorers",
+      "description": "Connect with a community of history enthusiasts"
+    }
+  },
+  "cta": {
+    "title": "Begin Your Quest",
+    "subtitle": "Sign up now and unlock the wonders of the medieval world",
+    "button": "Join Now"
+  }
+}

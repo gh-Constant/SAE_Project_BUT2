@@ -91,7 +91,7 @@ const selectLanguage = (language: typeof languages[0]) => {
     <!-- Language Dropdown -->
     <div
       v-if="showPopup"
-      class="absolute top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2"
+      class="absolute bottom-full mb-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2"
       style="z-index: 10000;"
     >
       <div class="px-4 py-2 border-b border-gray-200">

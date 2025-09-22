@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "title": "Embarquez pour une Aventure Médiévale",
+    "subtitle": "Découvrez l'histoire riche et les légendes du monde médiéval à travers des cartes interactives et des expériences immersives",
+    "cta": "Commencez Votre Voyage"
+  },
+  "features": {
+    "title": "Explorez l'Ère Médiévale",
+    "subtitle": "Plongez dans l'histoire avec nos fonctionnalités complètes",
+    "discover": {
+      "title": "Cartes Interactives",
+      "description": "Naviguez à travers des cartes détaillées de sites historiques et de champs de bataille"
+    },
+    "events": {
+      "title": "Chronologies Historiques",
+      "description": "Explorez les événements clés qui ont façonné la période médiévale"
+    },
+    "community": {
+      "title": "Rejoignez les Explorateurs",
+      "description": "Connectez-vous avec une communauté de passionnés d'histoire"
+    }
+  },
+  "cta": {
+    "title": "Commencez Votre Quête",
+    "subtitle": "Inscrivez-vous maintenant et débloquez les merveilles du monde médiéval",
+    "button": "Rejoignez Maintenant"
+  }
+}

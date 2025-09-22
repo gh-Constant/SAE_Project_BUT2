@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import LanguageSwitcher from './LanguageSwitcher.vue';
 
 const { t } = useI18n();
 </script>
@@ -20,15 +19,6 @@ const { t } = useI18n();
             MedievalEvent
           </h1>
         </router-link>
-        <div class="flex items-center">
-          <router-link
-            to="/apitest"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-          >
-            API Test
-          </router-link>
-          <LanguageSwitcher />
-        </div>
       </div>
     </div>
   </nav>

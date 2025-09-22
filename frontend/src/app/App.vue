@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router';
 import Navbar from '@/components/navbar/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -12,7 +13,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar />
-  <RouterView />
+    <Navbar />
+    <main>
+      <RouterView />
+    </main>
+    <Footer />
 </template>
 

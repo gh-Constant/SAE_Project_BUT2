@@ -7,13 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'map',
-      component: () => import('../views/SimpleMapView.vue'),
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/apitest',
-      name: 'apitest',
-      component: () => import('../views/ApiTestView.vue'),
+      component: () => import('../views/HomeView.vue'),
       meta: { requiresAuth: true },
     },
     {
