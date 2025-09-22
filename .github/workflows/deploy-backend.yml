@@ -62,7 +62,7 @@ jobs:
           "
 
       - name: Restart backend service
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "pm2 stop backend || true && DATABASE_URL='${{ secrets.DATABASE_URL }}' pm2 start main.js --name backend"
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "pm2 stop backend || true && pm2 start main.js --name backend --env DATABASE_URL='${{ secrets.DATABASE_URL }}'"
 
       - name: Health check
         run: curl --fail http://api.livrable.constantsuchet.fr/ || exit 1
