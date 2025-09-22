@@ -1,3 +1,10 @@
+// Load environment variables from .env file
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Configure dotenv to load from project root
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+
 import { createApp } from './app.js';
 import { config } from './config/app.js';
 import { databaseService } from './services/databaseService.js';
