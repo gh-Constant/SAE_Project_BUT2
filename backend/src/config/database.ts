@@ -1,3 +1,5 @@
+//TODO : FIX DATABASE URI WORK BUT NOT PLAIN CONFIG
+
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
