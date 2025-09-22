@@ -5,10 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path';
 
 export default defineConfig(({ mode }) => {
-  // Charger les variables d'environnement
-  const env = loadEnv(mode, process.cwd());
-  const noBackend = env.VITE_NO_BACKEND === 'true';
-  
   // Base path for deployment (use '/' for Oracle Cloud)
   const base = '/';
 
@@ -40,9 +36,6 @@ export default defineConfig(({ mode }) => {
       commonjsOptions: {
         transformMixedEsModules: true,
       },
-    },
-    define: {
-      __NO_BACKEND__: noBackend,
     },
     test: {
       name: '@sae-project-but2/frontend',
