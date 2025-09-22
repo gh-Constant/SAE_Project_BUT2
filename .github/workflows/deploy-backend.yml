@@ -58,11 +58,12 @@ jobs:
             sudo chown -R ${{ secrets.ORACLE_USER }}:${{ secrets.ORACLE_USER }} /var/www/backend &&
             tar -xzf /tmp/backend.tar.gz -C /var/www/backend &&
             cd /var/www/backend &&
+            echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > .env &&
             npm ci --omit=dev
           "
 
       - name: Restart backend service
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && pm2 stop backend || true && pm2 start main.js --name backend --env DATABASE_URL='${{ secrets.DATABASE_URL }}'"
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && pm2 stop backend || true && pm2 start main.js --name backend"
 
       - name: Health check
         run: curl --fail http://api.livrable.constantsuchet.fr/ || exit 1
