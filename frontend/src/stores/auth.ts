@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email: string, password: string) {
       const user = await authService.login(email, password)
-      this.user = user
+      this.user = user as UserMock
       this.isAuthenticated = true
       localStorage.setItem('currentUser', JSON.stringify(user))
     },

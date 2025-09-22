@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
-
-const { t } = useI18n();
 </script>
 
 <template>

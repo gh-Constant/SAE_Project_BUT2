@@ -13,7 +13,11 @@
     "jsxImportSource": "vue",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "vite.config.ts",

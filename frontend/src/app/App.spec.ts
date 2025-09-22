@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { createPinia } from 'pinia';
-import router from '../router';
-import i18n from '../i18n';
+import router from '@/router';
+import i18n from '@/i18n';
 import { mount } from '@vue/test-utils';
 import App from './App.vue';
 
