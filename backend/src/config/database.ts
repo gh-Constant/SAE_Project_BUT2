@@ -11,6 +11,24 @@ export interface DatabaseConfig {
 
 // Get database configuration from environment variables
 export const getDatabaseConfig = (): DatabaseConfig => {
+  // Check if DATABASE_URL is provided
+  const databaseUrl = process.env.DATABASE_URL;
+  if (databaseUrl) {
+    try {
+      const url = new URL(databaseUrl);
+      return {
+        host: url.hostname,
+        port: url.port ? parseInt(url.port, 10) : 5432,
+        username: url.username,
+        password: url.password,
+        database: url.pathname.slice(1), // Remove leading slash
+      };
+    } catch (error) {
+      console.warn('Invalid DATABASE_URL, falling back to individual variables:', error);
+    }
+  }
+
+  // Fallback to individual environment variables
   return {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
