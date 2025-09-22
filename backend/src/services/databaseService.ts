@@ -15,7 +15,7 @@ export class DatabaseService {
       const isConnected = await testDatabaseConnection(this.pool);
 
       if (isConnected) {
-        console.log('🔧 Initializing database schema...');
+        console.log('🔧 Initializing database schema....');
         await this.initializeDatabase();
         console.log('✅ Database initialization completed');
       } else {
