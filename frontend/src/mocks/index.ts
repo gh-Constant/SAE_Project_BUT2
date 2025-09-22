@@ -1,4 +1,4 @@
-// Ce fichier permet d'importer toutes vos données factices depuis un seul endroit.
+// Ce fichier permet d'importer toutes les données factices depuis un seul endroit.
 export * from './roles';
 export * from './users';
 export * from './locations';

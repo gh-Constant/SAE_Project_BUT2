@@ -7,16 +7,16 @@ import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
+// Vérifie si l'utilisateur est connecté au démarrage de l'application
 onMounted(() => {
   authStore.checkAuth()
 })
 </script>
 
 <template>
-    <Navbar />
-    <main>
-      <RouterView />
-    </main>
-    <Footer />
+  <Navbar />         <!-- Barre de navigation -->
+  <main>
+    <RouterView />  <!-- Affiche le composant correspondant à la route -->
+  </main>
+  <Footer />        <!-- Pied de page -->
 </template>
-

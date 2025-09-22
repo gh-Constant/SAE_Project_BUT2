@@ -1,3 +1,21 @@
+/**
+ * @file auth.ts
+ * @description
+ * Store Pinia pour gérer l'authentification des utilisateurs.
+ * Contient l'état de connexion, les infos utilisateur et les actions pour se connecter ou se déconnecter.
+ *
+ * @utilité
+ * - Garder toutes les infos de connexion au même endroit.
+ * - Permettre aux composants de savoir si l'utilisateur est connecté.
+ * - Faciliter la connexion et la déconnexion des utilisateurs.
+ *
+ * @exports
+ * - useAuthStore : store principal pour l'authentification, utilisable dans toute l'application.
+ *
+ * @remarques
+ * - Ce store doit pouvoir être utilisable avec les données mock et avec les vraies données
+ */
+
 import { defineStore } from 'pinia'
 import { UserMock } from '@/mocks/users'
 import { authService } from '@/services/authService'

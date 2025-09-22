@@ -1,3 +1,16 @@
+/**
+ * @file iconMarkers.ts
+ *
+ * @description
+ * Contient toutes les icônes personnalisées utilisées sur la carte Leaflet.
+ * Chaque icône est créée avec L.divIcon() et peut inclure du HTML/CSS pour personnaliser son apparence.
+ *
+ * @utilité
+ * - Centraliser la définition des icônes pour les réutiliser facilement dans toute l'application.
+ * - Faciliter la maintenance et la modification du style des marqueurs.
+ * - Séparer la logique des icônes de la logique de la carte pour garder le code propre et organisé.
+ */
+
 import L from 'leaflet';
 
 export const houseIcon = L.divIcon({
