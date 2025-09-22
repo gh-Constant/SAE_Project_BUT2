@@ -6,11 +6,12 @@ import { getDatabaseConfig, createDatabasePool, testDatabaseConnection } from '.
 // Database service class
 export class DatabaseService {
   private pool: mysql.Pool | null = null;
-  private config = getDatabaseConfig();
+  private config: any = null;
 
   // Initialize database connection
   async initialize(): Promise<void> {
     try {
+      this.config = getDatabaseConfig();
       this.pool = createDatabasePool(this.config);
       const isConnected = await testDatabaseConnection(this.pool);
 
@@ -35,7 +36,24 @@ export class DatabaseService {
 
     try {
       // Read SQL file
-      const sqlFilePath = path.resolve(process.cwd(), 'backend/database/database.sql');
+      // Try multiple possible paths for the SQL file
+      const possiblePaths = [
+        path.resolve(process.cwd(), 'database/database.sql'),
+        path.resolve(process.cwd(), 'backend/database/database.sql'),
+        path.resolve(__dirname, '../../database/database.sql')
+      ];
+      
+      let sqlFilePath: string | null = null;
+      for (const filePath of possiblePaths) {
+        if (fs.existsSync(filePath)) {
+          sqlFilePath = filePath;
+          break;
+        }
+      }
+      
+      if (!sqlFilePath) {
+        throw new Error(`Could not find database.sql file in any of the expected locations: ${possiblePaths.join(', ')}`);
+      }
       const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
 
       // Split SQL content by statements (basic approach)
