@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - add-prisma
     paths:
       - 'backend/**'
       - '.github/workflows/deploy-backend.yml'
