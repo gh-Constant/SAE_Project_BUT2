@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Generate Prisma client
-        run: npx prisma generate
+        run: cd backend && npx prisma generate
 
       - name: Check for nx binary
         run: ls -la node_modules/.bin/
