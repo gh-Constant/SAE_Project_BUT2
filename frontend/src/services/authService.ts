@@ -14,7 +14,7 @@
  *
  * @remarques
  * - Le mode mock est activé si VITE_NO_BACKEND est true.
- * - Les fonctions du mode réel ne sont pas encore implémentées et lèvent une erreur.
+ * - Les fonctions du mode réel appellent l'API backend.
  */
 
 import { UserMock } from '@/mocks/users'
@@ -24,15 +24,45 @@ import { authMockService } from './mock/authMockService'
 // VITE_NO_BACKEND=true signifie qu'on n'a pas de backend disponible
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 
-// Implémentation du service réel (pas codée et va surement être exporté dans un autre .ts)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
+// Implémentation du service réel
 const authServiceImpl = {
   login: async (email: string, password: string): Promise<UserMock> => {
-    console.log('Auth service: login called with', email) // Ici normalement on ferait un appel HTTP vers le backend
-    throw new Error('Auth service not implemented yet')
+    const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Login failed');
+    }
+
+    const data = await response.json();
+    // Store token
+    localStorage.setItem('authToken', data.token);
+    return data.user;
   },
   register: async (firstName: string, lastName: string, email: string, password: string, role: string): Promise<UserMock> => {
-    console.log('Auth service: register called with', firstName, email, role) // Ici normalement on enverrait les données au backend pour créer un utilisateur
-    throw new Error('Auth service not implemented yet')
+    const response = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ firstName, lastName, email, password, role }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Registration failed');
+    }
+
+    const user = await response.json();
+    return user;
   }
 }
 

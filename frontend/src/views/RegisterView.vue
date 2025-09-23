@@ -65,7 +65,7 @@ const handleRegister = async () => {
       </div>
     </div>
 
-    <!-- Error message -->
+    <!-- Error mesEsage -->
     <div v-if="errorMessage" class="fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-40">
       <div class="flex items-center justify-between">
         <span>{{ errorMessage }}</span>

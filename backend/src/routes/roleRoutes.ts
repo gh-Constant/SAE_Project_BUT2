@@ -17,10 +17,10 @@
  * - Les routes sont définies sur `/roles`.
  */
 
-import express from 'express';
+import { Router } from 'express';
 import { roleController } from '../controllers/roleController.js';
 
-const router = express.Router();
+const router = Router();
 
 /**
  * GET /roles
