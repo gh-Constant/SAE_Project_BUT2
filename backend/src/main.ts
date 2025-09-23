@@ -41,7 +41,7 @@ const startServer = async (): Promise<void> => {
      * @param signal - Signal reçu (SIGTERM ou SIGINT)
      */
     const gracefulShutdown = async (signal: string) => {
-      console.log(`🛑 ${signal} received, shutting down gracefully...`);
+      console.log(`🛑 ${signal} received !, shutting down gracefully...`);
       // Fermeture du serveur
       server.close(() => {
         console.log('✅ Server closed');
