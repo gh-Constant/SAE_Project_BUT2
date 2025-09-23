@@ -1,18 +1,44 @@
+/**
+ * @file databaseService.ts
+ * @description
+ * Service pour gérer la connexion et les opérations sur la base de données MySQL.
+ * Fournit des méthodes pour initialiser la base, exécuter des requêtes, gérer des transactions et fermer le pool.
+ *
+ * @utilité
+ * - Centralise la logique de connexion et d'interaction avec la base de données.
+ * - Permet d'exécuter des requêtes simples ou des transactions complexes.
+ * - Facilite l'initialisation du schéma de la base depuis un fichier SQL.
+ * - Fournit une interface unique pour accéder au pool MySQL.
+ *
+ * @exports
+ * - DatabaseService : classe permettant de gérer les opérations sur la base.
+ * - databaseService : instance singleton prête à l'emploi (c'est elle qu'on va surtout utilisé).
+ *
+ * @remarques
+ * - L'initialisation doit être effectuée avant
+ * - TODO: Les fichiers SQL sont recherchés dans plusieurs chemins à cause de certains problémes au déploiement (à changer)
+ * - Les transactions utilisent `beginTransaction`, `commit` et `rollback` pour assurer l'intégrité des données.
+ */
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mysql from 'mysql2/promise';
 import { pool, testDatabaseConnection } from '../config/database.js';
 
-// ES module equivalent of __dirname
+// Equivalent ES module de __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Database service class
+/**
+ * Service pour gérer les interactions avec la base de données MySQL.
+ */
 export class DatabaseService {
   public pool: mysql.Pool | null = null;
 
-  // Initialize database connection
+  /**
+   * Initialise la connexion à la base et le schéma si la connexion est réussie.
+   */
   async initialize(): Promise<void> {
     try {
       this.pool = pool;
@@ -31,21 +57,22 @@ export class DatabaseService {
     }
   }
 
-  // Initialize database schema from SQL file
+  /**
+   * Initialise le schéma de la base à partir du fichier SQL.
+   * Cherche le fichier dans plusieurs chemins possibles.
+   */
   private async initializeDatabase(): Promise<void> {
     if (!this.pool) {
       throw new Error('Database pool not initialized');
     }
 
     try {
-      // Read SQL file
-      // Try multiple possible paths for the SQL file
       const possiblePaths = [
         path.resolve(process.cwd(), 'database/database.sql'),
         path.resolve(process.cwd(), 'backend/database/database.sql'),
         path.resolve(__dirname, '../../database/database.sql')
       ];
-      
+
       let sqlFilePath: string | null = null;
       for (const filePath of possiblePaths) {
         if (fs.existsSync(filePath)) {
@@ -53,15 +80,13 @@ export class DatabaseService {
           break;
         }
       }
-      
+
       if (!sqlFilePath) {
         throw new Error(`Could not find database.sql file in any of the expected locations: ${possiblePaths.join(', ')}`);
       }
       const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
 
-      // Execute the entire SQL file
       await this.pool.query(sqlContent);
-
       console.log('✅ Database schema initialized successfully');
     } catch (error) {
       console.error('❌ Failed to initialize database schema:', error);
@@ -69,7 +94,9 @@ export class DatabaseService {
     }
   }
 
-  // Get database connection pool
+  /**
+   * Retourne le pool de connexions MySQL.
+   */
   getPool(): mysql.Pool {
     if (!this.pool) {
       throw new Error('Database pool not initialized. Call initialize() first.');
@@ -77,7 +104,9 @@ export class DatabaseService {
     return this.pool;
   }
 
-  // Close database connection
+  /**
+   * Ferme le pool de connexions.
+   */
   async close(): Promise<void> {
     if (this.pool) {
       await this.pool.end();
@@ -85,7 +114,12 @@ export class DatabaseService {
     }
   }
 
-  // Execute a query
+  /**
+   * Exécute une requête SQL avec paramètres optionnels.
+   * @param sql - Requête SQL
+   * @param params - Paramètres optionnels pour la requête
+   * @returns Résultat de la requête
+   */
   async query(sql: string, params: any[] = []): Promise<any> {
     if (!this.pool) {
       throw new Error('Database pool not initialized');
@@ -100,7 +134,11 @@ export class DatabaseService {
     }
   }
 
-  // Execute a transaction
+  /**
+   * Exécute une transaction MySQL.
+   * @param callback - Fonction recevant la connexion pour exécuter des requêtes transactionnelles
+   * @returns Résultat de la transaction
+   */
   async transaction<T>(callback: (connection: mysql.PoolConnection) => Promise<T>): Promise<T> {
     if (!this.pool) {
       throw new Error('Database pool not initialized');
@@ -122,5 +160,5 @@ export class DatabaseService {
   }
 }
 
-// Export singleton instance
+// Export singleton prêt à l'emploi
 export const databaseService = new DatabaseService();
