@@ -26,8 +26,8 @@ model User {
   roleId         Int
   isActive       Boolean     @default(true) @map("is_active")
   isVerified     Boolean     @default(false) @map("is_verified")
-  xp             BigInt      @default(0)
-  level          BigInt      @default(0)
+  xp             Int         @default(0)
+  level          Int         @default(0)
   createdAt      DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
   locations      Location?

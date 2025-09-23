@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async register(firstName: string, lastName: string, email: string, password: string, role: string) {
       const user = await authService.register(firstName, lastName, email, password, role)
-      this.user = user
+      this.user = user as UserMock
       this.isAuthenticated = true
       localStorage.setItem('currentUser', JSON.stringify(user))
     },
@@ -42,10 +42,12 @@ export const useAuthStore = defineStore('auth', {
       this.user = null
       this.isAuthenticated = false
       localStorage.removeItem('currentUser')
+      localStorage.removeItem('authToken')
     },
     checkAuth() {
       const userStr = localStorage.getItem('currentUser')
-      if (userStr) {
+      const token = localStorage.getItem('authToken')
+      if (userStr && token) {
         this.user = JSON.parse(userStr)
         this.isAuthenticated = true
       }
