@@ -14,25 +14,17 @@
  * - Les signaux SIGTERM et SIGINT sont capturés pour effectuer un arrêt contrôlé.
  * - Toute erreur lors de l'initialisation de la base ou du serveur provoque l'arrêt du processus avec code 1.
  */
-
-import dotenv from 'dotenv';
-import path from 'path';
-
-// Charger les variables d'environnement depuis le fichier .env à la racine du projet
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
-
 import { createApp } from './app.js';
 import { config } from './config/app.js';
-import { databaseService } from './services/databaseService.js';
+import { seedRoles } from './seeds/roles.js';
 
 /**
  * Fonction principale pour démarrer le serveur.
  */
 const startServer = async (): Promise<void> => {
   try {
-    // Initialisation de la base de données
-    console.log('🔧 Initializing database connection...');
-    await databaseService.initialize();
+    // Initialisation de la base avec les rôles de base
+    await seedRoles();
 
     // Création de l'application Express
     const app = createApp();
@@ -50,15 +42,6 @@ const startServer = async (): Promise<void> => {
      */
     const gracefulShutdown = async (signal: string) => {
       console.log(`🛑 ${signal} received, shutting down gracefully...`);
-
-      try {
-        // Fermeture de la connexion à la base de données
-        await databaseService.close();
-        console.log('✅ Database connection closed');
-      } catch (error) {
-        console.error('❌ Error closing database connection:', error);
-      }
-
       // Fermeture du serveur
       server.close(() => {
         console.log('✅ Server closed');
