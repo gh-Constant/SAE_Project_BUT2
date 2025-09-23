@@ -1,10 +1,10 @@
 name: Deploy Backend to Oracle Cloud
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-    workflow_dispatch:
     paths:
       - 'backend/**'
       - '.github/workflows/deploy-backend.yml'
