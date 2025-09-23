@@ -44,7 +44,7 @@ jobs:
         run: npx nx prune backend
 
       - name: Package backend artifact
-        run: tar -czf backend.tar.gz -C backend/dist .
+        run: tar -czf backend.tar.gz backend prisma package*.json
 
       - name: Setup SSH
         run: |
