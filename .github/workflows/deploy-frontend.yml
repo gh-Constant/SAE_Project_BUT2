@@ -15,7 +15,7 @@ jobs:
       name: frontend
       url: http://livrable.constantsuchet.fr
     env:
-      VITE_API_BASE_URL: "http://api.livrable.constantsuchet.fr/"
+      VITE_API_BASE_URL: "http://api.livrable.constantsuchet.fr"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
