@@ -75,6 +75,7 @@ jobs:
             tar -xzf /tmp/backend.tar.gz -C /var/www/backend &&
             cd /var/www/backend &&
             echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > .env &&
+            echo 'JWT_SECRET=${{ secrets.JWT_SECRET }}' >> .env &&
             npm ci --omit=dev &&
             # ✅ generate Prisma client from schema
             npx prisma generate &&
