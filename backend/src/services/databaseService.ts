@@ -114,6 +114,14 @@ export class DatabaseService {
     }
   }
 
+
+  // Probléme : Premiére requete plus lente, mais plus besoin de se soucier que le service ne soit pas initialisé
+  private async ensureInitialized(): Promise<void> {
+    if (!this.pool) {
+      await this.initialize(); // initialise automatiquement si ce n'est pas fait
+    }
+  }
+
   /**
    * Exécute une requête SQL avec paramètres optionnels.
    * @param sql - Requête SQL
@@ -126,7 +134,8 @@ export class DatabaseService {
     }
 
     try {
-      const [rows] = await this.pool.query(sql, params);
+      await this.ensureInitialized();
+      const [rows] = await this.pool!.query(sql, params);
       return rows;
     } catch (error) {
       console.error('❌ Database query failed:', error);

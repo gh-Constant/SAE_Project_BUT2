@@ -40,7 +40,7 @@ apiRouter.use('/', healthRoutes);
 // Ajout des routes liées aux rôles
 apiRouter.use('/', roleRoutes);
 
-// Montage des routes API avec le préfixe défini dans la configuration
-router.use(apiConfig.prefix, apiRouter);
+// Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
+router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);
 
 export default router;
