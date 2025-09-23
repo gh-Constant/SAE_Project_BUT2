@@ -50,6 +50,12 @@ jobs:
       - name: Package backend artifact
         run: tar -czf backend.tar.gz -C backend/dist .
 
+      - name: Remove old files
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && rm -rf *"
+
+      - name : add .env in case
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > .env"
+
       - name: Upload backend to server
         run: scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend.tar.gz ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/tmp/backend.tar.gz
 
