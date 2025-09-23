@@ -34,17 +34,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate Prisma client
-        run: cd backend && npx prisma generate
-
-      - name: Check for nx binary
-        run: ls -la node_modules/.bin/
+      - name: Prepare Prisma client & migrations
+        run: |
+          cd backend
+          npx prisma generate
+          npx prisma migrate deploy   # ✅ migrate DB before build
 
       - name: Build backend
-        run: npx nx prune backend
+        run: npx nx build backend
 
       - name: Package backend artifact
-        run: tar -czf backend.tar.gz -C backend/dist .
+        run: tar -czf backend.tar.gz -C backend/dist . -C backend/node_modules/@prisma client
+        # 👆 includes Prisma client only, not schema/migrations
 
       - name: Setup SSH
         run: |
@@ -52,9 +53,6 @@ jobs:
           echo "${{ secrets.ORACLE_SSH_KEY }}" > ~/.ssh/oracle_key
           chmod 600 ~/.ssh/oracle_key
           ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Remove old files on server
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && rm -rf *"
 
       - name: Upload backend to server
         run: scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend.tar.gz ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/tmp/backend.tar.gz
@@ -64,11 +62,9 @@ jobs:
           ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "
             sudo mkdir -p /var/www/backend &&
             sudo chown -R ${{ secrets.ORACLE_USER }}:${{ secrets.ORACLE_USER }} /var/www/backend &&
+            rm -rf /var/www/backend/* &&
             tar -xzf /tmp/backend.tar.gz -C /var/www/backend &&
-            cd /var/www/backend &&
-            echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > .env &&
-            npm ci --omit=dev &&
-            npx prisma generate
+            echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > /var/www/backend/.env
           "
 
       - name: Restart backend service
