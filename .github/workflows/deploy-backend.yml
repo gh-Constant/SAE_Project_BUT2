@@ -44,11 +44,13 @@ jobs:
         run: npx nx prune backend
 
       - name: Package backend artifact
-        run: tar -czf backend.tar.gz \
-            -C backend dist \
-            -C backend prisma \
-            -C backend package.json
-            -C . package-lock.json
+        run: |
+          mkdir backend-package
+          cp -r backend/dist backend-package/
+          cp -r backend/prisma backend-package/
+          cp backend/package.json backend-package/
+          cp package-lock.json backend-package/   # root lockfile
+          tar -czf backend.tar.gz -C backend-package .
 
       - name: Setup SSH
         run: |
