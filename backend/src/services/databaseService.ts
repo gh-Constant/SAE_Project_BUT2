@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mysql from 'mysql2/promise';
-import { getDatabaseConfig, createDatabasePool, testDatabaseConnection } from '../config/database.js';
+import { pool, testDatabaseConnection } from '../config/database.js';
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -10,15 +10,13 @@ const __dirname = path.dirname(__filename);
 
 // Database service class
 export class DatabaseService {
-  private pool: mysql.Pool | null = null;
-  private config: any = null;
+  public pool: mysql.Pool | null = null;
 
   // Initialize database connection
   async initialize(): Promise<void> {
     try {
-      this.config = getDatabaseConfig();
-      this.pool = createDatabasePool(this.config);
-      const isConnected = await testDatabaseConnection(this.pool);
+      this.pool = pool;
+      const isConnected = await testDatabaseConnection();
 
       if (isConnected) {
         console.log('🔧 Initializing database schema....');
@@ -61,61 +59,14 @@ export class DatabaseService {
       }
       const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
 
-      // Split SQL content by statements (basic approach)
-      const statements = this.splitSqlStatements(sqlContent);
-
-      // Execute each statement
-      for (const statement of statements) {
-        if (statement.trim()) {
-          await this.pool.query(statement);
-        }
-      }
+      // Execute the entire SQL file
+      await this.pool.query(sqlContent);
 
       console.log('✅ Database schema initialized successfully');
     } catch (error) {
       console.error('❌ Failed to initialize database schema:', error);
       throw error;
     }
-  }
-
-  // Split SQL content into individual statements
-  private splitSqlStatements(sqlContent: string): string[] {
-    const statements: string[] = [];
-    let currentStatement = '';
-    let inString = false;
-    let stringChar = '';
-
-    for (let i = 0; i < sqlContent.length; i++) {
-      const char = sqlContent[i];
-      const prevChar = sqlContent[i - 1];
-
-      // Handle string literals
-      if ((char === '"' || char === "'") && prevChar !== '\\') {
-        if (!inString) {
-          inString = true;
-          stringChar = char;
-        } else if (char === stringChar) {
-          inString = false;
-          stringChar = '';
-        }
-      }
-
-      // Handle statement separators
-      if (!inString && char === ';') {
-        currentStatement += char;
-        statements.push(currentStatement.trim());
-        currentStatement = '';
-      } else {
-        currentStatement += char;
-      }
-    }
-
-    // Add remaining statement if any
-    if (currentStatement.trim()) {
-      statements.push(currentStatement.trim());
-    }
-
-    return statements;
   }
 
   // Get database connection pool
