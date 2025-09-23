@@ -17,6 +17,8 @@
  * - Les fonctions du mode réel appellent l'API backend.
  */
 
+//TODO: Create an api service to keep the project with a better organisation
+
 import { UserMock } from '@/mocks/users'
 import { authMockService } from './mock/authMockService'
 
