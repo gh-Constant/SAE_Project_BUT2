@@ -12,7 +12,7 @@
  *
  * @exports
  * - createApp : fonction qui retourne l'application Express configurée.
- * - default : export par défaut de createApp.
+ * - default : export par défaut de createApp..
  *
  * @remarques
  * - Les middlewares de logging ne sont activés qu'en développement (`config.isDevelopment`).
