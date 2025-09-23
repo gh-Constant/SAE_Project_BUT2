@@ -1,4 +1,5 @@
 import './styles.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import router from './router';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';

@@ -14,13 +14,33 @@
  */
 
 import L from 'leaflet';
-import { houseIcon } from './iconsMarkers';
+import { houseIcon, witchHouseIcon, sageIcon, trainingCampIcon, castleIcon } from './iconsMarkers';
 
 const predefinedMarkers = [
   {
     position: [1747, 5072] as L.LatLngExpression,
     icon: houseIcon,
     popup: 'House at 1747, 5072'
+  },
+  {
+    position: [910, 4330] as L.LatLngExpression,
+    icon: witchHouseIcon,
+    popup: 'Witch House at 910, 4330'
+  },
+  {
+    position: [1344, 3572] as L.LatLngExpression,
+    icon: sageIcon,
+    popup: 'The Great Sage at 1344, 3572'
+  },
+  {
+    position: [1580, 4488] as L.LatLngExpression,
+    icon: trainingCampIcon,
+    popup: 'Training Camp at 1580, 4488'
+  },
+  {
+    position: [3104, 3220] as L.LatLngExpression,
+    icon: castleIcon,
+    popup: 'Castle at 3104, 3220'
   }
 ];
 
