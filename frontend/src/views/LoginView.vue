@@ -123,3 +123,47 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+// Form data
+const email = ref('')
+const password = ref('')
+const rememberMe = ref(false)
+const showPassword = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value
+}
+
+const handleLogin = async () => {
+  if (!email.value || !password.value) {
+    errorMessage.value = 'Please fill in all fields'
+    return
+  }
+
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    await authStore.login(email.value, password.value)
+
+    console.log('Login successful:', authStore.user)
+    router.push('/')
+
+  } catch (error) {
+    console.error('Login failed:', error)
+    errorMessage.value = error instanceof Error ? error.message : 'Login failed'
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
