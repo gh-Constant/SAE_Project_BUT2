@@ -1,9 +1,11 @@
 name: Deploy Backend to Oracle Cloud
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+      - add-prisma
     paths:
       - 'backend/**'
       - '.github/workflows/deploy-backend.yml'
@@ -32,21 +34,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate Prisma client
+        run: cd backend && npx prisma generate
+
       - name: Check for nx binary
         run: ls -la node_modules/.bin/
 
-      - name: Setup SSHe
+      - name: Build backend
+        run: npx nx prune backend
+
+      - name: Package backend artifact
+        run: |
+          mkdir backend-package
+          cp -r backend/dist backend-package/
+          cp -r backend/prisma backend-package/
+          cp backend/package.json backend-package/
+          cp package-lock.json backend-package/   # root lockfile
+          tar -czf backend.tar.gz -C backend-package .
+
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.ORACLE_SSH_KEY }}" > ~/.ssh/oracle_key
           chmod 600 ~/.ssh/oracle_key
           ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Build backend
-        run: npx nx prune backend
-
-      - name: Package backend artifact
-        run: tar -czf backend.tar.gz -C backend/dist .
+      - name: Remove old files on server
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && rm -rf *"
 
       - name: Upload backend to server
         run: scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no backend.tar.gz ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:/tmp/backend.tar.gz
@@ -56,14 +70,20 @@ jobs:
           ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "
             sudo mkdir -p /var/www/backend &&
             sudo chown -R ${{ secrets.ORACLE_USER }}:${{ secrets.ORACLE_USER }} /var/www/backend &&
+            rm -rf /var/www/backend/* &&
             tar -xzf /tmp/backend.tar.gz -C /var/www/backend &&
             cd /var/www/backend &&
             echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > .env &&
-            npm ci --omit=dev
+            npm ci --omit=dev &&
+            # ✅ generate Prisma client from schema
+            npx prisma generate &&
+            # ✅ push schema into database
+            npx prisma db push
           "
 
+
       - name: Restart backend service
-        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend && pm2 stop backend || true && pm2 start main.js --name backend"
+        run: ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} "cd /var/www/backend/dist && pm2 stop backend || true && pm2 start main.js --name backend"
 
       - name: Health check
         run: curl --fail http://api.livrable.constantsuchet.fr/ || exit 1

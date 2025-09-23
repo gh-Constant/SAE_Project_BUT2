@@ -18,7 +18,7 @@
  */
 
 import { Request, Response } from 'express';
-import { databaseService } from '../services/databaseService.js';
+import prisma from '../prisma.js';
 
 /**
  * Contrôleur pour les opérations sur les rôles.
@@ -26,22 +26,17 @@ import { databaseService } from '../services/databaseService.js';
 export const roleController = {
   /**
    * GET /roles
-   * Récupère tous les rôles de la base de données.
+   * Récupère tous les rôles de la base de données via Prisma.
    * @param _req - Objet request d'Express (non utilisé ici)
    * @param res - Objet response d'Express
    * @returns {Promise<void>} Envoie la liste des rôles ou une erreur
-   *
-   * @remarques
-   * - Effectue une requête SQL simple pour sélectionner toutes les lignes de la table "roles".
-   * - Les erreurs sont capturées et renvoyées avec un message explicite.
    */
   async getAllRoles(_req: Request, res: Response): Promise<void> {
     try {
-      // Interrogation de la base de données pour récupérer tous les rôles
-      const roles = await databaseService.query('SELECT * FROM roles');
+      // Utilisation de Prisma pour récupérer les rôles
+      const roles = await prisma.role.findMany();
       res.status(200).json(roles);
     } catch (error) {
-      // Gestion des erreurs et réponse HTTP 500
       res.status(500).json({
         message: 'Failed to retrieve roles',
         error: error instanceof Error ? error.message : 'Unknown error',

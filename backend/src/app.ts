@@ -26,7 +26,6 @@ import { corsOptions, config } from './config/app.js';
 import { requestLogger, responseTimeLogger } from './middleware/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import routes from './routes/index.js';
-
 /**
  * Crée et configure l'application Express.
  * @returns {Application} Application Express configurée
