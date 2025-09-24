@@ -39,7 +39,39 @@ export async function register(firstName: string, lastName: string, email: strin
       email,
       passwordHashed: hashedPassword,
       roleId
-    },
-    include: { role: true }
+    }
   });
+}
+
+export async function verifyToken(token: string) {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string };
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id }
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return { user, token };
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      throw new Error("Token expired");
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      throw new Error("Invalid token");
+    }
+    throw error;
+  }
+}
+
+export async function getUserFromToken(token: string) {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string };
+    return await prisma.user.findUnique({
+      where: { id: decoded.id }
+    });
+  } catch (error) {
+    return null;
+  }
 }

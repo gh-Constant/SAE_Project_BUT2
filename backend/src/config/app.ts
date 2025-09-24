@@ -38,7 +38,7 @@ export const config = {
  */
 export const corsOptions: CorsOptions = {
   origin: [
-    'http://localhost:4200',                    // Frontend local en développement
+    'http://localhost:4200',                    // Frontend local en développement     // Frontend on same port as backend
     'https://livrable.constantsuchet.fr',       // Frontend production HTTPS
     'http://livrable.constantsuchet.fr'         // Frontend production HTTP
   ],

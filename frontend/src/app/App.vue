@@ -1,16 +1,7 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { RouterView } from 'vue-router'
-import Navbar from '@/components/navbar/Navbar.vue'
-import Footer from '@/components/Footer.vue'
-import { useAuthStore } from '@/stores/auth'
-
-const authStore = useAuthStore()
-
-// Vérifie si l'utilisateur est connecté au démarrage de l'application
-onMounted(() => {
-  authStore.checkAuth()
-})
+import { RouterView } from 'vue-router' // Composant pour afficher les routes
+import Navbar from '@/components/navbar/Navbar.vue' // Barre de navigation
+import Footer from '@/components/Footer.vue' // Pied de page
 </script>
 
 <template>
