@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async validateAndRefreshUser() {
       if (isMockEnabled) {
-        // In mock mode, use existing logic
+        // Mode mock : utiliser la logique existante
         const userStr = localStorage.getItem('currentUser')
         const token = localStorage.getItem('authToken')
         if (userStr && token) {
@@ -61,10 +61,12 @@ export const useAuthStore = defineStore('auth', {
         return;
       }
 
-      // In real mode, validate token and fetch fresh user data
-      const isValid = await authService.validateToken()
+      // Mode réel : valider le token et récupérer les données utilisateur
+      // (as any) nécessaire car authService choisit mock/réel à l'exécution, TypeScript voit union des types
+      // TODO: Trouver une meilleure solution au probléme du authservice mock/reel à l'exec
+      const isValid = await (authService as any).validateToken()
       if (isValid) {
-        const user = await authService.getCurrentUser()
+        const user = await (authService as any).getCurrentUser()
         if (user) {
           this.user = user
           this.isAuthenticated = true
@@ -80,8 +82,8 @@ export const useAuthStore = defineStore('auth', {
       this.isAuthenticated = false
       localStorage.removeItem('currentUser')
       localStorage.removeItem('authToken')
-      if (typeof authService.logout === 'function') { // Quand on aura le logout
-        authService.logout()
+      if (typeof (authService as any).logout === 'function') { // Quand on aura le logout
+        (authService as any).logout()
       }
     },
     checkAuth() {

@@ -1,4 +1,4 @@
-import { ARTISAN_ROLE_ID, AVENTURER_ROLE_ID, ADMIN_ROLE_ID, ROLES } from './roles';
+import { ARTISAN_ROLE_ID, AVENTURER_ROLE_ID, ADMIN_ROLE_ID } from './roles';
 
 export interface UserMock {
   id: number; // AUTO_INCREMENT integer from database
@@ -7,7 +7,6 @@ export interface UserMock {
   email: string;
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
   roleId: number;
-  // Removed role object - only roleId now
   is_active: boolean;
   is_verified: boolean;
   xp: number;

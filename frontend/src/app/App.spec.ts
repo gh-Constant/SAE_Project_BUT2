@@ -5,15 +5,24 @@
  * On l'utilise dans notre CLI de déploiement (deploy-frontend.yml) pour s'assurer que l'app ne plante pas dès le lancement.
  */
 
-import { describe, it, expect, beforeAll, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { createPinia } from 'pinia';
-import { createAppRouter } from '@/router';
+import { createAppRouter } from '@/router/index';
 import i18n from '@/i18n';
 import { mount } from '@vue/test-utils';
 import App from './App.vue';
 
 // Mock fetch to avoid real API calls in tests
 global.fetch = vi.fn();
+
+// Mock the auth store to prevent async operations
+vi.mock('@/stores/auth', () => ({
+  useAuthStore: () => ({
+    isAuthenticated: false,
+    authReady: true,
+    checkAuth: vi.fn().mockResolvedValue(undefined),
+  }),
+}));
 
 describe('App', () => {
   it('renders properly', async () => {
