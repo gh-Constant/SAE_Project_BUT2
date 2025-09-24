@@ -7,7 +7,7 @@ export interface UserMock {
   email: string;
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
   roleId: number;
-  role: { id: number; name: string; }; // On simule la jointure que l'API renverrait
+  // Removed role object - only roleId now
   is_active: boolean;
   is_verified: boolean;
   xp: number;
@@ -26,7 +26,6 @@ export const USERS: UserMock[] = [
     email: 'artisan@medieval.com',
     password_hashed: 'password123',
     roleId: ARTISAN_ROLE_ID,
-    role: ROLES.find(r => r.id === ARTISAN_ROLE_ID)!,
     is_active: true,
     is_verified: false,
     xp: 250,
@@ -39,7 +38,6 @@ export const USERS: UserMock[] = [
     email: 'aventurier@medieval.com',
     password_hashed: 'password123',
     roleId: AVENTURER_ROLE_ID,
-    role: ROLES.find(r => r.id === AVENTURER_ROLE_ID)!,
     is_active: true,
     is_verified: false,
     xp: 80,
@@ -52,7 +50,6 @@ export const USERS: UserMock[] = [
     email: 'admin@medieval.com',
     password_hashed: 'password123',
     roleId: ADMIN_ROLE_ID,
-    role: ROLES.find(r => r.id === ADMIN_ROLE_ID)!,
     is_active: true,
     is_verified: false,
     xp: 9999,

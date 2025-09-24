@@ -17,6 +17,7 @@
  */
 
 import { USERS, UserMock } from '@/mocks';
+import { AVENTURER_ROLE_ID, ARTISAN_ROLE_ID } from '@/mocks/roles';
 
 export const authMockService = {
 
@@ -47,9 +48,8 @@ export const authMockService = {
         firstname: firstName,
         lastname: lastName,
         email,
-        password_hashed: password,  // Ici le mot de passe n’est pas hashé, juste pour le mock
-        roleId: role === 'adventurer' ? 1 : 2, // Assigne un rôle par défaut selon le type (1: aventurier 2: artisan) (Le 3 n'est pas present car on ne peut pas s'enregistrer en tant qu'admin directement)
-        role: { id: role === 'adventurer' ? 1 : 2, name: role },
+        password_hashed: password,  // Ici le mot de passe n'est pas hashé, juste pour le mock
+        roleId: role === 'adventurer' ? AVENTURER_ROLE_ID : ARTISAN_ROLE_ID, // Use proper role constants
         is_active: true,
         is_verified: false,
         xp: 0,

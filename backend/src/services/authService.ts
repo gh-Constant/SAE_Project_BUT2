@@ -5,19 +5,24 @@ import prisma from "../prisma.js";
 //TODO: Add JWT token when the player register also
 
 const roleMap: { [key: string]: number } = {
-  'aventurer': 1,
+  'adventurer': 1,
   'artisan': 2,
 };
 
 export async function login(email: string, password: string) {
   const user = await prisma.user.findUnique({
-    where: { email },
-    include: { role: true }  // inclue le role pour le récupérer dans le backend
+    where: { email }
   });
   if (!user) throw new Error("Utilisateur non trouvé");
   const validPassword = await bcrypt.compare(password, user.passwordHashed);
   if (!validPassword) throw new Error("Mot de passe invalide");
-  const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+  
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.JWT_SECRET!,
+    { expiresIn: "1h" }
+  );
+
   return { user, token };
 }
 
