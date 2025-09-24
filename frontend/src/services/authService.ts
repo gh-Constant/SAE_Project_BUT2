@@ -19,7 +19,7 @@
  * - validateToken utilise maintenant /me au lieu de /verify pour simplifier.
  */
 
-// TODO: Créer un service API pour garder le projet avec une meilleure organisation
+//. TODO: Créer un service API pour garder le projet avec une meilleure organisation
 
 import { UserMock } from '@/mocks/users'
 import { authMockService } from './mock/authMockService'
