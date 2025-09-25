@@ -103,8 +103,8 @@ const selectLanguage = (language: typeof languages[0]) => {
         <button
           v-for="lang in displayedLanguages"
           :key="lang.code"
-          class="flex items-center justify-between w-full px-4 py-3 hover:bg-gray-50 transition-colors text-left"
-          :class="{ 'bg-blue-50': currentLanguage.code === lang.code, 'minecraft-selected': lang.special && currentLanguage.code === lang.code }"
+          class="flex items-center justify-between w-full px-4 py-3 hover:bg-orange-50 hover:border-l-4 hover:border-orange-500 transition-all duration-200 text-left"
+          :class="{ 'bg-orange-50 border-l-4 border-orange-500': currentLanguage.code === lang.code, 'minecraft-selected': lang.special && currentLanguage.code === lang.code }"
           @click="selectLanguage(lang)"
         >
           <span class="flex items-center gap-3">
@@ -118,7 +118,7 @@ const selectLanguage = (language: typeof languages[0]) => {
           </span>
           <span
             v-if="currentLanguage.code === lang.code"
-            class="text-blue-600"
+            class="text-orange-600"
           >
             <svg
               class="w-4 h-4"

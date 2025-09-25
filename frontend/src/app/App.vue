@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router' // Composant pour afficher les routes
-import Navbar from '@/components/navbar/Navbar.vue' // Barre de navigation
-import Footer from '@/components/Footer.vue' // Pied de page
+import { RouterView, useRoute } from 'vue-router'
+import Navbar from '@/components/navbar/Navbar.vue'
+import Footer from '@/components/Footer.vue'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const isLoginOrRegisterPage = computed(() => {
+  return route.path === '/login' || route.path === '/register'
+})
 </script>
 
 <template>
   <div id="app" class="h-screen flex flex-col">
-    <Navbar />
+    <Navbar v-if="!isLoginOrRegisterPage" />
     <main class="flex-1 overflow-auto">
       <RouterView />
     </main>
-    <Footer />
+    <Footer v-if="!isLoginOrRegisterPage" />
   </div>
 </template>
 
