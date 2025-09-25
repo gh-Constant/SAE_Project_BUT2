@@ -62,19 +62,23 @@
             <input
               id="email"
               v-model="email"
+              @blur="validateField('email', email)"
               type="email"
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
+              class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
+              :class="fieldErrors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
               placeholder=" "
               required
             />
             <label 
               for="email" 
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:text-orange-500 peer-focus:bg-white peer-focus:px-2"
-              :class="email ? 'top-1 text-xs text-orange-500 bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
+              :class="email ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+              :style="{ color: fieldErrors.email ? '#ef4444' : email ? '#f97316' : '#6b7280' }"
             >
               Email
             </label>
           </div>
+          <p v-if="fieldErrors.email" class="text-red-500 text-xs mt-1">{{ fieldErrors.email }}</p>
 
           <!-- Password Input with floating label -->
           <div class="relative">
@@ -172,9 +176,35 @@ const rememberMe = ref(false)
 const showPassword = ref(false)
 const isLoading = ref(false)
 const errorMessage = ref('')
+const fieldErrors = ref({
+  email: '',
+  password: ''
+})
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
+}
+
+const validateField = (field: string, value: string) => {
+  switch (field) {
+    case 'email':
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!value.trim()) {
+        fieldErrors.value[field] = 'Email is required'
+      } else if (!emailRegex.test(value)) {
+        fieldErrors.value[field] = 'Please enter a valid email'
+      } else {
+        fieldErrors.value[field] = ''
+      }
+      break
+    case 'password':
+      if (!value) {
+        fieldErrors.value[field] = 'Password is required'
+      } else {
+        fieldErrors.value[field] = ''
+      }
+      break
+  }
 }
 
 const handleLogin = async () => {
