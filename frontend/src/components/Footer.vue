@@ -13,7 +13,7 @@ import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
             class="h-12 w-auto mr-3"
           />
           <span class="text-gray-600 text-sm">
-            © 2024 MedievalEvent. All rights reserved.
+            © 2025 MedievalEvent. All rights reserved.
           </span>
         </div>
         <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">

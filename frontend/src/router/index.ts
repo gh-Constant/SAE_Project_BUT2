@@ -37,7 +37,7 @@ export const routes = [
     path: '/',
     name: 'map',
     component: () => import('../views/HomeView.vue'),
-    meta: { requiresAuth: true }, // Cette route nécessite que l'utilisateur soit connecté
+    // Retirer meta: { requiresAuth: true } pour rendre la page accessible sans connexion
   },
   {
     path: '/login',

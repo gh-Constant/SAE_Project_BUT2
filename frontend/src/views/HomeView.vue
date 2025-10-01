@@ -142,7 +142,7 @@ function initializeMap() {
     wheelPxPerZoomLevel: 120
   }).setView([250, 250], 0);
 
-  const imageUrl = './maps/50shrinkcompressed.png';
+  const imageUrl = './maps/75shrinkcompressed.png';
   const imageWidth = 6500;
   const imageHeight = 3300;
   const imageBounds: L.LatLngBoundsExpression = [[0, 0], [imageHeight, imageWidth]];

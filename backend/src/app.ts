@@ -33,8 +33,12 @@ import routes from './routes/index.js';
 export const createApp = (): Application => {
   const app: Application = express();
 
-  // Middleware pour la sécurité et le CORS
-  app.use(cors(corsOptions));
+  // Configuration CORS plus permissive
+  app.use(cors({
+    origin: '*',  // Permet l'accès depuis n'importe quelle origine
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true
+  }));
 
   // Middleware pour parser les requêtes JSON et URL-encoded
   app.use(express.json({ limit: '10mb' }));
