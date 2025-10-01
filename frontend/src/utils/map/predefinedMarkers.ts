@@ -38,9 +38,9 @@ const predefinedMarkers = [
     popup: 'Training Camp at 1580, 4488'
   },
   {
-    position: [3104, 3220] as L.LatLngExpression,
+    position: [2856, 3770] as L.LatLngExpression,
     icon: castleIcon,
-    popup: 'Castle at 3104, 3220'
+    popup: 'Castle at 2856, 3770'
   }
 ];
 
