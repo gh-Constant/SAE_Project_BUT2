@@ -48,6 +48,13 @@ export const castleIcon = L.divIcon({
   iconAnchor: [10, 26]
 });
 
+export const prestataireIcon = L.divIcon({
+  html: '<div style="position: relative; font-size: 14px; border: 1px solid #059669; background: #ecfdf5; border-radius: 3px; padding: 1px; margin-bottom: 6px;"><i class="fas fa-store" style="color: #047857;"></i></div><div style="width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 6px solid #ecfdf5; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);"></div>',
+  className: 'prestataire-marker',
+  iconSize: [20, 26],
+  iconAnchor: [10, 26]
+});
+
 export const clickIcon = L.divIcon({
   html: '<div style="position: relative; font-size: 14px; border: 1px solid black; background: white; border-radius: 3px; padding: 1px; margin-bottom: 6px;"><i class="fas fa-location-dot" style="color: #dc3545;"></i></div><div style="width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 6px solid white; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);"></div>',
   className: 'click-marker',

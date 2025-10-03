@@ -59,7 +59,16 @@
           <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6" style="font-family: 'Arial Black', Arial, sans-serif; letter-spacing: -0.01em;">
             {{ t('map.title') }}
           </h2>
-          <div id="map" class="h-64 md:h-96 w-full border rounded-lg shadow bg-gray-200"></div>
+          <div id="map" class="h-[28rem] md:h-[40rem] w-full border rounded-lg shadow bg-gray-200"></div>
+          <div v-if="isDev" class="mt-4 flex justify-center">
+            <button @click="showMarkerData = !showMarkerData" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
+              {{ showMarkerData ? 'Hide' : 'Show' }} Marker Data ({{ markerPositions.length }})
+            </button>
+          </div>
+          <div v-if="isDev && showMarkerData && markerPositions.length > 0" class="mt-4 bg-gray-100 p-3 rounded text-xs font-mono max-h-48 overflow-y-auto">
+            <p class="font-semibold mb-1">Marker Positions JSON:</p>
+            <pre>{{ JSON.stringify(markerPositions, null, 2) }}</pre>
+          </div>
           <div class="mt-4 text-center">
             <p class="text-xs md:text-sm text-gray-600 italic bg-gray-50 rounded p-2 inline-block">
               {{ t('map.instructions') }}
@@ -88,8 +97,7 @@
 
 
 <script setup lang="ts">
-// Your existing script remains unchanged.
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -100,6 +108,9 @@ const { t } = useI18n();
 
 let map: L.Map;
 let markers: L.Marker[] = [];
+const markerPositions = ref<number[][]>([]);
+const showMarkerData = ref(false);
+const isDev = import.meta.env.DEV;
 
 function setupLeafletIcons() {
   delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -108,28 +119,39 @@ function setupLeafletIcons() {
   });
 }
 
+// Fonction pour les développeurs : permet d'ajouter des marqueurs en cliquant sur la carte en mode développement.
+// Pratique pour tester les positions sans coder à chaque fois.
 function addClickMarker(e: L.LeafletMouseEvent) {
+  const lat = Math.round(e.latlng.lat);
+  const lng = Math.round(e.latlng.lng);
+  const popupText = t('map.popup', { lat, lng });
   const marker = L.marker(e.latlng, { icon: clickIcon })
     .addTo(map)
-    .bindPopup(t('map.popup', { lat: e.latlng.lat.toFixed(0), lng: e.latlng.lng.toFixed(0) }))
+    .bindPopup(popupText)
     .openPopup();
+
+  // Ajouter la position au tableau
+    markerPositions.value.push([lat, lng]);
+
   marker.on('click', () => {
     map.removeLayer(marker);
     const index = markers.indexOf(marker);
     if (index > -1) {
       markers.splice(index, 1);
+      // Retirer du tableau des positions
+            markerPositions.value.splice(index, 1);
     }
   });
   markers.push(marker);
 }
 
 function initializeMap() {
-  // Check if the map container exists before initializing
-  const mapElement = document.getElementById('map');
+  // Vérifier si le conteneur de la carte existe avant d'initialiser
+    const mapElement = document.getElementById('map');
   if (!mapElement) return;
 
-  // Prevent re-initialization
-  if (map) {
+  // Empêcher la ré-initialisation
+    if (map) {
     map.remove();
   }
 
