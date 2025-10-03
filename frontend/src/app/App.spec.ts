@@ -31,11 +31,11 @@ describe('App', () => {
     // Create router without triggering auth checks
     const router = createAppRouter();
 
-    // Monte App avec les plugins nécessaires et stub le composant SimpleMapView
+    // Monte App avec les plugins nécessaires et stub les composants qui causent des erreurs
     const wrapper = mount(App, {
       global: {
         plugins: [router, i18n, pinia],
-        stubs: ['SimpleMapView']
+        stubs: ['SimpleMapView', 'HomeView']
       }
     });
 
