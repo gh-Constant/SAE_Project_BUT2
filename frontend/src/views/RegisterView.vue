@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import LanguageSwitcher from '@/components/navbar/LanguageSwitcher.vue'
-import { UserIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -202,10 +201,10 @@ const handleRegister = async () => {
                   class="p-1.5 rounded-md"
                   :class="selectedRole === 'aventurier' ? 'bg-orange-100' : 'bg-gray-100'"
                 >
-                  <UserIcon
-                    class="w-5 h-5"
+                  <i
+                    class="fas fa-user w-5 h-5"
                     :class="selectedRole === 'aventurier' ? 'text-orange-500' : 'text-gray-400'"
-                  />
+                  ></i>
                 </div>
                 <span
                   class="font-medium text-xs"
@@ -242,10 +241,10 @@ const handleRegister = async () => {
                   class="p-1.5 rounded-md"
                   :class="selectedRole === 'prestataire' ? 'bg-orange-100' : 'bg-gray-100'"
                 >
-                  <ShoppingBagIcon
-                    class="w-5 h-5"
+                  <i
+                    class="fas fa-shopping-bag w-5 h-5"
                     :class="selectedRole === 'prestataire' ? 'text-orange-500' : 'text-gray-400'"
-                  />
+                  ></i>
                 </div>
                 <span
                   class="font-medium text-xs"
@@ -343,8 +342,8 @@ const handleRegister = async () => {
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-3">
                 <div class="p-2 bg-orange-100 rounded-lg">
-                  <UserIcon v-if="selectedRole === 'aventurier'" class="w-5 h-5 text-orange-500" />
-                  <ShoppingBagIcon v-else class="w-5 h-5 text-orange-500" />
+                  <i v-if="selectedRole === 'aventurier'" class="fas fa-user w-5 h-5 text-orange-500"></i>
+                  <i v-else class="fas fa-shopping-bag w-5 h-5 text-orange-500"></i>
                 </div>
                 <div class="text-left">
                   <p class="text-sm font-medium text-gray-700">Selected Role</p>

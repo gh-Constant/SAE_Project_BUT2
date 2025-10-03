@@ -34,12 +34,7 @@ export const createApp = (): Application => {
   const app: Application = express();
 
   // Configuration CORS plus permissive
-  app.use(cors({
-    origin: '*',  // Permet l'accès depuis n'importe quelle origine
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    credentials: true
-  }));
-
+  app.use(cors(corsOptions));
   // Middleware pour parser les requêtes JSON et URL-encoded
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
