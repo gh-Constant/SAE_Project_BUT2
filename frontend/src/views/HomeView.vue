@@ -78,6 +78,28 @@
       </div>
     </section>
 
+    <!-- Marker Widget Modal -->
+    <Teleport to="body">
+      <Transition name="modal">
+        <div v-if="selectedMarker" class="fixed inset-0 z-[9999] flex items-center justify-center p-4" @click.self="closeMarkerWidget">
+          <div class="absolute inset-0 bg-black opacity-50" @click="closeMarkerWidget"></div>
+          <div class="relative z-10 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <MarkerWidget
+              :title="selectedMarker.title"
+              :bannerImage="selectedMarker.bannerImage"
+              :owner="selectedMarker.owner"
+              :type="selectedMarker.type"
+              :cost="selectedMarker.cost"
+              :available="selectedMarker.available"
+              :description="selectedMarker.description"
+              :additionalImages="selectedMarker.additionalImages"
+              @close="closeMarkerWidget"
+            />
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+
     <!-- CTA Section -->
     <section class="bg-orange-50">
       <div class="max-w-3xl mx-auto text-center py-10 px-4 sm:py-16 sm:px-6 lg:px-8">
@@ -101,8 +123,9 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { addPredefinedMarkers } from '../utils/map/predefinedMarkers';
+import { addPredefinedMarkers, type MarkerData } from '../utils/map/predefinedMarkers';
 import { clickIcon } from '../utils/map/iconsMarkers';
+import MarkerWidget from '../components/MarkerWidget.vue';
 
 const { t } = useI18n();
 
@@ -111,6 +134,7 @@ let markers: L.Marker[] = [];
 const markerPositions = ref<number[][]>([]);
 const showMarkerData = ref(false);
 const isDev = import.meta.env.DEV;
+const selectedMarker = ref<MarkerData | null>(null);
 
 function setupLeafletIcons() {
   delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -145,6 +169,14 @@ function addClickMarker(e: L.LeafletMouseEvent) {
   markers.push(marker);
 }
 
+function closeMarkerWidget() {
+  selectedMarker.value = null;
+}
+
+function handleMarkerClick(markerData: MarkerData) {
+  selectedMarker.value = markerData;
+}
+
 function initializeMap() {
   // Vérifier si le conteneur de la carte existe avant d'initialiser
     const mapElement = document.getElementById('map');
@@ -175,10 +207,32 @@ function initializeMap() {
 onMounted(() => {
   setupLeafletIcons();
   initializeMap();
-  addPredefinedMarkers(map, markers);
+  addPredefinedMarkers(map, markers, handleMarkerClick);
 
   if (import.meta.env.DEV) {
     map.on('click', addClickMarker);
   }
 });
 </script>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active .relative,
+.modal-leave-active .relative {
+  transition: transform 0.3s ease;
+}
+
+.modal-enter-from .relative,
+.modal-leave-to .relative {
+  transform: scale(0.9);
+}
+</style>
