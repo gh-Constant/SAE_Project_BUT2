@@ -5,8 +5,8 @@ import prisma from "../prisma.js";
 //TODO: Add JWT token when the player register also
 
 const roleMap: { [key: string]: number } = {
-  'aventurer': 1,
-  'artisan': 2,
+  'aventurier': 1,
+  'prestataire': 2,
 };
 
 export async function login(email: string, password: string) {

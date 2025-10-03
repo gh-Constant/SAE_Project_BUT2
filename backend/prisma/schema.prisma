@@ -17,24 +17,37 @@ model Role {
   @@map("roles")
 }
 
+model PrestataireType {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique(map: "name") @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  users     User[]
+
+  @@map("prestataireTypes")
+}
+
 model User {
-  id             Int         @id @default(autoincrement())
-  firstname      String      @db.VarChar(255)
-  lastname       String      @db.VarChar(255)
-  email          String      @unique(map: "email") @db.VarChar(255)
-  passwordHashed String      @map("password_hashed") @db.Text
-  roleId         Int
-  isActive       Boolean     @default(true) @map("is_active")
-  isVerified     Boolean     @default(false) @map("is_verified")
-  xp             Int         @default(0)
-  level          Int         @default(0)
-  createdAt      DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
-  locations      Location?
-  userQuests     UserQuest[]
-  role           Role        @relation(fields: [roleId], references: [id], onUpdate: NoAction, map: "fk_users_roleId")
+  id                 Int              @id @default(autoincrement())
+  firstname          String           @db.VarChar(255)
+  lastname           String           @db.VarChar(255)
+  email              String           @unique(map: "email") @db.VarChar(255)
+  passwordHashed     String           @map("password_hashed") @db.Text
+  roleId             Int
+  prestataireTypeId  Int?
+  isActive           Boolean          @default(true) @map("is_active")
+  isVerified         Boolean          @default(false) @map("is_verified")
+  xp                 Int              @default(0)
+  level              Int              @default(0)
+  createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt          DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  locations          Location?
+  userQuests         UserQuest[]
+  role               Role             @relation(fields: [roleId], references: [id], onUpdate: NoAction, map: "fk_users_roleId")
+  prestataireType    PrestataireType? @relation(fields: [prestataireTypeId], references: [id], onUpdate: NoAction, map: "fk_users_prestataireTypeId")
 
   @@index([roleId], map: "fk_users_roleId")
+  @@index([prestataireTypeId], map: "fk_users_prestataireTypeId")
   @@map("users")
 }
 

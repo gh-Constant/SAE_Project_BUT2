@@ -1,7 +1,7 @@
 import prisma from '../prisma.js';
 
 export async function seedRoles() {
-  const roles = ['aventurer', 'artisan', 'admin'];
+  const roles = ['aventurier', 'prestataire', 'admin'];
 
   for (const name of roles) {
     await prisma.role.upsert({

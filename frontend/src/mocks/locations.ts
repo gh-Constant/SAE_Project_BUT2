@@ -1,4 +1,4 @@
-import { ARTISAN_USER_ID } from './users';
+import { PRESTATAIRE_USER_ID } from './users';
 
 export interface LocationMock {
   id: number;
@@ -22,7 +22,7 @@ export const LOCATIONS: LocationMock[] = [
     description: 'Une forge ancestrale où le métal chante sous le marteau.',
     price: 150.0,
     available: false,
-    userId: ARTISAN_USER_ID,
+    userId: PRESTATAIRE_USER_ID,
   },
   {
     id: 2,
