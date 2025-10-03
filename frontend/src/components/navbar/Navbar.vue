@@ -9,12 +9,11 @@
           to="/"
           class="flex-shrink-0 flex items-center cursor-pointer"
         >
-          <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center mr-3 transition-transform hover:scale-105">
-            <span class="text-white font-bold text-sm">M</span>
-          </div>
-          <h1 class="text-xl font-bold text-gray-900 hover:text-orange-600 transition-colors">
-            MedievalEvent
-          </h1>
+          <img 
+            src="/images/Logo1.png" 
+            alt="MedievalEvent Logo" 
+            class="h-16 w-auto transition-transform hover:scale-105"
+          />
         </router-link>
       </div>
     </div>

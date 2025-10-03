@@ -7,11 +7,13 @@ import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="flex items-center mb-4 md:mb-0">
-          <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center mr-3">
-            <span class="text-white font-bold text-sm">M</span>
-          </div>
+          <img 
+            src="/images/Logo1.png" 
+            alt="MedievalEvent Logo" 
+            class="h-12 w-auto mr-3"
+          />
           <span class="text-gray-600 text-sm">
-            © 2024 MedievalEvent. All rights reserved.
+            © 2025 MedievalEvent. All rights reserved.
           </span>
         </div>
         <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">

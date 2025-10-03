@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import Navbar from '@/components/navbar/Navbar.vue'
 import Footer from '@/components/Footer.vue'
-import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
-const authStore = useAuthStore()
+const route = useRoute()
 
-// Vérifie si l'utilisateur est connecté au démarrage de l'application
-onMounted(() => {
-  authStore.checkAuth()
+const isLoginOrRegisterPage = computed(() => {
+  return route.path === '/login' || route.path === '/register'
 })
 </script>
 
 <template>
   <div id="app" class="h-screen flex flex-col">
-    <Navbar />
+    <Navbar v-if="!isLoginOrRegisterPage" />
     <main class="flex-1 overflow-auto">
       <RouterView />
     </main>
-    <Footer />
+    <Footer v-if="!isLoginOrRegisterPage" />
   </div>
 </template>
 

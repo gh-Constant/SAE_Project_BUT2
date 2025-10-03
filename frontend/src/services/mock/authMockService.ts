@@ -49,7 +49,6 @@ export const authMockService = {
         email,
         password_hashed: password,  // Ici le mot de passe n’est pas hashé, juste pour le mock
         roleId: role === 'aventurier' ? 1 : 2, // Assigne un rôle par défaut selon le type (1: aventurier 2: prestataire) (Le 3 n'est pas present car on ne peut pas s'enregistrer en tant qu'admin directement)
-        role: { id: role === 'aventurier' ? 1 : 2, name: role },
         is_active: true,
         is_verified: false,
         xp: 0,

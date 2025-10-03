@@ -1,28 +1,30 @@
 /**
- * @file authServices.ts
+ * @file authService.ts
  * @description
  * Service d'authentification qui choisit entre le mode mock et le mode réel.
- * Fournit les fonctions login et register pour gérer les utilisateurs.
+ * Fournit les fonctions login, register et validation de token pour gérer les utilisateurs.
  *
  * @utilité
  * - Permet de tester l'application avec des données mock sans backend.
  * - Prépare l'intégration avec un vrai backend plus tard.
- * - Fournit une interface unique pour la connexion et l'inscription.
+ * - Fournit une interface unique pour la connexion, l'inscription et la validation.
+ * - Gère la communication avec l'API backend pour l'authentification.
  *
  * @exports
  * - authService : service d'authentification utilisé dans l'application.
  *
  * @remarques
  * - Le mode mock est activé si VITE_NO_BACKEND est true.
- * - Les fonctions du mode réel appellent l'API backend.
+ * - Les fonctions du mode réel appellent l'API backend avec fetch.
+ * - validateToken utilise maintenant /me au lieu de /verify pour simplifier.
  */
 
-//TODO: Create an api service to keep the project with a better organisation
+//. TODO: Créer un service API pour garder le projet avec une meilleure organisation
 
 import { UserMock } from '@/mocks/users'
 import { authMockService } from './mock/authMockService'
 
-// Vérifie si on est en mode mock ou réel selon la variable d'environnement
+// Vérifier si on est en mode mock ou réel selon la variable d'environnement
 // VITE_NO_BACKEND=true signifie qu'on n'a pas de backend disponible
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 
@@ -45,7 +47,7 @@ const authServiceImpl = {
     }
 
     const data = await response.json();
-    // Store token
+    // Store only token for security
     localStorage.setItem('authToken', data.token);
     return data.user;
   },
@@ -65,6 +67,95 @@ const authServiceImpl = {
 
     const user = await response.json();
     return user;
+  },
+
+  // Validation du token et récupération des informations utilisateur
+  validateToken: async (): Promise<boolean> => {
+    const token = localStorage.getItem('authToken'); // Récupérer le token du localStorage
+    if (!token) return false; // Pas de token = non valide
+
+    try {
+      // Appeler /me pour valider le token (le middleware backend vérifie automatiquement)
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}` // Envoyer le token dans l'en-tête
+        },
+      });
+
+      return response.ok; // Si la réponse est OK, le token est valide
+    } catch (error) {
+      return false; // Erreur réseau = token invalide
+    }
+  },
+
+  getCurrentUser: async (): Promise<UserMock | null> => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return null;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const user = await response.json();
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  logout: () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('currentUser'); // Remove for security
+  },
+
+  getMyRole: async (): Promise<any> => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return null;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/role`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      return await response.json();
+    } catch (error) {
+      return null;
+    }
+  },
+
+  getUserRole: async (userId: number): Promise<any> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/roles/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user role');
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error('Failed to fetch user role');
+    }
   }
 }
 
