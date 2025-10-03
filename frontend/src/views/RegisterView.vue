@@ -13,7 +13,7 @@ const password = ref('')
 const confirmPassword = ref('')
 const firstName = ref('')
 const lastName = ref('')
-const selectedRole = ref<'aventurier' | 'artisan'>('aventurier')
+const selectedRole = ref<'aventurier' | 'prestataire'>('aventurier')
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const showStep2 = ref(false)
@@ -230,32 +230,32 @@ const handleRegister = async () => {
               </div>
             </button>
 
-            <!-- Artisan Role -->
+            <!-- prestataire Role -->
             <button
               type="button"
-              @click="selectedRole = 'artisan'"
+              @click="selectedRole = 'prestataire'"
               class="relative p-3 rounded-lg border-2 transition-all cursor-pointer"
-              :class="selectedRole === 'artisan' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 bg-white hover:border-gray-300'"
+              :class="selectedRole === 'prestataire' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 bg-white hover:border-gray-300'"
             >
               <div class="flex flex-col items-center space-y-1">
                 <div
                   class="p-1.5 rounded-md"
-                  :class="selectedRole === 'artisan' ? 'bg-orange-100' : 'bg-gray-100'"
+                  :class="selectedRole === 'prestataire' ? 'bg-orange-100' : 'bg-gray-100'"
                 >
                   <ShoppingBagIcon
                     class="w-5 h-5"
-                    :class="selectedRole === 'artisan' ? 'text-orange-500' : 'text-gray-400'"
+                    :class="selectedRole === 'prestataire' ? 'text-orange-500' : 'text-gray-400'"
                   />
                 </div>
                 <span
                   class="font-medium text-xs"
-                  :class="selectedRole === 'artisan' ? 'text-orange-500' : 'text-gray-400'"
+                  :class="selectedRole === 'prestataire' ? 'text-orange-500' : 'text-gray-400'"
                 >
-                  Artisan
+                  Prestataire
                 </span>
               </div>
               <div
-                v-if="selectedRole === 'artisan'"
+                v-if="selectedRole === 'prestataire'"
                 class="absolute -top-1 -right-1"
               >
                 <div class="w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">

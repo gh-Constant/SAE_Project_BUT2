@@ -29,8 +29,8 @@ import prisma from "../prisma.js";
 
 // Mapping des rôles string vers les IDs de base de données
 const roleMap: { [key: string]: number } = {
-  'adventurer': 1, // Rôle aventurier
-  'artisan': 2,    // Rôle artisan
+  'aventurier': 1, // Rôle aventurier
+  'prestataire': 2,    // Rôle prestataire
 };
 
 export async function login(email: string, password: string) {

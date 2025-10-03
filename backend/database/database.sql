@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `locations` (
     CONSTRAINT `fk_locations_userId` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE SET NULL
     ) ENGINE=InnoDB COMMENT='Les détails sont dans le code. ON DELETE SET NULL est appliqué sur la clé étrangère userId.';
 
--- Table de référence pour les types de services qu'un Artisan peut activer
+-- Table de référence pour les types de services qu'un prestataire peut activer
 CREATE TABLE IF NOT EXISTS `services` (
                                           `id` INT NOT NULL AUTO_INCREMENT,
                                           `serviceCode` VARCHAR(255) NOT NULL UNIQUE,
