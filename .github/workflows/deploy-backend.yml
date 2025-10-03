@@ -80,7 +80,7 @@ jobs:
             # ✅ generate Prisma client from schema
             npx prisma generate &&
             # ✅ push schema into database
-            npx prisma db push
+            npx prisma migrate deploy
           "
 
 
