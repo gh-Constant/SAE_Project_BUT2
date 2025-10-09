@@ -153,10 +153,6 @@
       </div>
     </div>
 
-    <!-- Language Switcher - Bottom Left -->
-    <div class="fixed bottom-6 left-6 z-50">
-      <LanguageSwitcher />
-    </div>
   </div>
 </template>
 
@@ -164,7 +160,6 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import LanguageSwitcher from '@/components/navbar/LanguageSwitcher.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -220,6 +215,8 @@ const handleLogin = async () => {
     await authStore.login(email.value, password.value)
 
     console.log('Login successful:', authStore.user)
+    // Forcer la mise à jour de l'état d'authentification
+    await authStore.checkAuth()
     router.push('/')
 
   } catch (error) {
