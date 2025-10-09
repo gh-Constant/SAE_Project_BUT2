@@ -12,12 +12,12 @@ const isLoginOrRegisterPage = computed(() => {
 </script>
 
 <template>
-  <div id="app" class="h-screen flex flex-col">
+  <div id="app">
     <Navbar v-if="!isLoginOrRegisterPage" />
-    <main class="flex-1 overflow-auto">
+    <main>
       <RouterView />
     </main>
-    <Footer v-if="!isLoginOrRegisterPage" />
+    <Footer />
   </div>
 </template>
 
