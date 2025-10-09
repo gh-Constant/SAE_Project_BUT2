@@ -20,7 +20,7 @@ export interface MarkerData {
   position: L.LatLngExpression;
   icon: L.DivIcon;
   popup: string;
-  type: 'mainQuest' | 'prestataire';
+  type: 'story' | 'prestataire';
   title: string;
   bannerImage: string;
   owner?: string;
@@ -35,7 +35,7 @@ const predefinedMarkers: MarkerData[] = [
     position: [1747, 5072] as L.LatLngExpression,
     icon: houseIcon,
     popup: 'House at 1747, 5072',
-    type: 'mainQuest',
+    type: 'story',
     title: 'The Adventurer\'s House',
     bannerImage: 'images/locations/biletterie.png', // No specific image provided, keeping original
     owner: 'The Hero',
@@ -47,7 +47,7 @@ const predefinedMarkers: MarkerData[] = [
     position: [910, 4330] as L.LatLngExpression,
     icon: witchHouseIcon,
     popup: 'Witch House at 910, 4330',
-    type: 'mainQuest',
+    type: 'story',
     title: 'The Witch\'s Hut',
     bannerImage: 'images/locations/sorcerer.png',
     owner: 'Morgana the Witch',
@@ -59,7 +59,7 @@ const predefinedMarkers: MarkerData[] = [
     position: [1344, 3572] as L.LatLngExpression,
     icon: sageIcon,
     popup: 'The Great Sage at 1344, 3572',
-    type: 'mainQuest',
+    type: 'story',
     title: 'The Great Sage\'s Tower',
     bannerImage: 'images/locations/great_sage.jpg',
     owner: 'Eldric the Wise',
@@ -71,7 +71,7 @@ const predefinedMarkers: MarkerData[] = [
     position: [1580, 4488] as L.LatLngExpression,
     icon: trainingCampIcon,
     popup: 'Training Camp at 1580, 4488',
-    type: 'mainQuest',
+    type: 'story',
     title: 'The Training Grounds',
     bannerImage: 'images/locations/training_camp.png',
     owner: 'Captain Thorne',
@@ -83,7 +83,7 @@ const predefinedMarkers: MarkerData[] = [
     position: [2856, 3770] as L.LatLngExpression,
     icon: castleIcon,
     popup: 'Castle at 2856, 3770',
-    type: 'mainQuest',
+    type: 'story',
     title: 'The Royal Castle',
     bannerImage: 'images/medieval_image.jpg', // No specific image provided, keeping original
     owner: 'King Aldric III',
