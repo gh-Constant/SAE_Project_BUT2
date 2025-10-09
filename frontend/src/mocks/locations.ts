@@ -8,8 +8,9 @@ export interface LocationMock {
   description: string;
   // Les infos dynamiques de la BDD
   price: number;
-  available: boolean;
+  purchased: boolean;
   userId: number | null;
+  type?: 'prestataire' | 'mainQuest' | 'other';
 }
 
 export const FORGE_LOCATION_ID = 1;
@@ -21,8 +22,9 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Forge Grise',
     description: 'Une forge ancestrale où le métal chante sous le marteau.',
     price: 150.0,
-    available: false,
+    purchased: false,
     userId: PRESTATAIRE_USER_ID,
+    type: 'prestataire',
   },
   {
     id: 2,
@@ -30,8 +32,9 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Hutte de l\'Alchimiste',
     description: 'Des fioles bouillonnantes et des parchemins mystérieux vous attendent.',
     price: 120.0,
-    available: true,
+    purchased: true,
     userId: null,
+    type: 'mainQuest',
   },
   {
     id: 3,
@@ -39,7 +42,8 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Étal du Marchand',
     description: 'Un étal bien achalandé près de la place du marché.',
     price: 80.0,
-    available: true,
+    purchased: true,
     userId: null,
+    type: 'other',
   },
 ];

@@ -90,7 +90,7 @@
               :owner="selectedMarker.owner"
               :type="selectedMarker.type"
               :cost="selectedMarker.cost"
-              :available="selectedMarker.available"
+              :purchased="selectedMarker.purchased"
               :description="selectedMarker.description"
               :additionalImages="selectedMarker.additionalImages"
               @close="closeMarkerWidget"

@@ -5,7 +5,7 @@ interface MarkerWidgetProps {
   owner?: string;
   type: string;
   cost?: string | number;
-  available?: boolean;
+  purchased?: boolean;
   description: string;
   additionalImages?: string[];
 }
@@ -24,13 +24,15 @@ const emit = defineEmits<{
         :src="bannerImage"
         :alt="title"
         class="w-full h-full object-cover"
-      />
+      >
     </div>
 
     <!-- Content -->
     <div class="p-6">
       <!-- Title -->
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">{{ title }}</h2>
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        {{ title }}
+      </h2>
 
       <!-- Info Grid -->
       <div class="grid grid-cols-2 gap-4 mb-6">
@@ -47,18 +49,23 @@ const emit = defineEmits<{
           <span class="text-gray-600">{{ type }}</span>
         </div>
         <div class="info-item text-right">
-          <span class="font-semibold text-gray-700">Available:</span>
-          <span class="text-gray-600">{{ available ? 'Yes' : 'No' }}</span>
+          <span class="font-semibold text-gray-700">Purchased:</span>
+          <span class="text-gray-600">{{ purchased ? 'Yes' : 'No' }}</span>
         </div>
       </div>
 
       <!-- Description -->
       <div class="prose max-w-none">
-        <p class="text-gray-700 text-lg leading-relaxed">{{ description }}</p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          {{ description }}
+        </p>
       </div>
 
       <!-- Additional Images -->
-      <div v-if="additionalImages?.length" class="mt-6 grid grid-cols-2 gap-4">
+      <div
+        v-if="additionalImages?.length"
+        class="mt-6 grid grid-cols-2 gap-4"
+      >
         <div
           v-for="(image, index) in additionalImages"
           :key="index"
@@ -68,14 +75,17 @@ const emit = defineEmits<{
             :src="image"
             :alt="`Additional image ${index + 1}`"
             class="w-full h-full object-cover"
-          />
+          >
         </div>
       </div>
     </div>
 
     <!-- Footer -->
     <div class="px-6 py-4 bg-gray-50 flex justify-end">
-      <button @click="emit('close')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">
+      <button
+        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+        @click="emit('close')"
+      >
         Close
       </button>
     </div>
