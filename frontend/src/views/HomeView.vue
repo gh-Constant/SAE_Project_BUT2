@@ -101,7 +101,7 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { addPredefinedMarkers } from '../utils/map/predefinedMarkers';
+import { locationService } from '../services/locationService';
 import { clickIcon } from '../utils/map/iconsMarkers';
 
 const { t } = useI18n();
@@ -172,10 +172,12 @@ function initializeMap() {
   map.fitBounds(imageBounds);
 }
 
-onMounted(() => {
+onMounted(async () => {
   setupLeafletIcons();
   initializeMap();
-  addPredefinedMarkers(map, markers);
+
+  // Add all location markers to the map
+  await locationService.addLocationsToMap(map, markers);
 
   if (import.meta.env.DEV) {
     map.on('click', addClickMarker);
