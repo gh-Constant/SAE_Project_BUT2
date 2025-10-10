@@ -35,6 +35,8 @@ model User {
   passwordHashed     String           @map("password_hashed") @db.Text
   roleId             Int
   prestataireTypeId  Int?
+  avatarUrl          String?          @map("avatar_url") @db.VarChar(255)
+  avatarType         String?          @map("avatar_type") @db.VarChar(50)
   isActive           Boolean          @default(true) @map("is_active")
   isVerified         Boolean          @default(false) @map("is_verified")
   xp                 Int              @default(0)

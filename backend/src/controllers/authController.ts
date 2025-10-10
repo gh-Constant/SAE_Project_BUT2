@@ -38,8 +38,8 @@ export const authController = {
 
   async register(req: Request, res: Response) {
     try {
-      const { firstName, lastName, email, password, role } = req.body; // Extraire les données d'inscription
-      const user = await register(firstName, lastName, email, password, role); // Créer un nouvel utilisateur
+      const { firstName, lastName, email, password, role, avatarUrl, avatarType } = req.body; // Extraire les données d'inscription
+      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType); // Créer un nouvel utilisateur
       res.status(201).json(user); // Retourner les données de l'utilisateur créé
     } catch (error) {
       res.status(400).json({ error: (error as Error).message }); // Retourner une erreur de validation
@@ -58,7 +58,9 @@ export const authController = {
           firstname: true,
           lastname: true,
           email: true,
-          roleId: true
+          roleId: true,
+          avatarUrl: true,
+          avatarType: true
         }
       });
 

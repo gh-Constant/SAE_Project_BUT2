@@ -7,6 +7,8 @@ export interface UserMock {
   email: string;
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
   roleId: number;
+  avatarUrl?: string; // URL de l'avatar
+  avatarType?: string; // Type d'avatar (gallery, upload)
   is_active: boolean;
   is_verified: boolean;
   xp: number;
@@ -25,6 +27,8 @@ export const USERS: UserMock[] = [
     email: 'prestataire@medieval.com',
     password_hashed: 'password123',
     roleId: PRESTATAIRE_ROLE_ID,
+    avatarUrl: '/images/Avatar-images/con15.png',
+    avatarType: 'gallery',
     is_active: true,
     is_verified: false,
     xp: 250,
@@ -37,6 +41,8 @@ export const USERS: UserMock[] = [
     email: 'aventurier@medieval.com',
     password_hashed: 'password123',
     roleId: AVENTURIER_ROLE_ID,
+    avatarUrl: '/images/Avatar-images/con23.png',
+    avatarType: 'gallery',
     is_active: true,
     is_verified: false,
     xp: 80,
@@ -49,6 +55,8 @@ export const USERS: UserMock[] = [
     email: 'admin@medieval.com',
     password_hashed: 'password123',
     roleId: ADMIN_ROLE_ID,
+    avatarUrl: '/images/Avatar-images/con1.png',
+    avatarType: 'gallery',
     is_active: true,
     is_verified: false,
     xp: 9999,

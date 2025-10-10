@@ -54,7 +54,7 @@ export async function login(email: string, password: string) {
   return { user, token }; // Retourne l'utilisateur et son token
 }
 
-export async function register(firstName: string, lastName: string, email: string, password: string, role: string) {
+export async function register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string) {
   // Vérifie si l'utilisateur existe déjà
   const exists = await prisma.user.findUnique({ where: { email } });
   if (exists) throw new Error("Utilisateur déjà existant");
@@ -73,7 +73,9 @@ export async function register(firstName: string, lastName: string, email: strin
       lastname: lastName,
       email,
       passwordHashed: hashedPassword,
-      roleId
+      roleId,
+      avatarUrl: avatarUrl || null,
+      avatarType: avatarType || null
     }
   });
 }

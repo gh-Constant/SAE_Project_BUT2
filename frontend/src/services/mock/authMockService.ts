@@ -33,7 +33,7 @@ export const authMockService = {
 
   // Fonction register en mode mock
 
-  register(firstName: string, lastName: string, email: string, password: string, role: string) {
+  register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string) {
     return new Promise<UserMock>((resolve, reject) => {
       // Vérifie si l'email existe déjà
       const existingUser = USERS.find(u => u.email === email);
@@ -47,8 +47,10 @@ export const authMockService = {
         firstname: firstName,
         lastname: lastName,
         email,
-        password_hashed: password,  // Ici le mot de passe n’est pas hashé, juste pour le mock
+        password_hashed: password,  // Ici le mot de passe n'est pas hashé, juste pour le mock
         roleId: role === 'aventurier' ? 1 : 2, // Assigne un rôle par défaut selon le type (1: aventurier 2: prestataire) (Le 3 n'est pas present car on ne peut pas s'enregistrer en tant qu'admin directement)
+        avatarUrl: avatarUrl || undefined, // Ajout de l'avatar
+        avatarType: avatarType || undefined, // Ajout du type d'avatar
         is_active: true,
         is_verified: false,
         xp: 0,

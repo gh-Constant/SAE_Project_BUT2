@@ -56,13 +56,13 @@ onUnmounted(() => {
           <template v-if="!isLoggedIn">
             <router-link
               to="/login"
-              class="px-4 py-2 text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
+              class="px-6 py-2.5 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
             >
-              Login
+              Sign In
             </router-link>
             <router-link
               to="/register"
-              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              class="px-6 py-2.5 bg-orange-500 text-white rounded-full hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 font-semibold text-sm shadow-md hover:shadow-lg"
             >
               Register
             </router-link>
@@ -70,23 +70,47 @@ onUnmounted(() => {
           <div v-else class="relative dropdown-container">
             <button
               @click="toggleDropdown"
-              class="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
+              class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-lg hover:bg-orange-50 transition-all duration-200"
             >
-              <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <i class="fas fa-user text-white text-sm"></i>
+              <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden border-2 border-orange-200">
+                <img 
+                  v-if="auth.user?.avatarUrl" 
+                  :src="auth.user.avatarUrl" 
+                  :alt="auth.user.firstname"
+                  class="w-full h-full object-cover"
+                />
+                <i v-else class="fas fa-user text-white text-sm"></i>
               </div>
-              <span class="text-sm font-medium">Mon Compte</span>
-              <i class="fas fa-chevron-down text-xs"></i>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-900">
+                  {{ auth.user?.firstname }} {{ auth.user?.lastname }}
+                </div>
+                <div class="text-xs text-gray-500">
+                  {{ auth.user?.email }}
+                </div>
+              </div>
+              <i class="fas fa-chevron-down text-xs text-gray-400"></i>
             </button>
             
             <!-- Dropdown Menu -->
             <div
               v-if="showDropdown"
-              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+              class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50 border border-gray-200"
             >
+              <!-- User Info Header -->
+              <div class="px-4 py-2 border-b border-gray-100">
+                <div class="text-sm font-semibold text-gray-900">
+                  {{ auth.user?.firstname }} {{ auth.user?.lastname }}
+                </div>
+                <div class="text-xs text-gray-500">
+                  {{ auth.user?.email }}
+                </div>
+              </div>
+              
+              <!-- Menu Items -->
               <button
                 @click="handleLogout"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
               >
                 <i class="fas fa-sign-out-alt mr-3 text-gray-400"></i>
                 Se déconnecter

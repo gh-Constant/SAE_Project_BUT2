@@ -12,6 +12,8 @@ const confirmPassword = ref('')
 const firstName = ref('')
 const lastName = ref('')
 const selectedRole = ref<'aventurier' | 'prestataire'>('aventurier')
+const selectedAvatar = ref<string>('')
+const showAvatarModal = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const showStep2 = ref(false)
@@ -34,15 +36,56 @@ const toggleConfirmPasswordVisibility = () => {
 }
 
 const canProceedToStep2 = () => {
-  return firstName.value.trim() !== '' && lastName.value.trim() !== ''
+  return firstName.value.trim() !== '' && lastName.value.trim() !== '' && selectedAvatar.value !== ''
+}
+
+// Générer la liste des avatars disponibles
+const availableAvatars = Array.from({ length: 42 }, (_, i) => `con${i + 1}.png`)
+
+const selectAvatar = (avatar: string) => {
+  selectedAvatar.value = avatar
+  showAvatarModal.value = false
+}
+
+const openAvatarModal = () => {
+  showAvatarModal.value = true
+}
+
+const closeAvatarModal = () => {
+  showAvatarModal.value = false
+}
+
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (file) {
+    // Vérifier que c'est bien une image
+    if (!file.type.startsWith('image/')) {
+      errorMessage.value = 'Veuillez sélectionner un fichier image valide'
+      return
+    }
+    
+    // Créer une URL pour l'image téléchargée
+    const imageUrl = URL.createObjectURL(file)
+    selectedAvatar.value = imageUrl
+    showAvatarModal.value = false
+  }
 }
 
 const validateField = (field: string, value: string) => {
   switch (field) {
     case 'firstName':
+      if (!value.trim()) {
+        fieldErrors.value[field] = 'First Name is required'
+      } else if (value.trim().length < 2) {
+        fieldErrors.value[field] = 'Must be at least 2 characters'
+      } else {
+        fieldErrors.value[field] = ''
+      }
+      break
     case 'lastName':
       if (!value.trim()) {
-        fieldErrors.value[field] = 'This field is required'
+        fieldErrors.value[field] = 'Last Name is required'
       } else if (value.trim().length < 2) {
         fieldErrors.value[field] = 'Must be at least 2 characters'
       } else {
@@ -52,7 +95,7 @@ const validateField = (field: string, value: string) => {
     case 'email':
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!value.trim()) {
-        fieldErrors.value[field] = 'Email is required'
+        fieldErrors.value[field] = 'Email Address is required'
       } else if (!emailRegex.test(value)) {
         fieldErrors.value[field] = 'Please enter a valid email'
       } else {
@@ -70,7 +113,7 @@ const validateField = (field: string, value: string) => {
       break
     case 'confirmPassword':
       if (!value) {
-        fieldErrors.value[field] = 'Please confirm your password'
+        fieldErrors.value[field] = 'Confirm Password is required'
       } else if (value !== password.value) {
         fieldErrors.value[field] = 'Passwords do not match'
       } else {
@@ -101,10 +144,25 @@ const handleRegister = async () => {
   errorMessage.value = ''
 
   try {
-    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value)
+    // Préparer les données d'avatar
+    let avatarUrl = null
+    let avatarType = null
+    
+    if (selectedAvatar.value) {
+      if (selectedAvatar.value.startsWith('blob:')) {
+        // Image uploadée - pour l'instant on ne peut pas l'envoyer au backend
+        // TODO: Implémenter l'upload vers le serveur
+        avatarUrl = selectedAvatar.value
+        avatarType = 'upload'
+      } else {
+        // Image de la galerie
+        avatarUrl = `/images/Avatar-images/${selectedAvatar.value}`
+        avatarType = 'gallery'
+      }
+    }
+    
+    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value, avatarUrl, avatarType)
     console.log('Registration successful:', authStore.user)
-    // Forcer la mise à jour de l'état d'authentification
-    await authStore.checkAuth()
     router.push('/')
   } catch (error) {
     console.error('Registration failed:', error)
@@ -272,6 +330,52 @@ const handleRegister = async () => {
           </div>
         </div>
 
+        <!-- Avatar Selection (Only in Step 1) -->
+        <div v-if="!showStep2" class="mb-6">
+          <div class="relative">
+            <div class="flex items-center justify-between w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-200 transition-all duration-200">
+              <!-- Avatar Preview -->
+              <div class="flex items-center space-x-3">
+                <div v-if="selectedAvatar" class="w-12 h-12 rounded-full overflow-hidden border-2 border-orange-500 flex-shrink-0">
+                  <img 
+                    :src="selectedAvatar.startsWith('blob:') ? selectedAvatar : `/images/Avatar-images/${selectedAvatar}`" 
+                    :alt="selectedAvatar"
+                    class="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <div v-else class="w-12 h-12 rounded-full bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-user text-gray-400"></i>
+                </div>
+                <span class="text-gray-700 font-medium">
+                  {{ selectedAvatar ? 'Avatar sélectionné' : 'Choisir un avatar' }}
+                </span>
+              </div>
+              
+              <!-- Avatar Selection Buttons -->
+              <div class="flex space-x-2">
+                <button
+                  type="button"
+                  @click="openAvatarModal"
+                  class="px-3 py-1 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors text-sm font-medium"
+                >
+                  <i class="fas fa-images mr-1"></i>
+                  Galerie
+                </button>
+                <label class="px-3 py-1 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors text-sm font-medium cursor-pointer">
+                  <i class="fas fa-upload mr-1"></i>
+                  Importer
+                  <input
+                    type="file"
+                    accept="image/*"
+                    @change="handleFileUpload"
+                    class="hidden"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Step 1: Name Information -->
         <div v-if="!showStep2" class="mb-8">
           <!-- Name Inputs -->
@@ -281,6 +385,7 @@ const handleRegister = async () => {
                 id="firstName"
                 v-model="firstName"
                 @blur="validateField('firstName', firstName)"
+                @input="validateField('firstName', firstName)"
                 type="text"
                 class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
                 :class="fieldErrors.firstName ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
@@ -289,20 +394,20 @@ const handleRegister = async () => {
               />
               <label
                 for="firstName"
-                class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
-                :class="firstName ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
+              :class="firstName ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
                 :style="{ color: fieldErrors.firstName ? '#ef4444' : firstName ? '#f97316' : '#6b7280' }"
               >
-                First Name
+                {{ fieldErrors.firstName || 'First Name' }}
               </label>
             </div>
-            <p v-if="fieldErrors.firstName" class="text-red-500 text-xs mt-1">{{ fieldErrors.firstName }}</p>
 
             <div class="relative">
               <input
                 id="lastName"
                 v-model="lastName"
                 @blur="validateField('lastName', lastName)"
+                @input="validateField('lastName', lastName)"
                 type="text"
                 class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
                 :class="fieldErrors.lastName ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
@@ -311,14 +416,13 @@ const handleRegister = async () => {
               />
               <label
                 for="lastName"
-                class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
-                :class="lastName ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+                class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
+                :class="lastName ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
                 :style="{ color: fieldErrors.lastName ? '#ef4444' : lastName ? '#f97316' : '#6b7280' }"
               >
-                Last Name
+                {{ fieldErrors.lastName || 'Last Name' }}
               </label>
             </div>
-            <p v-if="fieldErrors.lastName" class="text-red-500 text-xs mt-1">{{ fieldErrors.lastName }}</p>
           </div>
 
           <!-- Next Button -->
@@ -342,10 +446,19 @@ const handleRegister = async () => {
           <div class="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-xl">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-3">
-                <div class="p-2 bg-orange-100 rounded-lg">
-                  <i v-if="selectedRole === 'aventurier'" class="fas fa-user w-5 h-5 text-orange-500"></i>
-                  <i v-else class="fas fa-shopping-bag w-5 h-5 text-orange-500"></i>
+                <!-- Avatar Display -->
+                <div v-if="selectedAvatar" class="w-12 h-12 rounded-full overflow-hidden border-2 border-orange-500 flex-shrink-0">
+                  <img 
+                    :src="selectedAvatar.startsWith('blob:') ? selectedAvatar : `/images/Avatar-images/${selectedAvatar}`" 
+                    :alt="selectedAvatar"
+                    class="w-full h-full object-cover rounded-full"
+                  />
                 </div>
+                <div v-else class="w-12 h-12 rounded-full bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-user text-gray-400"></i>
+                </div>
+                
+                <!-- Role and Name -->
                 <div class="text-left">
                   <p class="text-sm font-medium text-gray-700">Selected Role</p>
                   <p class="text-lg font-semibold text-orange-600 capitalize">{{ selectedRole }}: {{ firstName }} {{ lastName }}</p>
@@ -375,14 +488,13 @@ const handleRegister = async () => {
             />
             <label
               for="email"
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
-              :class="email ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
+              :class="email ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
               :style="{ color: fieldErrors.email ? '#ef4444' : email ? '#f97316' : '#6b7280' }"
             >
-              Email Address
+              {{ fieldErrors.email || 'Email Address' }}
             </label>
           </div>
-          <p v-if="fieldErrors.email" class="text-red-500 text-xs mt-1">{{ fieldErrors.email }}</p>
 
           <!-- Password Input with floating label -->
           <div class="relative">
@@ -398,11 +510,11 @@ const handleRegister = async () => {
             />
             <label
               for="password"
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
-              :class="password ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
+              :class="password ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
               :style="{ color: fieldErrors.password ? '#ef4444' : password ? '#f97316' : '#6b7280' }"
             >
-              Password
+              {{ fieldErrors.password || 'Password' }}
             </label>
             <button
               type="button"
@@ -418,7 +530,6 @@ const handleRegister = async () => {
               </svg>
             </button>
           </div>
-          <p v-if="fieldErrors.password" class="text-red-500 text-xs mt-1">{{ fieldErrors.password }}</p>
 
           <!-- Confirm Password Input with floating label -->
           <div class="relative">
@@ -434,11 +545,11 @@ const handleRegister = async () => {
             />
             <label
               for="confirmPassword"
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
-              :class="confirmPassword ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
+              :class="confirmPassword ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
               :style="{ color: fieldErrors.confirmPassword ? '#ef4444' : confirmPassword ? '#f97316' : '#6b7280' }"
             >
-              Confirm Password
+              {{ fieldErrors.confirmPassword || 'Confirm Password' }}
             </label>
             <button
               type="button"
@@ -454,7 +565,6 @@ const handleRegister = async () => {
               </svg>
             </button>
           </div>
-          <p v-if="fieldErrors.confirmPassword" class="text-red-500 text-xs mt-1">{{ fieldErrors.confirmPassword }}</p>
 
           <!-- Navigation Buttons -->
           <div class="flex gap-4">
@@ -485,6 +595,48 @@ const handleRegister = async () => {
           </p>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Avatar Selection Modal -->
+    <div v-if="showAvatarModal" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50" @click="closeAvatarModal">
+      <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden" @click.stop>
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-900">Choisissez votre avatar</h3>
+          <button @click="closeAvatarModal" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <!-- Modal Content -->
+        <div class="p-6 overflow-y-auto max-h-[60vh]">
+          <div class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-3">
+            <div
+              v-for="avatar in availableAvatars"
+              :key="avatar"
+              @click="selectAvatar(avatar)"
+              class="w-16 h-16 rounded-full overflow-hidden border-2 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
+              :class="selectedAvatar === avatar ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200 hover:border-orange-300'"
+            >
+              <img 
+                :src="`/images/Avatar-images/${avatar}`" 
+                :alt="avatar"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <!-- Modal Footer -->
+        <div class="flex justify-end p-6 border-t border-gray-200">
+          <button
+            @click="closeAvatarModal"
+            class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+          >
+            Annuler
+          </button>
+        </div>
       </div>
     </div>
 

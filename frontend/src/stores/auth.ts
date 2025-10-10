@@ -35,18 +35,22 @@ export const useAuthStore = defineStore('auth', {
       const user = await authService.login(email, password)
       this.user = user as UserMock
       this.isAuthenticated = true
+      this.authReady = true
       // Only store currentUser in mock mode for compatibility
       if (isMockEnabled) {
         localStorage.setItem('currentUser', JSON.stringify(user))
+        localStorage.setItem('authToken', 'mock-token-' + Date.now()) // Ajouter un token mock
       }
     },
-    async register(firstName: string, lastName: string, email: string, password: string, role: string) {
-      const user = await authService.register(firstName, lastName, email, password, role)
+    async register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string) {
+      const user = await authService.register(firstName, lastName, email, password, role, avatarUrl, avatarType)
       this.user = user as UserMock
       this.isAuthenticated = true
+      this.authReady = true
       // Only store currentUser in mock mode for compatibility
       if (isMockEnabled) {
         localStorage.setItem('currentUser', JSON.stringify(user))
+        localStorage.setItem('authToken', 'mock-token-' + Date.now()) // Ajouter un token mock
       }
     },
     async validateAndRefreshUser() {
@@ -80,20 +84,37 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.user = null
       this.isAuthenticated = false
+      // authReady reste true car l'état est bien défini (utilisateur déconnecté)
+      // Nettoyer complètement le localStorage
       localStorage.removeItem('currentUser')
       localStorage.removeItem('authToken')
+      // Nettoyer aussi d'autres clés potentielles
+      localStorage.removeItem('user')
+      localStorage.removeItem('token')
       if (typeof (authService as any).logout === 'function') { // Quand on aura le logout
         (authService as any).logout()
       }
     },
     checkAuth() {
       if (isMockEnabled) {
-        // Mode mock : utiliser la logique existante
+        // Mode mock : vérifier les données dans localStorage
         const userStr = localStorage.getItem('currentUser')
         const token = localStorage.getItem('authToken')
+        
+        // Si on a des données valides, les charger
         if (userStr && token) {
-          this.user = JSON.parse(userStr)
-          this.isAuthenticated = true
+          try {
+            this.user = JSON.parse(userStr)
+            this.isAuthenticated = true
+          } catch (error) {
+            // Si les données sont corrompues, nettoyer
+            console.warn('Corrupted user data in localStorage, clearing...')
+            this.logout()
+          }
+        } else {
+          // Pas de données, s'assurer que l'état est propre
+          this.user = null
+          this.isAuthenticated = false
         }
         this.authReady = true; // Marquer l'auth comme prête immédiatement
       } else {
@@ -102,6 +123,18 @@ export const useAuthStore = defineStore('auth', {
           this.authReady = true; // Marquer l'auth comme prête après validation
         });
       }
+    },
+    // Fonction pour forcer le nettoyage complet (utile pour le debug)
+    forceLogout() {
+      this.user = null
+      this.isAuthenticated = false
+      // authReady reste true car l'état est bien défini (utilisateur déconnecté)
+      // Nettoyer TOUT le localStorage lié à l'auth
+      Object.keys(localStorage).forEach(key => {
+        if (key.includes('auth') || key.includes('user') || key.includes('token') || key.includes('current')) {
+          localStorage.removeItem(key)
+        }
+      })
     }
   }
 })

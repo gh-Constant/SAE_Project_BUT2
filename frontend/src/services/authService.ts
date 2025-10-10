@@ -51,13 +51,13 @@ const authServiceImpl = {
     localStorage.setItem('authToken', data.token);
     return data.user;
   },
-  register: async (firstName: string, lastName: string, email: string, password: string, role: string): Promise<UserMock> => {
+  register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string): Promise<UserMock> => {
     const response = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ firstName, lastName, email, password, role }),
+      body: JSON.stringify({ firstName, lastName, email, password, role, avatarUrl, avatarType }),
     });
 
     if (!response.ok) {

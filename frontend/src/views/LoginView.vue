@@ -71,14 +71,13 @@
             />
             <label 
               for="email" 
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-white peer-focus:px-2"
-              :class="email ? 'top-1 text-xs bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
+              :class="email ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
               :style="{ color: fieldErrors.email ? '#ef4444' : email ? '#f97316' : '#6b7280' }"
             >
-              Email
+              {{ fieldErrors.email || 'Email' }}
             </label>
           </div>
-          <p v-if="fieldErrors.email" class="text-red-500 text-xs mt-1">{{ fieldErrors.email }}</p>
 
           <!-- Password Input with floating label -->
           <div class="relative">
@@ -92,10 +91,10 @@
             />
             <label 
               for="password" 
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:text-orange-500 peer-focus:bg-white peer-focus:px-2"
-              :class="password ? 'top-1 text-xs text-orange-500 bg-white px-2' : 'top-3 text-base'"
+              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:text-orange-500 peer-focus:bg-transparent peer-focus:px-2 pb-1"
+              :class="password ? 'top-1 text-xs text-orange-500 bg-transparent px-2 pb-1' : 'top-3 text-base'"
             >
-              Password
+              {{ fieldErrors.password || 'Password' }}
             </label>
             <button
               type="button"
@@ -215,8 +214,6 @@ const handleLogin = async () => {
     await authStore.login(email.value, password.value)
 
     console.log('Login successful:', authStore.user)
-    // Forcer la mise à jour de l'état d'authentification
-    await authStore.checkAuth()
     router.push('/')
 
   } catch (error) {
