@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { isAdmin, isPrestataire } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 
 const auth = useAuthStore();
@@ -108,6 +109,25 @@ onUnmounted(() => {
               </div>
               
               <!-- Menu Items -->
+              <router-link
+                v-if="isAdmin(auth.user)"
+                to="/admin"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-cog mr-3 text-gray-400"></i>
+                Panel Administrateur
+              </router-link>
+              <router-link
+                v-if="isPrestataire(auth.user)"
+                to="/prestataire"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-briefcase mr-3 text-gray-400"></i>
+                Panel Prestataire
+              </router-link>
+              <div class="border-t border-gray-100"></div>
               <button
                 @click="handleLogout"
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
