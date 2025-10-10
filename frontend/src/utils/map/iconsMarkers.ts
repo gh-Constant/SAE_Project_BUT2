@@ -61,3 +61,12 @@ export const clickIcon = L.divIcon({
   iconSize: [20, 26],
   iconAnchor: [10, 26]
 });
+
+export const iconMarkers: Record<string, L.DivIcon> = {
+  house: houseIcon,
+  witchHouse: witchHouseIcon,
+  sage: sageIcon,
+  trainingCamp: trainingCampIcon,
+  castle: castleIcon,
+  prestataire: prestataireIcon,
+};
