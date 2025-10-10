@@ -1,4 +1,5 @@
 import { PRESTATAIRE_ROLE_ID, AVENTURIER_ROLE_ID, ADMIN_ROLE_ID } from './roles';
+import { RESTAURATEUR_TYPE_ID } from './prestataireTypes';
 
 export interface UserMock {
   id: number; // AUTO_INCREMENT integer from database
@@ -7,6 +8,7 @@ export interface UserMock {
   email: string;
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
   roleId: number;
+  prestataireTypeId?: number; // Type de prestataire (optionnel, seulement pour les prestataires)
   avatarUrl?: string; // URL de l'avatar
   avatarType?: string; // Type d'avatar (gallery, upload)
   is_active: boolean;
@@ -27,6 +29,7 @@ export const USERS: UserMock[] = [
     email: 'prestataire@medieval.com',
     password_hashed: 'password123',
     roleId: PRESTATAIRE_ROLE_ID,
+    prestataireTypeId: RESTAURATEUR_TYPE_ID,
     avatarUrl: '/images/Avatar-images/con15.png',
     avatarType: 'gallery',
     is_active: true,
