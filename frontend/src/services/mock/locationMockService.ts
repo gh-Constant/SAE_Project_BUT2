@@ -18,8 +18,18 @@ export const locationMockService = {
   },
 
   // Ajoute tous les marqueurs de location à la carte
-  async addLocationsToMap(map: L.Map, markers: L.Marker[]): Promise<void> {
-    const locations = await this.getAllLocations();
+  async addLocationsToMap(map: L.Map, markers: L.Marker[], userRole?: string): Promise<void> {
+    let locations = await this.getAllLocations();
+
+    if (userRole === 'prestataire') {
+      // Prestataire sees all locations
+    } else {
+      // Other users see story locations and purchased prestataire locations
+      locations = locations.filter(location =>
+        location.type === 'story' || (location.type === 'prestataire' && location.purchased)
+      );
+    }
+
     locations.forEach((location) => {
       const icon = iconMarkers[location.iconName] || iconMarkers['default'];
 
