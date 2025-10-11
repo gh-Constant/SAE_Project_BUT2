@@ -102,8 +102,8 @@ interface Props {
   location: LocationMock;
 }
 
-const props = defineProps<Props>();
-const emit = defineEmits<{
+defineProps<Props>();
+defineEmits<{
   close: [];
 }>();
 </script>

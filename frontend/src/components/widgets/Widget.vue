@@ -100,7 +100,8 @@ interface Props {
   location: LocationMock;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
+
 const emit = defineEmits<{
   close: [];
 }>();
