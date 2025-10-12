@@ -1,13 +1,15 @@
 /**
  * @file index.ts (router)
  * @description
- * Configuration du routeur Vue.js avec les guards d'authentification.
- * Définit les routes de l'application et gère la navigation basée sur l'état d'authentification.
+ * Configuration du routeur Vue.js avec les guards d'authentification et de rôles.
+ * Définit les routes de l'application et gère la navigation basée sur l'état d'authentification et les rôles utilisateur.
  *
  * @utilité
  * - Définit toutes les routes de l'application avec leurs composants.
  * - Implémente des guards pour protéger les routes nécessitant une authentification.
+ * - Implémente des guards pour restreindre l'accès basé sur les rôles utilisateur.
  * - Gère la redirection automatique vers la page de connexion pour les utilisateurs non authentifiés.
+ * - Gère la redirection vers la page d'accueil pour les utilisateurs n'ayant pas le rôle requis.
  *
  * @exports
  * - routes : tableau des routes de l'application.
@@ -16,7 +18,8 @@
  *
  * @remarques
  * - Le guard d'authentification attend que l'état d'authentification soit prêt avant de décider.
- * - Les routes avec `meta: { requiresAuth: true }` sont protégées.
+ * - Les routes avec `meta: { requiresAuth: true }` sont protégées par authentification.
+ * - Les routes avec `meta: { requiredRole: ROLE_ID }` sont protégées par rôle.
  * - Utilise l'historique HTML5 pour les URLs propres.
  */
 
@@ -30,6 +33,7 @@ import {
   RouteLocationNormalizedLoadedGeneric,
 } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { ADMIN_ROLE_ID, PRESTATAIRE_ROLE_ID } from '@/services/roleService';
 
 // Routes de l'application
 export const routes = [
@@ -48,6 +52,18 @@ export const routes = [
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterView.vue'), // Page d'inscription
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/AdminView.vue'),
+    meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
+  },
+  {
+    path: '/prestataire',
+    name: 'prestataire',
+    component: () => import('../views/PrestataireView.vue'),
+    meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
   },
 ];
 
@@ -77,6 +93,8 @@ async function redirectLogin(
   // Vérifier l'authentification après que l'état soit prêt
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login'); // Redirection forcée vers la page de connexion
+  } else if (to.meta.requiredRole && authStore.user?.roleId !== to.meta.requiredRole) {
+    next('/'); // Redirection vers la page d'accueil si rôle insuffisant
   } else {
     next(); // Autorise la navigation
   }

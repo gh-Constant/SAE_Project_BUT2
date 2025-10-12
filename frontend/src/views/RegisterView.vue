@@ -145,9 +145,9 @@ const handleRegister = async () => {
 
   try {
     // Préparer les données d'avatar
-    let avatarUrl = null
-    let avatarType = null
-    
+    let avatarUrl: string | undefined = undefined
+    let avatarType: string | undefined = undefined
+
     if (selectedAvatar.value) {
       if (selectedAvatar.value.startsWith('blob:')) {
         // Image uploadée - pour l'instant on ne peut pas l'envoyer au backend
