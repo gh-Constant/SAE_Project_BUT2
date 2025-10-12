@@ -8,7 +8,7 @@ export interface LocationMock {
   price: number;
   purchased: boolean;
   userId: number | null;
-  type?: 'prestataire' | 'story';
+  type?: 'prestataire' | 'story' | 'other';
   position: [number, number];
   iconName: string;
   bannerImage: string;
@@ -18,16 +18,16 @@ export const locationsMock: LocationMock[] = [
   // === Main Quest Locations ===
   {
     id: 1,
-    staticCode: 'HOUSE_START',
-    name: "The Adventurer's House",
+    staticCode: 'TICKET_OFFICE',
+    name: "The Ticket Office",
     description:
-      'Your humble abode where your journey begins. A cozy house with all the basic amenities an adventurer needs to rest and prepare for their quests.',
+      'A quaint wooden building adorned with colorful banners. The ticket officer, a jovial man named Garin, sells tickets to adventurers eager to explore the realm.',
     price: 0,
-    purchased: true, // Assuming the player starts with the house
+    purchased: true, // Always true for main quest locations
     userId: null,
     type: 'story',
     position: [1747, 5072],
-    iconName: 'house',
+    iconName: 'ticketOffice',
     bannerImage: 'images/locations/biletterie.png'
   },
   {
@@ -37,7 +37,7 @@ export const locationsMock: LocationMock[] = [
     description:
       'A mysterious dwelling shrouded in purple mist. The witch Morgana crafts powerful potions and enchantments for those brave enough to seek her services.',
     price: 0,
-    purchased: false,
+    purchased: true, // Always true for main quest locations
     userId: null,
     type: 'story',
     position: [910, 4330],
@@ -46,12 +46,12 @@ export const locationsMock: LocationMock[] = [
   },
   {
     id: 3,
-    staticCode: 'SAGE_TOWER',
-    name: "The Great Sage's Tower",
+    staticCode: 'SAGE_HOUSE',
+    name: "The Great Sage's House",
     description:
       'A towering library filled with ancient tomes and scrolls. The sage Eldric shares wisdom and teaches powerful spells to worthy students.',
     price: 0,
-    purchased: false,
+    purchased: true, // Always true for main quest locations
     userId: null,
     type: 'story',
     position: [1344, 3572],
@@ -60,17 +60,17 @@ export const locationsMock: LocationMock[] = [
   },
   {
     id: 4,
-    staticCode: 'TRAINING_GROUNDS',
-    name: 'The Training Grounds',
+    staticCode: 'INFORMATION_CENTER',
+    name: 'The Information Center',
     description:
-      'A military training camp where warriors hone their combat skills. Captain Thorne offers rigorous training programs for all skill levels.',
+      'A bustling hub where adventurers gather to share news and seek guidance. The center is run by a knowledgeable clerk who provides maps and quest details.',
     price: 0,
-    purchased: false,
+    purchased: true, // Always true for main quest locations
     userId: null,
     type: 'story',
     position: [1580, 4488],
-    iconName: 'trainingCamp',
-    bannerImage: 'images/locations/training_camp.png'
+    iconName: 'informationCenter',
+    bannerImage: 'images/medieval_image.jpg'
   },
   {
     id: 5,
@@ -79,56 +79,99 @@ export const locationsMock: LocationMock[] = [
     description:
       'The magnificent seat of power in the kingdom. The castle houses the royal family and serves as the center of governance and justice.',
     price: 0,
-    purchased: false,
+    purchased: true, // Always true for main quest locations
     userId: null,
     type: 'story',
     position: [2856, 3770],
     iconName: 'castle',
     bannerImage: 'images/medieval_image.jpg'
   },
-
-  // === Prestataire / Buyable Locations ===
+  {
+    id: 6,
+    staticCode: 'TRAINING_CAMP',
+    name: 'The Training Camp',
+    description:
+      'A rugged encampment where warriors hone their combat skills. The camp is led by a grizzled veteran who trains recruits in the art of battle.',
+    price: 0,
+    purchased: true, // Always true for main quest locations
+    userId: null,
+    type: 'story',
+    position: [1352, 2678],
+    iconName: 'trainingCamp',
+    bannerImage: 'images/locations/training_camp.jpg'
+  },
+  {
+    id: 6,
+    staticCode: 'ARCHERY_RANGE',
+    name: 'The Archery range',
+    description:
+      'A peaceful range where archers practice their marksmanship. The range is overseen by a skilled archer who offers lessons to aspiring bowmen.',
+    price: 0,
+    purchased: true, // Always true for main quest locations
+    userId: null,
+    type: 'story',
+    position: [1528, 3304],
+    iconName: 'archeryRange',
+    bannerImage: 'images/locations/training_camp.jpg'
+  },
+  {
+    id: 7,
+    staticCode: 'VILLAGE_FOOL',
+    name: 'The Village Fool',
+    description:
+      'A villager known for his antics and humorous tales. Despite his foolish demeanor, he often provides unexpected insights.',
+    price: 0,
+    purchased: true, // Always true for main quest locations
+    userId: null,
+    type: 'story',
+    position: [2556, 4647],
+    iconName: 'villageFool',
+    bannerImage: 'images/locations/training_camp.jpg'
+  },
+  {
+    id: 8,
+    staticCode: 'CHILD',
+    name: 'The Child',
+    description:
+      'A curious child who dreams of becoming a great adventurer one day. He often asks questions about the world beyond the village.',
+    price: 0,
+    purchased: true, // Always true for main quest locations
+    userId: null,
+    type: 'story',
+    position: [1008, 2165],
+    iconName: 'child',
+    bannerImage: 'images/medieval_image.jpg'
+  },
+  {
+    id: 9,
+    staticCode: 'FARMER',
+    name: 'The Farmer',
+    description:
+      'A hardworking farmer who tends to the village fields. He provides food and supplies to adventurers passing through.',
+    price: 0,
+    purchased: true, // Always true for main quest locations
+    userId: null,
+    type: 'story',
+    position: [2060, 1728],
+    iconName: 'farmer',
+    bannerImage: 'images/medieval_image.jpg'
+  },
   {
     id: 10,
-    staticCode: 'PRESTA_STALL_1',
-    name: 'Merchant Stall #1',
+    staticCode: 'LUMBERJACK',
+    name: 'The Lumberjack',
     description:
-      'A prime location in the marketplace. Perfect for selling your wares to the many travelers passing through.',
-    price: 150,
-    purchased: false,
+      'A burly lumberjack who harvests wood from the nearby forest. He is known for his strength and skill with an axe.',
+    price: 0,
+    purchased: true, // Always true for main quest locations
     userId: null,
-    type: 'prestataire',
-    position: [1958, 1899],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    type: 'story',
+    position: [3040, 2724],
+    iconName: 'lumberjack',
+    bannerImage: 'images/medieval_image.jpg'
   },
-  {
-    id: 11,
-    staticCode: 'PRESTA_STALL_2',
-    name: 'Merchant Stall #2',
-    description: 'A well-positioned stall in the heart of the market district.',
-    price: 150,
-    purchased: false,
-    userId: null,
-    type: 'prestataire',
-    position: [1984, 1893],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
-  },
-  {
-    id: 12,
-    staticCode: 'PRESTA_STALL_3',
-    name: 'Merchant Stall #3',
-    description:
-      'Currently occupied by a local blacksmith selling tools and weapons.',
-    price: 120,
-    purchased: true,
-    userId: PRESTATAIRE_USER_ID,
-    type: 'prestataire',
-    position: [2064, 1733],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
-  },
+
+  // === Prestataire / Buyable Locations ===
   {
     id: 13,
     staticCode: 'PRESTA_STALL_4',
@@ -139,7 +182,7 @@ export const locationsMock: LocationMock[] = [
     purchased: false,
     userId: null,
     type: 'prestataire',
-    position: [2148, 1569],
+    position: [2, 9],
     iconName: 'prestataire',
     bannerImage: 'images/locations/buyable.png'
   },
@@ -195,7 +238,7 @@ export const locationsMock: LocationMock[] = [
     purchased: false,
     userId: null,
     type: 'prestataire',
-    position: [2082, 2465],
+    position: [2386, 3379],
     iconName: 'prestataire',
     bannerImage: 'images/locations/buyable.png'
   },
@@ -335,7 +378,7 @@ export const locationsMock: LocationMock[] = [
     purchased: false,
     userId: null,
     type: 'prestataire',
-    position: [2280, 1405],
+    position: [2266, 1404],
     iconName: 'prestataire',
     bannerImage: 'images/locations/buyable.png'
   },
@@ -363,7 +406,7 @@ export const locationsMock: LocationMock[] = [
     purchased: false,
     userId: null,
     type: 'prestataire',
-    position: [2164, 1193],
+    position: [1734, 3571],
     iconName: 'prestataire',
     bannerImage: 'images/locations/buyable.png'
   },
@@ -460,7 +503,7 @@ export const locationsMock: LocationMock[] = [
     purchased: false,
     userId: null,
     type: 'prestataire',
-    position: [1170, 1973],
+    position: [0, 1],
     iconName: 'prestataire',
     bannerImage: 'images/locations/buyable.png'
   },
@@ -520,18 +563,78 @@ export const locationsMock: LocationMock[] = [
     iconName: 'prestataire',
     bannerImage: 'images/locations/buyable.png'
   },
+
+  // === Toilet Locations  ===
   {
-    id: 41,
-    staticCode: 'PRESTA_STALL_32',
-    name: 'Merchant Stall #32',
+    id: 47,
+    staticCode: 'TOILET_1',
+    name: 'Toilet #1',
     description:
-      'A charming stall with a great view of the castle, perfect for attracting tourists.',
-    price: 355,
-    purchased: false,
+      'A toilet located near the marketplace for public convenience.',
+    price: 0,
+    purchased: true,
     userId: null,
-    type: 'prestataire',
-    position: [1008, 2165],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
-  }
+    type: 'other',
+    position: [1760, 2860],
+    iconName: 'toilet',
+    bannerImage: 'images/medieval_image.jpg'
+  },
+  {
+    id: 48,
+    staticCode: 'TOILET_2',
+    name: 'Toilet #2',
+    description:
+      'A toilet located near the marketplace for public convenience.',
+    price: 0,
+    purchased: true,
+    userId: null,
+    type: 'other',
+    position: [1010, 1832],
+    iconName: 'toilet',
+    bannerImage: 'images/medieval_image.jpg'
+  },
+  {
+    id: 49,
+    staticCode: 'TOILET_3',
+    name: 'Toilet #3',
+    description:
+      'A toilet located near the marketplace for public convenience.',
+    price: 0,
+    purchased: true,
+    userId: null,
+    type: 'other',
+    position: [3200, 3288],
+    iconName: 'toilet',
+    bannerImage: 'images/medieval_image.jpg'
+  },
+  {
+    id: 50,
+    staticCode: 'TOILET_4',
+    name: 'Toilet #4',
+    description:
+      'A toilet located near the marketplace for public convenience.',
+    price: 0,
+    purchased: true,
+    userId: null,
+    type: 'other',
+    position: [2142, 1184],
+    iconName: 'toilet',
+    bannerImage: 'images/medieval_image.jpg'
+  },
+  {
+    id: 51,
+    staticCode: 'TOILET_5',
+    name: 'Toilet #5',
+    description:
+      'A toilet located near the marketplace for public convenience.',
+    price: 0,
+    purchased: true,
+    userId: null,
+    type: 'other',
+    position: [1820, 3348],
+    iconName: 'toilet',
+    bannerImage: 'images/medieval_image.jpg'
+  },
+
 ];
+
