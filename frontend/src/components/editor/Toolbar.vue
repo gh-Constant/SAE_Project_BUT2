@@ -160,6 +160,13 @@
       <option value="32px">32px</option>
     </select>
     <button
+      @click="translateSelectedText"
+      :disabled="isTranslating"
+      class="toolbar-button translate-button"
+    >
+      {{ isTranslating ? 'Translating...' : 'Translate' }}
+    </button>
+    <button
       @click="editor.chain().focus().unsetAllMarks().run()"
       class="toolbar-button clear-format-button"
       title="Clear formatting"
@@ -170,13 +177,42 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { Editor } from '@tiptap/vue-3'
+import { translationService } from '../../services/translationService'
 
 interface Props {
   editor: Editor | null
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+const isTranslating = ref(false)
+
+const translateSelectedText = async () => {
+  if (!props.editor) return
+
+  const { from, to } = props.editor.state.selection
+  const selectedText = props.editor.state.doc.textBetween(from, to)
+
+  if (!selectedText.trim()) {
+    alert('Please select some text to translate')
+    return
+  }
+
+  isTranslating.value = true
+
+  try {
+    const response = await translationService.translate({ text: selectedText })
+
+    // Replace the selected text with the translated text
+    props.editor.chain().focus().deleteSelection().insertContent(response.translatedText).run()
+  } catch (error) {
+    console.error('Translation failed:', error)
+    alert('Translation failed. Please try again.')
+  } finally {
+    isTranslating.value = false
+  }
+}
 
 </script>
 
@@ -221,5 +257,17 @@ defineProps<Props>()
 
 .clear-format-button:hover {
   @apply bg-red-100 border-red-400;
+}
+
+.translate-button {
+  @apply bg-green-50 border-green-300 text-green-600;
+}
+
+.translate-button:hover:not(:disabled) {
+  @apply bg-green-100 border-green-400;
+}
+
+.translate-button:disabled {
+  @apply bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed;
 }
 </style>

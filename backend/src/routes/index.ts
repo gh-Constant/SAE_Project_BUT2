@@ -19,6 +19,7 @@ import { getHealth } from '../controllers/healthController.js';
 import healthRoutes from './healthRoutes.js';
 import roleRoutes from './roleRoutes.js';
 import authRoutes from './authRoutes.js';
+import translationRoutes from './translationRoutes.js';
 import { apiConfig } from '../config/app.js';
 
 const router = Router();
@@ -43,6 +44,9 @@ apiRouter.use('/', roleRoutes);
 
 // Ajout des routes d'authentification
 apiRouter.use('/auth', authRoutes);
+
+// Ajout des routes de traduction
+apiRouter.use('/', translationRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);
