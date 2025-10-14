@@ -10,6 +10,17 @@ CREATE TABLE `roles` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `prestataireTypes` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `created_at` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updated_at` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+
+    UNIQUE INDEX `name`(`name`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `users` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `firstname` VARCHAR(255) NOT NULL,
@@ -17,6 +28,9 @@ CREATE TABLE `users` (
     `email` VARCHAR(255) NOT NULL,
     `password_hashed` TEXT NOT NULL,
     `roleId` INTEGER NOT NULL,
+    `prestataireTypeId` INTEGER NULL,
+    `avatar_url` VARCHAR(255) NULL,
+    `avatar_type` VARCHAR(50) NULL,
     `is_active` BOOLEAN NOT NULL DEFAULT true,
     `is_verified` BOOLEAN NOT NULL DEFAULT false,
     `xp` INTEGER NOT NULL DEFAULT 0,
@@ -26,6 +40,7 @@ CREATE TABLE `users` (
 
     UNIQUE INDEX `email`(`email`),
     INDEX `fk_users_roleId`(`roleId`),
+    INDEX `fk_users_prestataireTypeId`(`prestataireTypeId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -132,6 +147,9 @@ CREATE TABLE `userQuests` (
 
 -- AddForeignKey
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_roleId` FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `users` ADD CONSTRAINT `fk_users_prestataireTypeId` FOREIGN KEY (`prestataireTypeId`) REFERENCES `prestataireTypes`(`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `locations` ADD CONSTRAINT `fk_locations_userId` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
