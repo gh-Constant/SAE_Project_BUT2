@@ -29,11 +29,11 @@
       <u>U</u>
     </button>
     <button
-      @click="editor.chain().focus().toggleCode().run()"
-      :class="{ 'is-active': editor.isActive('code') }"
+      @click="editor.chain().focus().toggleCodeBlock().run()"
+      :class="{ 'is-active': editor.isActive('codeBlock') }"
       class="toolbar-button"
     >
-      Code
+      Code Block
     </button>
     <button
       @click="editor.chain().focus().setParagraph().run()"
@@ -102,21 +102,21 @@
       :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
       class="toolbar-button"
     >
-      ⬅
+      Left
     </button>
     <button
       @click="editor.chain().focus().setTextAlign('center').run()"
       :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
       class="toolbar-button"
     >
-      ⬌
+      Center
     </button>
     <button
       @click="editor.chain().focus().setTextAlign('right').run()"
       :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
       class="toolbar-button"
     >
-      ➡
+      Right
     </button>
     <button
       @click="editor.chain().focus().redo().run()"
@@ -147,7 +147,7 @@
     </select>
     <select
       @change="editor.chain().focus().setFontSize($event.target.value).run()"
-      :value="getCurrentFontSize()"
+      :value="editor.getAttributes('textStyle').fontSize || '16px'"
       class="toolbar-button font-size-select"
     >
       <option value="12px">12px</option>
@@ -176,95 +176,50 @@ interface Props {
   editor: Editor | null
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
-const getCurrentFontSize = () => {
-  if (!props.editor) return '16px'
-
-  // Check if we're in a heading
-  if (props.editor.isActive('heading', { level: 1 })) return '32px' // 2em = 32px (assuming 16px base)
-  if (props.editor.isActive('heading', { level: 2 })) return '24px' // 1.5em = 24px
-  if (props.editor.isActive('heading', { level: 3 })) return '18.72px' // 1.17em ≈ 18.72px
-
-  // Otherwise return the textStyle fontSize or default
-  return props.editor.getAttributes('textStyle').fontSize || '16px'
-}
 </script>
 
 <style scoped>
+@reference "tailwindcss";
+
 .toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 8px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
-  border-radius: 4px 4px 0 0;
+  @apply flex flex-wrap gap-1 p-2 border-b border-gray-200 bg-gray-50 rounded-t-md;
 }
 
 .toolbar-button {
-  padding: 6px 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
+  @apply px-2 py-1.5 border border-gray-300 rounded bg-white cursor-pointer text-sm transition-all duration-200;
 }
 
 .toolbar-button:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  @apply bg-gray-100 border-gray-400;
 }
 
 .toolbar-button.is-active {
-  background: #dbeafe;
-  border-color: #3b82f6;
-  color: #1d4ed8;
+  @apply bg-blue-100 border-blue-500 text-blue-700;
 }
 
 .toolbar-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  @apply opacity-50 cursor-not-allowed;
 }
 
 .color-input {
-  width: 40px;
-  height: 32px;
-  padding: 0;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
+  @apply w-10 h-8 p-0 border border-gray-300 rounded bg-white cursor-pointer;
 }
 
 .font-family-select {
-  padding: 4px 6px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 14px;
-  min-width: 120px;
+  @apply px-1.5 py-1 border border-gray-300 rounded bg-white cursor-pointer text-sm min-w-30;
 }
 
 .font-size-select {
-  padding: 4px 6px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 14px;
+  @apply px-1.5 py-1 border border-gray-300 rounded bg-white cursor-pointer text-sm;
 }
 
 .clear-format-button {
-  background: #fef2f2;
-  border-color: #fca5a5;
-  color: #dc2626;
+  @apply bg-red-50 border-red-300 text-red-600;
 }
 
 .clear-format-button:hover {
-  background: #fee2e2;
-  border-color: #f87171;
+  @apply bg-red-100 border-red-400;
 }
 </style>

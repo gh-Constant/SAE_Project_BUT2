@@ -1,0 +1,65 @@
+.tiptap {
+  p {
+    @apply my-4 first:mt-0 last:mb-0 text-base leading-relaxed text-left;
+  }
+
+  h1 {
+    @apply text-3xl font-bold mt-8 mb-4 first:mt-0 last:mb-0 text-left;
+  }
+
+  h2 {
+    @apply text-2xl font-bold mt-6 mb-3 first:mt-0 last:mb-0 text-left;
+  }
+
+  h3 {
+    @apply text-xl font-semibold mt-4 mb-2 first:mt-0 last:mb-0 text-left;
+  }
+
+  blockquote {
+    @apply border-l-4 border-gray-300 pl-4 py-2 my-4 italic text-gray-600 text-left;
+  }
+
+  ul {
+    @apply list-disc list-outside my-4 text-left pl-5;
+  }
+
+  ol {
+    @apply list-decimal list-outside my-4 text-left pl-5;
+  }
+
+  li {
+    @apply mb-1 text-left;
+  }
+
+  a {
+    @apply text-blue-600 hover:text-blue-800 underline;
+  }
+
+  strong {
+    @apply font-bold;
+  }
+
+  em {
+    @apply italic;
+  }
+
+  code {
+    @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono;
+  }
+
+  pre {
+    @apply bg-gray-100 p-4 rounded overflow-x-auto my-4;
+  }
+
+  pre code {
+    @apply bg-transparent p-0;
+  }
+
+  pre.hljs {
+    @apply bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto my-4;
+  }
+
+  pre.hljs code {
+    @apply bg-transparent p-0 text-gray-100;
+  }
+}

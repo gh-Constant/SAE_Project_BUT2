@@ -19,6 +19,7 @@
 
 import './styles.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import 'highlight.js/styles/github.css';
 import { createAppRouter } from './router';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';

@@ -6,10 +6,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { editorExtensions, defaultContent } from './editorConfig'
 import Toolbar from './Toolbar.vue'
+
+const emit = defineEmits<{
+  ready: [editor: any]
+}>()
 
 const editor = useEditor({
   extensions: editorExtensions,
@@ -19,6 +23,12 @@ const editor = useEditor({
       class: 'tiptap prose prose-sm sm:prose lg:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
     },
   },
+})
+
+onMounted(() => {
+  if (editor.value) {
+    emit('ready', editor.value)
+  }
 })
 
 onUnmounted(() => {
