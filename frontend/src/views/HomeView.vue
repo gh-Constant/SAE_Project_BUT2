@@ -1,5 +1,6 @@
 <template>
   <div class="bg-gray-50">
+
     <!-- Hero Section -->
     <section class="bg-gradient-to-br from-orange-500 to-orange-600 text-white text-center py-12 md:py-16">
       <div class="max-w-4xl mx-auto px-4">
