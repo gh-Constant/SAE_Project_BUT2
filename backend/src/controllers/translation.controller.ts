@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
+import { aiService } from '../ai/ai.service.js'
 
 interface TranslationRequest {
   text: string
-  from?: string
-  to?: string
+  targetLanguage?: string
 }
 
 interface TranslationResponse {
@@ -13,7 +13,7 @@ interface TranslationResponse {
 
 export const translateText = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { text }: TranslationRequest = req.body
+    const { text, targetLanguage = 'english' }: TranslationRequest = req.body
 
     if (!text || typeof text !== 'string') {
       res.status(400).json({
@@ -22,9 +22,8 @@ export const translateText = async (req: Request, res: Response): Promise<void> 
       return
     }
 
-    // For now, just add "translated:" prefix as mock translation
-    // In a real implementation, you would call a translation API like Google Translate, DeepL, etc.
-    const translatedText = `translated by server : ${text}`
+    // Use AI service for translation
+    const translatedText = await aiService.translateText(text, targetLanguage)
 
     const response: TranslationResponse = {
       translatedText,

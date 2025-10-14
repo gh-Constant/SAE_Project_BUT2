@@ -1,5 +1,5 @@
 /**
- * @file auth.ts
+ * @file auth.middleware.ts
  * @description
  * Middleware d'authentification pour Express.js.
  * Fournit des fonctions pour vérifier les tokens JWT et authentifier les utilisateurs.

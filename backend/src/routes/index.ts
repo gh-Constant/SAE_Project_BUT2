@@ -15,12 +15,12 @@
  */
 
 import { Router } from 'express';
-import { getHealth } from '../controllers/healthController.js';
+import { getHealth } from '../controllers/health.controller.js';
 import healthRoutes from './healthRoutes.js';
 import roleRoutes from './roleRoutes.js';
 import authRoutes from './authRoutes.js';
 import translationRoutes from './translationRoutes.js';
-import { apiConfig } from '../config/app.js';
+import { apiConfig } from '../config/app.config.js';
 
 const router = Router();
 

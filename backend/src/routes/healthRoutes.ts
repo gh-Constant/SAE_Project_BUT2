@@ -17,7 +17,7 @@
  */
 
 import { Router } from 'express';
-import { getApiHealth, getStatus } from '../controllers/healthController.js';
+import { getApiHealth, getStatus } from '../controllers/health.controller.js';
 
 const router = Router();
 

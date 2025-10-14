@@ -1,5 +1,5 @@
 /**
- * @file auth.ts
+ * @file auth.middleware.ts
  * @description
  * Store Pinia pour gérer l'authentification des utilisateurs.
  * Contient l'état de connexion, les infos utilisateur et les actions pour se connecter ou se déconnecter.

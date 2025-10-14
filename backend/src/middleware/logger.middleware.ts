@@ -1,5 +1,5 @@
 /**
- * @file logger.ts
+ * @file logger.middleware.ts
  * @description
  * Middlewares pour le logging des requêtes et du temps de réponse dans l'application Express.
  * Fournit des logs détaillés en développement pour le debug et le suivi des requêtes.
@@ -19,7 +19,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { config } from '../config/app.js';
+import { config } from '../config/app.config.js';
 
 /**
  * Middleware pour logger les requêtes entrantes.
