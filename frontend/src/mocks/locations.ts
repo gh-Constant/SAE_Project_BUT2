@@ -173,28 +173,14 @@ export const locationsMock: LocationMock[] = [
 
   // === Prestataire / Buyable Locations ===
   {
-    id: 13,
-    staticCode: 'PRESTA_STALL_4',
-    name: 'Merchant Stall #4',
-    description:
-      'A bustling spot in the marketplace, ideal for attracting customers.',
-    price: 130,
-    purchased: false,
-    userId: null,
-    type: 'prestataire',
-    position: [2, 9],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
-  },
-  {
     id: 14,
     staticCode: 'PRESTA_STALL_5',
     name: 'Merchant Stall #5',
     description:
       'A popular location among travelers, known for its high foot traffic.',
     price: 140,
-    purchased: false,
-    userId: null,
+    purchased: true,
+    userId: PRESTATAIRE_USER_ID,
     type: 'prestataire',
     position: [2254, 1897],
     iconName: 'prestataire',
@@ -207,8 +193,8 @@ export const locationsMock: LocationMock[] = [
     description:
       'Situated near the town square, this stall benefits from constant visibility.',
     price: 160,
-    purchased: false,
-    userId: null,
+    purchased: true,
+    userId: PRESTATAIRE_USER_ID,
     type: 'prestataire',
     position: [2188, 2139],
     iconName: 'prestataire',
