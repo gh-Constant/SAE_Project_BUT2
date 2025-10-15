@@ -134,7 +134,10 @@ const selectLanguage = (language: typeof languages[0]) => {
           </span>
         </button>
       </div>
-      <div v-if="!showMinecraft" class="px-4 py-2 border-t border-gray-200">
+      <div
+        v-if="!showMinecraft"
+        class="px-4 py-2 border-t border-gray-200"
+      >
         <button
           class="text-xs text-gray-500 hover:text-gray-700 underline"
           @click="showMinecraft = true"

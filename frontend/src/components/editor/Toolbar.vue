@@ -1,219 +1,295 @@
+<!--
+  @file Toolbar.vue
+  @description
+  Barre d’outils de l’éditeur TipTap.
+  Fournit des boutons pour formater le texte, insérer des éléments, aligner, changer la couleur, la police, etc.
+  Intègre également un bouton pour traduire le texte sélectionné via le service de traduction.
+
+  @utilité
+  - Interface principale d’interaction avec l’éditeur.
+  - Simplifie la gestion des styles et de la structure du contenu.
+  - Permet l’intégration avec d’autres services comme la traduction.
+-->
+
 <template>
-  <div v-if="editor" class="toolbar">
+  <div
+    v-if="editor"
+    class="toolbar"
+  >
     <button
-      @click="editor.chain().focus().toggleBold().run()"
       :class="{ 'is-active': editor.isActive('bold') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleBold().run()"
     >
       <strong>B</strong>
     </button>
     <button
-      @click="editor.chain().focus().toggleItalic().run()"
       :class="{ 'is-active': editor.isActive('italic') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleItalic().run()"
     >
       <em>I</em>
     </button>
     <button
-      @click="editor.chain().focus().toggleStrike().run()"
       :class="{ 'is-active': editor.isActive('strike') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleStrike().run()"
     >
       <s>S</s>
     </button>
     <button
-      @click="editor.chain().focus().toggleUnderline().run()"
       :class="{ 'is-active': editor.isActive('underline') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleUnderline().run()"
     >
       <u>U</u>
     </button>
     <button
-      @click="editor.chain().focus().toggleCodeBlock().run()"
       :class="{ 'is-active': editor.isActive('codeBlock') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleCodeBlock().run()"
     >
       Code Block
     </button>
     <button
-      @click="editor.chain().focus().setParagraph().run()"
       :class="{ 'is-active': editor.isActive('paragraph') }"
       class="toolbar-button"
+      @click="editor.chain().focus().setParagraph().run()"
     >
       ¶
     </button>
     <button
-      @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
       :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
     >
       H1
     </button>
     <button
-      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
       :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
     >
       H2
     </button>
     <button
-      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
       :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
     >
       H3
     </button>
     <button
-      @click="editor.chain().focus().toggleBulletList().run()"
       :class="{ 'is-active': editor.isActive('bulletList') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleBulletList().run()"
     >
       •
     </button>
     <button
-      @click="editor.chain().focus().toggleOrderedList().run()"
       :class="{ 'is-active': editor.isActive('orderedList') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleOrderedList().run()"
     >
       1.
     </button>
     <button
-      @click="editor.chain().focus().toggleBlockquote().run()"
       :class="{ 'is-active': editor.isActive('blockquote') }"
       class="toolbar-button"
+      @click="editor.chain().focus().toggleBlockquote().run()"
     >
       "
     </button>
     <button
-      @click="editor.chain().focus().setHorizontalRule().run()"
       class="toolbar-button"
+      @click="editor.chain().focus().setHorizontalRule().run()"
     >
       ―
     </button>
     <button
-      @click="editor.chain().focus().undo().run()"
       :disabled="!editor.can().undo()"
       class="toolbar-button"
+      @click="editor.chain().focus().undo().run()"
     >
       ↶
     </button>
     <button
-      @click="editor.chain().focus().setTextAlign('left').run()"
       :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
       class="toolbar-button"
+      @click="editor.chain().focus().setTextAlign('left').run()"
     >
       Left
     </button>
     <button
-      @click="editor.chain().focus().setTextAlign('center').run()"
       :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
       class="toolbar-button"
+      @click="editor.chain().focus().setTextAlign('center').run()"
     >
       Center
     </button>
     <button
-      @click="editor.chain().focus().setTextAlign('right').run()"
       :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
       class="toolbar-button"
+      @click="editor.chain().focus().setTextAlign('right').run()"
     >
       Right
     </button>
     <button
-      @click="editor.chain().focus().redo().run()"
       :disabled="!editor.can().redo()"
       class="toolbar-button"
+      @click="editor.chain().focus().redo().run()"
     >
       ↷
     </button>
     <input
       type="color"
-      @input="editor.chain().focus().setColor($event.target.value).run()"
       :value="editor.getAttributes('textStyle').color || '#000000'"
       class="toolbar-button color-input"
-    />
+      @input="
+        editor
+          .chain()
+          .focus()
+          .setColor(($event.target as HTMLInputElement).value)
+          .run()
+      "
+    >
     <select
-      @change="editor.chain().focus().setFontFamily($event.target.value).run()"
       :value="editor.getAttributes('textStyle').fontFamily || 'Arial'"
       class="toolbar-button font-family-select"
+      @change="
+        editor
+          .chain()
+          .focus()
+          .setFontFamily(($event.target as HTMLSelectElement).value)
+          .run()
+      "
     >
-      <option value="Arial">Arial</option>
-      <option value="Times New Roman">Times New Roman</option>
-      <option value="Courier New">Courier New</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Verdana">Verdana</option>
-      <option value="Helvetica">Helvetica</option>
-      <option value="Comic Sans MS">Comic Sans MS</option>
-      <option value="Impact">Impact</option>
+      <option value="Arial">
+        Arial
+      </option>
+      <option value="Times New Roman">
+        Times New Roman
+      </option>
+      <option value="Courier New">
+        Courier New
+      </option>
+      <option value="Georgia">
+        Georgia
+      </option>
+      <option value="Verdana">
+        Verdana
+      </option>
+      <option value="Helvetica">
+        Helvetica
+      </option>
+      <option value="Comic Sans MS">
+        Comic Sans MS
+      </option>
+      <option value="Impact">
+        Impact
+      </option>
     </select>
     <select
-      @change="editor.chain().focus().setFontSize($event.target.value).run()"
       :value="editor.getAttributes('textStyle').fontSize || '16px'"
       class="toolbar-button font-size-select"
+      @change="
+        editor
+          .chain()
+          .focus()
+          .setFontSize(($event.target as HTMLSelectElement).value)
+          .run()
+      "
     >
-      <option value="12px">12px</option>
-      <option value="14px">14px</option>
-      <option value="16px">16px</option>
-      <option value="18px">18px</option>
-      <option value="20px">20px</option>
-      <option value="24px">24px</option>
-      <option value="28px">28px</option>
-      <option value="32px">32px</option>
+      <option value="12px">
+        12px
+      </option>
+      <option value="14px">
+        14px
+      </option>
+      <option value="16px">
+        16px
+      </option>
+      <option value="18px">
+        18px
+      </option>
+      <option value="20px">
+        20px
+      </option>
+      <option value="24px">
+        24px
+      </option>
+      <option value="28px">
+        28px
+      </option>
+      <option value="32px">
+        32px
+      </option>
     </select>
     <button
-      @click="translateSelectedText"
       :disabled="isTranslating"
       class="toolbar-button translate-button"
+      @click="translateSelectedText"
     >
       {{ isTranslating ? 'Translating...' : 'Translate' }}
     </button>
     <button
-      @click="editor.chain().focus().unsetAllMarks().run()"
       class="toolbar-button clear-format-button"
       title="Clear formatting"
+      @click="editor.chain().focus().unsetAllMarks().run()"
     >
-      ⌫
+      Clear
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Editor } from '@tiptap/vue-3'
-import { translationService } from '../../services/translationService'
+import { ref } from 'vue';
+import type { Editor } from '@tiptap/vue-3';
+import { translationService } from '@/services/translationService';
 
 interface Props {
-  editor: Editor | null
+  editor: Editor | null;
 }
 
-const props = defineProps<Props>()
-const isTranslating = ref(false)
+const props = defineProps<Props>();
+const isTranslating = ref(false);
 
+/**
+ * Fonction de traduction du texte sélectionné.
+ * Utilise translationService pour obtenir le texte traduit,
+ * puis remplace la sélection dans TipTap par le résultat.
+ */
+
+// TODO : Gérer les erreurs
+// TODO: Gérer le formatage du texte traduit (gras, italique, etc.) - Actuellement, le texte inséré est brut.
 const translateSelectedText = async () => {
-  if (!props.editor) return
+  if (!props.editor) return;
 
-  const { from, to } = props.editor.state.selection
-  const selectedText = props.editor.state.doc.textBetween(from, to)
+  const { from, to } = props.editor.state.selection;
+  const selectedText = props.editor.state.doc.textBetween(from, to);
 
   if (!selectedText.trim()) {
-    alert('Please select some text to translate')
-    return
+    alert('Veuillez sélectionner du texte à traduire.');
+    return;
   }
 
-  isTranslating.value = true
+  isTranslating.value = true;
 
   try {
-    const response = await translationService.translate({ text: selectedText })
-
-    // Replace the selected text with the translated text
-    props.editor.chain().focus().deleteSelection().insertContent(response.translatedText).run()
+    const response = await translationService.translate({ text: selectedText });
+    props.editor
+      .chain()
+      .focus()
+      .deleteSelection()
+      .insertContent(response.translatedText)
+      .run();
   } catch (error) {
-    console.error('Translation failed:', error)
-    alert('Translation failed. Please try again.')
+    console.error('Erreur de traduction :', error);
+    alert('La traduction a échoué. Réessayez.');
   } finally {
-    isTranslating.value = false
+    isTranslating.value = false;
   }
-}
-
+};
 </script>
 
 <style scoped>

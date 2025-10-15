@@ -1,7 +1,29 @@
+<!--
+  @file Editor.vue
+  @description
+  Composant principal de l’éditeur TipTap.
+  Initialise l’éditeur, charge les extensions et gère son cycle de vie Vue.
+
+  @utilité
+  - Point d’entrée principal de l’éditeur.
+  - Monte TipTap et émet un événement "ready" lorsque l’éditeur est prêt.
+  - Inclut le composant Toolbar et le contenu de l’éditeur.
+-->
+
 <template>
   <div class="editor-container">
-    <Toolbar v-if="editor" :editor="editor" />
-    <EditorContent v-if="editor" :editor="editor" class="editor-content" />
+    <!-- Barre d’outils -->
+    <Toolbar
+      v-if="editor"
+      :editor="editor"
+    />
+
+    <!-- Zone d’édition -->
+    <EditorContent
+      v-if="editor"
+      :editor="editor"
+      class="editor-content"
+    />
   </div>
 </template>
 
@@ -11,10 +33,16 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { editorExtensions, defaultContent } from './editorConfig'
 import Toolbar from './Toolbar.vue'
 
+/**
+ * Émet un événement 'ready' lorsque l’éditeur est complètement initialisé.
+ */
 const emit = defineEmits<{
   ready: [editor: any]
 }>()
 
+/**
+ * Initialise l’éditeur avec les extensions et le contenu par défaut.
+ */
 const editor = useEditor({
   extensions: editorExtensions,
   content: defaultContent,
@@ -25,12 +53,16 @@ const editor = useEditor({
   },
 })
 
+/**
+ * Quand le composant est monté, émet l’événement ready.
+ */
 onMounted(() => {
-  if (editor.value) {
-    emit('ready', editor.value)
-  }
+  if (editor.value) emit('ready', editor.value)
 })
 
+/**
+ * Détruit proprement l’éditeur à la désactivation du composant.
+ */
 onUnmounted(() => {
   editor.value?.destroy()
 })

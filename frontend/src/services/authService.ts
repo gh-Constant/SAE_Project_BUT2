@@ -65,8 +65,7 @@ const authServiceImpl = {
       throw new Error(error.error || 'Registration failed');
     }
 
-    const user = await response.json();
-    return user;
+    return await response.json();
   },
 
   // Validation du token et récupération des informations utilisateur
@@ -84,7 +83,7 @@ const authServiceImpl = {
       });
 
       return response.ok; // Si la réponse est OK, le token est valide
-    } catch (error) {
+    } catch {
       return false; // Erreur réseau = token invalide
     }
   },
@@ -105,9 +104,8 @@ const authServiceImpl = {
         return null;
       }
 
-      const user = await response.json();
-      return user;
-    } catch (error) {
+      return await response.json();
+    } catch {
       return null;
     }
   },
@@ -117,6 +115,7 @@ const authServiceImpl = {
     localStorage.removeItem('currentUser'); // Remove for security
   },
 
+  /**
   getMyRole: async (): Promise<any> => {
     const token = localStorage.getItem('authToken');
     if (!token) return null;
@@ -154,9 +153,11 @@ const authServiceImpl = {
 
       return await response.json();
     } catch (error) {
+      console.error('Error fetching user role:', error);
       throw new Error('Failed to fetch user role');
     }
   }
+   */
 }
 
 // On choisit dynamiquement le service à utiliser selon le mode
