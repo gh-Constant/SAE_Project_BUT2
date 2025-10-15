@@ -22,7 +22,7 @@
 
 import L from 'leaflet';
 import { locationsMock, LocationMock } from '@/mocks/locations';
-import { iconMarkers } from '@/utils/map/iconsMarkers';
+import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
 
 export const locationMockService = {
   /**
@@ -55,7 +55,8 @@ export const locationMockService = {
     }
 
     locations.forEach((location) => {
-      const icon = iconMarkers[location.iconName] || iconMarkers['default'];
+      // Utiliser l'icône spécifiée ou l'icône par défaut si elle n'existe pas
+      const icon = iconMarkers[location.iconName] || defaultIcon;
 
       const marker = L.marker(location.position, { icon });
 
