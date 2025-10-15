@@ -1,5 +1,5 @@
 /**
- * @file app.ts
+ * @file app.config.ts
  * @description
  * Création et configuration de l'application Express.
  * Configure les middlewares, les routes, la gestion des erreurs et les endpoints de santé.
@@ -17,14 +17,14 @@
  * @remarques
  * - Les middlewares de logging ne sont activés qu'en développement (`config.isDevelopment`).
  * - `notFoundHandler` doit être déclaré après toutes les routes pour gérer les 404.
- * - `errorHandler` doit être le dernier middleware pour capturer toutes les erreurs.
+ * - `errorMiddleware` doit être le dernier middleware pour capturer toutes les erreurs.
  */
 
 import express, { Application } from 'express';
 import cors from 'cors';
-import { corsOptions, config } from './config/app.js';
-import { requestLogger, responseTimeLogger } from './middleware/logger.js';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import { corsOptions, config } from './config/app.config.js';
+import { requestLogger, responseTimeLogger } from './middleware/logger.middleware.js';
+import { errorMiddleware, notFoundHandler } from './middleware/error.middleware.js';
 import routes from './routes/index.js';
 /**
  * Crée et configure l'application Express.
@@ -51,7 +51,7 @@ export const createApp = (): Application => {
   app.use(notFoundHandler);
 
   // Middleware global de gestion des erreurs (doit être en dernier)
-  app.use(errorHandler);
+  app.use(errorMiddleware);
 
   return app;
 };

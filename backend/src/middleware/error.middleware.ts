@@ -1,5 +1,5 @@
 /**
- * @file errorHandler.ts
+ * @file errorMiddleware.ts
  * @description
  * Middleware et utilitaires pour la gestion des erreurs dans l'application Express.
  * Fournit un gestionnaire d'erreurs global, un handler 404 et un wrapper pour gérer les erreurs async.
@@ -11,17 +11,17 @@
  * - Facilite la capture des erreurs dans les routes asynchrones avec asyncHandler.
  *
  * @exports
- * - errorHandler : middleware global pour gérer les erreurs.
+ * - errorMiddleware : middleware global pour gérer les erreurs.
  * - notFoundHandler : middleware pour gérer les routes non trouvées (404).
  * - asyncHandler : wrapper pour capturer automatiquement les erreurs dans les fonctions async.
  *
  * @remarques
- * - errorHandler logge les erreurs seulement si config.isDevelopment est true.
+ * - errorMiddleware logge les erreurs seulement si config.isDevelopment est true.
  * - asyncHandler permet de ne pas répéter try/catch dans chaque route async.
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { config } from '../config/app.js';
+import { config } from '../config/app.config.js';
 
 /**
  * Interface pour les erreurs personnalisées.
@@ -43,7 +43,7 @@ export interface CustomError extends Error {
  * @param res - Réponse Express
  * @param next - Fonction next d'Express
  */
-export const errorHandler = (
+export const errorMiddleware = (
   error: CustomError,
   req: Request,
   res: Response,

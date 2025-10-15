@@ -50,7 +50,7 @@ onUnmounted(() => {
             src="/images/Logo1.png" 
             alt="MedievalEvent Logo" 
             class="h-16 w-auto transition-transform hover:scale-105"
-          />
+          >
         </router-link>
 
         <div class="flex items-center space-x-4">
@@ -68,10 +68,13 @@ onUnmounted(() => {
               Register
             </router-link>
           </template>
-          <div v-else class="relative dropdown-container">
+          <div
+            v-else
+            class="relative dropdown-container"
+          >
             <button
-              @click="toggleDropdown"
               class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-lg hover:bg-orange-50 transition-all duration-200"
+              @click="toggleDropdown"
             >
               <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden border-2 border-orange-200">
                 <img 
@@ -79,8 +82,11 @@ onUnmounted(() => {
                   :src="auth.user.avatarUrl" 
                   :alt="auth.user.firstname"
                   class="w-full h-full object-cover"
+                >
+                <i
+                  v-else
+                  class="fas fa-user text-white text-sm"
                 />
-                <i v-else class="fas fa-user text-white text-sm"></i>
               </div>
               <div class="text-left">
                 <div class="text-sm font-semibold text-gray-900">
@@ -90,7 +96,7 @@ onUnmounted(() => {
                   {{ auth.user?.email }}
                 </div>
               </div>
-              <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+              <i class="fas fa-chevron-down text-xs text-gray-400" />
             </button>
             
             <!-- Dropdown Menu -->
@@ -115,7 +121,7 @@ onUnmounted(() => {
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                 @click="closeDropdown"
               >
-                <i class="fas fa-cog mr-3 text-gray-400"></i>
+                <i class="fas fa-cog mr-3 text-gray-400" />
                 Panel Administrateur
               </router-link>
               <router-link
@@ -124,15 +130,15 @@ onUnmounted(() => {
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
                 @click="closeDropdown"
               >
-                <i class="fas fa-briefcase mr-3 text-gray-400"></i>
+                <i class="fas fa-briefcase mr-3 text-gray-400" />
                 Panel Prestataire
               </router-link>
-              <div class="border-t border-gray-100"></div>
+              <div class="border-t border-gray-100" />
               <button
-                @click="handleLogout"
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                @click="handleLogout"
               >
-                <i class="fas fa-sign-out-alt mr-3 text-gray-400"></i>
+                <i class="fas fa-sign-out-alt mr-3 text-gray-400" />
                 Se déconnecter
               </button>
             </div>

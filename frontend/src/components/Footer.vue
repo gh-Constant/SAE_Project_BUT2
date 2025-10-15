@@ -11,7 +11,7 @@ import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
             src="/images/Logo1.png" 
             alt="MedievalEvent Logo" 
             class="h-12 w-auto mr-3"
-          />
+          >
           <span class="text-gray-600 text-sm">
             © 2025 MedievalEvent. All rights reserved.
           </span>

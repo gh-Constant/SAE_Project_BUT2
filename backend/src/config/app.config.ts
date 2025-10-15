@@ -1,5 +1,5 @@
 /**
- * @file app.ts
+ * @file app.config.ts
  * @description
  * Configuration principale de l'application.
  * Fournit les paramètres d'environnement, la configuration CORS et les paramètres spécifiques à l'API.

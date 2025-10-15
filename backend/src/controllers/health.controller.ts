@@ -1,5 +1,5 @@
 /**
- * @file healthController.ts
+ * @file health.controller.ts
  * @description
  * Contrôleurs pour vérifier l'état de santé de l'API et du serveur.
  * Fournit des endpoints simples et détaillés pour monitorer l'application.
@@ -20,8 +20,8 @@
  */
 
 import { Request, Response } from 'express';
-import { config } from '../config/app.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
+import { config } from '../config/app.config.js';
+import { asyncHandler } from '../middleware/error.middleware.js';
 
 /**
  * GET /

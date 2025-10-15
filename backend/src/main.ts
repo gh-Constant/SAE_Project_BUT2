@@ -15,7 +15,7 @@
  * - Toute erreur lors de l'initialisation de la base ou du serveur provoque l'arrêt du processus avec code 1.
  */
 import { createApp } from './app.js';
-import { config } from './config/app.js';
+import { config } from './config/app.config.js';
 import { seedRoles } from './seeds/roles.js';
 import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
 

@@ -1,5 +1,5 @@
 /**
- * @file authController.ts
+ * @file auth.controller.ts
  * @description
  * Contrôleurs pour gérer l'authentification des utilisateurs.
  * Fournit des endpoints pour la connexion, l'inscription et la récupération des informations utilisateur.

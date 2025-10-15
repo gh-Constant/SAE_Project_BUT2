@@ -65,6 +65,11 @@ export const routes = [
     component: () => import('../views/PrestataireView.vue'),
     meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
   },
+  {
+    path: '/editor-test',
+    name: 'editor-test',
+    component: () => import('../views/EditorTestView.vue'),
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification
