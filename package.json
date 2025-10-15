@@ -90,7 +90,6 @@
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
     "highlight.js": "^11.11.1",
-    "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "lowlight": "^3.3.0",
