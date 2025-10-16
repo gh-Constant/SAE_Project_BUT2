@@ -36,6 +36,9 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 });
+
+const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
+
 </script>
 
 <template>
@@ -52,12 +55,34 @@ onUnmounted(() => {
             class="h-16 w-auto transition-transform hover:scale-105"
           >
         </router-link>
+        
+        <!-- Boutons de switch visibles uniquement en mode mock -->
+        <div v-if="isMockMode" class="flex gap-2">
+          <button
+            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            @click="auth.login('aventurier@medieval.com', 'password123')"
+          >
+            Switch to Aventurier
+          </button>
+          <button
+            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            @click="auth.login('prestataire@medieval.com', 'password123')"
+          >
+            Switch to Prestataire
+          </button>
+          <button
+            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            @click="auth.login('admin@medieval.com', 'password123')"
+          >
+            Switch to Admin
+          </button>
+        </div>
 
         <div class="flex items-center space-x-4">
           <template v-if="!isLoggedIn">
             <router-link
-              to="/login"
-              class="px-6 py-2.5 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            to="/login"
+            class="px-6 py-2.5 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
             >
               Sign In
             </router-link>
@@ -68,8 +93,9 @@ onUnmounted(() => {
               Register
             </router-link>
           </template>
+
           <div
-            v-else
+            v-if="isLoggedIn"
             class="relative dropdown-container"
           >
             <button
