@@ -1,0 +1,40 @@
+enum UserQuestStatus {
+  accepted
+  completed 
+  failed
+}
+
+model UserQuest {
+  id_user    Int
+  id_quest   Int
+  status     UserQuestStatus @default(accepted) // Uses the enum
+
+  created_at DateTime?       @default(now()) @db.DateTime(0)
+  updated_at DateTime?       @updatedAt @db.DateTime(0)
+
+  user  User  @relation(fields: [id_user], references: [id_user])
+  quest Quest @relation(fields: [id_quest], references: [id_quest])
+
+  @@id([id_user, id_quest])
+  @@index([id_quest])
+  @@map("userQuests")
+}
+
+model Quest {
+  id_quest    Int       @id @default(autoincrement())
+  title       String?   @db.VarChar(255)
+  description String?   @db.Text
+  xp_reward   Int?
+
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  
+  id_location Int
+
+  location   Location    @relation(fields: [id_location], references: [id_location])
+  userQuests UserQuest[]
+
+  @@index([id_location])
+  @@map("quests")
+}
+
