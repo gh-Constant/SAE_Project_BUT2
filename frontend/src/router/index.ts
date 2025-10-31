@@ -60,6 +60,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/articles',
+    name: 'admin-articles',
+    component: () => import('../views/AdminArticlesView.vue'),
+    meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
+  },
+  {
     path: '/prestataire',
     name: 'prestataire',
     component: () => import('../views/PrestataireView.vue'),
