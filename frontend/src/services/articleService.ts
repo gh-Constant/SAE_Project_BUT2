@@ -1,8 +1,20 @@
 import { ArticleMock, Articles } from '@/mocks/article'
 import { USERS } from '@/mocks/users'
 
-// Copie initiale des articles
-const articles = Articles.map(article => Object.assign({}, article))
+// Crée une copie de la liste des articles pour pouvoir la modifier
+const articles: ArticleMock[] = []
+for (const article of Articles) {
+  const articleCopie = {
+    id: article.id,
+    name: article.name,
+    stock: article.stock,
+    prestataireId: article.prestataireId,
+    description: article.description,
+    imageUrl: article.imageUrl,
+    price: article.price
+  }
+  articles.push(articleCopie)
+}
 
 export const articleService = {
   getArticles() {
@@ -19,47 +31,31 @@ export const articleService = {
   },
 
   deleteArticle(id: number) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
-      const newArticles = []
-      for (const article of articles) {
-        if (article.id !== id) {
-          newArticles.push(article)
-        }
+    const confirmation = confirm('Êtes-vous sûr de vouloir supprimer cet article ?')
+    if (!confirmation) return false
+
+    const newArticles = []
+    for (const article of articles) {
+      if (article.id !== id) {
+        newArticles.push(article)
       }
-      articles.length = 0
-      for (const article of newArticles) {
-        articles.push(article)
-      }
-      return true
     }
-    return false
+    
+    // Remplace l'ancienne liste par la nouvelle
+    articles.length = 0
+    for (const article of newArticles) {
+      articles.push(article)
+    }
+    return true
   },
 
   updateArticle(articleToUpdate: ArticleMock) {
-    // Chercher l'index de l'article à mettre à jour
-    let indexToUpdate = -1
-    for (let i = 0; i < articles.length; i++) {
-      if (articles[i].id === articleToUpdate.id) {
-        indexToUpdate = i
-        break
-      }
+    const index = articles.findIndex(a => a.id === articleToUpdate.id)
+    if (index >= 0) {
+      articles[index] = { ...articleToUpdate }
+      return articles[index]
     }
-
-    if (indexToUpdate >= 0) {
-      // Créer une copie de l'article avec les nouvelles valeurs
-      const updatedArticle = {
-        id: articleToUpdate.id,
-        name: articleToUpdate.name,
-        stock: articleToUpdate.stock,
-        prestataireId: articleToUpdate.prestataireId,
-        description: articleToUpdate.description,
-        imageUrl: articleToUpdate.imageUrl,
-        price: articleToUpdate.price
-      }
-      articles[indexToUpdate] = updatedArticle
-      return true
-    }
-    return false
+    return null
   },
 
   createArticle(nouvelArticle: {
@@ -102,5 +98,48 @@ export const articleService = {
       imageUrl: '',
       price: 0
     }
+  },
+
+  // Nouvelles fonctions pour les prestataires
+  getArticlesByPrestataire(prestataireId: number) {
+    return articles.filter(article => article.prestataireId === prestataireId)
+  },
+
+  createArticleForPrestataire(prestataireId: number, articleData: {
+    name: string,
+    stock: number,
+    description: string,
+    imageUrl: string,
+    price: number
+  }) {
+    let maxId = 0
+    for (const article of articles) {
+      if (article.id > maxId) {
+        maxId = article.id
+      }
+    }
+
+    const newArticle = {
+      id: maxId + 1,
+      prestataireId: prestataireId,
+      name: articleData.name,
+      stock: articleData.stock,
+      description: articleData.description,
+      imageUrl: articleData.imageUrl,
+      price: articleData.price
+    }
+
+    articles.push(Object.assign({}, newArticle))
+    return newArticle
+  },
+
+  canModifyArticle(articleId: number, prestataireId: number): boolean {
+    for (const article of articles) {
+      if (article.id === articleId) {
+        return article.prestataireId === prestataireId
+      }
+    }
+    return false
   }
 }
+

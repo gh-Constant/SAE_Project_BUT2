@@ -165,6 +165,12 @@
             <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
               Ajouter un service
             </button>
+            <router-link
+              to="/prestataire/articles"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+            >
+              Gérer ma boutique
+            </router-link>
             <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
               Créer un lieu
             </button>

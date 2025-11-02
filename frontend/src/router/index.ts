@@ -72,6 +72,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
   },
   {
+    path: '/prestataire/articles',
+    name: 'prestataire-articles',
+    component: () => import('../views/PrestataireArticlesView.vue'),
+    meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
+  },
+  {
     path: '/editor-test',
     name: 'editor-test',
     component: () => import('../views/EditorTestView.vue'),
