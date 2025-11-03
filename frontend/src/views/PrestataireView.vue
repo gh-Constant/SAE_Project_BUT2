@@ -26,9 +26,12 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div class="px-4 py-6 sm:px-0">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <main class="w-full">
+      <!-- Contenu du Tableau de bord -->
+      <div>
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div class="px-4 py-6 sm:px-0">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- My Services Card -->
           <div class="bg-white overflow-hidden shadow rounded-lg">
             <div class="p-5">
@@ -171,9 +174,6 @@
             <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-medium">
               Voir les réservations
             </button>
-            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-              Modifier mon profil
-            </button>
           </div>
         </div>
 
@@ -235,6 +235,8 @@
             </ul>
           </div>
         </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -254,7 +256,7 @@ const user = computed(() => authStore.user)
 const prestataireTypeName = computed(() => {
   if (!user.value?.prestataireTypeId) return 'Type inconnu'
   const type = PRESTATAIRE_TYPES.find(t => t.id === user.value?.prestataireTypeId)
-  return type ? type.name : 'Type inconnu'
+  return type ? type.name.charAt(0).toUpperCase() + type.name.slice(1) : 'Type inconnu'
 })
 
 const logout = () => {
@@ -262,6 +264,3 @@ const logout = () => {
   router.push('/login')
 }
 </script>
-
-<style scoped>
-</style>

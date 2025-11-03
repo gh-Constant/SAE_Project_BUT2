@@ -55,12 +55,18 @@ export const useAuthStore = defineStore('auth', {
     },
     async validateAndRefreshUser() {
       if (isMockEnabled) {
-        // Mode mock : utiliser la logique existante
+        // Mode mock : utiliser la logique existante depuis localStorage
         const userStr = localStorage.getItem('currentUser')
         const token = localStorage.getItem('authToken')
         if (userStr && token) {
-          this.user = JSON.parse(userStr)
-          this.isAuthenticated = true
+          try {
+            this.user = JSON.parse(userStr)
+            this.isAuthenticated = true
+          } catch (error) {
+            // Si les données sont corrompues, nettoyer
+            console.warn('Corrupted user data in localStorage, clearing...')
+            this.logout()
+          }
         }
         return;
       }
@@ -135,6 +141,26 @@ export const useAuthStore = defineStore('auth', {
           localStorage.removeItem(key)
         }
       })
+    },
+    async updateProfile(profileData: {
+      firstname?: string;
+      lastname?: string;
+      email?: string;
+      avatarUrl?: string | null;
+      avatarType?: string | null;
+      prestataireTypeId?: number | null;
+    }) {
+      try {
+        const updatedUser = await (authService as any).updateProfile(profileData)
+        this.user = updatedUser as UserMock
+        // Mettre à jour localStorage en mode mock pour compatibilité
+        if (isMockEnabled) {
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser))
+        }
+        return updatedUser
+      } catch (error) {
+        throw error
+      }
     }
   }
 })

@@ -52,4 +52,12 @@ router.get('/me', authenticateToken, authController.getMe);
  */
 router.get('/role', authenticateToken, authController.getMyRole);
 
+/**
+ * PUT /auth/profile
+ * Met à jour le profil de l'utilisateur connecté.
+ * Route protégée par le middleware `authenticateToken`.
+ * Permet de modifier : firstname, lastname, email, avatarUrl, avatarType, prestataireTypeId
+ */
+router.put('/profile', authenticateToken, authController.updateMe);
+
 export default router;

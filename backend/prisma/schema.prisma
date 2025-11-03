@@ -41,6 +41,13 @@ model User {
   isVerified         Boolean          @default(false) @map("is_verified")
   xp                 Int              @default(0)
   level              Int              @default(0)
+  birthDate          DateTime?        @map("birth_date") @db.Date
+  phone              String?          @db.VarChar(20)
+  bio                String?           @db.Text
+  address            String?          @db.VarChar(255)
+  city               String?          @db.VarChar(100)
+  postalCode         String?          @map("postal_code") @db.VarChar(10)
+  country            String?          @default("France") @db.VarChar(100)
   createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt          DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
   locations          Location?
