@@ -31,7 +31,7 @@ export const productService = {
   },
 
   deleteProduct(id: number) {
-    const confirmation = confirm('Êtes-vous sûr de vouloir supprimer cet product ?')
+    const confirmation = confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')
     if (!confirmation) return false
 
     const newProducts = []

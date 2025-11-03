@@ -3,7 +3,10 @@
     <h1 class="text-2xl font-bold mb-6">Gestion de ma boutique</h1>
 
     <!-- Formulaire d'ajout -->
-    <form @submit.prevent="addProduct" class="mb-6 bg-white p-6 rounded-lg shadow">
+    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-6" @click="showForm = true">
+      Ajouter un produit
+    </button>
+    <form v-if="showForm == true" @submit.prevent="addProduct" class="mb-6 bg-white p-6 rounded-lg shadow">
       <h2 class="text-lg font-semibold mb-4">Ajouter un produit</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -123,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 import { productService } from '@/services/productService'
@@ -131,6 +134,7 @@ import { productService } from '@/services/productService'
 
 const authStore = useAuthStore()
 const store = useProductStore()
+const showForm = ref(false)
 
 // Filtrer uniquement les products du prestataire connecté
 const myProducts = computed(() => 
