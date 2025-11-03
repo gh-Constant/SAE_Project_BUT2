@@ -166,8 +166,8 @@
               Ajouter un service
             </button>
             <router-link
-              to="/prestataire/articles"
-              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+              to="/prestataire/products"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
             >
               Gérer ma boutique
             </router-link>

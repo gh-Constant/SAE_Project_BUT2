@@ -12,7 +12,7 @@
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Description</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Prix</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Stock</th>
-            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Propriétaire</th>
+            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Localisation</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
           </tr>
         </thead>
@@ -56,14 +56,14 @@
 
             <td class="px-6 py-4 text-center">
               <div v-if="store.editId !== product.id" class="text-sm text-gray-900">
-                {{ productService.getPrestataireName(product.prestataireId) }}
+                {{ productService.getLocation(product.locationId) }}
               </div>
               <input 
                 v-else 
-                v-model.number="store.editProduct.prestataireId" 
+                v-model.number="store.editProduct.locationId" 
                 type="number" 
                 class="border rounded px-2 py-1 w-24"
-                :title="productService.getPrestataireName(store.editProduct.prestataireId)"
+                :title="productService.getLocation(store.editProduct.locationId)"
               >
             </td>
 

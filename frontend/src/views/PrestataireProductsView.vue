@@ -48,6 +48,7 @@
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Description</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Prix</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Stock</th>
+            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Localisation</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
           </tr>
         </thead>
@@ -89,6 +90,13 @@
               <input v-else v-model.number="store.editProduct.stock" type="number" class="border rounded px-2 py-1 w-24">
             </td>
             
+            <td class="px-6 py-4">
+              <div v-if="store.editId !== product.id" class="text-sm text-gray-900">
+                {{ productService.getLocation(product.locationId) }}
+              </div>
+              <input v-else v-model.number="store.editProduct.locationId" type="number" class="border rounded px-2 py-1 w-24">
+            </td>
+
             <td class="px-6 py-4 space-x-2">
               <template v-if="store.editId !== product.id">
                 <button @click="store.startEdit(product)" class="text-blue-600 hover:text-blue-800">
@@ -118,17 +126,19 @@
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
+import { productService } from '@/services/productService'
+
 
 const authStore = useAuthStore()
 const store = useProductStore()
 
 // Filtrer uniquement les products du prestataire connecté
 const myProducts = computed(() => 
-  store.productsForPrestataire(authStore.user?.id || 0)
+  store.productsForLocation(authStore.user?.id || 0)
 )
 
 function addProduct() {
-  store.addProductForPrestataire(authStore.user?.id || 0)
+  store.addProductForLocation(authStore.user?.id || 0)
 }
 </script>
 

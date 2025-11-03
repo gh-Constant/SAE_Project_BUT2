@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ProductMock } from '@/mocks/product'
+import { ProductMock } from '@/mocks/products'
 import { productService } from '@/services/productService'
 
 export const useProductStore = defineStore('product', {
@@ -18,7 +18,7 @@ export const useProductStore = defineStore('product', {
         id: product.id,
         name: product.name,
         stock: product.stock,
-        prestataireId: product.prestataireId,
+        locationId: product.locationId,
         description: product.description,
         imageUrl: product.imageUrl,
         price: product.price
@@ -42,7 +42,7 @@ export const useProductStore = defineStore('product', {
             id: updatedProduct.id,
             name: updatedProduct.name,
             stock: updatedProduct.stock,
-            prestataireId: updatedProduct.prestataireId,
+            locationId: updatedProduct.locationId,
             description: updatedProduct.description,
             imageUrl: updatedProduct.imageUrl,
             price: updatedProduct.price
@@ -71,14 +71,14 @@ export const useProductStore = defineStore('product', {
       }
     },
 
-    // Add a new product for a prestataire
-    addProductForPrestataire(idProvider: number) {
-      const createdProduct = productService.createProductForPrestataire(idProvider, this.newProduct)
+    // Add a new product for a location
+    addProductForLocation(idProvider: number) {
+      const createdProduct = productService.createProductForLocation(idProvider, this.newProduct)
       this.products.push({
         id: createdProduct.id,
         name: createdProduct.name,
         stock: createdProduct.stock,
-        prestataireId: createdProduct.prestataireId,
+        locationId: createdProduct.locationId,
         description: createdProduct.description,
         imageUrl: createdProduct.imageUrl,
         price: createdProduct.price
@@ -89,10 +89,10 @@ export const useProductStore = defineStore('product', {
 
   getters: {
     // Return the products of a specific provider
-    productsForPrestataire: (state) => (idProvider: number) => {
+    productsForLocation: (state) => (idProvider: number) => {
       const productsProvider = []
       for (const product of state.products) {
-        if (product.prestataireId === idProvider) {
+        if (product.locationId === idProvider) {
           productsProvider.push(product)
         }
       }

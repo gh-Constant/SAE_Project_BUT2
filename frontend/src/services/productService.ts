@@ -1,14 +1,14 @@
-import { ProductMock, Products } from '@/mocks/product'
-import { USERS } from '@/mocks/users'
+import { locationsMock } from '@/mocks'
+import { ProductMock, PRODUCTS } from '@/mocks/products'
 
 // Crée une copie de la liste des products pour pouvoir la modifier
 const products: ProductMock[] = []
-for (const product of Products) {
+for (const product of PRODUCTS) {
   const productCopie = {
     id: product.id,
     name: product.name,
     stock: product.stock,
-    prestataireId: product.prestataireId,
+    locationId: product.locationId,
     description: product.description,
     imageUrl: product.imageUrl,
     price: product.price
@@ -21,10 +21,10 @@ export const productService = {
     return products
   },
 
-  getPrestataireName(prestataireId: number) {
-    for (const user of USERS) {
-      if (user.id === prestataireId) {
-        return user.firstname + ' ' + user.lastname
+  getLocation(locationId: number) {
+    for (const location of locationsMock) {
+      if (location.id === locationId) {
+        return location.name
       }
     }
     return 'Inconnu'
@@ -61,7 +61,7 @@ export const productService = {
   createProduct(nouvelProduct: {
     name: string,
     stock: number,
-    prestataireId: number,
+    locationId: number,
     description: string,
     imageUrl: string,
     price: number
@@ -78,7 +78,7 @@ export const productService = {
       id: maxId + 1,
       name: nouvelProduct.name,
       stock: nouvelProduct.stock,
-      prestataireId: nouvelProduct.prestataireId,
+      locationId: nouvelProduct.locationId,
       description: nouvelProduct.description,
       imageUrl: nouvelProduct.imageUrl,
       price: nouvelProduct.price
@@ -93,19 +93,19 @@ export const productService = {
       id: 0,
       name: '',
       stock: 0,
-      prestataireId: 0,
+      locationId: 0,
       description: '',
       imageUrl: '',
       price: 0
     }
   },
 
-  // Nouvelles fonctions pour les prestataires
-  getProductsByPrestataire(prestataireId: number) {
-    return products.filter(product => product.prestataireId === prestataireId)
+  // Nouvelles fonctions pour les locations
+  getProductsByLocation(locationId: number) {
+    return products.filter(product => product.locationId === locationId)
   },
 
-  createProductForPrestataire(prestataireId: number, productData: {
+  createProductForLocation(locationId: number, productData: {
     name: string,
     stock: number,
     description: string,
@@ -121,7 +121,7 @@ export const productService = {
 
     const newProduct = {
       id: maxId + 1,
-      prestataireId: prestataireId,
+      locationId: locationId,
       name: productData.name,
       stock: productData.stock,
       description: productData.description,
@@ -133,10 +133,10 @@ export const productService = {
     return newProduct
   },
 
-  canModifyProduct(productId: number, prestataireId: number): boolean {
+  canModifyProduct(productId: number, locationId: number): boolean {
     for (const product of products) {
       if (product.id === productId) {
-        return product.prestataireId === prestataireId
+        return product.locationId === locationId
       }
     }
     return false
