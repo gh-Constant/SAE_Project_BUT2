@@ -1,4 +1,4 @@
-export interface ArticleMock {
+export interface ProductMock {
   id: number;
   name: string;
   stock: number;
@@ -8,7 +8,7 @@ export interface ArticleMock {
   price: number;
 }
 
-export const Articles: ArticleMock[] = [
+export const Products: ProductMock[] = [
   {
     id: 1,
     name: 'Épée en bois',

@@ -3,42 +3,42 @@
     <h1 class="text-2xl font-bold mb-6">Gestion de ma boutique</h1>
 
     <!-- Formulaire d'ajout -->
-    <form @submit.prevent="addArticle" class="mb-6 bg-white p-6 rounded-lg shadow">
-      <h2 class="text-lg font-semibold mb-4">Ajouter un article</h2>
+    <form @submit.prevent="addProduct" class="mb-6 bg-white p-6 rounded-lg shadow">
+      <h2 class="text-lg font-semibold mb-4">Ajouter un produit</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-          <input v-model="store.newArticle.name" type="text" required class="w-full border rounded px-3 py-2">
+          <input v-model="store.newProduct.name" type="text" required class="w-full border rounded px-3 py-2">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-          <input v-model="store.newArticle.imageUrl" type="text" required class="w-full border rounded px-3 py-2">
+          <input v-model="store.newProduct.imageUrl" type="text" required class="w-full border rounded px-3 py-2">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Prix</label>
-          <input v-model.number="store.newArticle.price" type="number" required class="w-full border rounded px-3 py-2">
+          <input v-model.number="store.newProduct.price" type="number" required class="w-full border rounded px-3 py-2">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-          <input v-model.number="store.newArticle.stock" type="number" required class="w-full border rounded px-3 py-2">
+          <input v-model.number="store.newProduct.stock" type="number" required class="w-full border rounded px-3 py-2">
         </div>
         
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-          <textarea v-model="store.newArticle.description" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+          <textarea v-model="store.newProduct.description" rows="3" class="w-full border rounded px-3 py-2"></textarea>
         </div>
       </div>
       <div class="mt-4 flex justify-end">
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          Ajouter l'article
+          Ajouter le produit
         </button>
       </div>
     </form>
 
-    <!-- Liste des articles -->
+    <!-- Liste des products -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
@@ -52,49 +52,49 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="article in myArticles" :key="article.id" class="hover:bg-gray-50">
+          <tr v-for="product in myProducts" :key="product.id" class="hover:bg-gray-50">
             <td class="px-6 py-4">
-              <img :src="article.imageUrl" :alt="article.name" class="h-12 w-12 object-cover rounded">
+              <img :src="product.imageUrl" :alt="product.name" class="h-12 w-12 object-cover rounded">
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="store.editId !== article.id">
-                <div class="font-medium text-gray-900">{{ article.name }}</div>
+              <div v-if="store.editId !== product.id">
+                <div class="font-medium text-gray-900">{{ product.name }}</div>
               </div>
               <div v-else class="space-y-2">
-                <input v-model="store.editArticle.name" class="border rounded px-2 py-1 w-full" placeholder="Nom">
+                <input v-model="store.editProduct.name" class="border rounded px-2 py-1 w-full" placeholder="Nom">
               </div>
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="store.editId !== article.id">
-                <div class="text-sm text-gray-500">{{ article.description }}</div>
+              <div v-if="store.editId !== product.id">
+                <div class="text-sm text-gray-500">{{ product.description }}</div>
               </div>
               <div v-else class="space-y-2">
-                <textarea v-model="store.editArticle.description" class="border rounded px-2 py-1 w-full" placeholder="Description"></textarea>
+                <textarea v-model="store.editProduct.description" class="border rounded px-2 py-1 w-full" placeholder="Description"></textarea>
               </div>
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="store.editId !== article.id" class="text-sm text-gray-900">
-                {{ article.price }}€
+              <div v-if="store.editId !== product.id" class="text-sm text-gray-900">
+                {{ product.price }}€
               </div>
-              <input v-else v-model.number="store.editArticle.price" type="number" class="border rounded px-2 py-1 w-24">
+              <input v-else v-model.number="store.editProduct.price" type="number" class="border rounded px-2 py-1 w-24">
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="store.editId !== article.id" class="text-sm text-gray-900">
-                {{ article.stock }}
+              <div v-if="store.editId !== product.id" class="text-sm text-gray-900">
+                {{ product.stock }}
               </div>
-              <input v-else v-model.number="store.editArticle.stock" type="number" class="border rounded px-2 py-1 w-24">
+              <input v-else v-model.number="store.editProduct.stock" type="number" class="border rounded px-2 py-1 w-24">
             </td>
             
             <td class="px-6 py-4 space-x-2">
-              <template v-if="store.editId !== article.id">
-                <button @click="store.startEdit(article)" class="text-blue-600 hover:text-blue-800">
+              <template v-if="store.editId !== product.id">
+                <button @click="store.startEdit(product)" class="text-blue-600 hover:text-blue-800">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button @click="store.deleteArticle(article.id)" class="text-red-600 hover:text-red-800">
+                <button @click="store.deleteProduct(product.id)" class="text-red-600 hover:text-red-800">
                   <i class="fas fa-trash"></i>
                 </button>
               </template>
@@ -117,18 +117,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { useArticleStore } from '@/stores/article'
+import { useProductStore } from '@/stores/product'
 
 const authStore = useAuthStore()
-const store = useArticleStore()
+const store = useProductStore()
 
-// Filtrer uniquement les articles du prestataire connecté
-const myArticles = computed(() => 
-  store.articlesForPrestataire(authStore.user?.id || 0)
+// Filtrer uniquement les products du prestataire connecté
+const myProducts = computed(() => 
+  store.productsForPrestataire(authStore.user?.id || 0)
 )
 
-function addArticle() {
-  store.addArticleForPrestataire(authStore.user?.id || 0)
+function addProduct() {
+  store.addProductForPrestataire(authStore.user?.id || 0)
 }
 </script>
 

@@ -9,4 +9,4 @@ export * from './quests';
 export * from './activities';
 export * from './userQuests';
 export * from './prestataireTypes';
-export * from './article';
+export * from './product';

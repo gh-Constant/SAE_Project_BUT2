@@ -60,9 +60,9 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
   },
   {
-    path: '/admin/articles',
-    name: 'admin-articles',
-    component: () => import('../views/AdminArticlesView.vue'),
+    path: '/admin/products',
+    name: 'admin-products',
+    component: () => import('../views/AdminProductsView.vue'),
     meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
   },
   {
@@ -72,9 +72,9 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
   },
   {
-    path: '/prestataire/articles',
-    name: 'prestataire-articles',
-    component: () => import('../views/PrestataireArticlesView.vue'),
+    path: '/prestataire/products',
+    name: 'prestataire-products',
+    component: () => import('../views/PrestataireProductsView.vue'),
     meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
   },
   {
