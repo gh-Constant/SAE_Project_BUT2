@@ -1,0 +1,72 @@
+model ServiceType {
+  id_service_type Int      @id @default(autoincrement())
+  name            String?  @db.VarChar(255)
+  
+  created_at      DateTime? @default(now()) @db.DateTime(0)
+  updated_at      DateTime? @updatedAt @db.DateTime(0)
+  
+  sevices         Sevice[]
+
+  @@map("service_types")
+}
+model Location {
+  id_location    Int       @id @default(autoincrement())
+  static_code    String?   @db.VarChar(255)
+  price          Decimal?  @db.Decimal(15, 2)
+  available      Boolean?
+
+  created_at     DateTime? @default(now()) @db.DateTime(0)
+  updated_at     DateTime? @updatedAt @db.DateTime(0)
+
+  id_prestataire Int
+
+  prestataire Prestataire @relation(fields: [id_prestataire], references: [id_prestataire])
+  activities  Activity[]
+  sevices     Sevice[]
+  quests      Quest[]
+
+  @@index([id_prestataire])
+  @@map("locations")
+}
+
+model Activity {
+  id_activity Int       @id @default(autoincrement())
+  title       String?   @db.VarChar(255)
+  description String?   @db.Text
+  start_time  DateTime? @db.DateTime(0)
+  end_time    DateTime? @db.DateTime(0)
+
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @updatedAt @db.DateTime(0)
+
+  id_location Int
+
+  location    Location  @relation(fields: [id_location], references: [id_location])
+
+  @@index([id_location])
+  @@map("activities")
+}
+
+model Sevice {
+  id_service      Int       @id @default(autoincrement())
+  serviceCode     String?   @db.VarChar(255)
+  name            String?   @db.VarChar(255)
+  description     String?   @db.Text
+
+  created_at      DateTime? @default(now()) @db.DateTime(0)
+  updated_at      DateTime? @updatedAt @db.DateTime(0)
+
+  id_prestataire  Int
+  id_service_type Int
+  id_location     Int
+
+  prestataire  Prestataire @relation(fields: [id_prestataire], references: [id_prestataire])
+  service_type ServiceType @relation(fields: [id_service_type], references: [id_service_type])
+  location     Location    @relation(fields: [id_location], references: [id_location])
+  stock        Stock[]
+
+  @@index([id_prestataire])
+  @@index([id_service_type])
+  @@index([id_location])
+  @@map("sevices")
+}
