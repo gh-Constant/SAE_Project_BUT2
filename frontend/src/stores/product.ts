@@ -97,6 +97,12 @@ export const useProductStore = defineStore('product', {
         }
       }
       return productsProvider
+    },
+
+    sortedProducts: (state) => {
+      const sortedProducts = [...state.products]
+      sortedProducts.sort((a, b) => a.locationId - b.locationId)
+      return sortedProducts
     }
   }
 })

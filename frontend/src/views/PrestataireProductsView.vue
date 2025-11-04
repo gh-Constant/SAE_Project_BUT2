@@ -31,8 +31,8 @@
         
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-700 mb-1">Localisation</label>
-          <select v-model="store.newProduct.locationId" class="w-full border rounded px-3 py-2">
-            <option value="">Sélectionner une localisation</option>
+          <select required v-model="store.newProduct.locationId" class="w-full border rounded px-3 py-2">
+            <option value="" disabled selected>Sélectionner une localisation</option>
             <option v-for="location in getLocationsForPrestataire()" :key="location.id" :value="location.id">
               {{ location.name }}
             </option>
@@ -48,7 +48,7 @@
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
           Ajouter le produit
         </button>
-        <button @click="showForm = false" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <button @click="showForm = false" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2">
           Annuler
         </button>
       </div>
@@ -117,7 +117,7 @@
                   </select>
                 </div>
               </td>
-              <td class="px-6 py-4 space-x-2">
+              <td class="px-6 py-4 text-center">
                 <template v-if="store.editId !== product.id">
                   <button @click="store.startEdit(product)" class="text-blue-600 hover:text-blue-800">
                     <i class="fas fa-edit"></i>

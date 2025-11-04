@@ -13,11 +13,12 @@
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Prix</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Stock</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Localisation</th>
+            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Appartenance</th>
             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="product in store.products" :key="product.id" class="hover:bg-gray-50">
+          <tr v-for="product in store.sortedProducts" :key="product.id" class="hover:bg-gray-50">
             <td class="px-6 py-4">
               <img :src="product.imageUrl" :alt="product.name" class="h-12 w-12 object-cover rounded">
             </td>
@@ -31,7 +32,7 @@
               </div>
             </td>
             
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-left">
               <div v-if="store.editId !== product.id">
                 <div class="text-sm text-gray-500"> {{ product.description }} </div>
               </div>
@@ -54,17 +55,25 @@
               <input v-else v-model.number="store.editProduct.stock" type="number" class="border rounded px-2 py-1 w-24">
             </td>
 
-            <td class="px-6 py-4 text-center">
+            <td class="px-6 py-4 text-center">  
               <div v-if="store.editId !== product.id" class="text-sm text-gray-900">
                 {{ productService.getLocation(product.locationId) }}
               </div>
-              <input 
-                v-else 
-                v-model.number="store.editProduct.locationId" 
-                type="number" 
-                class="border rounded px-2 py-1 w-24"
-                :title="productService.getLocation(store.editProduct.locationId)"
-              >
+              <div v-else>
+                <select v-model="store.editProduct.locationId" class="w-full border rounded px-3 py-2">
+                  <option v-for="location in locationsMock" 
+                          :key="location.id" 
+                          :value="location.id">
+                    {{ location.name }}
+                  </option>
+                </select>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div class="text-sm text-gray-900">
+                {{ getLocationOwner(product.locationId) }}
+              </div>
             </td>
 
             <td class="px-6 py-4 space-x-2">
@@ -95,6 +104,21 @@
 <script setup lang="ts">
 import { useProductStore } from '@/stores/product'
 import { productService } from '@/services/productService'
+import { locationsMock } from '@/mocks/locations'
+import { USERS } from '@/mocks/users'
 
 const store = useProductStore()
+
+function getLocationOwner(locationId: number): string | null {
+  const location = locationsMock.find(location => location.id === locationId)
+  if (location) {
+    const user = USERS.find(user => user.id === location.userId)
+    if (user) {
+      return `${user.firstname} ${user.lastname}`
+    }
+  }
+  return null
+}
+
 </script>
+
