@@ -69,11 +69,7 @@ export const authController = {
           avatarType: true,
           birthDate: true,
           phone: true,
-          bio: true,
-          address: true,
-          city: true,
-          postalCode: true,
-          country: true
+          bio: true
         }
       });
 
@@ -133,11 +129,7 @@ export const authController = {
         prestataireTypeId,
         birthDate,
         phone,
-        bio,
-        address,
-        city,
-        postalCode,
-        country
+        bio
       } = req.body;
 
       // Vérifier que l'utilisateur existe
@@ -209,10 +201,6 @@ export const authController = {
         birthDate?: Date | null;
         phone?: string | null;
         bio?: string | null;
-        address?: string | null;
-        city?: string | null;
-        postalCode?: string | null;
-        country?: string | null;
       } = {};
 
       if (firstname !== undefined) updateData.firstname = firstname;
@@ -223,10 +211,6 @@ export const authController = {
       if (birthDate !== undefined) updateData.birthDate = birthDate ? new Date(birthDate) : null;
       if (phone !== undefined) updateData.phone = phone || null;
       if (bio !== undefined) updateData.bio = bio || null;
-      if (address !== undefined) updateData.address = address || null;
-      if (city !== undefined) updateData.city = city || null;
-      if (postalCode !== undefined) updateData.postalCode = postalCode || null;
-      if (country !== undefined) updateData.country = country || null;
       
       if (prestataireTypeId !== undefined) {
         // Valider que le prestataireTypeId existe si fourni
@@ -269,10 +253,6 @@ export const authController = {
           birthDate: true,
           phone: true,
           bio: true,
-          address: true,
-          city: true,
-          postalCode: true,
-          country: true,
           xp: true,
           level: true,
           createdAt: true,

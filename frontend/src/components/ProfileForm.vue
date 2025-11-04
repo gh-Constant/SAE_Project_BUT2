@@ -263,143 +263,6 @@
             </div>
           </div>
 
-          <!-- SECTION 3: Localisation -->
-          <div class="mb-8 pb-8 border-b border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-6 border-b-2 border-orange-500 pb-2">
-              {{ t('prestataire.profile.sections.location') }}
-            </h3>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <!-- Adresse -->
-              <div class="relative lg:col-span-2">
-                <input
-                  id="address"
-                  v-model="formData.address"
-                  type="text"
-                  maxlength="255"
-                  class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-                  :class="fieldErrors.address ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                  placeholder=" "
-                  @blur="validateField('address', formData.address)"
-                  @input="validateField('address', formData.address)"
-                >
-                <label 
-                  for="address" 
-                  class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-                  :class="formData.address ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-                  :style="{ color: fieldErrors.address ? '#ef4444' : formData.address ? '#f97316' : '#6b7280' }"
-                >
-                  {{ (fieldErrors.address && formData.address) ? fieldErrors.address : t('prestataire.profile.fields.address') }}
-                </label>
-                <p v-if="fieldErrors.address && formData.address" class="mt-1 text-xs text-red-500 px-4">
-                  {{ fieldErrors.address }}
-                </p>
-              </div>
-              <!-- Ville -->
-              <div class="relative">
-                <input
-                  id="city"
-                  v-model="formData.city"
-                  type="text"
-                  maxlength="100"
-                  class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-                  :class="fieldErrors.city ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                  placeholder=" "
-                  @blur="validateField('city', formData.city)"
-                  @input="validateField('city', formData.city)"
-                >
-                <label 
-                  for="city" 
-                  class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-                  :class="formData.city ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-                  :style="{ color: fieldErrors.city ? '#ef4444' : formData.city ? '#f97316' : '#6b7280' }"
-                >
-                  {{ (fieldErrors.city && formData.city) ? fieldErrors.city : t('prestataire.profile.fields.city') }}
-                </label>
-                <p v-if="fieldErrors.city && formData.city" class="mt-1 text-xs text-red-500 px-4">
-                  {{ fieldErrors.city }}
-                </p>
-              </div>
-              <!-- Code postal -->
-              <div class="relative">
-                <input
-                  id="postalCode"
-                  v-model="formData.postalCode"
-                  type="text"
-                  maxlength="10"
-                  class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-                  :class="fieldErrors.postalCode ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                  placeholder=" "
-                  @blur="validateField('postalCode', formData.postalCode)"
-                  @input="validateField('postalCode', formData.postalCode)"
-                >
-                <label 
-                  for="postalCode" 
-                  class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-                  :class="formData.postalCode ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-                  :style="{ color: fieldErrors.postalCode ? '#ef4444' : formData.postalCode ? '#f97316' : '#6b7280' }"
-                >
-                  {{ (fieldErrors.postalCode && formData.postalCode) ? fieldErrors.postalCode : t('prestataire.profile.fields.postalCode') }}
-                </label>
-                <p v-if="fieldErrors.postalCode && formData.postalCode" class="mt-1 text-xs text-red-500 px-4">
-                  {{ fieldErrors.postalCode }}
-                </p>
-              </div>
-              <!-- Pays - Liste déroulante -->
-              <div class="relative" :class="formData.country === 'Autre' ? 'lg:col-span-1' : 'lg:col-span-2'">
-                <select
-                  id="country"
-                  v-model="formData.country"
-                  class="w-full px-4 py-3 pt-5 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 appearance-none bg-white cursor-pointer"
-                  :class="fieldErrors.country ? 'border-red-500 focus:border-red-500' : (formData.country ? 'border-orange-500' : 'border-gray-300 focus:border-orange-500')"
-                  @blur="validateField('country', formData.country)"
-                  @change="handleCountryChange"
-                >
-                  <option value="" disabled>{{ t('prestataire.profile.fields.country') }}</option>
-                  <option v-for="country in countries" :key="country" :value="country">
-                    {{ country }}
-                  </option>
-                </select>
-                <label 
-                  for="country" 
-                  class="absolute left-4 top-1 text-xs bg-white px-2 text-gray-500 pointer-events-none"
-                  :style="{ color: fieldErrors.country ? '#ef4444' : formData.country ? '#f97316' : '#6b7280' }"
-                >
-                  {{ (fieldErrors.country && formData.country && formData.country !== 'Autre') ? fieldErrors.country : t('prestataire.profile.fields.country') }}
-                </label>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                  <i class="fas fa-chevron-down" :class="fieldErrors.country ? 'text-red-400' : 'text-gray-400'"></i>
-                </div>
-                <p v-if="fieldErrors.country && formData.country && formData.country !== 'Autre'" class="mt-1 text-xs text-red-500 px-4">
-                  {{ fieldErrors.country }}
-                </p>
-              </div>
-              <!-- Nom du pays personnalisé (apparaît si "Autre" est sélectionné) -->
-              <div v-if="formData.country === 'Autre'" class="relative lg:col-span-1">
-                <input
-                  id="customCountry"
-                  v-model="formData.customCountry"
-                  type="text"
-                  maxlength="100"
-                  class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-                  :class="fieldErrors.customCountry ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                  placeholder=" "
-                  @blur="validateField('customCountry', formData.customCountry)"
-                  @input="validateField('customCountry', formData.customCountry)"
-                >
-                <label 
-                  for="customCountry" 
-                  class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-                  :class="formData.customCountry ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-                  :style="{ color: fieldErrors.customCountry ? '#ef4444' : formData.customCountry ? '#f97316' : '#6b7280' }"
-                >
-                  {{ (fieldErrors.customCountry && formData.customCountry) ? fieldErrors.customCountry : t('prestataire.profile.fields.country') }}
-                </label>
-                <p v-if="fieldErrors.customCountry && formData.customCountry" class="mt-1 text-xs text-red-500 px-4">
-                  {{ fieldErrors.customCountry }}
-                </p>
-              </div>
-            </div>
-          </div>
 
           <!-- Informations de statut et Actions - Layout horizontal -->
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-gray-200">
@@ -578,11 +441,6 @@ const formData = ref({
   birthDate: null as string | null,
   phone: '',
   bio: '',
-  address: '',
-  city: '',
-  postalCode: '',
-  country: 'France',
-  customCountry: '', // Pour saisir le nom du pays si "Autre" est sélectionné
   avatarUrl: null as string | null,
   avatarType: 'gallery' as 'gallery' | 'upload',
   prestataireTypeId: null as number | null,
@@ -603,37 +461,8 @@ const fieldErrors = ref({
   email: '',
   birthDate: '',
   phone: '',
-  bio: '',
-  address: '',
-  city: '',
-  postalCode: '',
-  country: '',
-  customCountry: '',
+  bio: ''
 })
-
-// Liste des pays
-const countries = [
-  'France',
-  'Belgique',
-  'Suisse',
-  'Luxembourg',
-  'Monaco',
-  'Espagne',
-  'Italie',
-  'Allemagne',
-  'Royaume-Uni',
-  'Portugal',
-  'Pays-Bas',
-  'Autriche',
-  'Pologne',
-  'Danemark',
-  'Suède',
-  'Norvège',
-  'Finlande',
-  'Grèce',
-  'Irlande',
-  'Autre',
-]
 
 // Avatar
 const currentAvatarUrl = computed(() => {
@@ -670,11 +499,6 @@ onMounted(() => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      address: user.value.address || '',
-      city: user.value.city || '',
-      postalCode: user.value.postalCode || '',
-      country: user.value.country && !countries.includes(user.value.country) ? 'Autre' : (user.value.country || 'France'),
-      customCountry: user.value.country && !countries.includes(user.value.country) ? user.value.country : '',
       avatarUrl: user.value.avatarUrl || null,
       avatarType: (user.value.avatarType as 'gallery' | 'upload') || 'gallery',
       prestataireTypeId: user.value.prestataireTypeId || null,
@@ -777,91 +601,6 @@ const validateField = (field: string, value: string) => {
         fieldErrors.value.bio = ''
       }
       break
-    case 'address':
-      if (value && value.trim()) {
-        if (value.trim().length < 5) {
-          fieldErrors.value.address = t('prestataire.profile.validation.addressMinLength')
-        } else if (value.trim().length > 255) {
-          fieldErrors.value.address = t('prestataire.profile.validation.addressMaxLength')
-        } else {
-          fieldErrors.value.address = ''
-        }
-      } else {
-        fieldErrors.value.address = ''
-      }
-      break
-    case 'city':
-      if (value && value.trim()) {
-        if (value.trim().length < 2) {
-          fieldErrors.value.city = t('prestataire.profile.validation.cityMinLength')
-        } else if (value.trim().length > 100) {
-          fieldErrors.value.city = t('prestataire.profile.validation.cityMaxLength')
-        } else if (!/^[a-zA-ZÀ-ÿ\s\-']+$/.test(value.trim())) {
-          fieldErrors.value.city = t('prestataire.profile.validation.cityInvalid')
-        } else {
-          fieldErrors.value.city = ''
-        }
-      } else {
-        fieldErrors.value.city = ''
-      }
-      break
-    case 'postalCode':
-      if (value && value.trim()) {
-        // Validation code postal français (5 chiffres) ou international
-        const postalCodeRegex = /^[0-9A-Z\s\-]{2,10}$/i
-        if (!postalCodeRegex.test(value.trim())) {
-          fieldErrors.value.postalCode = t('prestataire.profile.validation.postalCodeInvalid')
-        } else {
-          fieldErrors.value.postalCode = ''
-        }
-      } else {
-        fieldErrors.value.postalCode = ''
-      }
-      break
-    case 'country':
-      if (value && value.trim()) {
-        if (value === 'Autre') {
-          // Si "Autre" est sélectionné, on valide le champ customCountry à la place
-          fieldErrors.value.country = ''
-          if (!formData.value.customCountry || !formData.value.customCountry.trim()) {
-            fieldErrors.value.customCountry = t('prestataire.profile.validation.customCountryRequired')
-          } else {
-            validateField('customCountry', formData.value.customCountry)
-          }
-        } else if (!countries.includes(value)) {
-          fieldErrors.value.country = t('prestataire.profile.validation.countryInvalid')
-        } else {
-          fieldErrors.value.country = ''
-          fieldErrors.value.customCountry = '' // Réinitialiser l'erreur du pays personnalisé
-        }
-      } else {
-        fieldErrors.value.country = ''
-      }
-      break
-    case 'customCountry':
-      if (value && value.trim()) {
-        if (value.trim().length < 2) {
-          fieldErrors.value.customCountry = t('prestataire.profile.validation.customCountryMinLength')
-        } else if (value.trim().length > 100) {
-          fieldErrors.value.customCountry = t('prestataire.profile.validation.customCountryMaxLength')
-        } else if (!/^[a-zA-ZÀ-ÿ\s\-']+$/.test(value.trim())) {
-          fieldErrors.value.customCountry = t('prestataire.profile.validation.customCountryInvalid')
-        } else {
-          fieldErrors.value.customCountry = ''
-        }
-      } else {
-        fieldErrors.value.customCountry = ''
-      }
-      break
-  }
-}
-
-// Gestion du changement de pays
-const handleCountryChange = () => {
-  validateField('country', formData.value.country)
-  if (formData.value.country !== 'Autre') {
-    formData.value.customCountry = '' // Réinitialiser le champ personnalisé si on change de pays
-    fieldErrors.value.customCountry = ''
   }
 }
 
@@ -880,12 +619,7 @@ const isFormValid = computed(() => {
     !fieldErrors.value.email &&
     !fieldErrors.value.birthDate &&
     !fieldErrors.value.phone &&
-    !fieldErrors.value.bio &&
-    !fieldErrors.value.address &&
-    !fieldErrors.value.city &&
-    !fieldErrors.value.postalCode &&
-    !fieldErrors.value.country &&
-    !fieldErrors.value.customCountry
+    !fieldErrors.value.bio
   )
   
   return requiredFieldsValid && noValidationErrors
@@ -902,20 +636,10 @@ const hasChanges = computed(() => {
   const hasBirthDateChanged = formData.value.birthDate !== (user.value.birthDate ? new Date(user.value.birthDate).toISOString().split('T')[0] : null)
   const hasPhoneChanged = formData.value.phone !== (user.value.phone || '')
   const hasBioChanged = formData.value.bio !== (user.value.bio || '')
-  const hasAddressChanged = formData.value.address !== (user.value.address || '')
-  const hasCityChanged = formData.value.city !== (user.value.city || '')
-  const hasPostalCodeChanged = formData.value.postalCode !== (user.value.postalCode || '')
-  const hasCountryChanged = () => {
-    const currentCountry = formData.value.country === 'Autre' 
-      ? formData.value.customCountry 
-      : formData.value.country
-    const originalCountry = user.value.country || 'France'
-    return currentCountry !== originalCountry
-  }
+
   
   return hasFirstNameChanged || hasLastNameChanged || hasEmailChanged || hasAvatarChanged ||
-    hasBirthDateChanged || hasPhoneChanged || hasBioChanged ||
-    hasAddressChanged || hasCityChanged || hasPostalCodeChanged || hasCountryChanged()
+    hasBirthDateChanged || hasPhoneChanged || hasBioChanged
 })
 
 // Fonction pour obtenir le label d'un champ modifié
@@ -927,10 +651,6 @@ const getFieldLabel = (field: string): string => {
     birthDate: t('prestataire.profile.fields.birthDate'),
     phone: t('prestataire.profile.fields.phone'),
     bio: t('prestataire.profile.fields.bio'),
-    address: t('prestataire.profile.fields.address'),
-    city: t('prestataire.profile.fields.city'),
-    postalCode: t('prestataire.profile.fields.postalCode'),
-    country: t('prestataire.profile.fields.country'),
     avatarUrl: t('prestataire.profile.fields.avatar'),
   }
   return labels[field] || field
@@ -986,11 +706,6 @@ const resetForm = () => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      address: user.value.address || '',
-      city: user.value.city || '',
-      postalCode: user.value.postalCode || '',
-      country: user.value.country && !countries.includes(user.value.country) ? 'Autre' : (user.value.country || 'France'),
-      customCountry: user.value.country && !countries.includes(user.value.country) ? user.value.country : '',
       avatarUrl: user.value.avatarUrl || null,
       avatarType: (user.value.avatarType as 'gallery' | 'upload') || 'gallery',
       prestataireTypeId: user.value.prestataireTypeId || null,
@@ -1013,11 +728,6 @@ const resetForm = () => {
     Object.keys(fieldErrors.value).forEach(key => {
       fieldErrors.value[key as keyof typeof fieldErrors.value] = ''
     })
-    
-    // Réinitialiser customCountry si nécessaire
-    if (formData.value.country !== 'Autre') {
-      formData.value.customCountry = ''
-    }
   }
 }
 
@@ -1034,13 +744,6 @@ const handleSubmit = async () => {
   validateField('phone', formData.value.phone)
   validateField('birthDate', formData.value.birthDate || '')
   validateField('bio', formData.value.bio)
-  validateField('address', formData.value.address)
-  validateField('city', formData.value.city)
-  validateField('postalCode', formData.value.postalCode)
-  validateField('country', formData.value.country)
-  if (formData.value.country === 'Autre') {
-    validateField('customCountry', formData.value.customCountry)
-  }
 
   // Vérifier s'il y a des erreurs de validation
   const hasErrors = Object.values(fieldErrors.value).some(error => error !== '')
@@ -1062,10 +765,6 @@ const handleSubmit = async () => {
       birthDate?: string | null
       phone?: string | null
       bio?: string | null
-      address?: string | null
-      city?: string | null
-      postalCode?: string | null
-      country?: string | null
     } = {}
 
     // Détecter les champs modifiés
@@ -1100,28 +799,6 @@ const handleSubmit = async () => {
     if (formData.value.bio !== (user.value?.bio || '')) {
       profileData.bio = formData.value.bio || null
       changedFields.value.push('bio')
-    }
-    if (formData.value.address !== (user.value?.address || '')) {
-      profileData.address = formData.value.address || null
-      changedFields.value.push('address')
-    }
-    if (formData.value.city !== (user.value?.city || '')) {
-      profileData.city = formData.value.city || null
-      changedFields.value.push('city')
-    }
-    if (formData.value.postalCode !== (user.value?.postalCode || '')) {
-      profileData.postalCode = formData.value.postalCode || null
-      changedFields.value.push('postalCode')
-    }
-    // Gérer le pays : si "Autre" est sélectionné, utiliser customCountry
-    const currentCountry = formData.value.country === 'Autre' 
-      ? formData.value.customCountry 
-      : formData.value.country
-    const originalCountry = user.value?.country || 'France'
-    
-    if (currentCountry && currentCountry.trim() && currentCountry !== originalCountry) {
-      profileData.country = currentCountry.trim()
-      changedFields.value.push('country')
     }
 
     // Vérifier s'il y a des modifications

@@ -81,21 +81,7 @@ export const authMockService = {
   },
 
   // Fonction updateProfile en mode mock
-  updateProfile(profileData: {
-    firstname?: string;
-    lastname?: string;
-    email?: string;
-    avatarUrl?: string | null;
-    avatarType?: string | null;
-    prestataireTypeId?: number | null;
-    birthDate?: string | null;
-    phone?: string | null;
-    bio?: string | null;
-    address?: string | null;
-    city?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-  }) {
+  updateProfile(profileData: UserMock) {
     return new Promise<UserMock>((resolve, reject) => {
       // Récupérer l'utilisateur actuel depuis localStorage
       const currentUserStr = localStorage.getItem('currentUser');
@@ -140,10 +126,6 @@ export const authMockService = {
           ...(profileData.birthDate !== undefined && { birthDate: profileData.birthDate || undefined }),
           ...(profileData.phone !== undefined && { phone: profileData.phone || undefined }),
           ...(profileData.bio !== undefined && { bio: profileData.bio || undefined }),
-          ...(profileData.address !== undefined && { address: profileData.address || undefined }),
-          ...(profileData.city !== undefined && { city: profileData.city || undefined }),
-          ...(profileData.postalCode !== undefined && { postalCode: profileData.postalCode || undefined }),
-          ...(profileData.country !== undefined && { country: profileData.country || undefined }),
         };
 
         // Valider que les champs requis ne sont pas vides

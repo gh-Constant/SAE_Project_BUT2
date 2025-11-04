@@ -44,10 +44,6 @@ model User {
   birthDate          DateTime?        @map("birth_date") @db.Date
   phone              String?          @db.VarChar(20)
   bio                String?           @db.Text
-  address            String?          @db.VarChar(255)
-  city               String?          @db.VarChar(100)
-  postalCode         String?          @map("postal_code") @db.VarChar(10)
-  country            String?          @default("France") @db.VarChar(100)
   createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt          DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
   locations          Location?

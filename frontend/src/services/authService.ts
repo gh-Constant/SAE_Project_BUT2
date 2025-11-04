@@ -115,21 +115,7 @@ const authServiceImpl = {
     localStorage.removeItem('currentUser'); // Remove for security
   },
 
-  updateProfile: async (profileData: {
-    firstname?: string;
-    lastname?: string;
-    email?: string;
-    avatarUrl?: string | null;
-    avatarType?: string | null;
-    prestataireTypeId?: number | null;
-    birthDate?: string | null;
-    phone?: string | null;
-    bio?: string | null;
-    address?: string | null;
-    city?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-  }): Promise<UserMock> => {
+  updateProfile: async (profileData: UserMock): Promise<UserMock> => {
     const token = localStorage.getItem('authToken');
     if (!token) {
       throw new Error('Not authenticated');
