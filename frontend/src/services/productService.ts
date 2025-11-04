@@ -129,7 +129,7 @@ export const productService = {
       price: productData.price
     }
 
-    products.push(Object.assign({}, newProduct))
+    products.push(newProduct)
     return newProduct
   },
 

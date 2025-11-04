@@ -61,9 +61,7 @@
               </div>
               <div v-else>
                 <select v-model="store.editProduct.locationId" class="w-full border rounded px-3 py-2">
-                  <option v-for="location in locationsMock" 
-                          :key="location.id" 
-                          :value="location.id">
+                  <option v-for="location in locationsMock" :key="location.id" :value="location.id">
                     {{ location.name }}
                   </option>
                 </select>

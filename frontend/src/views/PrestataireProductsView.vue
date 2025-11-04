@@ -6,7 +6,11 @@
     <button v-if="showForm == false" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-6" @click="showForm = true">
       Ajouter un produit
     </button>
-    <form v-if="showForm == true" @submit.prevent="addProduct" @submit="showForm = false" class="mb-6 bg-white p-6 rounded-lg shadow">
+    <form 
+      v-if="showForm == true" 
+      @submit.prevent="addProduct(store.newProduct.locationId); showForm = false" 
+      class="mb-6 bg-white p-6 rounded-lg shadow"
+    >
       <h2 class="text-lg font-semibold mb-4">Ajouter un produit</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -167,8 +171,8 @@ function productsByLocation(locationId: number) {
   return store.products.filter(product => product.locationId === locationId)
 }
 
-function addProduct() {
-  store.addProductForLocation(authStore.user?.id || 0)
+function addProduct(locationId?: number) {
+  store.addProductForLocation( locationId || 0)
 }
 
 function getLocationsForPrestataire() {

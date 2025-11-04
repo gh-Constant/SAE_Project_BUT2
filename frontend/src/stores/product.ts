@@ -73,16 +73,7 @@ export const useProductStore = defineStore('product', {
 
     // Add a new product for a location
     addProductForLocation(idProvider: number) {
-      const createdProduct = productService.createProductForLocation(idProvider, this.newProduct)
-      this.products.push({
-        id: createdProduct.id,
-        name: createdProduct.name,
-        stock: createdProduct.stock,
-        locationId: createdProduct.locationId,
-        description: createdProduct.description,
-        imageUrl: createdProduct.imageUrl,
-        price: createdProduct.price
-      })
+      productService.createProductForLocation(idProvider, this.newProduct)
       this.newProduct = productService.defaultProduct()
     }
   },
