@@ -4,7 +4,7 @@ export interface ActivityMock {
   description: string;
   startTime: Date;
   endTime: Date;
-  locationId: number;
+  id_location: number;
 }
 
 export const ACTIVITIES: ActivityMock[] = [

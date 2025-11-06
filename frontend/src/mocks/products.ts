@@ -4,8 +4,8 @@ export interface ProductMock {
   description: string;
   price: number;
   stock: number;
-  imageUrl: string;
-  locationId: number;
+  image: string;
+  id_prestataire: number;
 }
 
 export const PRODUCTS: ProductMock[] = [

@@ -3,7 +3,7 @@ export interface QuestMock {
   title: string;
   description: string;
   xpReward: number;
-  locationId: number;
+  id_location: number;
 }
 
 export const QUESTS: QuestMock[] = [

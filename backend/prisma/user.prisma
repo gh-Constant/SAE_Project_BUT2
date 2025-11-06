@@ -1,13 +1,7 @@
-model Role {
-  id_role    Int       @id @default(autoincrement())
-  name       String?   @db.VarChar(255)
-
-  created_at DateTime? @default(now()) @db.DateTime(0)
-  updated_at DateTime? @updatedAt @db.DateTime(0)
-
-  users      User[]
-
-  @@map("roles")
+enum Role {
+  admin
+  aventurier
+  prestataire
 }
 
 model User {
@@ -20,6 +14,7 @@ model User {
   phone           String?   @db.Char(20)
   email           String?   @db.VarChar(255)
 
+  role            Role
   avatar_url      String?   @db.VarChar(255)
   level           Int?
   xp              Float?    @db.Double
@@ -30,15 +25,11 @@ model User {
   created_at      DateTime? @default(now()) @db.DateTime(0)
   updated_at      DateTime? @updatedAt @db.DateTime(0)
   
-  id_role         Int
-
-  role        Role         @relation(fields: [id_role], references: [id_role])
+      
   prestataire Prestataire? 
   userQuests  UserQuest[]
   commandes    Commande[]
   lignesPanier LignePanier[]
 
-
-  @@index([id_role])
   @@map("users")
 }
