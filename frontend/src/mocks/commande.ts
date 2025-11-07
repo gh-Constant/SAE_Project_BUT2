@@ -7,7 +7,7 @@ export enum EtatCommande {
 export interface CommandeMock {
     id: number;
     date_commande: Date;
-    date_collect: Date;
+    date_collect?: Date;
     total_price: number;
     
     id_user: number;

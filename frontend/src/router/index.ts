@@ -104,7 +104,7 @@ async function redirectLogin(
   // Vérifier l'authentification après que l'état soit prêt
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login'); // Redirection forcée vers la page de connexion
-  } else if (to.meta.requiredRole && authStore.user?.roleId !== to.meta.requiredRole) {
+  } else if (to.meta.requiredRole && authStore.user?.role !== to.meta.requiredRole) {
     next('/'); // Redirection vers la page d'accueil si rôle insuffisant
   } else {
     next(); // Autorise la navigation

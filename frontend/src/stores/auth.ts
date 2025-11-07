@@ -150,17 +150,13 @@ export const useAuthStore = defineStore('auth', {
       avatarType?: string | null;
       prestataireTypeId?: number | null;
     }) {
-      try {
-        const updatedUser = await (authService as any).updateProfile(profileData)
-        this.user = updatedUser as UserMock
-        // Mettre à jour localStorage en mode mock pour compatibilité
-        if (isMockEnabled) {
-          localStorage.setItem('currentUser', JSON.stringify(updatedUser))
-        }
-        return updatedUser
-      } catch (error) {
-        throw error
+      const updatedUser = await (authService as any).updateProfile(profileData)
+      this.user = updatedUser as UserMock
+      // Mettre à jour localStorage en mode mock pour compatibilité
+      if (isMockEnabled) {
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser))
       }
+      return updatedUser
     }
   }
 })

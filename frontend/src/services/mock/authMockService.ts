@@ -16,7 +16,7 @@
  * - La fonction register ajoute l'utilisateur au tableau USERS pour simuler une base de données mais le ne sera donc pas modifié sur le serveur.
  */
 
-import { USERS, UserMock } from '@/mocks';
+import { Role, USERS, UserMock, AvatarType } from '@/mocks';
 
 export const authMockService = {
 
@@ -65,12 +65,14 @@ export const authMockService = {
         id: USERS.length + 1, // ID auto-incrémenté (fait à la va vite pour mock).
         firstname: firstName,
         lastname: lastName,
+        birth_date: undefined,
+        phone: undefined,
+        bio: undefined,
         email,
         password_hashed: password,  // Ici le mot de passe n'est pas hashé, juste pour le mock
-        roleId: role === 'aventurier' ? 1 : 2, // Assigne un rôle par défaut selon le type (1: aventurier 2: prestataire) (Le 3 n'est pas present car on ne peut pas s'enregistrer en tant qu'admin directement)
-        avatarUrl: avatarUrl || undefined, // Ajout de l'avatar
-        avatarType: avatarType || undefined, // Ajout du type d'avatar
-        is_active: true,
+        role: role === 'aventurier' ? Role.AVENTURIER_ROLE_ID : Role.PRESTATAIRE_ROLE_ID,
+        avatar_url: avatarUrl || undefined, // Ajout de l'avatar
+        avatar_type: avatarType === 'gallery' ? AvatarType.GALLERY : AvatarType.UPLOAD || undefined, // Ajout du type d'avatar
         is_verified: false,
         xp: 0,
         level: 1,
@@ -120,10 +122,9 @@ export const authMockService = {
           ...(profileData.firstname !== undefined && { firstname: profileData.firstname }),
           ...(profileData.lastname !== undefined && { lastname: profileData.lastname }),
           ...(profileData.email !== undefined && { email: profileData.email }),
-          ...(profileData.avatarUrl !== undefined && { avatarUrl: profileData.avatarUrl || undefined }),
-          ...(profileData.avatarType !== undefined && { avatarType: profileData.avatarType || undefined }),
-          ...(profileData.prestataireTypeId !== undefined && { prestataireTypeId: profileData.prestataireTypeId || undefined }),
-          ...(profileData.birthDate !== undefined && { birthDate: profileData.birthDate || undefined }),
+          ...(profileData.avatar_url !== undefined && { avatarUrl: profileData.avatar_url || undefined }),
+          ...(profileData.avatar_type !== undefined && { avatarType: profileData.avatar_type || undefined }),
+          ...(profileData.birth_date !== undefined && { birthDate: profileData.birth_date || undefined }),
           ...(profileData.phone !== undefined && { phone: profileData.phone || undefined }),
           ...(profileData.bio !== undefined && { bio: profileData.bio || undefined }),
         };

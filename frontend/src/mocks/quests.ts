@@ -1,7 +1,7 @@
 export interface QuestMock {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   xpReward: number;
   id_location: number;
 }

@@ -6,8 +6,8 @@ export enum UserQuestStatus {
 
 // Simule le journal de quêtes
 export interface UserQuestMock {
-  userId: number;
-  questId: number;
+  id_user: number;
+  id_quest: number;
   status: UserQuestStatus;
 }
 

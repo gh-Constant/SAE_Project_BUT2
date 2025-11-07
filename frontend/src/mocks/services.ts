@@ -3,7 +3,7 @@ import { ServiceType } from "./serviceType";
 export interface ServiceMock {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   
   id_service_type: number;
   id_prestataire: number;

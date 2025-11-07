@@ -104,8 +104,8 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
             >
               <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden border-2 border-orange-200">
                 <img 
-                  v-if="auth.user?.avatarUrl" 
-                  :src="auth.user.avatarUrl" 
+                  v-if="auth.user?.avatar_url" 
+                  :src="auth.user.avatar_url" 
                   :alt="auth.user.firstname"
                   class="w-full h-full object-cover"
                 >

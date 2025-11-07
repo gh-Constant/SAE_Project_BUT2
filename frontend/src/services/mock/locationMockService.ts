@@ -21,8 +21,9 @@
  */
 
 import L from 'leaflet';
-import { locationsMock, LocationMock } from '@/mocks/locations';
+import { LOCATIONS, LocationMock } from '@/mocks/locations';
 import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
+import { LocationType } from '@/mocks/locationTypes';
 
 export const locationMockService = {
   /**
@@ -31,7 +32,7 @@ export const locationMockService = {
    */
   getAllLocations(): Promise<LocationMock[]> {
     return new Promise((resolve) => {
-      resolve([...locationsMock]);
+      resolve([...LOCATIONS]);
     });
   },
 
@@ -50,13 +51,14 @@ export const locationMockService = {
     } else {
       // Other users see story locations and purchased prestataire locations
       locations = locations.filter(location =>
-        location.type === 'story' || (location.type === 'prestataire' && location.purchased)
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased)
       );
     }
 
     locations.forEach((location) => {
       // Utiliser l'icône spécifiée ou l'icône par défaut si elle n'existe pas
-      const icon = iconMarkers[location.iconName] || defaultIcon;
+      const iconName = location.icon_name || 'default';
+      const icon = iconMarkers[iconName] || defaultIcon;
 
       const marker = L.marker(location.position, { icon });
 

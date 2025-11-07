@@ -3,7 +3,7 @@ import { PrestataireTypes } from './prestataireTypes';
 export interface PrestataireMock {
   id: number;
   name: string;
-  presentation: string;
+  presentation?: string;
 
   id_prestataire_type: number;
   id_user: number;

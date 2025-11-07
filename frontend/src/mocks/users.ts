@@ -19,8 +19,8 @@ export interface UserMock {
   phone?: string;
   email: string;
   
-  avatarUrl?: string; // URL de l'avatar
-  avatarType?: AvatarType; // Type de l'avatar
+  avatar_url?: string; // URL de l'avatar
+  avatar_type?: AvatarType; // Type de l'avatar
   level: number;
   xp: number;
 
@@ -38,7 +38,8 @@ export const USERS: UserMock[] = [
     email: 'prestataire@medieval.com',
     password_hashed: 'password123',
     role: Role.PRESTATAIRE_ROLE_ID,
-    avatarUrl: '/images/Avatar-images/con15.png',
+    avatar_url: '/images/Avatar-images/con15.png',
+    avatar_type: AvatarType.GALLERY,
     is_verified: false,
     xp: 250,
     level: 5,
@@ -53,7 +54,8 @@ export const USERS: UserMock[] = [
     email: 'aventurier@medieval.com',
     password_hashed: 'password123',
     role: Role.AVENTURIER_ROLE_ID,
-    avatarUrl: '/images/Avatar-images/con23.png',
+    avatar_url: '/images/Avatar-images/con23.png',
+    avatar_type: AvatarType.GALLERY,
     is_verified: false,
     xp: 80,
     level: 2,
@@ -68,7 +70,8 @@ export const USERS: UserMock[] = [
     email: 'admin@medieval.com',
     password_hashed: 'password123',
     role: Role.ADMIN_ROLE_ID,
-    avatarUrl: '/images/Avatar-images/con1.png',
+    avatar_url: '/images/Avatar-images/con1.png',
+    avatar_type: AvatarType.GALLERY,
     is_verified: false,
     xp: 9999,
     level: 99,

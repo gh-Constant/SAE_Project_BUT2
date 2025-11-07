@@ -3,16 +3,16 @@ import { LocationType } from "./locationTypes";
 export interface LocationMock {
   id: number;
   name: string;
-  description: string;
-  static_code: string;
+  description?: string;
+  static_code?: string;
   price: number;
   
-  id_location_type?: number;
+  id_location_type: number;
   purchased: boolean;
   
   position: [number, number];
-  iconName: string;
-  bannerImage: string;
+  icon_name?: string;
+  banner_image?: string;
 
   id_prestataire?: number;
 }
@@ -30,8 +30,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1747, 5072],
-    iconName: 'ticketOffice',
-    bannerImage: 'images/locations/biletterie.png'
+    icon_name: 'ticketOffice',
+    banner_image: 'images/locations/biletterie.png'
   },
   {
     id: 2,
@@ -44,8 +44,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [910, 4330],
-    iconName: 'witchHouse',
-    bannerImage: 'images/locations/sorcerer.png'
+    icon_name: 'witchHouse',
+    banner_image: 'images/locations/sorcerer.png'
   },
   {
     id: 3,
@@ -58,8 +58,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1344, 3572],
-    iconName: 'sage',
-    bannerImage: 'images/locations/great_sage.jpg'
+    icon_name: 'sage',
+    banner_image: 'images/locations/great_sage.jpg'
   },
   {
     id: 4,
@@ -72,8 +72,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1580, 4488],
-    iconName: 'informationCenter',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'informationCenter',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 5,
@@ -86,8 +86,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [2856, 3770],
-    iconName: 'castle',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'castle',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 6,
@@ -100,8 +100,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1352, 2678],
-    iconName: 'trainingCamp',
-    bannerImage: 'images/locations/training_camp.jpg'
+    icon_name: 'trainingCamp',
+    banner_image: 'images/locations/training_camp.jpg'
   },
   {
     id: 6,
@@ -114,8 +114,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1528, 3304],
-    iconName: 'archeryRange',
-    bannerImage: 'images/locations/training_camp.jpg'
+    icon_name: 'archeryRange',
+    banner_image: 'images/locations/training_camp.jpg'
   },
   {
     id: 7,
@@ -128,8 +128,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [2556, 4647],
-    iconName: 'villageFool',
-    bannerImage: 'images/locations/training_camp.jpg'
+    icon_name: 'villageFool',
+    banner_image: 'images/locations/training_camp.jpg'
   },
   {
     id: 8,
@@ -142,8 +142,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1008, 2165],
-    iconName: 'child',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'child',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 9,
@@ -156,8 +156,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [2060, 1728],
-    iconName: 'farmer',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'farmer',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 10,
@@ -170,8 +170,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [3040, 2724],
-    iconName: 'lumberjack',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'lumberjack',
+    banner_image: 'images/medieval_image.jpg'
   },
 
   // === Prestataire / Buyable Locations ===
@@ -186,8 +186,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2254, 1897],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 15,
@@ -200,8 +200,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2188, 2139],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 16,
@@ -214,8 +214,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2006, 2383],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 17,
@@ -228,8 +228,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2386, 3379],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 18,
@@ -242,8 +242,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2236, 2491],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 19,
@@ -256,8 +256,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2346, 2271],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 20,
@@ -270,8 +270,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2142, 2949],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 21,
@@ -284,8 +284,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1946, 3171],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 22,
@@ -298,8 +298,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2398, 2599],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 23,
@@ -312,8 +312,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2556, 2025],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 24,
@@ -326,8 +326,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2616, 2273],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 25,
@@ -340,8 +340,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2426, 1671],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 26,
@@ -354,8 +354,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2324, 1517],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 27,
@@ -368,8 +368,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2266, 1404],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 28,
@@ -382,8 +382,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2226, 1295],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 29,
@@ -396,8 +396,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1734, 3571],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 30,
@@ -410,8 +410,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1802, 1897],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 31,
@@ -424,8 +424,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1856, 1999],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 32,
@@ -438,8 +438,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1914, 2113],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 33,
@@ -451,8 +451,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1694, 2113],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 34,
@@ -465,8 +465,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1756, 2219],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 35,
@@ -479,8 +479,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1808, 2333],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 36,
@@ -493,8 +493,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [0, 1],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 37,
@@ -507,8 +507,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1088, 1679],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 38,
@@ -521,8 +521,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1282, 1625],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 39,
@@ -535,8 +535,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1394, 2167],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
   {
     id: 40,
@@ -549,8 +549,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1086, 2329],
-    iconName: 'prestataire',
-    bannerImage: 'images/locations/buyable.png'
+    icon_name: 'prestataire',
+    banner_image: 'images/locations/buyable.png'
   },
 
   // === Toilet Locations  ===
@@ -565,8 +565,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1760, 2860],
-    iconName: 'toilet',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'toilet',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 48,
@@ -579,8 +579,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1010, 1832],
-    iconName: 'toilet',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'toilet',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 49,
@@ -593,8 +593,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [3200, 3288],
-    iconName: 'toilet',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'toilet',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 50,
@@ -607,8 +607,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [2142, 1184],
-    iconName: 'toilet',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'toilet',
+    banner_image: 'images/medieval_image.jpg'
   },
   {
     id: 51,
@@ -621,8 +621,8 @@ export const LOCATIONS: LocationMock[] = [
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1820, 3348],
-    iconName: 'toilet',
-    bannerImage: 'images/medieval_image.jpg'
+    icon_name: 'toilet',
+    banner_image: 'images/medieval_image.jpg'
   },
 
 ];

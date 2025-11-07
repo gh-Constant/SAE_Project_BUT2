@@ -22,7 +22,7 @@
 <template>
   <div class="min-h-96">
     <div class="relative w-full h-48 overflow-hidden rounded-t-lg">
-      <img :src="location.bannerImage" :alt="location.name" class="w-full h-full object-cover" />
+      <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
     <div class="p-5">
@@ -32,7 +32,7 @@
       <!-- Prestataire Profile Section -->
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5" v-if="prestataire">
         <div class="flex items-center mb-3">
-          <img :src="prestataire.avatarUrl" :alt="prestataire.firstname" class="w-12 h-12 rounded-full mr-3 border-2 border-gray-300" />
+          <img :src="prestataire.avatar_url" :alt="prestataire.firstname" class="w-12 h-12 rounded-full mr-3 border-2 border-gray-300" />
           <div class="flex-1">
             <h3 class="text-lg font-semibold text-gray-800">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
             <p class="text-sm text-gray-600">{{ prestataireTypeName }}</p>
@@ -47,7 +47,7 @@
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.staticCode }}</span>
+          <span class="text-gray-600">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Status:</span>

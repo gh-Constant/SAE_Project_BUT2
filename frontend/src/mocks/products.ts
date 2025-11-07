@@ -1,10 +1,10 @@
 export interface ProductMock {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   price: number;
   stock: number;
-  image: string;
+  image?: string;
   id_prestataire: number;
 }
 

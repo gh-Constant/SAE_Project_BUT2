@@ -488,8 +488,8 @@ const availableAvatars = Array.from({ length: 42 }, (_, i) => `con${i + 1}.png`)
 onMounted(() => {
   if (user.value) {
     // Format date pour input type="date"
-    const birthDateFormatted = user.value.birthDate 
-      ? new Date(user.value.birthDate).toISOString().split('T')[0]
+    const birthDateFormatted = user.value.birth_date 
+      ? new Date(user.value.birth_date).toISOString().split('T')[0]
       : null
     
     formData.value = {
@@ -499,14 +499,14 @@ onMounted(() => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      avatarUrl: user.value.avatarUrl || null,
-      avatarType: (user.value.avatarType as 'gallery' | 'upload') || 'gallery',
+      avatarUrl: user.value.avatar_url || null,
+      avatarType: (user.value.avatar_type as 'gallery' | 'upload') || 'gallery',
       prestataireTypeId: user.value.prestataireTypeId || null,
     }
     
     // Extraire le nom de l'avatar depuis l'URL si c'est de la galerie
-    if (user.value.avatarUrl && user.value.avatarUrl.includes('/images/Avatar-images/')) {
-      const avatarName = user.value.avatarUrl.split('/images/Avatar-images/')[1]
+    if (user.value.avatar_url && user.value.avatar_url.includes('/images/Avatar-images/')) {
+      const avatarName = user.value.avatar_url.split('/images/Avatar-images/')[1]
       if (avatarName) {
         selectedAvatar.value = avatarName
       }
@@ -632,8 +632,8 @@ const hasChanges = computed(() => {
   const hasFirstNameChanged = formData.value.firstname !== user.value.firstname
   const hasLastNameChanged = formData.value.lastname !== user.value.lastname
   const hasEmailChanged = formData.value.email !== user.value.email
-  const hasAvatarChanged = formData.value.avatarUrl !== (user.value.avatarUrl || null)
-  const hasBirthDateChanged = formData.value.birthDate !== (user.value.birthDate ? new Date(user.value.birthDate).toISOString().split('T')[0] : null)
+  const hasAvatarChanged = formData.value.avatarUrl !== (user.value.avatar_url || null)
+  const hasBirthDateChanged = formData.value.birthDate !== (user.value.birth_date ? new Date(user.value.birth_date).toISOString().split('T')[0] : null)
   const hasPhoneChanged = formData.value.phone !== (user.value.phone || '')
   const hasBioChanged = formData.value.bio !== (user.value.bio || '')
 
@@ -695,8 +695,8 @@ const handleFileUpload = (event: Event) => {
 const resetForm = () => {
   // Réinitialiser avec les valeurs actuelles de l'utilisateur
   if (user.value) {
-    const birthDateFormatted = user.value.birthDate 
-      ? new Date(user.value.birthDate).toISOString().split('T')[0]
+    const birthDateFormatted = user.value.birth_date 
+      ? new Date(user.value.birth_date).toISOString().split('T')[0]
       : null
     
     formData.value = {
@@ -706,14 +706,14 @@ const resetForm = () => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      avatarUrl: user.value.avatarUrl || null,
-      avatarType: (user.value.avatarType as 'gallery' | 'upload') || 'gallery',
+      avatarUrl: user.value.avatar_url || null,
+      avatarType: (user.value.avatar_type as 'gallery' | 'upload') || 'gallery',
       prestataireTypeId: user.value.prestataireTypeId || null,
     }
     
     // Réinitialiser l'avatar sélectionné
-    if (user.value.avatarUrl && user.value.avatarUrl.includes('/images/Avatar-images/')) {
-      const avatarName = user.value.avatarUrl.split('/images/Avatar-images/')[1]
+    if (user.value.avatar_url && user.value.avatar_url.includes('/images/Avatar-images/')) {
+      const avatarName = user.value.avatar_url.split('/images/Avatar-images/')[1]
       selectedAvatar.value = avatarName || ''
     } else {
       selectedAvatar.value = ''
@@ -780,13 +780,13 @@ const handleSubmit = async () => {
       profileData.email = formData.value.email
       changedFields.value.push('email')
     }
-    if (formData.value.avatarUrl !== (user.value?.avatarUrl || null)) {
+    if (formData.value.avatarUrl !== (user.value?.avatar_url || null)) {
       profileData.avatarUrl = formData.value.avatarUrl
       profileData.avatarType = formData.value.avatarType
       changedFields.value.push('avatarUrl')
     }
-    const userBirthDate = user.value?.birthDate 
-      ? new Date(user.value.birthDate).toISOString().split('T')[0]
+    const userBirthDate = user.value?.birth_date 
+      ? new Date(user.value.birth_date).toISOString().split('T')[0]
       : null
     if (formData.value.birthDate !== userBirthDate) {
       profileData.birthDate = formData.value.birthDate

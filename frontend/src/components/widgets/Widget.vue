@@ -52,19 +52,19 @@
       <div class="overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
         <!-- Story Location Widget -->
         <StoryWidget
-          v-if="location.type === 'story'"
+          v-if="location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID"
           :location="location"
           @close="closeWidget"
         />
 
         <!-- Prestataire Location Widgets -->
         <PrestatairePurchasedWidget
-          v-else-if="location.type === 'prestataire' && location.purchased"
+          v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased"
           :location="location"
           @close="closeWidget"
         />
         <PrestataireAvailableWidget
-          v-else-if="location.type === 'prestataire' && !location.purchased"
+          v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && !location.purchased"
           :location="location"
           @close="closeWidget"
         />
@@ -95,6 +95,7 @@ import { LocationMock } from '@/mocks/locations';
 import StoryWidget from './StoryWidget.vue';
 import PrestatairePurchasedWidget from './PrestatairePurchasedWidget.vue';
 import PrestataireAvailableWidget from './PrestataireAvailableWidget.vue';
+import { LocationType } from '@/mocks/locationTypes';
 
 interface Props {
   location: LocationMock;
