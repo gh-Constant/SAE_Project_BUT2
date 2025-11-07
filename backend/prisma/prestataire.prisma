@@ -5,28 +5,28 @@ model PrestataireType {
   created_at          DateTime? @default(now()) @db.DateTime(0)
   updated_at          DateTime? @updatedAt @db.DateTime(0)
   
-  prestataires        Prestataire[]
+  prestataires        User[]
 
   @@map("prestataire_types")
 }
 
-model Prestataire {
-  id_prestataire      Int      @id @default(autoincrement())
-  name                String   @db.VarChar(255)
-  presentation        String?  @db.LongText
+// model Prestataire {
+//   id_prestataire      Int      @id @default(autoincrement())
+//   name                String   @db.VarChar(255)
+//   presentation        String?  @db.LongText
   
-  created_at          DateTime? @default(now()) @db.DateTime(0)
-  updated_at          DateTime? @updatedAt @db.DateTime(0)
+//   created_at          DateTime? @default(now()) @db.DateTime(0)
+//   updated_at          DateTime? @updatedAt @db.DateTime(0)
   
-  id_prestataire_type Int
-  id_user             Int      @unique
+//   id_prestataire_type Int
+//   id_user             Int      @unique
 
-  prestataire_type PrestataireType @relation(fields: [id_prestataire_type], references: [id_prestataire_type])
-  user             User            @relation(fields: [id_user], references: [id_user])
-  locations        Location[]
-  sevices          Service[]
-  products         Product[]
+//   user             User            @relation(fields: [id_user], references: [id_user])
+//   prestataire_type PrestataireType @relation(fields: [id_prestataire_type], references: [id_prestataire_type])
+//   locations        Location[]
+//   sevices          Service[]
+//   products         Product[]
 
-  @@index([id_prestataire_type])
-  @@map("prestataire")
-}
+//   @@index([id_prestataire_type])
+//   @@map("prestataire")
+// }

@@ -16,7 +16,7 @@ model Product {
 
   id_prestataire Int
 
-  prestataire     Prestataire     @relation(fields: [id_prestataire], references: [id_prestataire])
+  prestataire     User     @relation(fields: [id_prestataire], references: [id_user])
   lignesPanier    LignePanier[]
   stock           Stock[]
   lignesCommande LigneCommande[]

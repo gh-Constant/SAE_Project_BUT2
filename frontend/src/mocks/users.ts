@@ -1,3 +1,5 @@
+import { PrestataireTypes } from "./prestataireTypes";
+
 export enum Role {
   ADMIN_ROLE_ID = "admin",
   AVENTURIER_ROLE_ID = "aventurier",
@@ -16,6 +18,8 @@ export interface UserMock {
   birth_date?: Date;
   bio?: string;
 
+  presentation?: string;
+
   phone?: string;
   email: string;
   
@@ -28,6 +32,7 @@ export interface UserMock {
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
   
   role: Role;
+  id_prestataire_type?: number;
 }
 
 export const USERS: UserMock[] = [
@@ -46,6 +51,7 @@ export const USERS: UserMock[] = [
     birth_date: new Date('1990-01-01'),
     bio: 'Je suis un prestataire de service médieval',
     phone: '06 01 02 03 04',
+    id_prestataire_type: PrestataireTypes.RESTAURATEUR_TYPE_ID
   },
   {
     id: 2,

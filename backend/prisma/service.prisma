@@ -44,7 +44,7 @@ model Location {
   id_prestataire    Int?
 
   location_type   LocationType  @relation(fields: [id_location_type], references: [id_location_type])
-  prestataire     Prestataire?  @relation(fields: [id_prestataire], references: [id_prestataire])
+  prestataire     User?  @relation(fields: [id_prestataire], references: [id_user])
   activities      Activity[]
   sevices         Service[]
   quests          Quest[]
@@ -83,7 +83,7 @@ model Service {
   id_service_type Int
   id_location     Int
 
-  prestataire  Prestataire @relation(fields: [id_prestataire], references: [id_prestataire])
+  prestataire  User @relation(fields: [id_prestataire], references: [id_user])
   service_type ServiceType @relation(fields: [id_service_type], references: [id_service_type])
   location     Location    @relation(fields: [id_location], references: [id_location])
   stock        Stock[]

@@ -14,7 +14,7 @@ export interface LocationMock {
   icon_name?: string;
   banner_image?: string;
 
-  id_prestataire?: number;
+  id_prestataire?: number; // Reference to user id
 }
 
 export const LOCATIONS: LocationMock[] = [

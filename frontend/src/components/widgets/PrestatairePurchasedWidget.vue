@@ -90,12 +90,12 @@ defineEmits<{
 }>();
 
 const prestataire = computed(() => {
-  return USERS.find(user => user.id === props.location.userId);
+  return USERS.find(user => user.id === props.location.id_prestataire);
 });
 
 const prestataireTypeName = computed(() => {
-  if (!prestataire.value?.prestataireTypeId) return '';
-  const type = PRESTATAIRE_TYPES.find(t => t.id === prestataire.value?.prestataireTypeId);
+  if (!prestataire.value?.id_prestataire_type) return '';
+  const type = PRESTATAIRE_TYPES.find(t => t.id === prestataire.value?.id_prestataire_type);
   return type?.name || '';
 });
 

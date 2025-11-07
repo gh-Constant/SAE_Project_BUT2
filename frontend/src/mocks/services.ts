@@ -6,7 +6,7 @@ export interface ServiceMock {
   description?: string;
   
   id_service_type: number;
-  id_prestataire: number;
+  id_prestataire: number; // reference to user id
   id_location: number;
 }
 

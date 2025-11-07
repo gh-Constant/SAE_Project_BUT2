@@ -33,7 +33,7 @@ import {
   RouteLocationNormalizedLoadedGeneric,
 } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { ADMIN_ROLE_ID, PRESTATAIRE_ROLE_ID } from '@/services/roleService';
+import { Role } from '@/mocks/users';
 
 // Routes de l'application
 export const routes = [
@@ -57,13 +57,13 @@ export const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import('../views/AdminView.vue'),
-    meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
     path: '/prestataire',
     name: 'prestataire',
     component: () => import('../views/PrestataireView.vue'),
-    meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
   },
   {
     path: '/profile',

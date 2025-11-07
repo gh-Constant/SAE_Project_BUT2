@@ -77,7 +77,7 @@
             </svg>
           </div>
           <h3 class="text-lg font-semibold text-gray-900 mb-2">Unknown Location Type</h3>
-          <p class="text-gray-500">Type: <span class="font-mono text-sm">{{ location.type }}</span></p>
+          <p class="text-gray-500">Type id: <span class="font-mono text-sm">{{ location.id_location_type }}</span></p>
         </div>
       </div>
     </div>

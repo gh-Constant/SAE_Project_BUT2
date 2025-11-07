@@ -28,11 +28,19 @@ model User {
   is_verified     Boolean
   password_hashed String   @db.Text
 
+  presentation        String?  @db.LongText
+
   created_at      DateTime? @default(now()) @db.DateTime(0)
   updated_at      DateTime? @updatedAt @db.DateTime(0)
+
+  id_prestataire_type Int
   
-      
-  prestataire Prestataire? 
+  prestataire_type PrestataireType @relation(fields: [id_prestataire_type], references: [id_prestataire_type])
+  locations        Location[]
+  sevices          Service[]
+  products         Product[]
+
+  // prestataire Prestataire? 
   userQuests  UserQuest[]
   commandes    Commande[]
   lignesPanier LignePanier[]

@@ -254,9 +254,9 @@ const authStore = useAuthStore()
 const user = computed(() => authStore.user)
 
 const prestataireTypeName = computed(() => {
-  if (!user.value?.prestataireTypeId) return 'Type inconnu'
+  if (!user.value?.id_prestataire_type) return 'Type inconnu'
   const type = PRESTATAIRE_TYPES.find(
-    t => t.id === user.value?.prestataireTypeId)
+    t => t.id === user.value?.id_prestataire_type)
   return type ? type.name.charAt(0).toUpperCase() + type.name.slice(1) : 'Type inconnu'
 })
 

@@ -9,5 +9,4 @@ export * from './userQuests';
 export * from './prestataireTypes';
 export * from './ligneCommande';
 export * from './lignePanier';
-export * from './prestataire';
 export * from './commande';

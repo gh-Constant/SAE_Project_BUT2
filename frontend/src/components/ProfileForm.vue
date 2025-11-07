@@ -40,8 +40,8 @@
                 class="w-32 h-32 rounded-full overflow-hidden border-4 border-orange-500 shadow-xl mx-auto"
               >
                 <img 
-                  :src="selectedAvatar && selectedAvatar.startsWith('blob:') ? selectedAvatar : (selectedAvatar ? `/images/Avatar-images/${selectedAvatar}` : currentAvatarUrl)" 
-                  :alt="selectedAvatar || 'Avatar'"
+                  :src="(selectedAvatar && selectedAvatar.startsWith('blob:')) ? selectedAvatar : (selectedAvatar ? `/images/Avatar-images/${selectedAvatar}` : currentAvatarUrl || '')" 
+                  :alt="(selectedAvatar || 'Avatar')"
                   class="w-full h-full object-cover"
                 >
               </div>
@@ -438,12 +438,12 @@ const formData = ref({
   firstname: '',
   lastname: '',
   email: '',
-  birthDate: null as string | null,
+  birthDate: undefined as string | undefined,
   phone: '',
   bio: '',
-  avatarUrl: null as string | null,
+  avatarUrl: undefined as string | undefined,
   avatarType: 'gallery' as 'gallery' | 'upload',
-  prestataireTypeId: null as number | null,
+  prestataireTypeId: undefined as number | undefined,
 })
 
 // État du formulaire
@@ -466,8 +466,8 @@ const fieldErrors = ref({
 
 // Avatar
 const currentAvatarUrl = computed(() => {
-  if (user.value?.avatarUrl) {
-    return user.value.avatarUrl
+  if (user.value?.avatar_url) {
+    return user.value.avatar_url
   }
   return null
 })
@@ -476,8 +476,8 @@ const isUserPrestataire = computed(() => isPrestataire(user.value))
 const isUserAventurier = computed(() => isAventurier(user.value))
 
 const prestataireTypeName = computed(() => {
-  if (!user.value?.prestataireTypeId) return 'Non défini'
-  const type = PRESTATAIRE_TYPES.find(t => t.id === user.value?.prestataireTypeId)
+  if (!user.value?.id_prestataire_type) return 'Non défini'
+  const type = PRESTATAIRE_TYPES.find(t => t.id === user.value?.id_prestataire_type)
   return type ? type.name.charAt(0).toUpperCase() + type.name.slice(1) : 'Non défini'
 })
 
@@ -490,7 +490,7 @@ onMounted(() => {
     // Format date pour input type="date"
     const birthDateFormatted = user.value.birth_date 
       ? new Date(user.value.birth_date).toISOString().split('T')[0]
-      : null
+      : undefined
     
     formData.value = {
       firstname: user.value.firstname || '',
@@ -499,9 +499,9 @@ onMounted(() => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      avatarUrl: user.value.avatar_url || null,
+      avatarUrl: user.value.avatar_url || undefined,
       avatarType: (user.value.avatar_type as 'gallery' | 'upload') || 'gallery',
-      prestataireTypeId: user.value.prestataireTypeId || null,
+      prestataireTypeId: user.value.id_prestataire_type || undefined,
     }
     
     // Extraire le nom de l'avatar depuis l'URL si c'est de la galerie
@@ -697,7 +697,7 @@ const resetForm = () => {
   if (user.value) {
     const birthDateFormatted = user.value.birth_date 
       ? new Date(user.value.birth_date).toISOString().split('T')[0]
-      : null
+      : undefined
     
     formData.value = {
       firstname: user.value.firstname || '',
@@ -706,9 +706,9 @@ const resetForm = () => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      avatarUrl: user.value.avatar_url || null,
+      avatarUrl: user.value.avatar_url || undefined,
       avatarType: (user.value.avatar_type as 'gallery' | 'upload') || 'gallery',
-      prestataireTypeId: user.value.prestataireTypeId || null,
+      prestataireTypeId: user.value.id_prestataire_type || undefined,
     }
     
     // Réinitialiser l'avatar sélectionné
