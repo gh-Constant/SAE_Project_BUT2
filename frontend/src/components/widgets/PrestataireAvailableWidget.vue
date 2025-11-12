@@ -59,6 +59,9 @@
       </div>
 
       <div class="mb-5">
+        <button class="px-5 py-2.5l bg-blue-600 hover:bg-green-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors" @click="acheterEmplacement">
+           Acheter cet emplacement
+        </button>
         <h3 class="text-lg font-semibold mb-3 text-gray-800">What you can do here:</h3>
         <ul class="space-y-2">
           <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
@@ -97,13 +100,22 @@
 
 import { defineProps, defineEmits } from 'vue';
 import { LocationMock } from '@/mocks/locations';
+import { ref } from 'vue';
+
 
 interface Props {
   location: LocationMock;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const location = ref(props.location);
+
 defineEmits<{
   close: [];
 }>();
+
+function acheterEmplacement() {
+  location.value.purchased = true; 
+  location.value.userId= 1;
+}
 </script>
