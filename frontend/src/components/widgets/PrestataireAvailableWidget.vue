@@ -116,6 +116,6 @@ defineEmits<{
 
 function acheterEmplacement() {
   location.value.purchased = true; 
-  location.value.userId= 1;
+  location.value.id_prestataire= 1;
 }
 </script>
