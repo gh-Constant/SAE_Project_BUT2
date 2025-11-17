@@ -1,12 +1,19 @@
 {
   "hero": {
     "title": "Embarquez pour une Aventure Médiévale",
-    "subtitle": "Découvrez l'histoire riche et les légendes du monde médiéval à travers des cartes interactives et des expériences immersives",
+    "subtitle": "Entrez dans Les Terres du Lion, un festival médiéval où chaque visiteur devient un héros et chaque pas fait avancer l’aventure.",
     "cta": "Commencez Votre Voyage"
   },
   "features": {
     "title": "Explorez l'Ère Médiévale",
     "subtitle": "Plongez dans l'histoire avec nos fonctionnalités complètes",
+    "paragraphs": {
+      "1": "Bienvenue sur Les Terres du Lion, un événement médiéval unique inspiré du jeu de rôle grandeur nature. Conçu pour offrir une immersion totale, le festival vous plonge dans un monde de quêtes, de créatures légendaires et de savoir-faire ancestraux.",
+      "2": "Organisé autour d'un vaste village thématique, chaque zone vous invite à rencontrer des artisans passionnés, des animateurs, des restaurateurs et des créateurs qui donnent vie à un univers authentique.",
+      "3": "Grâce à une expérience interactive enrichie — quêtes via QR-codes, réservations d'ateliers, click & collect, quizz et galeries de créations — chaque visiteur devient acteur de sa propre aventure.",
+      "4": "L'application dédiée permet d'explorer, apprendre, découvrir et progresser tout au long du parcours jusqu'au château, où l'histoire atteint son apogée.",
+      "5": "Les Terres du Lion, c'est un lieu où l'immersion rencontre la technologie, où le patrimoine inspire le jeu, et où chaque visite écrit une nouvelle légende."
+    },
     "discover": {
       "title": "Cartes Interactives",
       "description": "Naviguez à travers des cartes détaillées de sites historiques et de champs de bataille"

@@ -1,12 +1,19 @@
 {
   "hero": {
     "title": "Begeben Sie sich auf ein Mittelalterliches Abenteuer",
-    "subtitle": "Entdecken Sie die reiche Geschichte und Legenden der mittelalterlichen Welt durch interaktive Karten und immersive Erfahrungen",
+    "subtitle": "Betreten Sie die Landen des Löwen, ein mittelalterliches Festival, bei dem jeder Besucher zum Helden wird und jeder Schritt das Abenteuer vorantreibt.",
     "cta": "Beginnen Sie Ihre Reise"
   },
   "features": {
     "title": "Erkunden Sie das Mittelalter",
     "subtitle": "Tauchen Sie mit unseren umfassenden Funktionen in die Geschichte ein",
+    "paragraphs": {
+      "1": "Willkommen in den Landen des Löwen, einem einzigartigen mittelalterlichen Event, inspiriert vom Live-Action-Rollenspiel. Das Festival ist darauf ausgelegt, ein vollständiges Eintauchen zu bieten und entführt Sie in eine Welt voller Quests, legendärer Kreaturen und uralter Handwerkskünste.",
+      "2": "Organisiert rund um ein weitläufiges thematisches Dorf, lädt jede Zone dazu ein, leidenschaftliche Handwerker, Entertainer, Gastronomen und Schöpfer zu treffen, die ein authentisches Universum zum Leben erwecken.",
+      "3": "Dank eines bereichernden interaktiven Erlebnisses — Quests über QR-Codes, Workshop-Reservierungen, Click & Collect, Quizze und Galerien von Kreationen — wird jeder Besucher zum Akteur seines eigenen Abenteuers.",
+      "4": "Die dedizierte App ermöglicht es, zu erkunden, zu lernen, zu entdecken und auf dem Weg zur Burg Fortschritte zu machen, wo die Geschichte ihren Höhepunkt erreicht.",
+      "5": "Die Landen des Löwen sind ein Ort, an dem Immersion auf Technologie trifft, wo das Erbe das Spiel inspiriert und wo jeder Besuch eine neue Legende schreibt."
+    },
     "discover": {
       "title": "Interaktive Karten",
       "description": "Navigieren Sie durch detaillierte Karten historischer Stätten und Schlachtfelder"

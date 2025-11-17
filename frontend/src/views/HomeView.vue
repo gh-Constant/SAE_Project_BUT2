@@ -43,6 +43,13 @@
             {{ t('home.features.subtitle') }}
           </p>
         </div>
+        <div class="text-justify mt-3 text-base  text-gray-600">
+          <p>{{ t('home.features.paragraphs.1') }}</p>
+          <p>{{ t('home.features.paragraphs.2') }}</p>
+          <p>{{ t('home.features.paragraphs.3') }}</p>
+          <p>{{ t('home.features.paragraphs.4') }}</p>
+          <p>{{ t('home.features.paragraphs.5') }}</p>
+        </div>
         <div class="mt-8 md:mt-10 grid gap-6 md:grid-cols-3">
           <div class="text-center p-4 border border-orange-200 rounded-lg hover:shadow-lg transition-shadow bg-orange-50">
             <div class="flex items-center justify-center h-10 w-10 rounded-md bg-orange-500 text-white mx-auto">
