@@ -1,0 +1,95 @@
+model ServiceType {
+  id_service_type Int      @id @default(autoincrement())
+  name            String   @db.VarChar(255)
+  
+  created_at      DateTime? @default(now()) @db.DateTime(0)
+  updated_at      DateTime? @updatedAt @db.DateTime(0)
+  
+  sevices         Service[]
+
+  @@map("service_types")
+}
+
+model LocationType {
+  id_location_type  Int       @id @default(autoincrement())
+  name              String    @db.VarChar(255)
+
+  created_at        DateTime? @default(now()) @db.DateTime(0)
+  updated_at        DateTime? @updatedAt @db.DateTime(0)
+
+  location  Location[]
+
+  @@map("location_type")
+}
+
+
+model Location {
+  id_location       Int       @id @default(autoincrement())
+  name              String    @db.VarChar(255)
+  description       String?   @db.Text
+  static_code       String?   @db.VarChar(255)
+  price             Decimal   @db.Decimal(15, 2)
+
+  purchased         Boolean   @default(false)
+
+  position          Json      @db.Json
+  icon_name         String?   @db.VarChar(255)
+  banner_name       String?   @db.VarChar(255)
+
+
+  created_at        DateTime? @default(now()) @db.DateTime(0)
+  updated_at        DateTime? @updatedAt @db.DateTime(0)
+
+  id_location_type  Int
+  id_prestataire    Int?
+
+  location_type   LocationType  @relation(fields: [id_location_type], references: [id_location_type])
+  prestataire     User?  @relation(fields: [id_prestataire], references: [id_user])
+  activities      Activity[]
+  sevices         Service[]
+  quests          Quest[]
+
+  @@index([id_prestataire])
+  @@map("locations")
+}
+
+model Activity {
+  id_activity Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  start_time  DateTime  @db.DateTime(0)
+  end_time    DateTime  @db.DateTime(0)
+
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @updatedAt @db.DateTime(0)
+
+  id_location Int
+
+  location    Location  @relation(fields: [id_location], references: [id_location])
+
+  @@index([id_location])
+  @@map("activities")
+}
+
+model Service {
+  id_service      Int       @id @default(autoincrement())
+  name            String    @db.VarChar(255)
+  description     String?   @db.Text
+
+  created_at      DateTime? @default(now()) @db.DateTime(0)
+  updated_at      DateTime? @updatedAt @db.DateTime(0)
+
+  id_prestataire  Int
+  id_service_type Int
+  id_location     Int
+
+  prestataire  User @relation(fields: [id_prestataire], references: [id_user])
+  service_type ServiceType @relation(fields: [id_service_type], references: [id_service_type])
+  location     Location    @relation(fields: [id_location], references: [id_location])
+  stock        Stock[]
+
+  @@index([id_prestataire])
+  @@index([id_service_type])
+  @@index([id_location])
+  @@map("sevices")
+}

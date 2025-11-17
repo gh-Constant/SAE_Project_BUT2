@@ -33,7 +33,7 @@ import {
   RouteLocationNormalizedLoadedGeneric,
 } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { ADMIN_ROLE_ID, PRESTATAIRE_ROLE_ID } from '@/services/roleService';
+import { Role } from '@/mocks/users';
 
 // Routes de l'application
 export const routes = [
@@ -57,13 +57,19 @@ export const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import('../views/AdminView.vue'),
-    meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
     path: '/prestataire',
     name: 'prestataire',
     component: () => import('../views/PrestataireView.vue'),
-    meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../views/ProfileView.vue'),
+    meta: { requiresAuth: true },
   },
   {
     path: '/editor-test',
@@ -98,7 +104,7 @@ async function redirectLogin(
   // Vérifier l'authentification après que l'état soit prêt
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login'); // Redirection forcée vers la page de connexion
-  } else if (to.meta.requiredRole && authStore.user?.roleId !== to.meta.requiredRole) {
+  } else if (to.meta.requiredRole && authStore.user?.role !== to.meta.requiredRole) {
     next('/'); // Redirection vers la page d'accueil si rôle insuffisant
   } else {
     next(); // Autorise la navigation

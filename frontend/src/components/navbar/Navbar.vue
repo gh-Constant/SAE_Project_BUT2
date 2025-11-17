@@ -104,8 +104,8 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
             >
               <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden border-2 border-orange-200">
                 <img 
-                  v-if="auth.user?.avatarUrl" 
-                  :src="auth.user.avatarUrl" 
+                  v-if="auth.user?.avatar_url" 
+                  :src="auth.user.avatar_url" 
                   :alt="auth.user.firstname"
                   class="w-full h-full object-cover"
                 >
@@ -144,7 +144,7 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
               <router-link
                 v-if="isAdmin(auth.user)"
                 to="/admin"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="closeDropdown"
               >
                 <i class="fas fa-cog mr-3 text-gray-400" />
@@ -153,15 +153,23 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
               <router-link
                 v-if="isPrestataire(auth.user)"
                 to="/prestataire"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="closeDropdown"
               >
                 <i class="fas fa-briefcase mr-3 text-gray-400" />
                 Panel Prestataire
               </router-link>
               <div class="border-t border-gray-100" />
+              <router-link
+                to="/profile"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-user-edit mr-3 text-gray-400" />
+                Mon Profil
+              </router-link>
               <button
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="handleLogout"
               >
                 <i class="fas fa-sign-out-alt mr-3 text-gray-400" />

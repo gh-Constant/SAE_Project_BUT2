@@ -1,11 +1,11 @@
 export interface ProductMock {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   price: number;
   stock: number;
-  imageUrl: string;
-  locationId: number;
+  image?: string;
+  id_prestataire: number; // Reference to user id
 }
 
 export const PRODUCTS: ProductMock[] = [

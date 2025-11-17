@@ -53,6 +53,8 @@ const closePopup = () => {
 
 const selectLanguage = (language: typeof languages[0]) => {
   locale.value = language.code
+  // Sauvegarder la langue sélectionnée dans localStorage
+  localStorage.setItem('locale', language.code)
   closePopup()
 }
 </script>

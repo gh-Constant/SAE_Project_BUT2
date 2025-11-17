@@ -1,0 +1,131 @@
+{
+  "dashboard": {
+    "title": "Provider Panel",
+    "welcome": "Welcome",
+    "services": {
+      "title": "My Services",
+      "count": "active services",
+      "manage": "Manage my services"
+    },
+    "locations": {
+      "title": "My Locations",
+      "count": "managed locations",
+      "view": "View my locations"
+    },
+    "earnings": {
+      "title": "Monthly Revenue",
+      "view": "View details"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "addService": "Add a service",
+      "createLocation": "Create a location",
+      "viewReservations": "View reservations",
+      "editProfile": "Edit my profile"
+    },
+    "recentActivity": {
+      "title": "Recent Activity"
+    }
+  },
+  "profile": {
+    "title": "Edit my profile",
+    "sections": {
+      "identity": "Identity",
+      "contact": "Contact",
+      "location": "Location",
+      "presentation": "Presentation",
+      "professional": "Professional"
+    },
+    "fields": {
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "email": "Email",
+      "birthDate": "Date of Birth",
+      "phone": "Phone",
+      "bio": "Biography",
+      "bioHint": "Describe yourself and your specialties (max 500 characters)",
+      "bioPlaceholder": "Master craftsman for 15 years, specialized in authentic armor...",
+      "website": "Website",
+      "websitePlaceholder": "https://my-website.com",
+      "address": "Address",
+      "city": "City",
+      "postalCode": "Postal Code",
+      "country": "Country",
+      "customCountry": "Country Name",
+      "experienceYears": "Years of Experience",
+      "socialMedia": "Social Media",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter/X",
+      "linkedin": "LinkedIn",
+      "tiktok": "TikTok",
+      "specialties": "Specialties",
+      "specialtiesPlaceholder": "Add your specialties (e.g., Medieval cuisine, Royal banquets)",
+      "languages": "Languages Spoken",
+      "languagesPlaceholder": "Select the languages you speak",
+      "prestataireType": "Provider Type",
+      "prestataireTypeReadonly": "Provider type cannot be modified",
+      "aventurier": "Adventurer",
+      "avatar": "Avatar",
+      "avatarCurrent": "Current avatar",
+      "avatarType": "Avatar type",
+      "avatarTypeGallery": "Gallery",
+      "avatarTypeUpload": "Upload",
+      "chooseAvatar": "Choose an avatar",
+      "uploadHint": "Accepted formats: JPG, PNG, GIF (max 5MB)"
+    },
+    "status": {
+      "title": "Status",
+      "xp": "XP",
+      "level": "Level"
+    },
+    "validation": {
+      "firstnameRequired": "First name is required",
+      "firstnameMinLength": "First name must contain at least 2 characters",
+      "firstnameMaxLength": "First name must not exceed 255 characters",
+      "firstnameInvalid": "First name must contain only letters",
+      "lastnameRequired": "Last name is required",
+      "lastnameMinLength": "Last name must contain at least 2 characters",
+      "lastnameMaxLength": "Last name must not exceed 255 characters",
+      "lastnameInvalid": "Last name must contain only letters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "birthDateInvalid": "Invalid birth date",
+      "birthDateTooYoung": "You must be at least 18 years old",
+      "birthDateFuture": "Birth date cannot be in the future",
+      "phoneInvalid": "Invalid phone format (unauthorized characters)",
+      "phoneTooShort": "Phone number must contain at least 8 digits",
+      "phoneTooLong": "Phone number must not exceed 15 digits or 20 characters",
+      "bioMaxLength": "Biography must not exceed 500 characters",
+      "websiteInvalid": "URL must start with http:// or https://",
+      "experienceYearsInvalid": "Experience years must be between 0 and 100",
+      "addressMinLength": "Address must contain at least 5 characters",
+      "addressMaxLength": "Address must not exceed 255 characters",
+      "cityMinLength": "City must contain at least 2 characters",
+      "cityMaxLength": "City must not exceed 100 characters",
+      "cityInvalid": "City must contain only letters, spaces and hyphens",
+      "postalCodeInvalid": "Invalid postal code format",
+      "countryInvalid": "Please select a valid country",
+      "customCountryRequired": "Please enter the country name",
+      "customCountryMinLength": "Country name must contain at least 2 characters",
+      "customCountryMaxLength": "Country name must not exceed 100 characters",
+      "customCountryInvalid": "Country name must contain only letters",
+      "avatarInvalid": "Please select a valid image file",
+      "avatarTooLarge": "File must not exceed 5MB",
+      "formErrors": "Please correct form errors"
+    },
+    "messages": {
+      "success": "Profile updated successfully!",
+      "updatedSuccess": "updated successfully",
+      "error": "An error occurred while updating the profile",
+      "loading": "Saving...",
+      "save": "Save changes",
+      "cancel": "Cancel"
+    },
+    "backToHome": "Back to home"
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "profile": "My Profile"
+  }
+}

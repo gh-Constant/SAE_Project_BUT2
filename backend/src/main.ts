@@ -16,7 +16,6 @@
  */
 import { createApp } from './app.js';
 import { config } from './config/app.config.js';
-import { seedRoles } from './seeds/roles.js';
 import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
 
 /**
@@ -25,7 +24,6 @@ import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
 const startServer = async (): Promise<void> => {
   try {
     // Initialisation de la base avec les rôles de base
-    await seedRoles();
     await seedPrestataireTypes();
 
     // Création de l'application Express

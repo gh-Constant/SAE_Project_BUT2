@@ -24,7 +24,7 @@
 <template>
   <div class="min-h-96">
     <div class="relative w-full h-48 overflow-hidden rounded-t-lg">
-      <img :src="location.bannerImage" :alt="location.name" class="w-full h-full object-cover" />
+      <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
     <div class="p-5">
@@ -46,7 +46,7 @@
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.staticCode }}</span>
+          <span class="text-gray-600">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Status:</span>
@@ -59,6 +59,9 @@
       </div>
 
       <div class="mb-5">
+        <button class="px-5 py-2.5l bg-blue-600 hover:bg-green-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors" @click="acheterEmplacement">
+           Acheter cet emplacement
+        </button>
         <h3 class="text-lg font-semibold mb-3 text-gray-800">What you can do here:</h3>
         <ul class="space-y-2">
           <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
@@ -97,13 +100,22 @@
 
 import { defineProps, defineEmits } from 'vue';
 import { LocationMock } from '@/mocks/locations';
+import { ref } from 'vue';
+
 
 interface Props {
   location: LocationMock;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const location = ref(props.location);
+
 defineEmits<{
   close: [];
 }>();
+
+function acheterEmplacement() {
+  location.value.purchased = true; 
+  location.value.id_prestataire= 1;
+}
 </script>
