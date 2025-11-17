@@ -82,6 +82,11 @@ export const routes = [
     name: 'editor-test',
     component: () => import('../views/EditorTestView.vue'),
   },
+  {
+    path: '/aventurier/products',
+    name: 'aventurier-products',
+    component: () => import('../views/AventurierProductView.vue'),
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

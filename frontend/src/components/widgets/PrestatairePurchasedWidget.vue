@@ -59,6 +59,17 @@
         </div>
       </div>
 
+      <div class="flex justify-between">
+        <button>
+          <router-link
+            to="/aventurier/shop"
+            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+          >
+            See Products
+          </router-link>
+        </button>
+      </div>
+
       <div class="flex gap-3 justify-end">
         <button class="px-5 py-2.5 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors" @click="$emit('close')">
           Close
