@@ -60,14 +60,12 @@
       </div>
 
       <div class="flex justify-between">
-        <button>
-          <router-link
-            to="/aventurier/shop"
-            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
-          >
-            See Products
-          </router-link>
-        </button>
+        <router-link
+          :to="{ path: '/aventurier/products', query: { locationId: location.id } }"
+          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+        >
+          See Products
+        </router-link>
       </div>
 
       <div class="flex gap-3 justify-end">
