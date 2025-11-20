@@ -152,4 +152,23 @@ export const authMockService = {
       }
     });
   },
+
+  // Get current user from localStorage
+  getCurrentUser(): Promise<UserMock | null> {
+    return new Promise((resolve) => {
+      const currentUserStr = localStorage.getItem('currentUser');
+      if (!currentUserStr) {
+        resolve(null);
+        return;
+      }
+
+      try {
+        const currentUser = JSON.parse(currentUserStr) as UserMock;
+        resolve(currentUser);
+      } catch (error) {
+        console.warn('Error parsing current user from localStorage:', error);
+        resolve(null);
+      }
+    });
+  },
 }

@@ -17,14 +17,18 @@
 import { createApp } from './app.js';
 import { config } from './config/app.config.js';
 import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
+import { seedLocationTypes } from './seeds/LocationTypes.js';
+import { seedLocations } from './seeds/locations.js';
 
 /**
  * Fonction principale pour démarrer le serveur.
  */
 const startServer = async (): Promise<void> => {
   try {
-    // Initialisation de la base avec les rôles de base
+    // Initialisation de la base avec les types de base
     await seedPrestataireTypes();
+    await seedLocationTypes();
+    await seedLocations();
 
     // Création de l'application Express
     const app = createApp();

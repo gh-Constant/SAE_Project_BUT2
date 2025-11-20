@@ -58,11 +58,35 @@
         </div>
       </div>
 
+      <!-- Error Message -->
+      <div v-if="errorMessage" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-5">
+        <p class="text-red-700">{{ errorMessage }}</p>
+      </div>
+
+      <!-- Success Message -->
+      <div v-if="successMessage" class="bg-green-50 border border-green-200 rounded-lg p-4 mb-5">
+        <p class="text-green-700">{{ successMessage }}</p>
+      </div>
+
       <div class="mb-5">
-        <button class="px-5 py-2.5l bg-blue-600 hover:bg-green-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors" @click="acheterEmplacement">
-           Acheter cet emplacement
+        <button 
+          class="px-5 py-2.5 bg-blue-600 hover:bg-green-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" 
+          @click="acheterEmplacement"
+          :disabled="isLoading || isPurchased"
+        >
+          <span v-if="isLoading">
+            <i class="fas fa-spinner fa-spin mr-2"></i>
+            Purchasing...
+          </span>
+          <span v-else-if="isPurchased">
+            <i class="fas fa-check mr-2"></i>
+            Purchased!
+          </span>
+          <span v-else>
+            Acheter cet emplacement
+          </span>
         </button>
-        <h3 class="text-lg font-semibold mb-3 text-gray-800">What you can do here:</h3>
+        <h3 class="text-lg font-semibold mb-3 text-gray-800 mt-4">What you can do here:</h3>
         <ul class="space-y-2">
           <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
             <i class="fas fa-store text-gray-600 mr-3 w-4"></i>
@@ -95,27 +119,64 @@
 <script setup lang="ts">
 /**
  * Script du composant PrestataireAvailableWidget
- * Gère l'affichage des locations prestataires disponibles (interface simplifiée)
+ * Gère l'affichage et l'achat des locations prestataires disponibles
  */
 
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import { LocationMock } from '@/mocks/locations';
-import { ref } from 'vue';
-
+import { locationService } from '@/services/locationService';
+import { authService } from '@/services/authService';
 
 interface Props {
   location: LocationMock;
 }
 
 const props = defineProps<Props>();
-const location = ref(props.location);
-
-defineEmits<{
+const emit = defineEmits<{
   close: [];
+  purchased: [location: LocationMock];
 }>();
 
-function acheterEmplacement() {
-  location.value.purchased = true; 
-  location.value.id_prestataire= 1;
+const isLoading = ref(false);
+const isPurchased = ref(false);
+const errorMessage = ref('');
+const successMessage = ref('');
+
+async function acheterEmplacement() {
+  try {
+    isLoading.value = true;
+    errorMessage.value = '';
+    successMessage.value = '';
+
+    // Get current user
+    const user = await authService.getCurrentUser();
+    console.log(user + "try to purchase location");
+    
+    if (!user) {
+      errorMessage.value = 'You must be logged in to purchase a location';
+      return;
+    }
+
+    // Purchase the location using the service
+    const updatedLocation = await locationService.purchaseLocation(props.location.id, user.id_user);
+    
+    // Update local state
+    isPurchased.value = true;
+    successMessage.value = 'Location purchased successfully!';
+    
+    // Emit event to notify parent component
+    emit('purchased', updatedLocation);
+    
+    // Auto-close after 2 seconds
+    setTimeout(() => {
+      emit('close');
+    }, 2000);
+    
+  } catch (error) {
+    console.error('Error purchasing location:', error);
+    errorMessage.value = error instanceof Error ? error.message : 'Failed to purchase location. Please try again.';
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>

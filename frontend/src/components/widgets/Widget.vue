@@ -67,6 +67,7 @@
           v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && !location.purchased"
           :location="location"
           @close="closeWidget"
+          @purchased="handlePurchased"
         />
 
         <!-- Fallback -->
@@ -105,10 +106,15 @@ defineProps<Props>();
 
 const emit = defineEmits<{
   close: [];
+  purchased: [location: LocationMock];
 }>();
 
 const closeWidget = () => {
   emit('close');
+};
+
+const handlePurchased = (location: LocationMock) => {
+  emit('purchased', location);
 };
 </script>
 

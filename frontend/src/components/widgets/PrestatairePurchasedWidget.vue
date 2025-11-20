@@ -60,7 +60,7 @@
               <button @click="editBlog(blog)" class="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors">
                 Edit
               </button>
-              <button @click="deleteBlog(blog.id_blog)" class="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded transition-colors">
+              <button v-if="blog.id_blog" @click="deleteBlog(blog.id_blog)" class="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded transition-colors">
                 Delete
               </button>
             </div>
@@ -141,17 +141,8 @@
 import { defineProps, defineEmits, computed, ref, onMounted } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
-import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes';
 import Editor from '@/components/editor/Editor.vue';
-
-interface Blog {
-  id_blog?: number;
-  title: string;
-  content: string;
-  created_at?: string;
-  updated_at?: string;
-  id_location: number;
-}
+import { blogService, Blog } from '@/services/blogService';
 
 interface Props {
   location: LocationMock;
@@ -164,13 +155,18 @@ defineEmits<{
 }>();
 
 const prestataire = computed(() => {
+  // Use prestataire data from location if available (from backend)
+  // Otherwise fallback to mock data for development
+  if (props.location.prestataire) {
+    return props.location.prestataire;
+  }
   return USERS.find(user => user.id === props.location.id_prestataire);
 });
 
 const prestataireTypeName = computed(() => {
-  if (!prestataire.value?.id_prestataire_type) return '';
-  const type = PRESTATAIRE_TYPES.find(t => t.id === prestataire.value?.id_prestataire_type);
-  return type?.name || '';
+  // For now, return a generic label since prestataire type is on user, not in the prestataire subset
+  // TODO: Fetch full user details if needed for type
+  return 'Prestataire';
 });
 
 // Blog management
@@ -202,10 +198,7 @@ const formatDate = (dateString: string | undefined): string => {
 
 const fetchBlogs = async () => {
   try {
-    const response = await fetch(`/api/v1/blogs/locations/${props.location.id}/blogs`);
-    if (response.ok) {
-      blogs.value = await response.json();
-    }
+    blogs.value = await blogService.getBlogsByLocationId(props.location.id);
   } catch (error) {
     console.error('Failed to fetch blogs:', error);
   }
@@ -232,34 +225,19 @@ const saveBlog = async () => {
   }
 
   const content = editorRef.value?.getHTML() || '';
+  const blogData = {
+    ...currentBlog.value,
+    content
+  };
   
   try {
-    const url = currentBlog.value.id_blog 
-      ? `/api/v1/blogs/${currentBlog.value.id_blog}`
-      : '/api/v1/blogs';
-    
-    const method = currentBlog.value.id_blog ? 'PUT' : 'POST';
-    
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}` // TODO: Use proper auth store
-      },
-      body: JSON.stringify({
-        title: currentBlog.value.title,
-        content,
-        id_location: props.location.id
-      })
-    });
-
-    if (response.ok) {
-      await fetchBlogs();
-      cancelEdit();
+    if (currentBlog.value.id_blog) {
+      await blogService.updateBlog(blogData);
     } else {
-      const error = await response.json();
-      alert(`Failed to save blog: ${error.error || 'Unknown error'}`);
+      await blogService.createBlog(blogData);
     }
+    await fetchBlogs();
+    cancelEdit();
   } catch (error) {
     console.error('Failed to save blog:', error);
     alert('Failed to save blog');
@@ -272,18 +250,8 @@ const deleteBlog = async (blogId: number) => {
   }
 
   try {
-    const response = await fetch(`/api/v1/blogs/${blogId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` // TODO: Use proper auth store
-      }
-    });
-
-    if (response.ok) {
-      await fetchBlogs();
-    } else {
-      alert('Failed to delete blog');
-    }
+    await blogService.deleteBlog(blogId);
+    await fetchBlogs();
   } catch (error) {
     console.error('Failed to delete blog:', error);
     alert('Failed to delete blog');

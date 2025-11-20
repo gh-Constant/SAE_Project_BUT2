@@ -45,6 +45,7 @@
       v-if="selectedLocation"
       :location="selectedLocation"
       @close="closeWidget"
+      @purchased="handleLocationPurchased"
     />
   </div>
 </template>
@@ -153,6 +154,18 @@ function initializeMap() {
  */
 function closeWidget() {
   selectedLocation.value = null;
+}
+
+/**
+ * Gère l'événement de purchase d'une location
+ * Rafraîchit la carte pour afficher les changements
+ */
+async function handleLocationPurchased(location: LocationMock) {
+  console.log('Location purchased:', location);
+  // Refresh the map to show updated locations
+  await addFilteredLocationsToMap();
+  // Close the widget
+  closeWidget();
 }
 
 /**

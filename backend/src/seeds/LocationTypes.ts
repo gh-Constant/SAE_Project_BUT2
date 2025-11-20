@@ -1,6 +1,6 @@
 import prisma from '../prisma.js';
 
-export async function seedPrestataireTypes() {
+export async function seedLocationTypes() {
   const types = ['prestataire', 'story', 'other'];
 
   for (let i = 0; i < types.length; i++) {
@@ -11,5 +11,5 @@ export async function seedPrestataireTypes() {
     });
   }
 
-  console.log('✅ PrestataireTypes seeded');
+  console.log('✅ LocationTypes seeded');
 }

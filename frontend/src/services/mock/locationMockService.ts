@@ -22,6 +22,7 @@
 
 import L from 'leaflet';
 import { LOCATIONS, LocationMock } from '@/mocks/locations';
+import { USERS } from '@/mocks/users';
 import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
 
@@ -33,6 +34,61 @@ export const locationMockService = {
   getAllLocations(): Promise<LocationMock[]> {
     return new Promise((resolve) => {
       resolve([...LOCATIONS]);
+    });
+  },
+
+  /**
+   * Récupère une location par son ID
+   * @param id ID de la location à récupérer
+   * @returns Promise résolue avec la location trouvée
+   */
+  getLocationById(id: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === id);
+      if (location) {
+        resolve({ ...location });
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  /**
+   * Achète une location pour un utilisateur
+   * @param locationId ID de la location à acheter
+   * @param userId ID de l'utilisateur qui achète
+   * @returns Promise résolue avec la location mise à jour
+   */
+  purchaseLocation(locationId: number, userId: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (!location) {
+        reject(new Error('Location not found'));
+        return;
+      }
+
+      // Find user details
+      console.log('Looking for user with ID:', userId);
+      console.log('Available users:', USERS.map(u => ({ id: u.id, name: `${u.firstname} ${u.lastname}` })));
+      const user = USERS.find(u => u.id === userId);
+      if (!user) {
+        console.error('User not found for ID:', userId);
+        reject(new Error('User not found'));
+        return;
+      }
+
+      // Update location with purchase info
+      location.purchased = true;
+      location.id_prestataire = userId;
+      location.prestataire = {
+        id_user: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        avatar_url: user.avatar_url,
+        avatar_type: user.avatar_type,
+      };
+
+      resolve({ ...location });
     });
   },
 

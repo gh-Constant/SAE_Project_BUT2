@@ -85,3 +85,39 @@ export const checkBlogLocationOwnership = async (req: AuthenticatedRequest, res:
     res.status(500).json({ error: 'Internal server error during blog location ownership check' });
   }
 };
+
+/**
+ * Middleware to check if a location is available for purchase.
+ * Checks if location exists and is not already purchased.
+ * Location ID is in req.params.id.
+ */
+export const checkLocationAvailable = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const locationId = parseInt(req.params.id);
+
+    if (isNaN(locationId)) {
+      res.status(400).json({ error: 'Invalid location ID' });
+      return;
+    }
+
+    const location = await prisma.location.findUnique({
+      where: { id_location: locationId },
+    });
+
+    if (!location) {
+      res.status(404).json({ error: 'Location not found' });
+      return;
+    }
+
+    // Check if location is already purchased
+    if (location.purchased) {
+      res.status(400).json({ error: 'Location is already purchased' });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.error('Location availability check error:', error);
+    res.status(500).json({ error: 'Internal server error during location availability check' });
+  }
+};
