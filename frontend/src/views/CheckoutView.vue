@@ -49,7 +49,11 @@
                   Commande #{{ Math.floor(order.id) }}
                 </h3>
                 <p class="text-sm text-gray-600 mt-1">
-                  <i class="fas fa-store mr-2 text-orange-600"></i>
+                  <i class="fas fa-map-marker-alt mr-2 text-orange-600"></i>
+                  {{ getLocationName(order.id_location) }}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">
+                  <i class="fas fa-store mr-1"></i>
                   {{ getPrestataireName(order.id_prestataire) }}
                 </p>
               </div>
@@ -174,6 +178,11 @@ const paidOrdersCount = computed(() => {
       (cmd.etat_commande === EtatCommande.PAYED || cmd.etat_commande === EtatCommande.COLLECTED)
   ).length
 })
+
+// Récupérer le nom de la location (boutique)
+const getLocationName = (locationId: number): string => {
+  return productService.getLocation(locationId)
+}
 
 // Récupérer le nom du prestataire
 const getPrestataireName = (prestataireId: number): string => {

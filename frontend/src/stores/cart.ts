@@ -3,12 +3,12 @@
  * @description
  * Store Pinia pour gérer le panier d'achat.
  * Contient les articles du panier, les fonctions pour ajouter/retirer des produits,
- * et la création de commandes séparées par prestataire.
+ * et la création de commandes séparées par location (boutique).
  *
  * @utilité
  * - Gérer l'état du panier de manière centralisée.
- * - Grouper les articles par prestataire.
- * - Créer des commandes séparées pour chaque prestataire.
+ * - Grouper les articles par location (boutique).
+ * - Créer des commandes séparées pour chaque location (système Click & Collect).
  * - Persister le panier dans localStorage.
  *
  * @exports
@@ -16,7 +16,7 @@
  *
  * @remarques
  * - Le panier est sauvegardé dans localStorage pour persister entre les sessions.
- * - Les commandes sont créées séparément par prestataire (système Click & Collect).
+ * - Les commandes sont créées séparément par location (boutique) pour permettre la collecte séparée.
  */
 
 import { defineStore } from 'pinia'
@@ -26,6 +26,7 @@ import { LigneCommandeMock } from '@/mocks/ligneCommande'
 import { COMMANDES } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { useAuthStore } from './auth'
+import { productService } from '@/services/productService'
 
 // Check if we're in mock mode
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true'
@@ -36,6 +37,7 @@ export interface CartItem {
   quantity: number
   price: number
   id_prestataire: number
+  id_location: number // Location (boutique) du produit pour optimiser le groupement
   // Données du produit pour l'affichage (optionnel, peut être récupéré depuis PRODUCTS)
   product?: ProductMock
 }
@@ -47,7 +49,7 @@ export const useCartStore = defineStore('cart', {
 
   getters: {
     /**
-     * Groupe les articles du panier par prestataire
+     * Groupe les articles du panier par prestataire (conservé pour compatibilité)
      */
     groupedByPrestataire: (state): Record<number, CartItem[]> => {
       const grouped: Record<number, CartItem[]> = {}
@@ -56,6 +58,22 @@ export const useCartStore = defineStore('cart', {
           grouped[item.id_prestataire] = []
         }
         grouped[item.id_prestataire].push(item)
+      })
+      return grouped
+    },
+
+    /**
+     * Groupe les articles du panier par location (boutique)
+     * Optimisé : utilise id_location déjà stocké dans CartItem
+     */
+    groupedByLocation: (state): Record<number, CartItem[]> => {
+      const grouped: Record<number, CartItem[]> = {}
+      state.items.forEach((item) => {
+        const locationId = item.id_location
+        if (!grouped[locationId]) {
+          grouped[locationId] = []
+        }
+        grouped[locationId].push(item)
       })
       return grouped
     },
@@ -86,6 +104,7 @@ export const useCartStore = defineStore('cart', {
     /**
      * Ajoute un produit au panier
      * Si le produit existe déjà, augmente la quantité
+     * Optimisé : récupère locationId depuis productService pour éviter les recherches répétées
      */
     addToCart(product: ProductMock, quantity = 1) {
       const existingItem = this.items.find(
@@ -96,12 +115,17 @@ export const useCartStore = defineStore('cart', {
         // Si le produit existe déjà, augmenter la quantité
         existingItem.quantity += quantity
       } else {
+        // Récupérer la locationId depuis productService (optimisation)
+        const productStore = productService.getProducts().find(p => p.id === product.id)
+        const locationId = productStore?.locationId || 0
+
         // Sinon, ajouter un nouvel article
         this.items.push({
           id_product: product.id,
           quantity,
           price: product.price,
           id_prestataire: product.id_prestataire,
+          id_location: locationId,
           product,
         })
       }
@@ -158,8 +182,9 @@ export const useCartStore = defineStore('cart', {
     },
 
     /**
-     * Crée les commandes séparées par prestataire
-     * Chaque prestataire aura sa propre commande en état "waiting"
+     * Crée les commandes séparées par location (boutique)
+     * Chaque location aura sa propre commande en état "waiting"
+     * Optimisé : utilise groupedByLocation qui utilise id_location déjà stocké
      */
     createOrder() {
       const authStore = useAuthStore()
@@ -167,20 +192,27 @@ export const useCartStore = defineStore('cart', {
         throw new Error('Utilisateur non connecté')
       }
 
-      const grouped = this.groupedByPrestataire
+      const grouped = this.groupedByLocation
       const orders: CommandeMock[] = []
 
-      // Créer une commande par prestataire
-      for (const [prestataireId, items] of Object.entries(grouped)) {
+      // Créer une commande par location (boutique)
+      for (const [locationIdStr, items] of Object.entries(grouped)) {
+        const locationId = Number(locationIdStr)
+        
+        // Calculer le total pour cette location
         const totalPrice = items.reduce(
           (sum, item) => sum + item.price * item.quantity,
           0
         )
 
+        // Récupérer id_prestataire depuis le premier item (tous les items d'une location ont le même prestataire)
+        const id_prestataire = items[0]?.id_prestataire || 0
+
         const order: CommandeMock = {
           id: Date.now() + Math.random(), // Génération d'ID simple en mock
           id_user: authStore.user.id,
-          id_prestataire: Number(prestataireId),
+          id_prestataire: id_prestataire,
+          id_location: locationId,
           date_commande: new Date(),
           total_price: totalPrice,
           etat_commande: EtatCommande.WAITING,
@@ -223,7 +255,30 @@ export const useCartStore = defineStore('cart', {
     },
 
     /**
+     * Migre les anciens items du panier qui n'ont pas id_location
+     * Récupère locationId depuis productService pour chaque produit
+     */
+    migrateCartItems(items: Partial<CartItem>[]): CartItem[] {
+      return items.map((item) => {
+        // Si l'item a déjà id_location, le retourner tel quel
+        if (item.id_location !== undefined) {
+          return item as CartItem
+        }
+
+        // Sinon, récupérer locationId depuis productService
+        const productStore = productService.getProducts().find(p => p.id === item.id_product)
+        const locationId = productStore?.locationId || 0
+
+        return {
+          ...item,
+          id_location: locationId,
+        } as CartItem
+      })
+    },
+
+    /**
      * Charge le panier depuis localStorage pour l'utilisateur actuel
+     * Migre automatiquement les anciens paniers qui n'ont pas id_location
      */
     loadFromLocalStorage() {
       if (isMockEnabled) {
@@ -233,7 +288,11 @@ export const useCartStore = defineStore('cart', {
           const cartStr = localStorage.getItem(cartKey)
           if (cartStr) {
             try {
-              this.items = JSON.parse(cartStr)
+              const parsedItems = JSON.parse(cartStr)
+              // Migrer les anciens items si nécessaire
+              this.items = this.migrateCartItems(parsedItems)
+              // Sauvegarder la version migrée
+              this.saveToLocalStorage()
             } catch (error) {
               console.warn('Erreur lors du chargement du panier:', error)
               this.items = []
@@ -251,6 +310,7 @@ export const useCartStore = defineStore('cart', {
 
     /**
      * Charge le panier pour un nouvel utilisateur (appelé lors du login)
+     * Migre automatiquement les anciens paniers qui n'ont pas id_location
      */
     loadCartForUser(userId: number) {
       if (isMockEnabled) {
@@ -258,7 +318,11 @@ export const useCartStore = defineStore('cart', {
         const cartStr = localStorage.getItem(cartKey)
         if (cartStr) {
           try {
-            this.items = JSON.parse(cartStr)
+            const parsedItems = JSON.parse(cartStr)
+            // Migrer les anciens items si nécessaire
+            this.items = this.migrateCartItems(parsedItems)
+            // Sauvegarder la version migrée
+            this.saveToLocalStorage()
           } catch (error) {
             console.warn('Erreur lors du chargement du panier:', error)
             this.items = []

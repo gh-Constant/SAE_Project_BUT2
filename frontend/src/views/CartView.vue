@@ -4,10 +4,10 @@
   Vue pour afficher et gérer le panier d'achat.
 
   @utilité
-  - Affiche tous les articles du panier groupés par prestataire
+  - Affiche tous les articles du panier groupés par location (boutique)
   - Permet de modifier les quantités ou supprimer des articles
-  - Affiche les sous-totaux par prestataire et le total général
-  - Permet de passer commande (crée les commandes séparées par prestataire)
+  - Affiche les sous-totaux par location et le total général
+  - Permet de passer commande (crée les commandes séparées par location)
 -->
 <template>
   <div class="min-h-screen bg-gray-50 py-8">
@@ -37,17 +37,20 @@
 
       <!-- Panier avec articles -->
       <div v-else>
-        <!-- Articles groupés par prestataire -->
-        <div v-for="(items, prestataireId) in cartStore.groupedByPrestataire" :key="prestataireId" class="mb-6">
-          <!-- En-tête du prestataire -->
+        <!-- Articles groupés par location (boutique) -->
+        <div v-for="(items, locationId) in cartStore.groupedByLocation" :key="locationId" class="mb-6">
+          <!-- En-tête de la location -->
           <div class="bg-orange-100 border border-orange-300 rounded-t-lg px-4 py-3">
             <h2 class="font-semibold text-gray-900">
-              <i class="fas fa-store mr-2 text-orange-600"></i>
-              {{ getPrestataireName(Number(prestataireId)) }}
+              <i class="fas fa-map-marker-alt mr-2 text-orange-600"></i>
+              {{ getLocationName(Number(locationId)) }}
             </h2>
+            <p class="text-sm text-gray-600 mt-1">
+              {{ getPrestataireNameForLocation(Number(locationId)) }}
+            </p>
           </div>
 
-          <!-- Liste des articles du prestataire -->
+          <!-- Liste des articles de la location -->
           <div class="bg-white border-x border-gray-200 divide-y divide-gray-200">
             <CartItemComponent
               v-for="item in items"
@@ -56,7 +59,7 @@
             />
           </div>
 
-          <!-- Sous-total du prestataire -->
+          <!-- Sous-total de la location -->
           <div class="bg-gray-50 border-x border-b border-gray-200 rounded-b-lg px-4 py-3">
             <div class="flex justify-between items-center">
               <span class="text-gray-600">Sous-total</span>
@@ -78,7 +81,7 @@
             </div>
             <p class="text-sm text-gray-500">
               <i class="fas fa-info-circle mr-1"></i>
-              Les commandes seront créées séparément pour chaque prestataire
+              Les commandes seront créées séparément pour chaque boutique (location)
             </p>
           </div>
         </div>
@@ -113,19 +116,31 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCartStore, type CartItem } from '@/stores/cart'
 import { USERS } from '@/mocks/users'
+import { productService } from '@/services/productService'
 import CartItemComponent from '@/components/CartItem.vue'
 
 const router = useRouter()
 const cartStore = useCartStore()
 const isProcessing = ref(false)
 
-// Récupérer le nom du prestataire
-const getPrestataireName = (prestataireId: number): string => {
-  const prestataire = USERS.find((u) => u.id === prestataireId)
-  return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : `Prestataire #${prestataireId}`
+// Récupérer le nom de la location (boutique)
+const getLocationName = (locationId: number): string => {
+  return productService.getLocation(locationId)
 }
 
-// Calculer le sous-total pour un groupe de prestataire
+// Récupérer le nom du prestataire pour une location donnée
+const getPrestataireNameForLocation = (locationId: number): string => {
+  // Trouver le prestataire via les items du panier pour cette location
+  const itemsForLocation = cartStore.groupedByLocation[locationId] || []
+  if (itemsForLocation.length > 0) {
+    const prestataireId = itemsForLocation[0].id_prestataire
+    const prestataire = USERS.find((u) => u.id === prestataireId)
+    return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : `Prestataire #${prestataireId}`
+  }
+  return 'Prestataire inconnu'
+}
+
+// Calculer le sous-total pour un groupe de location
 const calculateSubtotal = (items: CartItem[]): number => {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 }
@@ -137,7 +152,7 @@ const handleCheckout = async () => {
   isProcessing.value = true
 
   try {
-    // Créer les commandes (séparées par prestataire)
+    // Créer les commandes (séparées par location)
     const orders = cartStore.createOrder()
 
     // Simuler un petit délai pour l'UX

@@ -12,6 +12,7 @@ export interface CommandeMock {
     
     id_user: number;
     id_prestataire: number; // Prestataire concerné par cette commande
+    id_location: number; // Location (boutique) concernée par cette commande
     etat_commande: EtatCommande;
 }
 
