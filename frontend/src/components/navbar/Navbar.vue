@@ -39,6 +39,14 @@ onUnmounted(() => {
 
 const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
 
+// Route du profil selon le rôle : prestataires vont vers leur panel, autres vers /profile
+const profileRoute = computed(() => {
+  if (isPrestataire(auth.user)) {
+    return { name: 'prestataire', query: { tab: 'profile' } }
+  }
+  return { name: 'profile' }
+})
+
 </script>
 
 <template>
@@ -161,7 +169,7 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
               </router-link>
               <div class="border-t border-gray-100" />
               <router-link
-                to="/profile"
+                :to="profileRoute"
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="closeDropdown"
               >

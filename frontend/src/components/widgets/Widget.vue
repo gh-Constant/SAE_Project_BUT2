@@ -48,8 +48,8 @@
         </svg>
       </button>
 
-      <!-- Scrollable Content -->
-      <div class="overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+      <!-- Content -->
+      <div class="overflow-y-auto max-h-[85vh] scrollbar-hide">
         <!-- Story Location Widget -->
         <StoryWidget
           v-if="location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID"
@@ -113,20 +113,13 @@ const closeWidget = () => {
 </script>
 
 <style scoped>
-.scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
+/* Masquer la scrollbar mais garder le scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #d1d5db;
-  border-radius: 4px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: #9ca3af;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
 </style>
