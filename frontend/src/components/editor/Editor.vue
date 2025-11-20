@@ -28,24 +28,35 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { editorExtensions, defaultContent } from './editorConfig'
 import Toolbar from './Toolbar.vue'
 
 /**
- * Émet un événement 'ready' lorsque l’éditeur est complètement initialisé.
+ * Props for the Editor component
+ */
+interface Props {
+  initialContent?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  initialContent: defaultContent
+});
+
+/**
+ * Émet un événement 'ready' lorsque l'éditeur est complètement initialisé.
  */
 const emit = defineEmits<{
   ready: [editor: any]
 }>()
 
 /**
- * Initialise l’éditeur avec les extensions et le contenu par défaut.
+ * Initialise l'éditeur avec les extensions et le contenu par défaut.
  */
 const editor = useEditor({
   extensions: editorExtensions,
-  content: defaultContent,
+  content: props.initialContent,
   editorProps: {
     attributes: {
       class: 'tiptap prose prose-sm sm:prose lg:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
@@ -54,14 +65,46 @@ const editor = useEditor({
 })
 
 /**
- * Quand le composant est monté, émet l’événement ready.
+ * Watch for changes to initialContent and update editor
+ */
+watch(() => props.initialContent, (newContent) => {
+  if (editor.value && newContent !== editor.value.getHTML()) {
+    editor.value.commands.setContent(newContent);
+  }
+});
+
+/**
+ * Get HTML content from editor
+ */
+const getHTML = (): string => {
+  return editor.value?.getHTML() || '';
+};
+
+/**
+ * Set HTML content in editor
+ */
+const setHTML = (content: string): void => {
+  editor.value?.commands.setContent(content);
+};
+
+/**
+ * Expose methods to parent component
+ */
+defineExpose({
+  getHTML,
+  setHTML,
+  editor
+});
+
+/**
+ * Quand le composant est monté, émet l'événement ready.
  */
 onMounted(() => {
   if (editor.value) emit('ready', editor.value)
 })
 
 /**
- * Détruit proprement l’éditeur à la désactivation du composant.
+ * Détruit proprement l'éditeur à la désactivation du composant.
  */
 onUnmounted(() => {
   editor.value?.destroy()

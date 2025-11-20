@@ -20,6 +20,7 @@ import healthRoutes from './healthRoutes.js';
 import roleRoutes from './roleRoutes.js';
 import authRoutes from './authRoutes.js';
 import translationRoutes from './translationRoutes.js';
+import blogRoutes from './blogRoutes.js';
 import { apiConfig } from '../config/app.config.js';
 
 const router = Router();
@@ -47,6 +48,9 @@ apiRouter.use('/auth', authRoutes);
 
 // Ajout des routes de traduction
 apiRouter.use('/', translationRoutes);
+
+// Ajout des routes de blog
+apiRouter.use('/blogs', blogRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);
