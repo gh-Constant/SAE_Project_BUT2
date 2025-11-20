@@ -38,7 +38,7 @@
             <p class="text-sm text-gray-600">{{ prestataireTypeName }}</p>
           </div>
         </div>
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors" @click="viewProfile">
+        <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors" @click="viewProfile">
           View Profile
         </button>
       </div>
@@ -51,21 +51,22 @@
         </div>
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Status:</span>
-          <span class="text-green-600 font-semibold">Purchased</span>
+          <span class="text-orange-600 font-semibold">Purchased</span>
         </div>
         <div class="flex justify-between">
           <span class="font-semibold text-gray-700">Price:</span>
-          <span class="text-green-600 font-semibold">{{ location.price }} gold</span>
+          <span class="text-orange-600 font-semibold">{{ location.price }} gold</span>
         </div>
       </div>
 
       <div class="flex justify-between">
-        <router-link
-          :to="{ path: '/aventurier/products', query: { locationId: location.id } }"
-          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+        <button
+          @click="viewBoutique"
+          class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
         >
-          See Products
-        </router-link>
+          <i class="fas fa-store mr-2"></i>
+          Voir les produits
+        </button>
       </div>
 
       <div class="flex gap-3 justify-end">
@@ -88,7 +89,6 @@ import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes';
-import { SERVICES } from '@/mocks/services';
 
 interface Props {
   location: LocationMock;
@@ -118,27 +118,12 @@ const viewProfile = () => {
   console.log('Affichage du profil de:', prestataire.value?.firstname);
 };
 
-const getServiceTypeName = (serviceTypeId: number): string => {
-  const service = SERVICES.find(s => s.id === serviceTypeId);
-  return service?.name || 'Service';
-};
-
-// Actions
-const viewFullProfile = () => {
-  // TODO: Créer la page de profil public du prestataire
-  console.log('Affichage du profil complet de:', prestataire.value?.firstname, prestataire.value?.id);
-};
-
 const viewBoutique = () => {
-  if (prestataire.value) {
-    router.push({ name: 'boutique-prestataire', params: { prestataireId: prestataire.value.id } });
+  // Rediriger vers la boutique de cette location
+  if (props.location.id) {
+    router.push({ name: 'boutique-location', params: { locationId: props.location.id } });
   } else {
     router.push({ name: 'boutique' });
   }
-};
-
-const viewAllServices = () => {
-  // TODO: Créer la page de profil public ou page des services
-  console.log('Affichage de tous les services pour location:', props.location.id);
 };
 </script>

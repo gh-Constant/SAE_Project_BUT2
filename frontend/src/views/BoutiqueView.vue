@@ -4,24 +4,107 @@
   Vue pour afficher le catalogue de tous les produits disponibles.
 
   @utilité
-  - Affiche tous les produits disponibles
-  - Permet de filtrer par prestataire (optionnel)
+  - Affiche la liste des boutiques (locations) si pas de locationId
+  - Affiche les produits d'une boutique spécifique si locationId présent
+  - Permet de filtrer et rechercher les produits
   - Utilise ProductCard pour afficher chaque produit
 -->
 <template>
   <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- En-tête -->
-      <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">
-          <i class="fas fa-store mr-3 text-orange-500"></i>
-          Boutique Médiévale
-        </h1>
-        <p class="text-gray-600">Découvrez tous nos produits artisanaux</p>
+      <!-- Vue Liste des Boutiques (si pas de locationId) -->
+      <div v-if="!locationIdFromRoute">
+        <!-- En-tête -->
+        <div class="mb-8">
+          <h1 class="text-4xl font-bold text-gray-900 mb-2">
+            <i class="fas fa-store mr-3 text-orange-500"></i>
+            Nos Boutiques
+          </h1>
+          <p class="text-gray-600">Découvrez nos boutiques et leurs produits artisanaux</p>
+        </div>
+
+        <!-- Grille de boutiques -->
+        <div v-if="availableLocations.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="location in availableLocations"
+            :key="location.id"
+            class="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden cursor-pointer transform hover:scale-[1.02]"
+            @click="goToLocation(location.id)"
+          >
+            <!-- Image de la boutique -->
+            <div class="h-48 bg-gray-200 overflow-hidden">
+              <img
+                v-if="location.bannerImage"
+                :src="location.bannerImage"
+                :alt="location.name"
+                class="w-full h-full object-cover"
+              />
+              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200">
+                <i class="fas fa-store text-6xl text-orange-400"></i>
+              </div>
+            </div>
+
+            <!-- Contenu -->
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                {{ location.name }}
+              </h3>
+              <p class="text-sm text-gray-600 mb-2 flex items-center">
+                <i class="fas fa-user-tie mr-2 text-orange-500"></i>
+                {{ getPrestataireNameForLocation(location.id) }}
+              </p>
+              <p class="text-sm text-gray-500 mb-4 line-clamp-2 min-h-[2.5rem]">
+                {{ location.description }}
+              </p>
+              <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                <span class="text-sm text-gray-600 flex items-center">
+                  <i class="fas fa-boxes mr-2 text-orange-500"></i>
+                  <span class="font-semibold">{{ getProductCountForLocation(location.id) }}</span>
+                  {{ getProductCountForLocation(location.id) > 1 ? 'produits' : 'produit' }}
+                </span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center font-semibold text-sm">
+                  Voir les produits
+                  <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message si aucune boutique -->
+        <div v-else class="text-center py-16 bg-white rounded-lg shadow-sm border border-gray-200">
+          <i class="fas fa-store text-6xl text-gray-300 mb-4"></i>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">
+            Aucune boutique disponible
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Les boutiques seront bientôt disponibles.
+          </p>
+        </div>
       </div>
 
-      <!-- Barre de recherche et filtres -->
-      <div class="mb-6 space-y-4">
+      <!-- Vue Produits d'une Boutique (si locationId présent) -->
+      <div v-else>
+        <!-- En-tête avec retour -->
+        <div class="mb-8">
+          <button
+            @click="goBackToBoutiques"
+            class="mb-4 inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold transition-colors"
+          >
+            <i class="fas fa-arrow-left mr-2"></i>
+            Retour aux boutiques
+          </button>
+          <h1 class="text-4xl font-bold text-gray-900 mb-2">
+            <i class="fas fa-store mr-3 text-orange-500"></i>
+            {{ getLocationName(locationIdFromRoute) }}
+          </h1>
+          <p class="text-gray-600">
+            {{ getPrestataireNameForLocation(locationIdFromRoute) }} • {{ getProductCountForLocation(locationIdFromRoute) }} produit(s)
+          </p>
+        </div>
+
+        <!-- Barre de recherche et filtres -->
+        <div class="mb-6 space-y-4">
         <!-- Ligne 1 : Recherche et Tri -->
         <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
           <div class="flex flex-col md:flex-row gap-4">
@@ -80,35 +163,6 @@
         <!-- Ligne 2 : Filtres avancés -->
         <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
           <div class="flex flex-col lg:flex-row gap-4">
-            <!-- Filtre par prestataire -->
-            <div class="flex-1">
-              <label for="prestataireFilter" class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-store mr-1 text-orange-500"></i>
-                Prestataire
-              </label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i class="fas fa-filter text-gray-400"></i>
-                </div>
-                <select
-                  id="prestataireFilter"
-                  v-model="selectedPrestataireId"
-                  class="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white cursor-pointer"
-                >
-                  <option :value="null">Tous les prestataires</option>
-                  <option
-                    v-for="prestataire in availablePrestataires"
-                    :key="prestataire.id"
-                    :value="prestataire.id"
-                  >
-                    {{ prestataire.firstname }} {{ prestataire.lastname }} ({{ getProductCountForPrestataire(prestataire.id) }})
-                  </option>
-                </select>
-                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <i class="fas fa-chevron-down text-gray-400"></i>
-                </div>
-              </div>
-            </div>
 
             <!-- Filtre par prix -->
             <div class="flex-1">
@@ -175,15 +229,6 @@
             >
               Recherche: "{{ searchQuery }}"
               <button @click="searchQuery = ''" class="ml-2 hover:text-orange-900">
-                <i class="fas fa-times"></i>
-              </button>
-            </span>
-            <span
-              v-if="selectedPrestataireId"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-            >
-              Prestataire: {{ getPrestataireName(selectedPrestataireId) }}
-              <button @click="selectedPrestataireId = null" class="ml-2 hover:text-blue-900">
                 <i class="fas fa-times"></i>
               </button>
             </span>
@@ -273,6 +318,7 @@
             La boutique est actuellement vide. Les produits seront bientôt disponibles.
           </p>
         </div>
+        </div>
       </div>
     </div>
   </div>
@@ -280,55 +326,85 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ProductMock } from '@/mocks/products'
 import { USERS, UserMock } from '@/mocks/users'
 import { PRESTATAIRE_ROLE_ID } from '@/mocks/roles'
 import { productService } from '@/services/productService'
+import { locationsMock, LocationMock } from '@/mocks/locations'
 import ProductCard from '@/components/ProductCard.vue'
 
 const route = useRoute()
+const router = useRouter()
 
-// Récupérer les produits dynamiques depuis productService (source unique de vérité)
-// Cela garantit que les modifications (ajout/suppression/modification) se reflètent partout
-const PRODUCTS = computed(() => productService.getProductsForBoutique())
+// Détecter si on est sur la liste des boutiques ou sur une boutique spécifique
+const locationIdFromRoute = computed(() => {
+  const id = route.params.locationId
+  return id ? Number(id) : null
+})
+
+// Récupérer tous les produits dynamiques depuis productService
+const ALL_PRODUCTS = computed(() => productService.getProductsForBoutique())
+
+// Récupérer les produits filtrés par location si locationId présent
+const PRODUCTS = computed(() => {
+  if (!locationIdFromRoute.value) {
+    return ALL_PRODUCTS.value
+  }
+  
+  // Filtrer par locationId : convertir locationId vers produits via productService
+  const productsInStore = productService.getProducts()
+  const productIdsForLocation = productsInStore
+    .filter(p => p.locationId === locationIdFromRoute.value)
+    .map(p => p.id)
+  
+  return ALL_PRODUCTS.value.filter(p => productIdsForLocation.includes(p.id))
+})
+
+// Liste des locations (boutiques) qui ont des produits
+const availableLocations = computed(() => {
+  const products = productService.getProducts()
+  const locationIdsWithProducts = new Set(products.map(p => p.locationId))
+  
+  return locationsMock.filter(loc => 
+    loc.type === 'prestataire' && 
+    loc.purchased && 
+    loc.userId !== null &&
+    locationIdsWithProducts.has(loc.id)
+  )
+})
 
 // État de la recherche et filtres
 const searchQuery = ref('')
-const selectedPrestataireId = ref<number | null>(null)
 const priceMin = ref<number | null>(null)
 const priceMax = ref<number | null>(null)
 const stockFilter = ref<'all' | 'in-stock' | 'low-stock' | 'out-of-stock'>('all')
 const sortBy = ref<'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'stock-asc' | 'stock-desc'>('name-asc')
 
-// Récupérer l'ID du prestataire depuis les paramètres de route (optionnel)
-const prestataireIdFromRoute = computed(() => {
-  const id = route.params.prestataireId
-  return id ? Number(id) : null
-})
-
-// Initialiser le filtre prestataire depuis la route si présent
-if (prestataireIdFromRoute.value) {
-  selectedPrestataireId.value = prestataireIdFromRoute.value
+// Fonctions utilitaires pour les boutiques
+const getLocationName = (locationId: number): string => {
+  return productService.getLocation(locationId)
 }
 
-// Liste des prestataires disponibles (ceux qui ont des produits)
-const availablePrestataires = computed(() => {
-  const prestataireIds = new Set(PRODUCTS.value.map((p: ProductMock) => p.id_prestataire))
-  return USERS.filter((u: UserMock) => 
-    u.roleId === PRESTATAIRE_ROLE_ID && prestataireIds.has(u.id)
-  )
-})
-
-// Compter les produits par prestataire
-const getProductCountForPrestataire = (prestataireId: number): number => {
-  return PRODUCTS.value.filter((p: ProductMock) => p.id_prestataire === prestataireId).length
+const getPrestataireNameForLocation = (locationId: number): string => {
+  const location = locationsMock.find(l => l.id === locationId)
+  if (!location || !location.userId) return 'Prestataire inconnu'
+  const prestataire = USERS.find(u => u.id === location.userId)
+  return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : 'Prestataire inconnu'
 }
 
-// Obtenir le nom d'un prestataire
-const getPrestataireName = (prestataireId: number): string => {
-  const prestataire = USERS.find((u: UserMock) => u.id === prestataireId)
-  return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : `Prestataire #${prestataireId}`
+const getProductCountForLocation = (locationId: number): number => {
+  const productsInStore = productService.getProducts()
+  return productsInStore.filter(p => p.locationId === locationId).length
+}
+
+// Navigation
+const goToLocation = (locationId: number) => {
+  router.push({ name: 'boutique-location', params: { locationId } })
+}
+
+const goBackToBoutiques = () => {
+  router.push({ name: 'boutique' })
 }
 
 // Obtenir le label du filtre stock
@@ -349,7 +425,6 @@ const getStockFilterLabel = (filter: string): string => {
 const hasActiveFilters = computed(() => {
   return !!(
     searchQuery.value ||
-    selectedPrestataireId.value ||
     priceMin.value ||
     priceMax.value ||
     stockFilter.value !== 'all'
@@ -358,13 +433,7 @@ const hasActiveFilters = computed(() => {
 
 // Filtrer et trier les produits
 const filteredProducts = computed(() => {
-  let products = [...PRODUCTS.value] // Utiliser .value car PRODUCTS est un computed
-
-  // Filtre par prestataire (route ou sélection manuelle)
-  const prestataireFilter = selectedPrestataireId.value || prestataireIdFromRoute.value
-  if (prestataireFilter) {
-    products = products.filter((p: ProductMock) => p.id_prestataire === prestataireFilter)
-  }
+  let products = [...PRODUCTS.value] // Utiliser .value car PRODUCTS est un computed (déjà filtré par location si nécessaire)
 
   // Filtre par recherche (nom ou description)
   if (searchQuery.value.trim()) {
@@ -423,7 +492,6 @@ const filteredProducts = computed(() => {
 // Réinitialiser tous les filtres
 const clearFilters = () => {
   searchQuery.value = ''
-  selectedPrestataireId.value = null
   priceMin.value = null
   priceMax.value = null
   stockFilter.value = 'all'

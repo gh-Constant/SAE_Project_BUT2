@@ -93,8 +93,8 @@ export const routes = [
     component: () => import('../views/BoutiqueView.vue'),
   },
   {
-    path: '/boutique/:prestataireId',
-    name: 'boutique-prestataire',
+    path: '/boutique/:locationId',
+    name: 'boutique-location',
     component: () => import('../views/BoutiqueView.vue'),
   },
   {

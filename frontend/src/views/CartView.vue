@@ -31,7 +31,7 @@
           class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors"
         >
           <i class="fas fa-store mr-2"></i>
-          Voir la boutique
+          Voir les boutiques
         </router-link>
       </div>
 
