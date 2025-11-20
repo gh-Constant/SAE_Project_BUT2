@@ -14,7 +14,6 @@
 
 import { Request, Response } from 'express';
 import * as blogService from '../services/blogService.js';
-import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 import prisma from '../prisma.js';
 
 export const blogController = {
@@ -23,12 +22,6 @@ export const blogController = {
    */
   async createBlog(req: Request, res: Response): Promise<void> {
     try {
-      const userId = (req as AuthenticatedRequest).user?.id;
-      if (!userId) {
-        res.status(401).json({ error: 'User not authenticated' });
-        return;
-      }
-
       const { title, content, id_location } = req.body;
 
       // Validate required fields
@@ -37,20 +30,7 @@ export const blogController = {
         return;
       }
 
-      // Verify that the location exists and belongs to the user
-      const location = await prisma.location.findUnique({
-        where: { id_location: id_location },
-      });
-
-      if (!location) {
-        res.status(404).json({ error: 'Location not found' });
-        return;
-      }
-
-      if (location.id_prestataire !== userId) {
-        res.status(403).json({ error: 'You do not own this location' });
-        return;
-      }
+      // Ownership and existence checked in middleware
 
       const blog = await blogService.createBlog({
         title,
@@ -123,12 +103,6 @@ export const blogController = {
    */
   async updateBlog(req: Request, res: Response): Promise<void> {
     try {
-      const userId = (req as AuthenticatedRequest).user?.id;
-      if (!userId) {
-        res.status(401).json({ error: 'User not authenticated' });
-        return;
-      }
-
       const blogId = parseInt(req.params.id);
       const { title, content } = req.body;
 
@@ -137,22 +111,7 @@ export const blogController = {
         return;
       }
 
-      // Verify that the blog exists
-      const existingBlog = await blogService.getBlogById(blogId);
-      if (!existingBlog) {
-        res.status(404).json({ error: 'Blog not found' });
-        return;
-      }
-
-      // Verify that the user owns the location
-      const location = await prisma.location.findUnique({
-        where: { id_location: existingBlog.id_location },
-      });
-
-      if (!location || location.id_prestataire !== userId) {
-        res.status(403).json({ error: 'You do not own this blog' });
-        return;
-      }
+      // Ownership and existence checked in middleware
 
       const updatedBlog = await blogService.updateBlog(blogId, {
         title,
@@ -170,12 +129,6 @@ export const blogController = {
    */
   async deleteBlog(req: Request, res: Response): Promise<void> {
     try {
-      const userId = (req as AuthenticatedRequest).user?.id;
-      if (!userId) {
-        res.status(401).json({ error: 'User not authenticated' });
-        return;
-      }
-
       const blogId = parseInt(req.params.id);
 
       if (isNaN(blogId)) {
@@ -183,22 +136,7 @@ export const blogController = {
         return;
       }
 
-      // Verify that the blog exists
-      const existingBlog = await blogService.getBlogById(blogId);
-      if (!existingBlog) {
-        res.status(404).json({ error: 'Blog not found' });
-        return;
-      }
-
-      // Verify that the user owns the location
-      const location = await prisma.location.findUnique({
-        where: { id_location: existingBlog.id_location },
-      });
-
-      if (!location || location.id_prestataire !== userId) {
-        res.status(403).json({ error: 'You do not own this blog' });
-        return;
-      }
+      // Ownership and existence checked in middleware
 
       await blogService.deleteBlog(blogId);
       res.status(204).send();

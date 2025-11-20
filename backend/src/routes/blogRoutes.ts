@@ -16,15 +16,24 @@
 import { Router } from 'express';
 import { blogController } from '../controllers/blog.controller.js';
 import { authenticateToken } from '../middleware/auth.middleware.js';
+import { checkRole } from '../middleware/role.middleware.js';
+import { checkLocationOwnership, checkBlogLocationOwnership } from '../middleware/location.middleware.js';
+import { Role } from '../prisma.js';
 
 const router = Router();
 
 /**
  * POST /blogs
  * Create a new blog post for a location.
- * Protected route - requires authentication.
+ * Protected route - requires authentication, prestataire role, and location ownership.
  */
-router.post('/', authenticateToken, blogController.createBlog);
+router.post(
+  '/',
+  authenticateToken,
+  checkRole([Role.prestataire]),
+  checkLocationOwnership,
+  blogController.createBlog
+);
 
 /**
  * GET /locations/:locationId/blogs
@@ -43,15 +52,27 @@ router.get('/:id', blogController.getBlog);
 /**
  * PUT /blogs/:id
  * Update a blog post.
- * Protected route - requires authentication.
+ * Protected route - requires authentication, prestataire role, and location ownership.
  */
-router.put('/:id', authenticateToken, blogController.updateBlog);
+router.put(
+  '/:id',
+  authenticateToken,
+  checkRole([Role.prestataire]),
+  checkBlogLocationOwnership,
+  blogController.updateBlog
+);
 
 /**
  * DELETE /blogs/:id
  * Delete a blog post.
- * Protected route - requires authentication.
+ * Protected route - requires authentication, prestataire role, and location ownership.
  */
-router.delete('/:id', authenticateToken, blogController.deleteBlog);
+router.delete(
+  '/:id',
+  authenticateToken,
+  checkRole([Role.prestataire]),
+  checkBlogLocationOwnership,
+  blogController.deleteBlog
+);
 
 export default router;
