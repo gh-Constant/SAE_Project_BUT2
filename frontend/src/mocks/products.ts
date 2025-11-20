@@ -80,5 +80,23 @@ export const PRODUCTS: ProductMock[] = [
     stock: 10,
     image: '/images/products/tunique.jpg',
     id_prestataire: 1
+  },
+  {
+    id: 9,
+    name: 'Arc en bois',
+    description: 'Arc traditionnel en bois, parfait pour la chasse.',
+    price: 55.00,
+    stock: 7,
+    image: '/images/products/arc-bois.jpg',
+    id_prestataire: 4
+  },
+  {
+    id: 10,
+    name: 'Flèches en plumes',
+    description: 'Paquet de 10 flèches avec plumes naturelles.',
+    price: 15.00,
+    stock: 20,
+    image: '/images/products/fleches.jpg',
+    id_prestataire: 4
   }
 ];

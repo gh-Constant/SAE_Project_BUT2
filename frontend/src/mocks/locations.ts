@@ -1,4 +1,4 @@
-import { PRESTATAIRE_USER_ID } from './users';
+import { PRESTATAIRE_USER_ID, PRESTATAIRE_USER_ID_2 } from './users';
 
 export interface LocationMock {
   id: number;
@@ -207,8 +207,8 @@ export const locationsMock: LocationMock[] = [
     description:
       'A strategic location for merchants, close to the main road.',
     price: 110,
-    purchased: false,
-    userId: null,
+    purchased: true,
+    userId: PRESTATAIRE_USER_ID_2,
     type: 'prestataire',
     position: [2006, 2383],
     iconName: 'prestataire',

@@ -87,6 +87,12 @@ const profileRoute = computed(() => {
           </button>
           <button
             class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            @click="auth.login('prestataire2@medieval.com', 'password123')"
+          >
+            Switch to Prestataire 2
+          </button>
+          <button
+            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
             @click="auth.login('admin@medieval.com', 'password123')"
           >
             Switch to Admin
