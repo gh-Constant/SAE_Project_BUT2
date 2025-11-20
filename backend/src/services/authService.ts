@@ -83,6 +83,7 @@ export async function register(
       is_verified: false,
       avatar_url: avatarUrl || 'default',
       avatar_type: avatarType || Prisma.AvatarType.gallery,
+      id_prestataire_type: 1, // Default prestataire type - should be updated based on role
     }
   });
 }
