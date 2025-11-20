@@ -20,6 +20,7 @@
 import { defineStore } from 'pinia'
 import { UserMock } from '@/mocks/users'
 import { authService } from '@/services/authService'
+import { useCartStore } from './cart'
 
 // Check if we're in mock mode
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
@@ -32,10 +33,15 @@ export const useAuthStore = defineStore('auth', {
   }),
   actions: {
     async login(email: string, password: string) {
-      const user = await authService.login(email, password)
-      this.user = user as UserMock
+      const user = await authService.login(email, password) as UserMock
+      this.user = user
       this.isAuthenticated = true
       this.authReady = true
+      
+      // Charger le panier de cet utilisateur
+      const cartStore = useCartStore()
+      cartStore.loadCartForUser(user.id)
+      
       // Only store currentUser in mock mode for compatibility
       if (isMockEnabled) {
         localStorage.setItem('currentUser', JSON.stringify(user))
@@ -47,6 +53,11 @@ export const useAuthStore = defineStore('auth', {
       this.user = user as UserMock
       this.isAuthenticated = true
       this.authReady = true
+      
+      // Charger le panier de ce nouvel utilisateur (sera vide pour un nouveau compte)
+      const cartStore = useCartStore()
+      cartStore.loadCartForUser(user.id)
+      
       // Only store currentUser in mock mode for compatibility
       if (isMockEnabled) {
         localStorage.setItem('currentUser', JSON.stringify(user))
@@ -59,8 +70,14 @@ export const useAuthStore = defineStore('auth', {
         const userStr = localStorage.getItem('currentUser')
         const token = localStorage.getItem('authToken')
         if (userStr && token) {
-          this.user = JSON.parse(userStr)
-          this.isAuthenticated = true
+          try {
+            this.user = JSON.parse(userStr)
+            this.isAuthenticated = true
+          } catch {
+            // Si les données sont corrompues, nettoyer
+            console.warn('Corrupted user data in localStorage, clearing...')
+            this.logout()
+          }
         }
         return;
       }
@@ -82,6 +99,10 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     logout() {
+      // Vider le panier avant de se déconnecter
+      const cartStore = useCartStore()
+      cartStore.clearCart()
+      
       this.user = null
       this.isAuthenticated = false
       // authReady reste true car l'état est bien défini (utilisateur déconnecté)
@@ -104,9 +125,14 @@ export const useAuthStore = defineStore('auth', {
         // Si on a des données valides, les charger
         if (userStr && token) {
           try {
-            this.user = JSON.parse(userStr)
+            const user = JSON.parse(userStr) as UserMock
+            this.user = user
             this.isAuthenticated = true
-          } catch (error) {
+            
+            // Charger le panier de cet utilisateur
+            const cartStore = useCartStore()
+            cartStore.loadCartForUser(user.id)
+          } catch {
             // Si les données sont corrompues, nettoyer
             console.warn('Corrupted user data in localStorage, clearing...')
             this.logout()
@@ -115,6 +141,10 @@ export const useAuthStore = defineStore('auth', {
           // Pas de données, s'assurer que l'état est propre
           this.user = null
           this.isAuthenticated = false
+          
+          // Vider le panier si pas d'utilisateur
+          const cartStore = useCartStore()
+          cartStore.items = []
         }
         this.authReady = true; // Marquer l'auth comme prête immédiatement
       } else {

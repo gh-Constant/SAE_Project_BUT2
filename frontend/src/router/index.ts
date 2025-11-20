@@ -87,6 +87,34 @@ export const routes = [
     name: 'aventurier-products',
     component: () => import('../views/AventurierProductView.vue'),
   },
+  {
+    path: '/boutique',
+    name: 'boutique',
+    component: () => import('../views/BoutiqueView.vue'),
+  },
+  {
+    path: '/boutique/:prestataireId',
+    name: 'boutique-prestataire',
+    component: () => import('../views/BoutiqueView.vue'),
+  },
+  {
+    path: '/panier',
+    name: 'panier',
+    component: () => import('../views/CartView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: () => import('../views/CheckoutView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/commandes',
+    name: 'commandes',
+    component: () => import('../views/OrdersView.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

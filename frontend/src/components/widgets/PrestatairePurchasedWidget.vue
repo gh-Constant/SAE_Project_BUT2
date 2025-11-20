@@ -84,15 +84,18 @@
  */
 
 import { defineProps, defineEmits, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes';
+import { SERVICES } from '@/mocks/services';
 
 interface Props {
   location: LocationMock;
 }
 
 const props = defineProps<Props>();
+const router = useRouter();
 
 defineEmits<{
   close: [];
@@ -115,5 +118,27 @@ const viewProfile = () => {
   console.log('Affichage du profil de:', prestataire.value?.firstname);
 };
 
+const getServiceTypeName = (serviceTypeId: number): string => {
+  const service = SERVICES.find(s => s.id === serviceTypeId);
+  return service?.name || 'Service';
+};
 
+// Actions
+const viewFullProfile = () => {
+  // TODO: Créer la page de profil public du prestataire
+  console.log('Affichage du profil complet de:', prestataire.value?.firstname, prestataire.value?.id);
+};
+
+const viewBoutique = () => {
+  if (prestataire.value) {
+    router.push({ name: 'boutique-prestataire', params: { prestataireId: prestataire.value.id } });
+  } else {
+    router.push({ name: 'boutique' });
+  }
+};
+
+const viewAllServices = () => {
+  // TODO: Créer la page de profil public ou page des services
+  console.log('Affichage de tous les services pour location:', props.location.id);
+};
 </script>

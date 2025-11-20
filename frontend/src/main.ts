@@ -24,6 +24,7 @@ import { createAppRouter } from './router';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { useAuthStore } from './stores/auth';
+import { useCartStore } from './stores/cart';
 import App from './app/App.vue';
 import i18n from './i18n';
 
@@ -36,6 +37,9 @@ app.use(pinia);
 // Initialiser l'authentification avant de créer le routeur pour éviter les problèmes de timing
 const authStore = useAuthStore();
 await authStore.checkAuth(); // Attendre que l'auth soit vérifiée
+
+// Le panier est maintenant chargé automatiquement dans checkAuth() et login()
+// Plus besoin de le charger ici manuellement
 
 // Créer le routeur après la vérification d'authentification
 const router = createAppRouter();

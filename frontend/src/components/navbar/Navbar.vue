@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { useCartStore } from '@/stores/cart';
 import { isAdmin, isPrestataire } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 
 const auth = useAuthStore();
+const cartStore = useCartStore();
 const isLoggedIn = computed(() => auth.isAuthenticated);
 const showDropdown = ref(false);
 
@@ -31,6 +33,8 @@ const handleClickOutside = (event: Event) => {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+  // Le panier est maintenant chargé automatiquement lors du login/checkAuth
+  // Plus besoin de le charger ici manuellement
 });
 
 onUnmounted(() => {
@@ -38,6 +42,17 @@ onUnmounted(() => {
 });
 
 const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
+
+// Route vers le profil selon le rôle de l'utilisateur
+const profileRoute = computed(() => {
+  if (isAdmin(auth.user)) {
+    return '/admin';
+  } else if (isPrestataire(auth.user)) {
+    return '/prestataire';
+  }
+  // Pour les aventuriers ou autres rôles, on pourrait créer une route /profile
+  return '/';
+});
 
 </script>
 
@@ -79,6 +94,22 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
         </div>
 
         <div class="flex items-center space-x-4">
+          <!-- Icône panier (visible uniquement si connecté) -->
+          <router-link
+            v-if="isLoggedIn"
+            to="/panier"
+            class="relative p-2 text-gray-700 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-all duration-200"
+            title="Mon panier"
+          >
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span
+              v-if="cartStore.itemCount > 0"
+              class="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+            >
+              {{ cartStore.itemCount > 9 ? '9+' : cartStore.itemCount }}
+            </span>
+          </router-link>
+
           <template v-if="!isLoggedIn">
             <router-link
             to="/login"
@@ -160,6 +191,22 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
                 Panel Prestataire
               </router-link>
               <div class="border-t border-gray-100" />
+              <router-link
+                to="/commandes"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-list mr-3 text-gray-400" />
+                Mes Commandes
+              </router-link>
+              <router-link
+                :to="profileRoute"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-user-edit mr-3 text-gray-400" />
+                Mon Profil
+              </router-link>
               <button
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
                 @click="handleLogout"
