@@ -33,6 +33,19 @@ export interface UserMock {
   
   role: Role;
   id_prestataire_type?: number;
+  
+  // Champs professionnels pour prestataires
+  website?: string;
+  experience_years?: number;
+  specialties?: string;
+  languages?: string[]; // Array de codes de langues: ['fr', 'en', 'es', etc.]
+  social_media?: {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    linkedin?: string;
+    tiktok?: string;
+  };
 }
 
 export const USERS: UserMock[] = [

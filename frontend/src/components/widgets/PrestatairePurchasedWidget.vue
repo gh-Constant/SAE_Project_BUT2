@@ -132,7 +132,8 @@
       </div>
 
       <!-- Section Services disponibles -->
-      <div class="bg-white border-2 border-orange-200 rounded-xl shadow-md p-6 mb-6 mx-auto" v-if="availableServices.length > 0">
+      <!-- Temporairement cachée -->
+      <div class="bg-white border-2 border-orange-200 rounded-xl shadow-md p-6 mb-6 mx-auto" v-if="false && availableServices.length > 0">
         <h3 class="text-xl font-bold text-gray-900 mb-4 border-b-2 border-orange-500 pb-2">
           Services disponibles ici
         </h3>
@@ -260,23 +261,29 @@ const prestataireTypeName = computed(() => {
   return type?.name || '';
 });
 
-// Données du formulaire - Pour l'instant, ces champs ne sont pas stockés dans la base de données
-// TODO: Ajouter ces champs au modèle User ou créer un modèle PrestataireProfile
-// Pour l'instant, on retourne des valeurs vides pour ne pas afficher de fausses données
+// Données du formulaire - Récupérées depuis le user
 const prestataireFormData = computed(() => {
-  // Ces données ne sont pas encore persistées dans la base de données
-  // Elles seront disponibles une fois que le formulaire pourra les sauvegarder
+  if (!prestataire.value) {
+    return {
+      website: '',
+      experienceYears: undefined,
+      specialties: '',
+      languages: [],
+      socialMedia: { facebook: '', instagram: '', twitter: '', linkedin: '', tiktok: '' }
+    };
+  }
+  
   return {
-    website: '', // À récupérer depuis la base de données une fois implémenté
-    experienceYears: undefined, // À récupérer depuis la base de données une fois implémenté
-    specialties: '', // À récupérer depuis la base de données une fois implémenté
-    languages: [], // À récupérer depuis la base de données une fois implémenté
+    website: prestataire.value.website || '',
+    experienceYears: prestataire.value.experience_years || undefined,
+    specialties: prestataire.value.specialties || '',
+    languages: prestataire.value.languages || [],
     socialMedia: {
-      facebook: '', // À récupérer depuis la base de données une fois implémenté
-      instagram: '', // À récupérer depuis la base de données une fois implémenté
-      twitter: '', // À récupérer depuis la base de données une fois implémenté
-      linkedin: '', // À récupérer depuis la base de données une fois implémenté
-      tiktok: ''
+      facebook: prestataire.value.social_media?.facebook || '',
+      instagram: prestataire.value.social_media?.instagram || '',
+      twitter: prestataire.value.social_media?.twitter || '',
+      linkedin: prestataire.value.social_media?.linkedin || '',
+      tiktok: prestataire.value.social_media?.tiktok || ''
     }
   };
 });

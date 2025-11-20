@@ -851,16 +851,16 @@ onMounted(() => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      website: '',
-      experienceYears: undefined,
-      specialties: '',
-      languages: [],
+      website: user.value.website || '',
+      experienceYears: user.value.experience_years || undefined,
+      specialties: user.value.specialties || '',
+      languages: user.value.languages || [],
       socialMedia: {
-        facebook: '',
-        instagram: '',
-        twitter: '',
-        linkedin: '',
-        tiktok: ''
+        facebook: user.value.social_media?.facebook || '',
+        instagram: user.value.social_media?.instagram || '',
+        twitter: user.value.social_media?.twitter || '',
+        linkedin: user.value.social_media?.linkedin || '',
+        tiktok: user.value.social_media?.tiktok || ''
       },
       avatarUrl: user.value.avatar_url || undefined,
       avatarType: (user.value.avatar_type as 'gallery' | 'upload') || 'gallery',
@@ -1016,6 +1016,19 @@ const isFormValid = computed(() => {
 const hasChanges = computed(() => {
   if (!user.value) return false
   
+  // Comparer les langues
+  const currentLanguages = user.value.languages || []
+  const languagesChanged = JSON.stringify([...formData.value.languages].sort()) !== JSON.stringify([...currentLanguages].sort())
+  
+  // Comparer les réseaux sociaux
+  const currentSocialMedia = user.value.social_media || {}
+  const socialMediaChanged = 
+    formData.value.socialMedia.facebook !== (currentSocialMedia.facebook || '') ||
+    formData.value.socialMedia.instagram !== (currentSocialMedia.instagram || '') ||
+    formData.value.socialMedia.twitter !== (currentSocialMedia.twitter || '') ||
+    formData.value.socialMedia.linkedin !== (currentSocialMedia.linkedin || '') ||
+    formData.value.socialMedia.tiktok !== (currentSocialMedia.tiktok || '')
+  
   return (
     formData.value.firstname !== user.value.firstname ||
     formData.value.lastname !== user.value.lastname ||
@@ -1023,7 +1036,12 @@ const hasChanges = computed(() => {
     formData.value.avatarUrl !== (user.value.avatar_url || null) ||
     formData.value.birthDate !== (user.value.birth_date ? new Date(user.value.birth_date).toISOString().split('T')[0] : null) ||
     formData.value.phone !== (user.value.phone || '') ||
-    formData.value.bio !== (user.value.bio || '')
+    formData.value.bio !== (user.value.bio || '') ||
+    formData.value.website !== (user.value.website || '') ||
+    formData.value.experienceYears !== (user.value.experience_years || undefined) ||
+    formData.value.specialties !== (user.value.specialties || '') ||
+    languagesChanged ||
+    socialMediaChanged
   )
 })
 
@@ -1088,16 +1106,16 @@ const resetForm = () => {
       birthDate: birthDateFormatted,
       phone: user.value.phone || '',
       bio: user.value.bio || '',
-      website: '',
-      experienceYears: undefined,
-      specialties: '',
-      languages: [],
+      website: user.value.website || '',
+      experienceYears: user.value.experience_years || undefined,
+      specialties: user.value.specialties || '',
+      languages: user.value.languages || [],
       socialMedia: {
-        facebook: '',
-        instagram: '',
-        twitter: '',
-        linkedin: '',
-        tiktok: ''
+        facebook: user.value.social_media?.facebook || '',
+        instagram: user.value.social_media?.instagram || '',
+        twitter: user.value.social_media?.twitter || '',
+        linkedin: user.value.social_media?.linkedin || '',
+        tiktok: user.value.social_media?.tiktok || ''
       },
       avatarUrl: user.value.avatar_url || undefined,
       avatarType: (user.value.avatar_type as 'gallery' | 'upload') || 'gallery',
@@ -1154,6 +1172,17 @@ const handleSubmit = async () => {
       birthDate?: string | null
       phone?: string | null
       bio?: string | null
+      website?: string | null
+      experienceYears?: number | null
+      specialties?: string | null
+      languages?: string[] | null
+      socialMedia?: {
+        facebook?: string | null
+        instagram?: string | null
+        twitter?: string | null
+        linkedin?: string | null
+        tiktok?: string | null
+      } | null
     } = {}
 
     if (formData.value.firstname !== user.value?.firstname) {
@@ -1187,6 +1216,48 @@ const handleSubmit = async () => {
     if (formData.value.bio !== (user.value?.bio || '')) {
       profileData.bio = formData.value.bio || null
       changedFields.value.push('bio')
+    }
+    
+    // Champs professionnels
+    if (formData.value.website !== (user.value?.website || '')) {
+      profileData.website = formData.value.website || null
+      changedFields.value.push('website')
+    }
+    if (formData.value.experienceYears !== (user.value?.experience_years || undefined)) {
+      profileData.experienceYears = formData.value.experienceYears || null
+      changedFields.value.push('experienceYears')
+    }
+    if (formData.value.specialties !== (user.value?.specialties || '')) {
+      profileData.specialties = formData.value.specialties || null
+      changedFields.value.push('specialties')
+    }
+    
+    // Comparer les langues (array)
+    const currentLanguages = user.value?.languages || []
+    const languagesChanged = JSON.stringify([...formData.value.languages].sort()) !== JSON.stringify([...currentLanguages].sort())
+    if (languagesChanged) {
+      profileData.languages = formData.value.languages.length > 0 ? formData.value.languages : null
+      changedFields.value.push('languages')
+    }
+    
+    // Comparer les réseaux sociaux
+    const currentSocialMedia = user.value?.social_media || {}
+    const socialMediaChanged = 
+      formData.value.socialMedia.facebook !== (currentSocialMedia.facebook || '') ||
+      formData.value.socialMedia.instagram !== (currentSocialMedia.instagram || '') ||
+      formData.value.socialMedia.twitter !== (currentSocialMedia.twitter || '') ||
+      formData.value.socialMedia.linkedin !== (currentSocialMedia.linkedin || '') ||
+      formData.value.socialMedia.tiktok !== (currentSocialMedia.tiktok || '')
+    
+    if (socialMediaChanged) {
+      profileData.socialMedia = {
+        facebook: formData.value.socialMedia.facebook || null,
+        instagram: formData.value.socialMedia.instagram || null,
+        twitter: formData.value.socialMedia.twitter || null,
+        linkedin: formData.value.socialMedia.linkedin || null,
+        tiktok: formData.value.socialMedia.tiktok || null
+      }
+      changedFields.value.push('socialMedia')
     }
 
     if (changedFields.value.length === 0) {

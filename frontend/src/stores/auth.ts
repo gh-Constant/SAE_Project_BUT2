@@ -149,6 +149,17 @@ export const useAuthStore = defineStore('auth', {
       avatarUrl?: string | null;
       avatarType?: string | null;
       prestataireTypeId?: number | null;
+      website?: string | null;
+      experienceYears?: number | null;
+      specialties?: string | null;
+      languages?: string[] | null;
+      socialMedia?: {
+        facebook?: string | null;
+        instagram?: string | null;
+        twitter?: string | null;
+        linkedin?: string | null;
+        tiktok?: string | null;
+      } | null;
     }) {
       const updatedUser = await (authService as any).updateProfile(profileData)
       this.user = updatedUser as UserMock

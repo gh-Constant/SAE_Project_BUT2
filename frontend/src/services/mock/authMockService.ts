@@ -127,6 +127,22 @@ export const authMockService = {
           ...(profileData.birth_date !== undefined && { birthDate: profileData.birth_date || undefined }),
           ...(profileData.phone !== undefined && { phone: profileData.phone || undefined }),
           ...(profileData.bio !== undefined && { bio: profileData.bio || undefined }),
+          // Gérer les champs professionnels (camelCase depuis le formulaire)
+          ...((profileData as any).website !== undefined && { 
+            website: (profileData as any).website || undefined 
+          }),
+          ...((profileData as any).experienceYears !== undefined && { 
+            experience_years: (profileData as any).experienceYears || undefined 
+          }),
+          ...((profileData as any).specialties !== undefined && { 
+            specialties: (profileData as any).specialties || undefined 
+          }),
+          ...((profileData as any).languages !== undefined && { 
+            languages: (profileData as any).languages || undefined 
+          }),
+          ...((profileData as any).socialMedia !== undefined && { 
+            social_media: (profileData as any).socialMedia || undefined 
+          }),
         };
 
         // Valider que les champs requis ne sont pas vides
