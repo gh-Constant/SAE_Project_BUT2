@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import { ProductMock } from '@/mocks/products'
-import { productService } from '@/services/productService'
+import { productService, ProductStoreMock } from '@/services/productService'
 
 export const useProductStore = defineStore('product', {
   state: () => ({
@@ -12,7 +11,7 @@ export const useProductStore = defineStore('product', {
 
   actions: {
     // Start editing an product
-    startEdit(product: ProductMock) {
+    startEdit(product: ProductStoreMock) {
       this.editId = product.id
       this.editProduct = {
         id: product.id,

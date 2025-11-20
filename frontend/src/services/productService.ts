@@ -1,16 +1,32 @@
 import { locationsMock } from '@/mocks'
 import { ProductMock, PRODUCTS } from '@/mocks/products'
 
+// Interface pour les produits dans le store (avec locationId et imageUrl)
+export interface ProductStoreMock {
+  id: number;
+  name: string;
+  stock: number;
+  locationId: number;
+  description: string;
+  imageUrl: string;
+  price: number;
+}
+
 // Crée une copie de la liste des products pour pouvoir la modifier
-const products: ProductMock[] = []
+// Convertit de la structure products.ts (id_prestataire, image) vers la structure du store (locationId, imageUrl)
+const products: ProductStoreMock[] = []
 for (const product of PRODUCTS) {
-  const productCopie = {
+  // Trouver la première location du prestataire pour ce produit
+  const prestataireLocations = locationsMock.filter(loc => loc.userId === product.id_prestataire)
+  const locationId = prestataireLocations.length > 0 ? prestataireLocations[0].id : 0
+  
+  const productCopie: ProductStoreMock = {
     id: product.id,
     name: product.name,
     stock: product.stock,
-    locationId: product.locationId,
+    locationId: locationId, // Convertir id_prestataire vers locationId
     description: product.description,
-    imageUrl: product.imageUrl,
+    imageUrl: product.image, // Convertir image vers imageUrl
     price: product.price
   }
   products.push(productCopie)
@@ -49,7 +65,7 @@ export const productService = {
     return true
   },
 
-  updateProduct(productToUpdate: ProductMock) {
+  updateProduct(productToUpdate: ProductStoreMock) {
     const index = products.findIndex(a => a.id === productToUpdate.id)
     if (index >= 0) {
       products[index] = { ...productToUpdate }
@@ -140,6 +156,29 @@ export const productService = {
       }
     }
     return false
+  },
+
+  /**
+   * Convertit les produits du store (locationId, imageUrl) vers le format ProductMock (id_prestataire, image)
+   * Pour être utilisé par BoutiqueView et autres composants qui attendent ProductMock
+   * Cette fonction garantit que les modifications dans productService se reflètent partout
+   */
+  getProductsForBoutique(): ProductMock[] {
+    return products.map(product => {
+      // Trouver le prestataire propriétaire de la location
+      const location = locationsMock.find(loc => loc.id === product.locationId)
+      const id_prestataire = location?.userId || 0
+      
+      return {
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        image: product.imageUrl, // Convertir imageUrl vers image
+        id_prestataire: id_prestataire // Convertir locationId vers id_prestataire
+      }
+    })
   }
 }
 
