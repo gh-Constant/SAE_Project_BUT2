@@ -25,142 +25,104 @@
 import { Request, Response } from 'express';
 import { login, register } from '../services/authService.js';
 import prisma from '../prisma.js';
-import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
 export const authController = {
   async login(req: Request, res: Response) {
     try {
-      const { email, password } = req.body; // Extraire les identifiants du corps de la requête
-      const result = await login(email, password); // Appeler le service pour authentifier l'utilisateur
-      res.json(result); // Retourner les données utilisateur et le token
+      const { email, password } = req.body;
+      const result = await login(email, password);
+      res.json(result);
     } catch (error) {
-      res.status(401).json({ error: (error as Error).message }); // Retourner une erreur d'authentification
+      res.status(401).json({ error: (error as Error).message });
     }
   },
 
   async register(req: Request, res: Response) {
     try {
-      const { firstName, lastName, email, password, role, avatarUrl, avatarType } = req.body; // Extraire les données d'inscription
-      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType); // Créer un nouvel utilisateur
-      res.status(201).json(user); // Retourner les données de l'utilisateur créé
+      const { firstName, lastName, email, password, role, avatarUrl, avatarType } = req.body;
+      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType);
+      res.status(201).json(user);
     } catch (error) {
-      res.status(400).json({ error: (error as Error).message }); // Retourner une erreur de validation
+      res.status(400).json({ error: (error as Error).message });
     }
   },
 
-
   async getMe(req: Request, res: Response): Promise<void> {
     try {
-      // L'utilisateur est déjà authentifié par le middleware, req.user est disponible
-      const userId = (req as AuthenticatedRequest).user?.id;
-      if (!userId) {
-        res.status(401).json({ error: 'User not authenticated' });
-        return;
-      }
-      const user = await prisma.user.findUnique({ // Récupérer l'utilisateur de la base de données
-        where: { id: userId },
-        select: { // Sélectionner uniquement les champs nécessaires pour la sécurité
-          id: true,
+      const userId = (req as any).user.id;
+      const user = await prisma.user.findUnique({
+        where: { id_user: userId },
+        select: {
+          id_user: true,
           firstname: true,
           lastname: true,
           email: true,
-          roleId: true,
-          avatarUrl: true,
-          avatarType: true,
-          birthDate: true,
+          role: true,
+          avatar_url: true,
+          avatar_type: true,
+          birth_date: true,
           phone: true,
           bio: true
         }
       });
 
       if (!user) {
-        res.status(404).json({ error: 'User not found' }); // Utilisateur non trouvé en BD
+        res.status(404).json({ error: 'User not found' });
         return;
       }
 
-      res.json(user); // Retourner les informations utilisateur
+      res.json(user);
     } catch (error) {
-      res.status(500).json({ error: (error as Error).message }); // Gérer les erreurs de base de données
+      res.status(500).json({ error: (error as Error).message });
     }
   },
 
   async getMyRole(req: Request, res: Response): Promise<void> {
     try {
-      // L'utilisateur est déjà authentifié par le middleware
-      const userId = (req as AuthenticatedRequest).user?.id;
-      if (!userId) {
-        res.status(401).json({ error: 'User not authenticated' });
-        return;
-      }
-
-      // Récupérer l'utilisateur avec les informations de rôle de la base de données
+      const userId = (req as any).user.id;
       const userWithRole = await prisma.user.findUnique({
-        where: { id: userId },
-        include: { role: true } // Inclure les données de rôle dans la requête
+        where: { id_user: userId },
+        select: { role: true }
       });
 
       if (!userWithRole) {
-        res.status(404).json({ error: 'User not found' }); // Utilisateur non trouvé
+        res.status(404).json({ error: 'User not found' });
         return;
       }
 
-      res.json(userWithRole.role); // Retourner les informations de rôle
+      res.json({ role: userWithRole.role });
     } catch (error) {
-      res.status(500).json({ error: (error as Error).message }); // Gérer les erreurs de base de données
+      res.status(500).json({ error: (error as Error).message });
     }
   },
 
   async updateMe(req: Request, res: Response): Promise<void> {
     try {
-      // L'utilisateur est déjà authentifié par le middleware
-      const userId = (req as AuthenticatedRequest).user?.id;
-      if (!userId) {
-        res.status(401).json({ error: 'User not authenticated' });
-        return;
-      }
-      
-      // Extraire les données à mettre à jour du corps de la requête
-      const { 
-        firstname, 
-        lastname, 
-        email, 
-        avatarUrl, 
-        avatarType, 
-        prestataireTypeId,
-        birthDate,
-        phone,
-        bio
-      } = req.body;
+      const userId = (req as any).user.id;
+      const { firstname, lastname, email, avatarUrl, avatarType, prestataireTypeId, birthDate, phone, bio } = req.body;
 
-      // Vérifier que l'utilisateur existe
       const existingUser = await prisma.user.findUnique({
-        where: { id: userId }
+        where: { id_user: userId }
       });
 
       if (!existingUser) {
-        res.status(404).json({ error: 'User not found' }); // Utilisateur non trouvé
+        res.status(404).json({ error: 'User not found' });
         return;
       }
 
-      // Valider l'unicité de l'email si modifié
       if (email && email !== existingUser.email) {
-        const emailExists = await prisma.user.findUnique({
-          where: { email }
-        });
-
+        const emailExists = await prisma.user.findUnique({ where: { email } });
         if (emailExists) {
-          res.status(400).json({ error: 'Email already in use' }); // Email déjà utilisé
+          res.status(400).json({ error: 'Email already in use' });
           return;
         }
       }
 
-      // Valider le format de l'email si fourni
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        res.status(400).json({ error: 'Invalid email format' }); // Format d'email invalide
+        res.status(400).json({ error: 'Invalid email format' });
         return;
       }
 
-      // Valider la date de naissance si fournie
       if (birthDate) {
         const birthDateObj = new Date(birthDate);
         const today = new Date();
@@ -184,49 +146,34 @@ export const authController = {
         }
       }
 
-      // Valider la longueur de la bio si fournie
       if (bio !== undefined && bio !== null && bio.trim().length > 500) {
         res.status(400).json({ error: 'Bio must not exceed 500 characters' });
         return;
       }
 
-      // Préparer les données à mettre à jour (seulement les champs fournis et autorisés)
-      const updateData: {
-        firstname?: string;
-        lastname?: string;
-        email?: string;
-        avatarUrl?: string | null;
-        avatarType?: string | null;
-        prestataireTypeId?: number | null;
-        birthDate?: Date | null;
-        phone?: string | null;
-        bio?: string | null;
-      } = {};
-
+      const updateData: any = {};
       if (firstname !== undefined) updateData.firstname = firstname;
       if (lastname !== undefined) updateData.lastname = lastname;
       if (email !== undefined) updateData.email = email;
-      if (avatarUrl !== undefined) updateData.avatarUrl = avatarUrl || null;
-      if (avatarType !== undefined) updateData.avatarType = avatarType || null;
-      if (birthDate !== undefined) updateData.birthDate = birthDate ? new Date(birthDate) : null;
+      if (avatarUrl !== undefined) updateData.avatar_url = avatarUrl || null;
+      if (avatarType !== undefined) updateData.avatar_type = avatarType || null;
+      if (birthDate !== undefined) updateData.birth_date = birthDate ? new Date(birthDate) : null;
       if (phone !== undefined) updateData.phone = phone || null;
       if (bio !== undefined) updateData.bio = bio || null;
       
       if (prestataireTypeId !== undefined) {
-        // Valider que le prestataireTypeId existe si fourni
         if (prestataireTypeId !== null) {
           const prestataireType = await prisma.prestataireType.findUnique({
-            where: { id: prestataireTypeId }
+            where: { id_prestataire_type: prestataireTypeId }
           });
           if (!prestataireType) {
-            res.status(400).json({ error: 'Invalid prestataire type' }); // Type prestataire invalide
+            res.status(400).json({ error: 'Invalid prestataire type' });
             return;
           }
         }
-        updateData.prestataireTypeId = prestataireTypeId;
+        updateData.id_prestataire_type = prestataireTypeId;
       }
 
-      // Valider que les champs requis ne sont pas vides
       if (updateData.firstname !== undefined && !updateData.firstname.trim()) {
         res.status(400).json({ error: 'Firstname cannot be empty' });
         return;
@@ -237,40 +184,35 @@ export const authController = {
         return;
       }
 
-      // Mettre à jour l'utilisateur dans la base de données
       const updatedUser = await prisma.user.update({
-        where: { id: userId },
+        where: { id_user: userId },
         data: updateData,
-        select: { // Sélectionner uniquement les champs nécessaires pour la sécurité
-          id: true,
+        select: {
+          id_user: true,
           firstname: true,
           lastname: true,
           email: true,
-          roleId: true,
-          prestataireTypeId: true,
-          avatarUrl: true,
-          avatarType: true,
-          birthDate: true,
+          role: true,
+          id_prestataire_type: true,
+          avatar_url: true,
+          avatar_type: true,
+          birth_date: true,
           phone: true,
           bio: true,
           xp: true,
           level: true,
-          createdAt: true,
-          updatedAt: true
+          created_at: true,
+          updated_at: true
         }
       });
 
-      res.json(updatedUser); // Retourner l'utilisateur mis à jour
+      res.json(updatedUser);
     } catch (error) {
-      // Gérer les erreurs Prisma spécifiques
       const prismaError = error as { code?: string; message?: string };
       if (prismaError.code === 'P2002') {
-        // Erreur d'unicité Prisma
         res.status(400).json({ error: 'Email already in use' });
         return;
       }
-      
-      // Gérer les autres erreurs
       res.status(500).json({ error: prismaError.message || 'Failed to update profile' });
     }
   }
