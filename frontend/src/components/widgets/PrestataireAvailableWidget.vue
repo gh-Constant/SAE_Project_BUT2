@@ -158,7 +158,9 @@ async function acheterEmplacement() {
     }
 
     // Purchase the location using the service
-    const updatedLocation = await locationService.purchaseLocation(props.location.id, user.id_user);
+    // Handle both real backend (id_user) and mock data (id)
+    const userId = (user as any).id_user || user.id;
+    const updatedLocation = await locationService.purchaseLocation(props.location.id, userId);
     
     // Update local state
     isPurchased.value = true;
