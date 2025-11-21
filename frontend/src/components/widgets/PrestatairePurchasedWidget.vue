@@ -46,66 +46,8 @@
       </div>
 
       <!-- Blogs Section -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5" v-if="isOwner">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Blogs</h3>
-        
-        <!-- Blog List -->
-        <div v-if="!showEditor && blogs.length > 0" class="space-y-2 mb-3">
-          <div v-for="blog in blogs" :key="blog.id_blog" class="flex items-center justify-between p-2 bg-white rounded border border-gray-200">
-            <div class="flex-1">
-              <h4 class="font-medium text-gray-800">{{ blog.title }}</h4>
-              <p class="text-sm text-gray-500">{{ formatDate(blog.created_at) }}</p>
-            </div>
-            <div class="flex gap-2">
-              <button @click="editBlog(blog)" class="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors">
-                Edit
-              </button>
-              <button v-if="blog.id_blog" @click="deleteBlog(blog.id_blog)" class="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded transition-colors">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="!showEditor && blogs.length === 0" class="text-gray-500 text-sm mb-3">
-          No blogs yet. Create your first blog!
-        </div>
-
-        <!-- Blog Editor -->
-        <div v-if="showEditor" class="mb-3">
-          <input
-            v-model="currentBlog.title"
-            type="text"
-            placeholder="Blog Title"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Editor ref="editorRef" :initialContent="currentBlog.content" />
-          <div class="flex gap-2 mt-2">
-            <button @click="saveBlog" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
-              {{ currentBlog.id_blog ? 'Update' : 'Create' }} Blog
-            </button>
-            <button @click="cancelEdit" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors">
-              Cancel
-            </button>
-          </div>
-        </div>
-
-        <!-- Create Blog Button -->
-        <button v-if="!showEditor" @click="createNewBlog" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-          Create New Blog
-        </button>
-      </div>
-
-      <!-- Blogs Display for Non-Owners -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5" v-if="!isOwner && blogs.length > 0">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Blogs</h3>
-        <div class="space-y-3">
-          <div v-for="blog in blogs" :key="blog.id_blog" class="p-3 bg-white rounded border border-gray-200">
-            <h4 class="font-medium text-gray-800 mb-1">{{ blog.title }}</h4>
-            <p class="text-sm text-gray-500 mb-2">{{ formatDate(blog.created_at) }}</p>
-            <div class="prose prose-sm" v-html="blog.content"></div>
-          </div>
-        </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+        <BlogSection :locationId="location.id" :isOwner="isOwner" />
       </div>
 
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
@@ -138,11 +80,10 @@
  * Gère l'affichage des locations prestataires achetées et la gestion des blogs
  */
 
-import { defineProps, defineEmits, computed, ref, onMounted } from 'vue';
+import { defineProps, defineEmits, computed } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
-import Editor from '@/components/editor/Editor.vue';
-import { blogService, Blog } from '@/services/blogService';
+import BlogSection from './BlogSection.vue';
 
 interface Props {
   location: LocationMock;
@@ -169,16 +110,6 @@ const prestataireTypeName = computed(() => {
   return 'Prestataire';
 });
 
-// Blog management
-const blogs = ref<Blog[]>([]);
-const showEditor = ref(false);
-const currentBlog = ref<Blog>({
-  title: '',
-  content: '',
-  id_location: props.location.id
-});
-const editorRef = ref<InstanceType<typeof Editor> | null>(null);
-
 // Check if current user is the owner
 const isOwner = computed(() => {
   // TODO: Replace with actual auth check
@@ -191,84 +122,5 @@ const viewProfile = () => {
   console.log('Affichage du profil de:', prestataire.value?.firstname);
 };
 
-const formatDate = (dateString: string | undefined): string => {
-  if (!dateString) return '';
-  return new Date(dateString).toLocaleDateString();
-};
-
-const fetchBlogs = async () => {
-  try {
-    blogs.value = await blogService.getBlogsByLocationId(props.location.id);
-  } catch (error) {
-    console.error('Failed to fetch blogs:', error);
-  }
-};
-
-const createNewBlog = () => {
-  currentBlog.value = {
-    title: '',
-    content: '<p>Start writing your blog...</p>',
-    id_location: props.location.id
-  };
-  showEditor.value = true;
-};
-
-const editBlog = (blog: Blog) => {
-  currentBlog.value = { ...blog };
-  showEditor.value = true;
-};
-
-const saveBlog = async () => {
-  if (!currentBlog.value.title.trim()) {
-    alert('Please enter a blog title');
-    return;
-  }
-
-  const content = editorRef.value?.getHTML() || '';
-  const blogData = {
-    ...currentBlog.value,
-    content
-  };
-  
-  try {
-    if (currentBlog.value.id_blog) {
-      await blogService.updateBlog(blogData);
-    } else {
-      await blogService.createBlog(blogData);
-    }
-    await fetchBlogs();
-    cancelEdit();
-  } catch (error) {
-    console.error('Failed to save blog:', error);
-    alert('Failed to save blog');
-  }
-};
-
-const deleteBlog = async (blogId: number) => {
-  if (!confirm('Are you sure you want to delete this blog?')) {
-    return;
-  }
-
-  try {
-    await blogService.deleteBlog(blogId);
-    await fetchBlogs();
-  } catch (error) {
-    console.error('Failed to delete blog:', error);
-    alert('Failed to delete blog');
-  }
-};
-
-const cancelEdit = () => {
-  showEditor.value = false;
-  currentBlog.value = {
-    title: '',
-    content: '',
-    id_location: props.location.id
-  };
-};
-
-onMounted(() => {
-  fetchBlogs();
-});
 
 </script>
