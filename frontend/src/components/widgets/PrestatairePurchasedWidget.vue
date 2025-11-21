@@ -112,6 +112,7 @@ const prestataireTypeName = computed(() => {
 
 // Check if current user is the owner
 const isOwner = computed(() => {
+  // Already done in the backend but better to also do it in the frontend
   // TODO: Replace with actual auth check
   // For now, assuming user is owner if location has a prestataire
   return props.location.id_prestataire !== null;

@@ -27,7 +27,7 @@
     @click="closeWidget"
   >
     <div
-      class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden relative border border-gray-200"
+      class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-hidden relative border border-gray-200"
       @click.stop
     >
       <!-- Decorative gradient border -->

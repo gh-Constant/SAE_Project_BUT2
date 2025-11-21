@@ -164,8 +164,6 @@ async function handleLocationPurchased(location: LocationMock) {
   console.log('Location purchased:', location);
   // Refresh the map to show updated locations
   await addFilteredLocationsToMap();
-  // Close the widget
-  closeWidget();
 }
 
 /**
