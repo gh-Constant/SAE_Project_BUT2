@@ -83,11 +83,6 @@ export const routes = [
     component: () => import('../views/EditorTestView.vue'),
   },
   {
-    path: '/aventurier/products',
-    name: 'aventurier-products',
-    component: () => import('../views/AventurierProductView.vue'),
-  },
-  {
     path: '/boutique',
     name: 'boutique',
     component: () => import('../views/BoutiqueView.vue'),
