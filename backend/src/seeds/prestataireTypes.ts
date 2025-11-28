@@ -3,11 +3,11 @@ import prisma from '../prisma.js';
 export async function seedPrestataireTypes() {
   const types = ['restaurateur', 'animateur', 'artisan'];
 
-  for (const name of types) {
+  for (let i = 0; i < types.length; i++) {
     await prisma.prestataireType.upsert({
-      where: { name },
+      where: { id_prestataire_type: i + 1 },
       update: {},
-      create: { name },
+      create: { name: types[i] },
     });
   }
 

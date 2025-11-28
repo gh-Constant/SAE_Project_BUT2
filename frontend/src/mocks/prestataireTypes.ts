@@ -1,14 +1,17 @@
 export interface PrestataireTypeMock {
   id: number;
-  name: 'restaurateur' | 'animateur' | 'artisan';
+  name: string;
+}
+
+export enum PrestataireTypes {
+  RESTAURATEUR_TYPE_ID = 1,
+  ANIMATEUR_TYPE_ID = 2,
+  ARTISAN_TYPE_ID = 3,
 }
 
 export const PRESTATAIRE_TYPES: PrestataireTypeMock[] = [
-  { id: 1, name: 'restaurateur' },
-  { id: 2, name: 'animateur' },
-  { id: 3, name: 'artisan' },
+  { id: PrestataireTypes.RESTAURATEUR_TYPE_ID, name: 'restaurateur' },
+  { id: PrestataireTypes.ANIMATEUR_TYPE_ID, name: 'animateur' },
+  { id: PrestataireTypes.ARTISAN_TYPE_ID, name: 'artisan' },
 ];
 
-export const RESTAURATEUR_TYPE_ID = 1;
-export const ANIMATEUR_TYPE_ID = 2;
-export const ARTISAN_TYPE_ID = 3;

@@ -1,0 +1,131 @@
+{
+  "dashboard": {
+    "title": "Panel de Prestatàriu",
+    "welcome": "Benvenutu",
+    "services": {
+      "title": "I Me Servizii",
+      "count": "servizii attivi",
+      "manage": "Gestisce i me servizii"
+    },
+    "locations": {
+      "title": "I Me Luoghi",
+      "count": "luoghi gestiti",
+      "view": "Vede i me luoghi"
+    },
+    "earnings": {
+      "title": "Ricavi di stu mese",
+      "view": "Vede i dettagli"
+    },
+    "quickActions": {
+      "title": "Aziuni Rapide",
+      "addService": "Aghjunghje un serviziu",
+      "createLocation": "Crea un locu",
+      "viewReservations": "Vede e riserve",
+      "editProfile": "Mudificà u mo prufilu"
+    },
+    "recentActivity": {
+      "title": "Attività Recente"
+    }
+  },
+  "profile": {
+    "title": "Mudificà u mo prufilu",
+    "sections": {
+      "identity": "Identità",
+      "contact": "Cuntattu",
+      "location": "Lucalizazione",
+      "presentation": "Presentazione",
+      "professional": "Prufessiunale"
+    },
+    "fields": {
+      "firstname": "Nome",
+      "lastname": "Cognome",
+      "email": "Email",
+      "birthDate": "Data di nascita",
+      "phone": "Telefonu",
+      "bio": "Biugrafia",
+      "bioHint": "Scrivite di voi è e vostre specialità (max 500 caratteri)",
+      "bioPlaceholder": "Maestru artigianu da 15 anni, specializatu in armature autentiche...",
+      "website": "Situ web",
+      "websitePlaceholder": "https://u-mio-situ.com",
+      "address": "Indirizzu",
+      "city": "Cità",
+      "postalCode": "Codice postale",
+      "country": "Paisu",
+      "customCountry": "Nome di u paisu",
+      "experienceYears": "Anni d'esperienza",
+      "socialMedia": "Rete suciale",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter/X",
+      "linkedin": "LinkedIn",
+      "tiktok": "TikTok",
+      "specialties": "Specialità",
+      "specialtiesPlaceholder": "Aghjunghjite e vostre specialità (es: Cucina medievale, Banchetti riali)",
+      "languages": "Lingue parlate",
+      "languagesPlaceholder": "Scegliete e lingue chì parlate",
+      "prestataireType": "Tipu di Prestatàriu",
+      "prestataireTypeReadonly": "U tipu di prestatàriu ùn pò micca esse mudificatu",
+      "aventurier": "Aventurieru",
+      "avatar": "Avatar",
+      "avatarCurrent": "Avatar attuale",
+      "avatarType": "Tipu di avatar",
+      "avatarTypeGallery": "Galleria",
+      "avatarTypeUpload": "Caricà",
+      "chooseAvatar": "Sceglie un avatar",
+      "uploadHint": "Formati accettati : JPG, PNG, GIF (max 5MB)"
+    },
+    "status": {
+      "title": "Status",
+      "xp": "XP",
+      "level": "Livellu"
+    },
+    "validation": {
+      "firstnameRequired": "U nome hè richiestu",
+      "firstnameMinLength": "U nome deve cuntene almenu 2 caratteri",
+      "firstnameMaxLength": "U nome ùn deve micca superà 255 caratteri",
+      "firstnameInvalid": "U nome deve cuntene solu lettere",
+      "lastnameRequired": "U cognome hè richiestu",
+      "lastnameMinLength": "U cognome deve cuntene almenu 2 caratteri",
+      "lastnameMaxLength": "U cognome ùn deve micca superà 255 caratteri",
+      "lastnameInvalid": "U cognome deve cuntene solu lettere",
+      "emailRequired": "L'email hè richiesta",
+      "emailInvalid": "Per piacè, entra un email validu",
+      "birthDateInvalid": "Data di nascita invalida",
+      "birthDateTooYoung": "Duvete avè almenu 18 anni",
+      "birthDateFuture": "A data di nascita ùn pò micca esse in u futuru",
+      "phoneInvalid": "Formatu di telefonu invalidu (caratteri micca autorizati)",
+      "phoneTooShort": "U numeru di telefonu deve cuntene almenu 8 cifre",
+      "phoneTooLong": "U numeru di telefonu ùn deve micca superà 15 cifre o 20 caratteri",
+      "bioMaxLength": "A biugrafia ùn deve micca superà 500 caratteri",
+      "websiteInvalid": "L'URL deve principià cù http:// o https://",
+      "experienceYearsInvalid": "L'anni d'esperienza devenu esse trà 0 è 100",
+      "addressMinLength": "L'indirizzu deve cuntene almenu 5 caratteri",
+      "addressMaxLength": "L'indirizzu ùn deve micca superà 255 caratteri",
+      "cityMinLength": "A cità deve cuntene almenu 2 caratteri",
+      "cityMaxLength": "A cità ùn deve micca superà 100 caratteri",
+      "cityInvalid": "A cità deve cuntene solu lettere, spazii è tirati",
+      "postalCodeInvalid": "Formatu di codice postale invalidu",
+      "countryInvalid": "Per piacè, scegliete un paisu validu",
+      "customCountryRequired": "Per piacè, scrivite u nome di u paisu",
+      "customCountryMinLength": "U nome di u paisu deve cuntene almenu 2 caratteri",
+      "customCountryMaxLength": "U nome di u paisu ùn deve micca superà 100 caratteri",
+      "customCountryInvalid": "U nome di u paisu deve cuntene solu lettere",
+      "avatarInvalid": "Per piacè, sceglie un schedariu d'imaghjine validu",
+      "avatarTooLarge": "U schedariu ùn deve micca superà 5MB",
+      "formErrors": "Per piacè, curregge l'errori di u furmulariu"
+    },
+    "messages": {
+      "success": "Prufilu aggiornatu cù successu !",
+      "updatedSuccess": "aggiornatu cù successu",
+      "error": "Un errore hè accadutu durante l'aggiornamentu di u prufilu",
+      "loading": "Salvà...",
+      "save": "Salvà e mudifiche",
+      "cancel": "Annullà"
+    },
+    "backToHome": "Tornà à a casa"
+  },
+  "tabs": {
+    "dashboard": "Tavulone",
+    "profile": "U Mo Prufilu"
+  }
+}

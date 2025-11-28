@@ -1,3 +1,32 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Italianno&family=Lato:wght@400;700&display=swap');
+
 @import 'tailwindcss';
 @import './components/editor/tiptap.css';
 
+@theme {
+  /* Colors */
+  --color-parchment: #F3EAD6;
+  --color-warm-sand: #E6D6BC;
+  --color-aged-paper: #D4C5A5;
+  --color-antique-bronze: #C19B6C;
+  --color-dark-wood: #2C241B;
+  --color-iron-black: #121212;
+  --color-stone-grey: #757068;
+
+  /* Fonts */
+  --font-medieval: 'Cinzel', serif;
+  --font-citation: 'Italianno', cursive;
+  --font-body: 'Lato', sans-serif;
+  @keyframes slide-in-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-100vw);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  --animate-slide-in-left: slide-in-left 1s ease-out forwards;
+}

@@ -21,8 +21,10 @@
  */
 
 import L from 'leaflet';
-import { locationsMock, LocationMock } from '@/mocks/locations';
+import { LOCATIONS, LocationMock } from '@/mocks/locations';
+import { USERS } from '@/mocks/users';
 import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
+import { LocationType } from '@/mocks/locationTypes';
 
 export const locationMockService = {
   /**
@@ -31,7 +33,62 @@ export const locationMockService = {
    */
   getAllLocations(): Promise<LocationMock[]> {
     return new Promise((resolve) => {
-      resolve([...locationsMock]);
+      resolve([...LOCATIONS]);
+    });
+  },
+
+  /**
+   * Récupère une location par son ID
+   * @param id ID de la location à récupérer
+   * @returns Promise résolue avec la location trouvée
+   */
+  getLocationById(id: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === id);
+      if (location) {
+        resolve({ ...location });
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  /**
+   * Achète une location pour un utilisateur
+   * @param locationId ID de la location à acheter
+   * @param userId ID de l'utilisateur qui achète
+   * @returns Promise résolue avec la location mise à jour
+   */
+  purchaseLocation(locationId: number, userId: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (!location) {
+        reject(new Error('Location not found'));
+        return;
+      }
+
+      // Find user details
+      console.log('Looking for user with ID:', userId);
+      console.log('Available users:', USERS.map(u => ({ id: u.id, name: `${u.firstname} ${u.lastname}` })));
+      const user = USERS.find(u => u.id === userId);
+      if (!user) {
+        console.error('User not found for ID:', userId);
+        reject(new Error('User not found'));
+        return;
+      }
+
+      // Update location with purchase info
+      location.purchased = true;
+      location.id_prestataire = userId;
+      location.prestataire = {
+        id_user: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        avatar_url: user.avatar_url,
+        avatar_type: user.avatar_type,
+      };
+
+      resolve({ ...location });
     });
   },
 
@@ -50,13 +107,14 @@ export const locationMockService = {
     } else {
       // Other users see story locations and purchased prestataire locations
       locations = locations.filter(location =>
-        location.type === 'story' || (location.type === 'prestataire' && location.purchased)
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased)
       );
     }
 
     locations.forEach((location) => {
       // Utiliser l'icône spécifiée ou l'icône par défaut si elle n'existe pas
-      const icon = iconMarkers[location.iconName] || defaultIcon;
+      const iconName = location.icon_name || 'default';
+      const icon = iconMarkers[iconName] || defaultIcon;
 
       const marker = L.marker(location.position, { icon });
 

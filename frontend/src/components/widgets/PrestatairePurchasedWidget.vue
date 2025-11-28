@@ -2,12 +2,13 @@
   @file PrestatairePurchasedWidget.vue
   @description
   Composant widget pour afficher les informations des locations prestataires déjà achetées.
-  Montre le profil du prestataire propriétaire et les options d'interaction.
+  Montre le profil du prestataire propriétaire, les options d'interaction, et la gestion des blogs.
 
   @utilité
   - Affiche l'image de bannière et les informations de base de la location
   - Présente le profil du prestataire propriétaire avec avatar et informations
   - Fournit un accès direct au profil du prestataire
+  - Permet la création, modification et suppression de blogs pour la location
 
   @props
   - location: LocationMock - Les données de la location prestataire achetée
@@ -18,11 +19,12 @@
   @dépendances
   - LocationMock, USERS, PRESTATAIRE_TYPES: Données mock
   - useAuthStore: Pour vérifier le rôle de l'utilisateur
+  - Editor: Composant d'édition de texte riche
 -->
 <template>
   <div class="min-h-96">
     <div class="relative w-full h-48 overflow-hidden rounded-t-lg">
-      <img :src="location.bannerImage" :alt="location.name" class="w-full h-full object-cover" />
+      <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
     <div class="p-5">
@@ -32,7 +34,7 @@
       <!-- Prestataire Profile Section -->
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5" v-if="prestataire">
         <div class="flex items-center mb-3">
-          <img :src="prestataire.avatarUrl" :alt="prestataire.firstname" class="w-12 h-12 rounded-full mr-3 border-2 border-gray-300" />
+          <img :src="prestataire.avatar_url" :alt="prestataire.firstname" class="w-12 h-12 rounded-full mr-3 border-2 border-gray-300" />
           <div class="flex-1">
             <h3 class="text-lg font-semibold text-gray-800">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
             <p class="text-sm text-gray-600">{{ prestataireTypeName }}</p>
@@ -43,11 +45,15 @@
         </button>
       </div>
 
+      <!-- Blogs Section -->
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+        <BlogSection :locationId="location.id" :isOwner="isOwner" />
+      </div>
 
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.staticCode }}</span>
+          <span class="text-gray-600">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Status:</span>
@@ -81,14 +87,14 @@
 <script setup lang="ts">
 /**
  * Script du composant PrestatairePurchasedWidget
- * Gère l'affichage des locations prestataires achetées
+ * Gère l'affichage des locations prestataires achetées et la gestion des blogs
  */
 
 import { defineProps, defineEmits, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
-import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes';
+import BlogSection from './BlogSection.vue';
 
 interface Props {
   location: LocationMock;
@@ -102,16 +108,27 @@ defineEmits<{
 }>();
 
 const prestataire = computed(() => {
-  return USERS.find(user => user.id === props.location.userId);
+  // Use prestataire data from location if available (from backend)
+  // Otherwise fallback to mock data for development
+  if (props.location.prestataire) {
+    return props.location.prestataire;
+  }
+  return USERS.find(user => user.id === props.location.id_prestataire);
 });
 
 const prestataireTypeName = computed(() => {
-  if (!prestataire.value?.prestataireTypeId) return '';
-  const type = PRESTATAIRE_TYPES.find(t => t.id === prestataire.value?.prestataireTypeId);
-  return type?.name || '';
+  // For now, return a generic label since prestataire type is on user, not in the prestataire subset
+  // TODO: Fetch full user details if needed for type
+  return 'Prestataire';
 });
 
-
+// Check if current user is the owner
+const isOwner = computed(() => {
+  // Already done in the backend but better to also do it in the frontend
+  // TODO: Replace with actual auth check
+  // For now, assuming user is owner if location has a prestataire
+  return props.location.id_prestataire !== null;
+});
 
 const viewProfile = () => {
   // TODO: Naviguer vers le profil du prestataire

@@ -21,7 +21,7 @@
 <template>
   <div class="min-h-96">
     <div class="relative w-full h-48 overflow-hidden rounded-t-lg">
-      <img :src="location.bannerImage" :alt="location.name" class="w-full h-full object-cover" />
+      <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
     <div class="p-5">
@@ -31,7 +31,7 @@
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
         <div class="flex justify-between mb-2">
           <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.staticCode }}</span>
+          <span class="text-gray-600">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between">
           <span class="font-semibold text-gray-700">Type:</span>

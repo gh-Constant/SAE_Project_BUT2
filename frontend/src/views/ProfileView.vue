@@ -11,7 +11,7 @@
       </router-link>
     </div>
 
-    <!-- Formulaire de profil générique (pour Admin et Aventurier) -->
+    <!-- Formulaire de profil -->
     <ProfileForm />
   </div>
 </template>

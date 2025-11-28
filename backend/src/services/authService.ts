@@ -26,12 +26,9 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import prisma from "../prisma.js";
+import * as Prisma from "../prisma.js";
 
 // Mapping des rôles string vers les IDs de base de données
-const roleMap: { [key: string]: number } = {
-  'aventurier': 1, // Rôle aventurier
-  'prestataire': 2,    // Rôle prestataire
-};
 
 export async function login(email: string, password: string) {
   // Recherche l'utilisateur par email dans la base de données
@@ -41,12 +38,12 @@ export async function login(email: string, password: string) {
   if (!user) throw new Error("Utilisateur non trouvé");
 
   // Vérifie le mot de passe hashé avec bcrypt
-  const validPassword = await bcrypt.compare(password, user.passwordHashed);
+  const validPassword = await bcrypt.compare(password, user.password_hashed);
   if (!validPassword) throw new Error("Mot de passe invalide");
 
   // Génère un token JWT avec l'ID et l'email utilisateur
   const token = jwt.sign(
-    { id: user.id, email: user.email },
+    { id: user.id_user, email: user.email },
     process.env.JWT_SECRET!, // Clé secrète depuis les variables d'environnement
     { expiresIn: "1h" } // Token valide 1 heure
   );
@@ -54,14 +51,21 @@ export async function login(email: string, password: string) {
   return { user, token }; // Retourne l'utilisateur et son token
 }
 
-export async function register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string) {
+export async function register(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  role: Prisma.Role,
+  avatarUrl?: string,
+  avatarType?: Prisma.AvatarType,
+) {
   // Vérifie si l'utilisateur existe déjà
   const exists = await prisma.user.findUnique({ where: { email } });
   if (exists) throw new Error("Utilisateur déjà existant");
 
   // Mappe le rôle string vers l'ID numérique
-  const roleId = roleMap[role];
-  if (!roleId) throw new Error("Rôle invalide");
+  if (!role) throw new Error("Rôle invalide");
 
   // Hash le mot de passe avec bcrypt (coût 10)
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -72,10 +76,14 @@ export async function register(firstName: string, lastName: string, email: strin
       firstname: firstName,
       lastname: lastName,
       email,
-      passwordHashed: hashedPassword,
-      roleId,
-      avatarUrl: avatarUrl || null,
-      avatarType: avatarType || null
+      password_hashed: hashedPassword,
+      role,
+      level: 0,
+      xp: 0,
+      is_verified: false,
+      avatar_url: avatarUrl || 'default',
+      avatar_type: avatarType || Prisma.AvatarType.gallery,
+      id_prestataire_type: 1, // Default prestataire type - should be updated based on role
     }
   });
 }
@@ -87,7 +95,7 @@ export async function verifyToken(token: string) {
 
     // Vérifie que l'utilisateur existe toujours en base
     const user = await prisma.user.findUnique({
-      where: { id: decoded.id }
+      where: { id_user: decoded.id }
     });
 
     if (!user) {
@@ -113,7 +121,7 @@ export async function getUserFromToken(token: string) {
 
     // Récupère l'utilisateur depuis la base de données
     return await prisma.user.findUnique({
-      where: { id: decoded.id }
+      where: { id_user: decoded.id }
     });
   } catch (error) {
     return null; // Retourne null en cas d'erreur (token invalide)

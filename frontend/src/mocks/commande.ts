@@ -1,6 +1,6 @@
 export enum EtatCommande {
     WAITING = 'waiting',
-    PAYED = 'payed',
+    PAID = 'paid',
     COLLECTED = 'collected',
 }
 

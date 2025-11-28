@@ -18,19 +18,17 @@
  */
 
 // Role constants
-export const ADMIN_ROLE_ID = 3;
-export const PRESTATAIRE_ROLE_ID = 2;
-export const AVENTURIER_ROLE_ID = 1;
+import { UserMock, Role } from '@/mocks/users';
 
 // Utility functions
-export function isAdmin(user: any): boolean {
-  return user?.roleId === ADMIN_ROLE_ID;
+export function isAdmin(user: UserMock | null): boolean {
+  return user?.role === Role.ADMIN_ROLE_ID;
 }
 
-export function isPrestataire(user: any): boolean {
-  return user?.roleId === PRESTATAIRE_ROLE_ID;
+export function isPrestataire(user: UserMock | null): boolean {
+  return user?.role === Role.PRESTATAIRE_ROLE_ID;
 }
 
-export function isAventurier(user: any): boolean {
-  return user?.roleId === AVENTURIER_ROLE_ID;
+export function isAventurier(user: UserMock | null): boolean {
+  return user?.role === Role.AVENTURIER_ROLE_ID;
 }

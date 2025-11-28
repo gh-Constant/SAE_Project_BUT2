@@ -1,9 +1,14 @@
+export enum UserQuestStatus {
+  ACCEPTED = 'accepted',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+}
+
 // Simule le journal de quêtes
 export interface UserQuestMock {
-  id: number;
-  userId: number;
-  questId: number;
-  status: 'accepted' | 'completed';
+  id_user: number;
+  id_quest: number;
+  status: UserQuestStatus;
 }
 
 export const USER_QUESTS: UserQuestMock[] = [

@@ -53,6 +53,8 @@ const closePopup = () => {
 
 const selectLanguage = (language: typeof languages[0]) => {
   locale.value = language.code
+  // Sauvegarder la langue sélectionnée dans localStorage
+  localStorage.setItem('locale', language.code)
   closePopup()
 }
 </script>
@@ -61,7 +63,7 @@ const selectLanguage = (language: typeof languages[0]) => {
   <div class="relative">
     <!-- Language Switcher Button -->
     <button
-      class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+      class="flex items-center gap-2 px-3 py-2 bg-black/80 border border-white/20 rounded-lg hover:bg-black/90 hover:border-white/30 transition-colors"
       :class="{ 'minecraft-selected': currentLanguage.special }"
       @click="togglePopup"
     >
@@ -72,9 +74,9 @@ const selectLanguage = (language: typeof languages[0]) => {
         class="w-5 h-5 rounded-full"
         :class="{ 'spin': currentLanguage.code === 'mc' }"
       >
-      <span class="text-sm font-medium">{{ currentLanguage.name }}</span>
+      <span class="text-sm font-medium text-white">{{ currentLanguage.name }}</span>
       <svg
-        class="w-4 h-4 text-gray-500"
+        class="w-4 h-4 text-white/70"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

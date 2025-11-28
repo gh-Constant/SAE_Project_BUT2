@@ -2,9 +2,9 @@ export interface ActivityMock {
   id: number;
   title: string;
   description: string;
-  startTime: Date;
-  endTime: Date;
-  locationId: number;
+  start_time: Date;
+  end_time: Date;
+  id_location: number;
 }
 
 export const ACTIVITIES: ActivityMock[] = [

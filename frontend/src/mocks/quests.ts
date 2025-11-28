@@ -1,9 +1,9 @@
 export interface QuestMock {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   xpReward: number;
-  locationId: number;
+  id_location: number;
 }
 
 export const QUESTS: QuestMock[] = [

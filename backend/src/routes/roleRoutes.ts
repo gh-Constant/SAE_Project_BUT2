@@ -30,13 +30,6 @@ const router = Router();
 router.get('/roles', roleController.getAllRoles);
 
 /**
- * GET /roles/:id
- * Récupère un rôle spécifique par son ID.
- * Utilise le contrôleur `roleController.getRoleById`.
- */
-router.get('/roles/:id', roleController.getRoleById);
-
-/**
  * GET /roles/name/:name
  * Récupère un rôle spécifique par son nom.
  * Utilise le contrôleur `roleController.getRoleByName`.

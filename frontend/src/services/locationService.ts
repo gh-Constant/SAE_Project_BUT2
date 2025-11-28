@@ -1,25 +1,99 @@
-/**
- * @file locationService.ts
- * @description
- * Service de gestion des locations qui choisit entre le mode mock et le mode réel.
- * Fournit les fonctions pour récupérer et gérer les locations.
- *
- * @utilité
- * - Permet de tester l'application avec des données mock sans backend.
- * - Prépare l'intégration avec un vrai backend plus tard.
- * - Fournit une interface unique pour les opérations sur les locations.
- *
- * @exports
- * - locationService : service de locations utilisé dans l'application.
- *
- * @remarques
- * - Pour l'instant, utilise toujours le mode mock même si le backend est activé.
- */
-
 import { locationMockService } from './mock/locationMockService';
+import { LocationMock } from '@/mocks/locations';
+import L from 'leaflet';
+import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
+import { LocationType } from '@/mocks/locationTypes';
 
-// Pour l'instant, on utilise toujours le service mock
-export const locationService = locationMockService;
+const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
-// Log pour savoir qu'on utilise le mode mock
-console.log('Location service initialized: MOCK mode');
+const locationServiceImpl = {
+  getAllLocations: async (): Promise<LocationMock[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations`, {
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch locations');
+    }
+    return await response.json();
+  },
+
+  getLocationById: async (id: number): Promise<LocationMock> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${id}`, {
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch location');
+    }
+    return await response.json();
+  },
+
+  purchaseLocation: async (locationId: number, userId: number): Promise<LocationMock> => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Not authenticated');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        purchased: true,
+        id_prestataire: userId
+      })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Failed to purchase location');
+    }
+    
+    return await response.json();
+  },
+
+  addLocationsToMap: async (map: L.Map, markers: L.Marker[], userRole?: string, onMarkerClick?: (location: LocationMock) => void): Promise<void> => {
+    let locations = await locationServiceImpl.getAllLocations();
+
+    if (userRole === 'prestataire') {
+      // Prestataire sees all locations
+    } else {
+      // Other users see story locations and purchased prestataire locations
+      locations = locations.filter(location =>
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased)
+      );
+    }
+
+    locations.forEach((location) => {
+      const iconName = location.icon_name || 'default';
+      const icon = iconMarkers[iconName] || defaultIcon;
+
+      // Ensure position is valid [lat, lng]
+      if (!location.position || !Array.isArray(location.position) || location.position.length !== 2) {
+        return;
+      }
+
+      const marker = L.marker(location.position as [number, number], { icon });
+
+      if (onMarkerClick) {
+        marker.on('click', () => {
+          onMarkerClick(location);
+        });
+      } else {
+        marker.bindPopup(`
+          <strong>${location.name}</strong><br/>
+          ${location.description}<br/>
+          ${location.price ? `Price: ${location.price} gold` : ''}<br/>
+          ${location.purchased ? '🟢 Purchased' : '🔴 Available'}
+        `);
+      }
+
+      marker.addTo(map);
+      markers.push(marker);
+    });
+  }
+};
+
+export const locationService = isMockEnabled ? locationMockService : locationServiceImpl;

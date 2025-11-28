@@ -1,13 +1,20 @@
-{
+{  
   "hero": {
-    "title": "Embark on a Medieval Adventure",
-    "subtitle": "Discover the rich history and legends of the medieval world through interactive maps and immersive experiences",
-    "cta": "Start Your Journey"
-  },
+      "title": "Embark on a Medieval Adventure",
+      "subtitle": "Step into Les Terres du Lion, a medieval festival where every visitor becomes a hero and every step drives the adventure forward.",
+      "cta": "Start Your Journey"
+    },
   "features": {
     "title": "Explore the Medieval Era",
-    "subtitle": "Dive into history with our comprehensive features",
-    "discover": {
+    "subtitle": "Immerse yourself in history with our comprehensive features",
+    "paragraphs": {
+      "1": "Welcome to Les Terres du Lion, a unique medieval event inspired by live-action role-playing. Designed for total immersion, the festival plunges you into a world of quests, legendary creatures, and ancient craftsmanship.",
+      "2": "Centered around a vast thematic village, each zone invites you to meet passionate artisans, performers, restaurateurs, and creators who bring an authentic medieval universe to life.",
+      "3": "Through an enriched interactive experience — quests accessible via QR codes, workshop reservations, click & collect, quizzes, and creation galleries — every visitor becomes the main character of their own journey.",
+      "4": "The dedicated app allows you to explore, learn, discover, and progress throughout the adventure ending at the castle, where the story reaches its climax.",
+      "5": "Les Terres du Lion is a place where immersion meets technology, where heritage inspires play, and where every visit writes a new legend."
+    },
+    "discover": {  
       "title": "Interactive Maps",
       "description": "Navigate through detailed maps of historical sites and battlefields"
     },

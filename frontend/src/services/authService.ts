@@ -115,6 +115,29 @@ const authServiceImpl = {
     localStorage.removeItem('currentUser'); // Remove for security
   },
 
+  updateProfile: async (profileData: UserMock): Promise<UserMock> => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Not authenticated');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(profileData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to update profile');
+    }
+
+    return await response.json();
+  },
+
   /**
   getMyRole: async (): Promise<any> => {
     const token = localStorage.getItem('authToken');

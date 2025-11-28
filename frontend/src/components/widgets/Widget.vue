@@ -27,7 +27,7 @@
     @click="closeWidget"
   >
     <div
-      class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden relative border border-gray-200"
+      class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-hidden relative border border-gray-200"
       @click.stop
     >
       <!-- Decorative gradient border -->
@@ -52,21 +52,22 @@
       <div class="overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
         <!-- Story Location Widget -->
         <StoryWidget
-          v-if="location.type === 'story'"
+          v-if="location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID"
           :location="location"
           @close="closeWidget"
         />
 
         <!-- Prestataire Location Widgets -->
         <PrestatairePurchasedWidget
-          v-else-if="location.type === 'prestataire' && location.purchased"
+          v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased"
           :location="location"
           @close="closeWidget"
         />
         <PrestataireAvailableWidget
-          v-else-if="location.type === 'prestataire' && !location.purchased"
+          v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && !location.purchased"
           :location="location"
           @close="closeWidget"
+          @purchased="handlePurchased"
         />
 
         <!-- Fallback -->
@@ -77,7 +78,7 @@
             </svg>
           </div>
           <h3 class="text-lg font-semibold text-gray-900 mb-2">Unknown Location Type</h3>
-          <p class="text-gray-500">Type: <span class="font-mono text-sm">{{ location.type }}</span></p>
+          <p class="text-gray-500">Type id: <span class="font-mono text-sm">{{ location.id_location_type }}</span></p>
         </div>
       </div>
     </div>
@@ -95,6 +96,7 @@ import { LocationMock } from '@/mocks/locations';
 import StoryWidget from './StoryWidget.vue';
 import PrestatairePurchasedWidget from './PrestatairePurchasedWidget.vue';
 import PrestataireAvailableWidget from './PrestataireAvailableWidget.vue';
+import { LocationType } from '@/mocks/locationTypes';
 
 interface Props {
   location: LocationMock;
@@ -104,10 +106,15 @@ defineProps<Props>();
 
 const emit = defineEmits<{
   close: [];
+  purchased: [location: LocationMock];
 }>();
 
 const closeWidget = () => {
   emit('close');
+};
+
+const handlePurchased = (location: LocationMock) => {
+  emit('purchased', location);
 };
 </script>
 

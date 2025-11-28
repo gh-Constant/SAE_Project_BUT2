@@ -3,11 +3,16 @@ import { useAuthStore } from '@/stores/auth';
 import { useCartStore } from '@/stores/cart';
 import { isAdmin, isPrestataire } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 const auth = useAuthStore();
 const cartStore = useCartStore();
 const isLoggedIn = computed(() => auth.isAuthenticated);
 const showDropdown = ref(false);
+const isScrolled = ref(false);
+
+// Check if we're on the home page
+const isHomePage = computed(() => route.path === '/');
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
@@ -31,14 +36,35 @@ const handleClickOutside = (event: Event) => {
   }
 };
 
+// Cache scroll threshold for better performance
+let scrollThreshold = 0;
+
+const updateScrollState = () => {
+  const shouldBeScrolled = window.scrollY > scrollThreshold;
+  
+  // Only update if the state actually changes
+  if (isScrolled.value !== shouldBeScrolled) {
+    isScrolled.value = shouldBeScrolled;
+  }
+};
+
+const handleScroll = () => {
+  updateScrollState();
+};
+
 onMounted(() => {
+  // Calculate and cache the scroll threshold once
+  scrollThreshold = window.innerHeight * 0.8;
+  
   document.addEventListener('click', handleClickOutside);
-  // Le panier est maintenant chargé automatiquement lors du login/checkAuth
-  // Plus besoin de le charger ici manuellement
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  // Check initial scroll position
+  updateScrollState();
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('scroll', handleScroll);
 });
 
 const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
@@ -57,7 +83,14 @@ const profileRoute = computed(() => {
 </script>
 
 <template>
-  <nav class="bg-white shadow-md border-b border-gray-200">
+  <nav 
+    :class="[
+      'z-[1100]',
+      isHomePage 
+        ? ['fixed top-0 left-0 right-0', isScrolled ? 'bg-black/95 backdrop-blur-lg shadow-lg' : 'bg-transparent']
+        : 'bg-black/95 backdrop-blur-lg shadow-lg'
+    ]"
+  >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         <router-link
@@ -65,7 +98,7 @@ const profileRoute = computed(() => {
           class="flex-shrink-0 flex items-center cursor-pointer"
         >
           <img 
-            src="/images/Logo1.png" 
+            src="/images/nobgicon.png" 
             alt="MedievalEvent Logo" 
             class="h-16 w-auto transition-transform hover:scale-105"
           >
@@ -74,13 +107,13 @@ const profileRoute = computed(() => {
         <!-- Boutons de switch visibles uniquement en mode mock -->
         <div v-if="isMockMode" class="flex gap-2">
           <button
-            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            class="px-4 py-2 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 font-semibold text-sm shadow-sm hover:shadow-md"
             @click="auth.login('aventurier@medieval.com', 'password123')"
           >
             Switch to Aventurier
           </button>
           <button
-            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            class="px-4 py-2 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 font-semibold text-sm shadow-sm hover:shadow-md"
             @click="auth.login('prestataire@medieval.com', 'password123')"
           >
             Switch to Prestataire
@@ -92,7 +125,7 @@ const profileRoute = computed(() => {
             Switch to Prestataire 2
           </button>
           <button
-            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            class="px-4 py-2 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 font-semibold text-sm shadow-sm hover:shadow-md"
             @click="auth.login('admin@medieval.com', 'password123')"
           >
             Switch to Admin
@@ -119,13 +152,13 @@ const profileRoute = computed(() => {
           <template v-if="!isLoggedIn">
             <router-link
             to="/login"
-            class="px-6 py-2.5 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            class="px-6 py-2.5 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 font-semibold text-sm shadow-sm hover:shadow-md"
             >
               Sign In
             </router-link>
             <router-link
               to="/register"
-              class="px-6 py-2.5 bg-orange-500 text-white rounded-full hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 font-semibold text-sm shadow-md hover:shadow-lg"
+              class="px-6 py-2.5 bg-gradient-to-r from-orange-500/90 to-amber-600/90 backdrop-blur-md text-white rounded-lg hover:from-orange-600/95 hover:to-amber-700/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500/50 transition-all duration-200 font-semibold text-sm shadow-lg hover:shadow-xl border border-white/10"
             >
               Register
             </router-link>
@@ -136,13 +169,13 @@ const profileRoute = computed(() => {
             class="relative dropdown-container"
           >
             <button
-              class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-lg hover:bg-orange-50 transition-all duration-200"
+              class="flex items-center space-x-3 px-4 py-2 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 transition-all duration-200 shadow-sm hover:shadow-md"
               @click="toggleDropdown"
             >
-              <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center overflow-hidden border-2 border-orange-200">
+              <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center overflow-hidden border-2 border-white/30 shadow-md">
                 <img 
-                  v-if="auth.user?.avatarUrl" 
-                  :src="auth.user.avatarUrl" 
+                  v-if="auth.user?.avatar_url" 
+                  :src="auth.user.avatar_url" 
                   :alt="auth.user.firstname"
                   class="w-full h-full object-cover"
                 >
@@ -152,20 +185,20 @@ const profileRoute = computed(() => {
                 />
               </div>
               <div class="text-left">
-                <div class="text-sm font-semibold text-gray-900">
+                <div class="text-sm font-semibold text-white">
                   {{ auth.user?.firstname }} {{ auth.user?.lastname }}
                 </div>
-                <div class="text-xs text-gray-500">
+                <div class="text-xs text-white/70">
                   {{ auth.user?.email }}
                 </div>
               </div>
-              <i class="fas fa-chevron-down text-xs text-gray-400" />
+              <i class="fas fa-chevron-down text-xs text-white/70" />
             </button>
             
             <!-- Dropdown Menu -->
             <div
               v-if="showDropdown"
-              class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50 border border-gray-200"
+              class="absolute right-0 mt-2 w-56 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg py-2 z-50 border border-gray-200/50"
             >
               <!-- User Info Header -->
               <div class="px-4 py-2 border-b border-gray-100">
@@ -181,7 +214,7 @@ const profileRoute = computed(() => {
               <router-link
                 v-if="isAdmin(auth.user)"
                 to="/admin"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="closeDropdown"
               >
                 <i class="fas fa-cog mr-3 text-gray-400" />
@@ -190,7 +223,7 @@ const profileRoute = computed(() => {
               <router-link
                 v-if="isPrestataire(auth.user)"
                 to="/prestataire"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="closeDropdown"
               >
                 <i class="fas fa-briefcase mr-3 text-gray-400" />
@@ -214,7 +247,7 @@ const profileRoute = computed(() => {
                 Mon Profil
               </router-link>
               <button
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="handleLogout"
               >
                 <i class="fas fa-sign-out-alt mr-3 text-gray-400" />

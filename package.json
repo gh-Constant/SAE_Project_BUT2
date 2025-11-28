@@ -55,7 +55,7 @@
     "jsdom": "~22.1.0",
     "nx": "21.5.2",
     "prettier": "^2.6.2",
-    "prisma": "^6.16.2",
+    "prisma": "^6.19.0",
     "react-refresh": "^0.10.0",
     "tailwindcss": "^4.1.13",
     "tslib": "^2.3.0",
@@ -74,7 +74,7 @@
   ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.1",
-    "@prisma/client": "^6.16.2",
+    "@prisma/client": "^6.19.0",
     "@tiptap/extension-blockquote": "^3.6.6",
     "@tiptap/extension-code-block-lowlight": "^3.6.7",
     "@tiptap/extension-color": "^3.6.6",
