@@ -60,6 +60,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/products',
+    name: 'admin-products',
+    component: () => import('../views/AdminProductsView.vue'),
+    meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
+  },
+  {
     path: '/prestataire',
     name: 'prestataire',
     component: () => import('../views/PrestataireView.vue'),
@@ -72,9 +78,43 @@ export const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/prestataire/products',
+    name: 'prestataire-products',
+    component: () => import('../views/PrestataireProductsView.vue'),
+    meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
+  },
+  {
     path: '/editor-test',
     name: 'editor-test',
     component: () => import('../views/EditorTestView.vue'),
+  },
+  {
+    path: '/boutique',
+    name: 'boutique',
+    component: () => import('../views/BoutiqueView.vue'),
+  },
+  {
+    path: '/boutique/:locationId',
+    name: 'boutique-location',
+    component: () => import('../views/BoutiqueView.vue'),
+  },
+  {
+    path: '/panier',
+    name: 'panier',
+    component: () => import('../views/CartView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: () => import('../views/CheckoutView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/commandes',
+    name: 'commandes',
+    component: () => import('../views/OrdersView.vue'),
+    meta: { requiresAuth: true },
   },
 ];
 

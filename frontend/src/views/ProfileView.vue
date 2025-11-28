@@ -17,8 +17,22 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/stores/auth'
+import { isPrestataire } from '@/services/roleService'
 import ProfileForm from '@/components/ProfileForm.vue'
 
 const { t } = useI18n()
+const router = useRouter()
+const authStore = useAuthStore()
+
+// Rediriger automatiquement les prestataires vers leur panel avec l'onglet profil
+onMounted(() => {
+  if (isPrestataire(authStore.user)) {
+    // Rediriger vers le panel prestataire avec l'onglet profil
+    router.replace({ name: 'prestataire', query: { tab: 'profile' } })
+  }
+})
 </script>

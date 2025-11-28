@@ -27,13 +27,18 @@ export interface UserMock {
   avatar_type?: AvatarType; // Type de l'avatar
   level: number;
   xp: number;
-
+  
   is_verified: boolean;
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
   
   role: Role;
   id_prestataire_type?: number;
 }
+
+export const PRESTATAIRE_USER_ID = 1;
+export const PRESTATAIRE_USER_ID_2 = 4;
+export const AVENTURIER_USER_ID = 2;
+export const ADMIN_USER_ID = 3;
 
 export const USERS: UserMock[] = [
   {
@@ -84,5 +89,20 @@ export const USERS: UserMock[] = [
     birth_date: new Date('1980-01-01'),
     bio: 'Je suis le Sénéchal, responsable de la sécurité du royaume',
     phone: '06 03 04 05 06',
+  },
+  {
+    id: PRESTATAIRE_USER_ID_2,
+    firstname: 'Marie',
+    lastname: 'La marchande',
+    email: 'prestataire2@medieval.com',
+    password_hashed: 'password123',
+    roleId: PRESTATAIRE_ROLE_ID,
+    prestataireTypeId: RESTAURATEUR_TYPE_ID,
+    avatarUrl: '/images/Avatar-images/con23.png',
+    avatarType: 'gallery',
+    is_active: true,
+    is_verified: false,
+    xp: 150,
+    level: 3,
   },
 ];

@@ -1,3 +1,4 @@
+import { PRESTATAIRE_USER_ID, PRESTATAIRE_USER_ID_2 } from './users';
 import { LocationType } from "./locationTypes";
 
 export interface LocationMock {
@@ -217,8 +218,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A strategic location for merchants, close to the main road.',
     price: 110,
-    purchased: false,
-    id_prestataire: undefined,
+    purchased: true,
+    id_prestataire: PRESTATAIRE_USER_ID_2,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2006, 2383],
     icon_name: 'prestataire',

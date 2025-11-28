@@ -176,6 +176,35 @@
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">
+            Actions Rapides
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+              Ajouter un service
+            </button>
+            <router-link
+              to="/prestataire/products"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+            >
+              Gérer ma boutique
+            </router-link>
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+              Créer un lieu
+            </button>
+            <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+              Voir les réservations
+            </button>
+            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+              Modifier mon profil
+            </button>
+          </div>
+        </div>
 
             <!-- Recent Activity -->
             <div class="mt-8">

@@ -1,6 +1,6 @@
 export enum EtatCommande {
     WAITING = 'waiting',
-    PAYED = 'payed',
+    PAID = 'paid',
     COLLECTED = 'collected',
 }
 
@@ -11,6 +11,8 @@ export interface CommandeMock {
     total_price: number;
     
     id_user: number;
+    id_prestataire: number; // Prestataire concerné par cette commande
+    id_location: number; // Location (boutique) concernée par cette commande
     etat_commande: EtatCommande;
 }
 

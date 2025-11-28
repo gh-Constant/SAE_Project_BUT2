@@ -171,6 +171,12 @@
             <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium">
               Voir les logs
             </button>
+            <router-link
+              to="/admin/products"
+              class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center"
+            >
+              Gérer les articles
+            </router-link>
           </div>
         </div>
       </div>

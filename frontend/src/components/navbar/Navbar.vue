@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { useCartStore } from '@/stores/cart';
 import { isAdmin, isPrestataire } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const auth = useAuthStore();
-const route = useRoute();
+const cartStore = useCartStore();
 const isLoggedIn = computed(() => auth.isAuthenticated);
 const showDropdown = ref(false);
 const isScrolled = ref(false);
@@ -68,6 +69,17 @@ onUnmounted(() => {
 
 const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
 
+// Route vers le profil selon le rôle de l'utilisateur
+const profileRoute = computed(() => {
+  if (isAdmin(auth.user)) {
+    return '/admin';
+  } else if (isPrestataire(auth.user)) {
+    return '/prestataire';
+  }
+  // Pour les aventuriers ou autres rôles, on pourrait créer une route /profile
+  return '/';
+});
+
 </script>
 
 <template>
@@ -107,6 +119,12 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
             Switch to Prestataire
           </button>
           <button
+            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            @click="auth.login('prestataire2@medieval.com', 'password123')"
+          >
+            Switch to Prestataire 2
+          </button>
+          <button
             class="px-4 py-2 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 font-semibold text-sm shadow-sm hover:shadow-md"
             @click="auth.login('admin@medieval.com', 'password123')"
           >
@@ -115,6 +133,22 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
         </div>
 
         <div class="flex items-center space-x-4">
+          <!-- Icône panier (visible uniquement si connecté) -->
+          <router-link
+            v-if="isLoggedIn"
+            to="/panier"
+            class="relative p-2 text-gray-700 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-all duration-200"
+            title="Mon panier"
+          >
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span
+              v-if="cartStore.itemCount > 0"
+              class="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+            >
+              {{ cartStore.itemCount > 9 ? '9+' : cartStore.itemCount }}
+            </span>
+          </router-link>
+
           <template v-if="!isLoggedIn">
             <router-link
             to="/login"
@@ -197,7 +231,15 @@ const isMockMode = import.meta.env.VITE_NO_BACKEND === 'true';
               </router-link>
               <div class="border-t border-gray-100" />
               <router-link
-                to="/profile"
+                to="/commandes"
+                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-list mr-3 text-gray-400" />
+                Mes Commandes
+              </router-link>
+              <router-link
+                :to="profileRoute"
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                 @click="closeDropdown"
               >
