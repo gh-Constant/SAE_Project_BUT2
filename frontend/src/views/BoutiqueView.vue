@@ -34,8 +34,8 @@
             <!-- Image de la boutique -->
             <div class="h-48 bg-gray-200 overflow-hidden">
               <img
-                v-if="location.bannerImage"
-                :src="location.bannerImage"
+                v-if="location.banner_image"
+                :src="location.banner_image"
                 :alt="location.name"
                 class="w-full h-full object-cover"
               />
@@ -329,7 +329,7 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ProductMock } from '@/mocks/products'
 import { USERS, UserMock } from '@/mocks/users'
-import { PRESTATAIRE_ROLE_ID } from '@/mocks/roles'
+import { LocationType } from '@/mocks/locationTypes'
 import { productService } from '@/services/productService'
 import { locationsMock, LocationMock } from '@/mocks/locations'
 import ProductCard from '@/components/ProductCard.vue'
@@ -367,9 +367,9 @@ const availableLocations = computed(() => {
   const locationIdsWithProducts = new Set(products.map(p => p.locationId))
   
   return locationsMock.filter(loc => 
-    loc.type === 'prestataire' && 
+    loc.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && 
     loc.purchased && 
-    loc.userId !== null &&
+    loc.id_prestataire !== undefined &&
     locationIdsWithProducts.has(loc.id)
   )
 })
@@ -388,8 +388,8 @@ const getLocationName = (locationId: number): string => {
 
 const getPrestataireNameForLocation = (locationId: number): string => {
   const location = locationsMock.find(l => l.id === locationId)
-  if (!location || !location.userId) return 'Prestataire inconnu'
-  const prestataire = USERS.find(u => u.id === location.userId)
+  if (!location || !location.id_prestataire) return 'Prestataire inconnu'
+  const prestataire = USERS.find(u => u.id === location.id_prestataire)
   return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : 'Prestataire inconnu'
 }
 

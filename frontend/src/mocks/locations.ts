@@ -635,3 +635,5 @@ export const LOCATIONS: LocationMock[] = [
 
 ];
 
+
+export const locationsMock = LOCATIONS;

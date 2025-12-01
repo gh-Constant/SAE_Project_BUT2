@@ -63,7 +63,7 @@ export const routes = [
     path: '/admin/products',
     name: 'admin-products',
     component: () => import('../views/AdminProductsView.vue'),
-    meta: { requiresAuth: true, requiredRole: ADMIN_ROLE_ID },
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
     path: '/prestataire',
@@ -81,7 +81,7 @@ export const routes = [
     path: '/prestataire/products',
     name: 'prestataire-products',
     component: () => import('../views/PrestataireProductsView.vue'),
-    meta: { requiresAuth: true, requiredRole: PRESTATAIRE_ROLE_ID },
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
   },
   {
     path: '/editor-test',

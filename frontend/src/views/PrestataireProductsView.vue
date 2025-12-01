@@ -10,159 +10,117 @@
         <p class="text-gray-600">Gérez vos produits et votre inventaire</p>
       </div>
 
-      <!-- Formulaire d'ajout -->
-      <div class="mb-6">
-        <button 
-          v-if="showForm == false" 
-          class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center" 
-          @click="showForm = true"
-        >
-          <i class="fas fa-plus mr-2"></i>
-          Ajouter un produit
-        </button>
-        <form 
-          v-if="showForm == true" 
-          @submit.prevent="addProduct(store.newProduct.locationId); showForm = false" 
-          class="bg-white p-6 rounded-lg shadow-md border border-gray-200"
-        >
-          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <i class="fas fa-box-open mr-3 text-orange-500"></i>
+      <!-- Liste des produits par location -->
+      <div v-for="location in prestataireLocations" :key="location.id" class="mb-10">
+        <div class="bg-orange-50 border-l-4 border-orange-500 rounded-lg p-4 mb-4 flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+              <i class="fas fa-map-marker-alt mr-3 text-orange-500"></i>
+              {{ location.name }}
+            </h2>
+            <p class="text-sm text-gray-600 mt-1">
+              {{ productsByLocation(location.id).length }} 
+              {{ productsByLocation(location.id).length > 1 ? 'produits' : 'produit' }} 
+              dans cette localisation
+            </p>
+          </div>
+          <button 
+            v-if="addingProductLocationId !== location.id"
+            @click="startAddProduct(location.id)"
+            class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-sm hover:shadow-md flex items-center text-sm"
+          >
+            <i class="fas fa-plus mr-2"></i>
             Ajouter un produit
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-tag mr-1 text-orange-500"></i>
-                Nom
-              </label>
-              <input 
-                v-model="store.newProduct.name" 
-                type="text" 
-                required 
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                placeholder="Nom du produit"
-              >
-            </div>
+          </button>
+        </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-image mr-1 text-orange-500"></i>
-                Image
-              </label>
-              <div class="space-y-2">
-                <input
-                  type="file"
-                  accept="image/*"
-                  @change="(e) => handleImageSelect(e, 'new')"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 file:cursor-pointer cursor-pointer"
-                />
-                <input
-                  v-model="store.newProduct.imageUrl"
-                  type="text"
-                  required
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                  placeholder="Ou entrez une URL..."
-                />
-                <div v-if="store.newProduct.imageUrl" class="mt-2">
-                  <img
-                    :src="store.newProduct.imageUrl"
-                    alt="Preview"
-                    class="h-24 w-24 object-cover rounded-lg border border-gray-300"
+        <!-- Formulaire d'ajout spécifique à la location -->
+        <div v-if="addingProductLocationId === location.id" class="mb-6 bg-white p-6 rounded-lg shadow-md border border-gray-200 border-l-4 border-l-orange-500">
+          <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <i class="fas fa-plus-circle mr-2 text-orange-500"></i>
+            Nouveau produit pour {{ location.name }}
+          </h3>
+          <form @submit.prevent="store.addProductForLocation(location.id); cancelAddProduct()">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
+                <input 
+                  v-model="store.newProduct.name" 
+                  type="text" 
+                  required 
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="Nom du produit"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                <div class="space-y-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    @change="(e) => handleImageSelect(e, 'new')"
+                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer"
+                  />
+                  <input
+                    v-model="store.newProduct.imageUrl"
+                    type="text"
+                    required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500"
+                    placeholder="URL de l'image..."
                   />
                 </div>
               </div>
-            </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-coins mr-1 text-orange-500"></i>
-                Prix (gold)
-              </label>
-              <input 
-                v-model.number="store.newProduct.price" 
-                type="number" 
-                required 
-                step="0.01"
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                placeholder="0.00"
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Prix (gold)</label>
+                <input 
+                  v-model.number="store.newProduct.price" 
+                  type="number" 
+                  required 
+                  step="0.01"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="0.00"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Stock</label>
+                <input 
+                  v-model.number="store.newProduct.stock" 
+                  type="number" 
+                  required 
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="0"
+                >
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea 
+                  v-model="store.newProduct.description" 
+                  rows="3" 
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="Description du produit..."
+                ></textarea>
+              </div>
+            </div>
+            <div class="mt-6 flex justify-end gap-3">
+              <button 
+                type="submit" 
+                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center"
               >
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-boxes mr-1 text-orange-500"></i>
-                Stock
-              </label>
-              <input 
-                v-model.number="store.newProduct.stock" 
-                type="number" 
-                required 
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                placeholder="0"
+                <i class="fas fa-check mr-2"></i> Ajouter
+              </button>
+              <button 
+                type="button"
+                @click="cancelAddProduct" 
+                class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2.5 px-6 rounded-lg transition-colors flex items-center"
               >
+                <i class="fas fa-times mr-2"></i> Annuler
+              </button>
             </div>
-            
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-map-marker-alt mr-1 text-orange-500"></i>
-                Localisation
-              </label>
-              <select 
-                required 
-                v-model="store.newProduct.locationId" 
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white cursor-pointer"
-              >
-                <option value="" disabled selected>Sélectionner une localisation</option>
-                <option v-for="location in getLocationsForPrestataire()" :key="location.id" :value="location.id">
-                  {{ location.name }}
-                </option>
-              </select>
-            </div>
-
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-align-left mr-1 text-orange-500"></i>
-                Description
-              </label>
-              <textarea 
-                v-model="store.newProduct.description" 
-                rows="3" 
-                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                placeholder="Description du produit..."
-              ></textarea>
-            </div>
-          </div>
-          <div class="mt-6 flex justify-end gap-3">
-            <button 
-              type="submit" 
-              class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center"
-            >
-              <i class="fas fa-check mr-2"></i>
-              Ajouter le produit
-            </button>
-            <button 
-              @click="showForm = false" 
-              class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2.5 px-6 rounded-lg transition-colors flex items-center"
-            >
-              <i class="fas fa-times mr-2"></i>
-              Annuler
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Liste des produits par location -->
-      <div v-for="location in prestataireLocations" :key="location.id" class="mb-10">
-        <div class="bg-orange-50 border-l-4 border-orange-500 rounded-lg p-4 mb-4">
-          <h2 class="text-2xl font-bold text-gray-900 flex items-center">
-            <i class="fas fa-map-marker-alt mr-3 text-orange-500"></i>
-            {{ location.name }}
-          </h2>
-          <p class="text-sm text-gray-600 mt-1">
-            {{ productsByLocation(location.id).length }} 
-            {{ productsByLocation(location.id).length > 1 ? 'produits' : 'produit' }} 
-            dans cette localisation
-          </p>
+          </form>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
@@ -334,15 +292,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
-import { productService } from '@/services/productService'
+
 import { locationsMock } from '@/mocks/locations'
 
 const authStore = useAuthStore()
 const store = useProductStore()
-const showForm = ref(false)
+const route = useRoute()
+const addingProductLocationId = ref<number | null>(null)
+
+onMounted(() => {
+  if (route.query.action === 'add' && route.query.locationId) {
+    const locId = Number(route.query.locationId)
+    addingProductLocationId.value = locId
+    store.newProduct.locationId = locId
+  }
+})
 
 // Fonction réutilisable pour convertir un fichier en data URL
 const handleImageSelect = (event: Event, targetField: 'new' | 'edit') => {
@@ -363,7 +331,7 @@ const handleImageSelect = (event: Event, targetField: 'new' | 'edit') => {
 
 // Liste des locations du prestataire connecté
 const prestataireLocations = computed(() =>
-  locationsMock.filter(location => location.userId === authStore.user?.id)
+  locationsMock.filter(location => location.id_prestataire === authStore.user?.id)
 )
 
 // Liste des produits pour une location donnée
@@ -371,12 +339,14 @@ function productsByLocation(locationId: number) {
   return store.products.filter(product => product.locationId === locationId)
 }
 
-function addProduct(locationId?: number) {
-  store.addProductForLocation( locationId || 0)
+function startAddProduct(locationId: number) {
+  addingProductLocationId.value = locationId
+  store.newProduct.locationId = locationId
 }
 
-function getLocationsForPrestataire() {
-  return locationsMock.filter(location => location.userId === authStore.user?.id)
+function cancelAddProduct() {
+  addingProductLocationId.value = null
+  store.resetNewProduct()
 }
 </script>
 

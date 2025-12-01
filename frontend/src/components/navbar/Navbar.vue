@@ -12,6 +12,7 @@ const showDropdown = ref(false);
 const isScrolled = ref(false);
 
 // Check if we're on the home page
+const route = useRoute();
 const isHomePage = computed(() => route.path === '/');
 
 const toggleDropdown = () => {

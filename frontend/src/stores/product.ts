@@ -74,6 +74,14 @@ export const useProductStore = defineStore('product', {
     addProductForLocation(idProvider: number) {
       productService.createProductForLocation(idProvider, this.newProduct)
       this.newProduct = productService.defaultProduct()
+    },
+
+    resetNewProduct() {
+      this.newProduct = productService.defaultProduct()
+    },
+    
+    defaultProduct() {
+        return productService.defaultProduct()
     }
   },
 

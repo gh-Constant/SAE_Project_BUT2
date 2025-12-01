@@ -65,14 +65,9 @@
         </div>
       </div>
 
-      <div class="flex justify-between">
-        <button
-          @click="viewBoutique"
-          class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
-        >
-          <i class="fas fa-store mr-2"></i>
-          Voir les produits
-        </button>
+      <!-- Shop Section -->
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+        <ShopSection :locationId="location.id" :isOwner="isOwner" />
       </div>
 
       <div class="flex gap-3 justify-end">
@@ -91,17 +86,16 @@
  */
 
 import { defineProps, defineEmits, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import BlogSection from './BlogSection.vue';
+import ShopSection from './ShopSection.vue';
 
 interface Props {
   location: LocationMock;
 }
 
 const props = defineProps<Props>();
-const router = useRouter();
 
 defineEmits<{
   close: [];
@@ -135,12 +129,4 @@ const viewProfile = () => {
   console.log('Affichage du profil de:', prestataire.value?.firstname);
 };
 
-const viewBoutique = () => {
-  // Rediriger vers la boutique de cette location
-  if (props.location.id) {
-    router.push({ name: 'boutique-location', params: { locationId: props.location.id } });
-  } else {
-    router.push({ name: 'boutique' });
-  }
-};
 </script>
