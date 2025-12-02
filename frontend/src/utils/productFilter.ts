@@ -23,10 +23,10 @@ export function filterAndSortProducts(products: ProductStoreMock[], options: Pro
 
   // Filtre par prix
   if (options.priceMin !== null && options.priceMin !== undefined) {
-    filtered = filtered.filter((p) => p.price >= options.priceMin!)
+    filtered = filtered.filter((p) => p.price >= options.priceMin)
   }
   if (options.priceMax !== null && options.priceMax !== undefined) {
-    filtered = filtered.filter((p) => p.price <= options.priceMax!)
+    filtered = filtered.filter((p) => p.price <= options.priceMax)
   }
 
   // Filtre par stock
