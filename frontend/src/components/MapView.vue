@@ -23,21 +23,30 @@
   - Le système de widgets est intégré via callback dans le service
 -->
 <template>
-  <div>
+  <div class="relative w-full my-12">
     <!-- Conteneur de la carte Leaflet -->
-    <div id="map" class="h-[40rem] md:h-[50rem] w-full bg-parchment"></div>
+    <div id="map" tabindex="0" class="h-[35rem] md:h-[45rem] w-full bg-parchment outline-none rounded-lg"></div>
 
     <!-- Outils de développement (visible uniquement en mode dev) -->
-    <div v-if="isDev" class="mt-4 flex justify-center">
-      <button @click="showMarkerData = !showMarkerData" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
-        {{ showMarkerData ? 'Hide' : 'Show' }} Marker Data ({{ markerPositions.length }})
-      </button>
-    </div>
-
-    <!-- Données de débogage des marqueurs -->
-    <div v-if="isDev && showMarkerData && markerPositions.length > 0" class="mt-4 bg-gray-100 p-3 rounded text-xs font-mono max-h-48 overflow-y-auto">
-      <p class="font-semibold mb-1">Marker Positions JSON:</p>
-      <pre>{{ JSON.stringify(markerPositions, null, 2) }}</pre>
+    <div v-if="isDev" class="absolute top-4 right-4 z-[1000] flex flex-col items-end pointer-events-none gap-2">
+      <div class="flex gap-2 pointer-events-auto">
+        <button 
+          @click="isClickDebugActive = !isClickDebugActive" 
+          class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10"
+          :class="{ 'ring-2 ring-green-500 text-green-400': isClickDebugActive }"
+        >
+          {{ isClickDebugActive ? 'Click Debug ON' : 'Click Debug OFF' }}
+        </button>
+        <button @click="showMarkerData = !showMarkerData" class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10">
+          {{ showMarkerData ? 'Hide' : 'Show' }} JSON ({{ markerPositions.length }})
+        </button>
+      </div>
+      
+      <!-- Données de débogage des marqueurs -->
+      <div v-if="showMarkerData && markerPositions.length > 0" class="pointer-events-auto mt-2 bg-white/95 p-4 rounded-lg text-xs font-mono max-h-[20rem] overflow-y-auto shadow-xl backdrop-blur-md border border-gray-200 max-w-xs">
+        <p class="font-bold mb-2 text-gray-800 border-b pb-1">Marker Positions JSON</p>
+        <pre class="text-gray-600 leading-relaxed">{{ JSON.stringify(markerPositions, null, 2) }}</pre>
+      </div>
     </div>
 
     <!-- Système de widgets superposé -->
@@ -79,6 +88,7 @@ let map: L.Map;
 let markers: L.Marker[] = [];
 const markerPositions = ref<number[][]>([]);
 const showMarkerData = ref(false);
+const isClickDebugActive = ref(false);
 const selectedLocation = ref<LocationMock | null>(null);
 const isDev = import.meta.env.DEV;
 
@@ -133,13 +143,15 @@ function initializeMap() {
 
   map = L.map('map', {
     crs: L.CRS.Simple,
-    minZoom: -2,
+    minZoom: -2.3,
     maxZoom: 4,
     zoomDelta: 0.5,
-    wheelDebounceTime: 100,
-    wheelPxPerZoomLevel: 120,
+    zoomSnap: 0.1,
+    wheelDebounceTime: 40,
+    wheelPxPerZoomLevel: 60,
     zoomControl: false,
-    attributionControl: false
+    attributionControl: false,
+    scrollWheelZoom: false
   }).setView([250, 250], 0);
 
   const imageUrl = './maps/75shrinkcompressed.png';
@@ -148,6 +160,16 @@ function initializeMap() {
   const imageBounds: L.LatLngBoundsExpression = [[0, 0], [imageHeight, imageWidth]];
   L.imageOverlay(imageUrl, imageBounds).addTo(map);
   map.fitBounds(imageBounds);
+
+  // Enable scroll zoom only when focused
+  map.on('focus', () => {
+    map.scrollWheelZoom.enable();
+  });
+
+  map.on('blur', () => {
+    map.scrollWheelZoom.disable();
+    map.fitBounds(imageBounds);
+  });
 }
 
 /**
@@ -189,8 +211,18 @@ onMounted(async () => {
   initializeMap();
   await addFilteredLocationsToMap();
 
-  if (import.meta.env.DEV) {
+  await addFilteredLocationsToMap();
+});
+
+watch(isClickDebugActive, (newValue) => {
+  if (!map) return;
+  
+  if (newValue) {
     map.on('click', addClickMarker);
+    map.getContainer().style.cursor = 'crosshair';
+  } else {
+    map.off('click', addClickMarker);
+    map.getContainer().style.cursor = '';
   }
 });
 
