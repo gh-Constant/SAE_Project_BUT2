@@ -7,7 +7,7 @@ export interface ProductStoreMock {
   name: string;
   stock: number;
   locationId: number;
-  description: string;
+  description?: string;
   imageUrl: string;
   price: number;
 }
@@ -17,7 +17,7 @@ export interface ProductStoreMock {
 const products: ProductStoreMock[] = []
 for (const product of PRODUCTS) {
   // Trouver la première location du prestataire pour ce produit
-  const prestataireLocations = locationsMock.filter(loc => loc.userId === product.id_prestataire)
+  const prestataireLocations = locationsMock.filter(loc => loc.id_prestataire === product.id_prestataire)
   const locationId = prestataireLocations.length > 0 ? prestataireLocations[0].id : 0
   
   const productCopie: ProductStoreMock = {
@@ -167,7 +167,7 @@ export const productService = {
     return products.map(product => {
       // Trouver le prestataire propriétaire de la location
       const location = locationsMock.find(loc => loc.id === product.locationId)
-      const id_prestataire = location?.userId || 0
+      const id_prestataire = location?.id_prestataire || 0
       
       return {
         id: product.id,

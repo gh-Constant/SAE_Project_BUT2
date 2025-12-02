@@ -18,7 +18,7 @@ export const useProductStore = defineStore('product', {
         name: product.name,
         stock: product.stock,
         locationId: product.locationId,
-        description: product.description,
+        description: product.description ?? '',
         imageUrl: product.imageUrl,
         price: product.price
       }

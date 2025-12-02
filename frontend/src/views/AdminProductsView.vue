@@ -110,7 +110,7 @@ const store = useProductStore()
 function getLocationOwner(locationId: number): string | null {
   const location = locationsMock.find(location => location.id === locationId)
   if (location) {
-    const user = USERS.find(user => user.id === location.userId)
+    const user = USERS.find(user => user.id === location.id_prestataire)
     if (user) {
       return `${user.firstname} ${user.lastname}`
     }
