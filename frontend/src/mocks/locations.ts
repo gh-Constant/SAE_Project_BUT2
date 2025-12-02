@@ -491,20 +491,6 @@ export const LOCATIONS: LocationMock[] = [
     banner_image: 'images/locations/buyable.png'
   },
   {
-    id: 36,
-    static_code: 'PRESTA_STALL_27',
-    name: 'Merchant Stall #27',
-    description:
-      'Located at a busy crossroads, perfect for catching the attention of passersby.',
-    price: 305,
-    purchased: false,
-    id_prestataire: undefined,
-    id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
-    position: [0, 1],
-    icon_name: 'prestataire',
-    banner_image: 'images/locations/buyable.png'
-  },
-  {
     id: 37,
     static_code: 'PRESTA_STALL_28',
     name: 'Merchant Stall #28',
