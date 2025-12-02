@@ -19,7 +19,7 @@
         <!-- Animated Lion Logo -->
         <div class="animate-slide-in-left">
           <img 
-            src="/images/nobgicon.png" 
+            src="/images/transparent_logo.png" 
             alt="Kingdom Logo" 
             class="w-full max-w-[800px] h-auto object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
           />
@@ -132,24 +132,14 @@
 
     <!-- 4. MAP SECTION (Parchment) -->
     <section id="map-section" class="bg-parchment py-20 md:py-32 relative">
-      <div class="max-w-6xl mx-auto px-4">
+      <div class="w-full max-w-[95%] mx-auto px-4">
         <div class="text-center mb-12">
           <h2 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">{{ t('map.title') }}</h2>
           <p class="text-xl font-citation text-stone-grey">{{ t('map.instructions') }}</p>
         </div>
         
         <!-- Framed Map Container -->
-        <div class="relative p-4 bg-dark-wood rounded-lg shadow-2xl">
-          <!-- Corner Decorations (CSS Borders) -->
-          <div class="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-antique-bronze rounded-tl-lg z-10"></div>
-          <div class="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-antique-bronze rounded-tr-lg z-10"></div>
-          <div class="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-antique-bronze rounded-bl-lg z-10"></div>
-          <div class="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-antique-bronze rounded-br-lg z-10"></div>
-          
-          <div class="bg-parchment p-1 rounded border border-white/10">
-            <MapView />
-          </div>
-        </div>
+          <MapView />
       </div>
     </section>
 

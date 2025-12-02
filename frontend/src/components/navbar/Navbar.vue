@@ -94,17 +94,6 @@ const profileRoute = computed(() => {
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
-        <router-link
-          to="/"
-          class="flex-shrink-0 flex items-center cursor-pointer"
-        >
-          <img 
-            src="/images/nobgicon.png" 
-            alt="MedievalEvent Logo" 
-            class="h-16 w-auto transition-transform hover:scale-105"
-          >
-        </router-link>
-        
         <!-- Boutons de switch visibles uniquement en mode mock -->
         <div v-if="isMockMode" class="flex gap-2">
           <button
@@ -120,7 +109,7 @@ const profileRoute = computed(() => {
             Switch to Prestataire
           </button>
           <button
-            class="px-4 py-2 text-orange-600 hover:text-orange-700 rounded-full border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 font-semibold text-sm"
+            class="px-4 py-2 text-white/90 hover:text-white rounded-lg backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 font-semibold text-sm shadow-sm hover:shadow-md"
             @click="auth.login('prestataire2@medieval.com', 'password123')"
           >
             Switch to Prestataire 2

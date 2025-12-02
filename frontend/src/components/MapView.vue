@@ -25,7 +25,7 @@
 <template>
   <div>
     <!-- Conteneur de la carte Leaflet -->
-    <div id="map" class="h-[28rem] md:h-[40rem] w-full border rounded-lg shadow bg-gray-200"></div>
+    <div id="map" class="h-[40rem] md:h-[50rem] w-full bg-parchment"></div>
 
     <!-- Outils de développement (visible uniquement en mode dev) -->
     <div v-if="isDev" class="mt-4 flex justify-center">
@@ -137,7 +137,9 @@ function initializeMap() {
     maxZoom: 4,
     zoomDelta: 0.5,
     wheelDebounceTime: 100,
-    wheelPxPerZoomLevel: 120
+    wheelPxPerZoomLevel: 120,
+    zoomControl: false,
+    attributionControl: false
   }).setView([250, 250], 0);
 
   const imageUrl = './maps/75shrinkcompressed.png';
@@ -198,4 +200,7 @@ watch(user, async () => {
 </script>
 
 <style scoped>
+#map {
+  background-color: var(--color-parchment);
+}
 </style>

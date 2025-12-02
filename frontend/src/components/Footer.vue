@@ -8,7 +8,7 @@ import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="flex items-center mb-4 md:mb-0">
           <img 
-            src="/images/nobgicon.png" 
+            src="/images/transparent_logo.png" 
             alt="MedievalEvent Logo" 
             class="h-12 w-auto mr-3"
           >
