@@ -10,7 +10,7 @@ const uiStore = useUIStore()
 const route = useRoute()
 
 const isLoginOrRegisterPage = computed(() => {
-  return route.path === '/login' || route.path === '/register' || route.path.startsWith('/prestataire')
+  return route.path === '/login' || route.path === '/register' || route.path.startsWith('/prestataire') || route.path.startsWith('/admin')
 })
 </script>
 
