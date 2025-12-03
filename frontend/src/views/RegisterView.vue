@@ -190,7 +190,7 @@ const handleRegister = async () => {
         <!-- Logo -->
         <div class="mb-8 text-center">
           <img
-            src="/images/Logo1.png"
+            src="/images/transparent_logo.png"
             alt="MedievalEvent Logo"
             class="h-39 w-auto mx-auto mb-6"
           >
