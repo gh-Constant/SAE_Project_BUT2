@@ -70,6 +70,7 @@
               <!-- Placeholder for an image -->
               <div class="w-full h-full flex items-center justify-center bg-black/5">
                 <span class="font-citation text-4xl text-antique-bronze/50">Kingdom Visual</span>
+                <img src="/images/activite_arc_compressed.png" alt="Kingdom Visual" class="absolute inset-0 w-full h-full object-cover" />
               </div>
             </div>
           </div>
