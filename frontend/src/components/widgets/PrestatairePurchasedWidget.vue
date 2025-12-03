@@ -27,52 +27,64 @@
       <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
-    <div class="p-5">
-      <h2 class="text-2xl font-bold mb-3 text-gray-800">{{ location.name }}</h2>
-      <p class="text-base leading-relaxed text-gray-600 mb-5">{{ location.description }}</p>
+    <div class="p-6">
+      <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
+      <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
 
       <!-- Prestataire Profile Section -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5" v-if="prestataire">
-        <div class="flex items-center mb-3">
-          <img :src="prestataire.avatar_url" :alt="prestataire.firstname" class="w-12 h-12 rounded-full mr-3 border-2 border-gray-300" />
+      <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm" v-if="prestataire">
+        <div class="flex items-center mb-4">
+          <div class="relative">
+            <img :src="prestataire.avatar_url" :alt="prestataire.firstname" class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover" />
+            <div class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white">
+              Propriétaire
+            </div>
+          </div>
           <div class="flex-1">
-            <h3 class="text-lg font-semibold text-gray-800">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
-            <p class="text-sm text-gray-600">{{ prestataireTypeName }}</p>
+            <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
+            <p class="text-sm font-body text-stone-grey italic">{{ prestataireTypeName }}</p>
           </div>
         </div>
-        <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors" @click="viewProfile">
-          View Profile
+        <button 
+          class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2 px-4 rounded shadow-md transition-all duration-200 flex items-center justify-center gap-2" 
+          @click="viewProfile"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+          Voir le profil
         </button>
       </div>
 
       <!-- Blogs Section -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <BlogSection :locationId="location.id" :isOwner="isOwner" />
       </div>
 
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6 font-body">
         <div class="flex justify-between mb-2">
-          <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.static_code }}</span>
+          <span class="font-bold text-iron-black">Emplacement:</span>
+          <span class="text-stone-grey">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
-          <span class="font-semibold text-gray-700">Status:</span>
-          <span class="text-orange-600 font-semibold">Purchased</span>
+          <span class="font-bold text-iron-black">Statut:</span>
+          <span class="text-antique-bronze font-bold">Acquis</span>
         </div>
         <div class="flex justify-between">
-          <span class="font-semibold text-gray-700">Price:</span>
-          <span class="text-orange-600 font-semibold">{{ location.price }} gold</span>
+          <span class="font-bold text-iron-black">Valeur:</span>
+          <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} Gold</span>
         </div>
       </div>
 
       <!-- Shop Section -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <ShopSection :locationId="location.id" :isOwner="isOwner" />
       </div>
 
       <div class="flex gap-3 justify-end">
-        <button class="px-5 py-2.5 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors" @click="$emit('close')">
-          Close
+        <button 
+          class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
+          @click="$emit('close')"
+        >
+          Fermer
         </button>
       </div>
     </div>
@@ -88,6 +100,7 @@
 import { defineProps, defineEmits, computed } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
+import { useAuthStore } from '@/stores/auth';
 import BlogSection from './BlogSection.vue';
 import ShopSection from './ShopSection.vue';
 
@@ -118,10 +131,9 @@ const prestataireTypeName = computed(() => {
 
 // Check if current user is the owner
 const isOwner = computed(() => {
-  // Already done in the backend but better to also do it in the frontend
-  // TODO: Replace with actual auth check
-  // For now, assuming user is owner if location has a prestataire
-  return props.location.id_prestataire !== null;
+  const authStore = useAuthStore();
+  if (!authStore.user) return false;
+  return props.location.id_prestataire === authStore.user.id;
 });
 
 const viewProfile = () => {

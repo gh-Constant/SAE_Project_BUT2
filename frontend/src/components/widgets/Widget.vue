@@ -27,19 +27,18 @@
     @click="closeWidget"
   >
     <div
-      class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-hidden relative border border-gray-200"
+      class="bg-parchment rounded-lg shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden relative border-4 border-double border-antique-bronze"
       @click.stop
     >
-      <!-- Decorative gradient border -->
-      <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-0.5 -z-10">
-        <div class="bg-white rounded-2xl h-full w-full"></div>
-      </div>
+      <!-- Decorative corner elements -->
+      <div class="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-antique-bronze/40 rounded-tl-lg pointer-events-none"></div>
+      <div class="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-antique-bronze/40 rounded-tr-lg pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-antique-bronze/40 rounded-bl-lg pointer-events-none"></div>
+      <div class="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-antique-bronze/40 rounded-br-lg pointer-events-none"></div>
 
-      <!-- Inner glow effect -->
-      <div class="absolute inset-1 rounded-xl bg-gradient-to-br from-white via-blue-50 to-purple-50 opacity-50 -z-20"></div>
       <!-- Close Button -->
       <button
-        class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-all duration-200 z-10 hover:scale-110 active:scale-95"
+        class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-antique-bronze/10 hover:bg-antique-bronze text-antique-bronze hover:text-white transition-all duration-200 z-10"
         @click="closeWidget"
         aria-label="Close"
       >
@@ -49,7 +48,7 @@
       </button>
 
       <!-- Scrollable Content -->
-      <div class="overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+      <div class="overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-antique-bronze/50 scrollbar-track-transparent font-body">
         <!-- Story Location Widget -->
         <StoryWidget
           v-if="location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID"
@@ -91,8 +90,9 @@
  * Gère la logique d'affichage conditionnel des différents types de widgets
  */
 
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, onMounted, onUnmounted } from 'vue';
 import { LocationMock } from '@/mocks/locations';
+import { useUIStore } from '@/stores/ui';
 import StoryWidget from './StoryWidget.vue';
 import PrestatairePurchasedWidget from './PrestatairePurchasedWidget.vue';
 import PrestataireAvailableWidget from './PrestataireAvailableWidget.vue';
@@ -116,6 +116,16 @@ const closeWidget = () => {
 const handlePurchased = (location: LocationMock) => {
   emit('purchased', location);
 };
+
+const uiStore = useUIStore();
+
+onMounted(() => {
+  uiStore.setWidgetOpen(true);
+});
+
+onUnmounted(() => {
+  uiStore.setWidgetOpen(false);
+});
 </script>
 
 <style scoped>
@@ -128,11 +138,11 @@ const handlePurchased = (location: LocationMock) => {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #d1d5db;
+  background-color: rgba(120, 80, 40, 0.4);
   border-radius: 4px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: #9ca3af;
+  background-color: rgba(120, 80, 40, 0.7);
 }
 </style>

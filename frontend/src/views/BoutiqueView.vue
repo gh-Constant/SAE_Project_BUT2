@@ -10,17 +10,18 @@
   - Utilise ProductCard pour afficher chaque produit
 -->
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-parchment py-8 font-body text-stone-grey">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Vue Liste des Boutiques (si pas de locationId) -->
       <div v-if="!locationIdFromRoute">
         <!-- En-tête -->
-        <div class="mb-8">
-          <h1 class="text-4xl font-bold text-gray-900 mb-2">
-            <i class="fas fa-store mr-3 text-orange-500"></i>
+        <div class="mb-8 text-center">
+          <h1 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">
+            <i class="fas fa-store mr-3 text-antique-bronze"></i>
             Nos Boutiques
           </h1>
-          <p class="text-gray-600">Découvrez nos boutiques et leurs produits artisanaux</p>
+          <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-6"></div>
+          <p class="text-lg text-stone-grey">Découvrez nos échoppes et leurs marchandises artisanales</p>
         </div>
 
         <!-- Grille de boutiques -->
@@ -28,57 +29,58 @@
           <div
             v-for="location in availableLocations"
             :key="location.id"
-            class="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden cursor-pointer transform hover:scale-[1.02]"
+            class="bg-white/60 rounded-sm shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 border-2 border-antique-bronze/20 hover:border-antique-bronze/60"
             @click="goToLocation(location.id)"
           >
             <!-- Image de la boutique -->
-            <div class="h-48 bg-gray-200 overflow-hidden">
+            <div class="h-48 bg-antique-bronze/10 overflow-hidden relative">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
               <img
                 v-if="location.banner_image"
                 :src="location.banner_image"
                 :alt="location.name"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
               />
-              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200">
-                <i class="fas fa-store text-6xl text-orange-400"></i>
+              <div v-else class="w-full h-full flex items-center justify-center">
+                <i class="fas fa-store text-6xl text-antique-bronze/40"></i>
               </div>
             </div>
 
             <!-- Contenu -->
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">
+            <div class="p-6 relative">
+              <h3 class="text-2xl font-medieval font-bold text-iron-black mb-2">
                 {{ location.name }}
               </h3>
-              <p class="text-sm text-gray-600 mb-2 flex items-center">
-                <i class="fas fa-user-tie mr-2 text-orange-500"></i>
+              <p class="text-sm text-stone-grey mb-3 flex items-center font-bold">
+                <i class="fas fa-user-tie mr-2 text-antique-bronze"></i>
                 {{ getPrestataireNameForLocation(location.id) }}
               </p>
-              <p class="text-sm text-gray-500 mb-4 line-clamp-2 min-h-[2.5rem]">
+              <p class="text-sm text-stone-grey mb-5 line-clamp-2 min-h-[2.5rem] italic">
                 {{ location.description }}
               </p>
-              <div class="flex items-center justify-between pt-4 border-t border-gray-200">
-                <span class="text-sm text-gray-600 flex items-center">
-                  <i class="fas fa-boxes mr-2 text-orange-500"></i>
-                  <span class="font-semibold">{{ getProductCountForLocation(location.id) }}</span>
+              <div class="flex items-center justify-between pt-4 border-t border-antique-bronze/20">
+                <span class="text-sm text-stone-grey flex items-center font-bold">
+                  <i class="fas fa-boxes mr-2 text-antique-bronze"></i>
+                  <span class="font-medieval text-lg mr-1">{{ getProductCountForLocation(location.id) }}</span>
                   {{ getProductCountForLocation(location.id) > 1 ? 'produits' : 'produit' }}
                 </span>
-                <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center font-semibold text-sm">
-                  Voir les produits
+                <span class="text-antique-bronze font-medieval font-bold flex items-center group-hover:translate-x-1 transition-transform">
+                  Visiter
                   <i class="fas fa-arrow-right ml-2"></i>
-                </button>
+                </span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Message si aucune boutique -->
-        <div v-else class="text-center py-16 bg-white rounded-lg shadow-sm border border-gray-200">
-          <i class="fas fa-store text-6xl text-gray-300 mb-4"></i>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">
-            Aucune boutique disponible
+        <div v-else class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
+          <i class="fas fa-store-slash text-6xl text-antique-bronze/30 mb-4"></i>
+          <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
+            Aucune échoppe ouverte
           </h3>
-          <p class="text-gray-600 mb-6">
-            Les boutiques seront bientôt disponibles.
+          <p class="text-stone-grey mb-6">
+            Les marchands préparent leurs étals. Revenez bientôt !
           </p>
         </div>
       </div>
@@ -89,61 +91,68 @@
         <div class="mb-8">
           <button
             @click="goBackToBoutiques"
-            class="mb-4 inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold transition-colors"
+            class="mb-6 inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group"
           >
-            <i class="fas fa-arrow-left mr-2"></i>
-            Retour aux boutiques
+            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+            Retour aux échoppes
           </button>
-          <h1 class="text-4xl font-bold text-gray-900 mb-2">
-            <i class="fas fa-store mr-3 text-orange-500"></i>
-            {{ getLocationName(locationIdFromRoute) }}
-          </h1>
-          <p class="text-gray-600">
-            {{ getPrestataireNameForLocation(locationIdFromRoute) }} • {{ getProductCountForLocation(locationIdFromRoute) }} produit(s)
-          </p>
+          
+          <div class="bg-white/60 p-6 rounded-sm border-2 border-antique-bronze/20 shadow-sm">
+            <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center">
+              <i class="fas fa-store mr-4 text-antique-bronze"></i>
+              {{ getLocationName(locationIdFromRoute) }}
+            </h1>
+            <p class="text-stone-grey font-bold flex items-center mt-2">
+              <i class="fas fa-user-tie mr-2 text-antique-bronze"></i>
+              {{ getPrestataireNameForLocation(locationIdFromRoute) }} 
+              <span class="mx-3 text-antique-bronze/40">|</span>
+              <i class="fas fa-boxes mr-2 text-antique-bronze"></i>
+              {{ getProductCountForLocation(locationIdFromRoute) }} produit(s)
+            </p>
+          </div>
         </div>
 
         <!-- Barre de recherche et filtres -->
-        <div class="mb-6 space-y-4">
+        <div class="mb-8 space-y-4">
         <!-- Ligne 1 : Recherche et Tri -->
-        <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+        <div class="bg-white/60 rounded-sm shadow-sm p-4 border border-antique-bronze/20">
           <div class="flex flex-col md:flex-row gap-4">
             <!-- Champ de recherche -->
             <div class="flex-1">
               <label for="search" class="sr-only">Rechercher un produit</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i class="fas fa-search text-gray-400"></i>
+                  <i class="fas fa-search text-antique-bronze/50"></i>
                 </div>
                 <input
                   id="search"
                   v-model="searchQuery"
                   type="text"
-                  placeholder="Rechercher un produit..."
-                  class="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm"
+                  placeholder="Rechercher une marchandise..."
+                  class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                 />
                 <button
                   v-if="searchQuery"
                   @click="searchQuery = ''"
-                  class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-orange-600 transition-colors"
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-antique-bronze transition-colors"
                   title="Effacer la recherche"
                 >
-                  <i class="fas fa-times text-gray-400"></i>
+                  <i class="fas fa-times text-stone-grey/50"></i>
                 </button>
               </div>
             </div>
 
             <!-- Tri -->
-            <div class="md:w-48">
+            <div class="md:w-56">
               <label for="sortBy" class="sr-only">Trier par</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i class="fas fa-sort text-gray-400"></i>
+                  <i class="fas fa-sort text-antique-bronze/50"></i>
                 </div>
                 <select
                   id="sortBy"
                   v-model="sortBy"
-                  class="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white cursor-pointer"
+                  class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
                 >
                   <option value="name-asc">Nom (A-Z)</option>
                   <option value="name-desc">Nom (Z-A)</option>
@@ -153,7 +162,7 @@
                   <option value="stock-asc">Stock (Faible)</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <i class="fas fa-chevron-down text-gray-400"></i>
+                  <i class="fas fa-chevron-down text-antique-bronze/50"></i>
                 </div>
               </div>
             </div>
@@ -161,14 +170,14 @@
         </div>
 
         <!-- Ligne 2 : Filtres avancés -->
-        <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+        <div class="bg-white/60 rounded-sm shadow-sm p-4 border border-antique-bronze/20">
           <div class="flex flex-col lg:flex-row gap-4">
 
             <!-- Filtre par prix -->
             <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-coins mr-1 text-orange-500"></i>
-                Prix (gold)
+              <label class="block text-sm font-medieval font-bold text-iron-black mb-2">
+                <i class="fas fa-coins mr-1 text-antique-bronze"></i>
+                Prix (Gold)
               </label>
               <div class="flex items-center gap-2">
                 <input
@@ -177,42 +186,42 @@
                   min="0"
                   step="0.01"
                   placeholder="Min"
-                  class="flex-1 py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm"
+                  class="flex-1 py-2.5 px-3 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                 />
-                <span class="text-gray-500">-</span>
+                <span class="text-stone-grey font-bold">-</span>
                 <input
                   v-model.number="priceMax"
                   type="number"
                   min="0"
                   step="0.01"
                   placeholder="Max"
-                  class="flex-1 py-2.5 px-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm"
+                  class="flex-1 py-2.5 px-3 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                 />
               </div>
             </div>
 
             <!-- Filtre par stock -->
             <div class="flex-1">
-              <label for="stockFilter" class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-box mr-1 text-orange-500"></i>
+              <label for="stockFilter" class="block text-sm font-medieval font-bold text-iron-black mb-2">
+                <i class="fas fa-box mr-1 text-antique-bronze"></i>
                 Disponibilité
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i class="fas fa-check-circle text-gray-400"></i>
+                  <i class="fas fa-check-circle text-antique-bronze/50"></i>
                 </div>
                 <select
                   id="stockFilter"
                   v-model="stockFilter"
-                  class="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm appearance-none bg-white cursor-pointer"
+                  class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
                 >
-                  <option value="all">Tous les produits</option>
+                  <option value="all">Toutes les marchandises</option>
                   <option value="in-stock">En stock</option>
                   <option value="low-stock">Stock limité (&lt; 5)</option>
                   <option value="out-of-stock">Rupture de stock</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <i class="fas fa-chevron-down text-gray-400"></i>
+                  <i class="fas fa-chevron-down text-antique-bronze/50"></i>
                 </div>
               </div>
             </div>
@@ -225,25 +234,25 @@
           <div v-if="hasActiveFilters" class="flex flex-wrap gap-2">
             <span
               v-if="searchQuery"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800"
+              class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-antique-bronze/10 text-antique-bronze border border-antique-bronze/20"
             >
               Recherche: "{{ searchQuery }}"
-              <button @click="searchQuery = ''" class="ml-2 hover:text-orange-900">
+              <button @click="searchQuery = ''" class="ml-2 hover:text-dark-wood">
                 <i class="fas fa-times"></i>
               </button>
             </span>
             <span
               v-if="priceMin || priceMax"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+              class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-green-100/50 text-green-800 border border-green-200"
             >
-              Prix: {{ priceMin || 0 }} - {{ priceMax || '∞' }} gold
+              Prix: {{ priceMin || 0 }} - {{ priceMax || '∞' }} Gold
               <button @click="priceMin = null; priceMax = null" class="ml-2 hover:text-green-900">
                 <i class="fas fa-times"></i>
               </button>
             </span>
             <span
               v-if="stockFilter !== 'all'"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+              class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-purple-100/50 text-purple-800 border border-purple-200"
             >
               {{ getStockFilterLabel(stockFilter) }}
               <button @click="stockFilter = 'all'" class="ml-2 hover:text-purple-900">
@@ -252,7 +261,7 @@
             </span>
             <button
               @click="clearFilters"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+              class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-stone-200/50 text-stone-700 hover:bg-stone-300/50 transition-colors border border-stone-300"
             >
               <i class="fas fa-times-circle mr-1"></i>
               Tout effacer
@@ -260,10 +269,10 @@
           </div>
 
           <!-- Compteur de résultats -->
-          <div class="ml-auto text-sm text-gray-600">
-            <span class="font-semibold text-gray-900">{{ filteredProducts.length }}</span>
-            {{ filteredProducts.length > 1 ? 'produits trouvés' : 'produit trouvé' }}
-            <span v-if="hasActiveFilters" class="text-gray-500">
+          <div class="ml-auto text-sm text-stone-600 font-body">
+            <span class="font-bold text-iron-black">{{ filteredProducts.length }}</span>
+            {{ filteredProducts.length > 1 ? 'marchandises trouvées' : 'marchandise trouvée' }}
+            <span v-if="hasActiveFilters" class="text-stone-500">
               (sur {{ PRODUCTS.length }} au total)
             </span>
           </div>
@@ -282,43 +291,42 @@
       </div>
 
       <!-- Message si aucun produit -->
-      <div v-else class="text-center py-16 bg-white rounded-lg shadow-sm border border-gray-200">
+      <div v-else class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
         <div v-if="hasActiveFilters" class="max-w-md mx-auto">
-          <i class="fas fa-filter text-6xl text-orange-300 mb-4"></i>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">
-            Aucun produit ne correspond à vos critères
+          <i class="fas fa-filter text-6xl text-antique-bronze/30 mb-4"></i>
+          <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
+            Aucune marchandise ne correspond
           </h3>
-          <p class="text-gray-600 mb-6">
-            Essayez de modifier vos filtres ou votre recherche pour trouver d'autres produits.
+          <p class="text-stone-grey mb-6">
+            Essayez de modifier vos critères pour trouver d'autres trésors.
           </p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
+            <MedievalButton
               @click="clearFilters"
-              class="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg"
             >
               <i class="fas fa-redo mr-2"></i>
-              Réinitialiser tous les filtres
-            </button>
-            <button
+              Réinitialiser
+            </MedievalButton>
+            <MedievalButton
               @click="searchQuery = ''"
               v-if="searchQuery"
-              class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-colors"
+              variant="secondary"
             >
               <i class="fas fa-search-minus mr-2"></i>
               Effacer la recherche
-            </button>
+            </MedievalButton>
           </div>
         </div>
         <div v-else class="max-w-md mx-auto">
-          <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">
-            Aucun produit disponible
+          <i class="fas fa-box-open text-6xl text-antique-bronze/30 mb-4"></i>
+          <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
+            Échoppe vide
           </h3>
-          <p class="text-gray-600 mb-6">
-            La boutique est actuellement vide. Les produits seront bientôt disponibles.
+          <p class="text-stone-grey mb-6">
+            Le marchand n'a pas encore étalé ses marchandises.
           </p>
         </div>
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -328,11 +336,12 @@
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ProductMock } from '@/mocks/products'
-import { USERS, UserMock } from '@/mocks/users'
+import { USERS } from '@/mocks/users'
 import { LocationType } from '@/mocks/locationTypes'
 import { productService } from '@/services/productService'
-import { locationsMock, LocationMock } from '@/mocks/locations'
+import { locationsMock } from '@/mocks/locations'
 import ProductCard from '@/components/ProductCard.vue'
+import MedievalButton from '@/components/ui/MedievalButton.vue'
 
 const route = useRoute()
 const router = useRouter()

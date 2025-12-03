@@ -39,9 +39,14 @@ import { Role } from '@/mocks/users';
 export const routes = [
   {
     path: '/',
-    name: 'map',
+    name: 'home',
     component: () => import('../views/HomeView.vue'),
     // Retirer meta: { requiresAuth: true } pour rendre la page accessible sans connexion
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: () => import('../views/MapPageView.vue'),
   },
   {
     path: '/login',

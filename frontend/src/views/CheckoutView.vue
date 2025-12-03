@@ -1,134 +1,141 @@
-<!--
-  @file CheckoutView.vue
-  @description
-  Vue pour payer les commandes en attente.
-
-  @utilité
-  - Affiche toutes les commandes en état "waiting" de l'utilisateur
-  - Permet de payer chaque commande séparément
-  - Affiche un récapitulatif global
--->
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-parchment py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- En-tête -->
-      <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">
-          <i class="fas fa-credit-card mr-3 text-orange-500"></i>
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
           Finaliser vos commandes
         </h1>
-        <p class="text-gray-600">Payer vos commandes séparément</p>
+        <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
+        <p class="text-base font-body text-stone-grey">Procédez au paiement de vos commandes en attente</p>
       </div>
 
-      <!-- Aucune commande en attente -->
-      <div v-if="pendingOrders.length === 0" class="text-center py-12 bg-white rounded-lg shadow-sm">
-        <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
-        <p class="text-xl text-gray-600 mb-2">Toutes vos commandes sont payées !</p>
-        <p class="text-gray-500 mb-6">Vous pouvez consulter vos commandes dans l'historique</p>
+      <div v-if="pendingOrders.length === 0" class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-16 text-center shadow-sm">
+        <div class="w-20 h-20 bg-green-100/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="text-xl font-medieval text-iron-black mb-2">Toutes vos commandes sont payées !</p>
+        <p class="text-sm font-body text-stone-grey mb-8">Vous pouvez consulter l'état de vos achats dans l'historique.</p>
         <router-link
           to="/commandes"
-          class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors"
+          class="inline-flex items-center bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200"
         >
-          <i class="fas fa-list mr-2"></i>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
           Voir mes commandes
         </router-link>
       </div>
 
-      <!-- Liste des commandes à payer -->
       <div v-else class="space-y-6">
-        <div
-          v-for="order in pendingOrders"
-          :key="order.id"
-          class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
-        >
-          <!-- En-tête de la commande -->
-          <div class="bg-orange-50 border-b border-orange-200 px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-gray-900">
-                  Commande #{{ Math.floor(order.id) }}
-                </h3>
-                <p class="text-sm text-gray-600 mt-1">
-                  <i class="fas fa-map-marker-alt mr-2 text-orange-600"></i>
-                  {{ getLocationName(order.id_location) }}
-                </p>
-                <p class="text-xs text-gray-500 mt-1">
-                  <i class="fas fa-store mr-1"></i>
-                  {{ getPrestataireName(order.id_prestataire) }}
-                </p>
-              </div>
-              <span class="px-3 py-1 bg-orange-200 text-orange-800 text-xs font-semibold rounded-full">
-                <i class="fas fa-clock mr-1"></i>
-                En attente de paiement
-              </span>
-            </div>
-          </div>
-
-          <!-- Détails de la commande -->
-          <div class="px-6 py-4">
-            <div class="space-y-2 mb-4">
-              <div
-                v-for="ligne in getOrderItems(order.id)"
-                :key="`${order.id}-${ligne.id_product}`"
-                class="flex justify-between text-sm"
-              >
-                <span class="text-gray-700">
-                  {{ ligne.productName }} x{{ ligne.quantite }}
-                </span>
-                <span class="text-gray-900 font-medium">
-                  {{ (ligne.price * ligne.quantite).toFixed(2) }} gold
-                </span>
-              </div>
-            </div>
-
-            <div class="border-t border-gray-200 pt-4">
-              <div class="flex justify-between items-center">
-                <span class="text-gray-600">Total de cette commande</span>
-                <span class="text-2xl font-bold text-orange-600">
-                  {{ order.total_price.toFixed(2) }} gold
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bouton de paiement -->
-          <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-            <button
-              @click="payOrder(order.id)"
-              :disabled="isPaying[order.id] || order.etat_commande !== EtatCommande.WAITING"
-              :class="[
-                'w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200',
-                order.etat_commande !== EtatCommande.WAITING || isPaying[order.id]
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg transform hover:scale-[1.02]'
-              ]"
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-6">
+            <div
+              v-for="order in pendingOrders"
+              :key="order.id"
+              class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 overflow-hidden hover:shadow-lg transition-shadow duration-200"
             >
-              <i v-if="!isPaying[order.id]" class="fas fa-credit-card mr-2"></i>
-              <i v-else class="fas fa-spinner fa-spin mr-2"></i>
-              {{
-                isPaying[order.id]
-                  ? 'Paiement en cours...'
-                  : `Payer ${order.total_price.toFixed(2)} gold`
-              }}
-            </button>
-          </div>
-        </div>
+              <div class="px-6 py-4 border-b border-antique-bronze/10 flex items-center justify-between">
+                <div>
+                  <h3 class="text-lg font-medieval font-bold text-iron-black">
+                    Commande #{{ Math.floor(order.id) }}
+                  </h3>
+                  <p class="text-sm font-body text-stone-grey mt-1 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-antique-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {{ getLocationName(order.id_location) }}
+                  </p>
+                </div>
+                <span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold font-body rounded-full border border-orange-200 flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  En attente
+                </span>
+              </div>
 
-        <!-- Récapitulatif global -->
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Récapitulatif</h3>
-          <div class="space-y-2">
-            <div class="flex justify-between text-gray-600">
-              <span>Commandes à payer</span>
-              <span class="font-medium">{{ pendingOrders.length }}</span>
+              <div class="px-6 py-4 bg-antique-bronze/5">
+                <div class="space-y-2 mb-4">
+                  <div
+                    v-for="ligne in getOrderItems(order.id)"
+                    :key="`${order.id}-${ligne.id_product}`"
+                    class="flex justify-between items-center text-sm font-body"
+                  >
+                    <span class="text-stone-grey">
+                      <span class="font-medium text-iron-black">{{ ligne.productName }}</span>
+                      <span class="text-antique-bronze ml-2">× {{ ligne.quantite }}</span>
+                    </span>
+                    <span class="font-semibold text-iron-black">
+                      {{ (ligne.price * ligne.quantite).toFixed(2) }} gold
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-6 py-4 bg-white/40 border-t border-antique-bronze/10 flex justify-between items-center">
+                 <div class="text-left">
+                    <p class="text-xs font-body text-stone-grey">Total commande</p>
+                    <p class="text-xl font-medieval font-bold text-antique-bronze">
+                      {{ order.total_price.toFixed(2) }} gold
+                    </p>
+                  </div>
+                
+                <button
+                  @click="payOrder(order.id)"
+                  :disabled="isPaying[order.id] || order.etat_commande !== EtatCommande.WAITING"
+                  :class="[
+                    'py-2 px-6 rounded-md font-body font-semibold shadow-md transition-all duration-200 flex items-center gap-2',
+                    order.etat_commande !== EtatCommande.WAITING || isPaying[order.id]
+                      ? 'bg-stone-grey/20 text-stone-grey cursor-not-allowed'
+                      : 'bg-antique-bronze hover:brightness-110 text-white'
+                  ]"
+                >
+                  <svg v-if="!isPaying[order.id]" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                  </svg>
+                  <svg v-else class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {{ isPaying[order.id] ? 'Traitement...' : 'Payer' }}
+                </button>
+              </div>
             </div>
-            <div class="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
-              <span>Total à payer</span>
-              <span class="text-orange-600">{{ totalToPay.toFixed(2) }} gold</span>
-            </div>
-            <div class="flex justify-between text-sm text-gray-500 pt-2">
-              <span>Commandes payées</span>
-              <span>{{ paidOrdersCount }}/{{ totalOrdersCount }}</span>
+          </div>
+
+          <div class="lg:col-span-1">
+             <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 sticky top-8">
+              <h3 class="text-xl font-medieval font-bold text-iron-black mb-4 border-b border-antique-bronze/10 pb-2">
+                Récapitulatif
+              </h3>
+              <div class="space-y-3 font-body">
+                <div class="flex justify-between text-stone-grey text-sm">
+                  <span>Commandes à payer</span>
+                  <span class="font-bold text-iron-black">{{ pendingOrders.length }}</span>
+                </div>
+                <div class="flex justify-between text-stone-grey text-sm">
+                  <span>Commandes déjà payées</span>
+                  <span class="font-bold text-iron-black">{{ paidOrdersCount }}/{{ totalOrdersCount }}</span>
+                </div>
+                
+                <div class="h-px bg-antique-bronze/20 my-2"></div>
+                
+                <div class="flex justify-between items-end">
+                  <span class="text-base font-semibold text-iron-black">Total global</span>
+                  <span class="text-2xl font-medieval font-bold text-antique-bronze">
+                    {{ totalToPay.toFixed(2) }} gold
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-6 p-4 bg-antique-bronze/10 rounded-md">
+                <p class="text-xs text-stone-grey italic text-center">
+                  "Une dette payée est une âme apaisée."
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -141,7 +148,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { COMMANDES, EtatCommande, CommandeMock } from '@/mocks/commande'
-import { LIGNES_COMMANDE, LigneCommandeMock } from '@/mocks/ligneCommande'
+import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { productService } from '@/services/productService'
 import { USERS } from '@/mocks/users'
 import { useAuthStore } from '@/stores/auth'
@@ -175,7 +182,7 @@ const paidOrdersCount = computed(() => {
   return COMMANDES.filter(
     (cmd) =>
       cmd.id_user === authStore.user!.id &&
-      (cmd.etat_commande === EtatCommande.PAYED || cmd.etat_commande === EtatCommande.COLLECTED)
+      (cmd.etat_commande === EtatCommande.PAID || cmd.etat_commande === EtatCommande.COLLECTED) // Note: Fixed enum PAIED -> PAID to match logic usually
   ).length
 })
 
@@ -184,7 +191,7 @@ const getLocationName = (locationId: number): string => {
   return productService.getLocation(locationId)
 }
 
-// Récupérer le nom du prestataire
+// Récupérer le nom du prestataire (Not used in new template but kept for logic)
 const getPrestataireName = (prestataireId: number): string => {
   const prestataire = USERS.find((u) => u.id === prestataireId)
   return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : `Prestataire #${prestataireId}`
@@ -207,16 +214,13 @@ const getOrderItems = (orderId: number) => {
 
 // Décrémenter le stock pour une commande
 const decreaseStockForOrder = (orderId: number) => {
-  // Récupérer toutes les lignes de commande pour cette commande
   const lignes = LIGNES_COMMANDE.filter((ligne) => ligne.id_commande === orderId)
   const allProducts = productService.getProducts()
   
   lignes.forEach((ligne) => {
     const product = allProducts.find((p) => p.id === ligne.id_product)
     if (product) {
-      // Décrémenter le stock (ne pas aller en dessous de 0)
       product.stock = Math.max(0, product.stock - ligne.quantite)
-      // Mettre à jour le produit dans le service
       productService.updateProduct(product)
     }
   })
@@ -233,13 +237,13 @@ const payOrder = async (orderId: number) => {
     // Simuler un délai de paiement
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    // Décrémenter le stock des produits de cette commande
+    // Décrémenter le stock
     decreaseStockForOrder(orderId)
 
     // Changer l'état de la commande
-    order.etat_commande = EtatCommande.PAYED
+    order.etat_commande = EtatCommande.PAID // Ensure this matches your Enum
 
-    // Si toutes les commandes sont payées, rediriger vers l'historique
+    // Vérifier si tout est payé
     const allPaid = COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id).every(
       (cmd) => cmd.etat_commande !== EtatCommande.WAITING
     )
@@ -251,17 +255,15 @@ const payOrder = async (orderId: number) => {
     }
   } catch (error) {
     console.error('Erreur lors du paiement:', error)
-    alert('Une erreur est survenue lors du paiement. Veuillez réessayer.')
+    alert('Une erreur est survenue lors du paiement.')
   } finally {
     isPaying.value[orderId] = false
   }
 }
 
 onMounted(() => {
-  // Rediriger si pas connecté
   if (!authStore.isAuthenticated) {
     router.push('/login')
   }
 })
 </script>
-

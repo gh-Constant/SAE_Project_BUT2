@@ -3,17 +3,20 @@ import { RouterView, useRoute } from 'vue-router'
 import Navbar from '@/components/navbar/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 import { computed } from 'vue'
+import { useUIStore } from '@/stores/ui'
+
+const uiStore = useUIStore()
 
 const route = useRoute()
 
 const isLoginOrRegisterPage = computed(() => {
-  return route.path === '/login' || route.path === '/register'
+  return route.path === '/login' || route.path === '/register' || route.path.startsWith('/prestataire')
 })
 </script>
 
 <template>
   <div id="app">
-    <Navbar v-if="!isLoginOrRegisterPage" />
+    <Navbar v-if="!isLoginOrRegisterPage && !uiStore.isWidgetOpen" />
     <main>
       <RouterView />
     </main>

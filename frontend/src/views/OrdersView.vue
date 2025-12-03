@@ -10,75 +10,74 @@
   - Permet de payer les commandes en attente
 -->
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-parchment py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">
-          <i class="fas fa-list mr-3 text-orange-500"></i>
+      <div class="mb-12">
+        <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
           Mes Commandes
         </h1>
-        <p class="text-gray-600">Consultez l'historique de vos commandes</p>
+          <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
+        <p class="text-base font-body text-stone-grey">Consultez et gérez vos commandes</p>
       </div>
 
       <!-- Filtres -->
-      <div class="mb-6 bg-white rounded-lg shadow-sm p-4">
-        <div class="flex flex-wrap gap-2">
-          <button
-            @click="filter = 'all'"
-            :class="[
-              'px-4 py-2 rounded-lg font-semibold text-sm transition-colors',
-              filter === 'all'
-                ? 'bg-orange-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            Toutes
-          </button>
-          <button
-            @click="filter = EtatCommande.WAITING"
-            :class="[
-              'px-4 py-2 rounded-lg font-semibold text-sm transition-colors',
-              filter === EtatCommande.WAITING
-                ? 'bg-orange-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            <i class="fas fa-clock mr-1"></i>
-            À payer
-          </button>
-          <button
-            @click="filter = EtatCommande.PAYED"
-            :class="[
-              'px-4 py-2 rounded-lg font-semibold text-sm transition-colors',
-              filter === EtatCommande.PAYED
-                ? 'bg-orange-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            <i class="fas fa-check-circle mr-1"></i>
-            Payées
-          </button>
-          <button
-            @click="filter = EtatCommande.COLLECTED"
-            :class="[
-              'px-4 py-2 rounded-lg font-semibold text-sm transition-colors',
-              filter === EtatCommande.COLLECTED
-                ? 'bg-orange-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            <i class="fas fa-box-check mr-1"></i>
-            Collectées
-          </button>
-        </div>
+      <div class="mb-8 flex flex-wrap gap-2">
+        <button
+          @click="filter = 'all'"
+          :class="[
+            'px-5 py-2.5 rounded-md font-body font-semibold text-sm transition-all duration-200',
+            filter === 'all'
+              ? 'bg-antique-bronze text-white shadow-md'
+              : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
+          ]"
+        >
+          Toutes
+        </button>
+        <button
+          @click="filter = EtatCommande.WAITING"
+          :class="[
+            'px-5 py-2.5 rounded-md font-body font-semibold text-sm transition-all duration-200',
+            filter === EtatCommande.WAITING
+              ? 'bg-antique-bronze text-white shadow-md'
+              : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
+          ]"
+        >
+          À payer
+        </button>
+        <button
+          @click="filter = EtatCommande.PAID"
+          :class="[
+            'px-5 py-2.5 rounded-md font-body font-semibold text-sm transition-all duration-200',
+            filter === EtatCommande.PAID
+              ? 'bg-antique-bronze text-white shadow-md'
+              : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
+          ]"
+        >
+          Payées
+        </button>
+        <button
+          @click="filter = EtatCommande.COLLECTED"
+          :class="[
+            'px-5 py-2.5 rounded-md font-body font-semibold text-sm transition-all duration-200',
+            filter === EtatCommande.COLLECTED
+              ? 'bg-antique-bronze text-white shadow-md'
+              : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
+          ]"
+        >
+          Collectées
+        </button>
       </div>
 
       <!-- Message si aucune commande -->
-      <div v-if="filteredOrders.length === 0" class="text-center py-12 bg-white rounded-lg shadow-sm">
-        <i class="fas fa-inbox text-6xl text-gray-300 mb-4"></i>
-        <p class="text-xl text-gray-600 mb-2">Aucune commande</p>
-        <p class="text-gray-500 mb-6">
+      <div v-if="filteredOrders.length === 0" class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-16 text-center">
+        <div class="w-20 h-20 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-antique-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+          </svg>
+        </div>
+        <p class="text-xl font-medieval text-iron-black mb-2">Aucune commande</p>
+        <p class="text-sm font-body text-stone-grey mb-8">
           {{
             filter === 'all'
               ? "Vous n'avez pas encore passé de commande"
@@ -87,10 +86,9 @@
         </p>
         <router-link
           to="/boutique"
-          class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors"
+          class="inline-block bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200"
         >
-          <i class="fas fa-store mr-2"></i>
-          Voir la boutique
+          Parcourir la boutique
         </router-link>
       </div>
 
@@ -99,94 +97,107 @@
         <div
           v-for="order in filteredOrders"
           :key="order.id"
-          class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+          class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 overflow-hidden hover:shadow-lg transition-shadow duration-200"
         >
           <!-- En-tête de la commande -->
-          <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
-            <div class="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-900">
-                  Commande #{{ Math.floor(order.id) }}
-                </h3>
-                <p class="text-sm text-gray-600 mt-1">
-                  <i class="fas fa-map-marker-alt mr-2 text-orange-600"></i>
-                  {{ getLocationName(order.id_location) }}
-                </p>
-                <p class="text-xs text-gray-500 mt-1">
-                  <i class="fas fa-store mr-1"></i>
-                  {{ getPrestataireName(order.id_prestataire) }}
-                </p>
-                <p class="text-xs text-gray-500 mt-1">
-                  <i class="fas fa-calendar mr-1"></i>
-                  {{ formatDate(order.date_commande) }}
-                </p>
+          <div class="px-6 py-5 border-b border-antique-bronze/10">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-3">
+                  <h3 class="text-xl font-medieval font-bold text-iron-black">
+                    Commande #{{ Math.floor(order.id) }}
+                  </h3>
+                  <span
+                    :class="[
+                      'px-3 py-1 text-xs font-body font-bold rounded-full',
+                      getStatusBadgeClass(order.etat_commande)
+                    ]"
+                  >
+                    {{ getStatusLabel(order.etat_commande) }}
+                  </span>
+                </div>
+                <div class="space-y-1.5 text-sm font-body text-stone-grey">
+                  <p class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-antique-bronze flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="font-medium text-iron-black">{{ getLocationName(order.id_location) }}</span>
+                  </p>
+                  <p class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-antique-bronze flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {{ formatDate(order.date_commande) }}
+                  </p>
+                </div>
               </div>
-              <div class="flex flex-col items-end gap-2">
-                <span
-                  :class="[
-                    'px-3 py-1 text-xs font-semibold rounded-full',
-                    getStatusBadgeClass(order.etat_commande)
-                  ]"
-                >
-                  <i :class="getStatusIcon(order.etat_commande)" class="mr-1"></i>
-                  {{ getStatusLabel(order.etat_commande) }}
-                </span>
-                <span class="text-2xl font-bold text-orange-600">
+              <div class="text-right">
+                <p class="text-xs font-body text-stone-grey mb-1">Total</p>
+                <p class="text-2xl font-medieval font-bold text-antique-bronze">
                   {{ order.total_price.toFixed(2) }} gold
-                </span>
+                </p>
               </div>
             </div>
           </div>
 
-          <!-- Détails de la commande -->
-          <div class="px-6 py-4">
-            <h4 class="text-sm font-semibold text-gray-700 mb-3">Produits commandés :</h4>
+          <!-- Produits -->
+          <div class="px-6 py-4 bg-antique-bronze/5">
             <div class="space-y-2">
               <div
                 v-for="ligne in getOrderItems(order.id)"
                 :key="`${order.id}-${ligne.id_product}`"
-                class="flex justify-between text-sm text-gray-600"
+                class="flex justify-between items-center text-sm font-body py-2"
               >
-                <span>{{ ligne.productName }} x{{ ligne.quantite }}</span>
-                <span class="font-medium text-gray-900">
+                <span class="text-stone-grey">
+                  <span class="font-medium text-iron-black">{{ ligne.productName }}</span>
+                  <span class="text-antique-bronze ml-2">× {{ ligne.quantite }}</span>
+                </span>
+                <span class="font-semibold text-iron-black">
                   {{ (ligne.price * ligne.quantite).toFixed(2) }} gold
                 </span>
               </div>
             </div>
 
-            <div v-if="order.date_collect" class="mt-4 pt-4 border-t border-gray-200">
-              <p class="text-sm text-gray-600">
-                <i class="fas fa-box-check mr-2 text-green-600"></i>
+            <div v-if="order.date_collect" class="mt-4 pt-4 border-t border-antique-bronze/10">
+              <p class="text-sm font-body text-green-700 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 Collectée le {{ formatDate(order.date_collect) }}
               </p>
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-            <div class="flex gap-3">
-              <button
-                v-if="order.etat_commande === EtatCommande.WAITING"
-                @click="goToPayment"
-                class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors"
-              >
-                <i class="fas fa-credit-card mr-2"></i>
-                Payer maintenant
-              </button>
-              <div
-                v-else-if="order.etat_commande === EtatCommande.PAYED"
-                class="flex-1 bg-green-50 text-green-700 font-semibold py-2.5 px-4 rounded-lg text-center"
-              >
-                <i class="fas fa-check-circle mr-2"></i>
-                En attente de collecte
-              </div>
-              <div
-                v-else
-                class="flex-1 bg-blue-50 text-blue-700 font-semibold py-2.5 px-4 rounded-lg text-center"
-              >
-                <i class="fas fa-box-check mr-2"></i>
-                Commande collectée
-              </div>
+          <div class="px-6 py-4 bg-white/40">
+            <button
+              v-if="order.etat_commande === EtatCommande.WAITING"
+              @click="goToPayment"
+              class="w-full bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+              Payer maintenant
+            </button>
+            <div
+              v-else-if="order.etat_commande === EtatCommande.PAID"
+              class="w-full bg-green-50 text-green-700 font-body font-semibold py-3 px-6 rounded-md text-center flex items-center justify-center gap-2 border border-green-200"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Commande payée - En attente de collecte
+            </div>
+            <div
+              v-else
+              class="w-full bg-blue-50 text-blue-700 font-body font-semibold py-3 px-6 rounded-md text-center flex items-center justify-center gap-2 border border-blue-200"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              Commande collectée
             </div>
           </div>
         </div>
@@ -207,7 +218,7 @@ import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-const filter = ref<'all' | EtatCommande>(route.query.allPaid === 'true' ? EtatCommande.PAYED : 'all')
+const filter = ref<'all' | EtatCommande>(route.query.allPaid === 'true' ? EtatCommande.PAID : 'all')
 
 // Commandes filtrées
 const filteredOrders = computed(() => {
@@ -266,7 +277,7 @@ const getStatusLabel = (etat: EtatCommande): string => {
   switch (etat) {
     case EtatCommande.WAITING:
       return 'En attente de paiement'
-    case EtatCommande.PAYED:
+    case EtatCommande.PAID:
       return 'Payée'
     case EtatCommande.COLLECTED:
       return 'Collectée'
@@ -280,7 +291,7 @@ const getStatusIcon = (etat: EtatCommande): string => {
   switch (etat) {
     case EtatCommande.WAITING:
       return 'fas fa-clock'
-    case EtatCommande.PAYED:
+    case EtatCommande.PAID:
       return 'fas fa-check-circle'
     case EtatCommande.COLLECTED:
       return 'fas fa-box-check'
@@ -293,13 +304,13 @@ const getStatusIcon = (etat: EtatCommande): string => {
 const getStatusBadgeClass = (etat: EtatCommande): string => {
   switch (etat) {
     case EtatCommande.WAITING:
-      return 'bg-orange-100 text-orange-800'
-    case EtatCommande.PAYED:
-      return 'bg-green-100 text-green-800'
+      return 'bg-orange-100 text-orange-800 border-orange-200'
+    case EtatCommande.PAID:
+      return 'bg-green-100 text-green-800 border-green-200'
     case EtatCommande.COLLECTED:
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-blue-100 text-blue-800 border-blue-200'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-stone-grey/10 text-stone-grey border-stone-grey/20'
   }
 }
 
@@ -308,7 +319,7 @@ const getFilterLabel = (): string => {
   switch (filter.value) {
     case EtatCommande.WAITING:
       return 'en attente de paiement'
-    case EtatCommande.PAYED:
+    case EtatCommande.PAID:
       return 'payée'
     case EtatCommande.COLLECTED:
       return 'collectée'

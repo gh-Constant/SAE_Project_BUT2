@@ -24,24 +24,27 @@
       <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
-    <div class="p-5">
-      <h2 class="text-2xl font-bold mb-3 text-gray-800">{{ location.name }}</h2>
-      <p class="text-base leading-relaxed text-gray-600 mb-5">{{ location.description }}</p>
+    <div class="p-6">
+      <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
+      <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
 
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
-        <div class="flex justify-between mb-2">
-          <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.static_code }}</span>
+      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <div class="flex justify-between mb-2 font-body">
+          <span class="font-bold text-iron-black">Location:</span>
+          <span class="text-stone-grey">{{ location.static_code }}</span>
         </div>
-        <div class="flex justify-between">
-          <span class="font-semibold text-gray-700">Type:</span>
-          <span class="text-gray-600">Story Location</span>
+        <div class="flex justify-between font-body">
+          <span class="font-bold text-iron-black">Type:</span>
+          <span class="text-stone-grey">Lieu d'Histoire</span>
         </div>
       </div>
 
       <div class="flex gap-3 justify-end">
-        <button class="px-5 py-2.5 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors" @click="$emit('close')">
-          Close
+        <button 
+          class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
+          @click="$emit('close')"
+        >
+          Fermer
         </button>
       </div>
     </div>

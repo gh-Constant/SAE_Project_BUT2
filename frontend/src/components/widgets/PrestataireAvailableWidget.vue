@@ -27,89 +27,93 @@
       <img :src="location.banner_image" :alt="location.name" class="w-full h-full object-cover" />
     </div>
 
-    <div class="p-5">
-      <h2 class="text-2xl font-bold mb-3 text-gray-800">{{ location.name }}</h2>
-      <p class="text-base leading-relaxed text-gray-600 mb-5">{{ location.description }}</p>
+    <div class="p-6">
+      <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
+      <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
 
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-5 flex items-center">
-        <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4 text-lg">
+      <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 flex items-center shadow-sm">
+        <div class="w-12 h-12 bg-antique-bronze text-white rounded-full flex items-center justify-center mr-4 text-lg shadow-md">
           <i class="fas fa-store"></i>
         </div>
         <div class="flex-1">
-          <h3 class="text-lg font-semibold text-blue-800 mb-1">Available for Purchase</h3>
-          <p class="text-sm text-blue-700">
-            This location is available for prestataires to set up their business.
+          <h3 class="text-lg font-medieval font-bold text-antique-bronze mb-1">Disponible à l'achat</h3>
+          <p class="text-sm font-body text-stone-grey">
+            Cet emplacement est disponible pour établir votre commerce.
           </p>
         </div>
       </div>
 
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-5">
+      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6 font-body">
         <div class="flex justify-between mb-2">
-          <span class="font-semibold text-gray-700">Location:</span>
-          <span class="text-gray-600">{{ location.static_code }}</span>
+          <span class="font-bold text-iron-black">Emplacement:</span>
+          <span class="text-stone-grey">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
-          <span class="font-semibold text-gray-700">Status:</span>
-          <span class="text-yellow-600 font-semibold">Available</span>
+          <span class="font-bold text-iron-black">Statut:</span>
+          <span class="text-green-700 font-bold">Disponible</span>
         </div>
         <div class="flex justify-between">
-          <span class="font-semibold text-gray-700">Price:</span>
-          <span class="text-green-600 font-semibold text-lg">{{ location.price }} gold</span>
+          <span class="font-bold text-iron-black">Prix:</span>
+          <span class="text-antique-bronze font-medieval font-bold text-lg">{{ location.price }} Gold</span>
         </div>
       </div>
 
       <!-- Error Message -->
-      <div v-if="errorMessage" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-5">
+      <div v-if="errorMessage" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-5 font-body">
         <p class="text-red-700">{{ errorMessage }}</p>
       </div>
 
       <!-- Success Message -->
-      <div v-if="successMessage" class="bg-green-50 border border-green-200 rounded-lg p-4 mb-5">
+      <div v-if="successMessage" class="bg-green-50 border border-green-200 rounded-lg p-4 mb-5 font-body">
         <p class="text-green-700">{{ successMessage }}</p>
       </div>
 
-      <div class="mb-5">
+      <div class="mb-6">
         <button 
-          class="px-5 py-2.5 bg-blue-600 hover:bg-green-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" 
+          class="w-full py-3 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold text-lg rounded shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2" 
           @click="acheterEmplacement"
           :disabled="isLoading || isPurchased"
         >
           <span v-if="isLoading">
-            <i class="fas fa-spinner fa-spin mr-2"></i>
-            Purchasing...
+            <i class="fas fa-spinner fa-spin"></i>
+            Acquisition en cours...
           </span>
           <span v-else-if="isPurchased">
-            <i class="fas fa-check mr-2"></i>
-            Purchased!
+            <i class="fas fa-check"></i>
+            Acquis !
           </span>
           <span v-else>
-            Acheter cet emplacement
+            Acquérir cet emplacement
           </span>
         </button>
-        <h3 class="text-lg font-semibold mb-3 text-gray-800 mt-4">What you can do here:</h3>
-        <ul class="space-y-2">
-          <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
-            <i class="fas fa-store text-gray-600 mr-3 w-4"></i>
-            <span class="text-gray-700">Set up an online shop to sell your products</span>
+        
+        <h3 class="text-xl font-medieval font-bold mb-3 text-iron-black mt-6">Opportunités :</h3>
+        <ul class="space-y-2 font-body">
+          <li class="flex items-center p-2 border-b border-antique-bronze/10 last:border-b-0">
+            <i class="fas fa-store text-antique-bronze mr-3 w-4"></i>
+            <span class="text-stone-grey">Établissez une échoppe pour vendre vos marchandises</span>
           </li>
-          <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
-            <i class="fas fa-scroll text-gray-600 mr-3 w-4"></i>
-            <span class="text-gray-700">Post quests and offer rewards to adventurers</span>
+          <li class="flex items-center p-2 border-b border-antique-bronze/10 last:border-b-0">
+            <i class="fas fa-scroll text-antique-bronze mr-3 w-4"></i>
+            <span class="text-stone-grey">Proposez des quêtes aux aventuriers</span>
           </li>
-          <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
-            <i class="fas fa-calendar-alt text-gray-600 mr-3 w-4"></i>
-            <span class="text-gray-700">Organize events and demonstrations</span>
+          <li class="flex items-center p-2 border-b border-antique-bronze/10 last:border-b-0">
+            <i class="fas fa-calendar-alt text-antique-bronze mr-3 w-4"></i>
+            <span class="text-stone-grey">Organisez des événements et démonstrations</span>
           </li>
           <li class="flex items-center p-2">
-            <i class="fas fa-users text-gray-600 mr-3 w-4"></i>
-            <span class="text-gray-700">Build your reputation and attract more customers</span>
+            <i class="fas fa-users text-antique-bronze mr-3 w-4"></i>
+            <span class="text-stone-grey">Bâtissez votre réputation dans le royaume</span>
           </li>
         </ul>
       </div>
 
       <div class="flex justify-end">
-        <button class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" @click="$emit('close')">
-          Close
+        <button 
+          class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
+          @click="$emit('close')"
+        >
+          Fermer
         </button>
       </div>
     </div>

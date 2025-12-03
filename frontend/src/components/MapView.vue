@@ -23,9 +23,16 @@
   - Le système de widgets est intégré via callback dans le service
 -->
 <template>
-  <div class="relative w-full my-12">
+  <div class="relative w-full" :class="{ 'my-12': !isFullScreen, 'h-full': isFullScreen }">
     <!-- Conteneur de la carte Leaflet -->
-    <div id="map" tabindex="0" class="h-[35rem] md:h-[45rem] w-full bg-parchment outline-none rounded-lg"></div>
+    <div 
+      id="map" 
+      tabindex="0" 
+      class="w-full bg-parchment outline-none"
+      :class="[
+        isFullScreen ? 'h-full' : 'h-[35rem] md:h-[45rem] rounded-lg'
+      ]"
+    ></div>
 
     <!-- Outils de développement (visible uniquement en mode dev) -->
     <div v-if="isDev" class="absolute top-4 right-4 z-[1000] flex flex-col items-end pointer-events-none gap-2">
@@ -91,6 +98,13 @@ const showMarkerData = ref(false);
 const isClickDebugActive = ref(false);
 const selectedLocation = ref<LocationMock | null>(null);
 const isDev = import.meta.env.DEV;
+
+const props = defineProps({
+  isFullScreen: {
+    type: Boolean,
+    default: false
+  }
+});
 
 /**
  * Configure les icônes par défaut de Leaflet

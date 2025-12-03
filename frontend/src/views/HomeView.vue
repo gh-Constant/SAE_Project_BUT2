@@ -6,7 +6,7 @@
       <!-- Background Image -->
       <div class="absolute inset-0 z-0">
         <img 
-          src="/images/thumbnail.jpg" 
+          src="/images/realfake.png" 
           alt="Kingdom Background" 
           class="w-full h-full object-cover"
         />
@@ -21,7 +21,7 @@
           <img 
             src="/images/transparent_logo.png" 
             alt="Kingdom Logo" 
-            class="w-full max-w-[800px] h-auto object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+            class="w-full max-w-[1200px] h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,1)]"
           />
         </div>
       </div>
@@ -33,12 +33,7 @@
     <!-- 2. TITLE & CTA SECTION (Standard Style) -->
     <section class="bg-parchment py-20 md:py-24 text-center relative z-10">
       <div class="max-w-4xl mx-auto px-4">
-        <h2
-          class="text-4xl md:text-5xl font-medieval font-bold mb-6 text-iron-black"
-        >
-          {{ t('home.hero.title') }}
-        </h2>
-        <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-8"></div>
+        <MedievalSectionTitle>{{ t('home.hero.title') }}</MedievalSectionTitle>
         <p
           class="text-lg md:text-xl text-stone-grey mb-10 leading-relaxed font-body"
         >
@@ -61,10 +56,7 @@
         <div class="grid md:grid-cols-2 gap-12 items-center">
           <!-- Text Left -->
           <div class="order-2 md:order-1">
-            <h2 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-6">
-              The Kingdom Awaits
-            </h2>
-            <div class="h-1 w-24 bg-antique-bronze rounded-full mb-8"></div>
+            <MedievalSectionTitle>The Kingdom Awaits</MedievalSectionTitle>
             <p class="text-lg md:text-xl text-stone-grey mb-6 leading-relaxed">
               Step into a world where history breathes and legends come alive. Our kingdom offers more than just events; it offers a passage through time.
             </p>
@@ -91,39 +83,39 @@
     <section class="bg-aged-paper py-20 md:py-32 relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">
-            {{ t('home.features.title') }}
-          </h2>
-          <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full"></div>
+          <MedievalSectionTitle>{{ t('home.features.title') }}</MedievalSectionTitle>
         </div>
 
         <div class="grid gap-8 md:grid-cols-3">
           <!-- Feature 1 -->
-          <div class="bg-parchment p-8 rounded-sm border-2 border-antique-bronze/20 shadow-[4px_4px_0_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-transform duration-300">
-            <div class="w-16 h-16 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-6 text-antique-bronze">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-1.447-.894L15 7m-6 10V7m0 0L5 4m4 3l6-3m6 3l4-2" /></svg>
-            </div>
-            <h3 class="text-2xl font-medieval font-bold text-iron-black text-center mb-4">{{ t('home.features.discover.title') }}</h3>
-            <p class="text-stone-grey text-center">{{ t('home.features.discover.description') }}</p>
-          </div>
+          <!-- Feature 1 -->
+          <MedievalCard>
+            <template #icon>
+              <i class="fa-solid fa-map-location-dot text-3xl"></i>
+            </template>
+            <template #title>{{ t('home.features.discover.title') }}</template>
+            <template #description>{{ t('home.features.discover.description') }}</template>
+          </MedievalCard>
 
           <!-- Feature 2 -->
-          <div class="bg-parchment p-8 rounded-sm border-2 border-antique-bronze/20 shadow-[4px_4px_0_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-transform duration-300">
-            <div class="w-16 h-16 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-6 text-antique-bronze">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </div>
-            <h3 class="text-2xl font-medieval font-bold text-iron-black text-center mb-4">{{ t('home.features.events.title') }}</h3>
-            <p class="text-stone-grey text-center">{{ t('home.features.events.description') }}</p>
-          </div>
+          <!-- Feature 2 -->
+          <MedievalCard>
+            <template #icon>
+              <i class="fa-solid fa-calendar-days text-3xl"></i>
+            </template>
+            <template #title>{{ t('home.features.events.title') }}</template>
+            <template #description>{{ t('home.features.events.description') }}</template>
+          </MedievalCard>
 
           <!-- Feature 3 -->
-          <div class="bg-parchment p-8 rounded-sm border-2 border-antique-bronze/20 shadow-[4px_4px_0_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-transform duration-300">
-            <div class="w-16 h-16 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-6 text-antique-bronze">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-            </div>
-            <h3 class="text-2xl font-medieval font-bold text-iron-black text-center mb-4">{{ t('home.features.community.title') }}</h3>
-            <p class="text-stone-grey text-center">{{ t('home.features.community.description') }}</p>
-          </div>
+          <!-- Feature 3 -->
+          <MedievalCard>
+            <template #icon>
+              <i class="fa-solid fa-users text-3xl"></i>
+            </template>
+            <template #title>{{ t('home.features.community.title') }}</template>
+            <template #description>{{ t('home.features.community.description') }}</template>
+          </MedievalCard>
         </div>
       </div>
     </section>
@@ -134,8 +126,8 @@
     <section id="map-section" class="bg-parchment py-20 md:py-32 relative">
       <div class="w-full max-w-[95%] mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">{{ t('map.title') }}</h2>
-          <p class="text-xl font-citation text-stone-grey">{{ t('map.instructions') }}</p>
+          <MedievalSectionTitle>{{ t('map.title') }}</MedievalSectionTitle>
+
         </div>
         
         <!-- Framed Map Container -->
@@ -150,9 +142,7 @@
        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] pointer-events-none"></div>
        
       <div class="max-w-3xl mx-auto px-4 relative z-10">
-        <h2 class="text-4xl md:text-5xl font-medieval font-bold text-parchment mb-6">
-          {{ t('home.cta.title') }}
-        </h2>
+        <MedievalSectionTitle theme="dark">{{ t('home.cta.title') }}</MedievalSectionTitle>
         <p class="text-xl text-warm-sand mb-10 font-body max-w-2xl mx-auto">
           {{ t('home.cta.subtitle') }}
         </p>
@@ -170,6 +160,8 @@ import { useI18n } from 'vue-i18n';
 import MapView from '@/components/MapView.vue';
 import BrokenPaperSeparator from '@/components/ui/BrokenPaperSeparator.vue';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
+import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
+import MedievalCard from '@/components/ui/MedievalCard.vue';
 
 const { t } = useI18n();
 </script>
