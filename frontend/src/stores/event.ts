@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+import { eventService } from '@/services/eventService'
 
 export interface EventCategory {
   id_event_category?: number
@@ -39,8 +37,7 @@ export const useEventStore = defineStore('event', {
     async fetchEvents(filters?: { id_location?: number; published?: boolean }) {
       this.loading = true
       try {
-        const response = await axios.get(`${API_URL}/events`, { params: filters })
-        this.events = response.data
+        this.events = await eventService.getEvents(filters) as Event[]
       } catch (err: any) {
         this.error = err.message
       } finally {
@@ -51,9 +48,9 @@ export const useEventStore = defineStore('event', {
     async fetchEventById(id: number) {
       this.loading = true
       try {
-        const response = await axios.get(`${API_URL}/events/${id}`)
-        this.currentEvent = response.data
-        return response.data
+        const event = await eventService.getEventById(id)
+        this.currentEvent = event as Event
+        return event
       } catch (err: any) {
         this.error = err.message
         return null
@@ -65,12 +62,9 @@ export const useEventStore = defineStore('event', {
     async createEvent(eventData: any) {
       this.loading = true
       try {
-        const token = localStorage.getItem('token')
-        const response = await axios.post(`${API_URL}/events`, eventData, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        this.events.push(response.data)
-        return response.data
+        const newEvent = await eventService.createEvent(eventData)
+        this.events.push(newEvent as Event)
+        return newEvent
       } catch (err: any) {
         this.error = err.message
         throw err
@@ -82,15 +76,12 @@ export const useEventStore = defineStore('event', {
     async updateEvent(id: number, eventData: any) {
       this.loading = true
       try {
-        const token = localStorage.getItem('token')
-        const response = await axios.put(`${API_URL}/events/${id}`, eventData, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        const updatedEvent = await eventService.updateEvent(id, eventData)
         const index = this.events.findIndex(e => e.id_event === id)
         if (index !== -1) {
-          this.events[index] = response.data
+          this.events[index] = updatedEvent as Event
         }
-        return response.data
+        return updatedEvent
       } catch (err: any) {
         this.error = err.message
         throw err
@@ -102,10 +93,7 @@ export const useEventStore = defineStore('event', {
     async deleteEvent(id: number) {
       this.loading = true
       try {
-        const token = localStorage.getItem('token')
-        await axios.delete(`${API_URL}/events/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        await eventService.deleteEvent(id)
         this.events = this.events.filter(e => e.id_event !== id)
       } catch (err: any) {
         this.error = err.message
@@ -118,11 +106,7 @@ export const useEventStore = defineStore('event', {
     async bookEvent(eventId: number, quantity: number) {
       this.loading = true
       try {
-        const token = localStorage.getItem('token')
-        const response = await axios.post(`${API_URL}/events/book`, { eventId, quantity }, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        return response.data
+        return await eventService.bookEvent(eventId, quantity)
       } catch (err: any) {
         this.error = err.message
         throw err
@@ -134,11 +118,7 @@ export const useEventStore = defineStore('event', {
     async fetchUserReservations() {
       this.loading = true
       try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get(`${API_URL}/events/user/reservations`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        this.userReservations = response.data
+        this.userReservations = await eventService.getUserReservations()
       } catch (err: any) {
         this.error = err.message
       } finally {
