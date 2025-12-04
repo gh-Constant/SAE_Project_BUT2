@@ -161,10 +161,17 @@ const profileRoute = computed(() => {
             <i class="fas fa-map text-lg"></i>
             <span class="ml-2">Map</span>
           </MedievalButton>
+          <MedievalButton 
+            to="/events" 
+            class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+            active-class="!bg-[#8B6B43] !border-[#5D4037]"
+          >
+            <i class="fas fa-calendar-alt text-lg"></i>
+            <span class="ml-2">Événements</span>
+          </MedievalButton>
         </div>
 
         <div class="flex items-center space-x-4">
-          <!-- Icône panier (visible uniquement si connecté) -->
           <!-- Icône panier (visible uniquement si connecté) -->
           <div v-if="isLoggedIn" class="relative cart-dropdown-container">
             <MedievalButton
@@ -288,6 +295,14 @@ const profileRoute = computed(() => {
                 Mes Commandes
               </router-link>
               <router-link
+                to="/my-reservations"
+                class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-ticket-alt mr-3 text-antique-bronze" />
+                Mes Réservations
+              </router-link>
+              <router-link
                 :to="profileRoute"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -388,6 +403,17 @@ const profileRoute = computed(() => {
             <span class="ml-2">Map</span>
           </MedievalButton>
 
+          <MedievalButton 
+            to="/events" 
+            full-width
+            class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+            active-class="!bg-[#8B6B43] !border-[#5D4037]"
+            @click="isMobileMenuOpen = false"
+          >
+            <i class="fas fa-calendar-alt text-lg w-8"></i>
+            <span class="ml-2">Événements</span>
+          </MedievalButton>
+
           <div class="border-t border-antique-bronze/20 my-2"></div>
 
           <template v-if="isLoggedIn">
@@ -419,6 +445,16 @@ const profileRoute = computed(() => {
             >
               <i class="fas fa-list text-lg w-8"></i>
               <span class="ml-2">Mes Commandes</span>
+            </MedievalButton>
+
+            <MedievalButton
+              to="/my-reservations"
+              full-width
+              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              @click="isMobileMenuOpen = false"
+            >
+              <i class="fas fa-ticket-alt text-lg w-8"></i>
+              <span class="ml-2">Mes Réservations</span>
             </MedievalButton>
 
             <MedievalButton

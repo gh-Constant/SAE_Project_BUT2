@@ -89,6 +89,39 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
   },
   {
+    path: '/prestataire/locations',
+    name: 'prestataire-locations',
+    component: () => import('../views/prestataire/MyLocationsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/location/:locationId/events',
+    name: 'prestataire-location-events',
+    component: () => import('../views/prestataire/LocationEventsManager.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/events',
+    name: 'events',
+    component: () => import('../views/client/GlobalEventsView.vue'),
+  },
+  {
+    path: '/location/:locationId/events',
+    name: 'location-events',
+    component: () => import('../views/client/LocationEventsView.vue'),
+  },
+  {
+    path: '/events/:id',
+    name: 'event-details',
+    component: () => import('../views/client/EventDetailsView.vue'),
+  },
+  {
+    path: '/my-reservations',
+    name: 'my-reservations',
+    component: () => import('../views/client/MyReservationsView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/editor-test',
     name: 'editor-test',
     component: () => import('../views/EditorTestView.vue'),
