@@ -36,6 +36,8 @@ model Location {
   icon_name         String?   @db.VarChar(255)
   banner_name       String?   @db.VarChar(255)
 
+  maximum_capacity  Int
+
 
   created_at        DateTime? @default(now()) @db.DateTime(0)
   updated_at        DateTime? @updatedAt @db.DateTime(0)
@@ -45,7 +47,7 @@ model Location {
 
   location_type   LocationType  @relation(fields: [id_location_type], references: [id_location_type])
   prestataire     User?  @relation(fields: [id_prestataire], references: [id_user])
-  activities      Activity[]
+  events          Event[]
   sevices         Service[]
   quests          Quest[]
   blogs           Blog[]
@@ -70,22 +72,53 @@ model Blog {
   @@map("blogs")
 }
 
-model Activity {
-  id_activity Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  description String?   @db.Text
-  start_time  DateTime  @db.DateTime(0)
-  end_time    DateTime  @db.DateTime(0)
+model Event {
+  id_event    Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  start_time  DateTime @db.DateTime(0)
+  end_time    DateTime @db.DateTime(0)
 
-  created_at  DateTime? @default(now()) @db.DateTime(0)
-  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  price             Decimal @db.Decimal(15, 2)
+  capacity          Int
+  sold              Int     @default(0)
+
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 
   id_location Int
 
-  location    Location  @relation(fields: [id_location], references: [id_location])
+  location   Location        @relation(fields: [id_location], references: [id_location])
+  reservations EventReservation[]
 
   @@index([id_location])
-  @@map("activities")
+  @@map("events")
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model EventReservation {
+  id_reservation Int               @id @default(autoincrement())
+  quantity       Int
+  total_price    Decimal           @db.Decimal(10, 2)
+  status         ReservationStatus @default(PENDING)
+
+  created_at DateTime @default(now()) @db.DateTime(0)
+  updated_at DateTime @updatedAt @db.DateTime(0)
+
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id_user])
+
+  id_event Int
+  event    Event @relation(fields: [id_event], references: [id_event])
+
+  @@index([id_user])
+  @@index([id_event])
+  @@map("event_reservations")
 }
 
 model Service {
