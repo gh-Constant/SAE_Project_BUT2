@@ -1,15 +1,30 @@
 import { defineStore } from 'pinia'
-import { productService, ProductStoreMock } from '@/services/productService'
+import { productService, ProductStoreMock, ProductFilterParams } from '@/services/productService'
 
 export const useProductStore = defineStore('product', {
   state: () => ({
-    products: productService.getProducts(),
+    products: [] as ProductStoreMock[],
     editId: null as number | null,
     editProduct: productService.defaultProduct(),
-    newProduct: productService.defaultProduct()
+    newProduct: productService.defaultProduct(),
+    loading: false,
+    error: null as string | null
   }),
 
   actions: {
+    async fetchProducts(filters?: ProductFilterParams) {
+      this.loading = true;
+      this.error = null;
+      try {
+        this.products = await productService.getProducts(filters);
+        this.loading = false;
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        this.error = 'Failed to load products';
+        this.loading = false;
+      }
+    },
+
     // Start editing an product
     startEdit(product: ProductStoreMock) {
       this.editId = product.id
@@ -25,27 +40,13 @@ export const useProductStore = defineStore('product', {
     },
 
     // Save the modifications of an product
-    saveEdit() {
-      const updatedProduct = productService.updateProduct(this.editProduct)
-      if (updatedProduct) {
+    async saveEdit() {
+      const updatedProduct = await productService.updateProduct(this.editProduct)
+      if (updatedProduct) { 
         // Update the product in the list
-        let position = -1
-        for (let i = 0; i < this.products.length; i++) {
-          if (this.products[i].id === updatedProduct.id) {
-            position = i
-            break
-          }
-        }
-        if (position !== -1) {
-          this.products[position] = {
-            id: updatedProduct.id,
-            name: updatedProduct.name,
-            stock: updatedProduct.stock,
-            locationId: updatedProduct.locationId,
-            description: updatedProduct.description,
-            imageUrl: updatedProduct.imageUrl,
-            price: updatedProduct.price
-          }
+        const index = this.products.findIndex(p => p.id === this.editProduct.id);
+        if (index !== -1) {
+          this.products[index] = { ...this.editProduct };
         }
         this.editId = null
       }
@@ -57,16 +58,10 @@ export const useProductStore = defineStore('product', {
     },
 
     // Delete an product
-    deleteProduct(idProduct: number) {
-      if (productService.deleteProduct(idProduct)) {
+    async deleteProduct(idProduct: number) {
+      if (await productService.deleteProduct(idProduct)) {
         // Remove the product from the list
-        const newAllProducts = []
-        for (const product of this.products) {
-          if (product.id !== idProduct) {
-            newAllProducts.push(product)
-          }
-        }
-        this.products = newAllProducts
+        this.products = this.products.filter(p => p.id !== idProduct);
       }
     },
 
@@ -79,31 +74,34 @@ export const useProductStore = defineStore('product', {
     resetNewProduct() {
       this.newProduct = productService.defaultProduct()
     },
-    
+
     defaultProduct() {
-        return productService.defaultProduct()
+      return productService.defaultProduct()
     }
   },
 
   getters: {
     // Return the products of a specific provider
     productsForLocation: (state) => (idProvider: number) => {
-      const productsProvider = []
-      for (const product of state.products) {
-        if (product.locationId === idProvider) {
-          productsProvider.push(product)
-        }
-      }
-      return productsProvider
+      return state.products.filter(product => product.locationId === idProvider);
     },
 
     sortedProducts: (state) => {
       const sortedProducts = [...state.products]
       sortedProducts.sort((a, b) => a.locationId - b.locationId)
       return sortedProducts
+    },
+
+    productsForBoutique: (state) => {
+      return state.products.map(product => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        image: product.imageUrl,
+        id_prestataire: product.id_prestataire || 0
+      }))
     }
   }
 })
-
-
-

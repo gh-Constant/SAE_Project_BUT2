@@ -182,6 +182,7 @@
               <div class="flex items-center gap-2">
                 <input
                   v-model.number="priceMin"
+                  @input="fetchProducts"
                   type="number"
                   min="0"
                   step="0.01"
@@ -191,6 +192,7 @@
                 <span class="text-stone-grey font-bold">-</span>
                 <input
                   v-model.number="priceMax"
+                  @input="fetchProducts"
                   type="number"
                   min="0"
                   step="0.01"
@@ -217,7 +219,6 @@
                 >
                   <option value="all">Toutes les marchandises</option>
                   <option value="in-stock">En stock</option>
-                  <option value="low-stock">Stock limité (&lt; 5)</option>
                   <option value="out-of-stock">Rupture de stock</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -272,9 +273,6 @@
           <div class="ml-auto text-sm text-stone-600 font-body">
             <span class="font-bold text-iron-black">{{ filteredProducts.length }}</span>
             {{ filteredProducts.length > 1 ? 'marchandises trouvées' : 'marchandise trouvée' }}
-            <span v-if="hasActiveFilters" class="text-stone-500">
-              (sur {{ PRODUCTS.length }} au total)
-            </span>
           </div>
         </div>
       </div>
@@ -333,46 +331,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ProductMock } from '@/mocks/products'
 import { USERS } from '@/mocks/users'
 import { LocationType } from '@/mocks/locationTypes'
 import { productService } from '@/services/productService'
+import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
 import ProductCard from '@/components/ProductCard.vue'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 
+
 const route = useRoute()
 const router = useRouter()
+
+const store = useProductStore()
 
 // Détecter si on est sur la liste des boutiques ou sur une boutique spécifique
 const locationIdFromRoute = computed(() => {
   const id = route.params.locationId
-  return id ? Number(id) : null
+  return id ? Number(id) : undefined
 })
 
-// Récupérer tous les produits dynamiques depuis productService
-const ALL_PRODUCTS = computed(() => productService.getProductsForBoutique())
+// Récupérer les produits depuis le store (transformés pour l'affichage)
+const filteredProducts = computed(() => store.productsForBoutique)
 
-// Récupérer les produits filtrés par location si locationId présent
-const PRODUCTS = computed(() => {
-  if (!locationIdFromRoute.value) {
-    return ALL_PRODUCTS.value
-  }
-  
-  // Filtrer par locationId : convertir locationId vers produits via productService
-  const productsInStore = productService.getProducts()
-  const productIdsForLocation = productsInStore
-    .filter(p => p.locationId === locationIdFromRoute.value)
-    .map(p => p.id)
-  
-  return ALL_PRODUCTS.value.filter(p => productIdsForLocation.includes(p.id))
-})
 
 // Liste des locations (boutiques) qui ont des produits
 const availableLocations = computed(() => {
-  const products = productService.getProducts()
+  // Use store products if loaded, otherwise fallback to service (mock) or empty
+  // Note: On main page, store.products has all products.
+  const products = store.products
+
+
   const locationIdsWithProducts = new Set(products.map(p => p.locationId))
   
   return locationsMock.filter(loc => 
@@ -387,7 +378,7 @@ const availableLocations = computed(() => {
 const searchQuery = ref('')
 const priceMin = ref<number | null>(null)
 const priceMax = ref<number | null>(null)
-const stockFilter = ref<'all' | 'in-stock' | 'low-stock' | 'out-of-stock'>('all')
+const stockFilter = ref<'all' | 'in-stock' | 'out-of-stock'>('all')
 const sortBy = ref<'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'stock-asc' | 'stock-desc'>('name-asc')
 
 // Fonctions utilitaires pour les boutiques
@@ -403,7 +394,7 @@ const getPrestataireNameForLocation = (locationId: number): string => {
 }
 
 const getProductCountForLocation = (locationId: number): number => {
-  const productsInStore = productService.getProducts()
+  const productsInStore = store.products
   return productsInStore.filter(p => p.locationId === locationId).length
 }
 
@@ -421,8 +412,6 @@ const getStockFilterLabel = (filter: string): string => {
   switch (filter) {
     case 'in-stock':
       return 'En stock'
-    case 'low-stock':
-      return 'Stock limité'
     case 'out-of-stock':
       return 'Rupture de stock'
     default:
@@ -441,61 +430,26 @@ const hasActiveFilters = computed(() => {
 })
 
 // Filtrer et trier les produits
-const filteredProducts = computed(() => {
-  let products = [...PRODUCTS.value] // Utiliser .value car PRODUCTS est un computed (déjà filtré par location si nécessaire)
+// const filteredProducts = computed(() => { ... }) // Replaced above
 
-  // Filtre par recherche (nom ou description)
-  if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase().trim()
-    products = products.filter((p: ProductMock) => {
-      const nameMatch = p.name.toLowerCase().includes(query)
-      const descMatch = p.description?.toLowerCase().includes(query) || false
-      return nameMatch || descMatch
-    })
-  }
-
-  // Filtre par prix
-  if (priceMin.value !== null) {
-    products = products.filter((p: ProductMock) => p.price >= priceMin.value!)
-  }
-  if (priceMax.value !== null) {
-    products = products.filter((p: ProductMock) => p.price <= priceMax.value!)
-  }
-
-  // Filtre par stock
-  switch (stockFilter.value) {
-    case 'in-stock':
-      products = products.filter((p: ProductMock) => p.stock > 0)
-      break
-    case 'low-stock':
-      products = products.filter((p: ProductMock) => p.stock > 0 && p.stock < 5)
-      break
-    case 'out-of-stock':
-      products = products.filter((p: ProductMock) => p.stock === 0)
-      break
-  }
-
-  // Tri
-  products.sort((a: ProductMock, b: ProductMock) => {
-    switch (sortBy.value) {
-      case 'name-asc':
-        return a.name.localeCompare(b.name)
-      case 'name-desc':
-        return b.name.localeCompare(a.name)
-      case 'price-asc':
-        return a.price - b.price
-      case 'price-desc':
-        return b.price - a.price
-      case 'stock-desc':
-        return b.stock - a.stock
-      case 'stock-asc':
-        return a.stock - b.stock
-      default:
-        return 0
-    }
+// Fetch products on mount and when filters/route change
+const fetchProducts = () => {
+  store.fetchProducts({
+    search: searchQuery.value,
+    minPrice: priceMin.value || undefined,
+    maxPrice: priceMax.value || undefined,
+    stock: stockFilter.value === 'all' ? undefined : stockFilter.value,
+    sortBy: sortBy.value,
+    locationId: locationIdFromRoute.value
   })
+}
 
-  return products
+onMounted(() => {
+  fetchProducts()
+})
+
+watch([locationIdFromRoute, searchQuery, priceMin, priceMax, stockFilter, sortBy], () => {
+  fetchProducts()
 })
 
 // Réinitialiser tous les filtres
@@ -506,5 +460,21 @@ const clearFilters = () => {
   stockFilter.value = 'all'
   sortBy.value = 'name-asc'
 }
+
+// Validation du prix
+// Note: watch is already imported
+
+
+watch(priceMin, (newMin) => {
+  if (newMin !== null && priceMax.value !== null && newMin > priceMax.value) {
+    priceMax.value = newMin
+  }
+})
+
+watch(priceMax, (newMax) => {
+  if (newMax !== null && priceMin.value !== null && newMax < priceMin.value) {
+    priceMin.value = newMax
+  }
+})
 </script>
 

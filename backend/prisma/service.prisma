@@ -5,7 +5,7 @@ model ServiceType {
   created_at      DateTime? @default(now()) @db.DateTime(0)
   updated_at      DateTime? @updatedAt @db.DateTime(0)
   
-  sevices         Service[]
+  services         Service[]
 
   @@map("service_types")
 }
@@ -46,7 +46,7 @@ model Location {
   location_type   LocationType  @relation(fields: [id_location_type], references: [id_location_type])
   prestataire     User?  @relation(fields: [id_prestataire], references: [id_user])
   activities      Activity[]
-  sevices         Service[]
+  services         Service[]
   quests          Quest[]
   blogs           Blog[]
 
