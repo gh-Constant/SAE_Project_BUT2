@@ -23,6 +23,7 @@ import translationRoutes from './translationRoutes.js';
 import blogRoutes from './blogRoutes.js';
 import locationRoutes from './locationRoutes.js';
 import productRoutes from './productRoutes.js';
+import eventRoutes from './eventRoutes.js';
 import { apiConfig } from '../config/app.config.js';
 
 const router = Router();
@@ -59,6 +60,9 @@ apiRouter.use('/locations', locationRoutes);
 
 // Ajout des routes de produits
 apiRouter.use('/products', productRoutes);
+
+// Ajout des routes d'événements
+apiRouter.use('/events', eventRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);

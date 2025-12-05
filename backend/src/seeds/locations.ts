@@ -627,6 +627,7 @@ export async function seedLocations() {
         position: location.position,
         icon_name: location.icon_name,
         banner_name: location.banner_name,
+        maximum_capacity: 0, // TODO: location.maximum_capacity,
         id_location_type: location.id_location_type,
         id_prestataire: location.id_prestataire,
       },

@@ -1,11 +1,5 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <!-- Custom Header -->
-    <PrestataireNavbar 
-      :user="user" 
-      @logout="logout"
-    />
-
     <!-- Main Content -->
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,12 +65,14 @@
               
               <!-- Action -->
               <div class="pt-4 border-t border-antique-bronze/20">
-                <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Voir mes lieux
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                <router-link to="/prestataire/locations" class="contents">
+                  <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
+                    Voir mes lieux
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -201,19 +197,5 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
-import PrestataireNavbar from '@/components/navbar/PrestataireNavbar.vue'
-
-const router = useRouter()
-const authStore = useAuthStore()
-
-const user = computed(() => authStore.user)
-
-const logout = () => {
-  authStore.logout()
-  router.push('/login')
-}
 </script>

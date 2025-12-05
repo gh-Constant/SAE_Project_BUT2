@@ -18,6 +18,11 @@
             </h1>
           </router-link>
         </div>
+        
+        <nav class="hidden md:flex gap-6">
+          <router-link to="/prestataire/products" class="text-iron-black hover:text-antique-bronze font-medieval text-lg">Produits</router-link>
+          <router-link to="/prestataire/events" class="text-iron-black hover:text-antique-bronze font-medieval text-lg">Événements</router-link>
+        </nav>
 
         <!-- User Actions -->
         <div class="flex items-center gap-6">
