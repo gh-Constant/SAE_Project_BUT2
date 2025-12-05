@@ -76,18 +76,18 @@ const validateField = (field: string, value: string) => {
   switch (field) {
     case 'firstName':
       if (!value.trim()) {
-        fieldErrors.value[field] = 'First Name is required'
+        fieldErrors.value[field] = 'Le prénom est requis'
       } else if (value.trim().length < 2) {
-        fieldErrors.value[field] = 'Must be at least 2 characters'
+        fieldErrors.value[field] = 'Doit contenir au moins 2 caractères'
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'lastName':
       if (!value.trim()) {
-        fieldErrors.value[field] = 'Last Name is required'
+        fieldErrors.value[field] = 'Le nom est requis'
       } else if (value.trim().length < 2) {
-        fieldErrors.value[field] = 'Must be at least 2 characters'
+        fieldErrors.value[field] = 'Doit contenir au moins 2 caractères'
       } else {
         fieldErrors.value[field] = ''
       }
@@ -95,27 +95,27 @@ const validateField = (field: string, value: string) => {
     case 'email':
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!value.trim()) {
-        fieldErrors.value[field] = 'Email Address is required'
+        fieldErrors.value[field] = 'L\'email est requis'
       } else if (!emailRegex.test(value)) {
-        fieldErrors.value[field] = 'Please enter a valid email'
+        fieldErrors.value[field] = 'Veuillez entrer un email valide'
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'password':
       if (!value) {
-        fieldErrors.value[field] = 'Password is required'
+        fieldErrors.value[field] = 'Le mot de passe est requis'
       } else if (value.length < 6) {
-        fieldErrors.value[field] = 'Password must be at least 6 characters'
+        fieldErrors.value[field] = 'Le mot de passe doit contenir au moins 6 caractères'
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'confirmPassword':
       if (!value) {
-        fieldErrors.value[field] = 'Confirm Password is required'
+        fieldErrors.value[field] = 'La confirmation est requise'
       } else if (value !== password.value) {
-        fieldErrors.value[field] = 'Passwords do not match'
+        fieldErrors.value[field] = 'Les mots de passe ne correspondent pas'
       } else {
         fieldErrors.value[field] = ''
       }
@@ -136,7 +136,7 @@ const validateAllFields = () => {
 const handleRegister = async () => {
   // Validate all fields before submission
   if (!validateAllFields()) {
-    errorMessage.value = 'Please fix all validation errors before submitting'
+    errorMessage.value = 'Veuillez corriger les erreurs avant de soumettre'
     return
   }
 
@@ -174,88 +174,79 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex">
+  <div class="min-h-screen flex font-body">
     <!-- Left side - Map -->
-    <div class="hidden md:flex w-1/2 bg-gradient-to-br from-orange-50 to-orange-100 items-center justify-center p-8">
+    <div class="hidden md:flex w-1/2 bg-aged-paper relative overflow-hidden items-center justify-center p-6 border-r-4 border-double border-antique-bronze/30">
+      <div class="absolute inset-0 bg-[url('/images/paper-texture.jpg')] opacity-10 pointer-events-none"></div>
       <img
         src="/images/login_image.png"
         alt="Register"
-        class="w-4/5 h-auto rounded-lg shadow-lg transform scale-150 rotate-3"
+        class="w-11/12 h-auto rounded-lg shadow-2xl transform scale-105 rotate-1 border-4 border-antique-bronze/20 sepia-[0.3]"
       >
     </div>
 
     <!-- Right side - Register Form -->
-    <div class="flex-1 md:w-1/2 bg-white flex flex-col justify-center p-8">
-      <div class="w-full max-w-md mx-auto">
+    <div class="flex-1 md:w-1/2 bg-parchment flex flex-col justify-center p-8 relative">
+      <div class="absolute inset-0 bg-[url('/images/paper-texture.jpg')] opacity-20 pointer-events-none"></div>
+      
+      <div class="w-full max-w-md mx-auto relative z-10">
         <!-- Logo -->
         <div class="mb-8 text-center">
           <img
             src="/images/transparent_logo.png"
             alt="MedievalEvent Logo"
-            class="h-39 w-auto mx-auto mb-6"
+            class="h-40 w-auto mx-auto mb-6 drop-shadow-md"
           >
         </div>
 
         <!-- Title -->
         <div class="mb-8 text-left">
           <div class="flex items-center justify-between mb-4">
-            <h1 class="text-3xl font-bold text-black">
-              Create Account
+            <h1 class="text-3xl font-medieval font-bold text-iron-black">
+              Créer un Compte
             </h1>
             <div class="flex items-center space-x-2">
               <div class="flex items-center space-x-1">
                 <div
-                  class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
-                  :class="!showStep2 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600'"
+                  class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold font-medieval border-2 transition-all duration-300"
+                  :class="!showStep2 ? 'bg-antique-bronze text-white border-antique-bronze' : 'bg-parchment text-stone-grey border-stone-grey/30'"
                 >
-                  1
+                  I
                 </div>
-                <div class="w-8 h-1 bg-gray-200 rounded" />
+                <div class="w-8 h-1 rounded bg-stone-grey/20" />
                 <div
-                  class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
-                  :class="showStep2 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600'"
+                  class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold font-medieval border-2 transition-all duration-300"
+                  :class="showStep2 ? 'bg-antique-bronze text-white border-antique-bronze' : 'bg-parchment text-stone-grey border-stone-grey/30'"
                 >
-                  2
+                  II
                 </div>
               </div>
             </div>
           </div>
-          <p class="text-black text-lg mb-4">
-            Join Les Terres Du Lion and start your adventure
+          <p class="text-stone-grey text-lg mb-4 italic">
+            Rejoignez les Terres du Lion et commencez votre quête
           </p>
-          <!-- Orange line -->
-          <div class="w-24 h-1 bg-orange-500" />
+          <!-- Bronze line -->
+          <div class="w-24 h-1 bg-antique-bronze rounded-full" />
         </div>
 
         <!-- Error Message -->
         <div
           v-if="errorMessage"
-          class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-xl shadow-sm"
+          class="mb-6 p-4 bg-red-50/80 border-l-4 border-red-800 rounded-r-lg shadow-sm backdrop-blur-sm"
         >
           <div class="flex items-start">
             <div class="flex-1">
-              <p class="text-sm font-medium text-red-800">
+              <p class="text-sm font-medium text-red-900">
                 {{ errorMessage }}
               </p>
             </div>
             <div class="ml-3 flex-shrink-0">
               <button
-                class="text-red-400 hover:text-red-600 transition-colors"
+                class="text-red-700 hover:text-red-900 transition-colors"
                 @click="errorMessage = ''"
               >
-                <svg
-                  class="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <i class="fas fa-times"></i>
               </button>
             </div>
           </div>
@@ -264,11 +255,11 @@ const handleRegister = async () => {
         <!-- Loading Overlay -->
         <div
           v-if="isLoading"
-          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          class="fixed inset-0 bg-iron-black/50 backdrop-blur-sm flex items-center justify-center z-50"
         >
-          <div class="bg-white p-6 rounded-lg shadow-lg flex items-center space-x-3">
-            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500" />
-            <span class="text-gray-700">Creating account...</span>
+          <div class="bg-parchment p-8 rounded-lg shadow-2xl border-2 border-antique-bronze flex flex-col items-center space-y-4">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-antique-bronze" />
+            <span class="text-iron-black font-medieval text-xl">Création du compte...</span>
           </div>
         </div>
 
@@ -277,50 +268,37 @@ const handleRegister = async () => {
           v-if="!showStep2"
           class="mb-6"
         >
-          <p class="text-gray-500 text-base mb-3">
-            Please select your role
+          <p class="text-stone-grey text-base mb-3 font-medieval font-bold">
+            Choisissez votre destinée
           </p>
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-2 gap-4">
             <!-- Aventurier Role -->
             <button
               type="button"
-              class="relative p-3 rounded-lg border-2 transition-all cursor-pointer"
-              :class="selectedRole === 'aventurier' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 bg-white hover:border-gray-300'"
+              class="relative p-4 rounded-lg border-2 transition-all cursor-pointer group"
+              :class="selectedRole === 'aventurier' ? 'border-antique-bronze bg-antique-bronze/10' : 'border-stone-grey/30 bg-white/50 hover:border-antique-bronze/50'"
               @click="selectedRole = 'aventurier'"
             >
-              <div class="flex flex-col items-center space-y-1">
+              <div class="flex flex-col items-center space-y-2">
                 <div
-                  class="p-1.5 rounded-md"
-                  :class="selectedRole === 'aventurier' ? 'bg-orange-100' : 'bg-gray-100'"
+                  class="p-2 rounded-full transition-colors"
+                  :class="selectedRole === 'aventurier' ? 'bg-antique-bronze text-white' : 'bg-stone-grey/10 text-stone-grey group-hover:text-antique-bronze'"
                 >
-                  <i
-                    class="fas fa-user w-5 h-5"
-                    :class="selectedRole === 'aventurier' ? 'text-orange-500' : 'text-gray-400'"
-                  />
+                  <i class="fas fa-user w-6 h-6" />
                 </div>
                 <span
-                  class="font-medium text-xs"
-                  :class="selectedRole === 'aventurier' ? 'text-orange-500' : 'text-gray-400'"
+                  class="font-medieval font-bold text-sm"
+                  :class="selectedRole === 'aventurier' ? 'text-antique-bronze' : 'text-stone-grey'"
                 >
                   Aventurier
                 </span>
               </div>
               <div
                 v-if="selectedRole === 'aventurier'"
-                class="absolute -top-1 -right-1"
+                class="absolute -top-2 -right-2"
               >
-                <div class="w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
-                  <svg
-                    class="w-2.5 h-2.5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                <div class="w-6 h-6 bg-antique-bronze rounded-full flex items-center justify-center shadow-sm border-2 border-parchment">
+                  <i class="fas fa-check text-white text-xs"></i>
                 </div>
               </div>
             </button>
@@ -328,43 +306,30 @@ const handleRegister = async () => {
             <!-- prestataire Role -->
             <button
               type="button"
-              class="relative p-3 rounded-lg border-2 transition-all cursor-pointer"
-              :class="selectedRole === 'prestataire' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 bg-white hover:border-gray-300'"
+              class="relative p-4 rounded-lg border-2 transition-all cursor-pointer group"
+              :class="selectedRole === 'prestataire' ? 'border-antique-bronze bg-antique-bronze/10' : 'border-stone-grey/30 bg-white/50 hover:border-antique-bronze/50'"
               @click="selectedRole = 'prestataire'"
             >
-              <div class="flex flex-col items-center space-y-1">
+              <div class="flex flex-col items-center space-y-2">
                 <div
-                  class="p-1.5 rounded-md"
-                  :class="selectedRole === 'prestataire' ? 'bg-orange-100' : 'bg-gray-100'"
+                  class="p-2 rounded-full transition-colors"
+                  :class="selectedRole === 'prestataire' ? 'bg-antique-bronze text-white' : 'bg-stone-grey/10 text-stone-grey group-hover:text-antique-bronze'"
                 >
-                  <i
-                    class="fas fa-shopping-bag w-5 h-5"
-                    :class="selectedRole === 'prestataire' ? 'text-orange-500' : 'text-gray-400'"
-                  />
+                  <i class="fas fa-shopping-bag w-6 h-6" />
                 </div>
                 <span
-                  class="font-medium text-xs"
-                  :class="selectedRole === 'prestataire' ? 'text-orange-500' : 'text-gray-400'"
+                  class="font-medieval font-bold text-sm"
+                  :class="selectedRole === 'prestataire' ? 'text-antique-bronze' : 'text-stone-grey'"
                 >
                   Prestataire
                 </span>
               </div>
               <div
                 v-if="selectedRole === 'prestataire'"
-                class="absolute -top-1 -right-1"
+                class="absolute -top-2 -right-2"
               >
-                <div class="w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
-                  <svg
-                    class="w-2.5 h-2.5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                <div class="w-6 h-6 bg-antique-bronze rounded-full flex items-center justify-center shadow-sm border-2 border-parchment">
+                  <i class="fas fa-check text-white text-xs"></i>
                 </div>
               </div>
             </button>
@@ -377,27 +342,28 @@ const handleRegister = async () => {
           class="mb-6"
         >
           <div class="relative">
-            <div class="flex items-center justify-between w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-200 transition-all duration-200">
+            <div class="flex items-center justify-between w-full px-4 py-3 bg-white/50 border-2 rounded-lg transition-all duration-200"
+                 :class="selectedAvatar ? 'border-antique-bronze/50' : 'border-stone-grey/30'">
               <!-- Avatar Preview -->
               <div class="flex items-center space-x-3">
                 <div
                   v-if="selectedAvatar"
-                  class="w-12 h-12 rounded-full overflow-hidden border-2 border-orange-500 flex-shrink-0"
+                  class="w-12 h-12 rounded-full overflow-hidden border-2 border-antique-bronze flex-shrink-0 shadow-sm"
                 >
                   <img 
                     :src="selectedAvatar.startsWith('blob:') ? selectedAvatar : `/images/Avatar-images/${selectedAvatar}`" 
                     :alt="selectedAvatar"
-                    class="w-full h-full object-cover rounded-full"
+                    class="w-full h-full object-cover"
                   >
                 </div>
                 <div
                   v-else
-                  class="w-12 h-12 rounded-full bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center flex-shrink-0"
+                  class="w-12 h-12 rounded-full bg-stone-grey/10 border-2 border-dashed border-stone-grey/30 flex items-center justify-center flex-shrink-0"
                 >
-                  <i class="fas fa-user text-gray-400" />
+                  <i class="fas fa-user text-stone-grey/50" />
                 </div>
-                <span class="text-gray-700 font-medium">
-                  {{ selectedAvatar ? 'Avatar sélectionné' : 'Choisir un avatar' }}
+                <span class="text-iron-black font-medium">
+                  {{ selectedAvatar ? 'Portrait sélectionné' : 'Choisir un portrait' }}
                 </span>
               </div>
               
@@ -405,13 +371,13 @@ const handleRegister = async () => {
               <div class="flex space-x-2">
                 <button
                   type="button"
-                  class="px-3 py-1 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors text-sm font-medium"
+                  class="px-3 py-1.5 bg-antique-bronze text-white rounded-md hover:brightness-110 transition-all text-sm font-medieval font-bold shadow-sm"
                   @click="openAvatarModal"
                 >
                   <i class="fas fa-images mr-1" />
                   Galerie
                 </button>
-                <label class="px-3 py-1 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors text-sm font-medium cursor-pointer">
+                <label class="px-3 py-1.5 bg-stone-grey text-white rounded-md hover:bg-iron-black transition-all text-sm font-medieval font-bold cursor-pointer shadow-sm">
                   <i class="fas fa-upload mr-1" />
                   Importer
                   <input
@@ -433,47 +399,51 @@ const handleRegister = async () => {
         >
           <!-- Name Inputs -->
           <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="relative">
+            <div class="relative group">
               <input
                 id="firstName"
                 v-model="firstName"
                 type="text"
-                class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-                :class="fieldErrors.firstName ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                placeholder=" "
+                class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
+                :class="fieldErrors.firstName ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
+                placeholder="Prénom"
                 required
                 @blur="validateField('firstName', firstName)"
                 @input="validateField('firstName', firstName)"
               >
               <label
                 for="firstName"
-                class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-                :class="firstName ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-                :style="{ color: fieldErrors.firstName ? '#ef4444' : firstName ? '#f97316' : '#6b7280' }"
+                class="absolute left-4 transition-all duration-200 pointer-events-none font-medieval"
+                :class="[
+                  firstName ? '-top-3 text-xs bg-parchment px-2 text-antique-bronze' : 'top-3 text-base text-stone-grey',
+                  fieldErrors.firstName ? 'text-red-600' : ''
+                ]"
               >
-                {{ fieldErrors.firstName || 'First Name' }}
+                {{ fieldErrors.firstName || 'Prénom' }}
               </label>
             </div>
 
-            <div class="relative">
+            <div class="relative group">
               <input
                 id="lastName"
                 v-model="lastName"
                 type="text"
-                class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-                :class="fieldErrors.lastName ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                placeholder=" "
+                class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
+                :class="fieldErrors.lastName ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
+                placeholder="Nom"
                 required
                 @blur="validateField('lastName', lastName)"
                 @input="validateField('lastName', lastName)"
               >
               <label
                 for="lastName"
-                class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-                :class="lastName ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-                :style="{ color: fieldErrors.lastName ? '#ef4444' : lastName ? '#f97316' : '#6b7280' }"
+                class="absolute left-4 transition-all duration-200 pointer-events-none font-medieval"
+                :class="[
+                  lastName ? '-top-3 text-xs bg-parchment px-2 text-antique-bronze' : 'top-3 text-base text-stone-grey',
+                  fieldErrors.lastName ? 'text-red-600' : ''
+                ]"
               >
-                {{ fieldErrors.lastName || 'Last Name' }}
+                {{ fieldErrors.lastName || 'Nom' }}
               </label>
             </div>
           </div>
@@ -482,24 +452,12 @@ const handleRegister = async () => {
           <button
             type="button"
             :disabled="!canProceedToStep2()"
-            class="w-full flex justify-center items-center py-3 px-6 border border-transparent rounded-full shadow-md text-base font-semibold text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-            :class="canProceedToStep2() ? 'bg-orange-500 hover:bg-orange-600 cursor-pointer' : 'bg-gray-300 cursor-not-allowed'"
+            class="w-full flex justify-center items-center py-3 px-6 border border-transparent rounded-lg shadow-lg text-lg font-medieval font-bold text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-antique-bronze transform hover:-translate-y-0.5"
+            :class="canProceedToStep2() ? 'bg-antique-bronze hover:brightness-110 cursor-pointer' : 'bg-stone-grey/50 cursor-not-allowed'"
             @click="showStep2 = true"
           >
-            Continue
-            <svg
-              class="ml-2 h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            Poursuivre
+            <i class="fas fa-arrow-right ml-2"></i>
           </button>
         </div>
 
@@ -510,190 +468,124 @@ const handleRegister = async () => {
           @submit.prevent="handleRegister"
         >
           <!-- Selected Role Display -->
-          <div class="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-xl">
+          <div class="mb-6 p-4 bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-3">
                 <!-- Avatar Display -->
                 <div
                   v-if="selectedAvatar"
-                  class="w-12 h-12 rounded-full overflow-hidden border-2 border-orange-500 flex-shrink-0"
+                  class="w-12 h-12 rounded-full overflow-hidden border-2 border-antique-bronze flex-shrink-0"
                 >
                   <img 
                     :src="selectedAvatar.startsWith('blob:') ? selectedAvatar : `/images/Avatar-images/${selectedAvatar}`" 
                     :alt="selectedAvatar"
-                    class="w-full h-full object-cover rounded-full"
+                    class="w-full h-full object-cover"
                   >
-                </div>
-                <div
-                  v-else
-                  class="w-12 h-12 rounded-full bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center flex-shrink-0"
-                >
-                  <i class="fas fa-user text-gray-400" />
                 </div>
                 
                 <!-- Role and Name -->
                 <div class="text-left">
-                  <p class="text-sm font-medium text-gray-700">
-                    Selected Role
+                  <p class="text-xs font-medieval text-stone-grey uppercase tracking-wider">
+                    Identité
                   </p>
-                  <p class="text-lg font-semibold text-orange-600 capitalize">
-                    {{ selectedRole }}: {{ firstName }} {{ lastName }}
+                  <p class="text-base font-bold text-iron-black capitalize">
+                    <span class="text-antique-bronze">{{ selectedRole }}</span> {{ firstName }} {{ lastName }}
                   </p>
                 </div>
               </div>
               <button
                 type="button"
-                class="text-orange-500 hover:text-orange-600 text-sm font-medium transition-colors cursor-pointer"
+                class="text-antique-bronze hover:text-iron-black text-sm font-bold font-medieval transition-colors cursor-pointer underline decoration-antique-bronze/30 underline-offset-2"
                 @click="showStep2 = false"
               >
-                Change
+                Modifier
               </button>
             </div>
           </div>
 
           <!-- Email Input with floating label -->
-          <div class="relative">
+          <div class="relative group">
             <input
               id="email"
               v-model="email"
               type="email"
-              class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-              :class="fieldErrors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-              placeholder=" "
+              class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
+              :class="fieldErrors.email ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
+              placeholder="Email"
               required
               @blur="validateField('email', email)"
             >
             <label
               for="email"
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-              :class="email ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-              :style="{ color: fieldErrors.email ? '#ef4444' : email ? '#f97316' : '#6b7280' }"
+              class="absolute left-4 transition-all duration-200 pointer-events-none font-medieval"
+              :class="[
+                email ? '-top-3 text-xs bg-parchment px-2 text-antique-bronze' : 'top-3 text-base text-stone-grey',
+                fieldErrors.email ? 'text-red-600' : ''
+              ]"
             >
-              {{ fieldErrors.email || 'Email Address' }}
+              {{ fieldErrors.email || 'Adresse Email' }}
             </label>
           </div>
 
           <!-- Password Input with floating label -->
-          <div class="relative">
+          <div class="relative group">
             <input
               id="password"
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
-              class="w-full px-4 py-3 pr-12 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-              :class="fieldErrors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-              placeholder=" "
+              class="w-full px-4 py-3 pr-12 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
+              :class="fieldErrors.password ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
+              placeholder="Mot de passe"
               required
               @blur="validateField('password', password)"
             >
             <label
               for="password"
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-              :class="password ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-              :style="{ color: fieldErrors.password ? '#ef4444' : password ? '#f97316' : '#6b7280' }"
+              class="absolute left-4 transition-all duration-200 pointer-events-none font-medieval"
+              :class="[
+                password ? '-top-3 text-xs bg-parchment px-2 text-antique-bronze' : 'top-3 text-base text-stone-grey',
+                fieldErrors.password ? 'text-red-600' : ''
+              ]"
             >
-              {{ fieldErrors.password || 'Password' }}
+              {{ fieldErrors.password || 'Mot de passe' }}
             </label>
             <button
               type="button"
-              class="absolute inset-y-0 right-0 pr-4 flex items-center"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center text-antique-bronze hover:text-iron-black transition-colors"
               @click="togglePasswordVisibility"
             >
-              <svg
-                v-if="showPassword"
-                class="h-5 w-5 text-orange-500 hover:text-orange-600 transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
-              <svg
-                v-else
-                class="h-5 w-5 text-orange-500 hover:text-orange-600 transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                />
-              </svg>
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
           </div>
 
           <!-- Confirm Password Input with floating label -->
-          <div class="relative">
+          <div class="relative group">
             <input
               id="confirmPassword"
               v-model="confirmPassword"
               :type="showConfirmPassword ? 'text' : 'password'"
-              class="w-full px-4 py-3 pr-12 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer"
-              :class="fieldErrors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-              placeholder=" "
+              class="w-full px-4 py-3 pr-12 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
+              :class="fieldErrors.confirmPassword ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
+              placeholder="Confirmer le mot de passe"
               required
               @blur="validateField('confirmPassword', confirmPassword)"
             >
             <label
               for="confirmPassword"
-              class="absolute left-4 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs peer-focus:bg-transparent peer-focus:px-2 pb-1"
-              :class="confirmPassword ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
-              :style="{ color: fieldErrors.confirmPassword ? '#ef4444' : confirmPassword ? '#f97316' : '#6b7280' }"
+              class="absolute left-4 transition-all duration-200 pointer-events-none font-medieval"
+              :class="[
+                confirmPassword ? '-top-3 text-xs bg-parchment px-2 text-antique-bronze' : 'top-3 text-base text-stone-grey',
+                fieldErrors.confirmPassword ? 'text-red-600' : ''
+              ]"
             >
-              {{ fieldErrors.confirmPassword || 'Confirm Password' }}
+              {{ fieldErrors.confirmPassword || 'Confirmer le mot de passe' }}
             </label>
             <button
               type="button"
-              class="absolute inset-y-0 right-0 pr-4 flex items-center"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center text-antique-bronze hover:text-iron-black transition-colors"
               @click="toggleConfirmPasswordVisibility"
             >
-              <svg
-                v-if="showConfirmPassword"
-                class="h-5 w-5 text-orange-500 hover:text-orange-600 transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
-              <svg
-                v-else
-                class="h-5 w-5 text-orange-500 hover:text-orange-600 transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                />
-              </svg>
+              <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
           </div>
 
@@ -701,30 +593,30 @@ const handleRegister = async () => {
           <div class="flex gap-4">
             <button
               type="button"
-              class="flex-1 flex justify-center py-3 px-6 border border-gray-300 rounded-full shadow-md text-base font-semibold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200"
+              class="flex-1 flex justify-center py-3 px-6 border-2 border-stone-grey/30 rounded-lg shadow-sm text-base font-medieval font-bold text-stone-grey bg-white/50 hover:bg-stone-grey/10 hover:text-iron-black transition-all duration-200"
               @click="showStep2 = false"
             >
-              Back
+              Retour
             </button>
             <button
               type="submit"
               :disabled="isLoading"
-              class="flex-1 flex justify-center py-3 px-6 border border-transparent rounded-full shadow-md text-base font-semibold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:bg-orange-300 transition-all duration-200"
+              class="flex-1 flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-lg text-base font-medieval font-bold text-white bg-antique-bronze hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-antique-bronze disabled:opacity-50 transition-all duration-200 transform hover:-translate-y-0.5"
             >
-              {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+              {{ isLoading ? 'Création...' : 'Créer le compte' }}
             </button>
           </div>
         </form>
 
         <!-- Sign In Link -->
-        <div class="mt-6 text-center">
-          <p class="text-gray-600">
-            Already have an account?
+        <div class="mt-8 text-center">
+          <p class="text-stone-grey">
+            Déjà un compte ?
             <router-link
               to="/login"
-              class="font-semibold text-orange-600 hover:text-orange-500 transition-colors"
+              class="font-medieval font-bold text-antique-bronze hover:text-iron-black transition-colors ml-1 text-lg"
             >
-              Sign in
+              Se connecter
             </router-link>
           </p>
         </div>
@@ -734,20 +626,20 @@ const handleRegister = async () => {
     <!-- Avatar Selection Modal -->
     <div
       v-if="showAvatarModal"
-      class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50"
+      class="fixed inset-0 bg-iron-black/60 backdrop-blur-sm flex items-center justify-center z-50"
       @click="closeAvatarModal"
     >
       <div
-        class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden"
+        class="bg-parchment rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden border-4 border-double border-antique-bronze"
         @click.stop
       >
         <!-- Modal Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <h3 class="text-xl font-semibold text-gray-900">
-            Choisissez votre avatar
+        <div class="flex items-center justify-between p-6 border-b border-antique-bronze/20 bg-antique-bronze/5">
+          <h3 class="text-2xl font-medieval font-bold text-iron-black">
+            Galerie de Portraits
           </h3>
           <button
-            class="text-gray-400 hover:text-gray-600 transition-colors"
+            class="text-stone-grey hover:text-red-700 transition-colors"
             @click="closeAvatarModal"
           >
             <i class="fas fa-times text-xl" />
@@ -755,13 +647,13 @@ const handleRegister = async () => {
         </div>
         
         <!-- Modal Content -->
-        <div class="p-6 overflow-y-auto max-h-[60vh]">
-          <div class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-3">
+        <div class="p-6 overflow-y-auto max-h-[60vh] bg-[url('/images/paper-texture.jpg')] bg-opacity-50">
+          <div class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-4">
             <div
               v-for="avatar in availableAvatars"
               :key="avatar"
-              class="w-16 h-16 rounded-full overflow-hidden border-2 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
-              :class="selectedAvatar === avatar ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200 hover:border-orange-300'"
+              class="aspect-square rounded-full overflow-hidden border-2 cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg hover:border-antique-bronze"
+              :class="selectedAvatar === avatar ? 'border-antique-bronze ring-4 ring-antique-bronze/20 scale-105' : 'border-stone-grey/30'"
               @click="selectAvatar(avatar)"
             >
               <img 
@@ -774,9 +666,9 @@ const handleRegister = async () => {
         </div>
         
         <!-- Modal Footer -->
-        <div class="flex justify-end p-6 border-t border-gray-200">
+        <div class="flex justify-end p-6 border-t border-antique-bronze/20 bg-antique-bronze/5">
           <button
-            class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+            class="px-6 py-2 bg-stone-grey text-white rounded-lg hover:bg-iron-black transition-colors font-medieval font-bold shadow-md"
             @click="closeAvatarModal"
           >
             Annuler
