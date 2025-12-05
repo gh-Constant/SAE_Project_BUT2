@@ -1,69 +1,67 @@
-<!--
-  @file CartView.vue
-  @description
-  Vue pour afficher et gérer le panier d'achat.
-
-  @utilité
-  - Affiche tous les articles du panier groupés par location (boutique)
-  - Permet de modifier les quantités ou supprimer des articles
-  - Affiche les sous-totaux par location et le total général
-  - Permet de passer commande (crée les commandes séparées par location)
--->
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-parchment py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">
-          <i class="fas fa-shopping-cart mr-3 text-orange-500"></i>
-          Mon Panier
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
+          <i class="fas fa-shopping-cart mr-3 text-antique-bronze"></i>
+          Votre Besace
         </h1>
-        <p class="text-gray-600">{{ cartStore.itemCount }} article(s) dans votre panier</p>
+        <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
+        <p class="text-base font-body text-stone-grey">{{ cartStore.itemCount }} article(s) en attente d'acquisition</p>
       </div>
 
       <!-- Panier vide -->
-      <div v-if="cartStore.isEmpty" class="text-center py-12 bg-white rounded-lg shadow-sm">
-        <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
-        <p class="text-xl text-gray-600 mb-2">Votre panier est vide</p>
-        <p class="text-gray-500 mb-6">Découvrez nos produits dans la boutique</p>
+      <div v-if="cartStore.isEmpty" class="text-center py-16 bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 shadow-sm">
+        <div class="w-20 h-20 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fas fa-shopping-basket text-4xl text-antique-bronze/50"></i>
+        </div>
+        <p class="text-xl font-medieval text-iron-black mb-2">Votre besace est vide</p>
+        <p class="text-sm font-body text-stone-grey mb-8">Les échoppes du royaume regorgent de trésors.</p>
         <router-link
           to="/boutique"
-          class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors"
+          class="inline-flex items-center bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200"
         >
           <i class="fas fa-store mr-2"></i>
-          Voir les boutiques
+          Visiter les échoppes
         </router-link>
       </div>
 
       <!-- Panier avec articles -->
       <div v-else>
         <!-- Articles groupés par location (boutique) -->
-        <div v-for="(items, locationId) in cartStore.groupedByLocation" :key="locationId" class="mb-6">
+        <div v-for="(items, locationId) in cartStore.groupedByLocation" :key="locationId" class="mb-8">
           <!-- En-tête de la location -->
-          <div class="bg-orange-100 border border-orange-300 rounded-t-lg px-4 py-3">
-            <h2 class="font-semibold text-gray-900">
-              <i class="fas fa-map-marker-alt mr-2 text-orange-600"></i>
-              {{ getLocationName(Number(locationId)) }}
-            </h2>
-            <p class="text-sm text-gray-600 mt-1">
-              {{ getPrestataireNameForLocation(Number(locationId)) }}
-            </p>
+          <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-t-lg px-6 py-4 flex items-center justify-between backdrop-blur-sm">
+            <div>
+              <h2 class="font-medieval font-bold text-lg text-iron-black flex items-center">
+                <i class="fas fa-map-marker-alt mr-2 text-antique-bronze"></i>
+                {{ getLocationName(Number(locationId)) }}
+              </h2>
+              <p class="text-sm font-body text-stone-grey mt-1 italic">
+                Marchand : {{ getPrestataireNameForLocation(Number(locationId)) }}
+              </p>
+            </div>
+            <div class="text-right hidden sm:block">
+              <span class="text-xs font-body text-stone-grey uppercase tracking-wider">Sous-total</span>
+              <p class="font-medieval font-bold text-antique-bronze text-lg">
+                {{ calculateSubtotal(items).toFixed(2) }} gold
+              </p>
+            </div>
           </div>
 
           <!-- Liste des articles de la location -->
-          <div class="bg-white border-x border-gray-200 divide-y divide-gray-200">
+          <div class="bg-white/30 border-x border-b border-antique-bronze/20 rounded-b-lg p-4 space-y-3 backdrop-blur-sm">
             <CartItemComponent
               v-for="item in items"
               :key="item.id_product"
               :item="item"
             />
-          </div>
-
-          <!-- Sous-total de la location -->
-          <div class="bg-gray-50 border-x border-b border-gray-200 rounded-b-lg px-4 py-3">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Sous-total</span>
-              <span class="text-lg font-bold text-gray-900">
+            
+            <!-- Sous-total mobile -->
+            <div class="sm:hidden pt-4 mt-2 border-t border-antique-bronze/10 flex justify-between items-center">
+              <span class="font-body text-stone-grey">Sous-total</span>
+              <span class="font-medieval font-bold text-antique-bronze text-lg">
                 {{ calculateSubtotal(items).toFixed(2) }} gold
               </span>
             </div>
@@ -71,26 +69,26 @@
         </div>
 
         <!-- Récapitulatif global -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div class="space-y-3">
-            <div class="flex justify-between items-center text-lg">
-              <span class="font-semibold text-gray-900">Total général</span>
-              <span class="text-2xl font-bold text-orange-600">
+        <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 mb-8 shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-center sm:text-left">
+              <p class="text-sm font-body text-stone-grey mb-1">Total à régler</p>
+              <p class="text-3xl font-medieval font-bold text-antique-bronze">
                 {{ cartStore.total.toFixed(2) }} gold
-              </span>
+              </p>
             </div>
-            <p class="text-sm text-gray-500">
-              <i class="fas fa-info-circle mr-1"></i>
-              Les commandes seront créées séparément pour chaque boutique (location)
-            </p>
+            <div class="text-sm font-body text-stone-grey bg-antique-bronze/5 px-4 py-2 rounded-md border border-antique-bronze/10">
+              <i class="fas fa-info-circle mr-2 text-antique-bronze"></i>
+              Les commandes seront traitées séparément par boutique.
+            </div>
           </div>
         </div>
 
         <!-- Actions -->
-        <div class="flex gap-4">
+        <div class="flex flex-col sm:flex-row gap-4">
           <router-link
             to="/boutique"
-            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors text-center"
+            class="flex-1 bg-stone-grey/10 hover:bg-stone-grey/20 text-stone-grey font-body font-bold py-4 px-6 rounded-md transition-colors text-center border border-stone-grey/20"
           >
             <i class="fas fa-arrow-left mr-2"></i>
             Continuer mes achats
@@ -99,11 +97,11 @@
           <button
             @click="handleCheckout"
             :disabled="isProcessing"
-            class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex-1 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-4 px-6 rounded-md shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            <i v-if="!isProcessing" class="fas fa-credit-card mr-2"></i>
+            <i v-if="!isProcessing" class="fas fa-scroll mr-2"></i>
             <i v-else class="fas fa-spinner fa-spin mr-2"></i>
-            {{ isProcessing ? 'Traitement...' : 'Passer commande' }}
+            {{ isProcessing ? 'Scellement en cours...' : 'Sceller la commande' }}
           </button>
         </div>
       </div>
@@ -168,4 +166,3 @@ const handleCheckout = async () => {
   }
 }
 </script>
-
