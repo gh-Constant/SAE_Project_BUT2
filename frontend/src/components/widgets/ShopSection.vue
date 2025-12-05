@@ -89,9 +89,9 @@ const displayedProducts = computed(() => {
   return products.value.slice(0, 3);
 });
 
-const fetchProducts = () => {
+const fetchProducts = async () => {
   try {
-    products.value = productService.getProductsByLocation(props.locationId);
+    products.value = await productService.getProductsByLocation(props.locationId);
   } catch (error) {
     console.error('Failed to fetch products:', error);
   }

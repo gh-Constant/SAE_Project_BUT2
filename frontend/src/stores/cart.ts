@@ -115,9 +115,8 @@ export const useCartStore = defineStore('cart', {
         // Si le produit existe déjà, augmenter la quantité
         existingItem.quantity += quantity
       } else {
-        // Récupérer la locationId depuis productService (optimisation)
-        const productStore = productService.getProducts().find(p => p.id === product.id)
-        const locationId = productStore?.locationId || 0
+        // Use locationId from product if available (populated by store getter)
+        const locationId = product.locationId || 0
 
         // Sinon, ajouter un nouvel article
         this.items.push({
@@ -173,7 +172,7 @@ export const useCartStore = defineStore('cart', {
     clearCartAndStorage() {
       const authStore = useAuthStore()
       this.items = []
-      
+
       // Supprimer le panier du localStorage pour l'utilisateur actuel
       if (authStore.user && isMockEnabled) {
         const cartKey = `cart_${authStore.user.id}`
@@ -198,7 +197,7 @@ export const useCartStore = defineStore('cart', {
       // Créer une commande par location (boutique)
       for (const [locationIdStr, items] of Object.entries(grouped)) {
         const locationId = Number(locationIdStr)
-        
+
         // Calculer le total pour cette location
         const totalPrice = items.reduce(
           (sum, item) => sum + item.price * item.quantity,

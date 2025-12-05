@@ -42,7 +42,7 @@ export const useProductStore = defineStore('product', {
     // Save the modifications of an product
     async saveEdit() {
       const updatedProduct = await productService.updateProduct(this.editProduct)
-      if (updatedProduct) { 
+      if (updatedProduct) {
         // Update the product in the list
         const index = this.products.findIndex(p => p.id === this.editProduct.id);
         if (index !== -1) {
@@ -100,7 +100,8 @@ export const useProductStore = defineStore('product', {
         price: product.price,
         stock: product.stock,
         image: product.imageUrl,
-        id_prestataire: product.id_prestataire || 0
+        id_prestataire: product.id_prestataire || 0,
+        locationId: product.locationId
       }))
     }
   }

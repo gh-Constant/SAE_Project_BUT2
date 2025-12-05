@@ -213,17 +213,17 @@ const getOrderItems = (orderId: number) => {
 }
 
 // Décrémenter le stock pour une commande
-const decreaseStockForOrder = (orderId: number) => {
+const decreaseStockForOrder = async (orderId: number) => {
   const lignes = LIGNES_COMMANDE.filter((ligne) => ligne.id_commande === orderId)
-  const allProducts = productService.getProducts()
+  const allProducts = await productService.getProducts()
   
-  lignes.forEach((ligne) => {
+  for (const ligne of lignes) {
     const product = allProducts.find((p) => p.id === ligne.id_product)
     if (product) {
       product.stock = Math.max(0, product.stock - ligne.quantite)
-      productService.updateProduct(product)
+      await productService.updateProduct(product)
     }
-  })
+  }
 }
 
 // Payer une commande
@@ -238,10 +238,10 @@ const payOrder = async (orderId: number) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Décrémenter le stock
-    decreaseStockForOrder(orderId)
+    await decreaseStockForOrder(orderId)
 
     // Changer l'état de la commande
-    order.etat_commande = EtatCommande.PAID // Ensure this matches your Enum
+    order.etat_commande = EtatCommande.PAID
 
     // Vérifier si tout est payé
     const allPaid = COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id).every(

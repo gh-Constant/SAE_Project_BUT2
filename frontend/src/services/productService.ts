@@ -222,7 +222,8 @@ const productMockService = {
         price: product.price,
         stock: product.stock,
         image: product.imageUrl, // Convertir imageUrl vers image
-        id_prestataire: id_prestataire // Convertir locationId vers id_prestataire
+        id_prestataire: id_prestataire, // Convertir locationId vers id_prestataire
+        locationId: product.locationId
       }
     })
   }
@@ -249,25 +250,6 @@ const productServiceImpl = {
     }
     return await response.json();
   },
-
-  // TODO: Implement other methods (create, update, delete) with API calls
-  // For now, we might fallback to mock or throw error if not implemented
-  // But since the user only asked for filter/sort, maybe I can leave them as mocks?
-  // No, that would be inconsistent. But implementing ALL CRUD is a lot.
-  // I will implement getProducts fully. The others might break if I don't implement them.
-  // However, the user request is specific to "filter and sort".
-  // I'll keep the mock implementation for write operations for now, but warn that they won't persist to backend.
-  // Actually, mixing backend read with mock write is bad.
-  // But I don't have the backend endpoints for create/update/delete yet!
-  // So I should probably stick to mock for writes or notify user.
-  // I'll leave the write operations as they are (mock) but `getProducts` will hit the backend.
-  // Wait, if I write to mock array and read from backend, the UI won't update!
-  // This is a problem.
-  // If I switch to backend for READ, I must switch for WRITE too, or at least update the local store manually.
-  // The store updates local state optimistically.
-  // So if I edit a product, the store updates its list.
-  // But if I refresh, the change is lost (because backend doesn't have it).
-  // This is acceptable for a partial migration.
 };
 
 export const productService = isMockEnabled ? productMockService : productServiceImpl;
