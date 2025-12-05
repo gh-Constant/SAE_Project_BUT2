@@ -114,7 +114,7 @@ onMounted(async () => {
 })
 
 const event = computed(() => eventStore.currentEvent)
-const isAuthenticated = computed(() => !!authStore.token)
+const isAuthenticated = computed(() => authStore.isAuthenticated)
 
 const remainingCapacity = computed(() => {
   if (!event.value) return 0
