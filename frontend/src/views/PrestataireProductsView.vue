@@ -186,7 +186,7 @@
               Inscrire une nouvelle marchandise
             </h3>
 
-            <form @submit.prevent="store.addProductForLocation(location.id); cancelAddProduct()">
+            <form @submit.prevent="handleAddProduct(location.id)">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Dénomination</label>
@@ -326,7 +326,7 @@
 
                     <td class="px-6 py-4 text-center whitespace-nowrap">
                       <div v-if="store.editId !== product.id" class="text-sm font-medieval font-bold text-antique-bronze">
-                        {{ product.price.toFixed(2) }} gold
+                        {{ Number(product.price).toFixed(2) }} gold
                       </div>
                       <input 
                         v-else 
@@ -424,7 +424,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
@@ -434,7 +434,6 @@ import { locationsMock } from '@/mocks/locations'
 const authStore = useAuthStore()
 const store = useProductStore()
 const route = useRoute()
-const router = useRouter()
 const addingProductLocationId = ref<number | null>(null)
 
 // Filtres
@@ -525,6 +524,11 @@ function productsByLocation(locationId: number) {
 function startAddProduct(locationId: number) {
   addingProductLocationId.value = locationId
   store.newProduct.locationId = locationId
+}
+
+async function handleAddProduct(locationId: number) {
+  await store.addProductForLocation(locationId, authStore.user?.id || 0)
+  cancelAddProduct()
 }
 
 function cancelAddProduct() {

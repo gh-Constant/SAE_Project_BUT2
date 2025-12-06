@@ -178,7 +178,7 @@ const productMockService = {
     description: string,
     imageUrl: string,
     price: number
-  }) {
+  }, id_prestataire?: number) {
     let maxId = 0
     for (const product of products) {
       if (product.id > maxId) {
@@ -193,7 +193,8 @@ const productMockService = {
       stock: productData.stock,
       description: productData.description,
       imageUrl: productData.imageUrl,
-      price: productData.price
+      price: productData.price,
+      id_prestataire: id_prestataire // Store it if passed
     }
 
     products.push(newProduct)
@@ -248,6 +249,40 @@ const productServiceImpl = {
     if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
+    return await response.json();
+  },
+
+  async deleteProduct(id: number) {
+    const confirmation = confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');
+    if (!confirmation) return false;
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/products/${id}`, {
+      method: 'DELETE'
+    });
+    return response.ok;
+  },
+
+  async createProductForLocation(locationId: number, productData: {
+    name: string,
+    stock: number,
+    description: string,
+    imageUrl: string,
+    price: number
+  }, id_prestataire?: number) {
+    const response = await fetch(`${API_BASE_URL}/api/v1/products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: productData.name,
+        description: productData.description,
+        price: productData.price,
+        image: productData.imageUrl,
+        id_prestataire: id_prestataire,
+        locationId: locationId,
+        stock: productData.stock
+      })
+    });
+    if (!response.ok) throw new Error('Failed to create product');
     return await response.json();
   },
 };

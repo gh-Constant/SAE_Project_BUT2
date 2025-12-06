@@ -108,6 +108,12 @@ const productService = {
             // Calculate effective stock
             let effectiveStock = 0;
 
+            // LOGGING FOR DEBUG
+            // console.log(`Processing product ${product.id_product} (${product.name}): Stock entries: ${product.stock.length}`);
+            product.stock.forEach((s, i) => {
+                // console.log(`  Stock[${i}]: serviceId=${s.id_service}, locId=${s.service?.id_location}, stock=${s.stock}`);
+            });
+
             if (locationId) {
                 // Sum stock only for the specific location
                 effectiveStock = product.stock
@@ -118,10 +124,17 @@ const productService = {
                 effectiveStock = product.stock.reduce((sum, s) => sum + s.stock, 0);
             }
 
+            // Determine locationId from stock if available
+            const firstStock = product.stock[0];
+            const locationIdFromStock = firstStock?.service?.id_location;
+
+            console.log(`Product ${product.id_product} resolved locationId: ${locationIdFromStock} (from stock[0] service location)`);
+
             return {
                 ...product,
                 stock: effectiveStock,
-                price: Number(product.price)
+                price: Number(product.price),
+                locationId: locationIdFromStock
             };
         });
 
@@ -190,8 +203,8 @@ const productService = {
     /**
      * Create a new product.
      */
-    async createProduct(data: CreateProductDTO) {
-        return prisma.product.create({
+    async createProduct(data: CreateProductDTO & { locationId?: number; stock?: number }) {
+        const product = await prisma.product.create({
             data: {
                 name: data.name,
                 description: data.description,
@@ -200,6 +213,41 @@ const productService = {
                 id_prestataire: data.id_prestataire
             }
         });
+
+        if (data.locationId && data.stock !== undefined) {
+            // Find the shop service for this location (Assuming Service Type 1 is Shop)
+            let service = await prisma.service.findFirst({
+                where: {
+                    id_location: data.locationId,
+                    id_service_type: 1
+                }
+            });
+
+            // If no shop service exists for this location, create one
+            if (!service) {
+                service = await prisma.service.create({
+                    data: {
+                        name: 'Boutique',
+                        description: 'Échoppe automatique',
+                        id_service_type: 1,
+                        id_location: data.locationId,
+                        id_prestataire: data.id_prestataire
+                    }
+                });
+            }
+
+            if (service) {
+                await prisma.stock.create({
+                    data: {
+                        id_product: product.id_product,
+                        id_service: service.id_service,
+                        stock: data.stock
+                    }
+                });
+            }
+        }
+
+        return product;
     },
 
     /**

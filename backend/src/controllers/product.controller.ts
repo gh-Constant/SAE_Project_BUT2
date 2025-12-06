@@ -20,7 +20,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
             id: p.id_product,
             name: p.name,
             stock: p.stock,
-            locationId: options.locationId || 0,
+            locationId: p.locationId || options.locationId || 0,
             description: p.description,
             imageUrl: p.image,
             price: p.price,
@@ -55,10 +55,13 @@ export const getProductById = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
     try {
-        const { name, description, price, image, id_prestataire } = req.body;
+        const { name, description, price, image, id_prestataire, locationId, stock } = req.body;
+
+        console.log('Received createProduct request:', req.body);
 
         // Basic validation
-        if (!name || !price || !id_prestataire) {
+        if (!name || price === undefined || !id_prestataire) {
+            console.error('Missing required fields:', { name, price, id_prestataire });
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
@@ -67,10 +70,23 @@ export const createProduct = async (req: Request, res: Response) => {
             description,
             price: Number(price),
             image,
-            id_prestataire: Number(id_prestataire)
+            id_prestataire: Number(id_prestataire),
+            locationId: locationId ? Number(locationId) : undefined,
+            stock: stock ? Number(stock) : undefined
         });
 
-        return res.status(201).json(newProduct);
+        const mappedProduct = {
+            id: newProduct.id_product,
+            name: newProduct.name,
+            stock: stock ? Number(stock) : 0,
+            locationId: locationId ? Number(locationId) : 0,
+            description: newProduct.description,
+            imageUrl: newProduct.image,
+            price: Number(newProduct.price),
+            id_prestataire: newProduct.id_prestataire
+        };
+
+        return res.status(201).json(mappedProduct);
     } catch (error) {
         console.error('Error creating product:', error);
         return res.status(500).json({ error: 'Failed to create product' });
