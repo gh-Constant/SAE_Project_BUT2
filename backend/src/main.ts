@@ -19,6 +19,7 @@ import { config } from './config/app.config.js';
 import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
 import { seedLocationTypes } from './seeds/LocationTypes.js';
 import { seedLocations } from './seeds/locations.js';
+import { seedUsers } from './seeds/users.js';
 
 /**
  * Fonction principale pour démarrer le serveur.
@@ -29,6 +30,7 @@ const startServer = async (): Promise<void> => {
     await seedPrestataireTypes();
     await seedLocationTypes();
     await seedLocations();
+    await seedUsers();
 
     // Création de l'application Express
     const app = createApp();
