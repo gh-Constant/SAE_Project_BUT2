@@ -1,9 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <PrestataireNavbar 
-      :user="authStore.user" 
-      @logout="handleLogout"
-    />
+
     <div class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -431,7 +428,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
-import PrestataireNavbar from '@/components/navbar/PrestataireNavbar.vue'
+
 
 
 const authStore = useAuthStore()
@@ -536,8 +533,5 @@ function cancelAddProduct() {
 }
 
 // Logout handler
-function handleLogout() {
-  authStore.logout()
-  router.push('/')
-}
+
 </script>

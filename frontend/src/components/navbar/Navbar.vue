@@ -303,6 +303,14 @@ const profileRoute = computed(() => {
                 Mes Réservations
               </router-link>
               <router-link
+                to="/my-quests"
+                class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-scroll mr-3 text-antique-bronze" />
+                Mes Quêtes
+              </router-link>
+              <router-link
                 :to="profileRoute"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -453,8 +461,17 @@ const profileRoute = computed(() => {
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
               @click="isMobileMenuOpen = false"
             >
-              <i class="fas fa-ticket-alt text-lg w-8"></i>
               <span class="ml-2">Mes Réservations</span>
+            </MedievalButton>
+
+            <MedievalButton
+              to="/my-quests"
+              full-width
+              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              @click="isMobileMenuOpen = false"
+            >
+              <i class="fas fa-scroll text-lg w-8"></i>
+              <span class="ml-2">Mes Quêtes</span>
             </MedievalButton>
 
             <MedievalButton

@@ -79,9 +79,13 @@
         <ShopSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
-      <!-- Event Section -->
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <EventSection :location-id="location.id" />
+      </div>
+
+      <!-- Quest Section -->
+      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <QuestSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
       <div class="flex gap-3 justify-end">
@@ -102,13 +106,14 @@
  * Gère l'affichage des locations prestataires achetées et la gestion des blogs
  */
 
-import { defineProps, defineEmits, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { useAuthStore } from '@/stores/auth';
 import BlogSection from './BlogSection.vue';
 import ShopSection from './ShopSection.vue';
 import EventSection from './EventSection.vue';
+import QuestSection from './QuestSection.vue';
 
 interface Props {
   location: LocationMock;

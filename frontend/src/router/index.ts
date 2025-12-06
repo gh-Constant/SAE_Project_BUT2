@@ -83,6 +83,12 @@ export const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/prestataire/products',
     name: 'prestataire-products',
     component: () => import('../views/PrestataireProductsView.vue'),
@@ -92,6 +98,12 @@ export const routes = [
     path: '/prestataire/locations',
     name: 'prestataire-locations',
     component: () => import('../views/prestataire/MyLocationsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/quests',
+    name: 'prestataire-quests',
+    component: () => import('../views/PrestataireQuestsView.vue'),
     meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
   },
   {
@@ -122,6 +134,12 @@ export const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/editor-test',
     name: 'editor-test',
     component: () => import('../views/EditorTestView.vue'),
@@ -143,15 +161,33 @@ export const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/checkout',
     name: 'checkout',
     component: () => import('../views/CheckoutView.vue'),
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/commandes',
     name: 'commandes',
     component: () => import('../views/OrdersView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
     meta: { requiresAuth: true },
   },
 ];

@@ -129,6 +129,12 @@
               </MedievalButton>
             </router-link>
             
+            <router-link to="/prestataire/quests" class="contents">
+              <MedievalButton variant="primary" :fullWidth="true">
+                Gérer mes quêtes
+              </MedievalButton>
+            </router-link>
+            
             <MedievalButton variant="primary" :fullWidth="true">
               Créer un lieu
             </MedievalButton>

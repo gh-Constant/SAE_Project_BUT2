@@ -49,7 +49,10 @@ const authServiceImpl = {
     const data = await response.json();
     // Store only token for security
     localStorage.setItem('authToken', data.token);
-    return data.user;
+    
+    // Normalize backend id_user to id
+    const user = { ...data.user, id: data.user.id_user || data.user.id };
+    return user;
   },
   register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string): Promise<UserMock> => {
     const response = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
@@ -65,7 +68,8 @@ const authServiceImpl = {
       throw new Error(error.error || 'Registration failed');
     }
 
-    return await response.json();
+    const user = await response.json();
+    return { ...user, id: user.id_user || user.id };
   },
 
   // Validation du token et récupération des informations utilisateur
@@ -104,7 +108,8 @@ const authServiceImpl = {
         return null;
       }
 
-      return await response.json();
+      const user = await response.json();
+      return { ...user, id: user.id_user || user.id };
     } catch {
       return null;
     }
@@ -135,7 +140,8 @@ const authServiceImpl = {
       throw new Error(error.error || 'Failed to update profile');
     }
 
-    return await response.json();
+    const user = await response.json();
+    return { ...user, id: user.id_user || user.id };
   },
 
   /**

@@ -20,6 +20,11 @@ import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
 import { seedLocationTypes } from './seeds/LocationTypes.js';
 import { seedLocations } from './seeds/locations.js';
 import { seedUsers } from './seeds/users.js';
+import { seedServiceTypes } from './seeds/serviceTypes.js';
+import { seedServices } from './seeds/services.js';
+import { seedProducts } from './seeds/products.js';
+import { seedEvents } from './seeds/events.js';
+import { seedBlogs } from './seeds/blogs.js';
 
 /**
  * Fonction principale pour démarrer le serveur.
@@ -29,8 +34,16 @@ const startServer = async (): Promise<void> => {
     // Initialisation de la base avec les types de base
     await seedPrestataireTypes();
     await seedLocationTypes();
+    await seedUsers(); // Users must be seeded BEFORE locations (FK constraint)
     await seedLocations();
-    await seedUsers();
+    
+    // New seeders
+    await seedServiceTypes();
+    await seedServices();
+    await seedProducts();
+    await seedEvents();
+    await seedBlogs();
+
 
     // Création de l'application Express
     const app = createApp();
