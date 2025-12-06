@@ -12,9 +12,25 @@ const emit = defineEmits(['close']);
 const items = computed(() => cartStore.items);
 const total = computed(() => cartStore.total);
 
-const getProduct = (id: number) => {
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  locationId?: number;
+}
+
+interface CartItem {
+  id_product: number;
+  product?: Product;
+}
+
+const getProduct = (item: CartItem): Product | undefined => {
+  if (item.product) {
+    return item.product;
+  }
   const allProducts = productService.getProductsForBoutique();
-  return allProducts.find((p) => p.id === id);
+  return allProducts.find((p) => p.id === item.id_product);
 };
 
 const viewCart = () => {
@@ -64,9 +80,9 @@ const removeItem = (id: number) => {
             <!-- Image -->
             <div class="w-20 h-20 rounded-sm bg-warm-sand overflow-hidden flex-shrink-0 border border-antique-bronze/30 shadow-inner">
               <img 
-                v-if="getProduct(item.id_product)?.image" 
-                :src="getProduct(item.id_product)?.image" 
-                :alt="getProduct(item.id_product)?.name"
+                v-if="getProduct(item)?.image" 
+                :src="getProduct(item)?.image" 
+                :alt="getProduct(item)?.name"
                 class="w-full h-full object-cover sepia-[.25]"
               >
             </div>
@@ -75,7 +91,7 @@ const removeItem = (id: number) => {
             <div class="flex-1 min-w-0 flex flex-col justify-between py-1">
               <div>
                 <h4 class="font-medieval text-iron-black text-lg truncate pr-4 leading-tight">
-                  {{ getProduct(item.id_product)?.name || 'Artefact Inconnu' }}
+                  {{ getProduct(item)?.name || 'Artefact Inconnu' }}
                 </h4>
                 <p class="font-body text-sm text-stone-grey mt-1">
                   {{ item.quantity }} x {{ item.price.toFixed(2) }} gold

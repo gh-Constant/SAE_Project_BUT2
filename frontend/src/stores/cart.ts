@@ -185,7 +185,7 @@ export const useCartStore = defineStore('cart', {
      * Chaque location aura sa propre commande en état "waiting"
      * Optimisé : utilise groupedByLocation qui utilise id_location déjà stocké
      */
-    createOrder() {
+    async createOrder() {
       const authStore = useAuthStore()
       if (!authStore.user) {
         throw new Error('Utilisateur non connecté')
@@ -214,8 +214,28 @@ export const useCartStore = defineStore('cart', {
           id_location: locationId,
           date_commande: new Date(),
           total_price: totalPrice,
+
           etat_commande: EtatCommande.WAITING,
         }
+
+        // Si nous sommes en mode backend, appeler l'API
+        if (!isMockEnabled) {
+          try {
+            await productService.createOrder({
+              userId: authStore.user.id,
+              locationId: locationId,
+              id_prestataire: id_prestataire,
+              items: items
+            });
+            // Si succès, on ajoute à la liste locale seulement pour l'UI, ou on laisse le backend gérer
+          } catch (e) {
+            console.error('Failed to create order in backend', e);
+            throw e; // Arrêter si échec
+          }
+        }
+
+        // Si nous sommes en mode backend, appeler l'API
+
 
         orders.push(order)
 
@@ -259,6 +279,9 @@ export const useCartStore = defineStore('cart', {
      */
     migrateCartItems(items: Partial<CartItem>[]): CartItem[] {
       return items.map((item) => {
+        // Migration disabled due to async dependency
+        return item as CartItem
+        /*
         // Si l'item a déjà id_location, le retourner tel quel
         if (item.id_location !== undefined) {
           return item as CartItem
@@ -272,6 +295,7 @@ export const useCartStore = defineStore('cart', {
           ...item,
           id_location: locationId,
         } as CartItem
+        */
       })
     },
 

@@ -128,7 +128,14 @@ const productService = {
             const firstStock = product.stock[0];
             const locationIdFromStock = firstStock?.service?.id_location;
 
-            console.log(`Product ${product.id_product} resolved locationId: ${locationIdFromStock} (from stock[0] service location)`);
+            if (!locationIdFromStock) {
+                console.warn(`Product ${product.id_product} (${product.name}) has NO locationId resolved! Stock entries: ${product.stock.length}`);
+                if (product.stock.length > 0) {
+                    console.warn('  -> First stock service:', firstStock?.service);
+                }
+            } else {
+                // console.log(`Product ${product.id_product} resolved locationId: ${locationIdFromStock}`);
+            }
 
             return {
                 ...product,
@@ -203,51 +210,56 @@ const productService = {
     /**
      * Create a new product.
      */
+    /**
+     * Create a new product.
+     */
     async createProduct(data: CreateProductDTO & { locationId?: number; stock?: number }) {
-        const product = await prisma.product.create({
-            data: {
-                name: data.name,
-                description: data.description,
-                price: data.price,
-                image: data.image,
-                id_prestataire: data.id_prestataire
-            }
-        });
-
-        if (data.locationId && data.stock !== undefined) {
-            // Find the shop service for this location (Assuming Service Type 1 is Shop)
-            let service = await prisma.service.findFirst({
-                where: {
-                    id_location: data.locationId,
-                    id_service_type: 1
+        return prisma.$transaction(async (tx) => {
+            const product = await tx.product.create({
+                data: {
+                    name: data.name,
+                    description: data.description,
+                    price: data.price,
+                    image: data.image,
+                    id_prestataire: data.id_prestataire
                 }
             });
 
-            // If no shop service exists for this location, create one
-            if (!service) {
-                service = await prisma.service.create({
-                    data: {
-                        name: 'Boutique',
-                        description: 'Échoppe automatique',
-                        id_service_type: 1,
+            if (data.locationId && data.stock !== undefined) {
+                // Find the shop service for this location (Assuming Service Type 1 is Shop)
+                let service = await tx.service.findFirst({
+                    where: {
                         id_location: data.locationId,
-                        id_prestataire: data.id_prestataire
+                        id_service_type: 1
                     }
                 });
+
+                // If no shop service exists for this location, create one
+                if (!service) {
+                    service = await tx.service.create({
+                        data: {
+                            name: 'Boutique',
+                            description: 'Échoppe automatique',
+                            id_service_type: 1,
+                            id_location: data.locationId,
+                            id_prestataire: data.id_prestataire
+                        }
+                    });
+                }
+
+                if (service) {
+                    await tx.stock.create({
+                        data: {
+                            id_product: product.id_product,
+                            id_service: service.id_service,
+                            stock: data.stock
+                        }
+                    });
+                }
             }
 
-            if (service) {
-                await prisma.stock.create({
-                    data: {
-                        id_product: product.id_product,
-                        id_service: service.id_service,
-                        stock: data.stock
-                    }
-                });
-            }
-        }
-
-        return product;
+            return product;
+        });
     },
 
     /**

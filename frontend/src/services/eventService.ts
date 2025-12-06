@@ -4,7 +4,7 @@ import { EventMock } from '@/mocks/events';
 import { ReservationMock } from '@/mocks/reservations';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api' || 'http://localhost:3000/api/v1';
 
 const eventServiceImpl = {
   getEvents: async (filters?: { id_location?: number; published?: boolean }): Promise<EventMock[]> => {

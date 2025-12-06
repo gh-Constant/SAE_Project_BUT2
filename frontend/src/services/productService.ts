@@ -227,6 +227,11 @@ const productMockService = {
         locationId: product.locationId
       }
     })
+  },
+
+  async createOrder(orderData: any) {
+    console.log('Mock createOrder called', orderData);
+    return { id: Date.now(), ...orderData, etat_commande: 'waiting' };
   }
 }
 
@@ -285,6 +290,21 @@ const productServiceImpl = {
     if (!response.ok) throw new Error('Failed to create product');
     return await response.json();
   },
+
+
+  async createOrder(orderData: any) {
+    const response = await fetch(`${API_BASE_URL}/api/v1/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    });
+    if (!response.ok) throw new Error('Failed to create order');
+    return await response.json();
+  },
+
+  async getProductsByLocation(locationId: number) {
+    return this.getProducts({ locationId });
+  }
 };
 
 export const productService = isMockEnabled ? productMockService : productServiceImpl;

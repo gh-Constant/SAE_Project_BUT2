@@ -73,6 +73,9 @@ const cartStore = useCartStore()
 
 // Récupérer les données du produit depuis productService (source unique de vérité)
 const product = computed(() => {
+  if (props.item.product) {
+    return props.item.product;
+  }
   const allProducts = productService.getProductsForBoutique()
   return allProducts.find((p: ProductMock) => p.id === props.item.id_product)
 })

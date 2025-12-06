@@ -25,6 +25,7 @@ import locationRoutes from './locationRoutes.js';
 import productRoutes from './productRoutes.js';
 import eventRoutes from './eventRoutes.js';
 import questRoutes from './questRoutes.js';
+import orderRoutes from './orderRoutes.js';
 import { apiConfig } from '../config/app.config.js';
 
 const router = Router();
@@ -67,6 +68,9 @@ apiRouter.use('/events', eventRoutes);
 
 // Ajout des routes de quêtes
 apiRouter.use('/quests', questRoutes);
+
+// Ajout des routes de commandes
+apiRouter.use('/orders', orderRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);
