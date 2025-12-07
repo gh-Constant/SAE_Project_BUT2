@@ -1,0 +1,10 @@
+{
+    "title": "My Cart",
+    "items_count": "{count} items",
+    "empty_title": "Your pouch is empty",
+    "unknown_product": "Unknown Artifact",
+    "price_format": "{price} gold",
+    "remove_tooltip": "Throw into the dungeon",
+    "total": "Total",
+    "view_cart": "View Scroll"
+}

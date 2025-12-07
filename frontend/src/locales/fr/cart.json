@@ -1,0 +1,10 @@
+{
+    "title": "Mon Panier",
+    "items_count": "{count} articles",
+    "empty_title": "Votre bourse est vide",
+    "unknown_product": "Artefact Inconnu",
+    "price_format": "{price} gold",
+    "remove_tooltip": "Jeter aux oubliettes",
+    "total": "Total",
+    "view_cart": "Voir le Parchemin"
+}

@@ -1,0 +1,10 @@
+{
+    "title": "Mein Warenkorb",
+    "items_count": "{count} Artikel",
+    "empty_title": "Dein Beutel ist leer",
+    "unknown_product": "Unbekanntes Artefakt",
+    "price_format": "{price} Gold",
+    "remove_tooltip": "In den Kerker werfen",
+    "total": "Gesamt",
+    "view_cart": "Schriftrolle ansehen"
+}

@@ -1,0 +1,10 @@
+{
+    "title": "Mi Carrito",
+    "items_count": "{count} artículos",
+    "empty_title": "Tu bolsa está vacía",
+    "unknown_product": "Artefacto Desconocido",
+    "price_format": "{price} oro",
+    "remove_tooltip": "Tirar a la mazmorra",
+    "total": "Total",
+    "view_cart": "Ver Pergamino"
+}
