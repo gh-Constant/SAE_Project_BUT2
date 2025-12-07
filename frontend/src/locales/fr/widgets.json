@@ -1,0 +1,78 @@
+{
+    "story": {
+        "location": "Lieu :",
+        "type": "Type :",
+        "type_value": "Lieu d'Histoire",
+        "close": "Fermer"
+    },
+    "available": {
+        "title": "Disponible à l'achat",
+        "description": "Cet emplacement est disponible pour établir votre commerce.",
+        "location": "Emplacement :",
+        "status_label": "Statut :",
+        "status_available": "Disponible",
+        "price": "Prix :",
+        "currency": "Gold",
+        "acquire_button": "Acquérir cet emplacement",
+        "acquire_loading": "Acquisition en cours...",
+        "acquire_success": "Acquis !",
+        "opportunities_title": "Opportunités :",
+        "opp_store": "Établissez une échoppe pour vendre vos marchandises",
+        "opp_quest": "Proposez des quêtes aux aventuriers",
+        "opp_event": "Organisez des événements et démonstrations",
+        "opp_reputation": "Bâtissez votre réputation dans le royaume",
+        "close": "Fermer",
+        "error_login": "Vous devez être connecté pour acheter un emplacement"
+    },
+    "purchased": {
+        "owner_label": "Propriétaire",
+        "view_profile": "Voir le profil",
+        "location": "Emplacement :",
+        "status_label": "Statut :",
+        "status_acquired": "Acquis",
+        "value": "Valeur :",
+        "close": "Fermer"
+    },
+    "blog": {
+        "title": "Blogs",
+        "new_button": "Nouveau Blog",
+        "edit_title": "Modifier le Blog",
+        "new_title": "Nouveau Blog",
+        "title_placeholder": "Titre du Blog",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "empty": "Aucun blog publié pour le moment.",
+        "empty_owner": "Partagez votre première mise à jour avec la communauté !",
+        "delete_confirm": "Êtes-vous sûr de vouloir supprimer cet article ?",
+        "alert_title": "Veuillez entrer un titre",
+        "error_save": "Échec de l'enregistrement",
+        "error_delete": "Échec de la suppression"
+    },
+    "shop": {
+        "title": "Aperçu de la Boutique",
+        "add_product": "Ajouter Produit",
+        "view_all": "Tout voir",
+        "empty": "Aucun produit disponible.",
+        "empty_sub": "Revenez plus tard pour de nouveaux articles !",
+        "in_stock": "{count} en stock",
+        "out_of_stock": "Rupture de stock"
+    },
+    "events": {
+        "title": "Événements à venir",
+        "view_all": "Voir tout",
+        "loading": "Chargement...",
+        "empty": "Aucun événement prévu pour le moment.",
+        "view_calendar": "Voir le calendrier complet"
+    },
+    "quests": {
+        "title": "Quêtes Disponibles",
+        "add_button": "Ajouter Quête",
+        "manage_button": "Gérer",
+        "loading": "Chargement des quêtes...",
+        "empty": "Aucune quête disponible pour le moment.",
+        "accept": "Accepter",
+        "accepted": "Acceptée",
+        "success_accept": "Quête acceptée ! Retrouvez-la dans votre profil.",
+        "error_accept": "Impossible d'accepter la quête (peut-être déjà acceptée ?)"
+    }
+}

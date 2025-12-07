@@ -7,7 +7,7 @@
         class="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium transition-colors"
       >
         <i class="fas fa-arrow-left mr-2"></i>
-        {{ t('prestataire.profile.backToHome') }}
+        {{ t('profile.backToHome') }}
       </router-link>
     </div>
 

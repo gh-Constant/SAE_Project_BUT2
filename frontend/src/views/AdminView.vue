@@ -24,13 +24,13 @@
                 </div>
               </div>
               <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Utilisateurs</h3>
+                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.dashboard.users.title') }}</h3>
                 <p class="text-4xl font-medieval font-bold text-iron-black mb-1">3</p>
-                <p class="text-xs text-stone-grey/80">utilisateurs actifs</p>
+                <p class="text-xs text-stone-grey/80">{{ t('admin.dashboard.users.subtitle') }}</p>
               </div>
               <div class="pt-4 border-t border-antique-bronze/20">
                 <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Voir tous les utilisateurs
+                  {{ t('admin.dashboard.users.action') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
@@ -51,13 +51,13 @@
                 </div>
               </div>
               <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Lieux</h3>
+                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.dashboard.locations.title') }}</h3>
                 <p class="text-4xl font-medieval font-bold text-iron-black mb-1">12</p>
-                <p class="text-xs text-stone-grey/80">lieux actifs</p>
+                <p class="text-xs text-stone-grey/80">{{ t('admin.dashboard.locations.subtitle') }}</p>
               </div>
               <div class="pt-4 border-t border-antique-bronze/20">
                 <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Gérer les lieux
+                  {{ t('admin.dashboard.locations.action') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
@@ -77,13 +77,13 @@
                 </div>
               </div>
               <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Système</h3>
-                <p class="text-4xl font-medieval font-bold text-iron-black mb-1">Actif</p>
-                <p class="text-xs text-stone-grey/80">statistiques système</p>
+                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.dashboard.system.title') }}</h3>
+                <p class="text-4xl font-medieval font-bold text-iron-black mb-1">{{ t('admin.dashboard.system.status') }}</p>
+                <p class="text-xs text-stone-grey/80">{{ t('admin.dashboard.system.subtitle') }}</p>
               </div>
               <div class="pt-4 border-t border-antique-bronze/20">
                 <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Voir les statistiques
+                  {{ t('admin.dashboard.system.action') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
@@ -97,24 +97,24 @@
         <div class="mb-12">
           <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
             <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
-            Actions Rapides
+            {{ t('admin.quick_actions.title') }}
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <MedievalButton variant="primary" :full-width="true">
-              Créer un utilisateur
+              {{ t('admin.quick_actions.create_user') }}
             </MedievalButton>
             <MedievalButton variant="primary" :full-width="true">
-              Ajouter un lieu
+              {{ t('admin.quick_actions.add_location') }}
             </MedievalButton>
             <MedievalButton variant="primary" :full-width="true">
-              Gérer les rôles
+              {{ t('admin.quick_actions.manage_roles') }}
             </MedievalButton>
             <MedievalButton variant="primary" :full-width="true">
-              Voir les logs
+              {{ t('admin.quick_actions.view_logs') }}
             </MedievalButton>
             <router-link to="/admin/products" class="contents">
               <MedievalButton variant="primary" :full-width="true">
-                Gérer les articles
+                {{ t('admin.quick_actions.manage_products') }}
               </MedievalButton>
             </router-link>
           </div>
@@ -124,7 +124,7 @@
         <div>
           <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
             <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
-            Activité Récente
+            {{ t('admin.recent_activity.title') }}
           </h2>
           <div class="bg-white/50 backdrop-blur-sm rounded-sm border border-antique-bronze/20 overflow-hidden">
             <ul class="divide-y divide-antique-bronze/10">
@@ -132,17 +132,17 @@
                 <div class="px-6 py-4">
                   <div class="flex items-center justify-between mb-2">
                     <p class="text-lg font-medieval font-bold text-antique-bronze truncate">
-                      Nouvelle création d'utilisateur
+                      {{ t('admin.recent_activity.user_created.title') }}
                     </p>
                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-green-100 text-green-800 border border-green-200">
-                      Confirmée
+                      {{ t('admin.recent_activity.user_created.status') }}
                     </span>
                   </div>
                   <div class="flex justify-between items-end">
                     <p class="text-stone-grey text-sm">
-                      Utilisateur "Jean Dupont" ajouté au système
+                      {{ t('admin.recent_activity.user_created.description', { name: "Jean Dupont" }) }}
                     </p>
-                    <p class="text-xs font-bold text-antique-bronze/60">Il y a 1 heure</p>
+                    <p class="text-xs font-bold text-antique-bronze/60">{{ t('admin.recent_activity.time.hour_ago') }}</p>
                   </div>
                 </div>
               </li>
@@ -150,17 +150,17 @@
                 <div class="px-6 py-4">
                   <div class="flex items-center justify-between mb-2">
                     <p class="text-lg font-medieval font-bold text-antique-bronze truncate">
-                      Nouveau lieu ajouté
+                      {{ t('admin.recent_activity.location_added.title') }}
                     </p>
                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200">
-                      Réussi
+                      {{ t('admin.recent_activity.location_added.status') }}
                     </span>
                   </div>
                   <div class="flex justify-between items-end">
                     <p class="text-stone-grey text-sm">
-                      Lieu "Château de la Loire" ajouté
+                      {{ t('admin.recent_activity.location_added.description', { name: "Château de la Loire" }) }}
                     </p>
-                    <p class="text-xs font-bold text-antique-bronze/60">Hier</p>
+                    <p class="text-xs font-bold text-antique-bronze/60">{{ t('admin.recent_activity.time.yesterday') }}</p>
                   </div>
                 </div>
               </li>
@@ -178,6 +178,9 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const router = useRouter()
 const authStore = useAuthStore()

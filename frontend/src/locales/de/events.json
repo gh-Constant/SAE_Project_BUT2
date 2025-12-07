@@ -1,0 +1,27 @@
+{
+    "list": {
+        "title": "Alle Königreich-Veranstaltungen",
+        "loading": "Konsultiere die Sterne...",
+        "empty": "Frieden herrscht derzeit im Königreich.",
+        "unknown_location": "Unbekannter Ort",
+        "from_price": "Ab {price} G",
+        "view_details": "Details anzeigen"
+    },
+    "details": {
+        "back": "Zurück",
+        "loading": "Lade Details...",
+        "not_found": "Veranstaltung nicht gefunden.",
+        "price_label": "Preis",
+        "about_title": "Über diese Veranstaltung",
+        "book_title": "Buchen Sie Ihre Tickets",
+        "login_required": "Sie müssen eingeloggt sein, um zu buchen.",
+        "login_button": "Anmelden",
+        "quantity": "Menge",
+        "total": "Gesamt",
+        "remaining_seats": "{count} Platz übrig | {count} Plätze übrig",
+        "sold_out": "Ausverkauft",
+        "confirm_booking": "Buchung bestätigen",
+        "success": "Buchung erfolgreich bestätigt!",
+        "error_default": "Ein Fehler ist bei der Buchung aufgetreten."
+    }
+}

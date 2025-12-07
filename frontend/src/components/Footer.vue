@@ -13,7 +13,7 @@ import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
             class="h-12 w-auto mr-3"
           >
           <span class="text-white/70 text-sm">
-            © 2025 MedievalEvent. All rights reserved.
+            {{ $t('footer.copyright') }}
           </span>
         </div>
         <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
@@ -22,19 +22,19 @@ import LanguageSwitcher from './navbar/LanguageSwitcher.vue';
               href="#"
               class="text-white/60 hover:text-white text-sm transition-colors"
             >
-              Privacy Policy
+              {{ $t('footer.privacy') }}
             </a>
             <a
               href="#"
               class="text-white/60 hover:text-white text-sm transition-colors"
             >
-              Terms of Service
+              {{ $t('footer.terms') }}
             </a>
             <a
               href="#"
               class="text-white/60 hover:text-white text-sm transition-colors"
             >
-              Contact
+              {{ $t('footer.contact') }}
             </a>
           </div>
           <LanguageSwitcher />

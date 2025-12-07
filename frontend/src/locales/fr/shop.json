@@ -1,0 +1,54 @@
+{
+    "title": "Nos Boutiques",
+    "subtitle": "Découvrez nos échoppes et leurs marchandises artisanales",
+    "visit": "Visiter",
+    "products_count": "{count} produit | {count} produits",
+    "unknown_provider": "Prestataire inconnu",
+    "no_shops": {
+        "title": "Aucune échoppe ouverte",
+        "description": "Les marchands préparent leurs étals. Revenez bientôt !"
+    },
+    "back_to_shops": "Retour aux échoppes",
+    "filters": {
+        "search_label": "Rechercher un produit",
+        "search_placeholder": "Rechercher une marchandise...",
+        "clear_search": "Effacer la recherche",
+        "sort_label": "Trier par",
+        "price_label": "Prix (Gold)",
+        "min": "Min",
+        "max": "Max",
+        "min_max_separator": "-",
+        "availability_label": "Disponibilité",
+        "reset": "Réinitialiser",
+        "clear_all": "Tout effacer",
+        "active_search": "Recherche:",
+        "active_price": "Prix:"
+    },
+    "sort_options": {
+        "name_asc": "Nom (A-Z)",
+        "name_desc": "Nom (Z-A)",
+        "price_asc": "Prix (Croissant)",
+        "price_desc": "Prix (Décroissant)",
+        "stock_desc": "Stock (Élevé)",
+        "stock_asc": "Stock (Faible)"
+    },
+    "stock_options": {
+        "all": "Toutes les marchandises",
+        "in_stock": "En stock",
+        "out_of_stock": "Rupture de stock",
+        "label_all": "Tous",
+        "label_in_stock": "En stock",
+        "label_out_of_stock": "Rupture"
+    },
+    "results": {
+        "count": "{count} marchandise trouvée | {count} marchandises trouvées",
+        "no_matches": {
+            "title": "Aucune marchandise ne correspond",
+            "description": "Essayez de modifier vos critères pour trouver d'autres trésors."
+        },
+        "empty_shop": {
+            "title": "Échoppe vide",
+            "description": "Le marchand n'a pas encore étalé ses marchandises."
+        }
+    }
+}

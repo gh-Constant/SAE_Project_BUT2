@@ -14,7 +14,7 @@
           <div class="hidden md:block w-px h-12 bg-antique-bronze/30"></div>
           <router-link to="/admin" class="hover:opacity-80 transition-opacity">
             <h1 class="text-3xl font-medieval font-bold text-iron-black leading-none">
-              Panel Admin
+              {{ $t('navbar.admin_panel') }}
             </h1>
           </router-link>
         </div>
@@ -22,14 +22,14 @@
         <!-- User Actions -->
         <div class="flex items-center gap-6">
           <span class="text-iron-black font-medieval text-lg hidden sm:block">
-            Bienvenue, {{ user?.firstname }} {{ user?.lastname }}
+             {{ $t('navbar.welcome', { name: `${user?.firstname} ${user?.lastname}` }) }}
           </span>
           <MedievalButton 
             variant="primary" 
             :small="true"
             @click="$emit('logout')"
           >
-            Déconnexion
+            {{ $t('navbar.logout') }}
           </MedievalButton>
         </div>
       </div>

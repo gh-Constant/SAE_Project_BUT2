@@ -1,0 +1,25 @@
+{
+    "title": "Bestellungen abschließen",
+    "subtitle": "Fahren Sie mit der Zahlung Ihrer ausstehenden Bestellungen fort",
+    "all_paid": {
+        "title": "Alle Ihre Bestellungen sind bezahlt!",
+        "description": "Sie können den Status Ihrer Einkäufe im Verlauf überprüfen.",
+        "button": "Meine Bestellungen ansehen"
+    },
+    "order_card": {
+        "title": "Bestellung #{id}",
+        "waiting": "Wartend",
+        "unknown_product": "Unbekanntes Produkt",
+        "total_order": "Bestellsumme",
+        "pay": "Bezahlen",
+        "processing": "Verarbeitung...",
+        "error_paying": "Ein Fehler ist bei der Zahlung aufgetreten."
+    },
+    "summary": {
+        "title": "Zusammenfassung",
+        "waiting_count": "Zu zahlende Bestellungen",
+        "paid_count": "Bereits bezahlte Bestellungen",
+        "grand_total": "Gesamtsumme",
+        "quote": "\"Eine bezahlte Schuld ist eine beruhigte Seele.\""
+    }
+}

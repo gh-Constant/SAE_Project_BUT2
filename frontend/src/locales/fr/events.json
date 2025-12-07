@@ -1,0 +1,27 @@
+{
+    "list": {
+        "title": "Tous les Événements du Royaume",
+        "loading": "Consultation des astres...",
+        "empty": "Le calme règne sur le royaume pour le moment.",
+        "unknown_location": "Lieu inconnu",
+        "from_price": "À partir de {price} G",
+        "view_details": "Voir détails"
+    },
+    "details": {
+        "back": "Retour",
+        "loading": "Chargement des détails...",
+        "not_found": "Événement introuvable.",
+        "price_label": "Prix",
+        "about_title": "À propos de cet événement",
+        "book_title": "Réserver vos places",
+        "login_required": "Vous devez être connecté pour réserver.",
+        "login_button": "Se connecter",
+        "quantity": "Quantité",
+        "total": "Total",
+        "remaining_seats": "{count} place restante | {count} places restantes",
+        "sold_out": "Complet",
+        "confirm_booking": "Confirmer la réservation",
+        "success": "Réservation confirmée avec succès !",
+        "error_default": "Une erreur est survenue lors de la réservation."
+    }
+}

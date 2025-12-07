@@ -1,0 +1,25 @@
+{
+    "title": "Finalize Your Orders",
+    "subtitle": "Proceed to payment for your pending orders",
+    "all_paid": {
+        "title": "All your orders are paid!",
+        "description": "You can check the status of your purchases in the history.",
+        "button": "View My Orders"
+    },
+    "order_card": {
+        "title": "Order #{id}",
+        "waiting": "Pending",
+        "unknown_product": "Unknown Product",
+        "total_order": "Order Total",
+        "pay": "Pay",
+        "processing": "Processing...",
+        "error_paying": "An error occurred during payment."
+    },
+    "summary": {
+        "title": "Summary",
+        "waiting_count": "Orders to Pay",
+        "paid_count": "Orders Already Paid",
+        "grand_total": "Grand Total",
+        "quote": "\"A paid debt is a soothed soul.\""
+    }
+}

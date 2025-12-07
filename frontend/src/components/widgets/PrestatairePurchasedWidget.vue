@@ -37,7 +37,7 @@
           <div class="relative">
             <img :src="prestataire.avatar_url" :alt="prestataire.firstname" class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover" />
             <div class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white">
-              Propriétaire
+              {{ t('widgets.purchased.owner_label') }}
             </div>
           </div>
           <div class="flex-1">
@@ -50,7 +50,7 @@
           @click="viewProfile"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-          Voir le profil
+          {{ t('widgets.purchased.view_profile') }}
         </button>
       </div>
 
@@ -61,16 +61,16 @@
 
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6 font-body">
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-iron-black">Emplacement:</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.purchased.location') }}</span>
           <span class="text-stone-grey">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-iron-black">Statut:</span>
-          <span class="text-antique-bronze font-bold">Acquis</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.purchased.status_label') }}</span>
+          <span class="text-antique-bronze font-bold">{{ t('widgets.purchased.status_acquired') }}</span>
         </div>
         <div class="flex justify-between">
-          <span class="font-bold text-iron-black">Valeur:</span>
-          <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} Gold</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.purchased.value') }}</span>
+          <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} {{ t('widgets.available.currency') }}</span>
         </div>
       </div>
 
@@ -93,7 +93,7 @@
           class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
           @click="$emit('close')"
         >
-          Fermer
+          {{ t('widgets.purchased.close') }}
         </button>
       </div>
     </div>
@@ -106,7 +106,7 @@
  * Gère l'affichage des locations prestataires achetées et la gestion des blogs
  */
 
-import { defineComponent, computed } from 'vue';
+import { computed } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { useAuthStore } from '@/stores/auth';
@@ -114,6 +114,9 @@ import BlogSection from './BlogSection.vue';
 import ShopSection from './ShopSection.vue';
 import EventSection from './EventSection.vue';
 import QuestSection from './QuestSection.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Props {
   location: LocationMock;

@@ -30,12 +30,12 @@
 
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <div class="flex justify-between mb-2 font-body">
-          <span class="font-bold text-iron-black">Location:</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.story.location') }}</span>
           <span class="text-stone-grey">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between font-body">
-          <span class="font-bold text-iron-black">Type:</span>
-          <span class="text-stone-grey">Lieu d'Histoire</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.story.type') }}</span>
+          <span class="text-stone-grey">{{ t('widgets.story.type_value') }}</span>
         </div>
       </div>
 
@@ -44,7 +44,7 @@
           class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
           @click="$emit('close')"
         >
-          Fermer
+          {{ t('widgets.story.close') }}
         </button>
       </div>
     </div>
@@ -57,8 +57,10 @@
  * Gère l'affichage des informations des locations narratives
  */
 
-import { defineProps, defineEmits } from 'vue';
 import { LocationMock } from '@/mocks/locations';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Props {
   location: LocationMock;

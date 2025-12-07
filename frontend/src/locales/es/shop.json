@@ -1,0 +1,54 @@
+{
+    "title": "Nuestras Tiendas",
+    "subtitle": "Descubre nuestros puestos y sus mercancías artesanales",
+    "visit": "Visitar",
+    "products_count": "{count} producto | {count} productos",
+    "unknown_provider": "Proveedor desconocido",
+    "no_shops": {
+        "title": "No hay tiendas abiertas",
+        "description": "Los comerciantes están preparando sus puestos. ¡Vuelve pronto!"
+    },
+    "back_to_shops": "Volver a las Tiendas",
+    "filters": {
+        "search_label": "Buscar un producto",
+        "search_placeholder": "Buscar mercancías...",
+        "clear_search": "Borrar búsqueda",
+        "sort_label": "Ordenar por",
+        "price_label": "Precio (Oro)",
+        "min": "Mín",
+        "max": "Máx",
+        "min_max_separator": "-",
+        "availability_label": "Disponibilidad",
+        "reset": "Reiniciar",
+        "clear_all": "Borrar todo",
+        "active_search": "Búsqueda:",
+        "active_price": "Precio:"
+    },
+    "sort_options": {
+        "name_asc": "Nombre (A-Z)",
+        "name_desc": "Nombre (Z-A)",
+        "price_asc": "Precio (Ascendente)",
+        "price_desc": "Precio (Descendente)",
+        "stock_desc": "Stock (Alto)",
+        "stock_asc": "Stock (Bajo)"
+    },
+    "stock_options": {
+        "all": "Todas las mercancías",
+        "in_stock": "En stock",
+        "out_of_stock": "Agotado",
+        "label_all": "Todos",
+        "label_in_stock": "En Stock",
+        "label_out_of_stock": "Agotado"
+    },
+    "results": {
+        "count": "{count} mercancía encontrada | {count} mercancías encontradas",
+        "no_matches": {
+            "title": "Ninguna mercancía coincide",
+            "description": "Intenta cambiar tus criterios para encontrar otros tesoros."
+        },
+        "empty_shop": {
+            "title": "Tienda vacía",
+            "description": "El comerciante aún no ha exhibido sus mercancías."
+        }
+    }
+}

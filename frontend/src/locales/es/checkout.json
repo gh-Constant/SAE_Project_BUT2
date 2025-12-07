@@ -1,0 +1,25 @@
+{
+    "title": "Finalizar sus pedidos",
+    "subtitle": "Proceda al pago de sus pedidos pendientes",
+    "all_paid": {
+        "title": "¡Todos sus pedidos están pagados!",
+        "description": "Puede consultar el estado de sus compras en el historial.",
+        "button": "Ver mis pedidos"
+    },
+    "order_card": {
+        "title": "Pedido #{id}",
+        "waiting": "Pendiente",
+        "unknown_product": "Producto desconocido",
+        "total_order": "Total del pedido",
+        "pay": "Pagar",
+        "processing": "Procesando...",
+        "error_paying": "Ocurrió un error durante el pago."
+    },
+    "summary": {
+        "title": "Resumen",
+        "waiting_count": "Pedidos por pagar",
+        "paid_count": "Pedidos ya pagados",
+        "grand_total": "Gran Total",
+        "quote": "\"Una deuda pagada es un alma sosegada.\""
+    }
+}

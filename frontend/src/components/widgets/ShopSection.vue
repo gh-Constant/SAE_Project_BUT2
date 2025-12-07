@@ -10,20 +10,20 @@
 <template>
   <div class="shop-section">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-bold text-gray-800">Shop Preview</h3>
+      <h3 class="text-xl font-bold text-gray-800">{{ t('widgets.shop.title') }}</h3>
       <div class="flex gap-2">
         <button 
           v-if="isOwner"
           @click="addProduct"
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
         >
-          <i class="fas fa-plus mr-2"></i> Add Product
+          <i class="fas fa-plus mr-2"></i> {{ t('widgets.shop.add_product') }}
         </button>
         <button 
           @click="goToShop" 
           class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
         >
-          <i class="fas fa-store mr-2"></i> View All
+          <i class="fas fa-store mr-2"></i> {{ t('widgets.shop.view_all') }}
         </button>
       </div>
     </div>
@@ -31,8 +31,8 @@
     <!-- Products List Display -->
     <div class="space-y-4">
       <div v-if="products.length === 0" class="text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-        <p class="text-gray-500">No products available yet.</p>
-        <p class="text-sm text-gray-400 mt-1">Check back later for new items!</p>
+        <p class="text-gray-500">{{ t('widgets.shop.empty') }}</p>
+        <p class="text-sm text-gray-400 mt-1">{{ t('widgets.shop.empty_sub') }}</p>
       </div>
 
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -59,7 +59,7 @@
             <p class="text-xs text-gray-500 line-clamp-2 mb-2">{{ product.description }}</p>
             <div class="flex justify-between items-center text-xs">
               <span :class="product.stock > 0 ? 'text-green-600' : 'text-red-600'" class="font-medium">
-                {{ product.stock > 0 ? `${product.stock} in stock` : 'Out of stock' }}
+                {{ product.stock > 0 ? t('widgets.shop.in_stock', { count: product.stock }) : t('widgets.shop.out_of_stock') }}
               </span>
             </div>
           </div>
@@ -70,9 +70,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, defineProps } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { productService, ProductStoreMock } from '@/services/productService';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Props {
   locationId: number;

@@ -1,0 +1,27 @@
+{
+    "list": {
+        "title": "Todos los Eventos del Reino",
+        "loading": "Consultando las estrellas...",
+        "empty": "La paz reina en el reino por ahora.",
+        "unknown_location": "Ubicación desconocida",
+        "from_price": "Desde {price} G",
+        "view_details": "Ver detalles"
+    },
+    "details": {
+        "back": "Volver",
+        "loading": "Cargando detalles...",
+        "not_found": "Evento no encontrado.",
+        "price_label": "Precio",
+        "about_title": "Sobre este evento",
+        "book_title": "Reserva tus entradas",
+        "login_required": "Debes iniciar sesión para reservar.",
+        "login_button": "Iniciar sesión",
+        "quantity": "Cantidad",
+        "total": "Total",
+        "remaining_seats": "{count} asiento restante | {count} asientos restantes",
+        "sold_out": "Agotado",
+        "confirm_booking": "Confirmar Reserva",
+        "success": "¡Reserva confirmada con éxito!",
+        "error_default": "Ocurrió un error durante la reserva."
+    }
+}

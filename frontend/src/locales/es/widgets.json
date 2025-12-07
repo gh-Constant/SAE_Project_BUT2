@@ -1,0 +1,78 @@
+{
+    "story": {
+        "location": "Ubicación:",
+        "type": "Tipo:",
+        "type_value": "Lugar de Historia",
+        "close": "Cerrar"
+    },
+    "available": {
+        "title": "Disponible para compra",
+        "description": "Esta ubicación está disponible para establecer su negocio.",
+        "location": "Ubicación:",
+        "status_label": "Estado:",
+        "status_available": "Disponible",
+        "price": "Precio:",
+        "currency": "Oro",
+        "acquire_button": "Adquirir esta ubicación",
+        "acquire_loading": "Adquiriendo...",
+        "acquire_success": "¡Adquirido!",
+        "opportunities_title": "Oportunidades:",
+        "opp_store": "Establece una tienda para vender tus mercancías",
+        "opp_quest": "Ofrece misiones a los aventureros",
+        "opp_event": "Organiza eventos y demostraciones",
+        "opp_reputation": "Construye tu reputación en el reino",
+        "close": "Cerrar",
+        "error_login": "Debe iniciar sesión para comprar una ubicación"
+    },
+    "purchased": {
+        "owner_label": "Propietario",
+        "view_profile": "Ver Perfil",
+        "location": "Ubicación:",
+        "status_label": "Estado:",
+        "status_acquired": "Adquirido",
+        "value": "Valor:",
+        "close": "Cerrar"
+    },
+    "blog": {
+        "title": "Blogs",
+        "new_button": "Nuevo Blog",
+        "edit_title": "Editar Blog",
+        "new_title": "Nuevo Blog",
+        "title_placeholder": "Título del Blog",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "empty": "No hay blogs publicados todavía.",
+        "empty_owner": "¡Comparte tu primera actualización con la comunidad!",
+        "delete_confirm": "¿Estás seguro de que quieres eliminar esta entrada de blog?",
+        "alert_title": "Por favor ingrese un título de blog",
+        "error_save": "Error al guardar",
+        "error_delete": "Error al eliminar"
+    },
+    "shop": {
+        "title": "Vista previa de la tienda",
+        "add_product": "Añadir Producto",
+        "view_all": "Ver Todo",
+        "empty": "No hay productos disponibles todavía.",
+        "empty_sub": "¡Vuelve más tarde para ver nuevos artículos!",
+        "in_stock": "{count} en stock",
+        "out_of_stock": "Agotado"
+    },
+    "events": {
+        "title": "Próximos Eventos",
+        "view_all": "Ver Todo",
+        "loading": "Cargando...",
+        "empty": "No hay eventos programados por ahora.",
+        "view_calendar": "Ver Calendario Completo"
+    },
+    "quests": {
+        "title": "Misiones Disponibles",
+        "add_button": "Añadir Misión",
+        "manage_button": "Gestionar",
+        "loading": "Cargando misiones...",
+        "empty": "No hay misiones disponibles en este momento.",
+        "accept": "Aceptar",
+        "accepted": "Aceptada",
+        "success_accept": "¡Misión aceptada! Encuéntrala en tu perfil.",
+        "error_accept": "No se pudo aceptar la misión (¿quizás ya aceptada?)"
+    }
+}

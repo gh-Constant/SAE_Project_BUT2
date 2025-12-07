@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-xl font-medieval font-bold text-iron-black flex items-center gap-2">
         <i class="fas fa-scroll text-antique-bronze"></i>
-        Quêtes Disponibles
+        {{ t('widgets.quests.title') }}
       </h3>
       <div class="flex gap-2">
         <button 
@@ -11,24 +11,24 @@
           @click="addQuest"
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
         >
-          <i class="fas fa-plus mr-2"></i> Add Quest
+          <i class="fas fa-plus mr-2"></i> {{ t('widgets.quests.add_button') }}
         </button>
         <button 
           v-if="isOwner"
           @click="manageQuests" 
           class="px-4 py-2 bg-antique-bronze hover:brightness-110 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
         >
-          <i class="fas fa-cog mr-2"></i> Manage
+          <i class="fas fa-cog mr-2"></i> {{ t('widgets.quests.manage_button') }}
         </button>
       </div>
     </div>
 
     <!-- Quest List -->
     <div v-if="loading" class="text-center py-4 text-stone-grey font-body">
-      Chargement des quêtes...
+      {{ t('widgets.quests.loading') }}
     </div>
     <div v-else-if="quests.length === 0" class="text-center py-4 text-stone-grey font-body italic">
-      Aucune quête disponible pour le moment.
+      {{ t('widgets.quests.empty') }}
     </div>
     <div v-else class="space-y-4">
       <div 
@@ -50,10 +50,10 @@
             @click="acceptQuest(quest.id_quest)"
             class="bg-green-700/80 text-white px-3 py-1 rounded text-sm font-medieval hover:bg-green-700 transition-colors"
           >
-            Accepter
+            {{ t('widgets.quests.accept') }}
           </button>
           <span v-else-if="isQuestTaken(quest.id_quest)" class="text-green-700 text-sm font-medieval">
-            <i class="fas fa-check"></i> Acceptée
+            <i class="fas fa-check"></i> {{ t('widgets.quests.accepted') }}
           </span>
         </div>
       </div>
@@ -65,6 +65,9 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { questService, Quest } from '@/services/questService';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   locationId: number;
@@ -122,10 +125,10 @@ const acceptQuest = async (questId: number) => {
   try {
     await questService.acceptQuest(questId);
     await loadQuests();
-    alert('Quête acceptée ! Retrouvez-la dans votre profil.');
+    alert(t('widgets.quests.success_accept'));
   } catch (error) {
     console.error('Failed to accept quest:', error);
-    alert("Impossible d'accepter la quête (peut-être déjà acceptée ?)");
+    alert(t('widgets.quests.error_accept'));
   }
 };
 

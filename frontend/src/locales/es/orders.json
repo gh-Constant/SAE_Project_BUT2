@@ -1,0 +1,40 @@
+{
+    "title": "Mis Pedidos",
+    "subtitle": "Ver y gestionar sus pedidos",
+    "filters": {
+        "all": "Todos",
+        "waiting": "Por pagar",
+        "paid": "Pagados",
+        "collected": "Recogidos"
+    },
+    "empty": {
+        "title": "Sin pedidos",
+        "all": "Aún no ha realizado ningún pedido",
+        "filtered": "Sin pedidos {filter}",
+        "browse": "Explorar tienda"
+    },
+    "item": {
+        "title": "Pedido #{id}",
+        "total": "Total",
+        "unknown_product": "Artefacto desconocido",
+        "collected_at": "Recogido el {date}",
+        "location": "Tienda",
+        "date": "Fecha"
+    },
+    "status": {
+        "waiting": "En espera de pago",
+        "paid": "Pagado",
+        "collected": "Recogido",
+        "unknown": "Desconocido"
+    },
+    "filter_labels": {
+        "waiting": "en espera de pago",
+        "paid": "pagado",
+        "collected": "recogido"
+    },
+    "actions": {
+        "pay": "Pagar ahora",
+        "paid_waiting": "Pagado - En espera de recogida",
+        "collected": "Pedido recogido"
+    }
+}

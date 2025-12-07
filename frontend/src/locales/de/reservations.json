@@ -1,0 +1,21 @@
+{
+    "title": "Meine Reservierungen",
+    "loading": "Suche nach Ihren Tickets...",
+    "empty": {
+        "text": "Sie haben im Moment keine Reservierungen.",
+        "link": "Veranstaltungen entdecken"
+    },
+    "status": {
+        "confirmed": "Bestätigt",
+        "pending": "Ausstehend",
+        "cancelled": "Storniert"
+    },
+    "ticket": {
+        "label": "Ticket",
+        "event_deleted": "Veranstaltung gelöscht",
+        "unknown_location": "Unbekannter Ort",
+        "quantity": "Menge",
+        "total_paid": "Gesamt bezahlt",
+        "unknown_date": "Unbekanntes Datum"
+    }
+}

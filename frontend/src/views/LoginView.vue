@@ -27,10 +27,10 @@
         <!-- Title -->
         <div class="mb-8 text-left">
           <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
-            Bienvenue, Voyageur
+            {{ t('auth.login.title') }}
           </h1>
           <p class="text-stone-grey text-lg mb-4 italic">
-            Entrez vos identifiants pour accéder au royaume
+            {{ t('auth.login.subtitle') }}
           </p>
           <!-- Bronze line -->
           <div class="w-24 h-1 bg-antique-bronze rounded-full" />
@@ -65,7 +65,7 @@
         >
           <div class="bg-parchment p-8 rounded-lg shadow-2xl border-2 border-antique-bronze flex flex-col items-center space-y-4">
             <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-antique-bronze" />
-            <span class="text-iron-black font-medieval text-xl">Authentification...</span>
+            <span class="text-iron-black font-medieval text-xl">{{ t('auth.login.loading') }}</span>
           </div>
         </div>
 
@@ -82,7 +82,7 @@
               type="email"
               class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
               :class="fieldErrors.email ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-              placeholder="Email"
+              :placeholder="t('auth.login.email_placeholder')"
               required
               @blur="validateField('email', email)"
             >
@@ -94,7 +94,7 @@
                 fieldErrors.email ? 'text-red-600' : ''
               ]"
             >
-              {{ fieldErrors.email || 'Adresse Email' }}
+              {{ fieldErrors.email || t('auth.login.email_label') }}
             </label>
             <div class="absolute inset-0 rounded-lg pointer-events-none border border-transparent peer-focus:border-antique-bronze/10"></div>
           </div>
@@ -107,7 +107,7 @@
               :type="showPassword ? 'text' : 'password'"
               class="w-full px-4 py-3 pr-12 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
               :class="fieldErrors.password ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-              placeholder="Mot de passe"
+              :placeholder="t('auth.login.password_placeholder')"
               required
             >
             <label 
@@ -118,7 +118,7 @@
                 fieldErrors.password ? 'text-red-600' : ''
               ]"
             >
-              {{ fieldErrors.password || 'Mot de passe' }}
+              {{ fieldErrors.password || t('auth.login.password_label') }}
             </label>
             <button
               type="button"
@@ -142,14 +142,14 @@
                 for="remember"
                 class="ml-2 text-sm text-stone-grey hover:text-iron-black transition-colors cursor-pointer"
               >
-                Se souvenir de moi
+              {{ t('auth.login.remember_me') }}
               </label>
             </div>
             <button
               type="button"
               class="text-sm text-antique-bronze hover:text-iron-black transition-colors font-medium underline decoration-antique-bronze/30 underline-offset-2"
             >
-              Mot de passe oublié ?
+              {{ t('auth.login.forgot_password') }}
             </button>
           </div>
 
@@ -159,19 +159,19 @@
             :disabled="isLoading"
             class="w-full flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-lg text-lg font-medieval font-bold text-white bg-antique-bronze hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-antique-bronze disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:-translate-y-0.5"
           >
-            {{ isLoading ? 'Connexion en cours...' : 'Entrer dans le royaume' }}
+            {{ isLoading ? t('auth.login.loading') : t('auth.login.submit') }}
           </button>
         </form>
 
         <!-- Sign Up Link -->
         <div class="mt-8 text-center">
           <p class="text-stone-grey">
-            Pas encore de compte ?
+            {{ t('auth.login.no_account') }}
             <router-link
               to="/register"
               class="font-medieval font-bold text-antique-bronze hover:text-iron-black transition-colors ml-1 text-lg"
             >
-              Rejoindre l'aventure
+              {{ t('auth.login.join') }}
             </router-link>
           </p>
         </div>
@@ -185,7 +185,9 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const authStore = useAuthStore()
 
@@ -210,16 +212,16 @@ const validateField = (field: string, value: string) => {
     case 'email':
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!value.trim()) {
-        fieldErrors.value[field] = 'L\'email est requis'
+        fieldErrors.value[field] = t('auth.errors.email_required')
       } else if (!emailRegex.test(value)) {
-        fieldErrors.value[field] = 'Veuillez entrer un email valide'
+        fieldErrors.value[field] = t('auth.errors.email_invalid')
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'password':
       if (!value) {
-        fieldErrors.value[field] = 'Le mot de passe est requis'
+        fieldErrors.value[field] = t('auth.errors.password_required')
       } else {
         fieldErrors.value[field] = ''
       }
@@ -229,7 +231,7 @@ const validateField = (field: string, value: string) => {
 
 const handleLogin = async () => {
   if (!email.value || !password.value) {
-    errorMessage.value = 'Veuillez remplir tous les champs'
+    errorMessage.value = t('auth.errors.fill_all')
     return
   }
 
@@ -248,16 +250,16 @@ const handleLogin = async () => {
     // Messages d'erreur user-friendly
     if (error instanceof Error) {
       if (error.message.includes('fetch') || error.message.includes('network')) {
-        errorMessage.value = 'Erreur de connexion. Vérifiez votre connexion internet.'
+        errorMessage.value = t('auth.errors.network_error')
       } else if (error.message.includes('401') || error.message.includes('unauthorized')) {
-        errorMessage.value = 'Email ou mot de passe incorrect'
+        errorMessage.value = t('auth.errors.login_failed')
       } else if (error.message.includes('404')) {
-        errorMessage.value = 'Utilisateur non trouvé'
+        errorMessage.value = t('auth.errors.user_not_found')
       } else {
-        errorMessage.value = 'Email ou mot de passe incorrect'
+        errorMessage.value = t('auth.errors.login_failed')
       }
     } else {
-      errorMessage.value = 'Email ou mot de passe incorrect'
+      errorMessage.value = t('auth.errors.login_failed')
     }
   } finally {
     isLoading.value = false

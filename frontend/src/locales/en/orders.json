@@ -1,0 +1,40 @@
+{
+    "title": "My Orders",
+    "subtitle": "View and manage your orders",
+    "filters": {
+        "all": "All",
+        "waiting": "To Pay",
+        "paid": "Paid",
+        "collected": "Collected"
+    },
+    "empty": {
+        "title": "No orders",
+        "all": "You haven't placed any orders yet",
+        "filtered": "No orders {filter}",
+        "browse": "Browse Shop"
+    },
+    "item": {
+        "title": "Order #{id}",
+        "total": "Total",
+        "unknown_product": "Unknown Artifact",
+        "collected_at": "Collected on {date}",
+        "location": "Shop",
+        "date": "Date"
+    },
+    "status": {
+        "waiting": "Awaiting Payment",
+        "paid": "Paid",
+        "collected": "Collected",
+        "unknown": "Unknown"
+    },
+    "filter_labels": {
+        "waiting": "awaiting payment",
+        "paid": "paid",
+        "collected": "collected"
+    },
+    "actions": {
+        "pay": "Pay Now",
+        "paid_waiting": "Order Paid - Awaiting Collection",
+        "collected": "Order Collected"
+    }
+}
