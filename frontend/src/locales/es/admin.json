@@ -1,0 +1,99 @@
+{
+    "dashboard": {
+        "users": {
+            "title": "Usuarios",
+            "subtitle": "usuarios activos",
+            "action": "Ver todos los usuarios"
+        },
+        "locations": {
+            "title": "Ubicaciones",
+            "subtitle": "ubicaciones activas",
+            "action": "Gestionar ubicaciones"
+        },
+        "system": {
+            "title": "Sistema",
+            "status": "Activo",
+            "subtitle": "estadísticas del sistema",
+            "action": "Ver estadísticas"
+        }
+    },
+    "quick_actions": {
+        "title": "Acciones Rápidas",
+        "create_user": "Crear usuario",
+        "add_location": "Añadir ubicación",
+        "manage_roles": "Gestionar roles",
+        "view_logs": "Ver registros",
+        "manage_products": "Gestionar artículos"
+    },
+    "recent_activity": {
+        "title": "Actividad Reciente",
+        "user_created": {
+            "title": "Nuevo usuario creado",
+            "status": "Confirmado",
+            "description": "Usuario \"{name}\" añadido al sistema"
+        },
+        "location_added": {
+            "title": "Nueva ubicación añadida",
+            "status": "Éxito",
+            "description": "Ubicación \"{name}\" añadida"
+        },
+        "time": {
+            "hour_ago": "Hace 1 hora",
+            "yesterday": "Ayer"
+        }
+    },
+    "products": {
+        "title": "Gestión de Productos",
+        "subtitle": "Resumen y gestión de todos los productos del sistema",
+        "search": {
+            "label": "Buscar producto",
+            "placeholder": "Buscar por nombre o descripción...",
+            "clear": "Borrar búsqueda"
+        },
+        "sort": {
+            "label": "Ordenar por",
+            "name_asc": "Nombre (A-Z)",
+            "name_desc": "Nombre (Z-A)",
+            "price_asc": "Precio (Ascendente)",
+            "price_desc": "Precio (Descendente)",
+            "stock_desc": "Stock (Alto)",
+            "stock_asc": "Stock (Bajo)"
+        },
+        "filter": {
+            "price": "Precio (Oro)",
+            "min": "Mín",
+            "max": "Máx",
+            "availability": "Disponibilidad",
+            "all": "Todos los productos",
+            "in_stock": "En stock",
+            "out_of_stock": "Agotado",
+            "reset": "Restablecer filtros",
+            "price_error": "El precio mínimo no puede ser mayor que el máximo."
+        },
+        "table": {
+            "headers": {
+                "image": "Imagen",
+                "name": "Nombre",
+                "description": "Descripción",
+                "price": "Precio",
+                "stock": "Stock",
+                "location": "Ubicación",
+                "owner": "Pertenencia",
+                "actions": "Acciones"
+            },
+            "empty": {
+                "title": "No hay productos registrados",
+                "subtitle": "Añade tu primer producto para empezar a gestionar"
+            },
+            "actions": {
+                "edit": "Editar",
+                "delete": "Descartar",
+                "save": "Sellar",
+                "cancel": "Cancelar"
+            },
+            "stock": {
+                "sold_out": "Agotado"
+            }
+        }
+    }
+}

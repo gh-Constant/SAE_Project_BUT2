@@ -1,132 +1,144 @@
 {
   "dashboard": {
-    "title": "Panel Prestataire",
-    "welcome": "Bienvenue",
+    "title": "Tableau de Bord",
     "services": {
       "title": "Mes Services",
-      "count": "services actifs",
+      "active_count_label": "services actifs",
       "manage": "Gérer mes services"
     },
     "locations": {
       "title": "Mes Lieux",
-      "count": "lieux gérés",
+      "managed_count_label": "lieux gérés",
       "view": "Voir mes lieux"
     },
     "earnings": {
       "title": "Revenus ce mois",
-      "view": "Voir les détails"
+      "monthly_total": "total mensuel",
+      "view_details": "Voir les détails"
     },
-    "quickActions": {
+    "quick_actions": {
       "title": "Actions Rapides",
-      "addService": "Ajouter un service",
-      "createLocation": "Créer un lieu",
-      "viewReservations": "Voir les réservations",
-      "editProfile": "Modifier mon profil"
+      "add_service": "Ajouter un service",
+      "manage_shop": "Gérer ma boutique",
+      "manage_quests": "Gérer mes quêtes",
+      "create_location": "Créer un lieu",
+      "view_bookings": "Voir les réservations",
+      "edit_profile": "Modifier mon profil"
     },
-    "recentActivity": {
-      "title": "Activité Récente"
+    "recent_activity": {
+      "title": "Activité Récente",
+      "booking_received": "Nouvelle réservation reçue",
+      "status_confirmed": "Confirmée",
+      "payment_received": "Paiement reçu",
+      "status_success": "Réussi",
+      "time_now": "Il y a 2 heures",
+      "time_yesterday": "Hier"
     }
   },
-  "profile": {
-    "title": "Modifier mon profil",
-    "sections": {
-      "identity": "Identité",
-      "contact": "Contact",
-      "location": "Localisation",
-      "presentation": "Présentation",
-      "professional": "Professionnel"
+  "products": {
+    "title": "Gestion de l'Échoppe",
+    "subtitle": "Tenez vos registres et gérez votre inventaire",
+    "search": {
+      "label": "Rechercher un produit",
+      "placeholder": "Rechercher par nom ou description...",
+      "clear": "Effacer la recherche"
     },
-    "fields": {
-      "firstname": "Prénom",
-      "lastname": "Nom",
-      "email": "Email",
-      "birthDate": "Date de naissance",
-      "phone": "Téléphone",
-      "bio": "Biographie",
-      "bioHint": "Décrivez-vous et vos spécialités (max 500 caractères)",
-      "bioPlaceholder": "Maître artisan depuis 15 ans, spécialisé dans les armures authentiques...",
-      "website": "Site web",
-      "websitePlaceholder": "https://mon-site.com",
-      "address": "Adresse",
-      "city": "Ville",
-      "postalCode": "Code postal",
-      "country": "Pays",
-      "customCountry": "Nom du pays",
-      "experienceYears": "Années d'expérience",
-      "socialMedia": "Réseaux sociaux",
-      "facebook": "Facebook",
-      "instagram": "Instagram",
-      "twitter": "Twitter/X",
-      "linkedin": "LinkedIn",
-      "tiktok": "TikTok",
-      "specialties": "Spécialités",
-      "specialtiesPlaceholder": "Ajoutez vos spécialités (ex: Cuisine médiévale, Banquets royaux)",
-      "languages": "Langues parlées",
-      "languagesPlaceholder": "Sélectionnez les langues que vous parlez",
-      "prestataireType": "Type de Prestataire",
-      "prestataireTypeReadonly": "Le type de prestataire ne peut pas être modifié",
-      "aventurier": "Aventurier",
-      "avatar": "Avatar",
-      "avatarCurrent": "Avatar actuel",
-      "avatarType": "Type d'avatar",
-      "avatarTypeGallery": "Galerie",
-      "avatarTypeUpload": "Upload",
-      "chooseAvatar": "Choisir un avatar",
-      "uploadHint": "Formats acceptés : JPG, PNG, GIF (max 5MB)"
+    "sort": {
+      "label": "Trier par",
+      "name_asc": "Nom (A-Z)",
+      "name_desc": "Nom (Z-A)",
+      "price_asc": "Prix (Croissant)",
+      "price_desc": "Prix (Décroissant)",
+      "stock_desc": "Stock (Élevé)",
+      "stock_asc": "Stock (Faible)"
     },
-    "status": {
-      "title": "Statut",
-      "xp": "XP",
-      "level": "Niveau"
+    "filter": {
+      "price": "Prix (Gold)",
+      "availability": "Disponibilité",
+      "all": "Tous les produits",
+      "in_stock": "En stock",
+      "out_of_stock": "Rupture de stock",
+      "reset": "Réinitialiser les filtres",
+      "price_error": "Le prix minimum ne peut pas être supérieur au maximum."
     },
-    "validation": {
-      "firstnameRequired": "Le prénom est requis",
-      "firstnameMinLength": "Le prénom doit contenir au moins 2 caractères",
-      "firstnameMaxLength": "Le prénom ne doit pas dépasser 255 caractères",
-      "firstnameInvalid": "Le prénom ne doit contenir que des lettres",
-      "lastnameRequired": "Le nom est requis",
-      "lastnameMinLength": "Le nom doit contenir au moins 2 caractères",
-      "lastnameMaxLength": "Le nom ne doit pas dépasser 255 caractères",
-      "lastnameInvalid": "Le nom ne doit contenir que des lettres",
-      "emailRequired": "L'email est requis",
-      "emailInvalid": "Veuillez entrer un email valide",
-      "birthDateInvalid": "Date de naissance invalide",
-      "birthDateTooYoung": "Vous devez avoir au moins 15 ans",
-      "birthDateFuture": "La date de naissance ne peut pas être dans le futur",
-      "phoneInvalid": "Format de téléphone invalide (caractères non autorisés)",
-      "phoneTooShort": "Le numéro de téléphone doit contenir au moins 8 chiffres",
-      "phoneTooLong": "Le numéro de téléphone ne doit pas dépasser 15 chiffres ou 20 caractères",
-      "bioMaxLength": "La biographie ne doit pas dépasser 500 caractères",
-      "websiteInvalid": "L'URL doit commencer par http:// ou https://",
-      "experienceYearsInvalid": "Les années d'expérience doivent être entre 0 et 100",
-      "addressMinLength": "L'adresse doit contenir au moins 5 caractères",
-      "addressMaxLength": "L'adresse ne doit pas dépasser 255 caractères",
-      "cityMinLength": "La ville doit contenir au moins 2 caractères",
-      "cityMaxLength": "La ville ne doit pas dépasser 100 caractères",
-      "cityInvalid": "La ville ne doit contenir que des lettres, espaces et tirets",
-      "postalCodeInvalid": "Format de code postal invalide",
-      "countryInvalid": "Veuillez sélectionner un pays valide",
-      "customCountryRequired": "Veuillez saisir le nom du pays",
-      "customCountryMinLength": "Le nom du pays doit contenir au moins 2 caractères",
-      "customCountryMaxLength": "Le nom du pays ne doit pas dépasser 100 caractères",
-      "customCountryInvalid": "Le nom du pays ne doit contenir que des lettres",
-      "avatarInvalid": "Veuillez sélectionner un fichier image valide",
-      "avatarTooLarge": "Le fichier ne doit pas dépasser 5MB",
-      "formErrors": "Veuillez corriger les erreurs du formulaire"
+    "location": {
+      "register_count": "Registre contenant {n} marchandise | Registre contenant {n} marchandises",
+      "add_product": "Ajouter une marchandise"
     },
-    "messages": {
-      "success": "Profil mis à jour avec succès !",
-      "updatedSuccess": "mis à jour avec succès",
-      "error": "Une erreur est survenue lors de la mise à jour du profil",
-      "loading": "Enregistrement...",
-      "save": "Enregistrer les modifications",
-      "cancel": "Annuler"
+    "add_form": {
+      "title": "Inscrire une nouvelle marchandise",
+      "name_label": "Dénomination",
+      "name_placeholder": "Ex: Épée longue en acier",
+      "image_label": "Représentation (Image)",
+      "image_placeholder": "Ou lien URL...",
+      "price_label": "Prix (Gold)",
+      "stock_label": "Stock disponible",
+      "description_label": "Description détaillée",
+      "description_placeholder": "Détails de la marchandise...",
+      "cancel": "Abandonner",
+      "submit": "Inscrire au registre"
     },
-    "backToHome": "Retour à l'accueil"
+    "table": {
+      "headers": {
+        "image": "Image",
+        "name": "Nom",
+        "description": "Description",
+        "price": "Prix",
+        "stock": "Stock",
+        "actions": "Actions"
+      },
+      "stock": {
+        "sold_out": "Épuisé"
+      },
+      "empty": {
+        "title": "Le registre est vide",
+        "subtitle": "Ajoutez votre première marchandise pour commencer le commerce"
+      },
+      "actions": {
+        "edit": "Modifier",
+        "delete": "Jeter",
+        "save": "Sceller",
+        "cancel": "Annuler"
+      }
+    }
   },
-  "tabs": {
-    "dashboard": "Tableau de bord",
-    "profile": "Mon Profil"
+  "quests": {
+    "title": "Gestion des Quêtes",
+    "subtitle": "Créez et gérez les quêtes pour vos établissements",
+    "location": {
+      "active_count": "{n} quête active | {n} quêtes actives",
+      "create_quest": "Créer une quête"
+    },
+    "add_form": {
+      "title": "Rédiger une nouvelle quête",
+      "quest_title_label": "Titre de la quête",
+      "quest_title_placeholder": "Ex: Livrer un colis au château",
+      "reward_label": "Récompense (XP)",
+      "description_label": "Description détaillée",
+      "description_placeholder": "Décrivez les objectifs de la quête...",
+      "cancel": "Abandonner",
+      "submit": "Publier la quête",
+      "submitting": "Publication..."
+    },
+    "table": {
+      "headers": {
+        "title": "Titre",
+        "description": "Description",
+        "reward": "Récompense",
+        "actions": "Actions"
+      },
+      "actions": {
+        "delete": "Supprimer"
+      },
+      "empty": {
+        "title": "Aucune quête créée",
+        "subtitle": "Créez votre première quête pour attirer les aventuriers"
+      }
+    },
+    "no_locations": {
+      "title": "Vous ne possédez aucun lieu",
+      "subtitle": "Explorez la carte pour acquérir votre premier établissement.",
+      "explore_button": "Explorer la carte"
+    }
   }
 }
-

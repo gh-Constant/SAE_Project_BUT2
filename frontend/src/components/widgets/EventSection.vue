@@ -5,23 +5,23 @@
         <svg class="w-5 h-5 text-antique-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
-        Événements à venir
+        {{ t('widgets.events.title') }}
       </h3>
       <button 
         v-if="events.length > 0"
         @click="viewAllEvents"
         class="text-sm text-antique-bronze hover:text-iron-black font-bold hover:underline"
       >
-        Voir tout
+        {{ t('widgets.events.view_all') }}
       </button>
     </div>
 
     <div v-if="loading" class="text-center py-4 text-stone-grey">
-      Chargement...
+      {{ t('widgets.events.loading') }}
     </div>
 
     <div v-else-if="events.length === 0" class="text-center py-4 bg-white/30 rounded-lg border border-antique-bronze/10">
-      <p class="text-stone-grey italic">Aucun événement prévu pour le moment.</p>
+      <p class="text-stone-grey italic">{{ t('widgets.events.empty') }}</p>
     </div>
 
     <div v-else class="space-y-3">
@@ -46,7 +46,7 @@
       @click="viewAllEvents"
       class="w-full mt-4 bg-antique-bronze/10 hover:bg-antique-bronze/20 text-antique-bronze font-bold py-2 rounded transition-colors"
     >
-      Voir le calendrier complet
+      {{ t('widgets.events.view_calendar') }}
     </button>
   </div>
 </template>
@@ -55,6 +55,9 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEventStore } from '@/stores/event'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   locationId: number

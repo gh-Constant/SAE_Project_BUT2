@@ -1,0 +1,27 @@
+{
+    "list": {
+        "title": "All Kingdom Events",
+        "loading": "Consulting the stars...",
+        "empty": "Peace reigns over the kingdom for now.",
+        "unknown_location": "Unknown Location",
+        "from_price": "From {price} G",
+        "view_details": "View details"
+    },
+    "details": {
+        "back": "Back",
+        "loading": "Loading details...",
+        "not_found": "Event not found.",
+        "price_label": "Price",
+        "about_title": "About this event",
+        "book_title": "Book your tickets",
+        "login_required": "You must be logged in to book.",
+        "login_button": "Login",
+        "quantity": "Quantity",
+        "total": "Total",
+        "remaining_seats": "{count} seat remaining | {count} seats remaining",
+        "sold_out": "Sold Out",
+        "confirm_booking": "Confirm Booking",
+        "success": "Booking confirmed successfully!",
+        "error_default": "An error occurred during booking."
+    }
+}

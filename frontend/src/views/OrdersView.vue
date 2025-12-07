@@ -15,10 +15,10 @@
       <!-- En-tête -->
       <div class="mb-12">
         <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
-          Mes Commandes
+          {{ t('orders.title') }}
         </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-        <p class="text-base font-body text-stone-grey">Consultez et gérez vos commandes</p>
+        <p class="text-base font-body text-stone-grey">{{ t('orders.subtitle') }}</p>
       </div>
 
       <!-- Filtres -->
@@ -32,7 +32,7 @@
               : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
           ]"
         >
-          Toutes
+          {{ t('orders.filters.all') }}
         </button>
         <button
           @click="filter = EtatCommande.WAITING"
@@ -43,7 +43,7 @@
               : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
           ]"
         >
-          À payer
+          {{ t('orders.filters.waiting') }}
         </button>
         <button
           @click="filter = EtatCommande.PAID"
@@ -54,7 +54,7 @@
               : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
           ]"
         >
-          Payées
+          {{ t('orders.filters.paid') }}
         </button>
         <button
           @click="filter = EtatCommande.COLLECTED"
@@ -65,7 +65,7 @@
               : 'bg-white/60 text-stone-grey hover:bg-white border border-antique-bronze/20'
           ]"
         >
-          Collectées
+          {{ t('orders.filters.collected') }}
         </button>
       </div>
 
@@ -76,19 +76,19 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
           </svg>
         </div>
-        <p class="text-xl font-medieval text-iron-black mb-2">Aucune commande</p>
+        <p class="text-xl font-medieval text-iron-black mb-2">{{ t('orders.empty.title') }}</p>
         <p class="text-sm font-body text-stone-grey mb-8">
           {{
             filter === 'all'
-              ? "Vous n'avez pas encore passé de commande"
-              : `Aucune commande ${getFilterLabel()}`
+              ? t('orders.empty.all')
+              : t('orders.empty.filtered', { filter: getFilterLabel() })
           }}
         </p>
         <router-link
           to="/boutique"
           class="inline-block bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200"
         >
-          Parcourir la boutique
+          {{ t('orders.empty.browse') }}
         </router-link>
       </div>
 
@@ -105,7 +105,7 @@
               <div class="flex-1">
                 <div class="flex items-center gap-3 mb-3">
                   <h3 class="text-xl font-medieval font-bold text-iron-black">
-                    Commande #{{ Math.floor(order.id) }}
+                    {{ t('orders.item.title', { id: Math.floor(order.id) }) }}
                   </h3>
                   <span
                     :class="[
@@ -133,9 +133,9 @@
                 </div>
               </div>
               <div class="text-right">
-                <p class="text-xs font-body text-stone-grey mb-1">Total</p>
+                <p class="text-xs font-body text-stone-grey mb-1">{{ t('orders.item.total') }}</p>
                 <p class="text-2xl font-medieval font-bold text-antique-bronze">
-                  {{ order.total_price.toFixed(2) }} gold
+                  {{ t('cart.price_format', { price: order.total_price.toFixed(2) }) }}
                 </p>
               </div>
             </div>
@@ -164,7 +164,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Collectée le {{ formatDate(order.date_collect) }}
+                {{ t('orders.item.collected_at', { date: formatDate(order.date_collect) }) }}
               </p>
             </div>
           </div>
@@ -179,7 +179,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
               </svg>
-              Payer maintenant
+              {{ t('orders.actions.pay') }}
             </button>
             <div
               v-else-if="order.etat_commande === EtatCommande.PAID"
@@ -188,7 +188,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              Commande payée - En attente de collecte
+              {{ t('orders.actions.paid_waiting') }}
             </div>
             <div
               v-else
@@ -197,7 +197,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
-              Commande collectée
+              {{ t('orders.actions.collected') }}
             </div>
           </div>
         </div>
@@ -214,10 +214,12 @@ import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { productService } from '@/services/productService'
 import { USERS } from '@/mocks/users'
 import { useAuthStore } from '@/stores/auth'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+const { t } = useI18n()
 const filter = ref<'all' | EtatCommande>(route.query.allPaid === 'true' ? EtatCommande.PAID : 'all')
 
 // Commandes filtrées
@@ -254,7 +256,7 @@ const getOrderItems = (orderId: number) => {
     const product = allProducts.find((p) => p.id === ligne.id_product)
     return {
       id_product: ligne.id_product,
-      productName: product?.name || 'Produit inconnu',
+      productName: product?.name || t('orders.item.unknown_product'),
       quantite: ligne.quantite,
       price: ligne.price,
     }
@@ -276,13 +278,13 @@ const formatDate = (date: Date): string => {
 const getStatusLabel = (etat: EtatCommande): string => {
   switch (etat) {
     case EtatCommande.WAITING:
-      return 'En attente de paiement'
+      return t('orders.status.waiting')
     case EtatCommande.PAID:
-      return 'Payée'
+      return t('orders.status.paid')
     case EtatCommande.COLLECTED:
-      return 'Collectée'
+      return t('orders.status.collected')
     default:
-      return 'Inconnu'
+      return t('orders.status.unknown')
   }
 }
 
@@ -318,11 +320,11 @@ const getStatusBadgeClass = (etat: EtatCommande): string => {
 const getFilterLabel = (): string => {
   switch (filter.value) {
     case EtatCommande.WAITING:
-      return 'en attente de paiement'
+      return t('orders.filter_labels.waiting')
     case EtatCommande.PAID:
-      return 'payée'
+      return t('orders.filter_labels.paid')
     case EtatCommande.COLLECTED:
-      return 'collectée'
+      return t('orders.filter_labels.collected')
     default:
       return ''
   }

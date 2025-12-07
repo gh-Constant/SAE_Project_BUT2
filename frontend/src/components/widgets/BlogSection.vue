@@ -12,32 +12,32 @@
 <template>
   <div class="blog-section">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-bold text-gray-800">Blogs</h3>
+      <h3 class="text-xl font-bold text-gray-800">{{ t('widgets.blog.title') }}</h3>
       <button 
         v-if="isOwner && !showEditor" 
         @click="createNewBlog" 
         class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
       >
-        <i class="fas fa-plus mr-2"></i> New Blog
+        <i class="fas fa-plus mr-2"></i> {{ t('widgets.blog.new_button') }}
       </button>
     </div>
 
     <!-- Editor Mode -->
     <div v-if="showEditor" class="bg-white border border-gray-200 rounded-lg p-4 mb-5 shadow-sm">
-      <h4 class="text-lg font-semibold mb-3 text-gray-700">{{ currentBlog.id_blog ? 'Edit Blog' : 'New Blog' }}</h4>
+      <h4 class="text-lg font-semibold mb-3 text-gray-700">{{ currentBlog.id_blog ? t('widgets.blog.edit_title') : t('widgets.blog.new_title') }}</h4>
       <input
         v-model="currentBlog.title"
         type="text"
-        placeholder="Blog Title"
+        :placeholder="t('widgets.blog.title_placeholder')"
         class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg"
       />
       <Editor ref="editorRef" :initialContent="currentBlog.content" />
       <div class="flex gap-2 mt-4 justify-end">
         <button @click="cancelEdit" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors">
-          Cancel
+          {{ t('widgets.blog.cancel') }}
         </button>
         <button @click="saveBlog" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
-          Save Blog
+          {{ t('widgets.blog.save') }}
         </button>
       </div>
     </div>
@@ -45,8 +45,8 @@
     <!-- Blog List Display -->
     <div v-else class="space-y-6">
       <div v-if="blogs.length === 0" class="text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-        <p class="text-gray-500">No blogs posted yet.</p>
-        <p v-if="isOwner" class="text-sm text-gray-400 mt-1">Share your first update with the community!</p>
+        <p class="text-gray-500">{{ t('widgets.blog.empty') }}</p>
+        <p v-if="isOwner" class="text-sm text-gray-400 mt-1">{{ t('widgets.blog.empty_owner') }}</p>
       </div>
 
       <div v-for="blog in blogs" :key="blog.id_blog" class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -79,9 +79,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted } from 'vue';
 import Editor from '@/components/editor/Editor.vue';
 import { blogService, Blog } from '@/services/blogService';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Props {
   locationId: number;
@@ -132,7 +135,7 @@ const editBlog = (blog: Blog) => {
 
 const saveBlog = async () => {
   if (!currentBlog.value.title.trim()) {
-    alert('Please enter a blog title');
+    alert(t('widgets.blog.alert_title'));
     return;
   }
 
@@ -152,12 +155,12 @@ const saveBlog = async () => {
     cancelEdit();
   } catch (error) {
     console.error('Failed to save blog:', error);
-    alert('Failed to save blog');
+    alert(t('widgets.blog.error_save'));
   }
 };
 
 const deleteBlog = async (blogId: number) => {
-  if (!confirm('Are you sure you want to delete this blog post?')) {
+  if (!confirm(t('widgets.blog.delete_confirm'))) {
     return;
   }
 
@@ -166,7 +169,7 @@ const deleteBlog = async (blogId: number) => {
     await fetchBlogs();
   } catch (error) {
     console.error('Failed to delete blog:', error);
-    alert('Failed to delete blog');
+    alert(t('widgets.blog.error_delete'));
   }
 };
 

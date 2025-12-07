@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const authStore = useAuthStore()
 
@@ -61,7 +63,7 @@ const handleFileUpload = (event: Event) => {
   if (file) {
     // Vérifier que c'est bien une image
     if (!file.type.startsWith('image/')) {
-      errorMessage.value = 'Veuillez sélectionner un fichier image valide'
+      errorMessage.value = t('auth.errors.image_invalid')
       return
     }
     
@@ -76,18 +78,18 @@ const validateField = (field: string, value: string) => {
   switch (field) {
     case 'firstName':
       if (!value.trim()) {
-        fieldErrors.value[field] = 'Le prénom est requis'
+        fieldErrors.value[field] = t('auth.errors.firstname_required')
       } else if (value.trim().length < 2) {
-        fieldErrors.value[field] = 'Doit contenir au moins 2 caractères'
+        fieldErrors.value[field] = t('auth.errors.min_length')
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'lastName':
       if (!value.trim()) {
-        fieldErrors.value[field] = 'Le nom est requis'
+        fieldErrors.value[field] = t('auth.errors.lastname_required')
       } else if (value.trim().length < 2) {
-        fieldErrors.value[field] = 'Doit contenir au moins 2 caractères'
+        fieldErrors.value[field] = t('auth.errors.min_length')
       } else {
         fieldErrors.value[field] = ''
       }
@@ -95,27 +97,27 @@ const validateField = (field: string, value: string) => {
     case 'email':
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!value.trim()) {
-        fieldErrors.value[field] = 'L\'email est requis'
+        fieldErrors.value[field] = t('auth.errors.email_required')
       } else if (!emailRegex.test(value)) {
-        fieldErrors.value[field] = 'Veuillez entrer un email valide'
+        fieldErrors.value[field] = t('auth.errors.email_invalid')
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'password':
       if (!value) {
-        fieldErrors.value[field] = 'Le mot de passe est requis'
+        fieldErrors.value[field] = t('auth.errors.password_required')
       } else if (value.length < 6) {
-        fieldErrors.value[field] = 'Le mot de passe doit contenir au moins 6 caractères'
+        fieldErrors.value[field] = t('auth.errors.password_length')
       } else {
         fieldErrors.value[field] = ''
       }
       break
     case 'confirmPassword':
       if (!value) {
-        fieldErrors.value[field] = 'La confirmation est requise'
+        fieldErrors.value[field] = t('auth.errors.required')
       } else if (value !== password.value) {
-        fieldErrors.value[field] = 'Les mots de passe ne correspondent pas'
+        fieldErrors.value[field] = t('auth.errors.password_mismatch')
       } else {
         fieldErrors.value[field] = ''
       }
@@ -136,7 +138,7 @@ const validateAllFields = () => {
 const handleRegister = async () => {
   // Validate all fields before submission
   if (!validateAllFields()) {
-    errorMessage.value = 'Veuillez corriger les erreurs avant de soumettre'
+    errorMessage.value = t('auth.errors.fill_all')
     return
   }
 
@@ -203,7 +205,7 @@ const handleRegister = async () => {
         <div class="mb-8 text-left">
           <div class="flex items-center justify-between mb-4">
             <h1 class="text-3xl font-medieval font-bold text-iron-black">
-              Créer un Compte
+              {{ t('auth.register.title') }}
             </h1>
             <div class="flex items-center space-x-2">
               <div class="flex items-center space-x-1">
@@ -224,7 +226,7 @@ const handleRegister = async () => {
             </div>
           </div>
           <p class="text-stone-grey text-lg mb-4 italic">
-            Rejoignez les Terres du Lion et commencez votre quête
+            {{ t('auth.register.subtitle') }}
           </p>
           <!-- Bronze line -->
           <div class="w-24 h-1 bg-antique-bronze rounded-full" />
@@ -259,7 +261,7 @@ const handleRegister = async () => {
         >
           <div class="bg-parchment p-8 rounded-lg shadow-2xl border-2 border-antique-bronze flex flex-col items-center space-y-4">
             <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-antique-bronze" />
-            <span class="text-iron-black font-medieval text-xl">Création du compte...</span>
+            <span class="text-iron-black font-medieval text-xl">{{ t('auth.register.creating') }}</span>
           </div>
         </div>
 
@@ -269,7 +271,7 @@ const handleRegister = async () => {
           class="mb-6"
         >
           <p class="text-stone-grey text-base mb-3 font-medieval font-bold">
-            Choisissez votre destinée
+            {{ t('auth.register.role_title') }}
           </p>
           <div class="grid grid-cols-2 gap-4">
             <!-- Aventurier Role -->
@@ -290,7 +292,7 @@ const handleRegister = async () => {
                   class="font-medieval font-bold text-sm"
                   :class="selectedRole === 'aventurier' ? 'text-antique-bronze' : 'text-stone-grey'"
                 >
-                  Aventurier
+                  {{ t('auth.register.roles.aventurier') }}
                 </span>
               </div>
               <div
@@ -321,7 +323,7 @@ const handleRegister = async () => {
                   class="font-medieval font-bold text-sm"
                   :class="selectedRole === 'prestataire' ? 'text-antique-bronze' : 'text-stone-grey'"
                 >
-                  Prestataire
+                  {{ t('auth.register.roles.prestataire') }}
                 </span>
               </div>
               <div
@@ -363,7 +365,7 @@ const handleRegister = async () => {
                   <i class="fas fa-user text-stone-grey/50" />
                 </div>
                 <span class="text-iron-black font-medium">
-                  {{ selectedAvatar ? 'Portrait sélectionné' : 'Choisir un portrait' }}
+                  {{ selectedAvatar ? t('auth.register.avatar.selected') : t('auth.register.avatar.choose') }}
                 </span>
               </div>
               
@@ -375,11 +377,11 @@ const handleRegister = async () => {
                   @click="openAvatarModal"
                 >
                   <i class="fas fa-images mr-1" />
-                  Galerie
+                  {{ t('auth.register.avatar.gallery') }}
                 </button>
                 <label class="px-3 py-1.5 bg-stone-grey text-white rounded-md hover:bg-iron-black transition-all text-sm font-medieval font-bold cursor-pointer shadow-sm">
                   <i class="fas fa-upload mr-1" />
-                  Importer
+                  {{ t('auth.register.avatar.import') }}
                   <input
                     type="file"
                     accept="image/*"
@@ -406,7 +408,7 @@ const handleRegister = async () => {
                 type="text"
                 class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
                 :class="fieldErrors.firstName ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-                placeholder="Prénom"
+                :placeholder="t('auth.register.names.first')"
                 required
                 @blur="validateField('firstName', firstName)"
                 @input="validateField('firstName', firstName)"
@@ -419,7 +421,7 @@ const handleRegister = async () => {
                   fieldErrors.firstName ? 'text-red-600' : ''
                 ]"
               >
-                {{ fieldErrors.firstName || 'Prénom' }}
+                {{ fieldErrors.firstName || t('auth.register.names.first') }}
               </label>
             </div>
 
@@ -430,7 +432,7 @@ const handleRegister = async () => {
                 type="text"
                 class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
                 :class="fieldErrors.lastName ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-                placeholder="Nom"
+                :placeholder="t('auth.register.names.last')"
                 required
                 @blur="validateField('lastName', lastName)"
                 @input="validateField('lastName', lastName)"
@@ -443,7 +445,7 @@ const handleRegister = async () => {
                   fieldErrors.lastName ? 'text-red-600' : ''
                 ]"
               >
-                {{ fieldErrors.lastName || 'Nom' }}
+                {{ fieldErrors.lastName || t('auth.register.names.last') }}
               </label>
             </div>
           </div>
@@ -456,7 +458,9 @@ const handleRegister = async () => {
             :class="canProceedToStep2() ? 'bg-antique-bronze hover:brightness-110 cursor-pointer' : 'bg-stone-grey/50 cursor-not-allowed'"
             @click="showStep2 = true"
           >
-            Poursuivre
+            @click="showStep2 = true"
+          >
+            {{ t('auth.register.next') }}
             <i class="fas fa-arrow-right ml-2"></i>
           </button>
         </div>
@@ -486,7 +490,7 @@ const handleRegister = async () => {
                 <!-- Role and Name -->
                 <div class="text-left">
                   <p class="text-xs font-medieval text-stone-grey uppercase tracking-wider">
-                    Identité
+                    {{ t('auth.register.identity') }}
                   </p>
                   <p class="text-base font-bold text-iron-black capitalize">
                     <span class="text-antique-bronze">{{ selectedRole }}</span> {{ firstName }} {{ lastName }}
@@ -498,7 +502,9 @@ const handleRegister = async () => {
                 class="text-antique-bronze hover:text-iron-black text-sm font-bold font-medieval transition-colors cursor-pointer underline decoration-antique-bronze/30 underline-offset-2"
                 @click="showStep2 = false"
               >
-                Modifier
+                @click="showStep2 = false"
+              >
+                {{ t('auth.register.edit') }}
               </button>
             </div>
           </div>
@@ -511,7 +517,7 @@ const handleRegister = async () => {
               type="email"
               class="w-full px-4 py-3 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
               :class="fieldErrors.email ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-              placeholder="Email"
+              :placeholder="t('auth.login.email_placeholder')"
               required
               @blur="validateField('email', email)"
             >
@@ -523,7 +529,7 @@ const handleRegister = async () => {
                 fieldErrors.email ? 'text-red-600' : ''
               ]"
             >
-              {{ fieldErrors.email || 'Adresse Email' }}
+              {{ fieldErrors.email || t('auth.login.email_label') }}
             </label>
           </div>
 
@@ -535,7 +541,7 @@ const handleRegister = async () => {
               :type="showPassword ? 'text' : 'password'"
               class="w-full px-4 py-3 pr-12 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
               :class="fieldErrors.password ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-              placeholder="Mot de passe"
+              :placeholder="t('auth.login.password_placeholder')"
               required
               @blur="validateField('password', password)"
             >
@@ -547,7 +553,7 @@ const handleRegister = async () => {
                 fieldErrors.password ? 'text-red-600' : ''
               ]"
             >
-              {{ fieldErrors.password || 'Mot de passe' }}
+              {{ fieldErrors.password || t('auth.login.password_label') }}
             </label>
             <button
               type="button"
@@ -566,7 +572,7 @@ const handleRegister = async () => {
               :type="showConfirmPassword ? 'text' : 'password'"
               class="w-full px-4 py-3 pr-12 bg-white/50 border-2 rounded-lg text-base text-iron-black placeholder-transparent focus:outline-none focus:ring-0 transition-all duration-200 peer"
               :class="fieldErrors.confirmPassword ? 'border-red-500' : 'border-antique-bronze/30 focus:border-antique-bronze'"
-              placeholder="Confirmer le mot de passe"
+              :placeholder="t('auth.register.confirm_password')"
               required
               @blur="validateField('confirmPassword', confirmPassword)"
             >
@@ -578,7 +584,7 @@ const handleRegister = async () => {
                 fieldErrors.confirmPassword ? 'text-red-600' : ''
               ]"
             >
-              {{ fieldErrors.confirmPassword || 'Confirmer le mot de passe' }}
+              {{ fieldErrors.confirmPassword || t('auth.register.confirm_password') }}
             </label>
             <button
               type="button"
@@ -596,14 +602,14 @@ const handleRegister = async () => {
               class="flex-1 flex justify-center py-3 px-6 border-2 border-stone-grey/30 rounded-lg shadow-sm text-base font-medieval font-bold text-stone-grey bg-white/50 hover:bg-stone-grey/10 hover:text-iron-black transition-all duration-200"
               @click="showStep2 = false"
             >
-              Retour
+              {{ t('auth.register.back') }}
             </button>
             <button
               type="submit"
               :disabled="isLoading"
               class="flex-1 flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-lg text-base font-medieval font-bold text-white bg-antique-bronze hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-antique-bronze disabled:opacity-50 transition-all duration-200 transform hover:-translate-y-0.5"
             >
-              {{ isLoading ? 'Création...' : 'Créer le compte' }}
+              {{ isLoading ? t('auth.register.creating') : t('auth.register.submit') }}
             </button>
           </div>
         </form>
@@ -611,12 +617,12 @@ const handleRegister = async () => {
         <!-- Sign In Link -->
         <div class="mt-8 text-center">
           <p class="text-stone-grey">
-            Déjà un compte ?
+            {{ t('auth.register.already_account') }}
             <router-link
               to="/login"
               class="font-medieval font-bold text-antique-bronze hover:text-iron-black transition-colors ml-1 text-lg"
             >
-              Se connecter
+              {{ t('auth.register.signin') }}
             </router-link>
           </p>
         </div>
@@ -636,7 +642,7 @@ const handleRegister = async () => {
         <!-- Modal Header -->
         <div class="flex items-center justify-between p-6 border-b border-antique-bronze/20 bg-antique-bronze/5">
           <h3 class="text-2xl font-medieval font-bold text-iron-black">
-            Galerie de Portraits
+            {{ t('auth.register.avatar.modal_title') }}
           </h3>
           <button
             class="text-stone-grey hover:text-red-700 transition-colors"
@@ -671,7 +677,7 @@ const handleRegister = async () => {
             class="px-6 py-2 bg-stone-grey text-white rounded-lg hover:bg-iron-black transition-colors font-medieval font-bold shadow-md"
             @click="closeAvatarModal"
           >
-            Annuler
+            {{ t('auth.register.avatar.cancel') }}
           </button>
         </div>
       </div>

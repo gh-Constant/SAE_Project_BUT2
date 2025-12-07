@@ -1,0 +1,54 @@
+{
+    "title": "Our Shops",
+    "subtitle": "Discover our stalls and their handcrafted goods",
+    "visit": "Visit",
+    "products_count": "{count} product | {count} products",
+    "unknown_provider": "Unknown Provider",
+    "no_shops": {
+        "title": "No shops open",
+        "description": "Merchants are preparing their stalls. Come back soon!"
+    },
+    "back_to_shops": "Back to Shops",
+    "filters": {
+        "search_label": "Search for a product",
+        "search_placeholder": "Search for goods...",
+        "clear_search": "Clear search",
+        "sort_label": "Sort by",
+        "price_label": "Price (Gold)",
+        "min": "Min",
+        "max": "Max",
+        "min_max_separator": "-",
+        "availability_label": "Availability",
+        "reset": "Reset",
+        "clear_all": "Clear all",
+        "active_search": "Search:",
+        "active_price": "Price:"
+    },
+    "sort_options": {
+        "name_asc": "Name (A-Z)",
+        "name_desc": "Name (Z-A)",
+        "price_asc": "Price (Low to High)",
+        "price_desc": "Price (High to Low)",
+        "stock_desc": "Stock (High)",
+        "stock_asc": "Stock (Low)"
+    },
+    "stock_options": {
+        "all": "All goods",
+        "in_stock": "In stock",
+        "out_of_stock": "Out of stock",
+        "label_all": "All",
+        "label_in_stock": "In Stock",
+        "label_out_of_stock": "Out of Stock"
+    },
+    "results": {
+        "count": "{count} item found | {count} items found",
+        "no_matches": {
+            "title": "No goods match",
+            "description": "Try changing your criteria to find other treasures."
+        },
+        "empty_shop": {
+            "title": "Empty Shop",
+            "description": "The merchant has not yet displayed their wares."
+        }
+    }
+}

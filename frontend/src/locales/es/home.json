@@ -1,17 +1,23 @@
 {
   "hero": {
-    "title": "Emprende una Aventura Medieval",
-    "subtitle": "Entra en Las Tierras del León, un festival medieval donde cada visitante se convierte en héroe y cada paso hace avanzar la aventura.",
+    "title": "Embárcate en una Aventura Medieval",
+    "subtitle": "Entra en Las Tierras del León, un festival medieval donde cada visitante se convierte en un héroe y cada paso avanza la aventura.",
     "cta": "Comienza Tu Viaje"
+  },
+  "intro": {
+    "title": "El Reino Te Espera",
+    "text_1": "Adéntrate en un mundo donde la historia respira y las leyendas cobran vida. Nuestro reino ofrece más que simples eventos; ofrece un pasaje a través del tiempo.",
+    "text_2": "Desde los torneos más grandiosos hasta las reuniones de pueblo más tranquilas, cada momento está diseñado para sumergirte en el rico tapiz de nuestra herencia medieval.",
+    "visual_alt": "Visual del Reino"
   },
   "features": {
     "title": "Explora la Era Medieval",
-    "subtitle": "Sumérgete en la historia con nuestras funciones completas",
+    "subtitle": "Sumérgete en la historia con nuestras características completas",
     "paragraphs": {
-      "1": "Bienvenido a Las Tierras del León, un evento medieval único inspirado en el juego de rol en vivo. Diseñado para ofrecer una inmersión total, el festival te sumerge en un mundo de misiones, criaturas legendarias y oficios ancestrales.",
-      "2": "Organizado alrededor de un vasto pueblo temático, cada zona te invita a conocer artesanos apasionados, animadores, restauradores y creadores que dan vida a un universo auténtico.",
-      "3": "Gracias a una experiencia interactiva enriquecida — misiones a través de códigos QR, reservas de talleres, click & collect, cuestionarios y galerías de creaciones — cada visitante se convierte en actor de su propia aventura.",
-      "4": "La aplicación dedicada permite explorar, aprender, descubrir y progresar a lo largo del recorrido hasta el castillo, donde la historia alcanza su apogeo.",
+      "1": "Bienvenido a Las Tierras del León, un evento medieval único inspirado en los juegos de rol en vivo. Diseñado para ofrecer una inmersión total, el festival te sumerge en un mundo de misiones, criaturas legendarias y artesanía ancestral.",
+      "2": "Organizado alrededor de un vasto pueblo temático, cada zona te invita a conocer a artesanos apasionados, animadores, posaderos y creadores que dan vida a un universo auténtico.",
+      "3": "Gracias a una experiencia interactiva enriquecida — misiones mediante códigos QR, reservas de talleres, click & collect, cuestionarios y galerías de creación — cada visitante se convierte en actor de su propia aventura.",
+      "4": "La aplicación dedicada te permite explorar, aprender, descubrir y progresar a lo largo del viaje hasta el castillo, donde la historia alcanza su clímax.",
       "5": "Las Tierras del León es un lugar donde la inmersión se encuentra con la tecnología, donde el patrimonio inspira el juego y donde cada visita escribe una nueva leyenda."
     },
     "discover": {
@@ -19,7 +25,7 @@
       "description": "Navega a través de mapas detallados de sitios históricos y campos de batalla"
     },
     "events": {
-      "title": "Cronologías Históricas",
+      "title": "Líneas de Tiempo Históricas",
       "description": "Explora eventos clave que dieron forma al período medieval"
     },
     "community": {
@@ -28,7 +34,7 @@
     }
   },
   "cta": {
-    "title": "Comienza Tu Búsqueda",
+    "title": "Comienza Tu Misión",
     "subtitle": "Regístrate ahora y desbloquea las maravillas del mundo medieval",
     "button": "Únete Ahora"
   }

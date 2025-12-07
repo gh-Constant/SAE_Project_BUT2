@@ -4,17 +4,17 @@
       <div class="mb-8">
         <button @click="router.back()" class="flex items-center text-stone-grey hover:text-antique-bronze transition-colors mb-4">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-          Retour
+          {{ t('events.details.back') }}
         </button>
-        <h1 class="text-4xl font-medieval font-bold text-iron-black text-center">Événements à ce lieu</h1>
+        <h1 class="text-4xl font-medieval font-bold text-iron-black text-center">{{ t('events.location.title') }}</h1>
       </div>
       
       <div v-if="loading" class="text-center py-12">
-        <p class="text-xl font-medieval animate-pulse">Consultation des registres...</p>
+        <p class="text-xl font-medieval animate-pulse">{{ t('events.list.loading') }}</p>
       </div>
       
       <div v-else-if="events.length === 0" class="text-center py-12">
-        <p class="text-xl font-medieval text-stone-grey">Aucun événement prévu ici pour le moment.</p>
+        <p class="text-xl font-medieval text-stone-grey">{{ t('events.location.empty') }}</p>
       </div>
 
       <div v-else class="space-y-6 max-w-4xl mx-auto">
@@ -37,14 +37,14 @@
             
             <div class="flex justify-between items-center mt-4 pt-4 border-t border-antique-bronze/10">
               <div>
-                <span class="block text-xs text-stone-grey uppercase tracking-wider">Prix</span>
+                <span class="block text-xs text-stone-grey uppercase tracking-wider">{{ t('events.details.price_label') }}</span>
                 <span class="font-medieval font-bold text-lg text-iron-black">{{ event.price }} G</span>
               </div>
               <button 
                 @click="viewEvent(event.id_event)"
                 class="bg-antique-bronze hover:brightness-110 text-white font-bold py-2 px-6 rounded shadow-md transition-all"
               >
-                Réserver
+                {{ t('events.location.book_button') }}
               </button>
             </div>
           </div>
@@ -58,6 +58,9 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore } from '@/stores/event'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()

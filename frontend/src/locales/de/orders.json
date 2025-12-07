@@ -1,0 +1,40 @@
+{
+    "title": "Meine Bestellungen",
+    "subtitle": "Bestellungen ansehen und verwalten",
+    "filters": {
+        "all": "Alle",
+        "waiting": "Zu zahlen",
+        "paid": "Bezahlt",
+        "collected": "Abgeholt"
+    },
+    "empty": {
+        "title": "Keine Bestellungen",
+        "all": "Sie haben noch keine Bestellungen aufgegeben",
+        "filtered": "Keine Bestellungen {filter}",
+        "browse": "Shop durchsuchen"
+    },
+    "item": {
+        "title": "Bestellung #{id}",
+        "total": "Gesamt",
+        "unknown_product": "Unbekanntes Artefakt",
+        "collected_at": "Abgeholt am {date}",
+        "location": "Laden",
+        "date": "Datum"
+    },
+    "status": {
+        "waiting": "Wartet auf Zahlung",
+        "paid": "Bezahlt",
+        "collected": "Abgeholt",
+        "unknown": "Unbekannt"
+    },
+    "filter_labels": {
+        "waiting": "wartet auf zahlung",
+        "paid": "bezahlt",
+        "collected": "abgeholt"
+    },
+    "actions": {
+        "pay": "Jetzt bezahlen",
+        "paid_waiting": "Bezahlt - Wartet auf Abholung",
+        "collected": "Bestellung abgeholt"
+    }
+}

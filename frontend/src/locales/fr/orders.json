@@ -1,0 +1,40 @@
+{
+    "title": "Mes Commandes",
+    "subtitle": "Consultez et gérez vos commandes",
+    "filters": {
+        "all": "Toutes",
+        "waiting": "À payer",
+        "paid": "Payées",
+        "collected": "Collectées"
+    },
+    "empty": {
+        "title": "Aucune commande",
+        "all": "Vous n'avez pas encore passé de commande",
+        "filtered": "Aucune commande {filter}",
+        "browse": "Parcourir la boutique"
+    },
+    "item": {
+        "title": "Commande #{id}",
+        "total": "Total",
+        "unknown_product": "Produit inconnu",
+        "collected_at": "Collectée le {date}",
+        "location": "Boutique",
+        "date": "Date"
+    },
+    "status": {
+        "waiting": "En attente de paiement",
+        "paid": "Payée",
+        "collected": "Collectée",
+        "unknown": "Inconnu"
+    },
+    "filter_labels": {
+        "waiting": "en attente de paiement",
+        "paid": "payée",
+        "collected": "collectée"
+    },
+    "actions": {
+        "pay": "Payer maintenant",
+        "paid_waiting": "Commande payée - En attente de collecte",
+        "collected": "Commande collectée"
+    }
+}

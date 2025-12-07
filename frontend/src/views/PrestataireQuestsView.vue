@@ -6,10 +6,10 @@
         <div class="mb-12 text-center">
           <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center justify-center gap-3">
             <i class="fas fa-scroll text-antique-bronze"></i>
-            Gestion des Quêtes
+            {{ t('prestataire.quests.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-          <p class="text-base font-body text-stone-grey">Créez et gérez les quêtes pour vos établissements</p>
+          <p class="text-base font-body text-stone-grey">{{ t('prestataire.quests.subtitle') }}</p>
         </div>
 
         <!-- Location Sections -->
@@ -25,8 +25,7 @@
                 {{ location.name }}
               </h2>
               <p class="text-sm font-body text-stone-grey mt-1 italic">
-                {{ questsByLocation(location.id).length }} 
-                {{ questsByLocation(location.id).length > 1 ? 'quêtes actives' : 'quête active' }}
+                 {{ t('prestataire.quests.location.active_count', questsByLocation(location.id).length) }}
               </p>
             </div>
             
@@ -36,7 +35,7 @@
               class="group bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-2 px-5 rounded-md transition-all duration-200 shadow-md flex items-center gap-2"
             >
               <i class="fas fa-plus transition-transform group-hover:rotate-90"></i>
-              Créer une quête
+              {{ t('prestataire.quests.location.create_quest') }}
             </button>
           </div>
 
@@ -46,24 +45,24 @@
             
             <h3 class="text-xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-2">
               <i class="fas fa-feather-alt text-antique-bronze"></i>
-              Rédiger une nouvelle quête
+              {{ t('prestataire.quests.add_form.title') }}
             </h3>
 
             <form @submit.prevent="createQuest(location.id)">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Titre de la quête</label>
+                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.quests.add_form.quest_title_label') }}</label>
                   <input 
                     v-model="newQuest.title" 
                     type="text" 
                     required 
                     class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze transition-all font-body"
-                    placeholder="Ex: Livrer un colis au château"
+                    :placeholder="t('prestataire.quests.add_form.quest_title_placeholder')"
                   >
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Récompense (XP)</label>
+                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.quests.add_form.reward_label') }}</label>
                   <div class="relative">
                     <input 
                       v-model.number="newQuest.xp_reward" 
@@ -78,13 +77,13 @@
                 </div>
 
                 <div class="md:col-span-2">
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Description détaillée</label>
+                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.quests.add_form.description_label') }}</label>
                   <textarea 
                     v-model="newQuest.description" 
                     rows="3" 
                     required
                     class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                    placeholder="Décrivez les objectifs de la quête..."
+                    :placeholder="t('prestataire.quests.add_form.description_placeholder')"
                   ></textarea>
                 </div>
               </div>
@@ -95,7 +94,7 @@
                   @click="cancelAddQuest" 
                   class="px-6 py-2.5 rounded-md font-body font-semibold text-stone-grey hover:bg-stone-grey/10 transition-colors"
                 >
-                  Abandonner
+                  {{ t('prestataire.quests.add_form.cancel') }}
                 </button>
                 <button 
                   type="submit" 
@@ -103,7 +102,7 @@
                   class="bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-2.5 px-6 rounded-md shadow-md transition-all duration-200 flex items-center gap-2 disabled:opacity-50"
                 >
                   <i class="fas fa-check"></i>
-                  {{ isSubmitting ? 'Publication...' : 'Publier la quête' }}
+                  {{ isSubmitting ? t('prestataire.quests.add_form.submitting') : t('prestataire.quests.add_form.submit') }}
                 </button>
               </div>
             </form>
@@ -115,10 +114,10 @@
               <table class="min-w-full divide-y divide-antique-bronze/10">
                 <thead class="bg-antique-bronze/10">
                   <tr>
-                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Titre</th>
-                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Description</th>
-                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Récompense</th>
-                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Actions</th>
+                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.quests.table.headers.title') }}</th>
+                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.quests.table.headers.description') }}</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.quests.table.headers.reward') }}</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.quests.table.headers.actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-antique-bronze/10 font-body">
@@ -138,7 +137,7 @@
                       <button 
                         @click="deleteQuest(quest.id_quest)" 
                         class="text-stone-grey hover:text-red-700 transition-colors p-1"
-                        title="Supprimer"
+                        :title="t('prestataire.quests.table.actions.delete')"
                       >
                         <i class="fas fa-trash"></i>
                       </button>
@@ -151,8 +150,8 @@
                         <div class="w-16 h-16 bg-stone-grey/10 rounded-full flex items-center justify-center mb-4">
                           <i class="fas fa-scroll text-3xl text-stone-grey"></i>
                         </div>
-                        <p class="text-iron-black font-medieval text-lg">Aucune quête créée</p>
-                        <p class="text-sm text-stone-grey mt-1 font-body">Créez votre première quête pour attirer les aventuriers</p>
+                        <p class="text-iron-black font-medieval text-lg">{{ t('prestataire.quests.table.empty.title') }}</p>
+                        <p class="text-sm text-stone-grey mt-1 font-body">{{ t('prestataire.quests.table.empty.subtitle') }}</p>
                       </div>
                     </td>
                   </tr>
@@ -166,14 +165,14 @@
         <div v-if="prestataireLocations.length === 0" class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
           <i class="fas fa-dungeon text-6xl text-antique-bronze/30 mb-4"></i>
           <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
-            Vous ne possédez aucun lieu
+            {{ t('prestataire.quests.no_locations.title') }}
           </h3>
           <p class="text-stone-grey mb-6">
-            Explorez la carte pour acquérir votre premier établissement.
+            {{ t('prestataire.quests.no_locations.subtitle') }}
           </p>
           <router-link to="/map" class="inline-block bg-antique-bronze text-white px-6 py-2 rounded font-medieval hover:bg-antique-bronze/90 transition-colors">
             <i class="fas fa-map mr-2"></i>
-            Explorer la carte
+            {{ t('prestataire.quests.no_locations.explore_button') }}
           </router-link>
         </div>
 
@@ -187,7 +186,10 @@ import { computed, ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { locationService } from '@/services/locationService'
 import { questService, Quest } from '@/services/questService'
+import { useI18n } from 'vue-i18n'
 import { LocationMock } from '@/mocks/locations'
+
+const { t } = useI18n()
 
 const authStore = useAuthStore()
 const addingQuestLocationId = ref<number | null>(null)

@@ -1,0 +1,21 @@
+{
+    "title": "Mes Réservations",
+    "loading": "Recherche de vos billets...",
+    "empty": {
+        "text": "Vous n'avez aucune réservation pour le moment.",
+        "link": "Découvrir les événements"
+    },
+    "status": {
+        "confirmed": "Confirmé",
+        "pending": "En attente",
+        "cancelled": "Annulé"
+    },
+    "ticket": {
+        "label": "Billet",
+        "event_deleted": "Événement supprimé",
+        "unknown_location": "Lieu inconnu",
+        "quantity": "Quantité",
+        "total_paid": "Total payé",
+        "unknown_date": "Date inconnue"
+    }
+}

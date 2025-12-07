@@ -1,10 +1,23 @@
 {
     "title": "My Cart",
-    "items_count": "{count} items",
+    "page_title": "Your Pouch",
+    "items_count": "{count} items | {count} items",
+    "items_pending": "{count} item(s) awaiting acquisition",
     "empty_title": "Your pouch is empty",
+    "empty_page_title": "Your pouch is empty",
+    "empty_subtitle": "The kingdom's shops are full of treasures.",
+    "visit_shops": "Visit the Shops",
     "unknown_product": "Unknown Artifact",
     "price_format": "{price} gold",
-    "remove_tooltip": "Throw into the dungeon",
+    "remove_tooltip": "Discard into Oblivion",
     "total": "Total",
-    "view_cart": "View Scroll"
+    "view_cart": "View Scroll",
+    "merchant": "Merchant: {name}",
+    "subtotal": "Subtotal",
+    "total_to_pay": "Total to Pay",
+    "split_order_info": "Orders will be processed separately for each shop.",
+    "continue_shopping": "Continue Shopping",
+    "checkout": "Seal the Order",
+    "processing": "Sealing in progress...",
+    "error_creating_order": "Error creating the order"
 }

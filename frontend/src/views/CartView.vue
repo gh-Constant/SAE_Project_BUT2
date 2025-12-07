@@ -5,10 +5,10 @@
       <div class="mb-12 text-center">
         <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
           <i class="fas fa-shopping-cart mr-3 text-antique-bronze"></i>
-          Votre Besace
+          {{ t('cart.page_title') }}
         </h1>
         <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-        <p class="text-base font-body text-stone-grey">{{ cartStore.itemCount }} article(s) en attente d'acquisition</p>
+        <p class="text-base font-body text-stone-grey">{{ t('cart.items_pending', { count: cartStore.itemCount }) }}</p>
       </div>
 
       <!-- Panier vide -->
@@ -16,14 +16,14 @@
         <div class="w-20 h-20 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-6">
           <i class="fas fa-shopping-basket text-4xl text-antique-bronze/50"></i>
         </div>
-        <p class="text-xl font-medieval text-iron-black mb-2">Votre besace est vide</p>
-        <p class="text-sm font-body text-stone-grey mb-8">Les échoppes du royaume regorgent de trésors.</p>
+        <p class="text-xl font-medieval text-iron-black mb-2">{{ t('cart.empty_page_title') }}</p>
+        <p class="text-sm font-body text-stone-grey mb-8">{{ t('cart.empty_subtitle') }}</p>
         <router-link
           to="/boutique"
           class="inline-flex items-center bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200"
         >
           <i class="fas fa-store mr-2"></i>
-          Visiter les échoppes
+          {{ t('cart.visit_shops') }}
         </router-link>
       </div>
 
@@ -39,11 +39,11 @@
                 {{ getLocationName(Number(locationId)) }}
               </h2>
               <p class="text-sm font-body text-stone-grey mt-1 italic">
-                Marchand : {{ getPrestataireNameForLocation(Number(locationId)) }}
+                {{ t('cart.merchant', { name: getPrestataireNameForLocation(Number(locationId)) }) }}
               </p>
             </div>
             <div class="text-right hidden sm:block">
-              <span class="text-xs font-body text-stone-grey uppercase tracking-wider">Sous-total</span>
+              <span class="text-xs font-body text-stone-grey uppercase tracking-wider">{{ t('cart.subtotal') }}</span>
               <p class="font-medieval font-bold text-antique-bronze text-lg">
                 {{ calculateSubtotal(items).toFixed(2) }} gold
               </p>
@@ -60,7 +60,7 @@
             
             <!-- Sous-total mobile -->
             <div class="sm:hidden pt-4 mt-2 border-t border-antique-bronze/10 flex justify-between items-center">
-              <span class="font-body text-stone-grey">Sous-total</span>
+              <span class="font-body text-stone-grey">{{ t('cart.subtotal') }}</span>
               <span class="font-medieval font-bold text-antique-bronze text-lg">
                 {{ calculateSubtotal(items).toFixed(2) }} gold
               </span>
@@ -72,14 +72,14 @@
         <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 mb-8 shadow-sm">
           <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="text-center sm:text-left">
-              <p class="text-sm font-body text-stone-grey mb-1">Total à régler</p>
+              <p class="text-sm font-body text-stone-grey mb-1">{{ t('cart.total_to_pay') }}</p>
               <p class="text-3xl font-medieval font-bold text-antique-bronze">
                 {{ cartStore.total.toFixed(2) }} gold
               </p>
             </div>
             <div class="text-sm font-body text-stone-grey bg-antique-bronze/5 px-4 py-2 rounded-md border border-antique-bronze/10">
               <i class="fas fa-info-circle mr-2 text-antique-bronze"></i>
-              Les commandes seront traitées séparément par boutique.
+              {{ t('cart.split_order_info') }}
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@
             class="flex-1 bg-stone-grey/10 hover:bg-stone-grey/20 text-stone-grey font-body font-bold py-4 px-6 rounded-md transition-colors text-center border border-stone-grey/20"
           >
             <i class="fas fa-arrow-left mr-2"></i>
-            Continuer mes achats
+            {{ t('cart.continue_shopping') }}
           </router-link>
           
           <button
@@ -101,7 +101,7 @@
           >
             <i v-if="!isProcessing" class="fas fa-scroll mr-2"></i>
             <i v-else class="fas fa-spinner fa-spin mr-2"></i>
-            {{ isProcessing ? 'Scellement en cours...' : 'Sceller la commande' }}
+            {{ isProcessing ? t('cart.processing') : t('cart.checkout') }}
           </button>
         </div>
       </div>
@@ -112,12 +112,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useCartStore, type CartItem } from '@/stores/cart'
 import { USERS } from '@/mocks/users'
 import { productService } from '@/services/productService'
 import CartItemComponent from '@/components/CartItem.vue'
 
 const router = useRouter()
+const { t } = useI18n()
 const cartStore = useCartStore()
 const isProcessing = ref(false)
 
@@ -135,7 +137,7 @@ const getPrestataireNameForLocation = (locationId: number): string => {
     const prestataire = USERS.find((u) => u.id === prestataireId)
     return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : `Prestataire #${prestataireId}`
   }
-  return 'Prestataire inconnu'
+  return t('shop.unknown_provider')
 }
 
 // Calculer le sous-total pour un groupe de location
@@ -151,7 +153,7 @@ const handleCheckout = async () => {
 
   try {
     // Créer les commandes (séparées par location)
-    const orders = cartStore.createOrder()
+    cartStore.createOrder()
 
     // Simuler un petit délai pour l'UX
     await new Promise((resolve) => setTimeout(resolve, 500))
@@ -160,7 +162,7 @@ const handleCheckout = async () => {
     router.push({ name: 'checkout' })
   } catch (error) {
     console.error('Erreur lors de la création de la commande:', error)
-    alert('Une erreur est survenue. Veuillez réessayer.')
+    alert(t('cart.error_creating_order'))
   } finally {
     isProcessing.value = false
   }

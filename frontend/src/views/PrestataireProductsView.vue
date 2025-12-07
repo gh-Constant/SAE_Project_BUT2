@@ -9,10 +9,10 @@
             <svg class="w-8 h-8 text-antique-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            Gestion de l'Échoppe
+            {{ t('prestataire.products.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-          <p class="text-base font-body text-stone-grey">Tenez vos registres et gérez votre inventaire</p>
+          <p class="text-base font-body text-stone-grey">{{ t('prestataire.products.subtitle') }}</p>
         </div>
 
         <!-- Filtres -->
@@ -31,14 +31,14 @@
                     id="search"
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Rechercher par nom ou description..."
+                    :placeholder="t('prestataire.products.search.placeholder')"
                     class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                   />
                   <button
                     v-if="searchQuery"
                     @click="searchQuery = ''"
                     class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-antique-bronze transition-colors"
-                    title="Effacer la recherche"
+                    :title="t('prestataire.products.search.clear')"
                   >
                     <i class="fas fa-times text-stone-grey/50"></i>
                   </button>
@@ -57,12 +57,12 @@
                     v-model="sortBy"
                     class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
                   >
-                    <option value="name-asc">Nom (A-Z)</option>
-                    <option value="name-desc">Nom (Z-A)</option>
-                    <option value="price-asc">Prix (Croissant)</option>
-                    <option value="price-desc">Prix (Décroissant)</option>
-                    <option value="stock-desc">Stock (Élevé)</option>
-                    <option value="stock-asc">Stock (Faible)</option>
+                    <option value="name-asc">{{ t('prestataire.products.sort.name_asc') }}</option>
+                    <option value="name-desc">{{ t('prestataire.products.sort.name_desc') }}</option>
+                    <option value="price-asc">{{ t('prestataire.products.sort.price_asc') }}</option>
+                    <option value="price-desc">{{ t('prestataire.products.sort.price_desc') }}</option>
+                    <option value="stock-desc">{{ t('prestataire.products.sort.stock_desc') }}</option>
+                    <option value="stock-asc">{{ t('prestataire.products.sort.stock_asc') }}</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <i class="fas fa-chevron-down text-antique-bronze/50"></i>
@@ -80,7 +80,7 @@
               <div class="flex-1">
                 <label class="block text-sm font-medieval font-bold text-iron-black mb-2">
                   <i class="fas fa-coins mr-1 text-antique-bronze"></i>
-                  Prix (Gold)
+                  {{ t('prestataire.products.filter.price') }}
                 </label>
                 <div class="flex items-center gap-2">
                   <input
@@ -110,7 +110,7 @@
               <div class="flex-1">
                 <label for="stockFilter" class="block text-sm font-medieval font-bold text-iron-black mb-2">
                   <i class="fas fa-box mr-1 text-antique-bronze"></i>
-                  Disponibilité
+                  {{ t('prestataire.products.filter.availability') }}
                 </label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -121,9 +121,9 @@
                     v-model="stockFilter"
                     class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
                   >
-                    <option value="all">Tous les produits</option>
-                    <option value="in-stock">En stock</option>
-                    <option value="out-of-stock">Rupture de stock</option>
+                    <option value="all">{{ t('prestataire.products.filter.all') }}</option>
+                    <option value="in-stock">{{ t('prestataire.products.filter.in_stock') }}</option>
+                    <option value="out-of-stock">{{ t('prestataire.products.filter.out_of_stock') }}</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <i class="fas fa-chevron-down text-antique-bronze/50"></i>
@@ -133,14 +133,14 @@
             </div>
           </div>
 
-          <!-- Bouton de réinitialisation -->
+              <!-- Bouton de réinitialisation -->
           <div class="flex justify-end">
             <button
               @click="clearFilters"
               class="inline-flex items-center px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded-sm transition-colors font-medieval font-bold text-sm"
             >
               <i class="fas fa-undo mr-2"></i>
-              Réinitialiser les filtres
+              {{ t('prestataire.products.filter.reset') }}
             </button>
           </div>
         </div>
@@ -159,8 +159,7 @@
                 {{ location.name }}
               </h2>
               <p class="text-sm font-body text-stone-grey mt-1 italic">
-                Registre contenant {{ productsByLocation(location.id).length }} 
-                {{ productsByLocation(location.id).length > 1 ? 'marchandises' : 'marchandise' }}
+                {{ t('prestataire.products.location.register_count', productsByLocation(location.id).length) }}
               </p>
             </div>
             
@@ -172,7 +171,7 @@
               <svg class="w-5 h-5 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
-              Ajouter une marchandise
+              {{ t('prestataire.products.location.add_product') }}
             </button>
           </div>
 
@@ -188,68 +187,68 @@
 
             <form @submit.prevent="handleAddProduct(location.id)">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Dénomination</label>
-                  <input 
-                    v-model="store.newProduct.name" 
-                    type="text" 
-                    required 
-                    class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze transition-all font-body"
-                    placeholder="Ex: Épée longue en acier"
-                  >
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Représentation (Image)</label>
-                  <div class="flex gap-2">
-                    <label class="cursor-pointer bg-antique-bronze/10 hover:bg-antique-bronze/20 text-antique-bronze border border-antique-bronze/30 rounded-md px-4 py-2 transition-colors flex items-center justify-center">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      <input type="file" accept="image/*" @change="(e) => handleImageSelect(e, 'new')" class="hidden" />
-                    </label>
+                  <div>
+                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.products.add_form.name_label') }}</label>
+                   <input 
+                     v-model="store.newProduct.name" 
+                     type="text" 
+                     required 
+                     class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze transition-all font-body"
+                     :placeholder="t('prestataire.products.add_form.name_placeholder')"
+                   >
+                 </div>
+ 
+                 <div>
+                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.products.add_form.image_label') }}</label>
+                   <div class="flex gap-2">
+                     <label class="cursor-pointer bg-antique-bronze/10 hover:bg-antique-bronze/20 text-antique-bronze border border-antique-bronze/30 rounded-md px-4 py-2 transition-colors flex items-center justify-center">
+                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                       <input type="file" accept="image/*" @change="(e) => handleImageSelect(e, 'new')" class="hidden" />
+                     </label>
                     <input
-                      v-model="store.newProduct.imageUrl"
-                      type="text"
-                      required
-                      class="flex-1 bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                      placeholder="Ou lien URL..."
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Prix (Gold)</label>
-                  <div class="relative">
-                    <input 
-                      v-model.number="store.newProduct.price" 
-                      type="number" 
-                      required 
-                      step="0.01"
-                      class="w-full bg-white/50 border border-antique-bronze/30 rounded-md pl-4 pr-12 py-2 text-iron-black focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                      placeholder="0.00"
-                    >
-                    <span class="absolute right-4 top-2 text-antique-bronze font-medieval font-bold">G</span>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Stock disponible</label>
-                  <input 
-                    v-model.number="store.newProduct.stock" 
-                    type="number" 
-                    required 
-                    class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                    placeholder="0"
-                  >
-                </div>
-
-                <div class="md:col-span-2">
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">Description détaillée</label>
-                  <textarea 
-                    v-model="store.newProduct.description" 
-                    rows="3" 
-                    class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                    placeholder="Détails de la marchandise..."
-                  ></textarea>
+                       v-model="store.newProduct.imageUrl"
+                       type="text"
+                       required
+                       class="flex-1 bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
+                       :placeholder="t('prestataire.products.add_form.image_placeholder')"
+                     />
+                   </div>
+                 </div>
+ 
+                 <div>
+                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.products.add_form.price_label') }}</label>
+                   <div class="relative">
+                     <input 
+                       v-model.number="store.newProduct.price" 
+                       type="number" 
+                       required 
+                       step="0.01"
+                       class="w-full bg-white/50 border border-antique-bronze/30 rounded-md pl-4 pr-12 py-2 text-iron-black focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
+                       placeholder="0.00"
+                     >
+                     <span class="absolute right-4 top-2 text-antique-bronze font-medieval font-bold">G</span>
+                   </div>
+                 </div>
+ 
+                 <div>
+                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.products.add_form.stock_label') }}</label>
+                   <input 
+                     v-model.number="store.newProduct.stock" 
+                     type="number" 
+                     required 
+                     class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
+                     placeholder="0"
+                   >
+                 </div>
+ 
+                 <div class="md:col-span-2">
+                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.products.add_form.description_label') }}</label>
+                   <textarea 
+                     v-model="store.newProduct.description" 
+                     rows="3" 
+                     class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
+                     :placeholder="t('prestataire.products.add_form.description_placeholder')"
+                   ></textarea>
                 </div>
               </div>
 
@@ -259,15 +258,15 @@
                   @click="cancelAddProduct" 
                   class="px-6 py-2.5 rounded-md font-body font-semibold text-stone-grey hover:bg-stone-grey/10 transition-colors"
                 >
-                  Abandonner
-                </button>
-                <button 
-                  type="submit" 
-                  class="bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-2.5 px-6 rounded-md shadow-md transition-all duration-200 flex items-center gap-2"
-                >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                  Inscrire au registre
-                </button>
+                  {{ t('prestataire.products.add_form.cancel') }}
+                 </button>
+                 <button 
+                   type="submit" 
+                   class="bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-2.5 px-6 rounded-md shadow-md transition-all duration-200 flex items-center gap-2"
+                 >
+                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                   {{ t('prestataire.products.add_form.submit') }}
+                 </button>
               </div>
             </form>
           </div>
@@ -277,12 +276,12 @@
               <table class="min-w-full divide-y divide-antique-bronze/10">
                 <thead class="bg-antique-bronze/10">
                   <tr>
-                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Image</th>
-                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Nom</th>
-                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Description</th>
-                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Prix</th>
-                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Stock</th>
-                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">Actions</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.products.table.headers.image') }}</th>
+                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.products.table.headers.name') }}</th>
+                    <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.products.table.headers.description') }}</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.products.table.headers.price') }}</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.products.table.headers.stock') }}</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('prestataire.products.table.headers.actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-antique-bronze/10 font-body">
@@ -349,7 +348,7 @@
                                 : 'bg-green-100/80 text-green-900 border-green-200'
                           ]"
                         >
-                          {{ product.stock === 0 ? 'Épuisé' : product.stock }}
+                          {{ product.stock === 0 ? t('prestataire.products.table.stock.sold_out') : product.stock }}
                         </span>
                       </div>
                       <input 
@@ -366,14 +365,14 @@
                           <button 
                             @click="store.startEdit(product)" 
                             class="text-stone-grey hover:text-antique-bronze transition-colors p-1"
-                            title="Modifier"
+                            :title="t('prestataire.products.table.actions.edit')"
                           >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                           </button>
                           <button 
                             @click="store.deleteProduct(product.id)" 
                             class="text-stone-grey hover:text-red-700 transition-colors p-1"
-                            title="Jeter"
+                            :title="t('prestataire.products.table.actions.delete')"
                           >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                           </button>
@@ -382,14 +381,14 @@
                           <button 
                             @click="store.saveEdit()" 
                             class="text-green-700 hover:text-green-800 transition-colors p-1"
-                            title="Sceller"
+                            :title="t('prestataire.products.table.actions.save')"
                           >
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                           </button>
                           <button 
                             @click="store.cancelEdit()" 
                             class="text-red-700 hover:text-red-800 transition-colors p-1"
-                            title="Annuler"
+                            :title="t('prestataire.products.table.actions.cancel')"
                           >
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
@@ -406,8 +405,8 @@
                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                           </svg>
                         </div>
-                        <p class="text-iron-black font-medieval text-lg">Le registre est vide</p>
-                        <p class="text-sm text-stone-grey mt-1 font-body">Ajoutez votre première marchandise pour commencer le commerce</p>
+                        <p class="text-iron-black font-medieval text-lg">{{ t('prestataire.products.empty.title') }}</p>
+                        <p class="text-sm text-stone-grey mt-1 font-body">{{ t('prestataire.products.empty.subtitle') }}</p>
                       </div>
                     </td>
                   </tr>
@@ -428,6 +427,9 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 
 

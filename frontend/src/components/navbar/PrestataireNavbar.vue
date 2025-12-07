@@ -14,27 +14,27 @@
           <div class="hidden md:block w-px h-12 bg-antique-bronze/30"></div>
           <router-link to="/prestataire" class="hover:opacity-80 transition-opacity">
             <h1 class="text-3xl font-medieval font-bold text-iron-black leading-none">
-              Panel Prestataire
+              {{ $t('navbar.prestataire_panel') }}
             </h1>
           </router-link>
         </div>
         
         <nav class="hidden md:flex gap-6">
-          <router-link to="/prestataire/products" class="text-iron-black hover:text-antique-bronze font-medieval text-lg">Produits</router-link>
-          <router-link to="/prestataire/events" class="text-iron-black hover:text-antique-bronze font-medieval text-lg">Événements</router-link>
+          <router-link to="/prestataire/products" class="text-iron-black hover:text-antique-bronze font-medieval text-lg">{{ $t('navbar.products') }}</router-link>
+          <router-link to="/prestataire/events" class="text-iron-black hover:text-antique-bronze font-medieval text-lg">{{ $t('navbar.events') }}</router-link>
         </nav>
 
         <!-- User Actions -->
         <div class="flex items-center gap-6">
           <span class="text-iron-black font-medieval text-lg hidden sm:block">
-            Bienvenue, {{ user?.firstname }} {{ user?.lastname }}
+            {{ $t('navbar.welcome', { name: `${user?.firstname} ${user?.lastname}` }) }}
           </span>
           <MedievalButton 
             variant="primary" 
             :small="true"
             @click="$emit('logout')"
           >
-            Déconnexion
+            {{ $t('navbar.logout') }}
           </MedievalButton>
         </div>
       </div>

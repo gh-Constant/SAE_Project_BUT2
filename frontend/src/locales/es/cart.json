@@ -1,10 +1,23 @@
 {
     "title": "Mi Carrito",
-    "items_count": "{count} artículos",
+    "page_title": "Tu Bolsa",
+    "items_count": "{count} artículos | {count} artículos",
+    "items_pending": "{count} artículo(s) esperando adquisición",
     "empty_title": "Tu bolsa está vacía",
+    "empty_page_title": "Tu bolsa está vacía",
+    "empty_subtitle": "Las tiendas del reino están llenas de tesoros.",
+    "visit_shops": "Visitar las tiendas",
     "unknown_product": "Artefacto Desconocido",
     "price_format": "{price} oro",
-    "remove_tooltip": "Tirar a la mazmorra",
+    "remove_tooltip": "Tirar al olvido",
     "total": "Total",
-    "view_cart": "Ver Pergamino"
+    "view_cart": "Ver Pergamino",
+    "merchant": "Mercader: {name}",
+    "subtotal": "Subtotal",
+    "total_to_pay": "Total a pagar",
+    "split_order_info": "Los pedidos se procesarán por separado para cada tienda.",
+    "continue_shopping": "Seguir comprando",
+    "checkout": "Sellar el pedido",
+    "processing": "Sellado en curso...",
+    "error_creating_order": "Error al crear el pedido"
 }

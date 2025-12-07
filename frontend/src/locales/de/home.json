@@ -1,18 +1,24 @@
 {
   "hero": {
     "title": "Begeben Sie sich auf ein Mittelalterliches Abenteuer",
-    "subtitle": "Betreten Sie die Landen des Löwen, ein mittelalterliches Festival, bei dem jeder Besucher zum Helden wird und jeder Schritt das Abenteuer vorantreibt.",
+    "subtitle": "Betreten Sie Die Löwenlande, ein mittelalterliches Festival, bei dem jeder Besucher zum Helden wird und jeder Schritt das Abenteuer vorantreibt.",
     "cta": "Beginnen Sie Ihre Reise"
+  },
+  "intro": {
+    "title": "Das Königreich Erwartet Euch",
+    "text_1": "Treten Sie ein in eine Welt, in der Geschichte atmet und Legenden lebendig werden. Unser Königreich bietet mehr als nur Veranstaltungen; es bietet eine Reise durch die Zeit.",
+    "text_2": "Von den größten Turnieren bis zu den ruhigsten Dorfversammlungen ist jeder Moment darauf ausgelegt, Sie in den reichen Teppich unseres mittelalterlichen Erbes eintauchen zu lassen.",
+    "visual_alt": "Königreich Bild"
   },
   "features": {
     "title": "Erkunden Sie das Mittelalter",
     "subtitle": "Tauchen Sie mit unseren umfassenden Funktionen in die Geschichte ein",
     "paragraphs": {
-      "1": "Willkommen in den Landen des Löwen, einem einzigartigen mittelalterlichen Event, inspiriert vom Live-Action-Rollenspiel. Das Festival ist darauf ausgelegt, ein vollständiges Eintauchen zu bieten und entführt Sie in eine Welt voller Quests, legendärer Kreaturen und uralter Handwerkskünste.",
-      "2": "Organisiert rund um ein weitläufiges thematisches Dorf, lädt jede Zone dazu ein, leidenschaftliche Handwerker, Entertainer, Gastronomen und Schöpfer zu treffen, die ein authentisches Universum zum Leben erwecken.",
-      "3": "Dank eines bereichernden interaktiven Erlebnisses — Quests über QR-Codes, Workshop-Reservierungen, Click & Collect, Quizze und Galerien von Kreationen — wird jeder Besucher zum Akteur seines eigenen Abenteuers.",
-      "4": "Die dedizierte App ermöglicht es, zu erkunden, zu lernen, zu entdecken und auf dem Weg zur Burg Fortschritte zu machen, wo die Geschichte ihren Höhepunkt erreicht.",
-      "5": "Die Landen des Löwen sind ein Ort, an dem Immersion auf Technologie trifft, wo das Erbe das Spiel inspiriert und wo jeder Besuch eine neue Legende schreibt."
+      "1": "Willkommen in Den Löwenlanden, einer einzigartigen mittelalterlichen Veranstaltung, inspiriert von Live-Rollenspielen. Das Festival bietet totale Immersion und taucht Sie in eine Welt voller Quests, legendärer Kreaturen und uralter Handwerkskunst.",
+      "2": "Rund um ein riesiges thematisches Dorf lädt jeder Bereich dazu ein, leidenschaftliche Handwerker, Unterhalter, Gastwirte und Schöpfer zu treffen, die ein authentisches Universum zum Leben erwecken.",
+      "3": "Dank eines angereicherten interaktiven Erlebnisses – Quests per QR-Code, Workshop-Buchungen, Click & Collect, Quizze und Kreativgalerien – wird jeder Besucher zum Akteur seines eigenen Abenteuers.",
+      "4": "Die spezielle App ermöglicht es Ihnen, zu erkunden, zu lernen, zu entdecken und auf dem Weg zur Burg voranzukommen, wo die Geschichte ihren Höhepunkt erreicht.",
+      "5": "Die Löwenlande sind ein Ort, an dem Immersion auf Technologie trifft, wo das Erbe das Spiel inspiriert und wo jeder Besuch eine neue Legende schreibt."
     },
     "discover": {
       "title": "Interaktive Karten",
@@ -20,16 +26,16 @@
     },
     "events": {
       "title": "Historische Zeitlinien",
-      "description": "Erkunden Sie Schlüsselereignisse, die die mittelalterliche Periode prägten"
+      "description": "Erkunden Sie Schlüsselereignisse, die das Mittelalter geprägt haben"
     },
     "community": {
-      "title": "Treten Sie den Entdeckern bei",
-      "description": "Verbinden Sie sich mit einer Gemeinschaft von Geschichtsenthusiasten"
+      "title": "Schließen Sie sich den Entdeckern an",
+      "description": "Verbinden Sie sich mit einer Gemeinschaft von Geschichtsbegeisterten"
     }
   },
   "cta": {
     "title": "Beginnen Sie Ihre Quest",
-    "subtitle": "Melden Sie sich jetzt an und schalten Sie die Wunder der mittelalterlichen Welt frei",
+    "subtitle": "Registrieren Sie sich jetzt und schalten Sie die Wunder der mittelalterlichen Welt frei",
     "button": "Jetzt Beitreten"
   }
 }

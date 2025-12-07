@@ -1,0 +1,23 @@
+{
+    "title": "Meine Quests",
+    "subtitle": "Verfolgen Sie Ihren Fortschritt und schließen Sie Quests ab, um Erfahrung zu sammeln.",
+    "loading": "Laden...",
+    "empty": {
+        "message": "Sie haben noch keine Quests angenommen.",
+        "explore": "Karte erkunden"
+    },
+    "item": {
+        "unknown_location": "Unbekannter Ort",
+        "reward": "Belohnung: {xp} XP"
+    },
+    "status": {
+        "accepted": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "failed": "Fehlgeschlagen"
+    },
+    "debug": {
+        "finish": "[DEBUG] Beenden",
+        "confirm_finish": "DEBUG: Möchten Sie diese Quest als abgeschlossen markieren?",
+        "error_finish": "Fehler beim Abschließen der Quest."
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "title": "Mis Reservas",
+    "loading": "Buscando sus entradas...",
+    "empty": {
+        "text": "No tienes reservas en este momento.",
+        "link": "Descubrir Eventos"
+    },
+    "status": {
+        "confirmed": "Confirmado",
+        "pending": "Pendiente",
+        "cancelled": "Cancelado"
+    },
+    "ticket": {
+        "label": "Entrada",
+        "event_deleted": "Evento eliminado",
+        "unknown_location": "Ubicación desconocida",
+        "quantity": "Cantidad",
+        "total_paid": "Total pagado",
+        "unknown_date": "Fecha desconocida"
+    }
+}

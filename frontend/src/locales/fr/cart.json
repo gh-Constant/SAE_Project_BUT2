@@ -1,10 +1,23 @@
 {
     "title": "Mon Panier",
-    "items_count": "{count} articles",
+    "page_title": "Votre Besace",
+    "items_count": "{count} articles | {count} articles",
+    "items_pending": "{count} article(s) en attente d'acquisition",
     "empty_title": "Votre bourse est vide",
+    "empty_page_title": "Votre besace est vide",
+    "empty_subtitle": "Les échoppes du royaume regorgent de trésors.",
+    "visit_shops": "Visiter les échoppes",
     "unknown_product": "Artefact Inconnu",
     "price_format": "{price} gold",
     "remove_tooltip": "Jeter aux oubliettes",
     "total": "Total",
-    "view_cart": "Voir le Parchemin"
+    "view_cart": "Voir le Parchemin",
+    "merchant": "Marchand : {name}",
+    "subtotal": "Sous-total",
+    "total_to_pay": "Total à régler",
+    "split_order_info": "Les commandes seront traitées séparément par boutique.",
+    "continue_shopping": "Continuer mes achats",
+    "checkout": "Sceller la commande",
+    "processing": "Scellement en cours...",
+    "error_creating_order": "Erreur lors de la création de la commande"
 }

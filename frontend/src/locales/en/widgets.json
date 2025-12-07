@@ -1,0 +1,78 @@
+{
+    "story": {
+        "location": "Location:",
+        "type": "Type:",
+        "type_value": "Story Location",
+        "close": "Close"
+    },
+    "available": {
+        "title": "Available for Purchase",
+        "description": "This location is available to establish your business.",
+        "location": "Location:",
+        "status_label": "Status:",
+        "status_available": "Available",
+        "price": "Price:",
+        "currency": "Gold",
+        "acquire_button": "Acquire this location",
+        "acquire_loading": "Acquiring...",
+        "acquire_success": "Acquired!",
+        "opportunities_title": "Opportunities:",
+        "opp_store": "Establish a shop to sell your goods",
+        "opp_quest": "Offer quests to adventurers",
+        "opp_event": "Organize events and demonstrations",
+        "opp_reputation": "Build your reputation in the kingdom",
+        "close": "Close",
+        "error_login": "You must be logged in to purchase a location"
+    },
+    "purchased": {
+        "owner_label": "Owner",
+        "view_profile": "View Profile",
+        "location": "Location:",
+        "status_label": "Status:",
+        "status_acquired": "Acquired",
+        "value": "Value:",
+        "close": "Close"
+    },
+    "blog": {
+        "title": "Blogs",
+        "new_button": "New Blog",
+        "edit_title": "Edit Blog",
+        "new_title": "New Blog",
+        "title_placeholder": "Blog Title",
+        "cancel": "Cancel",
+        "save": "Save Blog",
+        "empty": "No blogs posted yet.",
+        "empty_owner": "Share your first update with the community!",
+        "delete_confirm": "Are you sure you want to delete this blog post?",
+        "alert_title": "Please enter a blog title",
+        "error_save": "Failed to save blog",
+        "error_delete": "Failed to delete blog"
+    },
+    "shop": {
+        "title": "Shop Preview",
+        "add_product": "Add Product",
+        "view_all": "View All",
+        "empty": "No products available yet.",
+        "empty_sub": "Check back later for new items!",
+        "in_stock": "{count} in stock",
+        "out_of_stock": "Out of stock"
+    },
+    "events": {
+        "title": "Upcoming Events",
+        "view_all": "View All",
+        "loading": "Loading...",
+        "empty": "No events scheduled for now.",
+        "view_calendar": "View Full Calendar"
+    },
+    "quests": {
+        "title": "Available Quests",
+        "add_button": "Add Quest",
+        "manage_button": "Manage",
+        "loading": "Loading quests...",
+        "empty": "No quests available at the moment.",
+        "accept": "Accept",
+        "accepted": "Accepted",
+        "success_accept": "Quest accepted! Find it in your profile.",
+        "error_accept": "Unable to accept quest (maybe already accepted?)"
+    }
+}

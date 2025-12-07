@@ -36,25 +36,25 @@
           <i class="fas fa-store"></i>
         </div>
         <div class="flex-1">
-          <h3 class="text-lg font-medieval font-bold text-antique-bronze mb-1">Disponible à l'achat</h3>
+          <h3 class="text-lg font-medieval font-bold text-antique-bronze mb-1">{{ t('widgets.available.title') }}</h3>
           <p class="text-sm font-body text-stone-grey">
-            Cet emplacement est disponible pour établir votre commerce.
+            {{ t('widgets.available.description') }}
           </p>
         </div>
       </div>
 
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6 font-body">
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-iron-black">Emplacement:</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.available.location') }}</span>
           <span class="text-stone-grey">{{ location.static_code }}</span>
         </div>
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-iron-black">Statut:</span>
-          <span class="text-green-700 font-bold">Disponible</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.available.status_label') }}</span>
+          <span class="text-green-700 font-bold">{{ t('widgets.available.status_available') }}</span>
         </div>
         <div class="flex justify-between">
-          <span class="font-bold text-iron-black">Prix:</span>
-          <span class="text-antique-bronze font-medieval font-bold text-lg">{{ location.price }} Gold</span>
+          <span class="font-bold text-iron-black">{{ t('widgets.available.price') }}</span>
+          <span class="text-antique-bronze font-medieval font-bold text-lg">{{ location.price }} {{ t('widgets.available.currency') }}</span>
         </div>
       </div>
 
@@ -76,34 +76,34 @@
         >
           <span v-if="isLoading">
             <i class="fas fa-spinner fa-spin"></i>
-            Acquisition en cours...
+            {{ t('widgets.available.acquire_loading') }}
           </span>
           <span v-else-if="isPurchased">
             <i class="fas fa-check"></i>
-            Acquis !
+            {{ t('widgets.available.acquire_success') }}
           </span>
           <span v-else>
-            Acquérir cet emplacement
+            {{ t('widgets.available.acquire_button') }}
           </span>
         </button>
         
-        <h3 class="text-xl font-medieval font-bold mb-3 text-iron-black mt-6">Opportunités :</h3>
+        <h3 class="text-xl font-medieval font-bold mb-3 text-iron-black mt-6">{{ t('widgets.available.opportunities_title') }}</h3>
         <ul class="space-y-2 font-body">
           <li class="flex items-center p-2 border-b border-antique-bronze/10 last:border-b-0">
             <i class="fas fa-store text-antique-bronze mr-3 w-4"></i>
-            <span class="text-stone-grey">Établissez une échoppe pour vendre vos marchandises</span>
+            <span class="text-stone-grey">{{ t('widgets.available.opp_store') }}</span>
           </li>
           <li class="flex items-center p-2 border-b border-antique-bronze/10 last:border-b-0">
             <i class="fas fa-scroll text-antique-bronze mr-3 w-4"></i>
-            <span class="text-stone-grey">Proposez des quêtes aux aventuriers</span>
+            <span class="text-stone-grey">{{ t('widgets.available.opp_quest') }}</span>
           </li>
           <li class="flex items-center p-2 border-b border-antique-bronze/10 last:border-b-0">
             <i class="fas fa-calendar-alt text-antique-bronze mr-3 w-4"></i>
-            <span class="text-stone-grey">Organisez des événements et démonstrations</span>
+            <span class="text-stone-grey">{{ t('widgets.available.opp_event') }}</span>
           </li>
           <li class="flex items-center p-2">
             <i class="fas fa-users text-antique-bronze mr-3 w-4"></i>
-            <span class="text-stone-grey">Bâtissez votre réputation dans le royaume</span>
+            <span class="text-stone-grey">{{ t('widgets.available.opp_reputation') }}</span>
           </li>
         </ul>
       </div>
@@ -113,7 +113,7 @@
           class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
           @click="$emit('close')"
         >
-          Fermer
+          {{ t('widgets.available.close') }}
         </button>
       </div>
     </div>
@@ -126,10 +126,13 @@
  * Gère l'affichage et l'achat des locations prestataires disponibles
  */
 
-import { defineProps, defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { locationService } from '@/services/locationService';
 import { authService } from '@/services/authService';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Props {
   location: LocationMock;
@@ -157,7 +160,7 @@ async function acheterEmplacement() {
     console.log(user + "try to purchase location");
     
     if (!user) {
-      errorMessage.value = 'You must be logged in to purchase a location';
+      errorMessage.value = t('widgets.available.error_login');
       return;
     }
 

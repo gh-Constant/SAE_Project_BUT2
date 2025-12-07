@@ -1,0 +1,25 @@
+{
+    "title": "Finaliser vos commandes",
+    "subtitle": "Procédez au paiement de vos commandes en attente",
+    "all_paid": {
+        "title": "Toutes vos commandes sont payées !",
+        "description": "Vous pouvez consulter l'état de vos achats dans l'historique.",
+        "button": "Voir mes commandes"
+    },
+    "order_card": {
+        "title": "Commande #{id}",
+        "waiting": "En attente",
+        "unknown_product": "Produit inconnu",
+        "total_order": "Total commande",
+        "pay": "Payer",
+        "processing": "Traitement...",
+        "error_paying": "Une erreur est survenue lors du paiement."
+    },
+    "summary": {
+        "title": "Récapitulatif",
+        "waiting_count": "Commandes à payer",
+        "paid_count": "Commandes déjà payées",
+        "grand_total": "Total global",
+        "quote": "\"Une dette payée est une âme apaisée.\""
+    }
+}
