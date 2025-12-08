@@ -458,8 +458,6 @@ const handleRegister = async () => {
             :class="canProceedToStep2() ? 'bg-antique-bronze hover:brightness-110 cursor-pointer' : 'bg-stone-grey/50 cursor-not-allowed'"
             @click="showStep2 = true"
           >
-            @click="showStep2 = true"
-          >
             {{ t('auth.register.next') }}
             <i class="fas fa-arrow-right ml-2"></i>
           </button>
@@ -500,8 +498,6 @@ const handleRegister = async () => {
               <button
                 type="button"
                 class="text-antique-bronze hover:text-iron-black text-sm font-bold font-medieval transition-colors cursor-pointer underline decoration-antique-bronze/30 underline-offset-2"
-                @click="showStep2 = false"
-              >
                 @click="showStep2 = false"
               >
                 {{ t('auth.register.edit') }}

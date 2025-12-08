@@ -14,28 +14,28 @@
     "title": "Explorez l'Ère Médiévale",
     "subtitle": "Plongez dans l'histoire avec nos fonctionnalités complètes",
     "paragraphs": {
-      "1": "Bienvenue sur Les Terres du Lion, un événement médiéval unique inspiré du jeu de rôle grandeur nature. Conçu pour offrir une immersion totale, le festival vous plonge dans un monde de quêtes, de créatures légendaires et de savoir-faire ancestraux.",
-      "2": "Organisé autour d'un vaste village thématique, chaque zone vous invite à rencontrer des artisans passionnés, des animateurs, des restaurateurs et des créateurs qui donnent vie à un univers authentique.",
-      "3": "Grâce à une expérience interactive enrichie — quêtes via QR-codes, réservations d'ateliers, click & collect, quizz et galeries de créations — chaque visiteur devient acteur de sa propre aventure.",
-      "4": "L'application dédiée permet d'explorer, apprendre, découvrir et progresser tout au long du parcours jusqu'au château, où l'histoire atteint son apogée.",
-      "5": "Les Terres du Lion, c'est un lieu où l'immersion rencontre la technologie, où le patrimoine inspire le jeu, et où chaque visite écrit une nouvelle légende."
+      "1": "Bienvenue sur Les Terres du Lion, un événement médiéval unique inspiré du jeu de rôle grandeur nature. Conçu pour offrir une immersion totale, le festival vous plonge dans un monde de quêtes et de savoir-faire ancestraux.",
+      "2": "Organisé autour d'un vaste village thématique, chaque quartier vous invite à rencontrer des artisans passionnés, des troubadours mélodieux, des aubergistes accueillants et des créateurs inspirés qui donnent vie à un univers authentique, fidèle aux traditions séculaires de la région.",
+      "3": "Grâce à une expérience interactive enrichie avec quêtes via QR-codes, réservations d'ateliers d'artisanat, commande et retrait à l'échoppe, énigmes médiévales et galeries de créations, chaque visiteur devient le héros de sa propre épopée.",
+      "4": "Votre grimoire numérique vous guide dans l'exploration, l'apprentissage et la progression tout au long du parcours jusqu'au château, où votre épopée personnelle atteint son apogée.",
+      "5": "Les Terres du Lion, c'est un lieu où l'immersion rencontre l'innovation, où le patrimoine inspire le jeu, et où chaque visite forge une nouvelle légende."
     },
     "discover": {
       "title": "Cartes Interactives",
-      "description": "Naviguez à travers des cartes détaillées de sites historiques et de champs de bataille"
+      "description": "Naviguez à travers une carte interactive et détaillée de notre village médiéval. Repérez les emplacements des artisans, des ateliers, des tavernes et des points d'intérêt clés pour optimiser votre exploration et ne manquer aucune des merveilles des Terres du Lion."
     },
     "events": {
       "title": "Chronologies Historiques",
-      "description": "Explorez les événements clés qui ont façonné la période médiévale"
+      "description": "Découvrez les événements marquants qui ont façonné la période médiévale. Chaque chronologie est une fenêtre sur le passé, enrichissant votre compréhension du monde que nous recréons et vous offrant un contexte précieux pour vos aventures au sein des Terres du Lion."
     },
     "community": {
       "title": "Rejoignez les Explorateurs",
-      "description": "Connectez-vous avec une communauté de passionnés d'histoire"
+      "description": "Rejoignez une communauté de passionnés d'histoire et de reconstitution médiévale"
     }
   },
   "cta": {
     "title": "Commencez Votre Quête",
-    "subtitle": "Inscrivez-vous maintenant et débloquez les merveilles du monde médiéval",
-    "button": "Rejoignez Maintenant"
+    "subtitle": "Inscrivez-vous dès maintenant et débloquez les merveilles du monde médiéval",
+    "button": "Rejoignez la Quête"
   }
 }
