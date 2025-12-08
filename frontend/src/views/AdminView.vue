@@ -29,12 +29,14 @@
                 <p class="text-xs text-stone-grey/80">utilisateurs actifs</p>
               </div>
               <div class="pt-4 border-t border-antique-bronze/20">
-                <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Voir tous les utilisateurs
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                <router-link to="/admin/users" class="contents">
+                  <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
+                    Gérer les utilisateurs
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -100,18 +102,20 @@
             Actions Rapides
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <router-link to="/admin/users" class="contents">
+              <MedievalButton variant="primary" :full-width="true">    
+                Gérer les utilisateurs
+              </MedievalButton>
+            </router-link>
             <MedievalButton variant="primary" :full-width="true">
-              Créer un utilisateur
-            </MedievalButton>
-            <MedievalButton variant="primary" :full-width="true">
-              Ajouter un lieu
+              Gérer les lieux
             </MedievalButton>
             <MedievalButton variant="primary" :full-width="true">
               Gérer les rôles
             </MedievalButton>
             <MedievalButton variant="primary" :full-width="true">
               Voir les logs
-            </MedievalButton>
+            </MedievalButton> 
             <router-link to="/admin/products" class="contents">
               <MedievalButton variant="primary" :full-width="true">
                 Gérer les articles
