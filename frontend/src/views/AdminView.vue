@@ -96,14 +96,13 @@
               </div>
               
               <div class="space-y-3">
-                 <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                <router-link to="/admin/users" class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full">
                   <span class="flex items-center gap-3">
-                    <i class="fas fa-user-cog text-antique-bronze/60"></i>
-                    <span class="font-medieval font-bold text-stone-grey">Gestion Utilisateurs</span>
+                    <i class="fas fa-user-cog text-antique-bronze"></i>
+                    <span class="font-medieval font-bold text-iron-black">Gestion Utilisateurs</span>
                   </span>
-                  <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
-                </button>
-                
+                  <i class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                </router-link>                  
                 <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
                   <span class="flex items-center gap-3">
                     <i class="fas fa-chart-bar text-antique-bronze/60"></i>
@@ -130,14 +129,15 @@
               </div>
               
               <div class="space-y-3">
-                 <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
-                  <span class="flex items-center gap-3">
-                    <i class="fas fa-map-marker-alt text-antique-bronze/60"></i>
-                    <span class="font-medieval font-bold text-stone-grey">Gestion Lieux</span>
-                  </span>
-                   <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
-                </button>
-                
+                <router-link to="/admin/locations" class="contents">
+                  <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                    <span class="flex items-center gap-3">
+                      <i class="fas fa-map-marker-alt text-antique-bronze/60"></i>
+                      <span class="font-medieval font-bold text-stone-grey">Gestion Lieux</span>
+                    </span>
+                     <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
+                  </button>
+                </router-link>                  
                 <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
                   <span class="flex items-center gap-3">
                     <i class="fas fa-globe-europe text-antique-bronze/60"></i>

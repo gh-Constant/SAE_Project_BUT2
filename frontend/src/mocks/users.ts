@@ -83,7 +83,7 @@ export const USERS: UserMock[] = [
     role: Role.ADMIN_ROLE_ID,
     avatar_url: '/images/Avatar-images/con1.png',
     avatar_type: AvatarType.GALLERY,
-    is_verified: false,
+    is_verified: true,
     xp: 9999,
     level: 99,
     birth_date: new Date('1980-01-01'),

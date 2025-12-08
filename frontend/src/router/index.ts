@@ -202,6 +202,12 @@ export const routes = [
     component: () => import('../views/UserQuestList.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/admin/users',
+    name: 'admin-users',
+    component: () => import('../views/AdminUsersView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification
