@@ -1,41 +1,41 @@
 {
   "hero": {
-    "title": "Embarquez pour une Aventure Médiévale",
-    "subtitle": "Entrez dans Les Terres du Lion, un festival médiéval où chaque visiteur devient un héros et chaque pas fait avancer l’aventure.",
-    "cta": "Commencez Votre Voyage"
+    "title": "Devenez le Héros de Votre Légende",
+    "subtitle": "Passez les portes des Terres du Lion, un royaume médiéval où chaque visiteur forge sa propre épopée et où chaque pas vous rapproche du château légendaire.",
+    "cta": "Forgez Votre Destin"
   },
   "intro": {
     "title": "Le Royaume Vous Attend",
-    "text_1": "Entrez dans un monde où l'histoire respire et où les légendes prennent vie. Notre royaume offre bien plus que des événements ; il offre un passage à travers le temps.",
-    "text_2": "Des plus grands tournois aux rassemblements de village les plus calmes, chaque moment est conçu pour vous immerger dans la riche tapisserie de notre héritage médiéval.",
+    "text_1": "Entrez dans un monde où l'histoire reprend vie et où les légendes s'écrivent sous vos yeux. Les Terres du Lion ne sont pas qu'un simple festival : c'est un voyage à travers les siècles, une immersion totale dans l'âge d'or de la chevalerie et de l'artisanat d'exception.",
+    "text_2": "Des tournois les plus fastueux aux veillées villageoises les plus intimes, chaque instant est pensé pour vous transporter au cœur de notre héritage médiéval. Ici, le cliquetis des armures résonne dans les cours, les senteurs d'épices orientales et de cuir tanné flottent dans l'air, tandis que les savoir-faire ancestraux reprennent vie sous vos yeux émerveillés.",
     "visual_alt": "Visuel du Royaume"
   },
   "features": {
     "title": "Explorez l'Ère Médiévale",
     "subtitle": "Plongez dans l'histoire avec nos fonctionnalités complètes",
     "paragraphs": {
-      "1": "Bienvenue sur Les Terres du Lion, un événement médiéval unique inspiré du jeu de rôle grandeur nature. Conçu pour offrir une immersion totale, le festival vous plonge dans un monde de quêtes, de créatures légendaires et de savoir-faire ancestraux.",
-      "2": "Organisé autour d'un vaste village thématique, chaque zone vous invite à rencontrer des artisans passionnés, des animateurs, des restaurateurs et des créateurs qui donnent vie à un univers authentique.",
-      "3": "Grâce à une expérience interactive enrichie — quêtes via QR-codes, réservations d'ateliers, click & collect, quizz et galeries de créations — chaque visiteur devient acteur de sa propre aventure.",
-      "4": "L'application dédiée permet d'explorer, apprendre, découvrir et progresser tout au long du parcours jusqu'au château, où l'histoire atteint son apogée.",
-      "5": "Les Terres du Lion, c'est un lieu où l'immersion rencontre la technologie, où le patrimoine inspire le jeu, et où chaque visite écrit une nouvelle légende."
+      "1": "Bienvenue aux Terres du Lion, un événement médiéval unique où la reconstitution historique rencontre l'imaginaire chevaleresque. Pensé pour une immersion complète, le festival vous transporte dans un univers de quêtes épiques, de créatures légendaires et de savoir-faire transmis de maître à apprenti.",
+      "2": "Organisé autour d'un vaste village thématique, chaque quartier vous invite à rencontrer des artisans passionnés, des troubadours mélodieux, des aubergistes accueillants et des créateurs inspirés qui donnent vie à un univers authentique, fidèle aux traditions séculaires de la région.",
+      "3": "Grâce à une expérience interactive enrichie avec quêtes scellées par QR-codes, réservations d'ateliers d'artisanat, commande et retrait à l'échoppe, énigmes médiévales et galeries de créations, chaque visiteur devient le héros de sa propre épopée.",
+      "4": "Votre grimoire numérique vous guide dans l'exploration, l'apprentissage et la progression tout au long du parcours jusqu'au château, où votre épopée personnelle atteint son apogée.",
+      "5": "Les Terres du Lion, c'est un lieu où l'immersion rencontre l'innovation, où le patrimoine inspire le jeu, et où chaque visite forge une nouvelle légende."
     },
     "discover": {
-      "title": "Cartes Interactives",
-      "description": "Naviguez à travers des cartes détaillées de sites historiques et de champs de bataille"
+      "title": "Cartes des Territoires",
+      "description": "Parcourez notre carte détaillée des sites historiques et champs de bataille emblématiques de Franche-Comté et du Territoire de Belfort"
     },
     "events": {
       "title": "Chronologies Historiques",
-      "description": "Explorez les événements clés qui ont façonné la période médiévale"
+      "description": "Découvrez les événements marquants qui ont façonné la période médiévale en Franche-Comté et dans la région de Belfort, des batailles légendaires aux alliances stratégiques"
     },
     "community": {
       "title": "Rejoignez les Explorateurs",
-      "description": "Connectez-vous avec une communauté de passionnés d'histoire"
+      "description": "Rejoignez une communauté de passionnés d'histoire et de reconstitution médiévale"
     }
   },
   "cta": {
     "title": "Commencez Votre Quête",
-    "subtitle": "Inscrivez-vous maintenant et débloquez les merveilles du monde médiéval",
-    "button": "Rejoignez Maintenant"
+    "subtitle": "Inscrivez-vous dès maintenant et débloquez les merveilles du monde médiéval",
+    "button": "Rejoignez la Quête"
   }
 }
