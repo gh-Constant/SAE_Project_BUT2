@@ -1,3 +1,20 @@
 {
-  "title": "Explorador de Mapas"
+  "title": "Explorador de Mapas",
+  "home": "Inicio",
+  "map": "Mapa",
+  "events": "Eventos",
+  "cart": "Carrito",
+  "signin": "Iniciar Sesión",
+  "register": "Registrarse",
+  "admin_panel": "Panel de Administración",
+  "prestataire_panel": "Panel de Proveedor",
+  "my_orders": "Mis Pedidos",
+  "my_reservations": "Mis Reservas",
+  "my_quests": "Mis Misiones",
+  "profile": "Mi Perfil",
+  "logout": "Cerrar Sesión",
+  "products": "Productos",
+  "welcome": "Bienvenido, {name}",
+  "select_language": "Seleccionar Idioma",
+  "dont_click": "No hagas clic"
 }

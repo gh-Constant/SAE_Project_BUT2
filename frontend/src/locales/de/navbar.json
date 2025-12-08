@@ -1,3 +1,20 @@
 {
-  "title": "Karten-Explorer"
+  "title": "Karten-Entdecker",
+  "home": "Startseite",
+  "map": "Karte",
+  "events": "Veranstaltungen",
+  "cart": "Warenkorb",
+  "signin": "Anmelden",
+  "register": "Registrieren",
+  "admin_panel": "Admin-Panel",
+  "prestataire_panel": "Anbieter-Panel",
+  "my_orders": "Meine Bestellungen",
+  "my_reservations": "Meine Reservierungen",
+  "my_quests": "Meine Quests",
+  "profile": "Mein Profil",
+  "logout": "Abmelden",
+  "products": "Produkte",
+  "welcome": "Willkommen, {name}",
+  "select_language": "Sprache auswählen",
+  "dont_click": "Nicht klicken"
 }

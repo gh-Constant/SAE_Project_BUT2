@@ -1,0 +1,99 @@
+{
+    "dashboard": {
+        "users": {
+            "title": "Utilisateurs",
+            "subtitle": "utilisateurs actifs",
+            "action": "Voir tous les utilisateurs"
+        },
+        "locations": {
+            "title": "Lieux",
+            "subtitle": "lieux actifs",
+            "action": "Gérer les lieux"
+        },
+        "system": {
+            "title": "Système",
+            "status": "Actif",
+            "subtitle": "statistiques système",
+            "action": "Voir les statistiques"
+        }
+    },
+    "quick_actions": {
+        "title": "Actions Rapides",
+        "create_user": "Créer un utilisateur",
+        "add_location": "Ajouter un lieu",
+        "manage_roles": "Gérer les rôles",
+        "view_logs": "Voir les logs",
+        "manage_products": "Gérer les articles"
+    },
+    "recent_activity": {
+        "title": "Activité Récente",
+        "user_created": {
+            "title": "Nouvelle création d'utilisateur",
+            "status": "Confirmée",
+            "description": "Utilisateur \"{name}\" ajouté au système"
+        },
+        "location_added": {
+            "title": "Nouveau lieu ajouté",
+            "status": "Réussi",
+            "description": "Lieu \"{name}\" ajouté"
+        },
+        "time": {
+            "hour_ago": "Il y a 1 heure",
+            "yesterday": "Hier"
+        }
+    },
+    "products": {
+        "title": "Gestion des Produits",
+        "subtitle": "Vue d'ensemble et gestion de tous les produits du système",
+        "search": {
+            "label": "Rechercher un produit",
+            "placeholder": "Rechercher par nom ou description...",
+            "clear": "Effacer la recherche"
+        },
+        "sort": {
+            "label": "Trier par",
+            "name_asc": "Nom (A-Z)",
+            "name_desc": "Nom (Z-A)",
+            "price_asc": "Prix (Croissant)",
+            "price_desc": "Prix (Décroissant)",
+            "stock_desc": "Stock (Élevé)",
+            "stock_asc": "Stock (Faible)"
+        },
+        "filter": {
+            "price": "Prix (Gold)",
+            "min": "Min",
+            "max": "Max",
+            "availability": "Disponibilité",
+            "all": "Tous les produits",
+            "in_stock": "En stock",
+            "out_of_stock": "Rupture de stock",
+            "reset": "Réinitialiser les filtres",
+            "price_error": "Le prix minimum ne peut pas être supérieur au maximum."
+        },
+        "table": {
+            "headers": {
+                "image": "Image",
+                "name": "Nom",
+                "description": "Description",
+                "price": "Prix",
+                "stock": "Stock",
+                "location": "Localisation",
+                "owner": "Appartenance",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "Aucun produit enregistré",
+                "subtitle": "Ajoutez votre premier produit pour commencer la gestion"
+            },
+            "actions": {
+                "edit": "Modifier",
+                "delete": "Jeter",
+                "save": "Sceller",
+                "cancel": "Annuler"
+            },
+            "stock": {
+                "sold_out": "Épuisé"
+            }
+        }
+    }
+}

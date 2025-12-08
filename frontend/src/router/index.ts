@@ -83,10 +83,61 @@ export const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/prestataire/products',
     name: 'prestataire-products',
     component: () => import('../views/PrestataireProductsView.vue'),
     meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/locations',
+    name: 'prestataire-locations',
+    component: () => import('../views/prestataire/MyLocationsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/quests',
+    name: 'prestataire-quests',
+    component: () => import('../views/PrestataireQuestsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/location/:locationId/events',
+    name: 'prestataire-location-events',
+    component: () => import('../views/prestataire/LocationEventsManager.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/events',
+    name: 'events',
+    component: () => import('../views/client/GlobalEventsView.vue'),
+  },
+  {
+    path: '/location/:locationId/events',
+    name: 'location-events',
+    component: () => import('../views/client/LocationEventsView.vue'),
+  },
+  {
+    path: '/events/:id',
+    name: 'event-details',
+    component: () => import('../views/client/EventDetailsView.vue'),
+  },
+  {
+    path: '/my-reservations',
+    name: 'my-reservations',
+    component: () => import('../views/client/MyReservationsView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
   },
   {
     path: '/editor-test',
@@ -110,15 +161,33 @@ export const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/checkout',
     name: 'checkout',
     component: () => import('../views/CheckoutView.vue'),
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/commandes',
     name: 'commandes',
     component: () => import('../views/OrdersView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/my-quests',
+    name: 'my-quests',
+    component: () => import('../views/UserQuestList.vue'),
     meta: { requiresAuth: true },
   },
 ];

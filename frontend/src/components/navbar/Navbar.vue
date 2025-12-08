@@ -151,7 +151,7 @@ const profileRoute = computed(() => {
             active-class="!bg-[#8B6B43] !border-[#5D4037]"
           >
             <i class="fas fa-home text-lg"></i>
-            <span class="ml-2">Home</span>
+            <span class="ml-2">{{ $t('navbar.home') }}</span>
           </MedievalButton>
           <MedievalButton 
             to="/map" 
@@ -159,12 +159,19 @@ const profileRoute = computed(() => {
             active-class="!bg-[#8B6B43] !border-[#5D4037]"
           >
             <i class="fas fa-map text-lg"></i>
-            <span class="ml-2">Map</span>
+            <span class="ml-2">{{ $t('navbar.map') }}</span>
+          </MedievalButton>
+          <MedievalButton 
+            to="/events" 
+            class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+            active-class="!bg-[#8B6B43] !border-[#5D4037]"
+          >
+            <i class="fas fa-calendar-alt text-lg"></i>
+            <span class="ml-2">{{ $t('navbar.events') }}</span>
           </MedievalButton>
         </div>
 
         <div class="flex items-center space-x-4">
-          <!-- Icône panier (visible uniquement si connecté) -->
           <!-- Icône panier (visible uniquement si connecté) -->
           <div v-if="isLoggedIn" class="relative cart-dropdown-container">
             <MedievalButton
@@ -174,7 +181,7 @@ const profileRoute = computed(() => {
               title="Mon panier"
             >
               <i class="fas fa-shopping-cart text-lg"></i>
-              <span class="ml-2">Panier</span>
+              <span class="ml-2">{{ $t('navbar.cart') }}</span>
               <span
                 v-if="cartStore.itemCount > 0"
                 class="bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm ml-2"
@@ -204,14 +211,14 @@ const profileRoute = computed(() => {
               class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             >
               <i class="fas fa-sign-in-alt text-lg"></i>
-              <span class="ml-2">Sign In</span>
+              <span class="ml-2">{{ $t('navbar.signin') }}</span>
             </MedievalButton>
             <MedievalButton
               to="/register"
               class="!bg-[#8B6B43] hover:!bg-[#a88558] !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             >
               <i class="fas fa-user-plus text-lg"></i>
-              <span class="ml-2">Register</span>
+              <span class="ml-2">{{ $t('navbar.register') }}</span>
             </MedievalButton>
           </template>
 
@@ -267,7 +274,7 @@ const profileRoute = computed(() => {
                 @click="closeDropdown"
               >
                 <i class="fas fa-cog mr-3 text-antique-bronze" />
-                Panel Administrateur
+                {{ $t('navbar.admin_panel') }}
               </router-link>
               <router-link
                 v-if="isPrestataire(auth.user)"
@@ -276,7 +283,7 @@ const profileRoute = computed(() => {
                 @click="closeDropdown"
               >
                 <i class="fas fa-briefcase mr-3 text-antique-bronze" />
-                Panel Prestataire
+                {{ $t('navbar.prestataire_panel') }}
               </router-link>
               <div class="border-t border-antique-bronze/20" />
               <router-link
@@ -285,7 +292,23 @@ const profileRoute = computed(() => {
                 @click="closeDropdown"
               >
                 <i class="fas fa-list mr-3 text-antique-bronze" />
-                Mes Commandes
+                {{ $t('navbar.my_orders') }}
+              </router-link>
+              <router-link
+                to="/my-reservations"
+                class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-ticket-alt mr-3 text-antique-bronze" />
+                {{ $t('navbar.my_reservations') }}
+              </router-link>
+              <router-link
+                to="/my-quests"
+                class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-scroll mr-3 text-antique-bronze" />
+                {{ $t('navbar.my_quests') }}
               </router-link>
               <router-link
                 :to="profileRoute"
@@ -293,14 +316,14 @@ const profileRoute = computed(() => {
                 @click="closeDropdown"
               >
                 <i class="fas fa-user-edit mr-3 text-antique-bronze" />
-                Mon Profil
+                {{ $t('navbar.profile') }}
               </router-link>
               <button
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="handleLogout"
               >
                 <i class="fas fa-sign-out-alt mr-3 text-antique-bronze" />
-                Se déconnecter
+                {{ $t('navbar.logout') }}
               </button>
             </div>
           </div>
@@ -374,7 +397,7 @@ const profileRoute = computed(() => {
             @click="isMobileMenuOpen = false"
           >
             <i class="fas fa-home text-lg w-8"></i>
-            <span class="ml-2">Home</span>
+            <span class="ml-2">{{ $t('navbar.home') }}</span>
           </MedievalButton>
           
           <MedievalButton 
@@ -385,7 +408,18 @@ const profileRoute = computed(() => {
             @click="isMobileMenuOpen = false"
           >
             <i class="fas fa-map text-lg w-8"></i>
-            <span class="ml-2">Map</span>
+            <span class="ml-2">{{ $t('navbar.map') }}</span>
+          </MedievalButton>
+
+          <MedievalButton 
+            to="/events" 
+            full-width
+            class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+            active-class="!bg-[#8B6B43] !border-[#5D4037]"
+            @click="isMobileMenuOpen = false"
+          >
+            <i class="fas fa-calendar-alt text-lg w-8"></i>
+            <span class="ml-2">{{ $t('navbar.events') }}</span>
           </MedievalButton>
 
           <div class="border-t border-antique-bronze/20 my-2"></div>
@@ -418,7 +452,26 @@ const profileRoute = computed(() => {
               @click="isMobileMenuOpen = false"
             >
               <i class="fas fa-list text-lg w-8"></i>
-              <span class="ml-2">Mes Commandes</span>
+              <span class="ml-2">{{ $t('navbar.my_orders') }}</span>
+            </MedievalButton>
+
+            <MedievalButton
+              to="/my-reservations"
+              full-width
+              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              @click="isMobileMenuOpen = false"
+            >
+              <span class="ml-2">{{ $t('navbar.my_reservations') }}</span>
+            </MedievalButton>
+
+            <MedievalButton
+              to="/my-quests"
+              full-width
+              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              @click="isMobileMenuOpen = false"
+            >
+              <i class="fas fa-scroll text-lg w-8"></i>
+              <span class="ml-2">{{ $t('navbar.my_quests') }}</span>
             </MedievalButton>
 
             <MedievalButton
@@ -428,7 +481,7 @@ const profileRoute = computed(() => {
               @click="isMobileMenuOpen = false"
             >
               <i class="fas fa-user-edit text-lg w-8"></i>
-              <span class="ml-2">Mon Profil</span>
+              <span class="ml-2">{{ $t('navbar.profile') }}</span>
             </MedievalButton>
 
             <MedievalButton
@@ -439,7 +492,7 @@ const profileRoute = computed(() => {
               @click="isMobileMenuOpen = false"
             >
               <i class="fas fa-cog text-lg w-8"></i>
-              <span class="ml-2">Panel Admin</span>
+              <span class="ml-2">{{ $t('navbar.admin_panel') }}</span>
             </MedievalButton>
 
             <MedievalButton
@@ -450,7 +503,7 @@ const profileRoute = computed(() => {
               @click="isMobileMenuOpen = false"
             >
               <i class="fas fa-briefcase text-lg w-8"></i>
-              <span class="ml-2">Panel Prestataire</span>
+              <span class="ml-2">{{ $t('navbar.prestataire_panel') }}</span>
             </MedievalButton>
 
             <MedievalButton
@@ -459,7 +512,7 @@ const profileRoute = computed(() => {
               @click="() => { handleLogout(); isMobileMenuOpen = false; }"
             >
               <i class="fas fa-sign-out-alt text-lg w-8"></i>
-              <span class="ml-2">Se déconnecter</span>
+              <span class="ml-2">{{ $t('navbar.logout') }}</span>
             </MedievalButton>
           </template>
 
@@ -471,7 +524,7 @@ const profileRoute = computed(() => {
               @click="isMobileMenuOpen = false"
             >
               <i class="fas fa-sign-in-alt text-lg w-8"></i>
-              <span class="ml-2">Sign In</span>
+              <span class="ml-2">{{ $t('navbar.signin') }}</span>
             </MedievalButton>
             <MedievalButton
               to="/register"
@@ -480,7 +533,7 @@ const profileRoute = computed(() => {
               @click="isMobileMenuOpen = false"
             >
               <i class="fas fa-user-plus text-lg w-8"></i>
-              <span class="ml-2">Register</span>
+              <span class="ml-2">{{ $t('navbar.register') }}</span>
             </MedievalButton>
           </template>
         </div>

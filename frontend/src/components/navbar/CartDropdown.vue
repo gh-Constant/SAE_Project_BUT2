@@ -12,9 +12,25 @@ const emit = defineEmits(['close']);
 const items = computed(() => cartStore.items);
 const total = computed(() => cartStore.total);
 
-const getProduct = (id: number) => {
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  locationId?: number;
+}
+
+interface CartItem {
+  id_product: number;
+  product?: Product;
+}
+
+const getProduct = (item: CartItem): Product | undefined => {
+  if (item.product) {
+    return item.product;
+  }
   const allProducts = productService.getProductsForBoutique();
-  return allProducts.find((p) => p.id === id);
+  return allProducts.find((p) => p.id === item.id_product);
 };
 
 const viewCart = () => {
@@ -43,9 +59,9 @@ const removeItem = (id: number) => {
     
     <!-- Header -->
     <div class="px-6 pb-3 border-b-2 border-antique-bronze/20 flex justify-between items-center">
-      <h3 class="font-medieval text-iron-black text-xl tracking-wide">Mon Panier</h3>
+      <h3 class="font-medieval text-iron-black text-xl tracking-wide">{{ $t('cart.title') }}</h3>
       <span class="font-body text-xs font-medium text-parchment bg-antique-bronze px-2 py-1 rounded-sm shadow-sm">
-        {{ cartStore.itemCount }} articles
+        {{ $t('cart.items_count', { count: cartStore.itemCount }) }}
       </span>
     </div>
 
@@ -55,7 +71,7 @@ const removeItem = (id: number) => {
         <div class="w-16 h-16 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-antique-bronze/20">
           <i class="fas fa-scroll text-antique-bronze text-2xl"></i>
         </div>
-        <p class="font-medieval text-stone-grey text-lg">Votre bourse est vide</p>
+        <p class="font-medieval text-stone-grey text-lg">{{ $t('cart.empty_title') }}</p>
       </div>
 
       <div v-else class="divide-y divide-antique-bronze/10">
@@ -64,9 +80,9 @@ const removeItem = (id: number) => {
             <!-- Image -->
             <div class="w-20 h-20 rounded-sm bg-warm-sand overflow-hidden flex-shrink-0 border border-antique-bronze/30 shadow-inner">
               <img 
-                v-if="getProduct(item.id_product)?.image" 
-                :src="getProduct(item.id_product)?.image" 
-                :alt="getProduct(item.id_product)?.name"
+                v-if="getProduct(item)?.image" 
+                :src="getProduct(item)?.image" 
+                :alt="getProduct(item)?.name"
                 class="w-full h-full object-cover sepia-[.25]"
               >
             </div>
@@ -75,20 +91,20 @@ const removeItem = (id: number) => {
             <div class="flex-1 min-w-0 flex flex-col justify-between py-1">
               <div>
                 <h4 class="font-medieval text-iron-black text-lg truncate pr-4 leading-tight">
-                  {{ getProduct(item.id_product)?.name || 'Artefact Inconnu' }}
+                  {{ getProduct(item)?.name || $t('cart.unknown_product') }}
                 </h4>
                 <p class="font-body text-sm text-stone-grey mt-1">
-                  {{ item.quantity }} x {{ item.price.toFixed(2) }} gold
+                  {{ item.quantity }} x {{ $t('cart.price_format', { price: item.price.toFixed(2) }) }}
                 </p>
               </div>
               <div class="flex justify-between items-end">
                 <span class="font-medieval text-antique-bronze text-lg">
-                  {{ (item.price * item.quantity).toFixed(2) }} gold
+                  {{ $t('cart.price_format', { price: (item.price * item.quantity).toFixed(2) }) }}
                 </span>
                 <button 
                   @click.stop="removeItem(item.id_product)"
                   class="text-stone-grey hover:text-red-700 transition-colors p-1 opacity-0 group-hover:opacity-100"
-                  title="Jeter aux oubliettes"
+                  :title="$t('cart.remove_tooltip')"
                 >
                   <i class="fas fa-trash-alt"></i>
                 </button>
@@ -102,8 +118,8 @@ const removeItem = (id: number) => {
     <!-- Footer -->
     <div v-if="items.length > 0" class="px-6 pt-4 border-t-2 border-antique-bronze/20 bg-antique-bronze/5">
       <div class="flex justify-between items-center mb-5">
-        <span class="font-medieval text-stone-grey text-lg">Total</span>
-        <span class="font-medieval text-iron-black text-2xl">{{ total.toFixed(2) }} gold</span>
+        <span class="font-medieval text-stone-grey text-lg">{{ $t('cart.total') }}</span>
+        <span class="font-medieval text-iron-black text-2xl">{{ $t('cart.price_format', { price: total.toFixed(2) }) }}</span>
       </div>
       
       <div class="space-y-3">
@@ -111,7 +127,7 @@ const removeItem = (id: number) => {
           @click="viewCart"
           class="w-full py-3 bg-dark-wood hover:bg-black text-parchment font-medieval text-lg rounded-sm shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-3 border border-antique-bronze/50"
         >
-          <span>Voir le Parchemin</span>
+          <span>{{ $t('cart.view_cart') }}</span>
           <i class="fas fa-scroll text-sm"></i>
         </button>
       </div>

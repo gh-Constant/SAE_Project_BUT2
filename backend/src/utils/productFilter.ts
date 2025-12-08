@@ -34,10 +34,10 @@ export function filterAndSortProducts(products: Product[], options: ProductFilte
 
   // Filtre par prix
   if (options.priceMin !== null && options.priceMin !== undefined) {
-    filtered = filtered.filter((p) => p.price >= options.priceMin);
+    filtered = filtered.filter((p) => p.price >= (options.priceMin ?? 0));
   }
   if (options.priceMax !== null && options.priceMax !== undefined) {
-    filtered = filtered.filter((p) => p.price <= options.priceMax);
+    filtered = filtered.filter((p) => p.price <= (options.priceMax ?? Infinity));
   }
 
   // Filtre par stock

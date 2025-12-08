@@ -1,0 +1,23 @@
+{
+    "title": "My Quests",
+    "subtitle": "Track your progress and complete quests to earn experience.",
+    "loading": "Loading...",
+    "empty": {
+        "message": "You haven't accepted any quests yet.",
+        "explore": "Explore Map"
+    },
+    "item": {
+        "unknown_location": "Unknown Location",
+        "reward": "Reward: {xp} XP"
+    },
+    "status": {
+        "accepted": "In Progress",
+        "completed": "Completed",
+        "failed": "Failed"
+    },
+    "debug": {
+        "finish": "[DEBUG] Finish",
+        "confirm_finish": "DEBUG: Do you want to mark this quest as completed?",
+        "error_finish": "Error completing the quest."
+    }
+}

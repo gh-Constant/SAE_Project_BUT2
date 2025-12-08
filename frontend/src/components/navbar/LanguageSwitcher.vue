@@ -98,7 +98,7 @@ const selectLanguage = (language: typeof languages[0]) => {
     >
       <div class="px-4 py-2 border-b border-gray-200">
         <h3 class="text-sm font-medium text-gray-900">
-          Select Language
+          {{ $t('navbar.select_language') }}
         </h3>
       </div>
       <div class="py-2">
@@ -144,7 +144,7 @@ const selectLanguage = (language: typeof languages[0]) => {
           class="text-xs text-gray-500 hover:text-gray-700 underline"
           @click="showMinecraft = true"
         >
-          Don't click
+          {{ $t('navbar.dont_click') }}
         </button>
       </div>
     </div>

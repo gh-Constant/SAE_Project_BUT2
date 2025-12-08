@@ -1,0 +1,54 @@
+{
+    "title": "Unsere Geschäfte",
+    "subtitle": "Entdecken Sie unsere Stände und ihre handgefertigten Waren",
+    "visit": "Besuchen",
+    "products_count": "{count} Produkt | {count} Produkte",
+    "unknown_provider": "Unbekannter Anbieter",
+    "no_shops": {
+        "title": "Keine Geschäfte geöffnet",
+        "description": "Die Händler bereiten ihre Stände vor. Kommen Sie bald wieder!"
+    },
+    "back_to_shops": "Zurück zu den Geschäften",
+    "filters": {
+        "search_label": "Nach einem Produkt suchen",
+        "search_placeholder": "Suche nach Waren...",
+        "clear_search": "Suche löschen",
+        "sort_label": "Sortieren nach",
+        "price_label": "Preis (Gold)",
+        "min": "Min",
+        "max": "Max",
+        "min_max_separator": "-",
+        "availability_label": "Verfügbarkeit",
+        "reset": "Zurücksetzen",
+        "clear_all": "Alles löschen",
+        "active_search": "Suche:",
+        "active_price": "Preis:"
+    },
+    "sort_options": {
+        "name_asc": "Name (A-Z)",
+        "name_desc": "Name (Z-A)",
+        "price_asc": "Preis (Aufsteigend)",
+        "price_desc": "Preis (Absteigend)",
+        "stock_desc": "Bestand (Hoch)",
+        "stock_asc": "Bestand (Niedrig)"
+    },
+    "stock_options": {
+        "all": "Alle Waren",
+        "in_stock": "Auf Lager",
+        "out_of_stock": "Nicht vorrätig",
+        "label_all": "Alle",
+        "label_in_stock": "Auf Lager",
+        "label_out_of_stock": "Ausverkauft"
+    },
+    "results": {
+        "count": "{count} Ware gefunden | {count} Waren gefunden",
+        "no_matches": {
+            "title": "Keine Waren gefunden",
+            "description": "Versuchen Sie, Ihre Kriterien zu ändern, um andere Schätze zu finden."
+        },
+        "empty_shop": {
+            "title": "Leeres Geschäft",
+            "description": "Der Händler hat seine Waren noch nicht ausgelegt."
+        }
+    }
+}

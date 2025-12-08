@@ -1,0 +1,23 @@
+{
+    "title": "Mis Misiones",
+    "subtitle": "Sigue tu progreso y completa misiones para ganar experiencia.",
+    "loading": "Cargando...",
+    "empty": {
+        "message": "Aún no has aceptado ninguna misión.",
+        "explore": "Explorar mapa"
+    },
+    "item": {
+        "unknown_location": "Ubicación desconocida",
+        "reward": "Recompensa: {xp} XP"
+    },
+    "status": {
+        "accepted": "En curso",
+        "completed": "Completada",
+        "failed": "Fallida"
+    },
+    "debug": {
+        "finish": "[DEBUG] Terminar",
+        "confirm_finish": "DEBUG: ¿Quieres marcar esta misión como completada?",
+        "error_finish": "Error al completar la misión."
+    }
+}

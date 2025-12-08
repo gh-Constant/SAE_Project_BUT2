@@ -1,131 +1,144 @@
 {
   "dashboard": {
-    "title": "Provider Panel",
-    "welcome": "Welcome",
+    "title": "Dashboard",
     "services": {
       "title": "My Services",
-      "count": "active services",
-      "manage": "Manage my services"
+      "active_count_label": "active services",
+      "manage": "Manage Services"
     },
     "locations": {
-      "title": "My Locations",
-      "count": "managed locations",
-      "view": "View my locations"
+      "title": "My Establishments",
+      "managed_count_label": "managed places",
+      "view": "View Establishments"
     },
     "earnings": {
-      "title": "Monthly Revenue",
-      "view": "View details"
+      "title": "Monthly Earnings",
+      "monthly_total": "monthly total",
+      "view_details": "View Details"
     },
-    "quickActions": {
-      "title": "Quick Actions",
-      "addService": "Add a service",
-      "createLocation": "Create a location",
-      "viewReservations": "View reservations",
-      "editProfile": "Edit my profile"
+    "quick_actions": {
+      "title": "Quick Deeds",
+      "add_service": "Add Service",
+      "manage_shop": "Manage Shop",
+      "manage_quests": "Manage Quests",
+      "create_location": "Establish Place",
+      "view_bookings": "View Bookings",
+      "edit_profile": "Edit Chronicle"
     },
-    "recentActivity": {
-      "title": "Recent Activity"
+    "recent_activity": {
+      "title": "Recent Tidings",
+      "booking_received": "New Booking Received",
+      "status_confirmed": "confirmed",
+      "payment_received": "Payment Received",
+      "status_success": "Success",
+      "time_now": "2 hours ago",
+      "time_yesterday": "Yesterday"
     }
   },
-  "profile": {
-    "title": "Edit my profile",
-    "sections": {
-      "identity": "Identity",
-      "contact": "Contact",
-      "location": "Location",
-      "presentation": "Presentation",
-      "professional": "Professional"
+  "products": {
+    "title": "Shopkeeper's Ledger",
+    "subtitle": "Maintain your registry and manage your inventory",
+    "search": {
+      "label": "Search Product",
+      "placeholder": "Search by name or description...",
+      "clear": "Clear Search"
     },
-    "fields": {
-      "firstname": "First Name",
-      "lastname": "Last Name",
-      "email": "Email",
-      "birthDate": "Date of Birth",
-      "phone": "Phone",
-      "bio": "Biography",
-      "bioHint": "Describe yourself and your specialties (max 500 characters)",
-      "bioPlaceholder": "Master craftsman for 15 years, specialized in authentic armor...",
-      "website": "Website",
-      "websitePlaceholder": "https://my-website.com",
-      "address": "Address",
-      "city": "City",
-      "postalCode": "Postal Code",
-      "country": "Country",
-      "customCountry": "Country Name",
-      "experienceYears": "Years of Experience",
-      "socialMedia": "Social Media",
-      "facebook": "Facebook",
-      "instagram": "Instagram",
-      "twitter": "Twitter/X",
-      "linkedin": "LinkedIn",
-      "tiktok": "TikTok",
-      "specialties": "Specialties",
-      "specialtiesPlaceholder": "Add your specialties (e.g., Medieval cuisine, Royal banquets)",
-      "languages": "Languages Spoken",
-      "languagesPlaceholder": "Select the languages you speak",
-      "prestataireType": "Provider Type",
-      "prestataireTypeReadonly": "Provider type cannot be modified",
-      "aventurier": "Adventurer",
-      "avatar": "Avatar",
-      "avatarCurrent": "Current avatar",
-      "avatarType": "Avatar type",
-      "avatarTypeGallery": "Gallery",
-      "avatarTypeUpload": "Upload",
-      "chooseAvatar": "Choose an avatar",
-      "uploadHint": "Accepted formats: JPG, PNG, GIF (max 5MB)"
+    "sort": {
+      "label": "Sort by",
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)",
+      "price_asc": "Price (Low to High)",
+      "price_desc": "Price (High to Low)",
+      "stock_desc": "Stock (High)",
+      "stock_asc": "Stock (Low)"
     },
-    "status": {
-      "title": "Status",
-      "xp": "XP",
-      "level": "Level"
+    "filter": {
+      "price": "Price (Gold)",
+      "availability": "Availability",
+      "all": "All Wares",
+      "in_stock": "In Stock",
+      "out_of_stock": "Out of Stock",
+      "reset": "Reset Filters",
+      "price_error": "Minimum price cannot be greater than maximum."
     },
-    "validation": {
-      "firstnameRequired": "First name is required",
-      "firstnameMinLength": "First name must contain at least 2 characters",
-      "firstnameMaxLength": "First name must not exceed 255 characters",
-      "firstnameInvalid": "First name must contain only letters",
-      "lastnameRequired": "Last name is required",
-      "lastnameMinLength": "Last name must contain at least 2 characters",
-      "lastnameMaxLength": "Last name must not exceed 255 characters",
-      "lastnameInvalid": "Last name must contain only letters",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Please enter a valid email",
-      "birthDateInvalid": "Invalid birth date",
-      "birthDateTooYoung": "You must be at least 18 years old",
-      "birthDateFuture": "Birth date cannot be in the future",
-      "phoneInvalid": "Invalid phone format (unauthorized characters)",
-      "phoneTooShort": "Phone number must contain at least 8 digits",
-      "phoneTooLong": "Phone number must not exceed 15 digits or 20 characters",
-      "bioMaxLength": "Biography must not exceed 500 characters",
-      "websiteInvalid": "URL must start with http:// or https://",
-      "experienceYearsInvalid": "Experience years must be between 0 and 100",
-      "addressMinLength": "Address must contain at least 5 characters",
-      "addressMaxLength": "Address must not exceed 255 characters",
-      "cityMinLength": "City must contain at least 2 characters",
-      "cityMaxLength": "City must not exceed 100 characters",
-      "cityInvalid": "City must contain only letters, spaces and hyphens",
-      "postalCodeInvalid": "Invalid postal code format",
-      "countryInvalid": "Please select a valid country",
-      "customCountryRequired": "Please enter the country name",
-      "customCountryMinLength": "Country name must contain at least 2 characters",
-      "customCountryMaxLength": "Country name must not exceed 100 characters",
-      "customCountryInvalid": "Country name must contain only letters",
-      "avatarInvalid": "Please select a valid image file",
-      "avatarTooLarge": "File must not exceed 5MB",
-      "formErrors": "Please correct form errors"
+    "location": {
+      "register_count": "Registry containing {n} item | Registry containing {n} items",
+      "add_product": "Add Merchandise"
     },
-    "messages": {
-      "success": "Profile updated successfully!",
-      "updatedSuccess": "updated successfully",
-      "error": "An error occurred while updating the profile",
-      "loading": "Saving...",
-      "save": "Save changes",
-      "cancel": "Cancel"
+    "add_form": {
+      "title": "Inscribe New Merchandise",
+      "name_label": "Denomination",
+      "name_placeholder": "Ex: Long Steel Sword",
+      "image_label": "Representation (Image)",
+      "image_placeholder": "Or URL link...",
+      "price_label": "Price (Gold)",
+      "stock_label": "Available Stock",
+      "description_label": "Detailed Description",
+      "description_placeholder": "Details of the merchandise...",
+      "cancel": "Abandon",
+      "submit": "Inscribe to Registry"
     },
-    "backToHome": "Back to home"
+    "table": {
+      "headers": {
+        "image": "Image",
+        "name": "Name",
+        "description": "Description",
+        "price": "Price",
+        "stock": "Stock",
+        "actions": "Deeds"
+      },
+      "stock": {
+        "sold_out": "Sold Out"
+      },
+      "empty": {
+        "title": "The registry is empty",
+        "subtitle": "Add your first merchandise to commence trade"
+      },
+      "actions": {
+        "edit": "Modify",
+        "delete": "Discard",
+        "save": "Seal",
+        "cancel": "Cancel"
+      }
+    }
   },
-  "tabs": {
-    "dashboard": "Dashboard",
-    "profile": "My Profile"
+  "quests": {
+    "title": "Quest Management",
+    "subtitle": "Create and manage quests for your establishments",
+    "location": {
+      "active_count": "{n} active quest | {n} active quests",
+      "create_quest": "Forges a Quest"
+    },
+    "add_form": {
+      "title": "Draft a New Quest",
+      "quest_title_label": "Quest Title",
+      "quest_title_placeholder": "Ex: Deliver a parcel to the castle",
+      "reward_label": "Reward (XP)",
+      "description_label": "Detailed Description",
+      "description_placeholder": "Describe the quest objectives...",
+      "cancel": "Abandon",
+      "submit": "Publish Quest",
+      "submitting": "Publishing..."
+    },
+    "table": {
+      "headers": {
+        "title": "Title",
+        "description": "Description",
+        "reward": "Reward",
+        "actions": "Deeds"
+      },
+      "actions": {
+        "delete": "Expunge"
+      },
+      "empty": {
+        "title": "No quests forged",
+        "subtitle": "Create your first quest to attract adventurers"
+      }
+    },
+    "no_locations": {
+      "title": "You possess no lands",
+      "subtitle": "Explore the map to acquire your first establishment.",
+      "explore_button": "Explore Map"
+    }
   }
 }

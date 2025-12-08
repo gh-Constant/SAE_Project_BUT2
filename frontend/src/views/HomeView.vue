@@ -56,12 +56,12 @@
         <div class="grid md:grid-cols-2 gap-12 items-center">
           <!-- Text Left -->
           <div class="order-2 md:order-1">
-            <MedievalSectionTitle>The Kingdom Awaits</MedievalSectionTitle>
+            <MedievalSectionTitle>{{ t('home.intro.title') }}</MedievalSectionTitle>
             <p class="text-lg md:text-xl text-stone-grey mb-6 leading-relaxed">
-              Step into a world where history breathes and legends come alive. Our kingdom offers more than just events; it offers a passage through time.
+              {{ t('home.intro.text_1') }}
             </p>
             <p class="text-lg md:text-xl text-stone-grey leading-relaxed">
-              From the grandest tournaments to the quietest village gatherings, every moment is crafted to immerse you in the rich tapestry of our medieval heritage.
+              {{ t('home.intro.text_2') }}
             </p>
           </div>
           <!-- Image Right (Placeholder) -->
@@ -69,7 +69,8 @@
             <div class="aspect-[4/3] bg-aged-paper rounded-sm border-4 border-double border-antique-bronze/40 shadow-xl overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500">
               <!-- Placeholder for an image -->
               <div class="w-full h-full flex items-center justify-center bg-black/5">
-                <span class="font-citation text-4xl text-antique-bronze/50">Kingdom Visual</span>
+                <span class="font-citation text-4xl text-antique-bronze/50">{{ t('home.intro.visual_alt') }}</span>
+                <img src="/images/activite_arc_compressed.png" :alt="t('home.intro.visual_alt')" class="absolute inset-0 w-full h-full object-cover" />
               </div>
             </div>
           </div>

@@ -1,35 +1,41 @@
-{  
+{
   "hero": {
-      "title": "Embark on a Medieval Adventure",
-      "subtitle": "Step into Les Terres du Lion, a medieval festival where every visitor becomes a hero and every step drives the adventure forward.",
-      "cta": "Start Your Journey"
-    },
+    "title": "Embark on a Medieval Adventure",
+    "subtitle": "Enter The Lion's Lands, a medieval festival where every visitor becomes a hero and every step advances the adventure.",
+    "cta": "Start Your Journey"
+  },
+  "intro": {
+    "title": "The Kingdom Awaits",
+    "text_1": "Step into a world where history breathes and legends come alive. Our kingdom offers more than just events; it offers a passage through time.",
+    "text_2": "From the grandest tournaments to the quietest village gatherings, every moment is crafted to immerse you in the rich tapestry of our medieval heritage.",
+    "visual_alt": "Kingdom Visual"
+  },
   "features": {
     "title": "Explore the Medieval Era",
-    "subtitle": "Immerse yourself in history with our comprehensive features",
+    "subtitle": "Dive into history with our comprehensive features",
     "paragraphs": {
-      "1": "Welcome to Les Terres du Lion, a unique medieval event inspired by live-action role-playing. Designed for total immersion, the festival plunges you into a world of quests, legendary creatures, and ancient craftsmanship.",
-      "2": "Centered around a vast thematic village, each zone invites you to meet passionate artisans, performers, restaurateurs, and creators who bring an authentic medieval universe to life.",
-      "3": "Through an enriched interactive experience — quests accessible via QR codes, workshop reservations, click & collect, quizzes, and creation galleries — every visitor becomes the main character of their own journey.",
-      "4": "The dedicated app allows you to explore, learn, discover, and progress throughout the adventure ending at the castle, where the story reaches its climax.",
-      "5": "Les Terres du Lion is a place where immersion meets technology, where heritage inspires play, and where every visit writes a new legend."
+      "1": "Welcome to The Lion's Lands, a unique medieval event inspired by live-action role-playing. Designed to offer total immersion, the festival plunges you into a world of quests, legendary creatures, and ancestral craftsmanship.",
+      "2": "Organized around a vast thematic village, each zone invites you to meet passionate artisans, entertainers, innkeepers, and creators who bring an authentic universe to life.",
+      "3": "Thanks to an enriched interactive experience — quests via QR codes, workshop bookings, click & collect, quizzes, and creation galleries — every visitor becomes an actor in their own adventure.",
+      "4": "The dedicated app allows you to explore, learn, discover, and progress throughout the journey to the castle, where the story reaches its climax.",
+      "5": "The Lion's Lands is a place where immersion meets technology, where heritage inspires play, and where every visit writes a new legend."
     },
-    "discover": {  
+    "discover": {
       "title": "Interactive Maps",
-      "description": "Navigate through detailed maps of historical sites and battlefields"
+      "description": "Navigate through detailed maps of historic sites and battlefields"
     },
     "events": {
       "title": "Historical Timelines",
       "description": "Explore key events that shaped the medieval period"
     },
     "community": {
-      "title": "Join Fellow Explorers",
+      "title": "Join the Explorers",
       "description": "Connect with a community of history enthusiasts"
     }
   },
   "cta": {
     "title": "Begin Your Quest",
-    "subtitle": "Sign up now and unlock the wonders of the medieval world",
+    "subtitle": "Register now and unlock the wonders of the medieval world",
     "button": "Join Now"
   }
 }

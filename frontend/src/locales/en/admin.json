@@ -1,0 +1,99 @@
+{
+    "dashboard": {
+        "users": {
+            "title": "Users",
+            "subtitle": "active users",
+            "action": "View all users"
+        },
+        "locations": {
+            "title": "Locations",
+            "subtitle": "active locations",
+            "action": "Manage locations"
+        },
+        "system": {
+            "title": "System",
+            "status": "Active",
+            "subtitle": "system stats",
+            "action": "View statistics"
+        }
+    },
+    "quick_actions": {
+        "title": "Quick Actions",
+        "create_user": "Create User",
+        "add_location": "Add Location",
+        "manage_roles": "Manage Roles",
+        "view_logs": "View Logs",
+        "manage_products": "Manage Articles"
+    },
+    "recent_activity": {
+        "title": "Recent Activity",
+        "user_created": {
+            "title": "New User Created",
+            "status": "Confirmed",
+            "description": "User \"{name}\" added to system"
+        },
+        "location_added": {
+            "title": "New Location Added",
+            "status": "Success",
+            "description": "Location \"{name}\" added"
+        },
+        "time": {
+            "hour_ago": "1 hour ago",
+            "yesterday": "Yesterday"
+        }
+    },
+    "products": {
+        "title": "Product Management",
+        "subtitle": "Overview and management of all system products",
+        "search": {
+            "label": "Search Product",
+            "placeholder": "Search by name or description...",
+            "clear": "Clear search"
+        },
+        "sort": {
+            "label": "Sort by",
+            "name_asc": "Name (A-Z)",
+            "name_desc": "Name (Z-A)",
+            "price_asc": "Price (Low to High)",
+            "price_desc": "Price (High to Low)",
+            "stock_desc": "Stock (High)",
+            "stock_asc": "Stock (Low)"
+        },
+        "filter": {
+            "price": "Price (Gold)",
+            "min": "Min",
+            "max": "Max",
+            "availability": "Availability",
+            "all": "All products",
+            "in_stock": "In stock",
+            "out_of_stock": "Out of stock",
+            "reset": "Reset filters",
+            "price_error": "Minimum price cannot be greater than maximum."
+        },
+        "table": {
+            "headers": {
+                "image": "Image",
+                "name": "Name",
+                "description": "Description",
+                "price": "Price",
+                "stock": "Stock",
+                "location": "Location",
+                "owner": "Belonging",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "No products registered",
+                "subtitle": "Add your first product to start managing"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Discard",
+                "save": "Seal",
+                "cancel": "Cancel"
+            },
+            "stock": {
+                "sold_out": "Sold Out"
+            }
+        }
+    }
+}

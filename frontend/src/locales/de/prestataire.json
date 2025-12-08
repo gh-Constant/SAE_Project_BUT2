@@ -1,131 +1,144 @@
 {
   "dashboard": {
-    "title": "Anbieter-Panel",
-    "welcome": "Willkommen",
+    "title": "Instrumententafel",
     "services": {
-      "title": "Meine Dienstleistungen",
-      "count": "aktive Dienstleistungen",
-      "manage": "Meine Dienstleistungen verwalten"
+      "title": "Meine Dienste",
+      "active_count_label": "aktive Dienste",
+      "manage": "Dienste verwalten"
     },
     "locations": {
-      "title": "Meine Standorte",
-      "count": "verwaltete Standorte",
-      "view": "Meine Standorte anzeigen"
+      "title": "Meine Stätten",
+      "managed_count_label": "verwaltete Orte",
+      "view": "Stätten ansehen"
     },
     "earnings": {
-      "title": "Einnahmen diesen Monat",
-      "view": "Details anzeigen"
+      "title": "Monatliche Einkünfte",
+      "monthly_total": "Monatssumme",
+      "view_details": "Details ansehen"
     },
-    "quickActions": {
-      "title": "Schnellaktionen",
-      "addService": "Dienstleistung hinzufügen",
-      "createLocation": "Standort erstellen",
-      "viewReservations": "Reservierungen anzeigen",
-      "editProfile": "Mein Profil bearbeiten"
+    "quick_actions": {
+      "title": "Schnelle Taten",
+      "add_service": "Dienst hinzufügen",
+      "manage_shop": "Laden verwalten",
+      "manage_quests": "Quests verwalten",
+      "create_location": "Ort gründen",
+      "view_bookings": "Buchungen ansehen",
+      "edit_profile": "Chronik bearbeiten"
     },
-    "recentActivity": {
-      "title": "Letzte Aktivität"
+    "recent_activity": {
+      "title": "Neueste Kunde",
+      "booking_received": "Neue Buchung erhalten",
+      "status_confirmed": "Bestätigt",
+      "payment_received": "Zahlung erhalten",
+      "status_success": "Erfolg",
+      "time_now": "Vor 2 Stunden",
+      "time_yesterday": "Gestern"
     }
   },
-  "profile": {
-    "title": "Mein Profil bearbeiten",
-    "sections": {
-      "identity": "Identität",
-      "contact": "Kontakt",
-      "location": "Standort",
-      "presentation": "Präsentation",
-      "professional": "Beruflich"
+  "products": {
+    "title": "Ladenbuch",
+    "subtitle": "Führen Sie Ihr Register und verwalten Sie Ihr Inventar",
+    "search": {
+      "label": "Produkt suchen",
+      "placeholder": "Suche nach Name oder Beschreibung...",
+      "clear": "Suche löschen"
     },
-    "fields": {
-      "firstname": "Vorname",
-      "lastname": "Nachname",
-      "email": "E-Mail",
-      "birthDate": "Geburtsdatum",
-      "phone": "Telefon",
-      "bio": "Biografie",
-      "bioHint": "Beschreiben Sie sich und Ihre Spezialitäten (max. 500 Zeichen)",
-      "bioPlaceholder": "Meisterhandwerker seit 15 Jahren, spezialisiert auf authentische Rüstungen...",
-      "website": "Website",
-      "websitePlaceholder": "https://meine-website.de",
-      "address": "Adresse",
-      "city": "Stadt",
-      "postalCode": "Postleitzahl",
-      "country": "Land",
-      "customCountry": "Ländername",
-      "experienceYears": "Jahre Erfahrung",
-      "socialMedia": "Soziale Medien",
-      "facebook": "Facebook",
-      "instagram": "Instagram",
-      "twitter": "Twitter/X",
-      "linkedin": "LinkedIn",
-      "tiktok": "TikTok",
-      "specialties": "Spezialitäten",
-      "specialtiesPlaceholder": "Fügen Sie Ihre Spezialitäten hinzu (z.B. Mittelalterliche Küche, Königliche Bankette)",
-      "languages": "Gesprochene Sprachen",
-      "languagesPlaceholder": "Wählen Sie die Sprachen aus, die Sie sprechen",
-      "prestataireType": "Anbietertyp",
-      "prestataireTypeReadonly": "Der Anbietertyp kann nicht geändert werden",
-      "aventurier": "Abenteurer",
-      "avatar": "Avatar",
-      "avatarCurrent": "Aktueller Avatar",
-      "avatarType": "Avatar-Typ",
-      "avatarTypeGallery": "Galerie",
-      "avatarTypeUpload": "Hochladen",
-      "chooseAvatar": "Avatar wählen",
-      "uploadHint": "Akzeptierte Formate: JPG, PNG, GIF (max. 5MB)"
+    "sort": {
+      "label": "Sortieren nach",
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)",
+      "price_asc": "Preis (Aufsteigend)",
+      "price_desc": "Preis (Absteigend)",
+      "stock_desc": "Bestand (Hoch)",
+      "stock_asc": "Bestand (Niedrig)"
     },
-    "status": {
-      "title": "Status",
-      "xp": "XP",
-      "level": "Stufe"
+    "filter": {
+      "price": "Preis (Gold)",
+      "availability": "Verfügbarkeit",
+      "all": "Alle Waren",
+      "in_stock": "Vorrätig",
+      "out_of_stock": "Ausverkauft",
+      "reset": "Filter zurücksetzen",
+      "price_error": "Der Mindestpreis kann nicht höher als der Höchstpreis sein."
     },
-    "validation": {
-      "firstnameRequired": "Vorname ist erforderlich",
-      "firstnameMinLength": "Vorname muss mindestens 2 Zeichen enthalten",
-      "firstnameMaxLength": "Vorname darf 255 Zeichen nicht überschreiten",
-      "firstnameInvalid": "Vorname darf nur Buchstaben enthalten",
-      "lastnameRequired": "Nachname ist erforderlich",
-      "lastnameMinLength": "Nachname muss mindestens 2 Zeichen enthalten",
-      "lastnameMaxLength": "Nachname darf 255 Zeichen nicht überschreiten",
-      "lastnameInvalid": "Nachname darf nur Buchstaben enthalten",
-      "emailRequired": "E-Mail ist erforderlich",
-      "emailInvalid": "Bitte geben Sie eine gültige E-Mail ein",
-      "birthDateInvalid": "Ungültiges Geburtsdatum",
-      "birthDateTooYoung": "Sie müssen mindestens 18 Jahre alt sein",
-      "birthDateFuture": "Geburtsdatum darf nicht in der Zukunft liegen",
-      "phoneInvalid": "Ungültiges Telefonformat (nicht autorisierte Zeichen)",
-      "phoneTooShort": "Telefonnummer muss mindestens 8 Ziffern enthalten",
-      "phoneTooLong": "Telefonnummer darf 15 Ziffern oder 20 Zeichen nicht überschreiten",
-      "bioMaxLength": "Biografie darf 500 Zeichen nicht überschreiten",
-      "websiteInvalid": "URL muss mit http:// oder https:// beginnen",
-      "experienceYearsInvalid": "Erfahrungsjahre müssen zwischen 0 und 100 liegen",
-      "addressMinLength": "Adresse muss mindestens 5 Zeichen enthalten",
-      "addressMaxLength": "Adresse darf 255 Zeichen nicht überschreiten",
-      "cityMinLength": "Stadt muss mindestens 2 Zeichen enthalten",
-      "cityMaxLength": "Stadt darf 100 Zeichen nicht überschreiten",
-      "cityInvalid": "Stadt darf nur Buchstaben, Leerzeichen und Bindestriche enthalten",
-      "postalCodeInvalid": "Ungültiges Postleitzahlenformat",
-      "countryInvalid": "Bitte wählen Sie ein gültiges Land aus",
-      "customCountryRequired": "Bitte geben Sie den Ländernamen ein",
-      "customCountryMinLength": "Ländername muss mindestens 2 Zeichen enthalten",
-      "customCountryMaxLength": "Ländername darf 100 Zeichen nicht überschreiten",
-      "customCountryInvalid": "Ländername darf nur Buchstaben enthalten",
-      "avatarInvalid": "Bitte wählen Sie eine gültige Bilddatei aus",
-      "avatarTooLarge": "Datei darf 5MB nicht überschreiten",
-      "formErrors": "Bitte korrigieren Sie die Formularfehler"
+    "location": {
+      "register_count": "Register enthält {n} Ware | Register enthält {n} Waren",
+      "add_product": "Ware hinzufügen"
     },
-    "messages": {
-      "success": "Profil erfolgreich aktualisiert!",
-      "updatedSuccess": "erfolgreich aktualisiert",
-      "error": "Beim Aktualisieren des Profils ist ein Fehler aufgetreten",
-      "loading": "Wird gespeichert...",
-      "save": "Änderungen speichern",
-      "cancel": "Abbrechen"
+    "add_form": {
+      "title": "Neue Ware eintragen",
+      "name_label": "Bezeichnung",
+      "name_placeholder": "Bsp: Langschwert aus Stahl",
+      "image_label": "Darstellung (Bild)",
+      "image_placeholder": "Oder URL-Link...",
+      "price_label": "Preis (Gold)",
+      "stock_label": "Verfügbarer Bestand",
+      "description_label": "Detaillierte Beschreibung",
+      "description_placeholder": "Details zur Ware...",
+      "cancel": "Aufgeben",
+      "submit": "Ins Register eintragen"
     },
-    "backToHome": "Zurück zur Startseite"
+    "table": {
+      "headers": {
+        "image": "Bild",
+        "name": "Name",
+        "description": "Beschreibung",
+        "price": "Preis",
+        "stock": "Bestand",
+        "actions": "Taten"
+      },
+      "stock": {
+        "sold_out": "Ausverkauft"
+      },
+      "empty": {
+        "title": "Das Register ist leer",
+        "subtitle": "Fügen Sie Ihre erste Ware hinzu, um den Handel zu beginnen"
+      },
+      "actions": {
+        "edit": "Bearbeiten",
+        "delete": "Fortwerfen",
+        "save": "Versiegeln",
+        "cancel": "Abbrechen"
+      }
+    }
   },
-  "tabs": {
-    "dashboard": "Dashboard",
-    "profile": "Mein Profil"
+  "quests": {
+    "title": "Quest-Verwaltung",
+    "subtitle": "Erstellen und verwalten Sie Quests für Ihre Stätten",
+    "location": {
+      "active_count": "{n} aktive Quest | {n} aktive Quests",
+      "create_quest": "Quest schmieden"
+    },
+    "add_form": {
+      "title": "Neue Quest verfassen",
+      "quest_title_label": "Quest-Titel",
+      "quest_title_placeholder": "Bsp: Ein Paket zur Burg liefern",
+      "reward_label": "Belohnung (XP)",
+      "description_label": "Detaillierte Beschreibung",
+      "description_placeholder": "Beschreiben Sie die Questziele...",
+      "cancel": "Aufgeben",
+      "submit": "Quest aushängen",
+      "submitting": "Aushängen..."
+    },
+    "table": {
+      "headers": {
+        "title": "Titel",
+        "description": "Beschreibung",
+        "reward": "Belohnung",
+        "actions": "Taten"
+      },
+      "actions": {
+        "delete": "Tilgen"
+      },
+      "empty": {
+        "title": "Keine Quests geschmiedet",
+        "subtitle": "Erstellen Sie Ihre erste Quest, um Abenteurer anzulocken"
+      }
+    },
+    "no_locations": {
+      "title": "Sie besitzen keine Ländereien",
+      "subtitle": "Erkunden Sie die Karte, um Ihre erste Stätte zu erwerben.",
+      "explore_button": "Karte erkunden"
+    }
   }
 }

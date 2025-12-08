@@ -6,6 +6,7 @@ export interface ProductMock {
   stock: number;
   image: string;
   id_prestataire: number;
+  locationId?: number;
 }
 
 export const PRODUCTS: ProductMock[] = [

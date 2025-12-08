@@ -17,7 +17,7 @@
       <!-- Title -->
       <div class="mb-8 text-left">
         <h1 class="text-3xl font-bold text-black mb-2">
-          {{ t('prestataire.profile.title') }}
+          {{ t('profile.title') }}
         </h1>
         <p class="text-black text-lg mb-4">
           Modifiez vos informations personnelles
@@ -31,7 +31,7 @@
         <div class="bg-white rounded-xl shadow-lg p-8">
           <!-- AVATAR - Centré en haut -->
           <div class="mb-12 flex flex-col items-center">
-            <h3 class="text-lg font-semibold text-gray-900 mb-6">{{ t('prestataire.profile.fields.avatar') }}</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-6">{{ t('profile.fields.avatar') }}</h3>
             
             <!-- Avatar Preview - Grand et centré -->
             <div class="mb-6">
@@ -61,11 +61,11 @@
                 @click="openAvatarModal"
               >
                 <i class="fas fa-images mr-2" />
-                {{ t('prestataire.profile.fields.avatarTypeGallery') }}
+                {{ t('profile.fields.avatarTypeGallery') }}
               </button>
               <label class="px-6 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-colors text-sm font-medium cursor-pointer shadow-md flex items-center">
                 <i class="fas fa-upload mr-2" />
-                {{ t('prestataire.profile.fields.avatarTypeUpload') }}
+                {{ t('profile.fields.avatarTypeUpload') }}
                 <input
                   type="file"
                   accept="image/*"
@@ -85,7 +85,7 @@
               <!-- Type Aventurier -->
               <div v-if="isUserAventurier" class="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800">
                 <i class="fas fa-user-ninja mr-2" />
-                <span class="font-semibold">{{ t('prestataire.profile.fields.aventurier') }}</span>
+                <span class="font-semibold">{{ t('profile.fields.aventurier') }}</span>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@
           <!-- SECTION 1: Identité -->
           <div class="mb-8">
             <h3 class="text-xl font-bold text-gray-900 mb-6 border-b-2 border-orange-500 pb-2">
-              {{ t('prestataire.profile.sections.identity') }}
+              {{ t('profile.sections.identity') }}
             </h3>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <!-- Prénom -->
@@ -116,7 +116,7 @@
                   :class="formData.firstname ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
                   :style="{ color: fieldErrors.firstname ? '#ef4444' : formData.firstname ? '#f97316' : '#6b7280' }"
                 >
-                  {{ (fieldErrors.firstname && formData.firstname) ? fieldErrors.firstname : t('prestataire.profile.fields.firstname') }}
+                  {{ (fieldErrors.firstname && formData.firstname) ? fieldErrors.firstname : t('profile.fields.firstname') }}
                 </label>
                 <p v-if="fieldErrors.firstname && formData.firstname" class="mt-1 text-xs text-red-500 px-4">
                   {{ fieldErrors.firstname }}
@@ -143,7 +143,7 @@
                   :class="formData.lastname ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
                   :style="{ color: fieldErrors.lastname ? '#ef4444' : formData.lastname ? '#f97316' : '#6b7280' }"
                 >
-                  {{ (fieldErrors.lastname && formData.lastname) ? fieldErrors.lastname : t('prestataire.profile.fields.lastname') }}
+                  {{ (fieldErrors.lastname && formData.lastname) ? fieldErrors.lastname : t('profile.fields.lastname') }}
                 </label>
                 <p v-if="fieldErrors.lastname && formData.lastname" class="mt-1 text-xs text-red-500 px-4">
                   {{ fieldErrors.lastname }}
@@ -170,7 +170,7 @@
                   :class="formData.email ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
                   :style="{ color: fieldErrors.email ? '#ef4444' : formData.email ? '#f97316' : '#6b7280' }"
                 >
-                  {{ (fieldErrors.email && formData.email) ? fieldErrors.email : t('prestataire.profile.fields.email') }}
+                  {{ (fieldErrors.email && formData.email) ? fieldErrors.email : t('profile.fields.email') }}
                 </label>
                 <p v-if="fieldErrors.email && formData.email" class="mt-1 text-xs text-red-500 px-4">
                   {{ fieldErrors.email }}
@@ -196,7 +196,7 @@
                   :class="formData.phone ? 'top-1 text-xs bg-transparent px-2 pb-1' : 'top-3 text-base'"
                   :style="{ color: fieldErrors.phone ? '#ef4444' : formData.phone ? '#f97316' : '#6b7280' }"
                 >
-                  {{ (fieldErrors.phone && formData.phone) ? fieldErrors.phone : t('prestataire.profile.fields.phone') }}
+                  {{ (fieldErrors.phone && formData.phone) ? fieldErrors.phone : t('profile.fields.phone') }}
                 </label>
                 <p v-if="fieldErrors.phone && formData.phone" class="mt-1 text-xs text-red-500 px-4">
                   {{ fieldErrors.phone }}
@@ -219,7 +219,7 @@
                   class="absolute left-4 top-1 text-xs bg-white px-2 text-gray-500"
                   :style="{ color: fieldErrors.birthDate ? '#ef4444' : formData.birthDate ? '#f97316' : '#6b7280' }"
                 >
-                  {{ (fieldErrors.birthDate && formData.birthDate) ? fieldErrors.birthDate : t('prestataire.profile.fields.birthDate') }}
+                  {{ (fieldErrors.birthDate && formData.birthDate) ? fieldErrors.birthDate : t('profile.fields.birthDate') }}
                 </label>
                 <p v-if="fieldErrors.birthDate && formData.birthDate" class="mt-1 text-xs text-red-500 px-4">
                   {{ fieldErrors.birthDate }}
@@ -231,7 +231,7 @@
           <!-- SECTION 2: Présentation - Bio -->
           <div class="mb-8 pb-8 border-b border-gray-200">
             <h3 class="text-xl font-bold text-gray-900 mb-6 border-b-2 border-orange-500 pb-2">
-              {{ t('prestataire.profile.sections.presentation') }}
+              {{ t('profile.sections.presentation') }}
             </h3>
             <div class="relative">
               <textarea
@@ -241,7 +241,7 @@
                 maxlength="500"
                 class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer resize-none"
                 :class="fieldErrors.bio ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                :placeholder="t('prestataire.profile.fields.bioPlaceholder')"
+                :placeholder="t('profile.fields.bioPlaceholder')"
                 @blur="validateField('bio', formData.bio)"
               />
               <label 
@@ -249,13 +249,13 @@
                 class="absolute left-4 top-1 text-xs bg-white px-2 text-gray-500"
                 :style="{ color: fieldErrors.bio ? '#ef4444' : '#6b7280' }"
               >
-                {{ (fieldErrors.bio && formData.bio) ? fieldErrors.bio : t('prestataire.profile.fields.bio') }}
+                {{ (fieldErrors.bio && formData.bio) ? fieldErrors.bio : t('profile.fields.bio') }}
               </label>
               <p v-if="fieldErrors.bio && formData.bio" class="mt-1 text-xs text-red-500 px-4">
                 {{ fieldErrors.bio }}
               </p>
               <div class="mt-2 flex justify-between items-center">
-                <p class="text-xs text-gray-500 ml-4">{{ t('prestataire.profile.fields.bioHint') }}</p>
+                <p class="text-xs text-gray-500 ml-4">{{ t('profile.fields.bioHint') }}</p>
                 <span class="text-xs" :class="formData.bio.length > 450 ? 'text-red-500' : 'text-gray-500'">
                   {{ formData.bio.length }}/500
                 </span>
@@ -268,14 +268,14 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-gray-200">
             <!-- Informations de statut -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ t('prestataire.profile.status.title') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ t('profile.status.title') }}</h3>
               <dl class="grid grid-cols-2 gap-4">
                 <div class="p-4 bg-orange-50 border border-orange-200 rounded-xl">
-                  <dt class="text-sm font-medium text-gray-500">{{ t('prestataire.profile.status.xp') }}</dt>
+                  <dt class="text-sm font-medium text-gray-500">{{ t('profile.status.xp') }}</dt>
                   <dd class="mt-1 text-2xl font-bold text-orange-600">{{ user?.xp || 0 }}</dd>
                 </div>
                 <div class="p-4 bg-orange-50 border border-orange-200 rounded-xl">
-                  <dt class="text-sm font-medium text-gray-500">{{ t('prestataire.profile.status.level') }}</dt>
+                  <dt class="text-sm font-medium text-gray-500">{{ t('profile.status.level') }}</dt>
                   <dd class="mt-1 text-2xl font-bold text-orange-600">{{ user?.level || 0 }}</dd>
                 </div>
               </dl>
@@ -294,11 +294,11 @@
                     <div class="flex-1">
                       <ul v-if="changedFields.length > 0" class="space-y-1">
                         <li v-for="field in changedFields" :key="field" class="text-sm font-medium text-green-800">
-                          {{ getFieldLabel(field) }} {{ t('prestataire.profile.messages.updatedSuccess') }}
+                          {{ getFieldLabel(field) }} {{ t('profile.messages.updatedSuccess') }}
                         </li>
                       </ul>
                       <p v-else class="text-sm font-medium text-green-800">
-                        {{ t('prestataire.profile.messages.success') }}
+                        {{ t('profile.messages.success') }}
                       </p>
                     </div>
                     <div class="ml-3 flex-shrink-0">
@@ -346,7 +346,7 @@
                   @click="resetForm"
                   class="flex-1 px-6 py-3 border border-gray-300 rounded-full shadow-sm text-base font-semibold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200"
                 >
-                  {{ t('prestataire.profile.messages.cancel') }}
+                  {{ t('profile.messages.cancel') }}
                 </button>
                 <button
                   type="submit"
@@ -354,8 +354,8 @@
                   class="flex-1 px-6 py-3 border border-transparent rounded-full shadow-md text-base font-semibold text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                   :class="isLoading || !isFormValid || !hasChanges ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600'"
                 >
-                  <span v-if="isLoading">{{ t('prestataire.profile.messages.loading') }}</span>
-                  <span v-else>{{ t('prestataire.profile.messages.save') }}</span>
+                  <span v-if="isLoading">{{ t('profile.messages.loading') }}</span>
+                  <span v-else>{{ t('profile.messages.save') }}</span>
                 </button>
               </div>
             </div>
@@ -519,26 +519,26 @@ const validateField = (field: string, value: string) => {
   switch (field) {
     case 'firstname':
       if (!value.trim()) {
-        fieldErrors.value.firstname = t('prestataire.profile.validation.firstnameRequired')
+        fieldErrors.value.firstname = t('profile.validation.firstnameRequired')
       } else if (value.trim().length < 2) {
-        fieldErrors.value.firstname = t('prestataire.profile.validation.firstnameMinLength')
+        fieldErrors.value.firstname = t('profile.validation.firstnameMinLength')
       } else if (value.trim().length > 255) {
-        fieldErrors.value.firstname = t('prestataire.profile.validation.firstnameMaxLength')
+        fieldErrors.value.firstname = t('profile.validation.firstnameMaxLength')
       } else if (!/^[a-zA-ZÀ-ÿ\s\-']+$/.test(value.trim())) {
-        fieldErrors.value.firstname = t('prestataire.profile.validation.firstnameInvalid')
+        fieldErrors.value.firstname = t('profile.validation.firstnameInvalid')
       } else {
         fieldErrors.value.firstname = ''
       }
       break
     case 'lastname':
       if (!value.trim()) {
-        fieldErrors.value.lastname = t('prestataire.profile.validation.lastnameRequired')
+        fieldErrors.value.lastname = t('profile.validation.lastnameRequired')
       } else if (value.trim().length < 2) {
-        fieldErrors.value.lastname = t('prestataire.profile.validation.lastnameMinLength')
+        fieldErrors.value.lastname = t('profile.validation.lastnameMinLength')
       } else if (value.trim().length > 255) {
-        fieldErrors.value.lastname = t('prestataire.profile.validation.lastnameMaxLength')
+        fieldErrors.value.lastname = t('profile.validation.lastnameMaxLength')
       } else if (!/^[a-zA-ZÀ-ÿ\s\-']+$/.test(value.trim())) {
-        fieldErrors.value.lastname = t('prestataire.profile.validation.lastnameInvalid')
+        fieldErrors.value.lastname = t('profile.validation.lastnameInvalid')
       } else {
         fieldErrors.value.lastname = ''
       }
@@ -546,9 +546,9 @@ const validateField = (field: string, value: string) => {
     case 'email':
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!value.trim()) {
-        fieldErrors.value.email = t('prestataire.profile.validation.emailRequired')
+        fieldErrors.value.email = t('profile.validation.emailRequired')
       } else if (!emailRegex.test(value)) {
-        fieldErrors.value.email = t('prestataire.profile.validation.emailInvalid')
+        fieldErrors.value.email = t('profile.validation.emailInvalid')
       } else {
         fieldErrors.value.email = ''
       }
@@ -562,11 +562,11 @@ const validateField = (field: string, value: string) => {
         const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age
         
         if (isNaN(birthDate.getTime())) {
-          fieldErrors.value.birthDate = t('prestataire.profile.validation.birthDateInvalid')
+          fieldErrors.value.birthDate = t('profile.validation.birthDateInvalid')
         } else if (birthDate > today) {
-          fieldErrors.value.birthDate = t('prestataire.profile.validation.birthDateFuture')
+          fieldErrors.value.birthDate = t('profile.validation.birthDateFuture')
         } else if (actualAge < 15) {
-          fieldErrors.value.birthDate = t('prestataire.profile.validation.birthDateTooYoung')
+          fieldErrors.value.birthDate = t('profile.validation.birthDateTooYoung')
         } else {
           fieldErrors.value.birthDate = ''
         }
@@ -580,13 +580,13 @@ const validateField = (field: string, value: string) => {
         const phoneRegex = /^[\d\s\+\-\(\)]+$/
         const digitsOnly = value.replace(/\D/g, '')
         if (!phoneRegex.test(value)) {
-          fieldErrors.value.phone = t('prestataire.profile.validation.phoneInvalid')
+          fieldErrors.value.phone = t('profile.validation.phoneInvalid')
         } else if (digitsOnly.length < 8) {
-          fieldErrors.value.phone = t('prestataire.profile.validation.phoneTooShort')
+          fieldErrors.value.phone = t('profile.validation.phoneTooShort')
         } else if (digitsOnly.length > 15) {
-          fieldErrors.value.phone = t('prestataire.profile.validation.phoneTooLong')
+          fieldErrors.value.phone = t('profile.validation.phoneTooLong')
         } else if (value.trim().length > 20) {
-          fieldErrors.value.phone = t('prestataire.profile.validation.phoneTooLong')
+          fieldErrors.value.phone = t('profile.validation.phoneTooLong')
         } else {
           fieldErrors.value.phone = ''
         }
@@ -596,7 +596,7 @@ const validateField = (field: string, value: string) => {
       break
     case 'bio':
       if (value && value.length > 500) {
-        fieldErrors.value.bio = t('prestataire.profile.validation.bioMaxLength')
+        fieldErrors.value.bio = t('profile.validation.bioMaxLength')
       } else {
         fieldErrors.value.bio = ''
       }
@@ -645,13 +645,13 @@ const hasChanges = computed(() => {
 // Fonction pour obtenir le label d'un champ modifié
 const getFieldLabel = (field: string): string => {
   const labels: Record<string, string> = {
-    firstname: t('prestataire.profile.fields.firstname'),
-    lastname: t('prestataire.profile.fields.lastname'),
-    email: t('prestataire.profile.fields.email'),
-    birthDate: t('prestataire.profile.fields.birthDate'),
-    phone: t('prestataire.profile.fields.phone'),
-    bio: t('prestataire.profile.fields.bio'),
-    avatarUrl: t('prestataire.profile.fields.avatar'),
+    firstname: t('profile.fields.firstname'),
+    lastname: t('profile.fields.lastname'),
+    email: t('profile.fields.email'),
+    birthDate: t('profile.fields.birthDate'),
+    phone: t('profile.fields.phone'),
+    bio: t('profile.fields.bio'),
+    avatarUrl: t('profile.fields.avatar'),
   }
   return labels[field] || field
 }
@@ -677,11 +677,11 @@ const handleFileUpload = (event: Event) => {
   const file = target.files?.[0]
   if (file) {
     if (!file.type.startsWith('image/')) {
-      errorMessage.value = t('prestataire.profile.validation.avatarInvalid')
+      errorMessage.value = t('profile.validation.avatarInvalid')
       return
     }
     if (file.size > 5 * 1024 * 1024) {
-      errorMessage.value = t('prestataire.profile.validation.avatarTooLarge')
+      errorMessage.value = t('profile.validation.avatarTooLarge')
       return
     }
     const imageUrl = URL.createObjectURL(file)
@@ -748,7 +748,7 @@ const handleSubmit = async () => {
   // Vérifier s'il y a des erreurs de validation
   const hasErrors = Object.values(fieldErrors.value).some(error => error !== '')
   if (hasErrors || !isFormValid.value) {
-    errorMessage.value = t('prestataire.profile.validation.formErrors')
+    errorMessage.value = t('profile.validation.formErrors')
     return
   }
 
@@ -811,7 +811,7 @@ const handleSubmit = async () => {
     // Envoyer la mise à jour
     await authStore.updateProfile(profileData)
 
-    successMessage.value = t('prestataire.profile.messages.success')
+    successMessage.value = t('profile.messages.success')
     
     // Masquer le message de succès après 5 secondes
     setTimeout(() => {
@@ -819,7 +819,7 @@ const handleSubmit = async () => {
       changedFields.value = []
     }, 5000)
   } catch (error: any) {
-    errorMessage.value = error.message || t('prestataire.profile.messages.error')
+    errorMessage.value = error.message || t('profile.messages.error')
     changedFields.value = []
   } finally {
     isLoading.value = false

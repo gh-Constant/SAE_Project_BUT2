@@ -1,11 +1,5 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <!-- Custom Header -->
-    <PrestataireNavbar 
-      :user="user" 
-      @logout="logout"
-    />
-
     <!-- Main Content -->
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,15 +23,15 @@
               
               <!-- Content -->
               <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Mes Services</h3>
+                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('prestataire.dashboard.services.title') }}</h3>
                 <p class="text-4xl font-medieval font-bold text-iron-black mb-1">3</p>
-                <p class="text-xs text-stone-grey/80">services actifs</p>
+                <p class="text-xs text-stone-grey/80">{{ t('prestataire.dashboard.services.active_count_label') }}</p>
               </div>
               
               <!-- Action -->
               <div class="pt-4 border-t border-antique-bronze/20">
                 <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Gérer mes services
+                  {{ t('prestataire.dashboard.services.manage') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
@@ -64,19 +58,21 @@
               
               <!-- Content -->
               <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Mes Lieux</h3>
+                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('prestataire.dashboard.locations.title') }}</h3>
                 <p class="text-4xl font-medieval font-bold text-iron-black mb-1">2</p>
-                <p class="text-xs text-stone-grey/80">lieux gérés</p>
+                <p class="text-xs text-stone-grey/80">{{ t('prestataire.dashboard.locations.managed_count_label') }}</p>
               </div>
               
               <!-- Action -->
               <div class="pt-4 border-t border-antique-bronze/20">
-                <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Voir mes lieux
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                <router-link to="/prestataire/locations" class="contents">
+                  <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
+                    {{ t('prestataire.dashboard.locations.view') }}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -98,15 +94,15 @@
               
               <!-- Content -->
               <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Revenus ce mois</h3>
+                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('prestataire.dashboard.earnings.title') }}</h3>
                 <p class="text-4xl font-medieval font-bold text-iron-black mb-1">1 250 €</p>
-                <p class="text-xs text-stone-grey/80">total mensuel</p>
+                <p class="text-xs text-stone-grey/80">{{ t('prestataire.dashboard.earnings.monthly_total') }}</p>
               </div>
               
               <!-- Action -->
               <div class="pt-4 border-t border-antique-bronze/20">
                 <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  Voir les détails
+                  {{ t('prestataire.dashboard.earnings.view_details') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
@@ -120,29 +116,35 @@
         <div class="mb-12">
           <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
             <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
-            Actions Rapides
+            {{ t('prestataire.dashboard.quick_actions.title') }}
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <MedievalButton variant="primary" :fullWidth="true">
-              Ajouter un service
+              {{ t('prestataire.dashboard.quick_actions.add_service') }}
             </MedievalButton>
             
             <router-link to="/prestataire/products" class="contents">
               <MedievalButton variant="primary" :fullWidth="true">
-                Gérer ma boutique
+                {{ t('prestataire.dashboard.quick_actions.manage_shop') }}
+              </MedievalButton>
+            </router-link>
+            
+            <router-link to="/prestataire/quests" class="contents">
+              <MedievalButton variant="primary" :fullWidth="true">
+                {{ t('prestataire.dashboard.quick_actions.manage_quests') }}
               </MedievalButton>
             </router-link>
             
             <MedievalButton variant="primary" :fullWidth="true">
-              Créer un lieu
+              {{ t('prestataire.dashboard.quick_actions.create_location') }}
             </MedievalButton>
             
             <MedievalButton variant="primary" :fullWidth="true">
-              Voir les réservations
+              {{ t('prestataire.dashboard.quick_actions.view_bookings') }}
             </MedievalButton>
             
             <MedievalButton variant="primary" :fullWidth="true">
-              Modifier mon profil
+              {{ t('prestataire.dashboard.quick_actions.edit_profile') }}
             </MedievalButton>
           </div>
         </div>
@@ -151,7 +153,7 @@
         <div>
           <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
             <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
-            Activité Récente
+            {{ t('prestataire.dashboard.recent_activity.title') }}
           </h2>
           <div class="bg-white/50 backdrop-blur-sm rounded-sm border border-antique-bronze/20 overflow-hidden">
             <ul class="divide-y divide-antique-bronze/10">
@@ -159,17 +161,17 @@
                 <div class="px-6 py-4">
                   <div class="flex items-center justify-between mb-2">
                     <p class="text-lg font-medieval font-bold text-antique-bronze truncate">
-                      Nouvelle réservation reçue
+                      {{ t('prestataire.dashboard.recent_activity.booking_received') }}
                     </p>
                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-green-100 text-green-800 border border-green-200">
-                      Confirmée
+                      {{ t('prestataire.dashboard.recent_activity.status_confirmed') }}
                     </span>
                   </div>
                   <div class="flex justify-between items-end">
                     <p class="text-stone-grey text-sm">
                       Réservation pour le service "Dégustation médiévale" - 15 personnes
                     </p>
-                    <p class="text-xs font-bold text-antique-bronze/60">Il y a 2 heures</p>
+                    <p class="text-xs font-bold text-antique-bronze/60">{{ t('prestataire.dashboard.recent_activity.time_now') }}</p>
                   </div>
                 </div>
               </li>
@@ -177,17 +179,17 @@
                 <div class="px-6 py-4">
                   <div class="flex items-center justify-between mb-2">
                     <p class="text-lg font-medieval font-bold text-antique-bronze truncate">
-                      Paiement reçu
+                      {{ t('prestataire.dashboard.recent_activity.payment_received') }}
                     </p>
                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200">
-                      Réussi
+                      {{ t('prestataire.dashboard.recent_activity.status_success') }}
                     </span>
                   </div>
                   <div class="flex justify-between items-end">
                     <p class="text-stone-grey text-sm">
                       Paiement de 450€ pour l'événement d'hier
                     </p>
-                    <p class="text-xs font-bold text-antique-bronze/60">Hier</p>
+                    <p class="text-xs font-bold text-antique-bronze/60">{{ t('prestataire.dashboard.recent_activity.time_yesterday') }}</p>
                   </div>
                 </div>
               </li>
@@ -201,19 +203,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
-import PrestataireNavbar from '@/components/navbar/PrestataireNavbar.vue'
+import { useI18n } from 'vue-i18n'
 
-const router = useRouter()
-const authStore = useAuthStore()
-
-const user = computed(() => authStore.user)
-
-const logout = () => {
-  authStore.logout()
-  router.push('/login')
-}
+const { t } = useI18n()
 </script>

@@ -1,3 +1,20 @@
 {
-  "title": "Explorateur de Carte"
+  "title": "Explorateur de Carte",
+  "home": "Accueil",
+  "map": "Carte",
+  "events": "Événements",
+  "cart": "Panier",
+  "signin": "Connexion",
+  "register": "Inscription",
+  "admin_panel": "Panel Administrateur",
+  "prestataire_panel": "Panel Prestataire",
+  "my_orders": "Mes Commandes",
+  "my_reservations": "Mes Réservations",
+  "my_quests": "Mes Quêtes",
+  "profile": "Mon Profil",
+  "logout": "Se déconnecter",
+  "products": "Produits",
+  "welcome": "Bienvenue, {name}",
+  "select_language": "Changer de langue",
+  "dont_click": "Ne cliquez pas"
 }

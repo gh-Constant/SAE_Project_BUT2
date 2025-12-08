@@ -1,3 +1,20 @@
 {
-  "title": "Map Explorer"
+  "title": "Map Explorer",
+  "home": "Home",
+  "map": "Map",
+  "events": "Events",
+  "cart": "Cart",
+  "signin": "Sign In",
+  "register": "Register",
+  "admin_panel": "Admin Panel",
+  "prestataire_panel": "Provider Panel",
+  "my_orders": "My Orders",
+  "my_reservations": "My Reservations",
+  "my_quests": "My Quests",
+  "profile": "My Profile",
+  "logout": "Log Out",
+  "products": "Products",
+  "welcome": "Welcome, {name}",
+  "select_language": "Select Language",
+  "dont_click": "Don't click"
 }

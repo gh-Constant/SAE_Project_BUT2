@@ -166,7 +166,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     banner_name: 'images/medieval_image.jpg',
   },
 
-  // === Prestataire / Buyable Locations (without owner) ===
+  // === Prestataire / Buyable Locations ===
   {
     id_location: 14,
     static_code: 'PRESTA_STALL_5',
@@ -174,8 +174,8 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A popular location among travelers, known for its high foot traffic.',
     price: 140,
-    purchased: false,
-    id_prestataire: null,
+    purchased: true,
+    id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2254, 1897],
     icon_name: 'prestataire',
@@ -188,8 +188,8 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'Situated near the town square, this stall benefits from constant visibility.',
     price: 160,
-    purchased: false,
-    id_prestataire: null,
+    purchased: true,
+    id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2188, 2139],
     icon_name: 'prestataire',
@@ -202,8 +202,8 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A strategic location for merchants, close to the main road.',
     price: 110,
-    purchased: false,
-    id_prestataire: null,
+    purchased: true,
+    id_prestataire: 4,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2006, 2383],
     icon_name: 'prestataire',
@@ -627,6 +627,7 @@ export async function seedLocations() {
         position: location.position,
         icon_name: location.icon_name,
         banner_name: location.banner_name,
+        maximum_capacity: 0, // TODO: location.maximum_capacity,
         id_location_type: location.id_location_type,
         id_prestataire: location.id_prestataire,
       },

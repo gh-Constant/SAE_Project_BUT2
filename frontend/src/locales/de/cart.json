@@ -1,0 +1,23 @@
+{
+    "title": "Mein Warenkorb",
+    "page_title": "Ihr Beutel",
+    "items_count": "{count} Artikel | {count} Artikel",
+    "items_pending": "{count} Artikel warten auf Erwerb",
+    "empty_title": "Ihr Beutel ist leer",
+    "empty_page_title": "Ihr Beutel ist leer",
+    "empty_subtitle": "Die Geschäfte des Königreichs sind voller Schätze.",
+    "visit_shops": "Die Geschäfte besuchen",
+    "unknown_product": "Unbekanntes Artefakt",
+    "price_format": "{price} Gold",
+    "remove_tooltip": "Ins Vergessen werfen",
+    "total": "Gesamt",
+    "view_cart": "Schriftrolle ansehen",
+    "merchant": "Händler: {name}",
+    "subtotal": "Zwischensumme",
+    "total_to_pay": "Zu zahlender Betrag",
+    "split_order_info": "Bestellungen werden für jedes Geschäft separat bearbeitet.",
+    "continue_shopping": "Einkauf fortsetzen",
+    "checkout": "Bestellung besiegeln",
+    "processing": "Besiegelung läuft...",
+    "error_creating_order": "Fehler beim Erstellen der Bestellung"
+}

@@ -1,106 +1,137 @@
 model ServiceType {
-  id_service_type Int      @id @default(autoincrement())
-  name            String   @db.VarChar(255)
-  
-  created_at      DateTime? @default(now()) @db.DateTime(0)
-  updated_at      DateTime? @updatedAt @db.DateTime(0)
-  
-  sevices         Service[]
+  id_service_type Int    @id @default(autoincrement())
+  name            String @db.VarChar(255)
+
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
+
+  services Service[]
 
   @@map("service_types")
 }
 
 model LocationType {
-  id_location_type  Int       @id @default(autoincrement())
-  name              String    @db.VarChar(255)
+  id_location_type Int    @id @default(autoincrement())
+  name             String @db.VarChar(255)
 
-  created_at        DateTime? @default(now()) @db.DateTime(0)
-  updated_at        DateTime? @updatedAt @db.DateTime(0)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 
-  location  Location[]
+  location Location[]
 
   @@map("location_type")
 }
 
-
 model Location {
-  id_location       Int       @id @default(autoincrement())
-  name              String    @db.VarChar(255)
-  description       String?   @db.Text
-  static_code       String?   @db.VarChar(255)
-  price             Decimal   @db.Decimal(15, 2)
+  id_location Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+  static_code String? @db.VarChar(255)
+  price       Decimal @db.Decimal(15, 2)
 
-  purchased         Boolean   @default(false)
+  purchased Boolean @default(false)
 
-  position          Json      @db.Json
-  icon_name         String?   @db.VarChar(255)
-  banner_name       String?   @db.VarChar(255)
+  position    Json    @db.Json
+  icon_name   String? @db.VarChar(255)
+  banner_name String? @db.VarChar(255)
 
+  maximum_capacity Int
 
-  created_at        DateTime? @default(now()) @db.DateTime(0)
-  updated_at        DateTime? @updatedAt @db.DateTime(0)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 
-  id_location_type  Int
-  id_prestataire    Int?
+  id_location_type Int
+  id_prestataire   Int?
 
-  location_type   LocationType  @relation(fields: [id_location_type], references: [id_location_type])
-  prestataire     User?  @relation(fields: [id_prestataire], references: [id_user])
-  activities      Activity[]
-  sevices         Service[]
-  quests          Quest[]
-  blogs           Blog[]
+  location_type LocationType @relation(fields: [id_location_type], references: [id_location_type])
+  prestataire   User?        @relation(fields: [id_prestataire], references: [id_user])
+  services      Service[]
+  events        Event[]
+  quests        Quest[]
+  blogs         Blog[]
 
   @@index([id_prestataire])
   @@map("locations")
 }
 
 model Blog {
-  id_blog     Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  content     String    @db.LongText
+  id_blog Int    @id @default(autoincrement())
+  title   String @db.VarChar(255)
+  content String @db.LongText
 
-  created_at  DateTime? @default(now()) @db.DateTime(0)
-  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 
   id_location Int
 
-  location    Location  @relation(fields: [id_location], references: [id_location])
+  location Location @relation(fields: [id_location], references: [id_location])
 
   @@index([id_location])
   @@map("blogs")
 }
 
-model Activity {
-  id_activity Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  description String?   @db.Text
-  start_time  DateTime  @db.DateTime(0)
-  end_time    DateTime  @db.DateTime(0)
+model Event {
+  id_event    Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  start_time  DateTime @db.DateTime(0)
+  end_time    DateTime @db.DateTime(0)
 
-  created_at  DateTime? @default(now()) @db.DateTime(0)
-  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  price    Decimal @db.Decimal(15, 2)
+  capacity Int
+  sold     Int     @default(0)
+
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 
   id_location Int
 
-  location    Location  @relation(fields: [id_location], references: [id_location])
+  location     Location           @relation(fields: [id_location], references: [id_location])
+  reservations EventReservation[]
 
   @@index([id_location])
-  @@map("activities")
+  @@map("events")
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model EventReservation {
+  id_reservation Int               @id @default(autoincrement())
+  quantity       Int
+  total_price    Decimal           @db.Decimal(10, 2)
+  status         ReservationStatus @default(PENDING)
+
+  created_at DateTime @default(now()) @db.DateTime(0)
+  updated_at DateTime @updatedAt @db.DateTime(0)
+
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id_user])
+
+  id_event Int
+  event    Event @relation(fields: [id_event], references: [id_event])
+
+  @@index([id_user])
+  @@index([id_event])
+  @@map("event_reservations")
 }
 
 model Service {
-  id_service      Int       @id @default(autoincrement())
-  name            String    @db.VarChar(255)
-  description     String?   @db.Text
+  id_service  Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String? @db.Text
 
-  created_at      DateTime? @default(now()) @db.DateTime(0)
-  updated_at      DateTime? @updatedAt @db.DateTime(0)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 
   id_prestataire  Int
   id_service_type Int
   id_location     Int
 
-  prestataire  User @relation(fields: [id_prestataire], references: [id_user])
+  prestataire  User        @relation(fields: [id_prestataire], references: [id_user])
   service_type ServiceType @relation(fields: [id_service_type], references: [id_service_type])
   location     Location    @relation(fields: [id_location], references: [id_location])
   stock        Stock[]
@@ -108,5 +139,5 @@ model Service {
   @@index([id_prestataire])
   @@index([id_service_type])
   @@index([id_location])
-  @@map("sevices")
+  @@map("services")
 }

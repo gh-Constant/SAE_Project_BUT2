@@ -18,10 +18,10 @@
         <div class="mb-8 text-center">
           <h1 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">
             <i class="fas fa-store mr-3 text-antique-bronze"></i>
-            Nos Boutiques
+            {{ t('shop.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-6"></div>
-          <p class="text-lg text-stone-grey">Découvrez nos échoppes et leurs marchandises artisanales</p>
+          <p class="text-lg text-stone-grey">{{ t('shop.subtitle') }}</p>
         </div>
 
         <!-- Grille de boutiques -->
@@ -62,10 +62,10 @@
                 <span class="text-sm text-stone-grey flex items-center font-bold">
                   <i class="fas fa-boxes mr-2 text-antique-bronze"></i>
                   <span class="font-medieval text-lg mr-1">{{ getProductCountForLocation(location.id) }}</span>
-                  {{ getProductCountForLocation(location.id) > 1 ? 'produits' : 'produit' }}
+                  {{ t('shop.products_count', { count: getProductCountForLocation(location.id) }) }}
                 </span>
                 <span class="text-antique-bronze font-medieval font-bold flex items-center group-hover:translate-x-1 transition-transform">
-                  Visiter
+                  {{ t('shop.visit') }}
                   <i class="fas fa-arrow-right ml-2"></i>
                 </span>
               </div>
@@ -77,10 +77,10 @@
         <div v-else class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
           <i class="fas fa-store-slash text-6xl text-antique-bronze/30 mb-4"></i>
           <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
-            Aucune échoppe ouverte
+            {{ t('shop.no_shops.title') }}
           </h3>
           <p class="text-stone-grey mb-6">
-            Les marchands préparent leurs étals. Revenez bientôt !
+            {{ t('shop.no_shops.description') }}
           </p>
         </div>
       </div>
@@ -94,7 +94,7 @@
             class="mb-6 inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group"
           >
             <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-            Retour aux échoppes
+            {{ t('shop.back_to_shops') }}
           </button>
           
           <div class="bg-white/60 p-6 rounded-sm border-2 border-antique-bronze/20 shadow-sm">
@@ -107,7 +107,7 @@
               {{ getPrestataireNameForLocation(locationIdFromRoute) }} 
               <span class="mx-3 text-antique-bronze/40">|</span>
               <i class="fas fa-boxes mr-2 text-antique-bronze"></i>
-              {{ getProductCountForLocation(locationIdFromRoute) }} produit(s)
+              {{ t('shop.products_count', { count: getProductCountForLocation(locationIdFromRoute) }) }}
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@
           <div class="flex flex-col md:flex-row gap-4">
             <!-- Champ de recherche -->
             <div class="flex-1">
-              <label for="search" class="sr-only">Rechercher un produit</label>
+              <label for="search" class="sr-only">{{ t('shop.filters.search_label') }}</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <i class="fas fa-search text-antique-bronze/50"></i>
@@ -128,14 +128,14 @@
                   id="search"
                   v-model="searchQuery"
                   type="text"
-                  placeholder="Rechercher une marchandise..."
+                  :placeholder="t('shop.filters.search_placeholder')"
                   class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                 />
                 <button
                   v-if="searchQuery"
                   @click="searchQuery = ''"
                   class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-antique-bronze transition-colors"
-                  title="Effacer la recherche"
+                  :title="t('shop.filters.clear_search')"
                 >
                   <i class="fas fa-times text-stone-grey/50"></i>
                 </button>
@@ -144,7 +144,7 @@
 
             <!-- Tri -->
             <div class="md:w-56">
-              <label for="sortBy" class="sr-only">Trier par</label>
+              <label for="sortBy" class="sr-only">{{ t('shop.filters.sort_label') }}</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <i class="fas fa-sort text-antique-bronze/50"></i>
@@ -154,12 +154,12 @@
                   v-model="sortBy"
                   class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
                 >
-                  <option value="name-asc">Nom (A-Z)</option>
-                  <option value="name-desc">Nom (Z-A)</option>
-                  <option value="price-asc">Prix (Croissant)</option>
-                  <option value="price-desc">Prix (Décroissant)</option>
-                  <option value="stock-desc">Stock (Élevé)</option>
-                  <option value="stock-asc">Stock (Faible)</option>
+                  <option value="name-asc">{{ t('shop.sort_options.name_asc') }}</option>
+                  <option value="name-desc">{{ t('shop.sort_options.name_desc') }}</option>
+                  <option value="price-asc">{{ t('shop.sort_options.price_asc') }}</option>
+                  <option value="price-desc">{{ t('shop.sort_options.price_desc') }}</option>
+                  <option value="stock-desc">{{ t('shop.sort_options.stock_desc') }}</option>
+                  <option value="stock-asc">{{ t('shop.sort_options.stock_asc') }}</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <i class="fas fa-chevron-down text-antique-bronze/50"></i>
@@ -177,24 +177,26 @@
             <div class="flex-1">
               <label class="block text-sm font-medieval font-bold text-iron-black mb-2">
                 <i class="fas fa-coins mr-1 text-antique-bronze"></i>
-                Prix (Gold)
+                {{ t('shop.filters.price_label') }}
               </label>
               <div class="flex items-center gap-2">
                 <input
                   v-model.number="priceMin"
+                  @input="fetchProducts"
                   type="number"
                   min="0"
                   step="0.01"
-                  placeholder="Min"
+                  :placeholder="t('shop.filters.min')"
                   class="flex-1 py-2.5 px-3 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                 />
                 <span class="text-stone-grey font-bold">-</span>
                 <input
                   v-model.number="priceMax"
+                  @input="fetchProducts"
                   type="number"
                   min="0"
                   step="0.01"
-                  placeholder="Max"
+                  :placeholder="t('shop.filters.max')"
                   class="flex-1 py-2.5 px-3 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
                 />
               </div>
@@ -204,7 +206,7 @@
             <div class="flex-1">
               <label for="stockFilter" class="block text-sm font-medieval font-bold text-iron-black mb-2">
                 <i class="fas fa-box mr-1 text-antique-bronze"></i>
-                Disponibilité
+                {{ t('shop.filters.availability_label') }}
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -215,10 +217,9 @@
                   v-model="stockFilter"
                   class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
                 >
-                  <option value="all">Toutes les marchandises</option>
-                  <option value="in-stock">En stock</option>
-                  <option value="low-stock">Stock limité (&lt; 5)</option>
-                  <option value="out-of-stock">Rupture de stock</option>
+                  <option value="all">{{ t('shop.stock_options.all') }}</option>
+                  <option value="in-stock">{{ t('shop.stock_options.in_stock') }}</option>
+                  <option value="out-of-stock">{{ t('shop.stock_options.out_of_stock') }}</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <i class="fas fa-chevron-down text-antique-bronze/50"></i>
@@ -236,7 +237,7 @@
               v-if="searchQuery"
               class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-antique-bronze/10 text-antique-bronze border border-antique-bronze/20"
             >
-              Recherche: "{{ searchQuery }}"
+              {{ t('shop.filters.active_search') }} "{{ searchQuery }}"
               <button @click="searchQuery = ''" class="ml-2 hover:text-dark-wood">
                 <i class="fas fa-times"></i>
               </button>
@@ -245,7 +246,7 @@
               v-if="priceMin || priceMax"
               class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-green-100/50 text-green-800 border border-green-200"
             >
-              Prix: {{ priceMin || 0 }} - {{ priceMax || '∞' }} Gold
+              {{ t('shop.filters.active_price') }} {{ priceMin || 0 }} - {{ priceMax || '∞' }} Gold
               <button @click="priceMin = null; priceMax = null" class="ml-2 hover:text-green-900">
                 <i class="fas fa-times"></i>
               </button>
@@ -264,17 +265,14 @@
               class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold font-medieval bg-stone-200/50 text-stone-700 hover:bg-stone-300/50 transition-colors border border-stone-300"
             >
               <i class="fas fa-times-circle mr-1"></i>
-              Tout effacer
+              {{ t('shop.filters.clear_all') }}
             </button>
           </div>
 
           <!-- Compteur de résultats -->
           <div class="ml-auto text-sm text-stone-600 font-body">
             <span class="font-bold text-iron-black">{{ filteredProducts.length }}</span>
-            {{ filteredProducts.length > 1 ? 'marchandises trouvées' : 'marchandise trouvée' }}
-            <span v-if="hasActiveFilters" class="text-stone-500">
-              (sur {{ PRODUCTS.length }} au total)
-            </span>
+            {{ t('shop.results.count', { count: filteredProducts.length }) }}
           </div>
         </div>
       </div>
@@ -295,17 +293,17 @@
         <div v-if="hasActiveFilters" class="max-w-md mx-auto">
           <i class="fas fa-filter text-6xl text-antique-bronze/30 mb-4"></i>
           <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
-            Aucune marchandise ne correspond
+            {{ t('shop.results.no_matches.title') }}
           </h3>
           <p class="text-stone-grey mb-6">
-            Essayez de modifier vos critères pour trouver d'autres trésors.
+            {{ t('shop.results.no_matches.description') }}
           </p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
             <MedievalButton
               @click="clearFilters"
             >
               <i class="fas fa-redo mr-2"></i>
-              Réinitialiser
+              {{ t('shop.filters.reset') }}
             </MedievalButton>
             <MedievalButton
               @click="searchQuery = ''"
@@ -313,17 +311,17 @@
               variant="secondary"
             >
               <i class="fas fa-search-minus mr-2"></i>
-              Effacer la recherche
+              {{ t('shop.filters.clear_search') }}
             </MedievalButton>
           </div>
         </div>
         <div v-else class="max-w-md mx-auto">
           <i class="fas fa-box-open text-6xl text-antique-bronze/30 mb-4"></i>
           <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
-            Échoppe vide
+            {{ t('shop.results.empty_shop.title') }}
           </h3>
           <p class="text-stone-grey mb-6">
-            Le marchand n'a pas encore étalé ses marchandises.
+            {{ t('shop.results.empty_shop.description') }}
           </p>
         </div>
       </div>
@@ -333,46 +331,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ProductMock } from '@/mocks/products'
+import { useI18n } from 'vue-i18n'
 import { USERS } from '@/mocks/users'
 import { LocationType } from '@/mocks/locationTypes'
 import { productService } from '@/services/productService'
+import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
 import ProductCard from '@/components/ProductCard.vue'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 
+
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
+
+const store = useProductStore()
 
 // Détecter si on est sur la liste des boutiques ou sur une boutique spécifique
 const locationIdFromRoute = computed(() => {
   const id = route.params.locationId
-  return id ? Number(id) : null
+  return id ? Number(id) : undefined
 })
 
-// Récupérer tous les produits dynamiques depuis productService
-const ALL_PRODUCTS = computed(() => productService.getProductsForBoutique())
+// Récupérer les produits depuis le store (transformés pour l'affichage)
+const filteredProducts = computed(() => store.productsForBoutique)
 
-// Récupérer les produits filtrés par location si locationId présent
-const PRODUCTS = computed(() => {
-  if (!locationIdFromRoute.value) {
-    return ALL_PRODUCTS.value
-  }
-  
-  // Filtrer par locationId : convertir locationId vers produits via productService
-  const productsInStore = productService.getProducts()
-  const productIdsForLocation = productsInStore
-    .filter(p => p.locationId === locationIdFromRoute.value)
-    .map(p => p.id)
-  
-  return ALL_PRODUCTS.value.filter(p => productIdsForLocation.includes(p.id))
-})
 
 // Liste des locations (boutiques) qui ont des produits
 const availableLocations = computed(() => {
-  const products = productService.getProducts()
+  // Use store products if loaded, otherwise fallback to service (mock) or empty
+  // Note: On main page, store.products has all products.
+  const products = store.products
+
+
   const locationIdsWithProducts = new Set(products.map(p => p.locationId))
   
   return locationsMock.filter(loc => 
@@ -387,7 +380,7 @@ const availableLocations = computed(() => {
 const searchQuery = ref('')
 const priceMin = ref<number | null>(null)
 const priceMax = ref<number | null>(null)
-const stockFilter = ref<'all' | 'in-stock' | 'low-stock' | 'out-of-stock'>('all')
+const stockFilter = ref<'all' | 'in-stock' | 'out-of-stock'>('all')
 const sortBy = ref<'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'stock-asc' | 'stock-desc'>('name-asc')
 
 // Fonctions utilitaires pour les boutiques
@@ -397,13 +390,13 @@ const getLocationName = (locationId: number): string => {
 
 const getPrestataireNameForLocation = (locationId: number): string => {
   const location = locationsMock.find(l => l.id === locationId)
-  if (!location || !location.id_prestataire) return 'Prestataire inconnu'
+  if (!location || !location.id_prestataire) return t('shop.unknown_provider')
   const prestataire = USERS.find(u => u.id === location.id_prestataire)
-  return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : 'Prestataire inconnu'
+  return prestataire ? `${prestataire.firstname} ${prestataire.lastname}` : t('shop.unknown_provider')
 }
 
 const getProductCountForLocation = (locationId: number): number => {
-  const productsInStore = productService.getProducts()
+  const productsInStore = store.products
   return productsInStore.filter(p => p.locationId === locationId).length
 }
 
@@ -420,13 +413,11 @@ const goBackToBoutiques = () => {
 const getStockFilterLabel = (filter: string): string => {
   switch (filter) {
     case 'in-stock':
-      return 'En stock'
-    case 'low-stock':
-      return 'Stock limité'
+      return t('shop.stock_options.label_in_stock')
     case 'out-of-stock':
-      return 'Rupture de stock'
+      return t('shop.stock_options.label_out_of_stock')
     default:
-      return 'Tous'
+      return t('shop.stock_options.label_all')
   }
 }
 
@@ -441,61 +432,26 @@ const hasActiveFilters = computed(() => {
 })
 
 // Filtrer et trier les produits
-const filteredProducts = computed(() => {
-  let products = [...PRODUCTS.value] // Utiliser .value car PRODUCTS est un computed (déjà filtré par location si nécessaire)
+// const filteredProducts = computed(() => { ... }) // Replaced above
 
-  // Filtre par recherche (nom ou description)
-  if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase().trim()
-    products = products.filter((p: ProductMock) => {
-      const nameMatch = p.name.toLowerCase().includes(query)
-      const descMatch = p.description?.toLowerCase().includes(query) || false
-      return nameMatch || descMatch
-    })
-  }
-
-  // Filtre par prix
-  if (priceMin.value !== null) {
-    products = products.filter((p: ProductMock) => p.price >= priceMin.value!)
-  }
-  if (priceMax.value !== null) {
-    products = products.filter((p: ProductMock) => p.price <= priceMax.value!)
-  }
-
-  // Filtre par stock
-  switch (stockFilter.value) {
-    case 'in-stock':
-      products = products.filter((p: ProductMock) => p.stock > 0)
-      break
-    case 'low-stock':
-      products = products.filter((p: ProductMock) => p.stock > 0 && p.stock < 5)
-      break
-    case 'out-of-stock':
-      products = products.filter((p: ProductMock) => p.stock === 0)
-      break
-  }
-
-  // Tri
-  products.sort((a: ProductMock, b: ProductMock) => {
-    switch (sortBy.value) {
-      case 'name-asc':
-        return a.name.localeCompare(b.name)
-      case 'name-desc':
-        return b.name.localeCompare(a.name)
-      case 'price-asc':
-        return a.price - b.price
-      case 'price-desc':
-        return b.price - a.price
-      case 'stock-desc':
-        return b.stock - a.stock
-      case 'stock-asc':
-        return a.stock - b.stock
-      default:
-        return 0
-    }
+// Fetch products on mount and when filters/route change
+const fetchProducts = () => {
+  store.fetchProducts({
+    search: searchQuery.value,
+    minPrice: priceMin.value || undefined,
+    maxPrice: priceMax.value || undefined,
+    stock: stockFilter.value === 'all' ? undefined : stockFilter.value,
+    sortBy: sortBy.value,
+    locationId: locationIdFromRoute.value
   })
+}
 
-  return products
+onMounted(() => {
+  fetchProducts()
+})
+
+watch([locationIdFromRoute, searchQuery, priceMin, priceMax, stockFilter, sortBy], () => {
+  fetchProducts()
 })
 
 // Réinitialiser tous les filtres
@@ -506,5 +462,21 @@ const clearFilters = () => {
   stockFilter.value = 'all'
   sortBy.value = 'name-asc'
 }
+
+// Validation du prix
+// Note: watch is already imported
+
+
+watch(priceMin, (newMin) => {
+  if (newMin !== null && priceMax.value !== null && newMin > priceMax.value) {
+    priceMax.value = newMin
+  }
+})
+
+watch(priceMax, (newMax) => {
+  if (newMax !== null && priceMin.value !== null && newMax < priceMin.value) {
+    priceMin.value = newMax
+  }
+})
 </script>
 

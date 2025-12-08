@@ -1,0 +1,23 @@
+{
+    "title": "Mes Quêtes",
+    "subtitle": "Suivez votre progression et accomplissez des quêtes pour gagner de l'expérience.",
+    "loading": "Chargement...",
+    "empty": {
+        "message": "Vous n'avez accepté aucune quête pour le moment.",
+        "explore": "Explorer la carte"
+    },
+    "item": {
+        "unknown_location": "Lieu inconnu",
+        "reward": "Récompense : {xp} XP"
+    },
+    "status": {
+        "accepted": "En cours",
+        "completed": "Terminée",
+        "failed": "Échouée"
+    },
+    "debug": {
+        "finish": "[DEBUG] Terminer",
+        "confirm_finish": "DEBUG : Voulez-vous marquer cette quête comme terminée ?",
+        "error_finish": "Erreur lors de la complétion de la quête."
+    }
+}

@@ -1,0 +1,78 @@
+{
+    "story": {
+        "location": "Ort:",
+        "type": "Typ:",
+        "type_value": "Geschichtsort",
+        "close": "Schließen"
+    },
+    "available": {
+        "title": "Zum Kauf verfügbar",
+        "description": "Dieser Standort ist verfügbar, um Ihr Geschäft einzurichten.",
+        "location": "Standort:",
+        "status_label": "Status:",
+        "status_available": "Verfügbar",
+        "price": "Preis:",
+        "currency": "Gold",
+        "acquire_button": "Diesen Standort erwerben",
+        "acquire_loading": "Wird erworben...",
+        "acquire_success": "Erworben!",
+        "opportunities_title": "Möglichkeiten:",
+        "opp_store": "Errichte einen Laden, um deine Waren zu verkaufen",
+        "opp_quest": "Biete Abenteurern Quests an",
+        "opp_event": "Organisiere Veranstaltungen und Vorführungen",
+        "opp_reputation": "Baue deinen Ruf im Königreich auf",
+        "close": "Schließen",
+        "error_login": "Sie müssen eingeloggt sein, um einen Standort zu kaufen"
+    },
+    "purchased": {
+        "owner_label": "Eigentümer",
+        "view_profile": "Profil ansehen",
+        "location": "Standort:",
+        "status_label": "Status:",
+        "status_acquired": "Erworben",
+        "value": "Wert:",
+        "close": "Schließen"
+    },
+    "blog": {
+        "title": "Blogs",
+        "new_button": "Neuer Blog",
+        "edit_title": "Blog bearbeiten",
+        "new_title": "Neuer Blog",
+        "title_placeholder": "Blogtitel",
+        "cancel": "Abbrechen",
+        "save": "Speichern",
+        "empty": "Noch keine Blogs veröffentlicht.",
+        "empty_owner": "Teilen Sie Ihr erstes Update mit der Community!",
+        "delete_confirm": "Sind Sie sicher, dass Sie diesen Blogbeitrag löschen möchten?",
+        "alert_title": "Bitte geben Sie einen Blogtitel ein",
+        "error_save": "Speichern fehlgeschlagen",
+        "error_delete": "Löschen fehlgeschlagen"
+    },
+    "shop": {
+        "title": "Shop-Vorschau",
+        "add_product": "Produkt hinzufügen",
+        "view_all": "Alle ansehen",
+        "empty": "Noch keine Produkte verfügbar.",
+        "empty_sub": "Schauen Sie später wieder vorbei!",
+        "in_stock": "{count} auf Lager",
+        "out_of_stock": "Ausverkauft"
+    },
+    "events": {
+        "title": "Kommende Veranstaltungen",
+        "view_all": "Alle ansehen",
+        "loading": "Laden...",
+        "empty": "Derzeit keine Veranstaltungen geplant.",
+        "view_calendar": "Vollständigen Kalender ansehen"
+    },
+    "quests": {
+        "title": "Verfügbare Quests",
+        "add_button": "Quest hinzufügen",
+        "manage_button": "Verwalten",
+        "loading": "Lade Quests...",
+        "empty": "Momentan keine Quests verfügbar.",
+        "accept": "Annehmen",
+        "accepted": "Angenommen",
+        "success_accept": "Quest angenommen! Finden Sie sie in Ihrem Profil.",
+        "error_accept": "Quest konnte nicht angenommen werden (vielleicht schon angenommen?)"
+    }
+}
