@@ -23,7 +23,12 @@
         "add_location": "Ajouter un lieu",
         "manage_roles": "Gérer les rôles",
         "view_logs": "Voir les logs",
-        "manage_products": "Gérer les articles"
+        "manage_products": "Gérer les articles",
+        "quests_section": "Gestion des Quêtes",
+        "manage_quests": "Gérer les Quêtes",
+        "manage_quests_desc": "Créer, modifier et supprimer les quêtes",
+        "quest_stats": "Statistiques des Quêtes",
+        "quest_stats_desc": "Voir les stats et le classement"
     },
     "recent_activity": {
         "title": "Activité Récente",
@@ -94,6 +99,109 @@
             "stock": {
                 "sold_out": "Épuisé"
             }
+        }
+    },
+    "quests": {
+        "title": "Gestion des Quêtes",
+        "subtitle": "Vue d'ensemble et gestion de toutes les quêtes du système",
+        "view_stats": "Voir les statistiques",
+        "search": {
+            "label": "Rechercher une quête",
+            "placeholder": "Rechercher par titre ou description..."
+        },
+        "filter": {
+            "location": "Filtrer par lieu",
+            "all_locations": "Tous les lieux",
+            "only_with_quests": "Afficher uniquement les lieux avec quêtes"
+        },
+        "stats": {
+            "locations": "lieux",
+            "quests": "quêtes"
+        },
+        "view_more": "Voir {remaining} lieu(x) supplémentaire(s)",
+        "location": {
+            "quest_count": "{n} quête | {n} quêtes",
+            "create_quest": "Créer une quête"
+        },
+        "add_form": {
+            "title": "Rédiger une nouvelle quête",
+            "quest_title_label": "Titre de la quête",
+            "quest_title_placeholder": "Ex: Livrer un colis au château",
+            "reward_label": "Récompense (XP)",
+            "description_label": "Description détaillée",
+            "description_placeholder": "Décrivez les objectifs de la quête...",
+            "cancel": "Annuler",
+            "submit": "Publier la quête",
+            "submitting": "Publication..."
+        },
+        "table": {
+            "headers": {
+                "title": "Titre",
+                "description": "Description",
+                "reward": "Récompense",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "Aucune quête enregistrée",
+                "subtitle": "Créez votre première quête pour ce lieu"
+            },
+            "actions": {
+                "edit": "Modifier",
+                "delete": "Supprimer",
+                "save": "Sauvegarder",
+                "cancel": "Annuler"
+            }
+        },
+        "no_results": {
+            "title": "Aucun résultat trouvé",
+            "subtitle": "Essayez de modifier vos filtres de recherche",
+            "reset": "Réinitialiser les filtres"
+        }
+    },
+    "quest_stats": {
+        "title": "Statistiques des Quêtes",
+        "subtitle": "Tableau de bord analytique des quêtes et performances",
+        "hero": {
+            "total_quests": "Quêtes Totales",
+            "across_locations": "Réparties sur {count} lieux",
+            "total_xp": "XP Disponible",
+            "avg_reward": "Récompense moy.",
+            "xp_range": "Plage XP",
+            "xp_range_label": "Min - Max des récompenses"
+        },
+        "secondary": {
+            "locations": "Lieux",
+            "avg_xp": "XP Moyen",
+            "min_xp": "XP Min",
+            "max_xp": "XP Max"
+        },
+        "popular": {
+            "title": "Meilleures Quêtes",
+            "empty": "Aucune quête pour le moment"
+        },
+        "locations": {
+            "title": "Répartition par Lieu",
+            "quests": "quêtes",
+            "empty": "Aucune donnée disponible"
+        },
+        "xp_distribution": {
+            "title": "Distribution des Récompenses XP"
+        },
+        "detailed": {
+            "title": "Statistiques Détaillées",
+            "manage_link": "Gérer les quêtes",
+            "location": "Lieu",
+            "quests": "Quêtes",
+            "total_xp": "XP Total",
+            "avg_xp": "XP Moyen",
+            "distribution": "Répartition"
+        },
+        "leaderboard": {
+            "title": "Classement des Aventuriers",
+            "level": "Niveau",
+            "completed": "Terminées",
+            "in_progress": "en cours",
+            "empty": "Aucun participant pour le moment"
         }
     }
 }

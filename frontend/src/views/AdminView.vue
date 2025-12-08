@@ -1,4 +1,3 @@
-
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <!-- Custom Header -->
@@ -10,114 +9,146 @@
     <!-- Main Content -->
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Dashboard Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          <!-- User Management Card -->
-          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-            <div class="absolute top-0 right-0 w-20 h-20 bg-antique-bronze/10 rounded-bl-full"></div>
+        
+        <!-- Admin Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          
+          <!-- Quêtes Category -->
+          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
             <div class="relative p-6">
-              <div class="flex justify-center mb-4">
-                <div class="w-16 h-16 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
-                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-                  </svg>
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  <i class="fas fa-scroll text-white text-xl"></i>
+                </div>
+                <div>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">Quêtes</h2>
+                  <p class="text-sm text-stone-grey">Gestion & Statistiques</p>
                 </div>
               </div>
-              <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.dashboard.users.title') }}</h3>
-                <p class="text-4xl font-medieval font-bold text-iron-black mb-1">3</p>
-                <p class="text-xs text-stone-grey/80">{{ t('admin.dashboard.users.subtitle') }}</p>
-              </div>
-              <div class="pt-4 border-t border-antique-bronze/20">
-                <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  {{ t('admin.dashboard.users.action') }}
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+              
+              <div class="space-y-3">
+                <router-link to="/admin/quests" class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-cog text-antique-bronze group-hover/btn:rotate-90 transition-transform duration-500"></i>
+                    <span class="font-medieval font-bold text-iron-black">Gestion des Quêtes</span>
+                  </span>
+                  <i class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                </router-link>
+                
+                <router-link to="/admin/quests/stats" class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-chart-pie text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"></i>
+                    <span class="font-medieval font-bold text-iron-black">Statistiques</span>
+                  </span>
+                  <i class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                </router-link>
               </div>
             </div>
           </div>
-          <!-- Locations Management Card -->
-          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-            <div class="absolute top-0 right-0 w-20 h-20 bg-antique-bronze/10 rounded-bl-full"></div>
-            <div class="relative p-6">
-              <div class="flex justify-center mb-4">
-                <div class="w-16 h-16 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
-                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.dashboard.locations.title') }}</h3>
-                <p class="text-4xl font-medieval font-bold text-iron-black mb-1">12</p>
-                <p class="text-xs text-stone-grey/80">{{ t('admin.dashboard.locations.subtitle') }}</p>
-              </div>
-              <div class="pt-4 border-t border-antique-bronze/20">
-                <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  {{ t('admin.dashboard.locations.action') }}
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- System Stats Card -->
-          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-            <div class="absolute top-0 right-0 w-20 h-20 bg-antique-bronze/10 rounded-bl-full"></div>
-            <div class="relative p-6">
-              <div class="flex justify-center mb-4">
-                <div class="w-16 h-16 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
-                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="text-center mb-4">
-                <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.dashboard.system.title') }}</h3>
-                <p class="text-4xl font-medieval font-bold text-iron-black mb-1">{{ t('admin.dashboard.system.status') }}</p>
-                <p class="text-xs text-stone-grey/80">{{ t('admin.dashboard.system.subtitle') }}</p>
-              </div>
-              <div class="pt-4 border-t border-antique-bronze/20">
-                <button class="w-full text-antique-bronze hover:text-iron-black font-bold text-sm flex items-center justify-center gap-2 transition-colors group-hover:gap-3 duration-300">
-                  {{ t('admin.dashboard.system.action') }}
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <div class="mb-12">
-          <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
-            <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
-            {{ t('admin.quick_actions.title') }}
-          </h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MedievalButton variant="primary" :full-width="true">
-              {{ t('admin.quick_actions.create_user') }}
-            </MedievalButton>
-            <MedievalButton variant="primary" :full-width="true">
-              {{ t('admin.quick_actions.add_location') }}
-            </MedievalButton>
-            <MedievalButton variant="primary" :full-width="true">
-              {{ t('admin.quick_actions.manage_roles') }}
-            </MedievalButton>
-            <MedievalButton variant="primary" :full-width="true">
-              {{ t('admin.quick_actions.view_logs') }}
-            </MedievalButton>
-            <router-link to="/admin/products" class="contents">
-              <MedievalButton variant="primary" :full-width="true">
-                {{ t('admin.quick_actions.manage_products') }}
-              </MedievalButton>
-            </router-link>
+          <!-- Boutique Category -->
+          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
+            <div class="relative p-6">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  <i class="fas fa-store text-white text-xl"></i>
+                </div>
+                <div>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">Boutique</h2>
+                  <p class="text-sm text-stone-grey">Produits & Ventes</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                <router-link to="/admin/products" class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-box-open text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"></i>
+                    <span class="font-medieval font-bold text-iron-black">Gestion Boutique</span>
+                  </span>
+                  <i class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                </router-link>
+                
+                <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-chart-line text-antique-bronze/60"></i>
+                    <span class="font-medieval font-bold text-stone-grey">Statistiques</span>
+                  </span>
+                  <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
+                </button>
+              </div>
+            </div>
           </div>
+
+          <!-- Utilisateurs Category -->
+          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
+            <div class="relative p-6">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  <i class="fas fa-users text-white text-xl"></i>
+                </div>
+                <div>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">Utilisateurs</h2>
+                  <p class="text-sm text-stone-grey">Comptes & Activité</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                 <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-user-cog text-antique-bronze/60"></i>
+                    <span class="font-medieval font-bold text-stone-grey">Gestion Utilisateurs</span>
+                  </span>
+                  <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
+                </button>
+                
+                <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-chart-bar text-antique-bronze/60"></i>
+                    <span class="font-medieval font-bold text-stone-grey">Statistiques</span>
+                  </span>
+                  <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lieux Category -->
+          <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
+            <div class="relative p-6">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  <i class="fas fa-map-marked-alt text-white text-xl"></i>
+                </div>
+                <div>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">Lieux</h2>
+                  <p class="text-sm text-stone-grey">Points d'intérêts</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                 <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-map-marker-alt text-antique-bronze/60"></i>
+                    <span class="font-medieval font-bold text-stone-grey">Gestion Lieux</span>
+                  </span>
+                   <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
+                </button>
+                
+                <button class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-globe-europe text-antique-bronze/60"></i>
+                    <span class="font-medieval font-bold text-stone-grey">Statistiques</span>
+                  </span>
+                   <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- Recent Activity -->

@@ -73,6 +73,39 @@ const questServiceImpl = {
     });
 
     if (!response.ok) throw new Error('Failed to complete quest');
+  },
+
+  getAllQuests: async (): Promise<Quest[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/quests`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to fetch all quests');
+    return await response.json();
+  },
+
+  updateQuest: async (questId: number, data: Partial<Quest>): Promise<Quest> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      },
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) throw new Error('Failed to update quest');
+    return await response.json();
+  },
+
+  deleteQuest: async (questId: number): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to delete quest');
   }
 };
 

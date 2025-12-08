@@ -69,6 +69,22 @@ export async function seedUsers() {
             xp: 150,
             level: 3,
         },
+        {
+            id_user: 5,
+            firstname: 'Pierre',
+            lastname: 'Le Paysan',
+            email: 'pierre@medieval.com',
+            password_hashed: commonPassword,
+            role: 'aventurier' as Role,
+            avatar_url: '/images/Avatar-images/con15.png',
+            avatar_type: AvatarType.gallery,
+            is_verified: false,
+            xp: 20,
+            level: 1,
+            birth_date: new Date('1995-05-15'),
+            bio: 'Juste un paysan qui veut aider.',
+            phone: '06 05 06 07 08',
+        },
     ];
 
     console.log('Seeding users...');

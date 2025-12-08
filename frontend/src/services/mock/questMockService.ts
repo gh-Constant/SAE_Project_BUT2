@@ -48,5 +48,23 @@ export const questMockService = {
     if (uq) {
         uq.status = 'completed';
     }
+  },
+
+  getAllQuests: async (): Promise<Quest[]> => {
+    return mockQuests;
+  },
+
+  updateQuest: async (questId: number, data: Partial<Quest>): Promise<Quest> => {
+    const quest = mockQuests.find(q => q.id_quest === questId);
+    if (!quest) throw new Error('Quest not found');
+    Object.assign(quest, data);
+    return quest;
+  },
+
+  deleteQuest: async (questId: number): Promise<void> => {
+    const index = mockQuests.findIndex(q => q.id_quest === questId);
+    if (index !== -1) {
+      mockQuests.splice(index, 1);
+    }
   }
 };

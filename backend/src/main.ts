@@ -25,6 +25,8 @@ import { seedServices } from './seeds/services.js';
 import { seedProducts } from './seeds/products.js';
 import { seedEvents } from './seeds/events.js';
 import { seedBlogs } from './seeds/blogs.js';
+import { seedQuests } from './seeds/quests.js';
+import { seedUserQuests } from './seeds/userQuests.js';
 
 /**
  * Fonction principale pour démarrer le serveur.
@@ -42,7 +44,10 @@ const startServer = async (): Promise<void> => {
     await seedServices();
     await seedProducts();
     await seedEvents();
+    await seedEvents();
     await seedBlogs();
+    await seedQuests();
+    await seedUserQuests();
 
 
     // Création de l'application Express

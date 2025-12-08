@@ -23,7 +23,12 @@
         "add_location": "Add Location",
         "manage_roles": "Manage Roles",
         "view_logs": "View Logs",
-        "manage_products": "Manage Articles"
+        "manage_products": "Manage Articles",
+        "quests_section": "Quest Management",
+        "manage_quests": "Manage Quests",
+        "manage_quests_desc": "Create, edit, and delete quests",
+        "quest_stats": "Quest Statistics",
+        "quest_stats_desc": "View stats and leaderboard"
     },
     "recent_activity": {
         "title": "Recent Activity",
@@ -94,6 +99,109 @@
             "stock": {
                 "sold_out": "Sold Out"
             }
+        }
+    },
+    "quests": {
+        "title": "Quest Management",
+        "subtitle": "Overview and management of all system quests",
+        "view_stats": "View Statistics",
+        "search": {
+            "label": "Search quest",
+            "placeholder": "Search by title or description..."
+        },
+        "filter": {
+            "location": "Filter by location",
+            "all_locations": "All locations",
+            "only_with_quests": "Show only locations with quests"
+        },
+        "stats": {
+            "locations": "locations",
+            "quests": "quests"
+        },
+        "view_more": "View {remaining} more location(s)",
+        "location": {
+            "quest_count": "{n} quest | {n} quests",
+            "create_quest": "Create Quest"
+        },
+        "add_form": {
+            "title": "Write a new quest",
+            "quest_title_label": "Quest title",
+            "quest_title_placeholder": "Ex: Deliver a package to the castle",
+            "reward_label": "Reward (XP)",
+            "description_label": "Detailed description",
+            "description_placeholder": "Describe the quest objectives...",
+            "cancel": "Cancel",
+            "submit": "Publish Quest",
+            "submitting": "Publishing..."
+        },
+        "table": {
+            "headers": {
+                "title": "Title",
+                "description": "Description",
+                "reward": "Reward",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "No quests registered",
+                "subtitle": "Create your first quest for this location"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "save": "Save",
+                "cancel": "Cancel"
+            }
+        },
+        "no_results": {
+            "title": "No results found",
+            "subtitle": "Try modifying your search filters",
+            "reset": "Reset filters"
+        }
+    },
+    "quest_stats": {
+        "title": "Quest Statistics",
+        "subtitle": "Analytics dashboard for quests and performance",
+        "hero": {
+            "total_quests": "Total Quests",
+            "across_locations": "Across {count} locations",
+            "total_xp": "Available XP",
+            "avg_reward": "Avg. reward",
+            "xp_range": "XP Range",
+            "xp_range_label": "Min - Max rewards"
+        },
+        "secondary": {
+            "locations": "Locations",
+            "avg_xp": "Avg XP",
+            "min_xp": "Min XP",
+            "max_xp": "Max XP"
+        },
+        "popular": {
+            "title": "Top Quests",
+            "empty": "No quests yet"
+        },
+        "locations": {
+            "title": "Distribution by Location",
+            "quests": "quests",
+            "empty": "No data available"
+        },
+        "xp_distribution": {
+            "title": "XP Reward Distribution"
+        },
+        "detailed": {
+            "title": "Detailed Statistics",
+            "manage_link": "Manage quests",
+            "location": "Location",
+            "quests": "Quests",
+            "total_xp": "Total XP",
+            "avg_xp": "Avg XP",
+            "distribution": "Distribution"
+        },
+        "leaderboard": {
+            "title": "Adventurer Leaderboard",
+            "level": "Level",
+            "completed": "Completed",
+            "in_progress": "in progress",
+            "empty": "No participants yet"
         }
     }
 }

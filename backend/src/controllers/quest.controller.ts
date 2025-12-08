@@ -1,6 +1,16 @@
 import { Request, Response } from 'express';
 import * as questService from '../services/questService.js';
 
+export const getStatistics = async (req: Request, res: Response) => {
+  try {
+    const stats = await questService.getQuestStatistics();
+    return res.json(stats);
+  } catch (error) {
+    console.error('Failed to get quest statistics:', error);
+    return res.status(500).json({ error: 'Failed to fetch quest statistics' });
+  }
+};
+
 export const createQuest = async (req: Request, res: Response) => {
   try {
     const { title, description, xp_reward, id_location } = req.body;
@@ -70,5 +80,36 @@ export const completeQuest = async (req: Request, res: Response) => {
     return res.json(result);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to complete quest' });
+  }
+};
+
+export const getAllQuests = async (req: Request, res: Response) => {
+  try {
+    const quests = await questService.getAllQuests();
+    return res.json(quests);
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to fetch all quests' });
+  }
+};
+
+export const updateQuest = async (req: Request, res: Response) => {
+  try {
+    const questId = parseInt(req.params.questId);
+    const { title, description, xp_reward } = req.body;
+    
+    const quest = await questService.updateQuest(questId, { title, description, xp_reward });
+    return res.json(quest);
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to update quest' });
+  }
+};
+
+export const deleteQuest = async (req: Request, res: Response) => {
+  try {
+    const questId = parseInt(req.params.questId);
+    await questService.deleteQuest(questId);
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to delete quest' });
   }
 };

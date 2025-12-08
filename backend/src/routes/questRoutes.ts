@@ -5,6 +5,10 @@ import { authenticateToken } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
+// Admin routes (requires auth)
+router.get('/', authenticateToken, questController.getAllQuests);
+router.get('/statistics', authenticateToken, questController.getStatistics);
+
 // Public routes - viewing quests doesn't require auth
 router.get('/locations/:locationId', questController.getQuestsByLocation);
 
@@ -19,5 +23,9 @@ router.post('/', authenticateToken, checkLocationOwnership, questController.crea
 // Accept/Complete
 router.post('/:questId/accept', authenticateToken, questController.acceptQuest);
 router.post('/:questId/complete', authenticateToken, questController.completeQuest);
+
+// Admin update/delete (requires auth, ideally admin role check)
+router.put('/:questId', authenticateToken, questController.updateQuest);
+router.delete('/:questId', authenticateToken, questController.deleteQuest);
 
 export default router;
