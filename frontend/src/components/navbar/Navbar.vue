@@ -133,16 +133,6 @@ const profileRoute = computed(() => {
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
-        <!-- Mobile Menu Button -->
-        <div class="flex md:hidden">
-          <MedievalButton
-            @click="toggleMobileMenu"
-            class="!p-2 !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
-          >
-            <i class="fas" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
-          </MedievalButton>
-        </div>
-
         <!-- Desktop Navigation Links -->
         <div class="hidden md:flex items-center space-x-4">
           <MedievalButton 
@@ -171,9 +161,9 @@ const profileRoute = computed(() => {
           </MedievalButton>
         </div>
 
-        <div class="flex items-center space-x-4">
-          <!-- Icône panier (visible uniquement si connecté) -->
-          <div v-if="isLoggedIn" class="relative cart-dropdown-container">
+        <div class="flex items-center space-x-4 ml-auto">
+          <!-- Icône panier (visible uniquement si connecté, caché sur mobile) -->
+          <div v-if="isLoggedIn" class="relative cart-dropdown-container hidden md:block">
             <MedievalButton
               @click="toggleCartDropdown"
               small
@@ -205,26 +195,28 @@ const profileRoute = computed(() => {
             </transition>
           </div>
 
+          <!-- Login/Register buttons (hidden on mobile) -->
           <template v-if="!isLoggedIn">
             <MedievalButton
               to="/login"
-              class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              class="hidden md:flex !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             >
               <i class="fas fa-sign-in-alt text-lg"></i>
               <span class="ml-2">{{ $t('navbar.signin') }}</span>
             </MedievalButton>
             <MedievalButton
               to="/register"
-              class="!bg-[#8B6B43] hover:!bg-[#a88558] !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              class="hidden md:flex !bg-[#8B6B43] hover:!bg-[#a88558] !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             >
               <i class="fas fa-user-plus text-lg"></i>
               <span class="ml-2">{{ $t('navbar.register') }}</span>
             </MedievalButton>
           </template>
 
+          <!-- Profile dropdown (hidden on mobile) -->
           <div
             v-if="isLoggedIn"
-            class="relative dropdown-container"
+            class="relative dropdown-container hidden md:block"
           >
             <MedievalButton
               class="flex items-center gap-2 !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -328,8 +320,8 @@ const profileRoute = computed(() => {
             </div>
           </div>
 
-          <!-- Dev Tools Dropdown (Dev Mode Only) -->
-          <div v-if="isDev" class="relative dev-dropdown-container">
+          <!-- Dev Tools Dropdown (Dev Mode Only, hidden on mobile) -->
+          <div v-if="isDev" class="relative dev-dropdown-container hidden md:block">
             <MedievalButton
               @click="toggleDevDropdown"
               small
@@ -374,6 +366,16 @@ const profileRoute = computed(() => {
               </button>
             </div>
           </div>
+
+          <!-- Mobile Menu Button (on the right) -->
+          <div class="flex md:hidden">
+            <MedievalButton
+              @click="toggleMobileMenu"
+              class="!p-2 !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+            >
+              <i class="fas" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+            </MedievalButton>
+          </div>
         </div>
       </div>
     </div>
@@ -387,7 +389,7 @@ const profileRoute = computed(() => {
       leave-from-class="transform translate-y-0 opacity-100"
       leave-to-class="transform -translate-y-4 opacity-0"
     >
-      <div v-if="isMobileMenuOpen" class="md:hidden bg-parchment border-b-4 border-antique-bronze shadow-xl">
+      <div v-if="isMobileMenuOpen" class="md:hidden bg-parchment border-b-4 border-antique-bronze shadow-xl max-h-[calc(100vh-5rem)] overflow-y-auto">
         <div class="px-4 pt-2 pb-6 space-y-3">
           <MedievalButton 
             to="/" 
@@ -420,6 +422,24 @@ const profileRoute = computed(() => {
           >
             <i class="fas fa-calendar-alt text-lg w-8"></i>
             <span class="ml-2">{{ $t('navbar.events') }}</span>
+          </MedievalButton>
+
+          <!-- Cart button in mobile menu -->
+          <MedievalButton 
+            v-if="isLoggedIn"
+            to="/panier" 
+            full-width
+            class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+            @click="isMobileMenuOpen = false"
+          >
+            <i class="fas fa-shopping-cart text-lg w-8"></i>
+            <span class="ml-2">{{ $t('navbar.cart') }}</span>
+            <span
+              v-if="cartStore.itemCount > 0"
+              class="bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm ml-2"
+            >
+              {{ cartStore.itemCount > 9 ? '9+' : cartStore.itemCount }}
+            </span>
           </MedievalButton>
 
           <div class="border-t border-antique-bronze/20 my-2"></div>
@@ -461,6 +481,7 @@ const profileRoute = computed(() => {
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
               @click="isMobileMenuOpen = false"
             >
+              <i class="fas fa-ticket-alt text-lg w-8"></i>
               <span class="ml-2">{{ $t('navbar.my_reservations') }}</span>
             </MedievalButton>
 
