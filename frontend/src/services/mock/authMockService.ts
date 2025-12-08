@@ -16,7 +16,8 @@
  * - La fonction register ajoute l'utilisateur au tableau USERS pour simuler une base de données mais le ne sera donc pas modifié sur le serveur.
  */
 
-import { Role, USERS, UserMock, AvatarType } from '@/mocks';
+import { Role, UserMock, AvatarType } from '@/mocks';
+import { mockUsers } from './sharedMockData';
 
 export const authMockService = {
 
@@ -24,8 +25,8 @@ export const authMockService = {
 
   login(email : string, password : string) {
     return new Promise((resolve, reject) => {
-      // Cherche l'utilisateur correspondant dans le tableau USERS exporté de users.ts défini dans /mocks
-      let user = USERS.find(u => u.email === email && u.password_hashed === password);
+      // Cherche l'utilisateur correspondant dans le tableau mockUsers partagé
+      let user = mockUsers.find(u => u.email === email && u.password_hashed === password);
       
       if (user) {
         // Vérifier si on a une version mise à jour dans localStorage
@@ -38,7 +39,7 @@ export const authMockService = {
               user = storedUser;
             }
           } catch (e) {
-            // Si erreur de parsing, utiliser l'utilisateur du tableau USERS
+            // Si erreur de parsing, utiliser l'utilisateur du tableau mockUsers
             console.warn('Error parsing stored user, using default:', e);
           }
         }
@@ -54,15 +55,15 @@ export const authMockService = {
 
   register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string) {
     return new Promise<UserMock>((resolve, reject) => {
-      // Vérifie si l'email existe déjà
-      const existingUser = USERS.find(u => u.email === email);
+      // Vérifie si l'email existe déjà dans mockUsers
+      const existingUser = mockUsers.find(u => u.email === email);
       if (existingUser) {
         reject(new Error('Email already exists')); // Empêche la création de doublons
         return; // Sortie aprés rejet
       }
       // Puisque le return n'a pas été fait, création d'un nouvel utilisateur mock
       const newUser: UserMock = {
-        id: USERS.length + 1, // ID auto-incrémenté (fait à la va vite pour mock).
+        id: mockUsers.length + 1, // ID auto-incrémenté (fait à la va vite pour mock).
         firstname: firstName,
         lastname: lastName,
         birth_date: undefined,
@@ -77,7 +78,7 @@ export const authMockService = {
         xp: 0,
         level: 1,
       };
-      USERS.push(newUser); // Ajoute l'utilisateur au tableau USERS
+      mockUsers.push(newUser); // Ajoute l'utilisateur au tableau mockUsers partagé
       resolve(newUser);    // Retourne le nouvel utilisateur
     });
   },
@@ -94,7 +95,7 @@ export const authMockService = {
 
       try {
         const currentUser = JSON.parse(currentUserStr) as UserMock;
-        const userIndex = USERS.findIndex(u => u.id === currentUser.id);
+        const userIndex = mockUsers.findIndex(u => u.id === currentUser.id);
 
         if (userIndex === -1) {
           reject(new Error('User not found'));
@@ -103,7 +104,7 @@ export const authMockService = {
 
         // Vérifier l'unicité de l'email si modifié
         if (profileData.email && profileData.email !== currentUser.email) {
-          const emailExists = USERS.find(u => u.email === profileData.email && u.id !== currentUser.id);
+          const emailExists = mockUsers.find(u => u.email === profileData.email && u.id !== currentUser.id);
           if (emailExists) {
             reject(new Error('Email already in use'));
             return;
@@ -118,7 +119,7 @@ export const authMockService = {
 
         // Mettre à jour les champs fournis
         const updatedUser = {
-          ...USERS[userIndex],
+          ...mockUsers[userIndex],
           ...(profileData.firstname !== undefined && { firstname: profileData.firstname }),
           ...(profileData.lastname !== undefined && { lastname: profileData.lastname }),
           ...(profileData.email !== undefined && { email: profileData.email }),
@@ -140,8 +141,8 @@ export const authMockService = {
           return;
         }
 
-        // Mettre à jour dans le tableau USERS
-        USERS[userIndex] = updatedUser;
+        // Mettre à jour dans le tableau mockUsers
+        mockUsers[userIndex] = updatedUser;
 
         // Mettre à jour localStorage
         localStorage.setItem('currentUser', JSON.stringify(updatedUser));
