@@ -67,7 +67,35 @@ export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: Nex
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string }; // Vérifier le token
     req.user = decoded; // Ajouter les infos utilisateur si valide
     next(); // Continuer avec l'utilisateur authentifié
+    next(); // Continuer avec l'utilisateur authentifié
   } catch (error) {
     next(); // Token invalide, continuer sans authentification
+  }
+};
+
+export const requireAdmin = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  if (!req.user) {
+    res.status(401).json({ error: 'Authentication required' });
+    return;
+  }
+
+  try {
+    // Import dynamique pour éviter les dépendances circulaires si nécessaire
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+
+    const user = await prisma.user.findUnique({
+      where: { id_user: req.user.id }
+    });
+
+    if (!user || user.role !== 'admin') { // Assurez-vous que 'admin' correspond à la valeur de l'enum Role en BDD
+      res.status(403).json({ error: 'Admin access required' });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.error('Admin check error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
