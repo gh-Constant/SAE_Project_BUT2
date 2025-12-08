@@ -15,7 +15,6 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        </div>
         <p class="text-xl font-medieval text-iron-black mb-2">{{ t('checkout.all_paid.title') }}</p>
         <p class="text-sm font-body text-stone-grey mb-8">{{ t('checkout.all_paid.description') }}</p>
         <router-link
