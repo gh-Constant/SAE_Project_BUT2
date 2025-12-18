@@ -21,6 +21,7 @@
       "add_service": "Add Service",
       "manage_shop": "Manage Shop",
       "manage_quests": "Manage Quests",
+      "scan_order": "Scan Order",
       "create_location": "Establish Place",
       "view_bookings": "View Bookings",
       "edit_profile": "Edit Chronicle"
@@ -140,5 +141,29 @@
       "subtitle": "Explore the map to acquire your first establishment.",
       "explore_button": "Explore Map"
     }
+  },
+  "order_scan": {
+    "title": "Scan an Order",
+    "description": "Scan the customer's QR code to display their order details",
+    "camera_error": "Camera Access Denied",
+    "camera_error_hint": "Please allow camera access in your browser settings",
+    "retry": "Retry",
+    "scanning_hint": "Place the QR code within the frame",
+    "or_manual": "Or enter the code manually",
+    "enter_token": "Enter QR code...",
+    "validate": "Validate",
+    "invalid_code": "Invalid Code",
+    "order_not_found": "No order found with this QR code",
+    "order_number": "Order #{id}",
+    "customer": "Customer",
+    "products": "Ordered Items",
+    "total": "Total",
+    "status_paid": "Paid",
+    "status_collected": "Collected",
+    "validate_collection": "Validate Collection",
+    "processing": "Processing...",
+    "already_collected": "Already Collected",
+    "scan_again": "Scan Another Order",
+    "back_to_dashboard": "Back to Dashboard"
   }
 }

@@ -119,6 +119,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
   },
   {
+    path: '/prestataire/orders/scan',
+    name: 'prestataire-order-scan',
+    component: () => import('../views/PrestataireOrderScanView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
     path: '/prestataire/location/:locationId/events',
     name: 'prestataire-location-events',
     component: () => import('../views/prestataire/LocationEventsManager.vue'),

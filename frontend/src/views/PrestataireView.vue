@@ -135,6 +135,12 @@
               </MedievalButton>
             </router-link>
             
+            <router-link to="/prestataire/orders/scan" class="contents">
+              <MedievalButton variant="primary" :fullWidth="true">
+                {{ t('prestataire.dashboard.quick_actions.scan_order') }}
+              </MedievalButton>
+            </router-link>
+            
             <MedievalButton variant="primary" :fullWidth="true">
               {{ t('prestataire.dashboard.quick_actions.create_location') }}
             </MedievalButton>

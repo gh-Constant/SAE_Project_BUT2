@@ -21,6 +21,7 @@
       "add_service": "Ajouter un service",
       "manage_shop": "Gérer ma boutique",
       "manage_quests": "Gérer mes quêtes",
+      "scan_order": "Scanner une commande",
       "create_location": "Créer un lieu",
       "view_bookings": "Voir les réservations",
       "edit_profile": "Modifier mon profil"
@@ -140,5 +141,29 @@
       "subtitle": "Explorez la carte pour acquérir votre premier établissement.",
       "explore_button": "Explorer la carte"
     }
+  },
+  "order_scan": {
+    "title": "Scanner une Commande",
+    "description": "Scannez le QR code du client pour afficher les détails de sa commande",
+    "camera_error": "Accès à la caméra refusé",
+    "camera_error_hint": "Veuillez autoriser l'accès à la caméra dans les paramètres de votre navigateur",
+    "retry": "Réessayer",
+    "scanning_hint": "Placez le QR code dans le cadre",
+    "or_manual": "Ou entrez le code manuellement",
+    "enter_token": "Entrer le code QR...",
+    "validate": "Valider",
+    "invalid_code": "Code invalide",
+    "order_not_found": "Aucune commande trouvée avec ce code QR",
+    "order_number": "Commande #{id}",
+    "customer": "Client",
+    "products": "Articles commandés",
+    "total": "Total",
+    "status_paid": "Payée",
+    "status_collected": "Collectée",
+    "validate_collection": "Valider la collecte",
+    "processing": "Traitement...",
+    "already_collected": "Déjà collectée",
+    "scan_again": "Scanner une autre commande",
+    "back_to_dashboard": "Retour au tableau de bord"
   }
 }
