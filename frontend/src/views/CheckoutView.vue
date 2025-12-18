@@ -243,6 +243,9 @@ const payOrder = async (orderId: number) => {
 
     // Changer l'état de la commande
     order.etat_commande = EtatCommande.PAID
+    
+    // Générer le token QR pour la collecte
+    order.qrToken = `ORDER-${orderId}-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
 
     // Vérifier si tout est payé
     const allPaid = COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id).every(

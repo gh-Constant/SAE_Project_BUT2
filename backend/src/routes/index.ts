@@ -27,6 +27,7 @@ import eventRoutes from './eventRoutes.js';
 import questRoutes from './questRoutes.js';
 import orderRoutes from './orderRoutes.js';
 import userRoutes from './userRoutes.js';
+import qrcodeRoutes from './qrcodeRoutes.js';
 import { apiConfig } from '../config/app.config.js';
 
 const router = Router();
@@ -75,6 +76,9 @@ apiRouter.use('/orders', orderRoutes);
 
 // Ajout des routes utilisateurs
 apiRouter.use('/users', userRoutes);
+
+// Ajout des routes de QR code
+apiRouter.use('/qrcode', qrcodeRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);

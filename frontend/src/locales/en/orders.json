@@ -35,6 +35,8 @@
     "actions": {
         "pay": "Pay Now",
         "paid_waiting": "Order Paid - Awaiting Collection",
-        "collected": "Order Collected"
+        "collected": "Order Collected",
+        "qr_code": "Pickup QR Code",
+        "qr_scan_hint": "Show this QR code to the vendor"
     }
 }

@@ -44,6 +44,10 @@ model User {
   commandes         Commande[]
   lignesPanier      LignePanier[]
   eventReservations EventReservation[]
+  
+  // QR Code relations
+  qrSessionsCreated QRSession[] @relation("QRCreator")
+  qrSessionsScanned QRSession[] @relation("QRScanner")
 
   @@map("users")
 }

@@ -35,6 +35,8 @@
     "actions": {
         "pay": "Payer maintenant",
         "paid_waiting": "Commande payée - En attente de collecte",
-        "collected": "Commande collectée"
+        "collected": "Commande collectée",
+        "qr_code": "QR code de retrait",
+        "qr_scan_hint": "Présentez ce QR code au prestataire"
     }
 }

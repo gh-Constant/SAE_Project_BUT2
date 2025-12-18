@@ -74,6 +74,11 @@ import frWidgets from './locales/fr/widgets.json';
 import deWidgets from './locales/de/widgets.json';
 import esWidgets from './locales/es/widgets.json';
 
+import enQrcode from './locales/en/qrcode.json';
+import frQrcode from './locales/fr/qrcode.json';
+import deQrcode from './locales/de/qrcode.json';
+import esQrcode from './locales/es/qrcode.json';
+
 
 
 const messages = {
@@ -93,8 +98,8 @@ const messages = {
     admin: enAdmin,
     reservations: enReservations,
     events: enEvents,
-    widgets: enWidgets
-
+    widgets: enWidgets,
+    qrcode: enQrcode
   },
   fr: {
     map: frMap,
@@ -112,7 +117,8 @@ const messages = {
     admin: frAdmin,
     reservations: frReservations,
     events: frEvents,
-    widgets: frWidgets
+    widgets: frWidgets,
+    qrcode: frQrcode
   },
   de: {
     map: deMap,
@@ -130,8 +136,8 @@ const messages = {
     admin: deAdmin,
     reservations: deReservations,
     events: deEvents,
-    widgets: deWidgets
-
+    widgets: deWidgets,
+    qrcode: deQrcode
   },
   es: {
     map: esMap,
@@ -149,8 +155,8 @@ const messages = {
     admin: esAdmin,
     reservations: esReservations,
     events: esEvents,
-    widgets: esWidgets
-
+    widgets: esWidgets,
+    qrcode: esQrcode
   },
   mc: {
     map: mcMap,

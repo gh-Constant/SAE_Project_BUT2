@@ -144,6 +144,7 @@ const profileRoute = computed(() => {
             <span class="ml-2">{{ $t('navbar.home') }}</span>
           </MedievalButton>
           <MedievalButton 
+            v-if="isLoggedIn"
             to="/map" 
             class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             active-class="!bg-[#8B6B43] !border-[#5D4037]"
@@ -152,6 +153,7 @@ const profileRoute = computed(() => {
             <span class="ml-2">{{ $t('navbar.map') }}</span>
           </MedievalButton>
           <MedievalButton 
+            v-if="isLoggedIn"
             to="/events" 
             class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             active-class="!bg-[#8B6B43] !border-[#5D4037]"
@@ -403,6 +405,7 @@ const profileRoute = computed(() => {
           </MedievalButton>
           
           <MedievalButton 
+            v-if="isLoggedIn"
             to="/map" 
             full-width
             class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -414,6 +417,7 @@ const profileRoute = computed(() => {
           </MedievalButton>
 
           <MedievalButton 
+            v-if="isLoggedIn"
             to="/events" 
             full-width
             class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"

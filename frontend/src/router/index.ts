@@ -208,6 +208,17 @@ export const routes = [
     component: () => import('../views/AdminUsersView.vue'),
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
+  {
+    path: '/qr/generate',
+    name: 'qr-generate',
+    component: () => import('../views/QRGenerateView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/qr/scan',
+    name: 'qr-scan',
+    component: () => import('../views/QRScanView.vue'),
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

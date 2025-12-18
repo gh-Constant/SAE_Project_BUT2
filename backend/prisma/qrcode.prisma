@@ -1,0 +1,29 @@
+enum QRCodeStatus {
+    PENDING
+    SCANNED
+    USED
+}
+
+model QRSession {
+  id              String    @id @default(uuid())
+  token           String    @unique @db.VarChar(255)
+  status          QRCodeStatus @default(PENDING)
+  
+  // Données JSON flexibles (ex: {userId, items, orderId})
+  data            Json?
+  
+  // Utilisateur qui a généré le QR (optionnel si généré par système)
+  created_by_id   Int?
+  created_by      User?     @relation("QRCreator", fields: [created_by_id], references: [id_user])
+  
+  // Utilisateur qui a scanné (optionnel car scan sans auth possible)
+  scanned_by_id   Int?
+  scanned_by      User?     @relation("QRScanner", fields: [scanned_by_id], references: [id_user])
+  
+  created_at      DateTime  @default(now()) @db.DateTime(0)
+  scanned_at      DateTime? @db.DateTime(0)
+
+  @@index([token])
+  @@index([created_by_id])
+  @@map("qr_sessions")
+}

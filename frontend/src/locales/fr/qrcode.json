@@ -1,0 +1,29 @@
+{
+    "generate": {
+        "title": "Générer un QR Code",
+        "description": "Créez un QR code unique pour partager des informations",
+        "button": "Générer",
+        "copyToken": "Copier le token",
+        "newQr": "Nouveau QR",
+        "scanned": "Le QR code a été scanné !"
+    },
+    "scan": {
+        "title": "Scanner un QR Code",
+        "description": "Pointez votre caméra vers un QR code",
+        "cameraError": "Impossible d'accéder à la caméra. Veuillez autoriser l'accès.",
+        "retry": "Réessayer",
+        "hint": "Positionnez le QR code dans le cadre",
+        "or": "ou",
+        "enterToken": "Entrez le token manuellement",
+        "validate": "Valider",
+        "success": "QR Code validé !",
+        "failed": "Échec de validation",
+        "receivedData": "Données reçues",
+        "scanAgain": "Scanner à nouveau"
+    },
+    "status": {
+        "pending": "En attente",
+        "scanned": "Scanné",
+        "used": "Utilisé"
+    }
+}

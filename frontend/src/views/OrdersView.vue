@@ -183,12 +183,28 @@
             </button>
             <div
               v-else-if="order.etat_commande === EtatCommande.PAID"
-              class="w-full bg-green-50 text-green-700 font-body font-semibold py-3 px-6 rounded-md text-center flex items-center justify-center gap-2 border border-green-200"
+              class="w-full bg-green-50 text-green-700 font-body py-4 px-6 rounded-md border border-green-200"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {{ t('orders.actions.paid_waiting') }}
+              <!-- QR Code Display -->
+              <div v-if="order.qrToken" class="flex flex-col items-center gap-3">
+                <p class="font-semibold text-sm flex items-center gap-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                  </svg>
+                  {{ t('orders.actions.qr_code') }}
+                </p>
+                <div class="bg-white p-3 rounded-lg shadow-inner">
+                  <canvas :ref="el => setQrCanvasRef(el, order.id)" class="qr-canvas"></canvas>
+                </div>
+                <p class="text-xs text-green-600">{{ t('orders.actions.qr_scan_hint') }}</p>
+              </div>
+              <!-- Fallback if no QR token -->
+              <div v-else class="text-center flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="font-semibold">{{ t('orders.actions.paid_waiting') }}</span>
+              </div>
             </div>
             <div
               v-else
@@ -207,7 +223,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { COMMANDES, EtatCommande, CommandeMock } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
@@ -215,12 +231,45 @@ import { productService } from '@/services/productService'
 import { USERS } from '@/mocks/users'
 import { useAuthStore } from '@/stores/auth'
 import { useI18n } from 'vue-i18n'
+import QRCode from 'qrcode'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const { t } = useI18n()
 const filter = ref<'all' | EtatCommande>(route.query.allPaid === 'true' ? EtatCommande.PAID : 'all')
+
+// QR Code canvas refs
+const qrCanvasRefs = ref<Map<number, HTMLCanvasElement>>(new Map())
+
+const setQrCanvasRef = (el: any, orderId: number) => {
+  if (el) {
+    qrCanvasRefs.value.set(orderId, el as HTMLCanvasElement)
+  }
+}
+
+async function renderQRCodes() {
+  await nextTick()
+  for (const order of filteredOrders.value) {
+    if (order.etat_commande === EtatCommande.PAID && order.qrToken) {
+      const canvas = qrCanvasRefs.value.get(order.id)
+      if (canvas) {
+        try {
+          await QRCode.toCanvas(canvas, order.qrToken, {
+            width: 150,
+            margin: 1,
+            color: {
+              dark: '#166534',
+              light: '#ffffff',
+            },
+          })
+        } catch (error) {
+          console.error('Failed to render QR code for order', order.id, error)
+        }
+      }
+    }
+  }
+}
 
 // Commandes filtrées
 const filteredOrders = computed(() => {
@@ -335,11 +384,14 @@ const goToPayment = () => {
   router.push({ name: 'checkout' })
 }
 
-onMounted(() => {
+onMounted(async () => {
   // Rediriger si pas connecté
   if (!authStore.isAuthenticated) {
     router.push('/login')
+    return
   }
+  // Render QR codes after component is mounted
+  await renderQRCodes()
 })
 </script>
 
