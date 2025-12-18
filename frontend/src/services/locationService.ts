@@ -93,6 +93,50 @@ const locationServiceImpl = {
       marker.addTo(map);
       markers.push(marker);
     });
+  },
+
+  validatePurchase: async (locationId: number): Promise<LocationMock> => {
+    // Mock implementation call (will be handled by mockService if enabled)
+    // In real app, this would be a PATCH to /locations/{id}/validate
+     const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/validate`, {
+        method: 'POST',
+         headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    });
+    return response.json();
+  },
+
+  rejectPurchase: async (locationId: number): Promise<LocationMock> => {
+      const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/reject`, {
+        method: 'POST',
+         headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    });
+    return response.json();
+  },
+
+  removeOwner: async (locationId: number): Promise<LocationMock> => {
+       const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
+        method: 'DELETE',
+         headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    });
+    return response.json();
+  },
+
+  updateOwner: async (locationId: number, userId: number): Promise<LocationMock> => {
+       const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ userId })
+    });
+    return response.json();
   }
 };
 

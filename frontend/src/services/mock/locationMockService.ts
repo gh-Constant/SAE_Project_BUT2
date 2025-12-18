@@ -136,5 +136,63 @@ export const locationMockService = {
       marker.addTo(map);
       markers.push(marker);
     });
+  },
+
+  validatePurchase(locationId: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (location) {
+        location.status = 'APPROVED';
+        location.purchased = true;
+        resolve({ ...location });
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  rejectPurchase(locationId: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (location) {
+        location.status = 'AVAILABLE'; // Reset
+        location.purchased = false;
+        location.id_prestataire = undefined;
+        location.prestataire = undefined;
+        resolve({ ...location });
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  removeOwner(locationId: number): Promise<LocationMock> {
+    return this.rejectPurchase(locationId); // Same logic
+  },
+
+  updateOwner(locationId: number, userId: number): Promise<LocationMock> {
+      return new Promise((resolve, reject) => {
+        const location = LOCATIONS.find(loc => loc.id === locationId);
+        if (!location) {
+            return reject(new Error('Location not found'));
+        }
+
+        const user = USERS.find(u => u.id === userId);
+        if (!user) {
+             return reject(new Error('User not found'));
+        }
+
+        location.purchased = true;
+        location.status = 'APPROVED';
+        location.id_prestataire = userId;
+        location.prestataire = {
+            id_user: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            avatar_url: user.avatar_url,
+            avatar_type: user.avatar_type,
+        };
+        resolve({ ...location });
+    });
   }
 };
