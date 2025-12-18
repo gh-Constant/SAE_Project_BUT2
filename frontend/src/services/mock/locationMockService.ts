@@ -138,6 +138,56 @@ export const locationMockService = {
     });
   },
 
+  updateLocation: (location: LocationMock): Promise<LocationMock> => {
+    return new Promise((resolve, reject) => {
+      const index = LOCATIONS.findIndex(loc => loc.id === location.id);
+      if (index !== -1) {
+        // Enforce business logic: status/purchased is derived from owner presence
+        if (location.id_prestataire) {
+             location.status = 'APPROVED';
+             location.purchased = true;
+
+             // Hydrate prestataire info if available in USERS
+             const user = USERS.find(u => u.id === location.id_prestataire);
+             if (user) {
+                 location.prestataire = {
+                    id_user: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    avatar_url: user.avatar_url,
+                    avatar_type: user.avatar_type,
+                 };
+             }
+        } else {
+            // No owner implied available
+            location.status = 'AVAILABLE';
+            location.purchased = false;
+            location.id_prestataire = undefined;
+            location.prestataire = undefined;
+        }
+
+        // Update fields
+        LOCATIONS[index] = { ...LOCATIONS[index], ...location };
+
+        resolve(LOCATIONS[index]);
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  deleteLocation: (locationId: number): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const index = LOCATIONS.findIndex(loc => loc.id === locationId);
+      if (index !== -1) {
+        LOCATIONS.splice(index, 1);
+        resolve();
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
   validatePurchase(locationId: number): Promise<LocationMock> {
     return new Promise((resolve, reject) => {
       const location = LOCATIONS.find(loc => loc.id === locationId);

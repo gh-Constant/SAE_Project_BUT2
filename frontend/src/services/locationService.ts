@@ -95,6 +95,29 @@ const locationServiceImpl = {
     });
   },
 
+  updateLocation: async (location: LocationMock): Promise<LocationMock> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${location.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(location)
+    });
+    if (!response.ok) throw new Error('Failed to update location');
+    return await response.json();
+  },
+
+  deleteLocation: async (locationId: number): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to delete location');
+  },
+
   validatePurchase: async (locationId: number): Promise<LocationMock> => {
     // Mock implementation call (will be handled by mockService if enabled)
     // In real app, this would be a PATCH to /locations/{id}/validate

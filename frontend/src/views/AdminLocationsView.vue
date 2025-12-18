@@ -74,7 +74,7 @@
                                                         'bg-yellow-100/80 text-yellow-900 border-yellow-200'
                                             ]">
                                                 {{ location.status === 'APPROVED' ? 'Acheté' : location.status ===
-                                                'PENDING' ? 'En Attente' : 'Disponible' }}
+                                                    'PENDING' ? 'En Attente' : 'Disponible' }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-grey">
@@ -105,24 +105,24 @@
 
                                                 <!-- ALREADY PURCHASED -->
                                                 <template v-else-if="location.purchased">
-                                                    <button @click="openAssignModal(location, 'UPDATE')"
+                                                    <button @click="openEditModal(location, 'UPDATE')"
                                                         class="text-blue-600 hover:text-blue-900 transition-colors p-1"
-                                                        title="Modifier le propriétaire">
+                                                        title="Modifier le lieu">
                                                         <i class="fas fa-edit text-lg"></i>
                                                     </button>
-                                                    <button @click="onRemove(location)"
+                                                    <button @click="onDelete(location)"
                                                         class="text-red-600 hover:text-red-900 transition-colors p-1"
-                                                        title="Supprimer le propriétaire">
+                                                        title="Supprimer définitivement">
                                                         <i class="fas fa-trash-alt text-lg"></i>
                                                     </button>
                                                 </template>
 
                                                 <!-- AVAILABLE -->
                                                 <template v-else>
-                                                    <button @click="openAssignModal(location, 'ASSIGN')"
+                                                    <button @click="openEditModal(location, 'ASSIGN')"
                                                         class="text-antique-bronze hover:text-iron-black transition-colors p-1"
-                                                        title="Assigner un propriétaire">
-                                                        <i class="fas fa-user-plus text-lg"></i>
+                                                        title="Modifier / Assigner">
+                                                        <i class="fas fa-edit text-lg"></i>
                                                     </button>
                                                 </template>
                                             </div>
@@ -148,39 +148,74 @@
             </div>
         </div>
 
-        <!-- Assign/Update Owner Modal -->
+        <!-- Edit/Assign Modal -->
         <div v-if="showModal"
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div class="bg-parchment border-4 border-antique-bronze rounded-lg shadow-2xl w-full max-w-md p-6 relative">
+            <div
+                class="bg-parchment border-4 border-antique-bronze rounded-lg shadow-2xl w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
                 <button @click="closeModal" class="absolute top-2 right-2 text-stone-grey hover:text-iron-black">
                     <i class="fas fa-times text-xl"></i>
                 </button>
 
-                <h3 class="text-2xl font-medieval font-bold text-iron-black mb-4">
-                    {{ modalMode === 'ASSIGN' ? 'Assigner un propriétaire' : 'Modifier le propriétaire' }}
+                <h3 class="text-2xl font-medieval font-bold text-iron-black mb-6">
+                    {{ modalMode === 'ASSIGN' ? 'Assigner un propriétaire' : 'Modifier le lieu' }}
                 </h3>
 
-                <div class="mb-4">
-                    <p class="text-stone-grey mb-2">Lieu : <strong>{{ selectedLocation?.name }}</strong></p>
-                    <label class="block text-sm font-bold text-iron-black mb-1">Choisir un utilisateur</label>
-                    <select v-model="selectedUserId"
-                        class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none">
-                        <option :value="null" disabled>Sélectionner un utilisateur</option>
-                        <option v-for="u in usersStore.allUsers" :key="u.id" :value="u.id">
-                            {{ u.name }} (ID: {{ u.id }})
-                        </option>
-                    </select>
+                <div class="space-y-4">
+                    <!-- Name & Price Row -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-iron-black mb-1">Nom du lieu</label>
+                            <input v-model="editedLocation.name" type="text"
+                                class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-iron-black mb-1">Prix (Gold)</label>
+                            <input v-model.number="editedLocation.price" type="number"
+                                class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black">
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-bold text-iron-black mb-1">Description</label>
+                        <textarea v-model="editedLocation.description" rows="3"
+                            class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black"></textarea>
+                    </div>
+
+                    <!-- Type Row -->
+                    <div>
+                        <label class="block text-sm font-bold text-iron-black mb-1">Type de lieu</label>
+                        <select v-model="editedLocation.id_location_type"
+                            class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black">
+                            <option :value="1">Prestataire</option>
+                            <option :value="2">Histoire</option>
+                            <option :value="3">Autre</option>
+                        </select>
+                    </div>
+
+                    <!-- Owner -->
+                    <div>
+                        <label class="block text-sm font-bold text-iron-black mb-1">Propriétaire</label>
+                        <select v-model="editedLocation.id_prestataire"
+                            class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black">
+                            <option :value="undefined">-- Aucun --</option>
+                            <option :value="0">Système / Histoire</option>
+                            <option v-for="u in usersStore.allUsers" :key="u.id" :value="u.id">
+                                {{ u.name }} (ID: {{ u.id }})
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="flex justify-end gap-3 mt-6">
+                <div class="flex justify-end gap-3 mt-8">
                     <button @click="closeModal"
                         class="px-4 py-2 text-stone-grey font-bold hover:text-iron-black transition-colors">
                         Annuler
                     </button>
-                    <button @click="confirmAssignment"
-                        class="px-4 py-2 bg-antique-bronze text-white font-bold rounded hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                        :disabled="!selectedUserId">
-                        Confirmer
+                    <button @click="saveLocation"
+                        class="px-6 py-2 bg-antique-bronze text-white font-bold rounded hover:brightness-110 transition-all shadow-md">
+                        Enregistrer
                     </button>
                 </div>
             </div>
@@ -226,15 +261,13 @@ onMounted(async () => {
 // Modal State
 const showModal = ref(false);
 const modalMode = ref<'ASSIGN' | 'UPDATE'>('ASSIGN');
-const selectedLocation = ref<LocationMock | null>(null);
-const selectedUserId = ref<number | null>(null);
+const editedLocation = ref<Partial<LocationMock>>({});
 
 // Actions
 const onValidate = async (loc: LocationMock) => {
     if (confirm(`Valider l'achat de "${loc.name}" ?`)) {
         try {
             await locationService.validatePurchase(loc.id);
-            // Refresh data
             await refreshData();
         } catch (e) {
             console.error(e);
@@ -255,10 +288,10 @@ const onRefuse = async (loc: LocationMock) => {
     }
 };
 
-const onRemove = async (loc: LocationMock) => {
-    if (confirm(`Supprimer le propriétaire de "${loc.name}" ? Le lieu redeviendra disponible.`)) {
+const onDelete = async (loc: LocationMock) => {
+    if (confirm(`Êtes-vous sûr de vouloir SUPPRIMER DÉFINITIVEMENT le lieu "${loc.name}" ? Cette action est irréversible.`)) {
         try {
-            await locationService.removeOwner(loc.id);
+            await locationService.deleteLocation(loc.id);
             await refreshData();
         } catch (e) {
             console.error(e);
@@ -267,29 +300,31 @@ const onRemove = async (loc: LocationMock) => {
     }
 };
 
-const openAssignModal = (loc: LocationMock, mode: 'ASSIGN' | 'UPDATE') => {
-    selectedLocation.value = loc;
+const openEditModal = (loc: LocationMock, mode: 'ASSIGN' | 'UPDATE') => {
     modalMode.value = mode;
-    selectedUserId.value = loc.id_prestataire || null;
+    // Clone location to avoid direct mutation
+    editedLocation.value = { ...loc };
     showModal.value = true;
 };
 
 const closeModal = () => {
     showModal.value = false;
-    selectedLocation.value = null;
-    selectedUserId.value = null;
+    editedLocation.value = {};
 };
 
-const confirmAssignment = async () => {
-    if (!selectedLocation.value || !selectedUserId.value) return;
-
+const saveLocation = async () => {
     try {
-        await locationService.updateOwner(selectedLocation.value.id, selectedUserId.value);
+        if (!editedLocation.value.id) return; // Should not happen for edit
+
+        // Ensure types are correct
+        const payload = { ...editedLocation.value } as LocationMock;
+
+        await locationService.updateLocation(payload);
         closeModal();
         await refreshData();
     } catch (e) {
         console.error(e);
-        alert("Erreur lors de l'assignation");
+        alert("Erreur lors de l'enregistrement");
     }
 };
 
@@ -297,7 +332,6 @@ const refreshData = async () => {
     loading.value = true;
     try {
         const locationsData = await locationService.getAllLocations();
-        // Also refresh users to be safe
         await usersStore.fetchUsers();
         locations.value = locationsData;
     } catch (error) {
@@ -308,8 +342,12 @@ const refreshData = async () => {
 };
 
 const sortedLocations = computed(() => {
-    // Sort by purchased (purchased first), then by name
     return [...locations.value].sort((a, b) => {
+        // PENDING first
+        if (a.status === 'PENDING' && b.status !== 'PENDING') return -1;
+        if (a.status !== 'PENDING' && b.status === 'PENDING') return 1;
+
+        // Then purchased
         if (a.purchased === b.purchased) {
             return a.name.localeCompare(b.name);
         }
@@ -323,11 +361,7 @@ const handleLogout = () => {
 };
 
 const getOwnerName = (userId: number) => {
-    // Special cases
-    if (userId === 0) return 'Système / Histoire'; // Or "System"
-
-    // Look up in store
-    // usersStore.allUsers is typed as any[] in the store file provided, 
+    if (userId === 0) return 'Système / Histoire';
     const foundUser = usersStore.allUsers.find((u: any) => u.id === userId);
     if (foundUser) {
         return foundUser.name;
