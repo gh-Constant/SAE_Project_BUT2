@@ -27,6 +27,7 @@ export interface UserMock {
   avatar_type?: AvatarType; // Type de l'avatar
   level: number;
   xp: number;
+  gold: number;
   
   is_verified: boolean;
   password_hashed: string; // Pour le S3, on peut mettre un mot de passe en clair pour les tests
@@ -53,6 +54,7 @@ export const USERS: UserMock[] = [
     is_verified: false,
     xp: 250,
     level: 5,
+    gold: 750,
     birth_date: new Date('1990-01-01'),
     bio: 'Je suis un prestataire de service médieval',
     phone: '06 01 02 03 04',
@@ -70,6 +72,7 @@ export const USERS: UserMock[] = [
     is_verified: false,
     xp: 80,
     level: 2,
+    gold: 150,
     birth_date: new Date('1992-01-01'),
     bio: 'Je suis une aventurière de service médieval',
     phone: '06 02 03 04 05',
@@ -86,6 +89,7 @@ export const USERS: UserMock[] = [
     is_verified: true,
     xp: 9999,
     level: 99,
+    gold: 99999,
     birth_date: new Date('1980-01-01'),
     bio: 'Je suis le Sénéchal, responsable de la sécurité du royaume',
     phone: '06 03 04 05 06',
@@ -103,5 +107,6 @@ export const USERS: UserMock[] = [
     is_verified: false,
     xp: 150,
     level: 3,
+    gold: 500,
   },
 ];

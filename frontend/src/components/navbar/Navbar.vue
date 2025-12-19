@@ -6,6 +6,7 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 
 import CartDropdown from './CartDropdown.vue';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
+import PlayerStatsBar from './PlayerStatsBar.vue';
 
 const auth = useAuthStore();
 const cartStore = useCartStore();
@@ -260,6 +261,9 @@ const profileRoute = computed(() => {
                 </div>
               </div>
               
+              <!-- Player Stats (Level & Gold) -->
+              <PlayerStatsBar />
+              
               <!-- Menu Items -->
               <router-link
                 v-if="isAdmin(auth.user)"
@@ -467,6 +471,11 @@ const profileRoute = computed(() => {
                   {{ auth.user?.email }}
                 </div>
               </div>
+            </div>
+
+            <!-- Player Stats (Level & Gold) - Mobile -->
+            <div class="mx-2 mb-2 bg-parchment/50 rounded-md border border-antique-bronze/20">
+              <PlayerStatsBar />
             </div>
 
             <MedievalButton
