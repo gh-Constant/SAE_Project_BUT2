@@ -134,7 +134,8 @@
 
                         <!-- Loading State -->
                         <div v-if="loading" class="text-center py-12">
-                            <p class="text-xl font-medieval animate-pulse text-antique-bronze">Chargement des données...
+                            <p class="text-xl font-medieval animate-pulse text-antique-bronze">
+                                Chargement des données...
                             </p>
                         </div>
 
@@ -142,7 +143,6 @@
                         <div v-if="!loading && locations.length === 0" class="text-center py-8 text-stone-500 italic">
                             Aucun lieu trouvé.
                         </div>
-
                     </div>
                 </div>
             </div>

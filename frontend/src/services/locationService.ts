@@ -62,7 +62,9 @@ const locationServiceImpl = {
     } else {
       // Other users see story locations and purchased prestataire locations
       locations = locations.filter(location =>
-        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased)
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || 
+        (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID 
+          && location.purchased && location.status === 'APPROVED')
       );
     }
 

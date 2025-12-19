@@ -31,25 +31,51 @@
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
       <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
 
+      <!-- Pending Warning -->
+      <div v-if="location.status === 'PENDING'" class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6 shadow-sm">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-amber-700">
+              <span class="font-bold">Validation en cours :</span>
+              Ce lieu est en attente de validation par un administrateur. Les modifications sont temporairement
+              désactivées.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!-- Prestataire Profile Section -->
-      <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm" v-if="prestataire">
+      <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm"
+        v-if="prestataire">
         <div class="flex items-center mb-4">
           <div class="relative">
-            <img :src="prestataire.avatar_url" :alt="prestataire.firstname" class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover" />
-            <div class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white">
+            <img :src="prestataire.avatar_url" :alt="prestataire.firstname"
+              class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover" />
+            <div
+              class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white">
               {{ t('widgets.purchased.owner_label') }}
             </div>
           </div>
           <div class="flex-1">
-            <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
+            <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{
+              prestataire.lastname }}</h3>
             <p class="text-sm font-body text-stone-grey italic">{{ prestataireTypeName }}</p>
           </div>
         </div>
-        <button 
-          class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2 px-4 rounded shadow-md transition-all duration-200 flex items-center justify-center gap-2" 
-          @click="viewProfile"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+        <button
+          class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2 px-4 rounded shadow-md transition-all duration-200 flex items-center justify-center gap-2"
+          @click="viewProfile">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
           {{ t('widgets.purchased.view_profile') }}
         </button>
       </div>
@@ -70,7 +96,8 @@
         </div>
         <div class="flex justify-between">
           <span class="font-bold text-iron-black">{{ t('widgets.purchased.value') }}</span>
-          <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} {{ t('widgets.available.currency') }}</span>
+          <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} {{
+            t('widgets.available.currency') }}</span>
         </div>
       </div>
 
@@ -89,10 +116,9 @@
       </div>
 
       <div class="flex gap-3 justify-end">
-        <button 
-          class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50" 
-          @click="$emit('close')"
-        >
+        <button
+          class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50"
+          @click="$emit('close')">
           {{ t('widgets.purchased.close') }}
         </button>
       </div>
@@ -147,7 +173,18 @@ const prestataireTypeName = computed(() => {
 const isOwner = computed(() => {
   const authStore = useAuthStore();
   if (!authStore.user) return false;
-  return props.location.id_prestataire === authStore.user.id;
+
+  // Strict check: User must be owner AND location must not be PENDING
+  // If PENDING, they are technically the owner but cannot edit yet
+  const userIsOwner = props.location.id_prestataire === authStore.user.id;
+  const isApproved = props.location.status !== 'PENDING';
+
+  return userIsOwner && isApproved;
+});
+
+const isPendingOwner = computed(() => {
+  const authStore = useAuthStore();
+  return authStore.user?.id === props.location.id_prestataire && props.location.status === 'PENDING';
 });
 
 const viewProfile = () => {

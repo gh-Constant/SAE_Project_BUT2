@@ -79,6 +79,7 @@ export const locationMockService = {
 
       // Update location with purchase info
       location.purchased = true;
+      location.status = 'PENDING';
       location.id_prestataire = userId;
       location.prestataire = {
         id_user: user.id,
@@ -107,7 +108,9 @@ export const locationMockService = {
     } else {
       // Other users see story locations and purchased prestataire locations
       locations = locations.filter(location =>
-        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased)
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || 
+        (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID 
+          && location.purchased && location.status === 'APPROVED')
       );
     }
 
@@ -139,6 +142,8 @@ export const locationMockService = {
   },
 
   updateLocation: (location: LocationMock): Promise<LocationMock> => {
+    // TODO: supprimer toutes les enven, produit, ... si changement de prestataire
+    
     return new Promise((resolve, reject) => {
       const index = LOCATIONS.findIndex(loc => loc.id === location.id);
       if (index !== -1) {
