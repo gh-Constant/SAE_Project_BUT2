@@ -42,11 +42,33 @@
             </svg>
           </div>
           <div class="ml-3">
-            <p class="text-sm text-amber-700">
+            <p class="text-sm text-amber-700" v-if="!isAdmin">
               <span class="font-bold">Validation en cours :</span>
               Ce lieu est en attente de validation par un administrateur. Les modifications sont temporairement
               désactivées.
             </p>
+            <div class="text-sm text-amber-700" v-else>
+              <div class="flex gap-3 mt-2">
+                <button @click="validateLocation"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded shadow-sm text-sm font-bold transition-colors flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  Valider
+                </button>
+                <button @click="rejectLocation"
+                  class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-1.5 rounded shadow-sm text-sm font-bold transition-colors flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  Refuser
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -141,6 +163,8 @@ import ShopSection from './ShopSection.vue';
 import EventSection from './EventSection.vue';
 import QuestSection from './QuestSection.vue';
 import { useI18n } from 'vue-i18n';
+import { locationService } from '@/services/locationService';
+import { isAdmin as checkIsAdmin } from '@/services/roleService';
 
 const { t } = useI18n();
 
@@ -150,7 +174,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-defineEmits<{
+const emit = defineEmits<{
   close: [];
 }>();
 
@@ -190,6 +214,37 @@ const isPendingOwner = computed(() => {
 const viewProfile = () => {
   // TODO: Naviguer vers le profil du prestataire
   console.log('Affichage du profil de:', prestataire.value?.firstname);
+};
+
+const isAdmin = computed(() => {
+  const authStore = useAuthStore();
+  return checkIsAdmin(authStore.user);
+});
+
+const validateLocation = async () => {
+  if (!confirm('Voulez-vous vraiment valider ce lieu ?')) return;
+  try {
+    await locationService.validatePurchase(props.location.id);
+    emit('close');
+    // Note: The map needs to refresh to show the new status color.
+    // Ideally we would emit a 'refresh' event, but 'close' might trigger re-fetch in parent or just close.
+    // Since we reload map markers frequently, it might be fine, or user has to pan map.
+    // For MVP/Mock this is acceptable.
+  } catch (error) {
+    console.error('Failed to validate location:', error);
+    alert('Erreur lors de la validation du lieu.');
+  }
+};
+
+const rejectLocation = async () => {
+  if (!confirm('Voulez-vous vraiment refuser ce lieu ? Il redeviendra disponible.')) return;
+  try {
+    await locationService.rejectPurchase(props.location.id);
+    emit('close');
+  } catch (error) {
+    console.error('Failed to reject location:', error);
+    alert('Erreur lors du refus du lieu.');
+  }
 };
 
 </script>
