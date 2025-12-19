@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { eventService } from '@/services/eventService'
+import type { LocationMock } from '@/mocks/locations'
+import type { EventInput, EventUpdateInput } from '@/mocks/events'
 
 export interface EventCategory {
   id_event_category?: number
@@ -18,17 +20,31 @@ export interface Event {
   published: boolean
   id_location: number
   categories: EventCategory[]
-  location?: any
+  location?: LocationMock
   sold?: number
   capacity?: number
   price?: number
 }
 
+export interface EventReservation {
+  id_reservation: number
+  id_user: number
+  id_event: number
+  quantity: number
+  total_price: number
+  status: string
+  created_at: string
+  event?: Event
+}
+
+
+export type { EventInput, EventUpdateInput }
+
 export const useEventStore = defineStore('event', {
   state: () => ({
     events: [] as Event[],
     currentEvent: null as Event | null,
-    userReservations: [] as any[],
+    userReservations: [] as EventReservation[],
     loading: false,
     error: null as string | null,
   }),
@@ -38,8 +54,8 @@ export const useEventStore = defineStore('event', {
       this.loading = true
       try {
         this.events = await eventService.getEvents(filters) as Event[]
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
         this.loading = false
       }
@@ -51,29 +67,29 @@ export const useEventStore = defineStore('event', {
         const event = await eventService.getEventById(id)
         this.currentEvent = event as Event
         return event
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
         return null
       } finally {
         this.loading = false
       }
     },
 
-    async createEvent(eventData: any) {
+    async createEvent(eventData: EventInput) {
       this.loading = true
       try {
         const newEvent = await eventService.createEvent(eventData)
         this.events.push(newEvent as Event)
         return newEvent
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
         throw err
       } finally {
         this.loading = false
       }
     },
 
-    async updateEvent(id: number, eventData: any) {
+    async updateEvent(id: number, eventData: EventUpdateInput) {
       this.loading = true
       try {
         const updatedEvent = await eventService.updateEvent(id, eventData)
@@ -82,8 +98,8 @@ export const useEventStore = defineStore('event', {
           this.events[index] = updatedEvent as Event
         }
         return updatedEvent
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
         throw err
       } finally {
         this.loading = false
@@ -95,8 +111,8 @@ export const useEventStore = defineStore('event', {
       try {
         await eventService.deleteEvent(id)
         this.events = this.events.filter(e => e.id_event !== id)
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
         throw err
       } finally {
         this.loading = false
@@ -107,8 +123,8 @@ export const useEventStore = defineStore('event', {
       this.loading = true
       try {
         return await eventService.bookEvent(eventId, quantity)
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
         throw err
       } finally {
         this.loading = false
@@ -119,8 +135,8 @@ export const useEventStore = defineStore('event', {
       this.loading = true
       try {
         this.userReservations = await eventService.getUserReservations()
-      } catch (err: any) {
-        this.error = err.message
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
         this.loading = false
       }

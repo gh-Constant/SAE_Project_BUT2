@@ -1,5 +1,5 @@
-import { EVENTS } from './events';
-import { LOCATIONS } from './locations';
+import { EVENTS, EventMock } from './events';
+import { LOCATIONS, LocationMock } from './locations';
 
 export interface ReservationMock {
   id_reservation: number;
@@ -9,7 +9,7 @@ export interface ReservationMock {
   total_price: number;
   status: 'CONFIRMED' | 'PENDING' | 'CANCELLED';
   created_at: string;
-  event?: any;
+  event?: EventMock & { location?: LocationMock };
 }
 
 export const RESERVATIONS: ReservationMock[] = [

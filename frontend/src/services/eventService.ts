@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { eventMockService } from './mock/eventMockService';
-import { EventMock } from '@/mocks/events';
+import { EventMock, EventInput, EventUpdateInput } from '@/mocks/events';
 import { ReservationMock } from '@/mocks/reservations';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api' || 'http://localhost:3000/api/v1';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1';
 
 const eventServiceImpl = {
   getEvents: async (filters?: { id_location?: number; published?: boolean }): Promise<EventMock[]> => {
@@ -17,7 +17,7 @@ const eventServiceImpl = {
     return response.data;
   },
 
-  createEvent: async (eventData: any): Promise<EventMock> => {
+  createEvent: async (eventData: EventInput): Promise<EventMock> => {
     const token = localStorage.getItem('token');
     const response = await axios.post(`${API_URL}/events`, eventData, {
       headers: { Authorization: `Bearer ${token}` }
@@ -25,7 +25,7 @@ const eventServiceImpl = {
     return response.data;
   },
 
-  updateEvent: async (id: number, eventData: any): Promise<EventMock> => {
+  updateEvent: async (id: number, eventData: EventUpdateInput): Promise<EventMock> => {
     const token = localStorage.getItem('token');
     const response = await axios.put(`${API_URL}/events/${id}`, eventData, {
       headers: { Authorization: `Bearer ${token}` }

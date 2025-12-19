@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import orderService from '../services/orderService.js';
 
+// Interface pour les items de commande reçus du frontend
+interface OrderItemInput {
+    id_product: number | string;
+    quantity: number | string;
+    price: number | string;
+}
+
 export const createOrder = async (req: Request, res: Response) => {
     try {
-        // The frontend sends:
-        // locationId: number
-        // id_prestataire: number
-        // items: Array<{ id_product, quantity, price }>
-        // userId: number (from authStore)
-
         const { userId, locationId, items } = req.body;
 
         if (!userId || !items || !Array.isArray(items) || items.length === 0) {
@@ -16,7 +17,7 @@ export const createOrder = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Invalid order data' });
         }
 
-        const mappedItems = items.map((item: any) => ({
+        const mappedItems = items.map((item: OrderItemInput) => ({
             productId: Number(item.id_product),
             quantity: Number(item.quantity),
             price: Number(item.price)

@@ -26,6 +26,15 @@ import { Request, Response } from 'express';
 import { login, register } from '../services/authService.js';
 import prisma from '../prisma.js';
 
+// Interface pour les requêtes authentifiées avec les infos utilisateur
+interface AuthenticatedRequest extends Request {
+  user: {
+    id: number;
+    email?: string;
+    role?: string;
+  };
+}
+
 export const authController = {
   async login(req: Request, res: Response) {
     try {
@@ -49,7 +58,7 @@ export const authController = {
 
   async getMe(req: Request, res: Response): Promise<void> {
     try {
-      const userId = (req as any).user.id;
+      const userId = (req as AuthenticatedRequest).user.id;
       const user = await prisma.user.findUnique({
         where: { id_user: userId },
         select: {
@@ -79,7 +88,7 @@ export const authController = {
 
   async getMyRole(req: Request, res: Response): Promise<void> {
     try {
-      const userId = (req as any).user.id;
+      const userId = (req as AuthenticatedRequest).user.id;
       const userWithRole = await prisma.user.findUnique({
         where: { id_user: userId },
         select: { role: true }
@@ -98,7 +107,7 @@ export const authController = {
 
   async updateMe(req: Request, res: Response): Promise<void> {
     try {
-      const userId = (req as any).user.id;
+      const userId = (req as AuthenticatedRequest).user.id;
       const { firstname, lastname, email, avatarUrl, avatarType, prestataireTypeId, birthDate, phone, bio } = req.body;
 
       const existingUser = await prisma.user.findUnique({
@@ -129,17 +138,17 @@ export const authController = {
         const age = today.getFullYear() - birthDateObj.getFullYear();
         const monthDiff = today.getMonth() - birthDateObj.getMonth();
         const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate()) ? age - 1 : age;
-        
+
         if (isNaN(birthDateObj.getTime())) {
           res.status(400).json({ error: 'Invalid birth date format' });
           return;
         }
-        
+
         if (actualAge < 15) {
           res.status(400).json({ error: 'User must be at least 15 years old' });
           return;
         }
-        
+
         if (birthDateObj > today) {
           res.status(400).json({ error: 'Birth date cannot be in the future' });
           return;
@@ -151,7 +160,7 @@ export const authController = {
         return;
       }
 
-      const updateData: any = {};
+      const updateData: Record<string, string | number | Date | null> = {};
       if (firstname !== undefined) updateData.firstname = firstname;
       if (lastname !== undefined) updateData.lastname = lastname;
       if (email !== undefined) updateData.email = email;
@@ -160,7 +169,7 @@ export const authController = {
       if (birthDate !== undefined) updateData.birth_date = birthDate ? new Date(birthDate) : null;
       if (phone !== undefined) updateData.phone = phone || null;
       if (bio !== undefined) updateData.bio = bio || null;
-      
+
       if (prestataireTypeId !== undefined) {
         if (prestataireTypeId !== null) {
           const prestataireType = await prisma.prestataireType.findUnique({
@@ -174,12 +183,12 @@ export const authController = {
         updateData.id_prestataire_type = prestataireTypeId;
       }
 
-      if (updateData.firstname !== undefined && !updateData.firstname.trim()) {
+      if (updateData.firstname !== undefined && !(updateData.firstname as string).trim()) {
         res.status(400).json({ error: 'Firstname cannot be empty' });
         return;
       }
 
-      if (updateData.lastname !== undefined && !updateData.lastname.trim()) {
+      if (updateData.lastname !== undefined && !(updateData.lastname as string).trim()) {
         res.status(400).json({ error: 'Lastname cannot be empty' });
         return;
       }

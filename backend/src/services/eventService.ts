@@ -54,10 +54,24 @@ export const getEventById = async (id: number) => {
   });
 };
 
-export const updateEvent = async (id: number, data: EventData) => {
-  const updateData: any = { data };
+export const updateEvent = async (id: number, data: Partial<EventData>) => {
+  const updateData: Partial<{
+    title: string;
+    description: string | undefined;
+    start_time: Date;
+    end_time: Date;
+    price: number;
+    capacity: number;
+    id_location: number;
+  }> = {};
+
+  if (data.title) updateData.title = data.title;
+  if (data.description !== undefined) updateData.description = data.description;
   if (data.start_time) updateData.start_time = new Date(data.start_time);
   if (data.end_time) updateData.end_time = new Date(data.end_time);
+  if (data.price !== undefined) updateData.price = data.price;
+  if (data.capacity !== undefined) updateData.capacity = data.capacity;
+  if (data.id_location !== undefined) updateData.id_location = data.id_location;
 
   return await prisma.event.update({
     where: { id_event: id },

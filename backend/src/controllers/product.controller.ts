@@ -1,6 +1,18 @@
 import { Request, Response } from 'express';
 import productService, { ProductQueryOptions } from '../services/productService.js';
 
+// Interface pour les produits retournés par le service
+interface ProcessedProduct {
+    id_product: number;
+    name: string;
+    description?: string | null;
+    price: number;
+    image?: string | null;
+    id_prestataire: number;
+    stock: number;
+    locationId?: number;
+}
+
 export const getAllProducts = async (req: Request, res: Response) => {
     try {
         const options: ProductQueryOptions = {
@@ -8,7 +20,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
             minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
             maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
             stock: req.query.stock as 'in-stock' | 'out-of-stock',
-            sortBy: req.query.sortBy as any,
+            sortBy: req.query.sortBy as ProductQueryOptions['sortBy'],
             locationId: req.query.locationId ? Number(req.query.locationId) : undefined,
             prestataireId: req.query.prestataireId ? Number(req.query.prestataireId) : undefined
         };
@@ -16,7 +28,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
         const products = await productService.getAllProducts(options);
 
         // Map to frontend expected format
-        const mappedProducts = products.map((p: any) => ({
+        const mappedProducts = products.map((p: ProcessedProduct) => ({
             id: p.id_product,
             name: p.name,
             stock: p.stock,

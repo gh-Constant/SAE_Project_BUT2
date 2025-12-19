@@ -1,4 +1,12 @@
+import type { LocationMock } from './locations';
 
+export interface EventCategoryMock {
+  id_event_category?: number;
+  name: string;
+  price: number;
+  capacity: number;
+  sold?: number;
+}
 
 export interface EventMock {
   id_event: number;
@@ -11,8 +19,18 @@ export interface EventMock {
   sold: number;
   id_location: number;
   published: boolean;
-  location?: any;
+  categories: EventCategoryMock[];
+  location?: LocationMock;
 }
+
+// Type pour les données d'entrée lors de la création d'un événement
+// Exclut les propriétés auto-générées (id_event, sold, location)
+export type EventInput = Omit<EventMock, 'id_event' | 'sold' | 'location'>;
+
+// Type pour les données de mise à jour d'un événement (toutes les propriétés optionnelles sauf celles auto-générées)
+export type EventUpdateInput = {
+  [K in keyof EventInput]?: EventInput[K];
+};
 
 export const EVENTS: EventMock[] = [
   {
@@ -25,7 +43,11 @@ export const EVENTS: EventMock[] = [
     capacity: 1000,
     sold: 450,
     id_location: 1, // Assumes location 1 exists
-    published: true
+    published: true,
+    categories: [
+      { id_event_category: 1, name: 'Standard', price: 50, capacity: 800, sold: 350 },
+      { id_event_category: 2, name: 'VIP', price: 100, capacity: 200, sold: 100 }
+    ]
   },
   {
     id_event: 2,
@@ -37,7 +59,10 @@ export const EVENTS: EventMock[] = [
     capacity: 200,
     sold: 180,
     id_location: 2,
-    published: true
+    published: true,
+    categories: [
+      { id_event_category: 3, name: 'Table Royale', price: 120, capacity: 200, sold: 180 }
+    ]
   },
   {
     id_event: 3,
@@ -49,6 +74,9 @@ export const EVENTS: EventMock[] = [
     capacity: 5000,
     sold: 120,
     id_location: 1,
-    published: true
+    published: true,
+    categories: [
+      { id_event_category: 4, name: 'Entrée Libre', price: 0, capacity: 5000, sold: 120 }
+    ]
   }
 ];

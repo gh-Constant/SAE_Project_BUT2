@@ -818,8 +818,8 @@ const handleSubmit = async () => {
       successMessage.value = ''
       changedFields.value = []
     }, 5000)
-  } catch (error: any) {
-    errorMessage.value = error.message || t('profile.messages.error')
+  } catch (error: unknown) {
+    errorMessage.value = (error as Error).message || t('profile.messages.error')
     changedFields.value = []
   } finally {
     isLoading.value = false

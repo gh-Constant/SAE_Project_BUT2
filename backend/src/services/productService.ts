@@ -3,7 +3,7 @@
  * @description Service for managing product-related operations.
  */
 
-// import { PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import prisma from '../prisma.js';
 
 /**
@@ -58,7 +58,7 @@ const productService = {
         } = options;
 
         // Build the where clause
-        const where: any = {};
+        const where: Prisma.ProductWhereInput = {};
 
         // Search filter (name or description)
         if (search) {
@@ -110,7 +110,7 @@ const productService = {
 
             // LOGGING FOR DEBUG
             // console.log(`Processing product ${product.id_product} (${product.name}): Stock entries: ${product.stock.length}`);
-            product.stock.forEach((s, i) => {
+            product.stock.forEach(() => {
                 // console.log(`  Stock[${i}]: serviceId=${s.id_service}, locId=${s.service?.id_location}, stock=${s.stock}`);
             });
 

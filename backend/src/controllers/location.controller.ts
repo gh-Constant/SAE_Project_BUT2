@@ -4,6 +4,15 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Interface pour les données de mise à jour d'une location
+interface LocationUpdateData {
+  name?: string;
+  description?: string;
+  price?: number;
+  purchased?: boolean;
+  id_prestataire?: number | null;
+}
+
 export const getAllLocations = async (req: Request, res: Response) => {
   try {
     const locations = await prisma.location.findMany({
@@ -20,7 +29,7 @@ export const getAllLocations = async (req: Request, res: Response) => {
         }
       }
     });
-    
+
     // Transform data to match frontend expectations if needed
     // Frontend expects: id, name, description, static_code, price, purchased, position, icon_name, banner_image, id_prestataire, id_location_type, prestataire
     const mappedLocations = locations.map(loc => ({
@@ -119,7 +128,7 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
     }
 
     // Build update data object (only include fields that are provided)
-    const updateData: any = {};
+    const updateData: LocationUpdateData = {};
     if (name !== undefined) updateData.name = name;
     if (description !== undefined) updateData.description = description;
     if (price !== undefined) updateData.price = price;

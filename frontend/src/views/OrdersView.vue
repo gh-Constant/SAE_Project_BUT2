@@ -17,7 +17,7 @@
         <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
           {{ t('orders.title') }}
         </h1>
-          <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
+        <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
         <p class="text-base font-body text-stone-grey">{{ t('orders.subtitle') }}</p>
       </div>
 
@@ -225,7 +225,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { COMMANDES, EtatCommande, CommandeMock } from '@/mocks/commande'
+import { COMMANDES, EtatCommande } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { productService } from '@/services/productService'
 import { USERS } from '@/mocks/users'
@@ -242,9 +242,9 @@ const filter = ref<'all' | EtatCommande>(route.query.allPaid === 'true' ? EtatCo
 // QR Code canvas refs
 const qrCanvasRefs = ref<Map<number, HTMLCanvasElement>>(new Map())
 
-const setQrCanvasRef = (el: any, orderId: number) => {
-  if (el) {
-    qrCanvasRefs.value.set(orderId, el as HTMLCanvasElement)
+const setQrCanvasRef = (el: unknown, orderId: number) => {
+  if (el instanceof HTMLCanvasElement) {
+    qrCanvasRefs.value.set(orderId, el)
   }
 }
 

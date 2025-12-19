@@ -1,4 +1,4 @@
-import { Quest } from '../questService';
+import { Quest, UserQuest } from '../questService';
 
 const mockQuests: Quest[] = [
   {
@@ -19,14 +19,19 @@ const mockQuests: Quest[] = [
   }
 ];
 
-const userQuests: any[] = [];
+// Type pour les quêtes utilisateur mockées (avec les quêtes enrichies)
+interface MockUserQuest extends UserQuest {
+  quest?: Quest;
+}
+
+const userQuests: MockUserQuest[] = [];
 
 export const questMockService = {
   getQuestsByLocation: async (locationId: number): Promise<Quest[]> => {
     return mockQuests.filter(q => q.id_location === locationId);
   },
 
-  getUserQuests: async (): Promise<any[]> => {
+  getUserQuests: async (): Promise<MockUserQuest[]> => {
     return userQuests;
   },
 
@@ -39,14 +44,21 @@ export const questMockService = {
   acceptQuest: async (questId: number): Promise<void> => {
     const quest = mockQuests.find(q => q.id_quest === questId);
     if (quest && !userQuests.find(uq => uq.id_quest === questId)) {
-        userQuests.push({ ...quest, status: 'accepted', quest: quest });
+      userQuests.push({
+        id_user_quest: userQuests.length + 1,
+        id_user: 1, // Mock user ID
+        id_quest: quest.id_quest,
+        status: 'accepted',
+        quest: quest,
+        accepted_at: new Date().toISOString()
+      });
     }
   },
 
   completeQuest: async (questId: number): Promise<void> => {
     const uq = userQuests.find(q => q.id_quest === questId);
     if (uq) {
-        uq.status = 'completed';
+      uq.status = 'completed';
     }
   },
 

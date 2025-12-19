@@ -49,46 +49,18 @@
         ></div>
         
         <!-- Decorative Corners - Gray for completed, bronze for others -->
-        <div :class="[
-          'absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 z-10 transition-all duration-300',
-          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
-          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
-        ]"></div>
-        <div :class="[
-          'absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 z-10 transition-all duration-300',
-          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
-          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
-        ]"></div>
-        <div :class="[
-          'absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 z-10 transition-all duration-300',
-          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
-          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
-        ]"></div>
-        <div :class="[
-          'absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 z-10 transition-all duration-300',
-          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
-          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
-        ]"></div>
+        <div :class="['absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 z-10 transition-all duration-300', isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze', !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1']"></div>
+        <div :class="['absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 z-10 transition-all duration-300', isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze', !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1']"></div>
+        <div :class="['absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 z-10 transition-all duration-300', isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze', !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1']"></div>
+        <div :class="['absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 z-10 transition-all duration-300', isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze', !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1']"></div>
 
         <!-- Content Container -->
-        <div :class="[
-          'relative p-4 z-10 transition-all duration-300',
-          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
-        ]">
+        <div :class="[ 'relative p-4 z-10 transition-all duration-300', !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1' ]">
           <div class="flex justify-between items-start gap-3">
             <div class="flex-1 min-w-0">
-              <h4 :class="[
-                'font-medieval font-bold text-lg transition-colors duration-300',
-                isQuestCompleted(quest.id_quest) ? 'text-stone-500' : 'text-iron-black group-hover:text-antique-bronze'
-              ]">{{ quest.title }}</h4>
-              <p :class="[
-                'text-sm font-body mt-1 line-clamp-2',
-                isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey'
-              ]">{{ quest.description }}</p>
-              <div :class="[
-                'mt-3 text-xs font-bold flex items-center gap-1',
-                isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-antique-bronze'
-              ]">
+              <h4 :class="[ 'font-medieval font-bold text-lg transition-colors duration-300', isQuestCompleted(quest.id_quest) ? 'text-stone-500' : 'text-iron-black group-hover:text-antique-bronze' ]">{{ quest.title }}</h4>
+              <p :class="[ 'text-sm font-body mt-1 line-clamp-2', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey' ]">{{ quest.description }}</p>
+              <div :class="[ 'mt-3 text-xs font-bold flex items-center gap-1', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-antique-bronze' ]">
                 <i class="fas fa-star"></i>
                 {{ quest.xp_reward }} XP
               </div>
@@ -143,7 +115,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { questService, Quest } from '@/services/questService';
+import { questService, Quest, UserQuest } from '@/services/questService';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 
@@ -157,7 +129,7 @@ const props = defineProps<{
 
 const router = useRouter();
 const quests = ref<Quest[]>([]);
-const userQuests = ref<any[]>([]);
+const userQuests = ref<UserQuest[]>([]);
 const loading = ref(true);
 
 // Check if current user is a prestataire (they cannot accept quests)
@@ -228,11 +200,11 @@ const acceptQuest = async (questId: number) => {
 };
 
 const isQuestTaken = (questId: number) => {
-    return userQuests.value.some((uq: any) => uq.id_quest === questId);
+    return userQuests.value.some((uq: UserQuest) => uq.id_quest === questId);
 };
 
 const isQuestCompleted = (questId: number) => {
-    const userQuest = userQuests.value.find((uq: any) => uq.id_quest === questId);
+    const userQuest = userQuests.value.find((uq: UserQuest) => uq.id_quest === questId);
     return userQuest?.status === 'completed';
 };
 

@@ -9,7 +9,16 @@ export interface Quest {
   created_at?: string;
   updated_at?: string;
   status?: 'accepted' | 'completed' | 'failed'; // For UserQuest
-  userQuests?: any[];
+  userQuests?: UserQuest[];
+}
+
+export interface UserQuest {
+  id_user_quest: number;
+  id_user: number;
+  id_quest: number;
+  status: 'accepted' | 'completed' | 'failed';
+  accepted_at?: string;
+  completed_at?: string;
 }
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
@@ -18,19 +27,19 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000
 const questServiceImpl = {
   getQuestsByLocation: async (locationId: number): Promise<Quest[]> => {
     const response = await fetch(`${API_BASE_URL}/api/v1/quests/locations/${locationId}`, {
-         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
     });
     if (!response.ok) throw new Error('Failed to fetch quests');
     return await response.json();
   },
 
-  getUserQuests: async (): Promise<any[]> => {
+  getUserQuests: async (): Promise<UserQuest[]> => {
     const response = await fetch(`${API_BASE_URL}/api/v1/quests/my-quests`, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
     });
     if (!response.ok) throw new Error('Failed to fetch user quests');
     return await response.json();

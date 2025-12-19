@@ -144,8 +144,9 @@ async function handleBooking() {
     setTimeout(() => {
       router.push('/my-reservations')
     }, 1500)
-  } catch (err: any) {
-    bookingError.value = err.response?.data?.message || err.message || t('events.details.error_default')
+  } catch (err: unknown) {
+    const error = err as { response?: { data?: { message?: string } }; message?: string }
+    bookingError.value = error.response?.data?.message || error.message || t('events.details.error_default')
   } finally {
     bookingLoading.value = false
   }

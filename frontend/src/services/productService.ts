@@ -23,6 +23,18 @@ export interface ProductFilterParams {
   prestataireId?: number;
 }
 
+// Interface pour les données de commande
+export interface OrderData {
+  userId: number;
+  locationId: number;
+  id_prestataire?: number;
+  items: Array<{
+    id_product: number;
+    quantity: number;
+    price: number;
+  }>;
+}
+
 // Crée une copie de la liste des products pour pouvoir la modifier
 // Convertit de la structure products.ts (id_prestataire, image) vers la structure du store (locationId, imageUrl)
 const products: ProductStoreMock[] = []
@@ -63,10 +75,12 @@ const productMockService = {
         );
       }
       if (filters.minPrice !== undefined) {
-        filtered = filtered.filter(p => p.price >= filters.minPrice!);
+        const minPrice = filters.minPrice;
+        filtered = filtered.filter(p => p.price >= minPrice);
       }
       if (filters.maxPrice !== undefined) {
-        filtered = filtered.filter(p => p.price <= filters.maxPrice!);
+        const maxPrice = filters.maxPrice;
+        filtered = filtered.filter(p => p.price <= maxPrice);
       }
       if (filters.stock) {
         if (filters.stock === 'in-stock') filtered = filtered.filter(p => p.stock > 0);
@@ -229,7 +243,7 @@ const productMockService = {
     })
   },
 
-  async createOrder(orderData: any) {
+  async createOrder(orderData: OrderData) {
     console.log('Mock createOrder called', orderData);
     return { id: Date.now(), ...orderData, etat_commande: 'waiting' };
   }
@@ -292,7 +306,7 @@ const productServiceImpl = {
   },
 
 
-  async createOrder(orderData: any) {
+  async createOrder(orderData: OrderData) {
     const response = await fetch(`${API_BASE_URL}/api/v1/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -1,4 +1,4 @@
-import { EVENTS, EventMock } from '@/mocks/events';
+import { EVENTS, EventMock, EventInput, EventUpdateInput } from '@/mocks/events';
 import { RESERVATIONS, ReservationMock } from '@/mocks/reservations';
 import { LOCATIONS } from '@/mocks/locations';
 
@@ -6,11 +6,11 @@ export const eventMockService = {
   getEvents: async (filters?: { id_location?: number; published?: boolean }): Promise<EventMock[]> => {
     return new Promise((resolve) => {
       let filteredEvents = [...EVENTS];
-      
+
       if (filters?.id_location) {
         filteredEvents = filteredEvents.filter(e => e.id_location === filters.id_location);
       }
-      
+
       if (filters?.published !== undefined) {
         filteredEvents = filteredEvents.filter(e => e.published === filters.published);
       }
@@ -39,20 +39,27 @@ export const eventMockService = {
     });
   },
 
-  createEvent: async (eventData: any): Promise<EventMock> => {
+  createEvent: async (eventData: EventInput): Promise<EventMock> => {
     return new Promise((resolve) => {
       const newEvent: EventMock = {
-        ...eventData,
         id_event: Math.max(...EVENTS.map(e => e.id_event), 0) + 1,
+        title: eventData.title,
+        description: eventData.description,
+        start_time: eventData.start_time,
+        end_time: eventData.end_time,
+        price: eventData.price,
+        capacity: eventData.capacity,
+        id_location: eventData.id_location,
+        published: eventData.published,
         sold: 0,
-        published: true
+        categories: eventData.categories || []
       };
       EVENTS.push(newEvent);
       resolve(newEvent);
     });
   },
 
-  updateEvent: async (id: number, eventData: any): Promise<EventMock> => {
+  updateEvent: async (id: number, eventData: EventUpdateInput): Promise<EventMock> => {
     return new Promise((resolve, reject) => {
       const index = EVENTS.findIndex(e => e.id_event === id);
       if (index !== -1) {
@@ -112,13 +119,19 @@ export const eventMockService = {
 
   getUserReservations: async (): Promise<ReservationMock[]> => {
     return new Promise((resolve) => {
-      const userReservations = RESERVATIONS.filter(r => r.id_user === 2).map(r => ({
-        ...r,
-        event: {
-          ...EVENTS.find(e => e.id_event === r.id_event),
-          location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === r.id_event)?.id_location)
+      const userReservations = RESERVATIONS.filter(r => r.id_user === 2).map(r => {
+        const event = EVENTS.find(e => e.id_event === r.id_event);
+        if (event) {
+          return {
+            ...r,
+            event: {
+              ...event,
+              location: LOCATIONS.find(l => l.id === event.id_location)
+            }
+          };
         }
-      }));
+        return r;
+      });
       resolve(userReservations);
     });
   }
