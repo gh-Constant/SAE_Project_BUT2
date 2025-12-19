@@ -80,7 +80,7 @@ import { locationService } from '../services/locationService';
 import { clickIcon } from '../utils/map/iconsMarkers';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { isPrestataire } from '@/services/roleService';
+import { isPrestataire, isAdmin } from '@/services/roleService';
 import Widget from './widgets/Widget.vue';
 import { LocationMock } from '@/mocks/locations';
 
@@ -213,7 +213,7 @@ async function addFilteredLocationsToMap() {
   markers = [];
 
   const currentUser = user.value;
-  const userRole = isPrestataire(currentUser) ? 'prestataire' : 'other';
+  const userRole = isAdmin(currentUser) ? 'admin' : (isPrestataire(currentUser) ? 'prestataire' : 'other');
 
   await locationService.addLocationsToMap(map, markers, userRole, (location: LocationMock) => {
     selectedLocation.value = location;

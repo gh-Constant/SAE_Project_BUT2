@@ -31,7 +31,9 @@
         "status_label": "Statut :",
         "status_acquired": "Acquis",
         "value": "Valeur :",
-        "close": "Fermer"
+        "close": "Fermer",
+        "validate_button": "Valider",
+        "reject_button": "Refuser"
     },
     "blog": {
         "title": "Blogs",

@@ -19,12 +19,18 @@ import L from 'leaflet';
  * @param content - The HTML content for the icon (e.g., <i class="..."></i> or <img ... />).
  * @param borderColor - The Tailwind class for the border color (default: border-dark-wood).
  * @param bgColor - The Tailwind class for the background color (default: bg-parchment).
+ * @param extraClasses - Additional Tailwind classes to apply to the outer marker div.
  * @returns L.DivIcon
  */
-const createMedievalMarker = (content: string, borderColor: string = 'border-dark-wood', bgColor: string = 'bg-parchment') => {
+const createMedievalMarker = (
+  content: string, 
+  borderColor = 'border-dark-wood', 
+  bgColor = 'bg-parchment',
+  extraClasses = ''
+) => {
   return L.divIcon({
     html: `
-      <div class="relative flex flex-col items-center justify-center filter drop-shadow-md hover:scale-110 transition-transform duration-200 group">
+      <div class="relative flex flex-col items-center justify-center filter drop-shadow-md hover:scale-110 transition-transform duration-200 group ${extraClasses}">
         <div class="w-8 h-8 ${bgColor} border-2 ${borderColor} rounded-full flex items-center justify-center z-10 shadow-sm overflow-hidden">
           ${content}
         </div>
@@ -38,95 +44,131 @@ const createMedievalMarker = (content: string, borderColor: string = 'border-dar
   });
 };
 
-// --- Icons Definitions ---
+interface IconDefinition {
+  content: string;
+  borderColor: string;
+  bgColor: string;
+}
 
-export const ticketOfficeIcon = createMedievalMarker(
-  '<i class="fa-solid fa-ticket text-blue-600 text-sm"></i>',
-  'border-blue-900',
-  'bg-blue-50'
-);
+const iconDefinitions: Record<string, IconDefinition> = {
+  ticketOffice: {
+    content: '<i class="fa-solid fa-ticket text-blue-600 text-sm"></i>',
+    borderColor: 'border-blue-900',
+    bgColor: 'bg-blue-50'
+  },
+  witchHouse: {
+    content: '<i class="fas fa-hat-wizard text-purple-600 text-sm"></i>',
+    borderColor: 'border-purple-900',
+    bgColor: 'bg-purple-50'
+  },
+  sage: {
+    content: '<i class="fas fa-graduation-cap text-blue-600 text-sm"></i>',
+    borderColor: 'border-blue-800',
+    bgColor: 'bg-blue-50'
+  },
+  informationCenter: {
+    content: '<i class="fa-solid fa-circle-info text-amber-700 text-sm"></i>',
+    borderColor: 'border-amber-900',
+    bgColor: 'bg-amber-50'
+  },
+  trainingCamp: {
+    content: '<img src="/images/icons/sword_red.png" alt="Sword icon" class="w-4 h-4 object-contain" />',
+    borderColor: 'border-red-900',
+    bgColor: 'bg-red-50'
+  },
+  archeryRange: {
+    content: '<img src="/images/icons/bow_red.png" alt="Bow icon" class="w-4 h-4 object-contain" />',
+    borderColor: 'border-red-900',
+    bgColor: 'bg-red-50'
+  },
+  castle: {
+    content: '<i class="fas fa-chess-rook text-gray-600 text-sm"></i>',
+    borderColor: 'border-gray-800',
+    bgColor: 'bg-gray-50'
+  },
+  villageFool: {
+    content: '<img src="/images/icons/fool_purple.png" alt="Fool icon" class="w-4 h-4 object-contain" />',
+    borderColor: 'border-purple-900',
+    bgColor: 'bg-purple-50'
+  },
+  child: {
+    content: '<img src="/images/icons/little-boy_blue.png" alt="Little boy icon" class="w-5 h-5 object-contain" />',
+    borderColor: 'border-blue-900',
+    bgColor: 'bg-blue-50'
+  },
+  farmer: {
+    content: '<img src="/images/icons/farmer_yellow.png" alt="Farmer icon" class="w-5 h-5 object-contain" />',
+    borderColor: 'border-yellow-700',
+    bgColor: 'bg-yellow-50'
+  },
+  lumberjack: {
+    content: '<img src="/images/icons/axe_brown.png" alt="Axe icon" class="w-4 h-4 object-contain" />',
+    borderColor: 'border-amber-800',
+    bgColor: 'bg-amber-50'
+  },
+  prestataire: {
+    content: '<i class="fas fa-store text-emerald-700 text-sm"></i>',
+    borderColor: 'border-emerald-800',
+    bgColor: 'bg-emerald-50'
+  },
+  toilet: {
+    content: '<i class="fa-solid fa-restroom text-emerald-700 text-sm"></i>',
+    borderColor: 'border-emerald-800',
+    bgColor: 'bg-emerald-50'
+  },
+  default: {
+    content: '<i class="fas fa-map-marker-alt text-gray-500 text-sm"></i>',
+    borderColor: 'border-gray-600',
+    bgColor: 'bg-white'
+  }
+};
 
-export const witchHouseIcon = createMedievalMarker(
-  '<i class="fas fa-hat-wizard text-purple-600 text-sm"></i>',
-  'border-purple-900',
-  'bg-purple-50'
-);
+/**
+ * Gets an icon by name, with dynamic status styling.
+ * @param name - Icon name
+ * @param status - Item status: 'AVAILABLE' (Gray), 'PENDING' (Yellow), 'APPROVED' (Default)
+ */
+export const getIcon = (name: string, status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED') => {
+  const def = iconDefinitions[name] || iconDefinitions['default'];
+  
+  const { content } = def;
+  let { borderColor, bgColor } = def;
+  let extraClasses = '';
 
-export const sageIcon = createMedievalMarker(
-  '<i class="fas fa-graduation-cap text-blue-600 text-sm"></i>',
-  'border-blue-800',
-  'bg-blue-50'
-);
+  if (status === 'AVAILABLE') {
+     // Grayed out style: Stone colors + grayscale
+     borderColor = 'border-stone-400';
+     bgColor = 'bg-stone-200';
+     extraClasses = 'grayscale opacity-75'; 
+  } else if (status === 'PENDING') {
+     // Pending style: Yellow colors
+     borderColor = 'border-yellow-500';
+     bgColor = 'bg-yellow-50';
+  }
 
-export const informationCenterIcon = createMedievalMarker(
-  '<i class="fa-solid fa-circle-info text-amber-700 text-sm"></i>',
-  'border-amber-900',
-  'bg-amber-50'
-);
+  return createMedievalMarker(content, borderColor, bgColor, extraClasses);
+};
 
-export const trainingCampIcon = createMedievalMarker(
-  '<img src="/images/icons/sword_red.png" alt="Sword icon" class="w-4 h-4 object-contain" />',
-  'border-red-900',
-  'bg-red-50'
-);
+// --- Icons Definitions (Legacy/Direct Export) ---
 
-export const archeryRangeIcon = createMedievalMarker(
-  '<img src="/images/icons/bow_red.png" alt="Bow icon" class="w-4 h-4 object-contain" />',
-  'border-red-900',
-  'bg-red-50'
-);
-
-export const castleIcon = createMedievalMarker(
-  '<i class="fas fa-chess-rook text-gray-600 text-sm"></i>',
-  'border-gray-800',
-  'bg-gray-50'
-);
-
-export const villageFoolIcon = createMedievalMarker(
-  '<img src="/images/icons/fool_purple.png" alt="Fool icon" class="w-4 h-4 object-contain" />',
-  'border-purple-900',
-  'bg-purple-50'
-);
-
-export const childIcon = createMedievalMarker(
-  '<img src="/images/icons/little-boy_blue.png" alt="Little boy icon" class="w-5 h-5 object-contain" />',
-  'border-blue-900',
-  'bg-blue-50'
-);
-
-export const farmerIcon = createMedievalMarker(
-  '<img src="/images/icons/farmer_yellow.png" alt="Farmer icon" class="w-5 h-5 object-contain" />',
-  'border-yellow-700',
-  'bg-yellow-50'
-);
-
-export const lumberjackIcon = createMedievalMarker(
-  '<img src="/images/icons/axe_brown.png" alt="Axe icon" class="w-4 h-4 object-contain" />',
-  'border-amber-800',
-  'bg-amber-50'
-);
-
-export const prestataireIcon = createMedievalMarker(
-  '<i class="fas fa-store text-emerald-700 text-sm"></i>',
-  'border-emerald-800',
-  'bg-emerald-50'
-);
+export const ticketOfficeIcon = getIcon('ticketOffice');
+export const witchHouseIcon = getIcon('witchHouse');
+export const sageIcon = getIcon('sage');
+export const informationCenterIcon = getIcon('informationCenter');
+export const trainingCampIcon = getIcon('trainingCamp');
+export const archeryRangeIcon = getIcon('archeryRange');
+export const castleIcon = getIcon('castle');
+export const villageFoolIcon = getIcon('villageFool');
+export const childIcon = getIcon('child');
+export const farmerIcon = getIcon('farmer');
+export const lumberjackIcon = getIcon('lumberjack');
+export const prestataireIcon = getIcon('prestataire');
+export const toiletIcon = getIcon('toilet');
+export const defaultIcon = getIcon('default');
 
 export const clickIcon = createMedievalMarker(
   '<i class="fas fa-location-dot text-red-600 text-sm"></i>',
   'border-red-800',
-  'bg-white'
-);
-
-export const toiletIcon = createMedievalMarker(
-  '<i class="fa-solid fa-restroom text-emerald-700 text-sm"></i>',
-  'border-emerald-800',
-  'bg-emerald-50'
-);
-
-export const defaultIcon = createMedievalMarker(
-  '<i class="fas fa-map-marker-alt text-gray-500 text-sm"></i>',
-  'border-gray-600',
   'bg-white'
 );
 

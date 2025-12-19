@@ -23,7 +23,7 @@
 import L from 'leaflet';
 import { LOCATIONS, LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
-import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
+import { getIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
 
 export const locationMockService = {
@@ -79,6 +79,7 @@ export const locationMockService = {
 
       // Update location with purchase info
       location.purchased = true;
+      location.status = 'PENDING';
       location.id_prestataire = userId;
       location.prestataire = {
         id_user: user.id,
@@ -102,19 +103,28 @@ export const locationMockService = {
   async addLocationsToMap(map: L.Map, markers: L.Marker[], userRole?: string, onMarkerClick?: (location: LocationMock) => void): Promise<void> {
     let locations = await this.getAllLocations();
 
-    if (userRole === 'prestataire') {
-      // Prestataire sees all locations
+    if (userRole === 'prestataire' || userRole === 'admin') {
+      // Prestataire and Admin see all locations
     } else {
-      // Other users see story locations and purchased prestataire locations
+      // Other users see validated (APPROVED) locations
       locations = locations.filter(location =>
-        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased)
+        location.status === 'APPROVED'
       );
     }
 
     locations.forEach((location) => {
       // Utiliser l'icône spécifiée ou l'icône par défaut si elle n'existe pas
       const iconName = location.icon_name || 'default';
-      const icon = iconMarkers[iconName] || defaultIcon;
+      
+      let status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED';
+
+      if (userRole === 'admin' && location.status === 'PENDING') {
+        status = 'PENDING';
+      } else if (!location.purchased && location.id_location_type !== LocationType.STORY_LOCATION_TYPE_ID) {
+        status = 'AVAILABLE';
+      }
+
+      const icon = getIcon(iconName, status);
 
       const marker = L.marker(location.position, { icon });
 
@@ -135,6 +145,116 @@ export const locationMockService = {
 
       marker.addTo(map);
       markers.push(marker);
+    });
+  },
+
+  updateLocation: (location: LocationMock): Promise<LocationMock> => {
+    // TODO: supprimer toutes les enven, produit, ... si changement de prestataire
+    
+    return new Promise((resolve, reject) => {
+      const index = LOCATIONS.findIndex(loc => loc.id === location.id);
+      if (index !== -1) {
+        // Enforce business logic: status/purchased is derived from owner presence
+        if (location.id_prestataire) {
+             location.status = 'APPROVED';
+             location.purchased = true;
+
+             // Hydrate prestataire info if available in USERS
+             const user = USERS.find(u => u.id === location.id_prestataire);
+             if (user) {
+                 location.prestataire = {
+                    id_user: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    avatar_url: user.avatar_url,
+                    avatar_type: user.avatar_type,
+                 };
+             }
+        } else {
+            // No owner implied available
+            location.status = 'AVAILABLE';
+            location.purchased = false;
+            location.id_prestataire = undefined;
+            location.prestataire = undefined;
+        }
+
+        // Update fields
+        LOCATIONS[index] = { ...LOCATIONS[index], ...location };
+
+        resolve(LOCATIONS[index]);
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  deleteLocation: (locationId: number): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const index = LOCATIONS.findIndex(loc => loc.id === locationId);
+      if (index !== -1) {
+        LOCATIONS.splice(index, 1);
+        resolve();
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  validatePurchase(locationId: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (location) {
+        location.status = 'APPROVED';
+        location.purchased = true;
+        resolve({ ...location });
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  rejectPurchase(locationId: number): Promise<LocationMock> {
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (location) {
+        location.status = 'AVAILABLE'; // Reset
+        location.purchased = false;
+        location.id_prestataire = undefined;
+        location.prestataire = undefined;
+        resolve({ ...location });
+      } else {
+        reject(new Error('Location not found'));
+      }
+    });
+  },
+
+  removeOwner(locationId: number): Promise<LocationMock> {
+    return this.rejectPurchase(locationId); // Same logic
+  },
+
+  updateOwner(locationId: number, userId: number): Promise<LocationMock> {
+      return new Promise((resolve, reject) => {
+        const location = LOCATIONS.find(loc => loc.id === locationId);
+        if (!location) {
+            return reject(new Error('Location not found'));
+        }
+
+        const user = USERS.find(u => u.id === userId);
+        if (!user) {
+             return reject(new Error('User not found'));
+        }
+
+        location.purchased = true;
+        location.status = 'APPROVED';
+        location.id_prestataire = userId;
+        location.prestataire = {
+            id_user: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            avatar_url: user.avatar_url,
+            avatar_type: user.avatar_type,
+        };
+        resolve({ ...location });
     });
   }
 };
