@@ -5,6 +5,7 @@ export interface LocationMock {
   id: number;
   name: string;
   description?: string;
+  presentation?: string; // Use Text editor
   static_code?: string;
   price: number;
   
@@ -15,8 +16,9 @@ export interface LocationMock {
   icon_name?: string;
   banner_image?: string;
 
+  status: 'AVAILABLE' | 'PENDING' | 'APPROVED'; 
   id_prestataire?: number; // Reference to user id
-  prestataire?: { // User details from backend
+  prestataire?: { // User details from backend 
     id_user: number;
     firstname: string;
     lastname: string;
@@ -34,7 +36,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A quaint wooden building adorned with colorful banners. The ticket officer, a jovial man named Garin, sells tickets to adventurers eager to explore the realm.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1747, 5072],
@@ -48,7 +51,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A mysterious dwelling shrouded in purple mist. The witch Morgana crafts powerful potions and enchantments for those brave enough to seek her services.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [910, 4330],
@@ -62,7 +66,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A towering library filled with ancient tomes and scrolls. The sage Eldric shares wisdom and teaches powerful spells to worthy students.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1344, 3572],
@@ -76,7 +81,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A bustling hub where adventurers gather to share news and seek guidance. The center is run by a knowledgeable clerk who provides maps and quest details.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1580, 4488],
@@ -90,7 +96,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'The magnificent seat of power in the kingdom. The castle houses the royal family and serves as the center of governance and justice.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [2856, 3770],
@@ -104,7 +111,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A rugged encampment where warriors hone their combat skills. The camp is led by a grizzled veteran who trains recruits in the art of battle.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1352, 2678],
@@ -118,7 +126,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A peaceful range where archers practice their marksmanship. The range is overseen by a skilled archer who offers lessons to aspiring bowmen.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1528, 3304],
@@ -132,7 +141,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A villager known for his antics and humorous tales. Despite his foolish demeanor, he often provides unexpected insights.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [2556, 4647],
@@ -146,7 +156,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A curious child who dreams of becoming a great adventurer one day. He often asks questions about the world beyond the village.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1008, 2165],
@@ -160,7 +171,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A hardworking farmer who tends to the village fields. He provides food and supplies to adventurers passing through.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [2060, 1728],
@@ -174,7 +186,8 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A burly lumberjack who harvests wood from the nearby forest. He is known for his strength and skill with an axe.',
     price: 0,
-    purchased: true, // Always true for main quest locations
+    purchased: true,
+    status: 'APPROVED', // Always true for main quest locations
     id_prestataire: 0,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [3040, 2724],
@@ -191,6 +204,7 @@ export const LOCATIONS: LocationMock[] = [
       'A popular location among travelers, known for its high foot traffic.',
     price: 140,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2254, 1897],
@@ -205,6 +219,7 @@ export const LOCATIONS: LocationMock[] = [
       'Situated near the town square, this stall benefits from constant visibility.',
     price: 160,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2188, 2139],
@@ -219,6 +234,7 @@ export const LOCATIONS: LocationMock[] = [
       'A strategic location for merchants, close to the main road.',
     price: 110,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: PRESTATAIRE_USER_ID_2,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2006, 2383],
@@ -233,6 +249,7 @@ export const LOCATIONS: LocationMock[] = [
       'A cozy stall, perfect for selling handmade goods and local crafts.',
     price: 115,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2386, 3379],
@@ -247,6 +264,7 @@ export const LOCATIONS: LocationMock[] = [
       'Known for its vibrant atmosphere and diverse range of products.',
     price: 125,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2236, 2491],
@@ -260,8 +278,9 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A prime spot for attracting both locals and tourists alike.',
     price: 135,
-    purchased: false,
-    id_prestataire: undefined,
+    purchased: true,
+    status: 'PENDING',
+    id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2346, 2271],
     icon_name: 'prestataire',
@@ -274,8 +293,9 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'Located at a busy intersection, ensuring a steady stream of potential customers.',
     price: 145,
-    purchased: false,
-    id_prestataire: undefined,
+    purchased: true,
+    status: 'PENDING',
+    id_prestataire: PRESTATAIRE_USER_ID_2,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2142, 2949],
     icon_name: 'prestataire',
@@ -289,6 +309,7 @@ export const LOCATIONS: LocationMock[] = [
       'A bustling area known for its lively market scene and diverse offerings.',
     price: 155,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1946, 3171],
@@ -303,6 +324,7 @@ export const LOCATIONS: LocationMock[] = [
       'Close to the tavern, this stall benefits from thirsty travelers looking for refreshments.',
     price: 165,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2398, 2599],
@@ -317,6 +339,7 @@ export const LOCATIONS: LocationMock[] = [
       'A favored spot for its proximity to the stables and the smell of fresh hay.',
     price: 175,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2556, 2025],
@@ -331,6 +354,7 @@ export const LOCATIONS: LocationMock[] = [
       'Known for its excellent view of the market square, ideal for attracting attention.',
     price: 185,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2616, 2273],
@@ -345,6 +369,7 @@ export const LOCATIONS: LocationMock[] = [
       'A strategic location near the fountain, popular with both locals and tourists.',
     price: 195,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2426, 1671],
@@ -359,6 +384,7 @@ export const LOCATIONS: LocationMock[] = [
       'Close to the entrance of the market, ensuring high visibility for your goods.',
     price: 205,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2324, 1517],
@@ -373,6 +399,7 @@ export const LOCATIONS: LocationMock[] = [
       'A charming stall with a great view of the castle, perfect for attracting tourists.',
     price: 215,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2266, 1404],
@@ -387,6 +414,7 @@ export const LOCATIONS: LocationMock[] = [
       "Located near the bard's stage, enjoy the added benefit of musical entertainment.",
     price: 225,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2226, 1295],
@@ -401,6 +429,7 @@ export const LOCATIONS: LocationMock[] = [
       'A prime location for selling exotic goods from distant lands.',
     price: 235,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1734, 3571],
@@ -415,6 +444,7 @@ export const LOCATIONS: LocationMock[] = [
       'Known for its vibrant colors and the enticing smell of delicious food.',
     price: 245,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1802, 1897],
@@ -429,6 +459,7 @@ export const LOCATIONS: LocationMock[] = [
       'A popular spot for its variety of goods and friendly merchants.',
     price: 255,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1856, 1999],
@@ -443,6 +474,7 @@ export const LOCATIONS: LocationMock[] = [
       'Close to the blacksmith, attracting customers looking for weapons and armor.',
     price: 265,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1914, 2113],
@@ -456,6 +488,7 @@ export const LOCATIONS: LocationMock[] = [
     description: 'A favored location for its shade and the nearby well.',
     price: 275,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1694, 2113],
@@ -470,6 +503,7 @@ export const LOCATIONS: LocationMock[] = [
       'Known for its strategic location near the guard post, ensuring safety and visibility.',
     price: 285,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1756, 2219],
@@ -484,6 +518,7 @@ export const LOCATIONS: LocationMock[] = [
       'A prime spot for selling magical artifacts and rare ingredients.',
     price: 295,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1808, 2333],
@@ -498,6 +533,7 @@ export const LOCATIONS: LocationMock[] = [
       'A cozy stall, ideal for selling baked goods and sweet treats.',
     price: 315,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1088, 1679],
@@ -512,6 +548,7 @@ export const LOCATIONS: LocationMock[] = [
       'Known for its excellent view of the market square, ideal for attracting attention.',
     price: 325,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1282, 1625],
@@ -526,6 +563,7 @@ export const LOCATIONS: LocationMock[] = [
       'A strategic location near the fountain, popular with both locals and tourists.',
     price: 335,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1394, 2167],
@@ -540,6 +578,7 @@ export const LOCATIONS: LocationMock[] = [
       'Close to the entrance of the market, ensuring high visibility for your goods.',
     price: 345,
     purchased: false,
+    status: 'AVAILABLE',
     id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [1086, 2329],
@@ -556,6 +595,7 @@ export const LOCATIONS: LocationMock[] = [
       'A toilet located near the marketplace for public convenience.',
     price: 0,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1760, 2860],
@@ -570,6 +610,7 @@ export const LOCATIONS: LocationMock[] = [
       'A toilet located near the marketplace for public convenience.',
     price: 0,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1010, 1832],
@@ -584,6 +625,7 @@ export const LOCATIONS: LocationMock[] = [
       'A toilet located near the marketplace for public convenience.',
     price: 0,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [3200, 3288],
@@ -598,6 +640,7 @@ export const LOCATIONS: LocationMock[] = [
       'A toilet located near the marketplace for public convenience.',
     price: 0,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [2142, 1184],
@@ -612,6 +655,7 @@ export const LOCATIONS: LocationMock[] = [
       'A toilet located near the marketplace for public convenience.',
     price: 0,
     purchased: true,
+    status: 'APPROVED',
     id_prestataire: 0,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1820, 3348],
