@@ -11,8 +11,9 @@
                         Gestion des Lieux
                     </h1>
                     <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-                    <p class="text-base font-body text-stone-grey">Visualisation de tous les lieux et leurs
-                        propriétaires</p>
+                    <p class="text-base font-body text-stone-grey">
+                        Visualisation de tous les lieux et leurs propriétaires
+                    </p>
                 </div>
 
                 <!-- Section: All Locations -->
@@ -74,7 +75,7 @@
                                                         'bg-yellow-100/80 text-yellow-900 border-yellow-200'
                                             ]">
                                                 {{ location.status === 'APPROVED' ? 'Acheté' : location.status ===
-                                                    'PENDING' ? 'En Attente' : 'Disponible' }}
+                                                'PENDING' ? 'En Attente' : 'Disponible' }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-grey">
@@ -220,7 +221,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -377,5 +377,4 @@ const getLocationTypeName = (typeId: number) => {
         default: return 'Inconnu';
     }
 };
-
 </script>

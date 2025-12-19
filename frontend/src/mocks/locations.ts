@@ -18,7 +18,6 @@ export interface LocationMock {
 
   status: 'AVAILABLE' | 'PENDING' | 'APPROVED'; 
   id_prestataire?: number; // Reference to user id
-  // TODO: WHY Constant???
   prestataire?: { // User details from backend 
     id_user: number;
     firstname: string;
