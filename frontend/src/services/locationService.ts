@@ -1,7 +1,7 @@
 import { locationMockService } from './mock/locationMockService';
 import { LocationMock } from '@/mocks/locations';
 import L from 'leaflet';
-import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
+import { getIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
@@ -57,26 +57,33 @@ const locationServiceImpl = {
   addLocationsToMap: async (map: L.Map, markers: L.Marker[], userRole?: string, onMarkerClick?: (location: LocationMock) => void): Promise<void> => {
     let locations = await locationServiceImpl.getAllLocations();
 
-    if (userRole === 'prestataire') {
-      // Prestataire sees all locations
+    if (userRole === 'prestataire' || userRole === 'admin') {
+      // Prestataire and Admin see all locations
     } else {
-      // Other users see story locations and purchased prestataire locations
+      // Other users see validated (APPROVED) locations
       locations = locations.filter(location =>
-        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || 
-        (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID 
-          && location.purchased && location.status === 'APPROVED')
+        location.status === 'APPROVED'
       );
     }
 
     locations.forEach((location) => {
       const iconName = location.icon_name || 'default';
-      const icon = iconMarkers[iconName] || defaultIcon;
+      
+      let status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED';
+
+      if (userRole === 'admin' && location.status === 'PENDING') {
+        status = 'PENDING';
+      } else if (!location.purchased && location.id_location_type !== LocationType.STORY_LOCATION_TYPE_ID) {
+        status = 'AVAILABLE';
+      }
+
+      const icon = getIcon(iconName, status);
 
       // Ensure position is valid [lat, lng]
       if (!location.position || !Array.isArray(location.position) || location.position.length !== 2) {
         return;
       }
-
+      
       const marker = L.marker(location.position as [number, number], { icon });
 
       if (onMarkerClick) {

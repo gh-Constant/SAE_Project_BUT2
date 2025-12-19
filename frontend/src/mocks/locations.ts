@@ -5,6 +5,7 @@ export interface LocationMock {
   id: number;
   name: string;
   description?: string;
+  presentation?: string; // Use Text editor
   static_code?: string;
   price: number;
   
@@ -15,7 +16,7 @@ export interface LocationMock {
   icon_name?: string;
   banner_image?: string;
 
-  status?: 'AVAILABLE' | 'PENDING' | 'APPROVED'; 
+  status: 'AVAILABLE' | 'PENDING' | 'APPROVED'; 
   id_prestataire?: number; // Reference to user id
   // TODO: WHY Constant???
   prestataire?: { // User details from backend 

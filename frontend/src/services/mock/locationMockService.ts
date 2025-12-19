@@ -23,7 +23,7 @@
 import L from 'leaflet';
 import { LOCATIONS, LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
-import { iconMarkers, defaultIcon } from '@/utils/map/iconsMarkers';
+import { getIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
 
 export const locationMockService = {
@@ -103,21 +103,28 @@ export const locationMockService = {
   async addLocationsToMap(map: L.Map, markers: L.Marker[], userRole?: string, onMarkerClick?: (location: LocationMock) => void): Promise<void> {
     let locations = await this.getAllLocations();
 
-    if (userRole === 'prestataire') {
-      // Prestataire sees all locations
+    if (userRole === 'prestataire' || userRole === 'admin') {
+      // Prestataire and Admin see all locations
     } else {
-      // Other users see story locations and purchased prestataire locations
+      // Other users see validated (APPROVED) locations
       locations = locations.filter(location =>
-        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID || 
-        (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID 
-          && location.purchased && location.status === 'APPROVED')
+        location.status === 'APPROVED'
       );
     }
 
     locations.forEach((location) => {
       // Utiliser l'icône spécifiée ou l'icône par défaut si elle n'existe pas
       const iconName = location.icon_name || 'default';
-      const icon = iconMarkers[iconName] || defaultIcon;
+      
+      let status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED';
+
+      if (userRole === 'admin' && location.status === 'PENDING') {
+        status = 'PENDING';
+      } else if (!location.purchased && location.id_location_type !== LocationType.STORY_LOCATION_TYPE_ID) {
+        status = 'AVAILABLE';
+      }
+
+      const icon = getIcon(iconName, status);
 
       const marker = L.marker(location.position, { icon });
 
