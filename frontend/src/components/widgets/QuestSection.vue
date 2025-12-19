@@ -30,34 +30,113 @@
     <div v-else-if="quests.length === 0" class="text-center py-4 text-stone-grey font-body italic">
       {{ t('widgets.quests.empty') }}
     </div>
-    <div v-else class="space-y-4">
+    <div v-else class="grid grid-cols-1 gap-4">
       <div 
         v-for="quest in displayedQuests" 
         :key="quest.id_quest" 
-        class="bg-white/60 p-4 rounded-lg border border-antique-bronze/20 hover:border-antique-bronze/40 transition-colors"
+        class="relative group"
       >
-        <div class="flex justify-between items-start">
-          <div>
-            <h4 class="font-medieval font-bold text-lg text-iron-black">{{ quest.title }}</h4>
-            <p class="text-sm text-stone-grey font-body mt-1">{{ quest.description }}</p>
-            <div class="mt-2 text-xs font-bold text-antique-bronze flex items-center gap-1">
-              <i class="fas fa-star"></i>
-              {{ quest.xp_reward }} XP
+        <!-- Card Background - Different style for completed (grayed) vs others -->
+        <div 
+          :class="[
+            'absolute inset-0 rounded-sm shadow-md transition-all duration-300',
+            isQuestCompleted(quest.id_quest) 
+              ? 'bg-stone-100 border border-stone-300 opacity-60' 
+              : isQuestTaken(quest.id_quest)
+                ? 'bg-parchment border border-antique-bronze/30'
+                : 'bg-parchment border border-antique-bronze/30 group-hover:-translate-y-1 group-hover:shadow-lg'
+          ]"
+        ></div>
+        
+        <!-- Decorative Corners - Gray for completed, bronze for others -->
+        <div :class="[
+          'absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 z-10 transition-all duration-300',
+          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
+          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
+        ]"></div>
+        <div :class="[
+          'absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 z-10 transition-all duration-300',
+          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
+          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
+        ]"></div>
+        <div :class="[
+          'absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 z-10 transition-all duration-300',
+          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
+          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
+        ]"></div>
+        <div :class="[
+          'absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 z-10 transition-all duration-300',
+          isQuestCompleted(quest.id_quest) ? 'border-stone-400' : 'border-antique-bronze',
+          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
+        ]"></div>
+
+        <!-- Content Container -->
+        <div :class="[
+          'relative p-4 z-10 transition-all duration-300',
+          !isQuestTaken(quest.id_quest) && 'group-hover:-translate-y-1'
+        ]">
+          <div class="flex justify-between items-start gap-3">
+            <div class="flex-1 min-w-0">
+              <h4 :class="[
+                'font-medieval font-bold text-lg transition-colors duration-300',
+                isQuestCompleted(quest.id_quest) ? 'text-stone-500' : 'text-iron-black group-hover:text-antique-bronze'
+              ]">{{ quest.title }}</h4>
+              <p :class="[
+                'text-sm font-body mt-1 line-clamp-2',
+                isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey'
+              ]">{{ quest.description }}</p>
+              <div :class="[
+                'mt-3 text-xs font-bold flex items-center gap-1',
+                isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-antique-bronze'
+              ]">
+                <i class="fas fa-star"></i>
+                {{ quest.xp_reward }} XP
+              </div>
+            </div>
+            
+            <!-- Action Button / Status -->
+            <div class="flex-shrink-0">
+              <button 
+                v-if="!isOwner && !isQuestTaken(quest.id_quest) && !isPrestataire"
+                @click="acceptQuest(quest.id_quest)"
+                class="bg-antique-bronze hover:brightness-110 text-white px-3 py-1.5 rounded-sm text-sm font-medieval transition-all duration-200 flex items-center gap-1.5"
+              >
+                <i class="fas fa-scroll text-xs"></i>
+                {{ t('widgets.quests.accept') }}
+              </button>
+              <span 
+                v-else-if="isQuestCompleted(quest.id_quest)" 
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-200 text-stone-500 text-sm font-medieval rounded-sm border border-stone-300"
+              >
+                <i class="fas fa-check"></i> {{ t('widgets.quests.completed') }}
+              </span>
+              <span 
+                v-else-if="isQuestTaken(quest.id_quest)" 
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-antique-bronze/10 text-antique-bronze text-sm font-medieval rounded-sm border border-antique-bronze/20"
+              >
+                <i class="fas fa-hourglass-half"></i> {{ t('widgets.quests.accepted') }}
+              </span>
             </div>
           </div>
-          <button 
-            v-if="!isOwner && !isQuestTaken(quest.id_quest)"
-            @click="acceptQuest(quest.id_quest)"
-            class="bg-green-700/80 text-white px-3 py-1 rounded text-sm font-medieval hover:bg-green-700 transition-colors"
-          >
-            {{ t('widgets.quests.accept') }}
-          </button>
-          <span v-else-if="isQuestTaken(quest.id_quest)" class="text-green-700 text-sm font-medieval">
-            <i class="fas fa-check"></i> {{ t('widgets.quests.accepted') }}
-          </span>
         </div>
       </div>
     </div>
+
+    <!-- View More Button -->
+    <button 
+      v-if="quests.length > 3 && !loading"
+      @click="showAll = !showAll"
+      class="mt-4 w-full py-2 text-sm font-medieval text-antique-bronze hover:text-antique-bronze/80 transition-colors flex items-center justify-center gap-2"
+    >
+      <span v-if="!showAll">
+        <i class="fas fa-chevron-down"></i>
+        {{ t('widgets.quests.view_more', { count: quests.length - 3 }) }}
+      </span>
+      <span v-else>
+        <i class="fas fa-chevron-up"></i>
+        {{ t('widgets.quests.view_less') }}
+      </span>
+    </button>
   </div>
 </template>
 
@@ -66,8 +145,10 @@ import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { questService, Quest } from '@/services/questService';
 import { useI18n } from 'vue-i18n';
+import { useAuthStore } from '@/stores/auth';
 
 const { t } = useI18n();
+const authStore = useAuthStore();
 
 const props = defineProps<{
   locationId: number;
@@ -79,9 +160,25 @@ const quests = ref<Quest[]>([]);
 const userQuests = ref<any[]>([]);
 const loading = ref(true);
 
-// Display only the first 3 quests
+// Check if current user is a prestataire (they cannot accept quests)
+const isPrestataire = computed(() => authStore.user?.role === 'prestataire');
+
+// Toggle for showing all quests
+const showAll = ref(false);
+
+// Helper to get quest priority for sorting (lower = shown first)
+const getQuestPriority = (quest: Quest): number => {
+  if (isQuestCompleted(quest.id_quest)) return 2; // Completed at end
+  if (isQuestTaken(quest.id_quest)) return 1; // In progress in middle
+  return 0; // Available at top
+};
+
+// Display quests with proper sorting: available > in progress > completed
 const displayedQuests = computed(() => {
-  return quests.value.slice(0, 3);
+  const sorted = [...quests.value].sort((a, b) => {
+    return getQuestPriority(a) - getQuestPriority(b);
+  });
+  return showAll.value ? sorted : sorted.slice(0, 3);
 });
 
 const loadQuests = async () => {
@@ -125,15 +222,18 @@ const acceptQuest = async (questId: number) => {
   try {
     await questService.acceptQuest(questId);
     await loadQuests();
-    alert(t('widgets.quests.success_accept'));
   } catch (error) {
     console.error('Failed to accept quest:', error);
-    alert(t('widgets.quests.error_accept'));
   }
 };
 
 const isQuestTaken = (questId: number) => {
     return userQuests.value.some((uq: any) => uq.id_quest === questId);
+};
+
+const isQuestCompleted = (questId: number) => {
+    const userQuest = userQuests.value.find((uq: any) => uq.id_quest === questId);
+    return userQuest?.status === 'completed';
 };
 
 onMounted(() => {

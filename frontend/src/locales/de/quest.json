@@ -4,6 +4,7 @@
     "loading": "Laden...",
     "empty": {
         "message": "Sie haben noch keine Quests angenommen.",
+        "description": "Erkunden Sie die Karte, um neue Quests zu entdecken!",
         "explore": "Karte erkunden"
     },
     "item": {
@@ -15,8 +16,19 @@
         "completed": "Abgeschlossen",
         "failed": "Fehlgeschlagen"
     },
+    "sections": {
+        "in_progress": "Laufende Quests",
+        "completed": "Abgeschlossene Quests"
+    },
+    "actions": {
+        "cancel": "Aufgeben",
+        "confirm_cancel": "Sind Sie sicher, dass Sie diese Quest aufgeben möchten?",
+        "error_cancel": "Quest konnte nicht aufgegeben werden.",
+        "scan": "Scannen"
+    },
+    "completed_message": "Quest abgeschlossen!",
     "debug": {
-        "finish": "[DEBUG] Beenden",
+        "finish": "[DEV]",
         "confirm_finish": "DEBUG: Möchten Sie diese Quest als abgeschlossen markieren?",
         "error_finish": "Fehler beim Abschließen der Quest."
     }

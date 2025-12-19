@@ -63,8 +63,23 @@ export const getUserQuests = async (userId: number) => {
 
 /**
  * User accepts a quest
+ * Note: Prestataires cannot accept quests - they can only create them
  */
 export const acceptQuest = async (userId: number, questId: number) => {
+  // Check if user is a prestataire - they cannot accept quests
+  const user = await prisma.user.findUnique({
+    where: { id_user: userId },
+    select: { role: true }
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  if (user.role === 'prestataire') {
+    throw new Error('Prestataires cannot accept quests. They can only create quests for their locations.');
+  }
+
   return await prisma.userQuest.create({
     data: {
       id_user: userId,
@@ -87,6 +102,20 @@ export const completeQuest = async (userId: number, questId: number) => {
     },
     data: {
       status: UserQuestStatus.completed,
+    },
+  });
+};
+
+/**
+ * Cancel/Abandon a quest - removes it from user's list
+ */
+export const cancelQuest = async (userId: number, questId: number) => {
+  return await prisma.userQuest.delete({
+    where: {
+      id_user_id_quest: {
+        id_user: userId,
+        id_quest: questId,
+      },
     },
   });
 };

@@ -262,8 +262,11 @@ async function createQuest(locationId: number) {
 }
 
 async function deleteQuest(questId: number) {
-  if (!confirm('Voulez-vous vraiment supprimer cette quête ?')) return
-  // TODO: Implement delete in backend
-  alert('La suppression des quêtes sera bientôt disponible.')
+  try {
+    await questService.deleteQuest(questId);
+    await loadAllQuests();
+  } catch (error) {
+    console.error('Failed to delete quest:', error);
+  }
 }
 </script>

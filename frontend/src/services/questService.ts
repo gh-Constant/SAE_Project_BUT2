@@ -75,6 +75,17 @@ const questServiceImpl = {
     if (!response.ok) throw new Error('Failed to complete quest');
   },
 
+  cancelQuest: async (questId: number): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}/cancel`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
+    });
+
+    if (!response.ok) throw new Error('Failed to cancel quest');
+  },
+
   getAllQuests: async (): Promise<Quest[]> => {
     const response = await fetch(`${API_BASE_URL}/api/v1/quests`, {
       headers: {

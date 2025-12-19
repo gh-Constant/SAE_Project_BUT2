@@ -1,89 +1,197 @@
 <template>
-  <div class="min-h-screen bg-parchment pt-24 px-4 sm:px-6 lg:px-8 pb-12">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-8 border-b-2 border-antique-bronze pb-4">
-        <h1 class="text-3xl font-medieval font-bold text-iron-black flex items-center gap-3">
-          <i class="fas fa-scroll text-antique-bronze"></i>
-          {{ t('quest.title') }}
-        </h1>
-        <p class="mt-2 text-stone-grey font-body">
-          {{ t('quest.subtitle') }}
-        </p>
+  <div class="min-h-screen bg-parchment py-8 font-body text-stone-grey">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- En-tête -->
+      <div class="mb-8 text-center">
+        <MedievalSectionTitle>{{ t('quest.title') }}</MedievalSectionTitle>
+        <p class="text-lg text-stone-grey -mt-4">{{ t('quest.subtitle') }}</p>
       </div>
 
-      <div v-if="loading" class="text-center py-12">
-        <div class="text-antique-bronze animate-pulse text-xl font-medieval">{{ t('quest.loading') }}</div>
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
+        <i class="fas fa-hourglass-half text-6xl text-antique-bronze/40 animate-pulse mb-4 block"></i>
+        <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">{{ t('quest.loading') }}</h3>
       </div>
 
-      <div v-else-if="quests.length === 0" class="text-center py-12 bg-white/40 rounded-lg border border-antique-bronze/20">
-        <p class="text-lg text-stone-grey font-body mb-4">{{ t('quest.empty.message') }}</p>
-        <router-link to="/map" class="inline-block bg-antique-bronze text-white px-6 py-2 rounded font-medieval hover:bg-antique-bronze/90 transition-colors">
+      <!-- Empty State -->
+      <div v-else-if="quests.length === 0" class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
+        <i class="fas fa-scroll text-6xl text-antique-bronze/30 mb-4 block"></i>
+        <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">{{ t('quest.empty.message') }}</h3>
+        <p class="text-stone-grey mb-6">{{ t('quest.empty.description') }}</p>
+        <MedievalButton href="/map">
+          <i class="fas fa-map-marked-alt mr-2"></i>
           {{ t('quest.empty.explore') }}
-        </router-link>
+        </MedievalButton>
       </div>
 
-      <div v-else class="grid gap-6">
-        <div 
-          v-for="userQuest in quests" 
-          :key="userQuest.id_quest" 
-          class="bg-white shadow-xl rounded-lg overflow-hidden border-2 border-antique-bronze/30 hover:border-antique-bronze transition-colors md:flex"
-        >
-           <!-- Status Indicator -->
-          <div 
-            class="md:w-2 bg-gradient-to-b md:h-auto h-2 w-full"
-            :class="{
-              'from-yellow-500 to-amber-600': userQuest.status === 'accepted',
-              'from-green-500 to-emerald-600': userQuest.status === 'completed',
-              'from-red-500 to-red-700': userQuest.status === 'failed'
-            }"
-          ></div>
+      <!-- Quests Content -->
+      <div v-else class="space-y-12">
+        
+        <!-- ============================================ -->
+        <!-- SECTION: IN PROGRESS QUESTS -->
+        <!-- ============================================ -->
+        <section v-if="inProgressQuests.length > 0">
+          <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-3">
+            <i class="fas fa-hourglass-half text-antique-bronze"></i>
+            {{ t('quest.sections.in_progress') }}
+            <span class="text-sm font-body text-stone-grey font-normal">({{ inProgressQuests.length }})</span>
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div 
+              v-for="userQuest in inProgressQuests" 
+              :key="userQuest.id_quest" 
+              class="relative group h-full"
+            >
+              <!-- Card Background -->
+              <div class="absolute inset-0 bg-parchment rounded-sm shadow-md transform transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-xl border border-antique-bronze/30"></div>
+              
+              <!-- Decorative Corners -->
+              <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-antique-bronze z-10 transition-transform duration-300 group-hover:-translate-y-2"></div>
+              <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-antique-bronze z-10 transition-transform duration-300 group-hover:-translate-y-2"></div>
+              <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-antique-bronze z-10 transition-transform duration-300 group-hover:-translate-y-2"></div>
+              <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-antique-bronze z-10 transition-transform duration-300 group-hover:-translate-y-2"></div>
 
-          <div class="p-6 flex-1">
-            <div class="flex justify-between items-start mb-2">
-              <div>
-                <h2 class="text-xl font-medieval font-bold text-iron-black">{{ userQuest.quest.title }}</h2>
-                <div class="text-sm font-bold text-antique-bronze mt-1 flex items-center gap-2">
-                  <i class="fas fa-map-marker-alt"></i>
-                  {{ userQuest.quest.location?.name || t('quest.item.unknown_location') }}
+              <!-- Content Container -->
+              <div class="relative p-6 flex flex-col h-full z-10 transform transition-transform duration-300 group-hover:-translate-y-2">
+                <!-- Header: Location & XP -->
+                <div class="flex items-center justify-center gap-3 mb-4 text-sm">
+                  <span class="h-px flex-1 bg-antique-bronze/30"></span>
+                  <span class="font-bold text-antique-bronze flex items-center gap-1">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ userQuest.quest.location?.name || t('quest.item.unknown_location') }}
+                  </span>
+                  <span class="h-px flex-1 bg-antique-bronze/30"></span>
+                </div>
+
+                <!-- Quest Title -->
+                <h3 class="text-2xl font-medieval font-bold text-iron-black mb-4 text-center group-hover:text-antique-bronze transition-colors duration-300">
+                  {{ userQuest.quest.title }}
+                </h3>
+
+                <!-- Description -->
+                <p class="text-stone-grey leading-relaxed font-body mb-5 line-clamp-3 flex-grow text-center">
+                  {{ userQuest.quest.description }}
+                </p>
+
+                <!-- XP Reward -->
+                <div class="flex justify-center mb-4">
+                  <span class="px-4 py-1.5 bg-antique-bronze/10 rounded-sm text-antique-bronze font-medieval font-bold text-sm border border-antique-bronze/20">
+                    <i class="fas fa-star mr-1"></i>
+                    {{ userQuest.quest.xp_reward }} XP
+                  </span>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-wrap justify-center gap-2 pt-4 border-t border-antique-bronze/20 mt-auto">
+                  <!-- Scan Button - Green -->
+                  <MedievalButton 
+                    variant="success"
+                    small
+                    @click="scanQuest(userQuest.id_quest)"
+                  >
+                    <i class="fas fa-qrcode mr-1"></i>
+                    {{ t('quest.actions.scan') }}
+                  </MedievalButton>
+
+                  <!-- Cancel Button -->
+                  <MedievalButton 
+                    variant="secondary"
+                    small
+                    @click="cancelQuest(userQuest.id_quest)"
+                  >
+                    <i class="fas fa-times mr-1"></i>
+                    {{ t('quest.actions.cancel') }}
+                  </MedievalButton>
+
+                  <!-- Debug Complete Button -->
+                  <button 
+                    v-if="isDebug"
+                    @click="completeQuest(userQuest.id_quest)"
+                    class="text-stone-400 hover:text-stone-600 px-2 py-1 text-xs transition-colors flex items-center gap-1 opacity-50 hover:opacity-100"
+                    title="Debug: Terminer la quête instantanément"
+                  >
+                    <i class="fas fa-bug"></i>
+                    {{ t('quest.debug.finish') }}
+                  </button>
                 </div>
               </div>
-              <div 
-                class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border"
-                :class="{
-                  'bg-yellow-100 text-yellow-800 border-yellow-300': userQuest.status === 'accepted',
-                  'bg-green-100 text-green-800 border-green-300': userQuest.status === 'completed',
-                  'bg-red-100 text-red-800 border-red-300': userQuest.status === 'failed'
-                }"
-              >
-                }"
-              >
-                {{ statusLabels[userQuest.status as keyof typeof statusLabels] }}
-              </div>
-            </div>
-
-            <p class="text-stone-grey font-body mb-4 leading-relaxed">
-              {{ userQuest.quest.description }}
-            </p>
-
-            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-              <span class="font-medieval text-antique-bronze font-bold flex items-center gap-2">
-                <i class="fas fa-star"></i>
-                {{ t('quest.item.reward', { xp: userQuest.quest.xp_reward }) }}
-              </span>
-
-              <!-- DEBUG BUTTON -->
-              <button 
-                v-if="isDebug && userQuest.status === 'accepted'"
-                @click="completeQuest(userQuest.id_quest)"
-                class="bg-purple-600 text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider hover:bg-purple-700 transition-colors shadow-sm flex items-center gap-1"
-                title="Debug: Terminer la quête instantanément"
-              >
-                <i class="fas fa-magic"></i>
-                {{ t('quest.debug.finish') }}
-              </button>
             </div>
           </div>
-        </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION: COMPLETED QUESTS -->
+        <!-- ============================================ -->
+        <section v-if="completedQuests.length > 0">
+          <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-3">
+            <i class="fas fa-check-circle text-emerald-700"></i>
+            {{ t('quest.sections.completed') }}
+            <span class="text-sm font-body text-stone-grey font-normal">({{ completedQuests.length }})</span>
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div 
+              v-for="userQuest in completedQuests" 
+              :key="userQuest.id_quest" 
+              class="relative group h-full cursor-default"
+            >
+              <!-- Card Background - Parchment with warm border -->
+              <div class="absolute inset-0 bg-parchment rounded-sm shadow-md border border-emerald-800/30"></div>
+              
+              <!-- Decorative Corners - Warm green accent -->
+              <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-emerald-700 z-10"></div>
+              <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-emerald-700 z-10"></div>
+              <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-emerald-700 z-10"></div>
+              <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-emerald-700 z-10"></div>
+
+              <!-- Checkmark Overlay - Semi-transparent, disappears on hover -->
+              <div class="absolute inset-0 z-20 flex items-center justify-center bg-emerald-900/15 rounded-sm transition-opacity duration-300 group-hover:opacity-0 pointer-events-none">
+                <div class="text-center">
+                  <i class="fas fa-check-circle text-7xl text-emerald-700 drop-shadow-lg"></i>
+                </div>
+              </div>
+
+              <!-- Content Container -->
+              <div class="relative p-6 flex flex-col h-full z-10">
+                <!-- Header: Location -->
+                <div class="flex items-center justify-center gap-3 mb-4 text-sm">
+                  <span class="h-px flex-1 bg-emerald-700/30"></span>
+                  <span class="font-bold text-emerald-700 flex items-center gap-1">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ userQuest.quest.location?.name || t('quest.item.unknown_location') }}
+                  </span>
+                  <span class="h-px flex-1 bg-emerald-700/30"></span>
+                </div>
+
+                <!-- Quest Title -->
+                <h3 class="text-2xl font-medieval font-bold text-iron-black mb-4 text-center">
+                  {{ userQuest.quest.title }}
+                </h3>
+
+                <!-- Description -->
+                <p class="text-stone-grey leading-relaxed font-body mb-5 line-clamp-3 flex-grow text-center">
+                  {{ userQuest.quest.description }}
+                </p>
+
+                <!-- XP Reward -->
+                <div class="flex justify-center mb-4">
+                  <span class="px-4 py-1.5 bg-emerald-700/10 rounded-sm text-emerald-700 font-medieval font-bold text-sm border border-emerald-700/20">
+                    <i class="fas fa-star mr-1"></i>
+                    +{{ userQuest.quest.xp_reward }} XP
+                  </span>
+                </div>
+
+                <!-- Completed info -->
+                <div class="flex justify-center items-center gap-2 pt-4 border-t border-emerald-800/30 mt-auto text-emerald-700 font-medieval">
+                  <i class="fas fa-trophy"></i>
+                  {{ t('quest.completed_message') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   </div>
@@ -93,17 +201,17 @@
 import { ref, onMounted, computed } from 'vue';
 import { questService } from '@/services/questService';
 import { useI18n } from 'vue-i18n';
+import MedievalButton from '@/components/ui/MedievalButton.vue';
+import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
 
 const { t } = useI18n();
 const quests = ref<any[]>([]);
 const loading = ref(true);
-const isDebug = import.meta.env.DEV; // Check if we are in development mode
+const isDebug = import.meta.env.DEV;
 
-const statusLabels = computed(() => ({
-  accepted: t('quest.status.accepted'),
-  completed: t('quest.status.completed'),
-  failed: t('quest.status.failed')
-}));
+// Separate quests by status
+const inProgressQuests = computed(() => quests.value.filter(q => q.status === 'accepted'));
+const completedQuests = computed(() => quests.value.filter(q => q.status === 'completed'));
 
 const loadQuests = async () => {
   try {
@@ -122,10 +230,26 @@ const completeQuest = async (questId: number) => {
   try {
     await questService.completeQuest(questId);
     await loadQuests();
-    // Optional: Add success toast/notification
   } catch (error) {
     console.error('Failed to complete quest:', error);
     alert(t('quest.debug.error_finish'));
+  }
+};
+
+const scanQuest = (questId: number) => {
+  // TODO: Implement QR scan functionality
+  console.log('Scan quest:', questId);
+};
+
+const cancelQuest = async (questId: number) => {
+  if (!confirm(t('quest.actions.confirm_cancel'))) return;
+  
+  try {
+    await questService.cancelQuest(questId);
+    await loadQuests();
+  } catch (error) {
+    console.error('Failed to cancel quest:', error);
+    alert(t('quest.actions.error_cancel'));
   }
 };
 

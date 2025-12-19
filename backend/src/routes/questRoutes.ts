@@ -20,9 +20,10 @@ import { checkLocationOwnership } from '../middleware/location.middleware.js';
 
 router.post('/', authenticateToken, checkLocationOwnership, questController.createQuest); 
 
-// Accept/Complete
+// Accept/Complete/Cancel
 router.post('/:questId/accept', authenticateToken, questController.acceptQuest);
 router.post('/:questId/complete', authenticateToken, questController.completeQuest);
+router.post('/:questId/cancel', authenticateToken, questController.cancelQuest);
 
 // Admin update/delete (requires auth, ideally admin role check)
 router.put('/:questId', authenticateToken, questController.updateQuest);

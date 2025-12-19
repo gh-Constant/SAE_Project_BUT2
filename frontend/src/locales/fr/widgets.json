@@ -71,8 +71,11 @@
         "loading": "Chargement des quêtes...",
         "empty": "Aucune quête disponible pour le moment.",
         "accept": "Accepter",
-        "accepted": "Acceptée",
+        "accepted": "En cours",
+        "completed": "Terminée",
         "success_accept": "Quête acceptée ! Retrouvez-la dans votre profil.",
-        "error_accept": "Impossible d'accepter la quête (peut-être déjà acceptée ?)"
+        "error_accept": "Impossible d'accepter la quête (peut-être déjà acceptée ?)",
+        "view_more": "Voir {count} autres quêtes",
+        "view_less": "Afficher moins"
     }
 }

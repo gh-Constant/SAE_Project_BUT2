@@ -71,8 +71,11 @@
         "loading": "Loading quests...",
         "empty": "No quests available at the moment.",
         "accept": "Accept",
-        "accepted": "Accepted",
+        "accepted": "In Progress",
+        "completed": "Completed",
         "success_accept": "Quest accepted! Find it in your profile.",
-        "error_accept": "Unable to accept quest (maybe already accepted?)"
+        "error_accept": "Unable to accept quest (maybe already accepted?)",
+        "view_more": "View {count} more quests",
+        "view_less": "Show less"
     }
 }

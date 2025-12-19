@@ -17,7 +17,8 @@
       'bg-white/10 backdrop-blur-md border border-white/20 shadow-sm hover:bg-white/20 hover:border-white/30 active:scale-95': variant === 'transparent',
       'bg-[#8B0000] border-2 border-[#5c0000] shadow-[0_4px_0_#3d0000] active:shadow-none active:translate-y-[4px] hover:bg-[#a30000] hover:brightness-110': variant === 'danger',
       'bg-stone-grey border-2 border-[#2c2c2c] shadow-[0_4px_0_#1a1a1a] active:shadow-none active:translate-y-[4px] hover:bg-[#4a4a4a] hover:brightness-110': variant === 'secondary',
-      'bg-transparent border-2 border-antique-bronze text-antique-bronze shadow-none hover:bg-antique-bronze/10 active:translate-y-[2px]': variant === 'outline'
+      'bg-transparent border-2 border-antique-bronze text-antique-bronze shadow-none hover:bg-antique-bronze/10 active:translate-y-[2px]': variant === 'outline',
+      'bg-[#2E7D32] border-2 border-[#1B5E20] shadow-[0_4px_0_#1B5E20] active:shadow-none active:translate-y-[4px] hover:bg-[#388E3C] hover:brightness-110': variant === 'success'
     }"
   >
     <!-- Texture overlay -->
@@ -56,7 +57,7 @@ defineProps({
   },
   variant: {
     type: String,
-    default: 'primary', // 'primary' | 'transparent' | 'danger' | 'secondary' | 'outline'
+    default: 'primary', // 'primary' | 'transparent' | 'danger' | 'secondary' | 'outline' | 'success'
   },
 });
 </script>

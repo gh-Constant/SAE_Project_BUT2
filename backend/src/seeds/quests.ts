@@ -1,41 +1,31 @@
 import prisma from '../prisma.js';
 
 const questSeeds = [
-  // Château Principal (location id: 1)
-  { title: "Récupérer l'épée du roi", description: "Retrouver l'épée légendaire du roi dans les donjons du château.", xp_reward: 150, id_location: 1 },
-  { title: "Protéger le trône", description: "Monter la garde devant la salle du trône pendant la cérémonie.", xp_reward: 75, id_location: 1 },
-  { title: "Livrer un message royal", description: "Apporter un message urgent au conseiller du roi.", xp_reward: 25, id_location: 1 },
+  // Merchant Stall #5 (location id: 14, prestataire 1)
+  { title: "Ranger l'étalage", description: "Aider à réorganiser les produits sur l'étalage du marchand.", xp_reward: 25, id_location: 14 },
+  { title: "Attirer les clients", description: "Distribuer des échantillons pour attirer les passants vers le stand.", xp_reward: 30, id_location: 14 },
+  { title: "Inventaire du matin", description: "Compter et vérifier le stock de marchandises.", xp_reward: 35, id_location: 14 },
+  { title: "Livraison urgente", description: "Apporter une commande spéciale à un client VIP.", xp_reward: 50, id_location: 14 },
+  { title: "Négociation difficile", description: "Convaincre un client hésitant d'acheter un produit premium.", xp_reward: 75, id_location: 14 },
+  { title: "Protection du stand", description: "Surveiller le stand pendant l'absence du marchand.", xp_reward: 45, id_location: 14 },
+  { title: "Démonstration produit", description: "Faire une démonstration des nouveaux produits aux visiteurs.", xp_reward: 60, id_location: 14 },
 
-  // Forge du Village (location id: 2)
-  { title: "Collecter du minerai", description: "Rapporter 10 unités de minerai de fer de la mine.", xp_reward: 50, id_location: 2 },
-  { title: "Forger une épée", description: "Aider le forgeron à créer une épée pour les gardes.", xp_reward: 100, id_location: 2 },
+  // Merchant Stall #6 (location id: 15, prestataire 1)
+  { title: "Préparation du stand", description: "Installer le stand avant l'ouverture du marché.", xp_reward: 20, id_location: 15 },
+  { title: "Service client", description: "Répondre aux questions des clients pendant une heure.", xp_reward: 40, id_location: 15 },
+  { title: "Collecte de paiements", description: "Récupérer les paiements en attente auprès des clients.", xp_reward: 55, id_location: 15 },
+  { title: "Nettoyage du stand", description: "Nettoyer et ranger le stand après la journée.", xp_reward: 25, id_location: 15 },
+  { title: "Commande spéciale", description: "Préparer une commande personnalisée pour un client régulier.", xp_reward: 80, id_location: 15 },
+  { title: "Formation apprenti", description: "Former un nouvel apprenti aux techniques de vente.", xp_reward: 100, id_location: 15 },
 
-  // Taverne du Dragon Noir (location id: 3)
-  { title: "Servir les clients", description: "Aider le tavernier pendant l'heure de pointe.", xp_reward: 30, id_location: 3 },
-  { title: "Résoudre une bagarre", description: "Calmer une dispute entre deux clients mécontents.", xp_reward: 45, id_location: 3 },
-  { title: "Trouver le voleur", description: "Identifier qui a volé la bourse du marchand.", xp_reward: 80, id_location: 3 },
-
-  // Tour des Mages (location id: 4)
-  { title: "Collecter des herbes magiques", description: "Récolter 5 herbes rares pour les potions.", xp_reward: 60, id_location: 4 },
-  { title: "Apprenti du mage", description: "Assister le mage dans ses expériences pendant une journée.", xp_reward: 120, id_location: 4 },
-  { title: "Décrypter un parchemin", description: "Traduire un ancien parchemin magique.", xp_reward: 200, id_location: 4 },
-
-  // Marché Central (location id: 5)
-  { title: "Livraison express", description: "Livrer 5 colis avant la fermeture du marché.", xp_reward: 35, id_location: 5 },
-  { title: "Négocier un prix", description: "Obtenir une réduction de 20% sur un objet rare.", xp_reward: 40, id_location: 5 },
-
-  // Écuries Royales (location id: 6)
-  { title: "Soigner un cheval", description: "Aider le palefrenier à soigner un cheval blessé.", xp_reward: 55, id_location: 6 },
-  { title: "Course de chevaux", description: "Participer à la course annuelle et finir dans le top 3.", xp_reward: 175, id_location: 6 },
-
-  // Bibliothèque Ancienne (location id: 7)
-  { title: "Ranger les archives", description: "Classer les documents historiques par époque.", xp_reward: 20, id_location: 7 },
-  { title: "Recherche historique", description: "Trouver des informations sur la bataille de 1347.", xp_reward: 65, id_location: 7 },
-
-  // Port des Marchands (location id: 8)
-  { title: "Décharger un navire", description: "Aider à décharger les marchandises du nouveau navire.", xp_reward: 45, id_location: 8 },
-  { title: "Escorter un marchand", description: "Accompagner un marchand jusqu'à la ville voisine.", xp_reward: 90, id_location: 8 },
-  { title: "Pêche miraculeuse", description: "Attraper le poisson légendaire du port.", xp_reward: 250, id_location: 8 },
+  // Merchant Stall #7 (location id: 16, prestataire 4)
+  { title: "Transport de marchandises", description: "Transporter des caisses depuis l'entrepôt vers le stand.", xp_reward: 35, id_location: 16 },
+  { title: "Étude de marché", description: "Observer les concurrents et rapporter leurs prix.", xp_reward: 45, id_location: 16 },
+  { title: "Décoration festive", description: "Décorer le stand pour la fête du village.", xp_reward: 30, id_location: 16 },
+  { title: "Vente flash", description: "Organiser une vente promotionnelle éclair.", xp_reward: 65, id_location: 16 },
+  { title: "Réparation d'urgence", description: "Réparer le toit du stand avant la pluie.", xp_reward: 50, id_location: 16 },
+  { title: "Grand inventaire", description: "Faire l'inventaire complet de fin de mois.", xp_reward: 90, id_location: 16 },
+  { title: "Partenariat commercial", description: "Négocier un accord avec un fournisseur.", xp_reward: 150, id_location: 16 },
 ];
 
 export async function seedQuests() {

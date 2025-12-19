@@ -4,6 +4,7 @@
     "loading": "Cargando...",
     "empty": {
         "message": "Aún no has aceptado ninguna misión.",
+        "description": "¡Explora el mapa para descubrir nuevas misiones!",
         "explore": "Explorar mapa"
     },
     "item": {
@@ -15,8 +16,19 @@
         "completed": "Completada",
         "failed": "Fallida"
     },
+    "sections": {
+        "in_progress": "Misiones en curso",
+        "completed": "Misiones completadas"
+    },
+    "actions": {
+        "cancel": "Abandonar",
+        "confirm_cancel": "¿Estás seguro de que quieres abandonar esta misión?",
+        "error_cancel": "Error al abandonar la misión.",
+        "scan": "Escanear"
+    },
+    "completed_message": "¡Misión completada!",
     "debug": {
-        "finish": "[DEBUG] Terminar",
+        "finish": "[DEV]",
         "confirm_finish": "DEBUG: ¿Quieres marcar esta misión como completada?",
         "error_finish": "Error al completar la misión."
     }

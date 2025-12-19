@@ -4,6 +4,7 @@
     "loading": "Loading...",
     "empty": {
         "message": "You haven't accepted any quests yet.",
+        "description": "Explore the map to discover new quests!",
         "explore": "Explore Map"
     },
     "item": {
@@ -15,8 +16,19 @@
         "completed": "Completed",
         "failed": "Failed"
     },
+    "sections": {
+        "in_progress": "Quests in Progress",
+        "completed": "Completed Quests"
+    },
+    "actions": {
+        "cancel": "Abandon",
+        "confirm_cancel": "Are you sure you want to abandon this quest?",
+        "error_cancel": "Failed to abandon quest.",
+        "scan": "Scan"
+    },
+    "completed_message": "Quest completed!",
     "debug": {
-        "finish": "[DEBUG] Finish",
+        "finish": "[DEV]",
         "confirm_finish": "DEBUG: Do you want to mark this quest as completed?",
         "error_finish": "Error completing the quest."
     }

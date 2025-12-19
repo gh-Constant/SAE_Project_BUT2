@@ -50,6 +50,13 @@ export const questMockService = {
     }
   },
 
+  cancelQuest: async (questId: number): Promise<void> => {
+    const index = userQuests.findIndex(q => q.id_quest === questId);
+    if (index !== -1) {
+      userQuests.splice(index, 1);
+    }
+  },
+
   getAllQuests: async (): Promise<Quest[]> => {
     return mockQuests;
   },

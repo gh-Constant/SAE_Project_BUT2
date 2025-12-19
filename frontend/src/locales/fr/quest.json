@@ -4,6 +4,7 @@
     "loading": "Chargement...",
     "empty": {
         "message": "Vous n'avez accepté aucune quête pour le moment.",
+        "description": "Explorez la carte pour découvrir de nouvelles quêtes !",
         "explore": "Explorer la carte"
     },
     "item": {
@@ -15,8 +16,19 @@
         "completed": "Terminée",
         "failed": "Échouée"
     },
+    "sections": {
+        "in_progress": "Quêtes en cours",
+        "completed": "Quêtes terminées"
+    },
+    "actions": {
+        "cancel": "Abandonner",
+        "confirm_cancel": "Êtes-vous sûr de vouloir abandonner cette quête ?",
+        "error_cancel": "Échec de l'abandon de la quête.",
+        "scan": "Scanner"
+    },
+    "completed_message": "Quête accomplie !",
     "debug": {
-        "finish": "[DEBUG] Terminer",
+        "finish": "[DEV]",
         "confirm_finish": "DEBUG : Voulez-vous marquer cette quête comme terminée ?",
         "error_finish": "Erreur lors de la complétion de la quête."
     }

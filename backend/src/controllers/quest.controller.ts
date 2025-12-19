@@ -83,6 +83,22 @@ export const completeQuest = async (req: Request, res: Response) => {
   }
 };
 
+export const cancelQuest = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const userId = req.user?.id;
+    const questId = parseInt(req.params.questId);
+
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+    await questService.cancelQuest(userId, questId);
+    return res.json({ success: true });
+  } catch (error) {
+    console.error('Failed to cancel quest:', error);
+    return res.status(500).json({ error: 'Failed to cancel quest' });
+  }
+};
+
 export const getAllQuests = async (req: Request, res: Response) => {
   try {
     const quests = await questService.getAllQuests();
