@@ -84,14 +84,16 @@
                     class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
                 </router-link>
 
-                <button
-                  class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                <router-link to="/admin/shop/stats"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
                   <span class="flex items-center gap-3">
-                    <i class="fas fa-chart-line text-antique-bronze/60"></i>
-                    <span class="font-medieval font-bold text-stone-grey">Statistiques</span>
+                    <i
+                      class="fas fa-chart-line text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"></i>
+                    <span class="font-medieval font-bold text-iron-black">Statistiques</span>
                   </span>
-                  <span class="text-xs bg-antique-bronze/10 text-antique-bronze px-2 py-0.5 rounded-full">Bientôt</span>
-                </button>
+                  <i
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                </router-link>
               </div>
             </div>
           </div>

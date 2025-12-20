@@ -89,6 +89,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/shop/stats',
+    name: 'admin-shop-stats',
+    component: () => import('../views/AdminShopStatsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/prestataire',
     name: 'prestataire',
     component: () => import('../views/PrestataireView.vue'),
