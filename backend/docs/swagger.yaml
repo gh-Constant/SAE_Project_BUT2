@@ -1,0 +1,1517 @@
+openapi: 3.0.3
+
+info:
+  title: SAE Project BUT2 API
+  description: |
+    API REST pour notre application web "Les Terres Du Lions".
+
+    ## Fonctionnalités
+    - Authentification et gestion des utilisateurs avec (JWT)
+    - Gestion des locations (points d'intérêt)
+    - Catalogue de produits 
+    - Événements et réservations
+    - Système de quêtes gamifié
+    - Blog et articles
+    - QR Codes
+    
+    ## Authentification
+    Les routes protégées nécessitent un token JWT dans le header `Authorization: Bearer <token>`.
+
+tags:
+  - name: Auth
+    description: Authentification et gestion de session
+  - name: Users
+    description: Gestion des utilisateurs (Admin)
+  - name: Locations
+    description: Points d'intérêt et établissements
+  - name: Products
+    description: Catalogue de produits
+  - name: Events
+    description: Événements et réservations
+  - name: Quests
+    description: Système de quêtes gamifié
+  - name: Blogs
+    description: Articles et contenus
+  - name: Orders
+    description: Commandes et panier
+  - name: QRCode
+    description: Génération et scan de QR codes
+  - name: System
+    description: Health check et configuration
+
+paths:
+  # ========== AUTH ===================
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Authentifier un utilisateur
+      description: Authentifie un utilisateur avec email et mot de passe, retourne un token JWT.
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInput'
+            example:
+              email: user@example.com
+              password: password123
+      responses:
+        '200':
+          description: Authentification réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Inscrire un nouvel utilisateur
+      description: Crée un nouveau compte utilisateur.
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+            example:
+              firstName: Jean
+              lastName: Dupont
+              email: jean.dupont@example.com
+              password: SecurePassword123
+              role: aventurier
+              avatarUrl: /avatars/default.png
+              avatarType: gallery
+      responses:
+        '201':
+          description: Utilisateur créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Récupérer les informations de l'utilisateur connecté
+      description: Retourne les informations du profil de l'utilisateur authentifié.
+      operationId: getMe
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Informations utilisateur récupérées
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /auth/role:
+    get:
+      tags: [Auth]
+      summary: Récupérer le rôle de l'utilisateur connecté
+      operationId: getMyRole
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Rôle récupéré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    type: string
+                    enum: [admin, aventurier, prestataire]
+                    example: aventurier
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/profile:
+    put:
+      tags: [Auth]
+      summary: Mettre à jour le profil utilisateur
+      description: Permet de modifier le profil de l'utilisateur connecté.
+      operationId: updateMe
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdate'
+      responses:
+        '200':
+          description: Profil mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ========== USERS ==========
+  /users:
+    get:
+      tags: [Users]
+      summary: Lister tous les utilisateurs
+      description: Retourne la liste de tous les utilisateurs. Réservé aux administrateurs.
+      operationId: getAllUsers
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des utilisateurs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /users/{id}/verify:
+    post:
+      tags: [Users]
+      summary: Vérifier un utilisateur
+      description: Marque un utilisateur comme vérifié. Réservé aux administrateurs.
+      operationId: verifyUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Utilisateur vérifié
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/{id}:
+    delete:
+      tags: [Users]
+      summary: Supprimer un utilisateur
+      description: Supprime un utilisateur du système. Réservé aux administrateurs.
+      operationId: deleteUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Utilisateur supprimé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ========== LOCATIONS ==========
+  /locations:
+    get:
+      tags: [Locations]
+      summary: Lister toutes les locations
+      description: Retourne la liste de tous les points d'intérêt avec leurs prestataires.
+      operationId: getAllLocations
+      responses:
+        '200':
+          description: Liste des locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /locations/{id}:
+    get:
+      tags: [Locations]
+      summary: Récupérer une location par ID
+      operationId: getLocationById
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      responses:
+        '200':
+          description: Location trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags: [Locations]
+      summary: Mettre à jour une location
+      description: Met à jour les informations d'une location. Nécessite authentification et disponibilité.
+      operationId: updateLocation
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationUpdate'
+      responses:
+        '200':
+          description: Location mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ========== PRODUCTS ==========
+  /products:
+    get:
+      tags: [Products]
+      summary: Lister tous les produits
+      description: Retourne la liste des produits avec filtrage et tri optionnels.
+      operationId: getAllProducts
+      parameters:
+        - name: search
+          in: query
+          description: Recherche par nom
+          schema:
+            type: string
+        - name: minPrice
+          in: query
+          description: Prix minimum
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          description: Prix maximum
+          schema:
+            type: number
+        - name: stock
+          in: query
+          description: Filtrer par stock
+          schema:
+            type: string
+            enum: [in-stock, out-of-stock]
+        - name: sortBy
+          in: query
+          description: Tri
+          schema:
+            type: string
+            enum: [price-asc, price-desc, name-asc, name-desc]
+        - name: locationId
+          in: query
+          description: Filtrer par location
+          schema:
+            type: integer
+        - name: prestataireId
+          in: query
+          description: Filtrer par prestataire
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags: [Products]
+      summary: Créer un produit
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '201':
+          description: Produit créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Récupérer un produit par ID
+      operationId: getProductById
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: Produit trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Products]
+      summary: Mettre à jour un produit
+      operationId: updateProduct
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Produit mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Products]
+      summary: Supprimer un produit
+      operationId: deleteProduct
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: Produit supprimé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Product deleted successfully
+
+  # ========== EVENTS ==========
+  /events:
+    get:
+      tags: [Events]
+      summary: Lister tous les événements
+      operationId: getEvents
+      responses:
+        '200':
+          description: Liste des événements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+    post:
+      tags: [Events]
+      summary: Créer un événement
+      operationId: createEvent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+      responses:
+        '201':
+          description: Événement créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /events/{id}:
+    get:
+      tags: [Events]
+      summary: Récupérer un événement par ID
+      operationId: getEventById
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      responses:
+        '200':
+          description: Événement trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Events]
+      summary: Mettre à jour un événement
+      operationId: updateEvent
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+      responses:
+        '200':
+          description: Événement mis à jour
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Events]
+      summary: Supprimer un événement
+      operationId: deleteEvent
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      responses:
+        '200':
+          description: Événement supprimé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /events/book:
+    post:
+      tags: [Events]
+      summary: Réserver un événement
+      operationId: bookEvent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingInput'
+      responses:
+        '201':
+          description: Réservation créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventReservation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /events/user/reservations:
+    get:
+      tags: [Events]
+      summary: Récupérer mes réservations
+      operationId: getUserReservations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des réservations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventReservation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ========== QUESTS ==========
+  /quests:
+    get:
+      tags: [Quests]
+      summary: Lister toutes les quêtes
+      operationId: getAllQuests
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des quêtes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags: [Quests]
+      summary: Créer une quête
+      description: Crée une nouvelle quête. Nécessite d'être prestataire de la location.
+      operationId: createQuest
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestInput'
+      responses:
+        '201':
+          description: Quête créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /quests/statistics:
+    get:
+      tags: [Quests]
+      summary: Statistiques des quêtes
+      operationId: getStatistics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistiques récupérées
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalQuests:
+                    type: integer
+                    example: 25
+                  completedQuests:
+                    type: integer
+                    example: 150
+                  activeUsers:
+                    type: integer
+                    example: 42
+
+  /quests/locations/{locationId}:
+    get:
+      tags: [Quests]
+      summary: Quêtes par location
+      operationId: getQuestsByLocation
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      responses:
+        '200':
+          description: Liste des quêtes de cette location
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quest'
+
+  /quests/my-quests:
+    get:
+      tags: [Quests]
+      summary: Mes quêtes
+      operationId: getUserQuests
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste de mes quêtes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserQuest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /quests/{questId}/accept:
+    post:
+      tags: [Quests]
+      summary: Accepter une quête
+      operationId: acceptQuest
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/QuestId'
+      responses:
+        '200':
+          description: Quête acceptée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /quests/{questId}/complete:
+    post:
+      tags: [Quests]
+      summary: Compléter une quête
+      operationId: completeQuest
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/QuestId'
+      responses:
+        '200':
+          description: Quête complétée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /quests/{questId}/cancel:
+    post:
+      tags: [Quests]
+      summary: Annuler une quête
+      operationId: cancelQuest
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/QuestId'
+      responses:
+        '200':
+          description: Quête annulée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /quests/{questId}:
+    put:
+      tags: [Quests]
+      summary: Modifier une quête
+      operationId: updateQuest
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/QuestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestInput'
+      responses:
+        '200':
+          description: Quête mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags: [Quests]
+      summary: Supprimer une quête
+      operationId: deleteQuest
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/QuestId'
+      responses:
+        '200':
+          description: Quête supprimée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ========== BLOGS ==========
+  /blogs:
+    post:
+      tags: [Blogs]
+      summary: Créer un article
+      description: Crée un nouvel article de blog. Réservé aux prestataires propriétaires de la location.
+      operationId: createBlog
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogInput'
+      responses:
+        '201':
+          description: Article créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /blogs/locations/{locationId}/blogs:
+    get:
+      tags: [Blogs]
+      summary: Articles par location
+      operationId: getBlogsByLocation
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      responses:
+        '200':
+          description: Liste des articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Blog'
+
+  /blogs/{id}:
+    get:
+      tags: [Blogs]
+      summary: Récupérer un article par ID
+      operationId: getBlog
+      parameters:
+        - $ref: '#/components/parameters/BlogId'
+      responses:
+        '200':
+          description: Article trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Blogs]
+      summary: Modifier un article
+      operationId: updateBlog
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/BlogId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogInput'
+      responses:
+        '200':
+          description: Article mis à jour
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    delete:
+      tags: [Blogs]
+      summary: Supprimer un article
+      operationId: deleteBlog
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/BlogId'
+      responses:
+        '200':
+          description: Article supprimé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ========== ROLES ==========
+  /roles:
+    get:
+      tags: [System]
+      summary: Lister tous les rôles
+      operationId: getAllRoles
+      responses:
+        '200':
+          description: Liste des rôles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+
+  # ========== HEALTH ==========
+  /health:
+    get:
+      tags: [System]
+      summary: Vérifier la santé de l'API
+      operationId: getHealth
+      responses:
+        '200':
+          description: API en bonne santé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+                  environment:
+                    type: string
+                    example: development
+
+  /health/database:
+    get:
+      tags: [System]
+      summary: Vérifier la connexion à la base de données
+      operationId: getDatabaseHealth
+      responses:
+        '200':
+          description: Base de données connectée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: connected
+                  responseTime:
+                    type: integer
+                    example: 15
+
+# ========== COMPONENTS ==========
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token JWT obtenu via /auth/login
+
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant unique de l'utilisateur
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+    LocationId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant unique de la location
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+    ProductId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant unique du produit
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+    EventId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant unique de l'événement
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+    QuestId:
+      name: questId
+      in: path
+      required: true
+      description: Identifiant unique de la quête
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+    BlogId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant unique de l'article
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+  schemas:
+    # ===== AUTH SCHEMAS =====
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        password:
+          type: string
+          format: password
+          example: password123
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        user:
+          $ref: '#/components/schemas/User'
+
+    UserInput:
+      type: object
+      required: [firstName, lastName, email, password, role]
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Jean
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Dupont
+        email:
+          type: string
+          format: email
+          example: jean.dupont@example.com
+        password:
+          type: string
+          format: password
+          minLength: 8
+          example: SecurePassword123
+        role:
+          type: string
+          enum: [admin, aventurier, prestataire]
+          example: aventurier
+        avatarUrl:
+          type: string
+          example: /avatars/default.png
+        avatarType:
+          type: string
+          enum: [gallery, upload]
+          example: gallery
+
+    ProfileUpdate:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: Jean
+        lastname:
+          type: string
+          example: Dupont
+        email:
+          type: string
+          format: email
+          example: jean.dupont@example.com
+        avatarUrl:
+          type: string
+          example: /avatars/pirate.png
+        avatarType:
+          type: string
+          enum: [gallery, upload]
+        birthDate:
+          type: string
+          format: date
+          example: '1990-01-15'
+        phone:
+          type: string
+          example: '+33612345678'
+        bio:
+          type: string
+          maxLength: 500
+          example: Aventurier passionné de découvertes
+
+    User:
+      type: object
+      properties:
+        id_user:
+          type: integer
+          example: 1
+        firstname:
+          type: string
+          example: Jean
+        lastname:
+          type: string
+          example: Dupont
+        email:
+          type: string
+          format: email
+          example: jean.dupont@example.com
+        role:
+          type: string
+          enum: [admin, aventurier, prestataire]
+          example: aventurier
+        avatar_url:
+          type: string
+          example: /avatars/pirate.png
+        avatar_type:
+          type: string
+          enum: [gallery, upload]
+          example: gallery
+        level:
+          type: integer
+          example: 5
+        xp:
+          type: number
+          example: 1250.5
+        gold:
+          type: integer
+          example: 100
+        is_verified:
+          type: boolean
+          example: true
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    # ===== LOCATION SCHEMAS =====
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Taverne du Dragon
+        description:
+          type: string
+          nullable: true
+          example: Une taverne mystérieuse au cœur de la forêt
+        static_code:
+          type: string
+          nullable: true
+          example: LOC001
+        price:
+          type: number
+          example: 150.00
+        purchased:
+          type: boolean
+          example: false
+        position:
+          type: object
+          properties:
+            lat:
+              type: number
+              example: 48.8566
+            lng:
+              type: number
+              example: 2.3522
+        icon_name:
+          type: string
+          nullable: true
+          example: tavern-icon
+        banner_image:
+          type: string
+          nullable: true
+          example: /banners/tavern.jpg
+        id_prestataire:
+          type: integer
+          nullable: true
+          example: 5
+        id_location_type:
+          type: integer
+          example: 1
+        prestataire:
+          type: object
+          nullable: true
+          properties:
+            id_user:
+              type: integer
+            firstname:
+              type: string
+            lastname:
+              type: string
+            avatar_url:
+              type: string
+            avatar_type:
+              type: string
+
+    LocationUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        purchased:
+          type: boolean
+        id_prestataire:
+          type: integer
+          nullable: true
+
+    # ===== PRODUCT SCHEMAS =====
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Potion de vie
+        description:
+          type: string
+          nullable: true
+          example: Restaure 50 points de vie
+        price:
+          type: number
+          example: 25.00
+        imageUrl:
+          type: string
+          nullable: true
+          example: /products/potion.png
+        stock:
+          type: integer
+          example: 100
+        locationId:
+          type: integer
+          example: 1
+        id_prestataire:
+          type: integer
+          example: 5
+
+    ProductInput:
+      type: object
+      required: [name, price, id_prestataire]
+      properties:
+        name:
+          type: string
+          example: Potion de vie
+        description:
+          type: string
+          example: Restaure 50 points de vie
+        price:
+          type: number
+          example: 25.00
+        image:
+          type: string
+          example: /products/potion.png
+        id_prestataire:
+          type: integer
+          example: 5
+        locationId:
+          type: integer
+          example: 1
+        stock:
+          type: integer
+          example: 100
+
+    # ===== EVENT SCHEMAS =====
+    Event:
+      type: object
+      properties:
+        id_event:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Festival des Lumières
+        description:
+          type: string
+          nullable: true
+          example: Un festival magique illuminant la nuit
+        start_time:
+          type: string
+          format: date-time
+          example: '2025-01-15T18:00:00Z'
+        end_time:
+          type: string
+          format: date-time
+          example: '2025-01-15T23:00:00Z'
+        price:
+          type: number
+          example: 15.00
+        capacity:
+          type: integer
+          example: 200
+        sold:
+          type: integer
+          example: 45
+        id_location:
+          type: integer
+          example: 1
+
+    EventInput:
+      type: object
+      required: [title, start_time, end_time, price, capacity, id_location]
+      properties:
+        title:
+          type: string
+          example: Festival des Lumières
+        description:
+          type: string
+          example: Un festival magique illuminant la nuit
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        price:
+          type: number
+          example: 15.00
+        capacity:
+          type: integer
+          example: 200
+        id_location:
+          type: integer
+          example: 1
+
+    BookingInput:
+      type: object
+      required: [id_event, quantity]
+      properties:
+        id_event:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          minimum: 1
+          example: 2
+
+    EventReservation:
+      type: object
+      properties:
+        id_reservation:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 2
+        total_price:
+          type: number
+          example: 30.00
+        status:
+          type: string
+          enum: [PENDING, CONFIRMED, CANCELLED]
+          example: CONFIRMED
+        created_at:
+          type: string
+          format: date-time
+        id_user:
+          type: integer
+        id_event:
+          type: integer
+
+    # ===== QUEST SCHEMAS =====
+    Quest:
+      type: object
+      properties:
+        id_quest:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Trouver le trésor caché
+        description:
+          type: string
+          example: Explorez la forêt pour trouver le coffre mystérieux
+        xp_reward:
+          type: integer
+          example: 150
+        id_location:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+
+    QuestInput:
+      type: object
+      required: [title, xp_reward, id_location]
+      properties:
+        title:
+          type: string
+          example: Trouver le trésor caché
+        description:
+          type: string
+          example: Explorez la forêt pour trouver le coffre mystérieux
+        xp_reward:
+          type: integer
+          minimum: 1
+          example: 150
+        id_location:
+          type: integer
+          example: 1
+
+    UserQuest:
+      type: object
+      properties:
+        id_user:
+          type: integer
+        id_quest:
+          type: integer
+        status:
+          type: string
+          enum: [ACCEPTED, COMPLETED, CANCELLED]
+        accepted_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        quest:
+          $ref: '#/components/schemas/Quest'
+
+    # ===== BLOG SCHEMAS =====
+    Blog:
+      type: object
+      properties:
+        id_blog:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Découvrez notre nouvelle carte
+        content:
+          type: string
+          example: <p>Nous avons le plaisir de vous annoncer...</p>
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        id_location:
+          type: integer
+          example: 1
+
+    BlogInput:
+      type: object
+      required: [title, content, locationId]
+      properties:
+        title:
+          type: string
+          example: Découvrez notre nouvelle carte
+        content:
+          type: string
+          example: <p>Nous avons le plaisir de vous annoncer...</p>
+        locationId:
+          type: integer
+          example: 1
+
+    # ===== ERROR SCHEMAS =====
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Something went wrong
+        message:
+          type: string
+          example: Detailed error message
+
+  responses:
+    NotFound:
+      description: Ressource non trouvée
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Resource not found
+
+    BadRequest:
+      description: Requête invalide
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Invalid request data
+
+    Unauthorized:
+      description: Non authentifié
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Unauthorized
+
+    Forbidden:
+      description: Accès interdit
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Forbidden - insufficient permissions
+
+    ServerError:
+      description: Erreur serveur
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Internal server error

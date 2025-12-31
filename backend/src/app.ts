@@ -9,6 +9,7 @@
  * - Applique les middlewares pour la sécurité, le parsing, le logging et la gestion des erreurs.
  * - Fournit un endpoint `/ping` pour vérifier rapidement que le serveur répond.
  * - Monte les routes principales de l'application.
+ * - Fournit la documentation Swagger UI sur `/api-docs`.
  *
  * @exports
  * - createApp : fonction qui retourne l'application Express configurée.
@@ -22,10 +23,19 @@
 
 import express, { Application } from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { corsOptions, config } from './config/app.config.js';
 import { requestLogger, responseTimeLogger } from './middleware/logger.middleware.js';
 import { errorMiddleware, notFoundHandler } from './middleware/error.middleware.js';
 import routes from './routes/index.js';
+
+// ES Module dirname workaround
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 /**
  * Crée et configure l'application Express.
  * @returns {Application} Application Express configurée
@@ -35,6 +45,15 @@ export const createApp = (): Application => {
 
   // Configuration CORS plus permissive
   app.use(cors(corsOptions));
+
+  // Swagger UI Documentation
+  const swaggerDocument = YAML.load(path.join(__dirname, '../docs/swagger.yaml'));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'SAE Project API Documentation',
+    explorer: true
+  }));
+
   // Middleware pour parser les requêtes JSON et URL-encoded
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
