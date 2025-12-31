@@ -141,6 +141,12 @@
               </MedievalButton>
             </router-link>
             
+            <router-link to="/quiz" class="contents">
+              <MedievalButton variant="primary" :fullWidth="true">
+                Gérer les Quiz
+              </MedievalButton>
+            </router-link>
+            
             <MedievalButton variant="primary" :fullWidth="true">
               {{ t('prestataire.dashboard.quick_actions.create_location') }}
             </MedievalButton>

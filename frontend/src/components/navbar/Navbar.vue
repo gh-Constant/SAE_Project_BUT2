@@ -309,6 +309,14 @@ const profileRoute = computed(() => {
                 {{ $t('navbar.my_quests') }}
               </router-link>
               <router-link
+                to="/quiz"
+                class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
+                @click="closeDropdown"
+              >
+                <i class="fas fa-question-circle mr-3 text-antique-bronze" />
+                Quiz
+              </router-link>
+              <router-link
                 :to="profileRoute"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -506,6 +514,16 @@ const profileRoute = computed(() => {
             >
               <i class="fas fa-scroll text-lg w-8"></i>
               <span class="ml-2">{{ $t('navbar.my_quests') }}</span>
+            </MedievalButton>
+
+            <MedievalButton
+              to="/quiz"
+              full-width
+              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              @click="isMobileMenuOpen = false"
+            >
+              <i class="fas fa-question-circle text-lg w-8"></i>
+              <span class="ml-2">Quiz</span>
             </MedievalButton>
 
             <MedievalButton

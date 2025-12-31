@@ -28,6 +28,8 @@ import questRoutes from './questRoutes.js';
 import orderRoutes from './orderRoutes.js';
 import userRoutes from './userRoutes.js';
 import qrcodeRoutes from './qrcodeRoutes.js';
+import quizRoutes from './quizRoutes.js';
+import uploadRoutes from './uploadRoutes.js';
 import { apiConfig } from '../config/app.config.js';
 
 const router = Router();
@@ -79,6 +81,12 @@ apiRouter.use('/users', userRoutes);
 
 // Ajout des routes de QR code
 apiRouter.use('/qrcode', qrcodeRoutes);
+
+// Ajout des routes de quiz
+apiRouter.use('/quizzes', quizRoutes);
+
+// Ajout des routes d'upload
+apiRouter.use('/upload', uploadRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);

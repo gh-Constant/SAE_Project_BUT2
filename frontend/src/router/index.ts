@@ -237,6 +237,34 @@ export const routes = [
     name: 'qr-scan',
     component: () => import('../views/QRScanView.vue'),
   },
+  // Quiz routes
+  {
+    path: '/quiz',
+    name: 'quiz-list',
+    component: () => import('../views/QuizListView.vue'),
+  },
+  {
+    path: '/quiz/create',
+    name: 'quiz-create',
+    component: () => import('../views/QuizEditorView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/quiz/:id',
+    name: 'quiz-play',
+    component: () => import('../views/QuizPlayView.vue'),
+  },
+  {
+    path: '/quiz/:id/edit',
+    name: 'quiz-edit',
+    component: () => import('../views/QuizEditorView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/quiz/:id/results',
+    name: 'quiz-results',
+    component: () => import('../views/QuizResultsView.vue'),
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

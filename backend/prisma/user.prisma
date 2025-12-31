@@ -50,5 +50,9 @@ model User {
   qrSessionsCreated QRSession[] @relation("QRCreator")
   qrSessionsScanned QRSession[] @relation("QRScanner")
 
+  // Quiz relations
+  quizzesCreated    Quiz[]            @relation("QuizCreator")
+  quizAttempts      UserQuizAttempt[]
+
   @@map("users")
 }

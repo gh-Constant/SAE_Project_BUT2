@@ -7,6 +7,8 @@ import { computed } from 'vue'
 import { useUIStore } from '@/stores/ui'
 import { useAuthStore } from '@/stores/auth'
 
+import { Role } from '@/mocks/users'
+
 const uiStore = useUIStore()
 const authStore = useAuthStore()
 const route = useRoute()
@@ -17,7 +19,9 @@ const isLoginOrRegisterPage = computed(() => {
 })
 
 const isPrestataireRoute = computed(() => {
-  return route.path.startsWith('/prestataire')
+  const isPrestataire = authStore.user?.role === Role.PRESTATAIRE_ROLE_ID
+  const isQuizRoute = route.path.startsWith('/quiz')
+  return route.path.startsWith('/prestataire') || (isQuizRoute && isPrestataire)
 })
 
 const logout = () => {
@@ -28,7 +32,7 @@ const logout = () => {
 
 <template>
   <div id="app">
-    <Navbar v-if="!isLoginOrRegisterPage && !uiStore.isWidgetOpen" />
+    <Navbar v-if="!isLoginOrRegisterPage && !isPrestataireRoute && !uiStore.isWidgetOpen" />
     <PrestataireNavbar 
       v-if="isPrestataireRoute" 
       :user="authStore.user" 
