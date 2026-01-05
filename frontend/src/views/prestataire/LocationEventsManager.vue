@@ -334,7 +334,8 @@ function closeModal() {
 async function saveEvent() {
   const eventData = {
     ...form,
-    id_location: locationId
+    id_location: locationId,
+    published: true
   }
 
   try {
