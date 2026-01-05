@@ -127,13 +127,20 @@
 
             <!-- Actions -->
             <div class="flex gap-2 mt-auto pt-4 border-t border-antique-bronze/10">
+              <button @click="viewReservations(event)"
+                class="bg-white hover:bg-stone-50 text-emerald-700 border border-emerald-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2"
+                title="Voir les réservations">
+                <i class="fas fa-ticket-alt"></i>
+                <span class="hidden xl:inline">{{ event.sold || 0 }}</span>
+              </button>
               <button @click="editEvent(event)"
                 class="flex-1 bg-white hover:bg-stone-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2">
                 <i class="fas fa-edit"></i> Modifier
               </button>
               <button @click="deleteEvent(event.id_event)"
-                class="flex-1 bg-white hover:bg-stone-50 text-red-700 border border-red-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2">
-                <i class="fas fa-trash-alt"></i> Supprimer
+                class="bg-white hover:bg-stone-50 text-red-700 border border-red-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2"
+                title="Supprimer">
+                <i class="fas fa-trash-alt"></i>
               </button>
             </div>
           </div>
@@ -224,6 +231,110 @@
         </div>
       </div>
     </div>
+
+    <!-- Reservations Modal -->
+    <div v-if="showReservationsModal" class="fixed inset-0 z-[2000] overflow-y-auto" aria-labelledby="modal-title"
+      role="dialog" aria-modal="true">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" aria-hidden="true"
+          @click="closeReservationsModal"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <div
+          class="inline-block align-bottom bg-parchment rounded-lg text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full border-2 border-antique-bronze relative z-10"
+          @click.stop>
+          <div class="bg-parchment px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="flex items-center justify-between mb-6 border-b border-antique-bronze/20 pb-4">
+              <h3 class="text-2xl leading-6 font-medieval font-bold text-iron-black">
+                Réservations : {{ currentReservationEvent?.title }}
+              </h3>
+              <button @click="closeReservationsModal" class="text-stone-grey hover:text-antique-bronze">
+                <i class="fas fa-times text-xl"></i>
+              </button>
+            </div>
+
+            <div v-if="loadingReservations" class="text-center py-8">
+              <p class="text-lg font-medieval animate-pulse text-antique-bronze">Recherche des parchemins de
+                réservation...</p>
+            </div>
+
+            <div v-else-if="currentEventReservations.length === 0"
+              class="text-center py-8 bg-white/40 rounded-sm border border-dashed border-antique-bronze/30">
+              <i class="fas fa-scroll text-4xl text-antique-bronze/30 mb-3"></i>
+              <p class="text-stone-grey">Aucune réservation pour cet événement.</p>
+            </div>
+
+            <div v-else class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-antique-bronze/20">
+                <thead class="bg-antique-bronze/10">
+                  <tr>
+                    <th scope="col"
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      Aventurier</th>
+                    <th scope="col"
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      Places</th>
+                    <th scope="col"
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      Total (Or)</th>
+                    <th scope="col"
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      Date</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white/60 divide-y divide-antique-bronze/10">
+                  <tr v-for="reservation in currentEventReservations" :key="reservation.id_reservation"
+                    class="hover:bg-antique-bronze/5 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div
+                          class="flex-shrink-0 h-8 w-8 rounded-full bg-antique-bronze/20 flex items-center justify-center text-antique-bronze font-bold">
+                          {{ reservation.user?.firstname?.charAt(0) || '?' }}
+                        </div>
+                        <div class="ml-4">
+                          <div class="text-sm font-bold text-iron-black">{{ reservation.user?.firstname }} {{
+                            reservation.user?.lastname }}</div>
+                          <div class="text-sm text-stone-grey">{{ reservation.user?.email }}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-stone-900 font-bold">{{ reservation.quantity }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-amber-700 font-bold">{{ reservation.total_price }} G</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">
+                      {{ new Date(reservation.created_at).toLocaleDateString() }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="mt-6 flex justify-end pt-4 border-t border-antique-bronze/10">
+              <div class="text-sm text-stone-grey mr-4 flex items-center">
+                <span class="font-bold mr-2">Total Réservé:</span>
+                {{currentEventReservations.reduce((acc, r) => acc + r.quantity, 0)}} places
+              </div>
+              <div class="text-sm text-stone-grey flex items-center">
+                <span class="font-bold mr-2">Revenu Total:</span>
+                <span class="text-green-700 font-bold">{{currentEventReservations.reduce((acc, r) => acc +
+                  r.total_price, 0)}} G</span>
+              </div>
+            </div>
+
+          </div>
+          <div
+            class="bg-antique-bronze/5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-antique-bronze/10">
+            <button @click="closeReservationsModal" type="button"
+              class="w-full inline-flex justify-center rounded-sm border border-transparent shadow-sm px-4 py-2 bg-antique-bronze text-base font-medium text-white hover:brightness-110 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm font-medieval">
+              Fermer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -252,6 +363,32 @@ const form = reactive({
   price: 0,
   capacity: 0
 })
+
+// Reservations Logic
+const showReservationsModal = ref(false)
+const loadingReservations = ref(false)
+const currentEventReservations = ref<any[]>([])
+const currentReservationEvent = ref<Event | null>(null)
+
+async function viewReservations(event: Event) {
+  currentReservationEvent.value = event
+  showReservationsModal.value = true
+  loadingReservations.value = true
+  try {
+    currentEventReservations.value = await eventStore.fetchEventReservations(event.id_event)
+  } catch (e) {
+    console.error("Failed to load reservations", e)
+    alert("Impossible de charger les réservations.")
+  } finally {
+    loadingReservations.value = false
+  }
+}
+
+function closeReservationsModal() {
+  showReservationsModal.value = false
+  currentEventReservations.value = []
+  currentReservationEvent.value = null
+}
 
 onMounted(async () => {
   loading.value = true

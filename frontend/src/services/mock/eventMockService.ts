@@ -1,6 +1,7 @@
 import { EVENTS, EventMock, EventInput, EventUpdateInput } from '@/mocks/events';
 import { RESERVATIONS, ReservationMock } from '@/mocks/reservations';
 import { LOCATIONS } from '@/mocks/locations';
+import { USERS } from '@/mocks/users';
 
 export const eventMockService = {
   getEvents: async (filters?: { id_location?: number; published?: boolean }): Promise<EventMock[]> => {
@@ -132,6 +133,16 @@ export const eventMockService = {
         return r;
       });
       resolve(userReservations);
+    });
+  },
+
+  getEventReservations: async (eventId: number): Promise<any[]> => {
+    return new Promise((resolve) => {
+      const eventReservations = RESERVATIONS.filter(r => r.id_event === eventId).map(r => ({
+        ...r,
+        user: USERS.find(u => u.id === r.id_user)
+      }));
+      resolve(eventReservations);
     });
   }
 };

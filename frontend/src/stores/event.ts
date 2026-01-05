@@ -140,6 +140,18 @@ export const useEventStore = defineStore('event', {
       } finally {
         this.loading = false
       }
+    },
+
+    async fetchEventReservations(eventId: number) {
+      this.loading = true
+      try {
+        return await eventService.getEventReservations(eventId)
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
+        throw err
+      } finally {
+        this.loading = false
+      }
     }
   }
 })
