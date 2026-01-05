@@ -55,7 +55,7 @@ paths:
               $ref: '#/components/schemas/LoginInput'
             example:
               email: user@example.com
-              password: password123
+              password: MonmotDepasse898
       responses:
         '200':
           description: Authentification réussie
@@ -82,7 +82,7 @@ paths:
               firstName: Jean
               lastName: Dupont
               email: jean.dupont@example.com
-              password: SecurePassword123
+              password: BonneAnnee2026!
               role: aventurier
               avatarUrl: /avatars/default.png
               avatarType: gallery
@@ -227,7 +227,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: User deleted successfully
+                    example: Utilisateur supprimé avec succès 
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -356,7 +356,10 @@ paths:
     post:
       tags: [Products]
       summary: Créer un produit
+      description: Réservé aux prestataires. Le produit sera lié au prestataire connecté.
       operationId: createProduct
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -372,6 +375,10 @@ paths:
                 $ref: '#/components/schemas/Product'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
 
   /products/{id}:
     get:
@@ -392,7 +399,10 @@ paths:
     put:
       tags: [Products]
       summary: Mettre à jour un produit
+      description: Réservé au prestataire propriétaire du produit.
       operationId: updateProduct
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: '#/components/parameters/ProductId'
       requestBody:
@@ -408,12 +418,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
     delete:
       tags: [Products]
       summary: Supprimer un produit
+      description: Réservé au prestataire propriétaire du produit.
       operationId: deleteProduct
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: '#/components/parameters/ProductId'
       responses:
@@ -426,7 +443,13 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Product deleted successfully
+                    example: Produit supprimé avec succès
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
   # ========== EVENTS ==========
   /events:
@@ -586,7 +609,7 @@ paths:
     post:
       tags: [Quests]
       summary: Créer une quête
-      description: Crée une nouvelle quête. Nécessite d'être prestataire de la location.
+      description: Seul le prestataire de la location peut créer une quête.
       operationId: createQuest
       security:
         - bearerAuth: []
@@ -610,7 +633,7 @@ paths:
     get:
       tags: [Quests]
       summary: Statistiques des quêtes
-      operationId: getStatistics
+      operationId: getQuestStatistics
       security:
         - bearerAuth: []
       responses:
@@ -755,7 +778,7 @@ paths:
     post:
       tags: [Blogs]
       summary: Créer un article
-      description: Crée un nouvel article de blog. Réservé aux prestataires propriétaires de la location.
+      description: Création d'article. Seul le prestataire de la location peut poster.
       operationId: createBlog
       security:
         - bearerAuth: []
@@ -995,7 +1018,7 @@ components:
         password:
           type: string
           format: password
-          example: password123
+          example: BonneAnne2026!
 
     LoginResponse:
       type: object
@@ -1029,7 +1052,7 @@ components:
           type: string
           format: password
           minLength: 8
-          example: SecurePassword123
+          example: BonneAnnee2026!
         role:
           type: string
           enum: [admin, aventurier, prestataire]
@@ -1251,7 +1274,7 @@ components:
         price:
           type: number
           example: 25.00
-        image:
+        imageUrl:
           type: string
           example: /products/potion.png
         id_prestataire:
@@ -1465,10 +1488,10 @@ components:
       properties:
         error:
           type: string
-          example: Something went wrong
+          example: Une erreur est survenue
         message:
           type: string
-          example: Detailed error message
+          example: Message d'erreur détaillé
 
   responses:
     NotFound:
@@ -1478,7 +1501,7 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: Resource not found
+            error: Ressource non trouvée
 
     BadRequest:
       description: Requête invalide
@@ -1487,7 +1510,7 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: Invalid request data
+            error: Données de requête invalides
 
     Unauthorized:
       description: Non authentifié
@@ -1496,7 +1519,7 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: Unauthorized
+            error: Non autorisé
 
     Forbidden:
       description: Accès interdit
@@ -1505,7 +1528,7 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: Forbidden - insufficient permissions
+            error: Accès interdit - permissions insuffisantes
 
     ServerError:
       description: Erreur serveur
@@ -1514,4 +1537,4 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: Internal server error
+            error: Erreur serveur interne
