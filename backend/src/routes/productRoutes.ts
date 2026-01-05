@@ -6,37 +6,40 @@ import {
     updateProduct,
     deleteProduct
 } from '../controllers/product.controller.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
+import { checkRole } from '../middleware/role.middleware.js';
+import { checkProductOwnership, checkPrestataireMatch } from '../middleware/location.middleware.js';
 
 const router = Router();
 
 /**
  * GET /products
- * Retrieve all products with optional filtering and sorting.
+ * Liste tous les produits (public).
  */
 router.get('/', getAllProducts);
 
 /**
  * GET /products/:id
- * Retrieve a single product by ID.
+ * Récupère un produit par ID (public).
  */
 router.get('/:id', getProductById);
 
 /**
  * POST /products
- * Create a new product.
+ * Crée un produit. Réservé aux prestataires.
  */
-router.post('/', createProduct);
+router.post('/', authenticateToken, checkRole(['prestataire', 'admin']), checkPrestataireMatch, createProduct);
 
 /**
  * PUT /products/:id
- * Update an existing product.
+ * Modifie un produit. Réservé au prestataire propriétaire.
  */
-router.put('/:id', updateProduct);
+router.put('/:id', authenticateToken, checkRole(['prestataire', 'admin']), checkProductOwnership, updateProduct);
 
 /**
  * DELETE /products/:id
- * Delete a product.
+ * Supprime un produit. Réservé au prestataire propriétaire.
  */
-router.delete('/:id', deleteProduct);
+router.delete('/:id', authenticateToken, checkRole(['prestataire', 'admin']), checkProductOwnership, deleteProduct);
 
 export default router;

@@ -121,3 +121,76 @@ export const checkLocationAvailable = async (req: AuthenticatedRequest, res: Res
     res.status(500).json({ error: 'Internal server error during location availability check' });
   }
 };
+
+/**
+ * Middleware pour vérifier que l'utilisateur est le propriétaire du produit.
+ * Pour UPDATE/DELETE de produits.
+ */
+export const checkProductOwnership = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    const productId = parseInt(req.params.id);
+
+    if (!userId) {
+      res.status(401).json({ error: 'Utilisateur non authentifié' });
+      return;
+    }
+
+    if (isNaN(productId)) {
+      res.status(400).json({ error: 'ID produit invalide' });
+      return;
+    }
+
+    const product = await prisma.product.findUnique({
+      where: { id_product: productId },
+    });
+
+    if (!product) {
+      res.status(404).json({ error: 'Produit non trouvé' });
+      return;
+    }
+
+    // Vérifier que le prestataire est propriétaire du produit
+    if (product.id_prestataire !== userId) {
+      res.status(403).json({ error: 'Vous n\'êtes pas le propriétaire de ce produit' });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.error('Erreur vérification propriété produit:', error);
+    res.status(500).json({ error: 'Erreur serveur lors de la vérification' });
+  }
+};
+
+/**
+ * Middleware pour vérifier que l'id_prestataire dans le body correspond à l'utilisateur connecté.
+ * Pour CREATE de produits.
+ */
+export const checkPrestataireMatch = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    const { id_prestataire } = req.body;
+
+    if (!userId) {
+      res.status(401).json({ error: 'Utilisateur non authentifié' });
+      return;
+    }
+
+    // Si id_prestataire est fourni, il doit correspondre à l'utilisateur connecté
+    if (id_prestataire && Number(id_prestataire) !== userId) {
+      res.status(403).json({ error: 'Vous ne pouvez créer des produits que pour vous-même' });
+      return;
+    }
+
+    // Injecter l'id_prestataire si non fourni
+    if (!id_prestataire) {
+      req.body.id_prestataire = userId;
+    }
+
+    next();
+  } catch (error) {
+    console.error('Erreur vérification prestataire:', error);
+    res.status(500).json({ error: 'Erreur serveur lors de la vérification' });
+  }
+};
