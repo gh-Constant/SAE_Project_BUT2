@@ -51,8 +51,7 @@ export const eventMockService = {
         capacity: eventData.capacity,
         id_location: eventData.id_location,
         published: eventData.published,
-        sold: 0,
-        categories: eventData.categories || []
+        sold: 0
       };
       EVENTS.push(newEvent);
       resolve(newEvent);

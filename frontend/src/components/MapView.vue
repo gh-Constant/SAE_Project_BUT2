@@ -25,44 +25,35 @@
 <template>
   <div class="relative w-full" :class="{ 'my-12': !isFullScreen, 'h-full': isFullScreen }">
     <!-- Conteneur de la carte Leaflet -->
-    <div 
-      id="map" 
-      tabindex="0" 
-      class="w-full bg-parchment outline-none"
-      :class="[
-        isFullScreen ? 'h-full' : 'h-[35rem] md:h-[45rem] rounded-lg'
-      ]"
-    ></div>
+    <div id="map" tabindex="0" class="w-full bg-parchment outline-none" :class="[
+      isFullScreen ? 'h-full' : 'h-[35rem] md:h-[45rem] rounded-lg'
+    ]"></div>
 
     <!-- Outils de développement (visible uniquement en mode dev) -->
     <div v-if="isDev" class="absolute top-4 right-4 z-[1000] flex flex-col items-end pointer-events-none gap-2">
       <div class="flex gap-2 pointer-events-auto">
-        <button 
-          @click="isClickDebugActive = !isClickDebugActive" 
+        <button @click="isClickDebugActive = !isClickDebugActive"
           class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10"
-          :class="{ 'ring-2 ring-green-500 text-green-400': isClickDebugActive }"
-        >
+          :class="{ 'ring-2 ring-green-500 text-green-400': isClickDebugActive }">
           {{ isClickDebugActive ? 'Click Debug ON' : 'Click Debug OFF' }}
         </button>
-        <button @click="showMarkerData = !showMarkerData" class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10">
+        <button @click="showMarkerData = !showMarkerData"
+          class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10">
           {{ showMarkerData ? 'Hide' : 'Show' }} JSON ({{ markerPositions.length }})
         </button>
       </div>
-      
+
       <!-- Données de débogage des marqueurs -->
-      <div v-if="showMarkerData && markerPositions.length > 0" class="pointer-events-auto mt-2 bg-white/95 p-4 rounded-lg text-xs font-mono max-h-[20rem] overflow-y-auto shadow-xl backdrop-blur-md border border-gray-200 max-w-xs">
+      <div v-if="showMarkerData && markerPositions.length > 0"
+        class="pointer-events-auto mt-2 bg-white/95 p-4 rounded-lg text-xs font-mono max-h-[20rem] overflow-y-auto shadow-xl backdrop-blur-md border border-gray-200 max-w-xs">
         <p class="font-bold mb-2 text-gray-800 border-b pb-1">Marker Positions JSON</p>
         <pre class="text-gray-600 leading-relaxed">{{ JSON.stringify(markerPositions, null, 2) }}</pre>
       </div>
     </div>
 
     <!-- Système de widgets superposé -->
-    <Widget
-      v-if="selectedLocation"
-      :location="selectedLocation"
-      @close="closeWidget"
-      @purchased="handleLocationPurchased"
-    />
+    <Widget v-if="selectedLocation" :location="selectedLocation" @close="closeWidget"
+      @purchased="handleLocationPurchased" />
   </div>
 </template>
 
@@ -230,7 +221,7 @@ onMounted(async () => {
 
 watch(isClickDebugActive, (newValue) => {
   if (!map) return;
-  
+
   if (newValue) {
     map.on('click', addClickMarker);
     map.getContainer().style.cursor = 'crosshair';

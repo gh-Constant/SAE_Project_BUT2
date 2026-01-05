@@ -1,12 +1,5 @@
 import type { LocationMock } from './locations';
 
-export interface EventCategoryMock {
-  id_event_category?: number;
-  name: string;
-  price: number;
-  capacity: number;
-  sold?: number;
-}
 
 export interface EventMock {
   id_event: number;
@@ -19,7 +12,6 @@ export interface EventMock {
   sold: number;
   id_location: number;
   published: boolean;
-  categories: EventCategoryMock[];
   location?: LocationMock;
 }
 
@@ -43,11 +35,7 @@ export const EVENTS: EventMock[] = [
     capacity: 1000,
     sold: 450,
     id_location: 1, // Assumes location 1 exists
-    published: true,
-    categories: [
-      { id_event_category: 1, name: 'Standard', price: 50, capacity: 800, sold: 350 },
-      { id_event_category: 2, name: 'VIP', price: 100, capacity: 200, sold: 100 }
-    ]
+    published: true
   },
   {
     id_event: 2,
@@ -59,10 +47,7 @@ export const EVENTS: EventMock[] = [
     capacity: 200,
     sold: 180,
     id_location: 2,
-    published: true,
-    categories: [
-      { id_event_category: 3, name: 'Table Royale', price: 120, capacity: 200, sold: 180 }
-    ]
+    published: true
   },
   {
     id_event: 3,
@@ -74,9 +59,6 @@ export const EVENTS: EventMock[] = [
     capacity: 5000,
     sold: 120,
     id_location: 1,
-    published: true,
-    categories: [
-      { id_event_category: 4, name: 'Entrée Libre', price: 0, capacity: 5000, sold: 120 }
-    ]
+    published: true
   }
 ];
