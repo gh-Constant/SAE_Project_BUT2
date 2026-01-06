@@ -7,6 +7,44 @@
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
+        <!-- Festival Global Dates -->
+        <div
+          class="bg-white/60 backdrop-blur-sm border border-antique-bronze/20 rounded-lg p-4 mb-8 flex justify-center items-center shadow-sm">
+          <div v-if="!isEditingDates" class="flex items-center gap-4">
+            <i class="fas fa-calendar-alt text-antique-bronze text-xl"></i>
+            <p class="text-lg font-medieval text-iron-black">
+              Festival du
+              <span class="font-bold text-antique-bronze mx-1">{{ new Date(settingsStore.festival_start_date ||
+                '').toLocaleDateString() }}</span>
+              au
+              <span class="font-bold text-antique-bronze mx-1">{{ new Date(settingsStore.festival_end_date ||
+                '').toLocaleDateString() }}</span>
+            </p>
+            <button @click="isEditingDates = true"
+              class="text-stone-400 hover:text-antique-bronze transition-colors ml-2" title="Modifier les dates">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+
+          <div v-else class="flex items-center gap-4 bg-white/90 p-2 rounded-lg border border-antique-bronze/30">
+            <div class="flex items-center gap-2">
+              <label class="text-xs font-bold text-stone-500">Du</label>
+              <input v-model="settingsStore.festival_start_date" type="date"
+                class="p-1 bg-white border border-antique-bronze/30 rounded focus:ring-1 focus:ring-antique-bronze outline-none text-iron-black font-medieval text-sm">
+            </div>
+            <span class="text-antique-bronze font-bold">-</span>
+            <div class="flex items-center gap-2">
+              <label class="text-xs font-bold text-stone-500">Au</label>
+              <input v-model="settingsStore.festival_end_date" type="date"
+                class="p-1 bg-white border border-antique-bronze/30 rounded focus:ring-1 focus:ring-antique-bronze outline-none text-iron-black font-medieval text-sm">
+            </div>
+            <button @click="isEditingDates = false"
+              class="text-emerald-700 hover:text-emerald-900 transition-colors ml-2" title="Valider">
+              <i class="fas fa-check-circle text-lg"></i>
+            </button>
+          </div>
+        </div>
+
         <!-- Admin Categories -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
 
@@ -248,6 +286,11 @@ const { t } = useI18n()
 
 const router = useRouter()
 const authStore = useAuthStore()
+import { useSettingsStore } from '@/stores/settings';
+import { ref } from 'vue';
+
+const settingsStore = useSettingsStore();
+const isEditingDates = ref(false);
 
 const user = computed(() => authStore.user)
 
