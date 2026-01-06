@@ -14,6 +14,7 @@ const router = Router();
 // Public routes
 router.get('/', quizController.getQuizzes);
 router.get('/:id/play', quizController.getQuizForPlay);
+router.get('/:id/question/:id_question/check', quizController.checkQuestion);
 
 // Protected routes - any authenticated user
 router.get('/my-attempts', authenticateToken, quizController.getMyAttempts);

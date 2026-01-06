@@ -15,11 +15,11 @@ export const mockQuizzes: Quiz[] = [
         is_active: true,
         created_at: '2024-12-01T10:00:00Z',
         updated_at: '2024-12-01T10:00:00Z',
-        id_location: 1,
+        id_location: 14,
         id_creator: 1,
         location: {
-            id_location: 1,
-            name: 'La Taverne du Lion',
+            id_location: 14,
+            name: 'Stand Marchand #5',
         },
         creator: {
             id_user: 1,
@@ -38,11 +38,11 @@ export const mockQuizzes: Quiz[] = [
         is_active: true,
         created_at: '2024-12-05T14:30:00Z',
         updated_at: '2024-12-05T14:30:00Z',
-        id_location: 14,
+        id_location: 15,
         id_creator: 1,
         location: {
-            id_location: 14,
-            name: 'Merchant Stall #5',
+            id_location: 15,
+            name: 'Stand Marchand #6',
         },
         creator: {
             id_user: 1,
@@ -61,11 +61,11 @@ export const mockQuizzes: Quiz[] = [
         is_active: true,
         created_at: '2024-12-10T09:00:00Z',
         updated_at: '2024-12-10T09:00:00Z',
-        id_location: 15,
+        id_location: 16,
         id_creator: 4,
         location: {
-            id_location: 15,
-            name: 'Merchant Stall #6',
+            id_location: 16,
+            name: 'Stand Marchand #7',
         },
         creator: {
             id_user: 4,

@@ -52,7 +52,7 @@
             :to="`/quiz/${quizId}`"
             class="px-6 py-3 bg-antique-bronze text-white rounded-lg hover:bg-amber-700 transition-colors text-center font-medium"
           >
-            🔄 Rejouer
+            Rejouer
           </router-link>
           <router-link
             to="/quiz"
@@ -73,7 +73,7 @@
             :key="question.id_question"
             :question="question"
             :question-index="index"
-            :user-answer-id="getUserAnswerId(question.id_question)"
+            :user-answer-ids="getUserAnswerIds(question.id_question)"
             :is-correct="isAnswerCorrect(question)"
           />
         </div>
@@ -97,7 +97,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { quizService, type Quiz, type QuizQuestion } from '@/services/quizService';
 import QuizResultCard from '@/components/quiz/QuizResultCard.vue';
-import { getQuizWithQuestions } from '@/mocks/quiz';
 
 const route = useRoute();
 
@@ -108,7 +107,7 @@ const percentage = computed(() => Number(route.query.percentage) || 0);
 
 const showDetails = ref(false);
 const quizDetails = ref<Quiz | null>(null);
-const userAnswersFromAttempt = ref<Record<number, number>>({});
+const userAnswersFromAttempt = ref<Record<number, number[]>>({});
 
 const resultMessage = computed(() => {
   if (percentage.value >= 80) return 'Excellent ! 🏆';
@@ -127,43 +126,57 @@ function toggleDetails() {
 
 async function loadQuizDetails() {
   try {
-    // For mock mode, use the mock function directly
-    const quiz = getQuizWithQuestions(quizId.value);
+    const attemptId = route.query.attemptId;
+    
+    if (attemptId) {
+      const attempt = await quizService.getAttemptDetails(Number(attemptId));
+      
+      if (attempt) {
+        if (attempt.quiz) {
+          quizDetails.value = attempt.quiz as Quiz;
+        }
+        
+        if (attempt.answers) {
+          const answersMap: Record<number, number[]> = {};
+          attempt.answers.forEach(a => {
+            if (!answersMap[a.id_question]) {
+              answersMap[a.id_question] = [];
+            }
+            answersMap[a.id_question].push(a.id_answer);
+          });
+          userAnswersFromAttempt.value = answersMap;
+        }
+        return;
+      }
+    }
+
+    // Fallback: load quiz directly if no attempt or attempt not found
+    const quiz = await quizService.getQuizById(quizId.value);
     if (quiz) {
       quizDetails.value = quiz;
     }
 
-    // Also try to load attempt details for actual user answers
-    const attemptId = route.query.attemptId;
-    if (attemptId) {
-      const attempt = await quizService.getAttemptDetails(Number(attemptId));
-      if (attempt?.answers) {
-        attempt.answers.forEach(a => {
-          userAnswersFromAttempt.value[a.id_question] = a.id_answer;
-        });
-      }
-    }
   } catch (err) {
     console.error('Error loading quiz details:', err);
   }
 }
 
-function getUserAnswerId(questionId: number): number {
-  return userAnswersFromAttempt.value[questionId] || 0;
+function getUserAnswerIds(questionId: number): number[] {
+  return userAnswersFromAttempt.value[questionId] || [];
 }
 
 function isAnswerCorrect(question: QuizQuestion): boolean {
-  const userAnswerId = getUserAnswerId(question.id_question);
-  const correctAnswer = question.answers.find(a => a.is_correct);
-  return correctAnswer?.id_answer === userAnswerId;
+  const userIds = getUserAnswerIds(question.id_question);
+  const correctIds = question.answers.filter(a => a.is_correct).map(a => a.id_answer);
+  
+  if (userIds.length !== correctIds.length) return false;
+  return userIds.every(id => correctIds.includes(id));
 }
 
 onMounted(() => {
-  // Pre-load quiz details
   loadQuizDetails();
 });
 </script>
 
 <style scoped>
-@reference "tailwindcss";
 </style>

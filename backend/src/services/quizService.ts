@@ -145,6 +145,7 @@ export async function getQuizForPlay(id_quiz: number) {
                             id_answer: true,
                             content: true,
                             order_index: true,
+                            is_correct: true, 
                         },
                     },
                 },
@@ -152,7 +153,24 @@ export async function getQuizForPlay(id_quiz: number) {
         },
     });
 
-    return quiz;
+    if (!quiz) return null;
+
+    // Post-process to hide correct answers but add 'multiple_correct_answers' flag
+    const sanitizedQuestions = quiz.questions.map(q => {
+        const correctCount = q.answers.filter(a => a.is_correct).length;
+        const sanitizedAnswers = q.answers.map(({ is_correct, ...rest }) => rest);
+
+        return {
+            ...q,
+            answers: sanitizedAnswers,
+            multiple_correct_answers: correctCount > 1,
+        };
+    });
+
+    return {
+        ...quiz,
+        questions: sanitizedQuestions,
+    };
 }
 
 // Create a new quiz with questions and answers
@@ -262,16 +280,31 @@ export async function submitQuizAttempt(input: SubmitQuizInput) {
     const totalQuestions = quiz.questions.length;
     const answerResults: { id_question: number; id_answer: number; is_correct: boolean }[] = [];
 
-    for (const userAnswer of input.answers) {
-        const question = quiz.questions.find((q) => q.id_question === userAnswer.id_question);
-        if (question) {
-            const correctAnswer = question.answers.find((a) => a.is_correct);
-            const isCorrect = correctAnswer?.id_answer === userAnswer.id_answer;
-            if (isCorrect) score++;
+    // Group user answers by question ID
+    const userAnswersByQuestion = new Map<number, number[]>();
+    for (const ans of input.answers) {
+        if (!userAnswersByQuestion.has(ans.id_question)) {
+            userAnswersByQuestion.set(ans.id_question, []);
+        }
+        userAnswersByQuestion.get(ans.id_question)?.push(ans.id_answer);
+    }
+
+    for (const question of quiz.questions) {
+        const userAnswers = userAnswersByQuestion.get(question.id_question) || [];
+        const correctAnswers = question.answers.filter((a) => a.is_correct).map((a) => a.id_answer);
+
+        const isCorrect = userAnswers.length === correctAnswers.length &&
+            userAnswers.every((id) => correctAnswers.includes(id));
+
+        if (isCorrect) score++;
+
+        // Record individual answer results for detailed feedback
+        for (const userAnswerId of userAnswers) {
+            const isAnswerCorrect = correctAnswers.includes(userAnswerId);
             answerResults.push({
-                id_question: userAnswer.id_question,
-                id_answer: userAnswer.id_answer,
-                is_correct: isCorrect,
+                id_question: question.id_question,
+                id_answer: userAnswerId,
+                is_correct: isAnswerCorrect,
             });
         }
     }
@@ -387,4 +420,19 @@ export async function getQuizStatistics(id_quiz: number) {
         averageScore: Math.round(averageScore),
         attempts,
     };
+}
+
+// Get correct answers for a question (for immediate feedback)
+export async function getQuestionSolution(id_question: number) {
+    const answers = await prisma.quizAnswer.findMany({
+        where: {
+            id_question,
+            is_correct: true
+        },
+        select: {
+            id_answer: true
+        }
+    });
+
+    return answers.map(a => a.id_answer);
 }

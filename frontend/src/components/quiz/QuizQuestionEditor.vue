@@ -108,8 +108,9 @@
               'border-emerald-500 bg-emerald-500': answer.is_correct,
               'border-stone-grey/40 hover:border-emerald-400': !answer.is_correct,
             }"
-            @click="setCorrectAnswer(answerIndex)"
-            title="Définir comme bonne réponse"
+            @click="toggleCorrectAnswer(answerIndex)"
+            title="Basculer l'état de la réponse"
+
           >
             <svg 
               v-if="answer.is_correct"
@@ -145,7 +146,8 @@
       </div>
 
       <p class="text-xs text-stone-grey/60 mt-2">
-        Cliquez sur le cercle pour définir la bonne réponse
+        Cliquez sur le cercle pour définir les bonnes réponses (plusieurs possibles)
+
       </p>
     </div>
   </div>
@@ -238,11 +240,12 @@ function updateAnswer(index: number, field: keyof CreateAnswerInput, value: stri
   emit('update:modelValue', { ...props.modelValue, answers });
 }
 
-function setCorrectAnswer(correctIndex: number) {
-  const answers = props.modelValue.answers.map((answer, i) => ({
-    ...answer,
-    is_correct: i === correctIndex,
-  }));
+function toggleCorrectAnswer(index: number) {
+  const answers = [...props.modelValue.answers];
+  answers[index] = {
+    ...answers[index],
+    is_correct: !answers[index].is_correct
+  };
   emit('update:modelValue', { ...props.modelValue, answers });
 }
 
@@ -271,7 +274,3 @@ function removeAnswer(index: number) {
   emit('update:modelValue', { ...props.modelValue, answers });
 }
 </script>
-
-<style scoped>
-@reference "tailwindcss";
-</style>

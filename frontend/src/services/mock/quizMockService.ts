@@ -15,10 +15,12 @@ import type {
 import { mockQuizzes, mockQuestions, mockUserAttempts, getQuizWithQuestions } from '@/mocks/quiz';
 
 // Store for mock data (allows modifications)
-let quizzes = [...mockQuizzes];
-let attempts = [...mockUserAttempts];
+const quizzes = [...mockQuizzes];
+const attempts = [...mockUserAttempts];
 let nextQuizId = 4;
 let nextAttemptId = 3;
+let nextQuestionId = 100;
+let nextAnswerId = 100;
 
 export const quizMockService = {
     /**
@@ -86,8 +88,10 @@ export const quizMockService = {
     async createQuiz(input: CreateQuizInput): Promise<Quiz> {
         await delay(300);
 
+        const id_quiz = nextQuizId++;
+
         const newQuiz: Quiz = {
-            id_quiz: nextQuizId++,
+            id_quiz,
             title: input.title,
             description: input.description,
             image_url: input.image_url,
@@ -96,8 +100,31 @@ export const quizMockService = {
             updated_at: new Date().toISOString(),
             id_location: input.id_location,
             id_creator: 1, // Mock: assume current user is creator
+            questions: input.questions.map(q => ({
+                id_question: nextQuestionId++,
+                content: q.content,
+                image_url: q.image_url,
+                order_index: q.order_index,
+                id_quiz: id_quiz,
+                answers: q.answers.map(a => ({
+                    id_answer: nextAnswerId++,
+                    content: a.content,
+                    is_correct: a.is_correct,
+                    order_index: a.order_index,
+                    id_question: nextQuestionId // Matches parent question
+                }))
+            })),
             _count: { attempts: 0 },
         };
+
+        // Fix question ID reference in answers (since nextQuestionId incremented)
+        if (newQuiz.questions) {
+            newQuiz.questions.forEach(q => {
+                q.answers.forEach(a => {
+                    a.id_question = q.id_question;
+                });
+            });
+        }
 
         quizzes.push(newQuiz);
         return newQuiz;
@@ -112,11 +139,37 @@ export const quizMockService = {
         const index = quizzes.findIndex(q => q.id_quiz === id_quiz);
         if (index === -1) return null;
 
-        quizzes[index] = {
+        // Destructure questions to avoid type mismatch when merging with Quiz
+        const { questions, ...restInput } = input;
+
+        const updatedQuiz: Quiz = {
             ...quizzes[index],
-            ...input,
+            ...restInput,
             updated_at: new Date().toISOString(),
         };
+
+        // Handle question transformation if questions are updated
+        if (questions) {
+            updatedQuiz.questions = questions.map(q => {
+                const qId = nextQuestionId++;
+                return {
+                    id_question: qId,
+                    content: q.content,
+                    image_url: q.image_url,
+                    order_index: q.order_index,
+                    id_quiz: id_quiz,
+                    answers: q.answers.map(a => ({
+                        id_answer: nextAnswerId++,
+                        content: a.content,
+                        is_correct: a.is_correct,
+                        order_index: a.order_index,
+                        id_question: qId
+                    }))
+                };
+            });
+        }
+
+        quizzes[index] = updatedQuiz;
 
         return quizzes[index];
     },
@@ -240,6 +293,29 @@ export const quizMockService = {
             averageScore: Math.round(averageScore),
             attempts: quizAttempts,
         };
+    },
+
+    /**
+     * Check if a question answer is correct
+     */
+    async checkQuestion(id_quiz: number, id_question: number): Promise<{ correctAnswers: number[] }> {
+        await delay(150);
+
+        const quiz = getQuizWithQuestions(id_quiz);
+        if (!quiz || !quiz.questions) {
+            throw new Error("Quiz not found");
+        }
+
+        const question = quiz.questions.find(q => q.id_question === id_question);
+        if (!question) {
+            throw new Error("Question not found");
+        }
+
+        const correctAnswers = question.answers
+            .filter(a => a.is_correct)
+            .map(a => a.id_answer);
+
+        return { correctAnswers };
     },
 };
 

@@ -36,8 +36,8 @@
         class="flex items-center p-2 rounded-lg"
         :class="{
           'bg-emerald-100': answer.is_correct,
-          'bg-red-100': answer.id_answer === userAnswerId && !answer.is_correct,
-          'bg-gray-50': !answer.is_correct && answer.id_answer !== userAnswerId,
+          'bg-red-100': userAnswerIds.includes(answer.id_answer) && !answer.is_correct,
+          'bg-gray-50': !answer.is_correct && !userAnswerIds.includes(answer.id_answer),
         }"
       >
         <!-- Icon -->
@@ -53,7 +53,7 @@
           </svg>
           <!-- User's wrong answer icon -->
           <svg 
-            v-else-if="answer.id_answer === userAnswerId" 
+            v-else-if="userAnswerIds.includes(answer.id_answer)" 
             class="w-5 h-5 text-red-600" 
             fill="currentColor" 
             viewBox="0 0 20 20"
@@ -69,12 +69,12 @@
           class="text-sm"
           :class="{
             'font-medium text-emerald-700': answer.is_correct,
-            'text-red-700': answer.id_answer === userAnswerId && !answer.is_correct,
-            'text-gray-500': !answer.is_correct && answer.id_answer !== userAnswerId,
+            'text-red-700': userAnswerIds.includes(answer.id_answer) && !answer.is_correct,
+            'text-gray-500': !answer.is_correct && !userAnswerIds.includes(answer.id_answer),
           }"
         >
           {{ answer.content }}
-          <span v-if="answer.id_answer === userAnswerId" class="text-xs ml-1">(votre réponse)</span>
+          <span v-if="userAnswerIds.includes(answer.id_answer)" class="text-xs ml-1">(votre réponse)</span>
         </span>
       </div>
     </div>
@@ -87,25 +87,10 @@ import type { QuizQuestion } from '@/types/quiz';
 interface Props {
   question: QuizQuestion;
   questionIndex: number;
-  userAnswerId: number;
+  userAnswerIds: number[];
   isCorrect: boolean;
 }
 
 defineProps<Props>();
 </script>
 
-<style scoped>
-@reference "tailwindcss";
-
-.question-content :deep(p) {
-  @apply mb-0;
-}
-
-.question-content :deep(strong) {
-  @apply font-semibold;
-}
-
-.question-content :deep(em) {
-  @apply italic;
-}
-</style>

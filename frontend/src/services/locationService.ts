@@ -69,7 +69,8 @@ const locationServiceImpl = {
     } else {
       // Other users see validated (APPROVED) locations
       locations = locations.filter(location =>
-        location.status === 'APPROVED'
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID ||
+        (location.purchased && location.id_prestataire && location.id_prestataire > 0)
       );
     }
 
@@ -135,8 +136,6 @@ const locationServiceImpl = {
   },
 
   validatePurchase: async (locationId: number): Promise<LocationMock> => {
-    // Mock implementation call (will be handled by mockService if enabled)
-    // In real app, this would be a PATCH to /locations/{id}/validate
     const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/validate`, {
       method: 'POST',
       headers: {

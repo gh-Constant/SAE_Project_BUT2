@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import * as quizService from '../services/quizService.js';
 import { asyncHandler } from '../middleware/error.middleware.js';
+import prisma from '../prisma.js';
+
 
 // Get all quizzes
 export const getQuizzes = asyncHandler(async (req: Request, res: Response) => {
@@ -31,7 +33,14 @@ export const getQuizById = asyncHandler(async (req: Request, res: Response) => {
 // Get quiz for playing (hides correct answers)
 export const getQuizForPlay = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const quiz = await quizService.getQuizForPlay(Number(id));
+    const quizId = Number(id);
+
+    if (isNaN(quizId)) {
+        res.status(400).json({ error: 'Invalid quiz ID' });
+        return;
+    }
+
+    const quiz = await quizService.getQuizForPlay(quizId);
 
     if (!quiz) {
         res.status(404).json({ error: 'Quiz not found or inactive' });
@@ -44,7 +53,8 @@ export const getQuizForPlay = asyncHandler(async (req: Request, res: Response) =
 // Create a new quiz
 export const createQuiz = asyncHandler(async (req: Request, res: Response) => {
     const { title, description, image_url, id_location, questions } = req.body;
-    const userId = (req as Request & { user?: { id_user: number } }).user?.id_user;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
 
     if (!userId) {
         res.status(401).json({ error: 'Unauthorized' });
@@ -71,8 +81,20 @@ export const createQuiz = asyncHandler(async (req: Request, res: Response) => {
 // Update a quiz
 export const updateQuiz = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const userId = (req as Request & { user?: { id_user: number; role: string } }).user?.id_user;
-    const userRole = (req as Request & { user?: { id_user: number; role: string } }).user?.role;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
+    if (!userId) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { id_user: userId },
+        select: { role: true }
+    });
+    const userRole = user?.role;
+
+
 
     const existingQuiz = await quizService.getQuizById(Number(id));
 
@@ -94,8 +116,20 @@ export const updateQuiz = asyncHandler(async (req: Request, res: Response) => {
 // Delete a quiz
 export const deleteQuiz = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const userId = (req as Request & { user?: { id_user: number; role: string } }).user?.id_user;
-    const userRole = (req as Request & { user?: { id_user: number; role: string } }).user?.role;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
+    if (!userId) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { id_user: userId },
+        select: { role: true }
+    });
+    const userRole = user?.role;
+
+
 
     const existingQuiz = await quizService.getQuizById(Number(id));
 
@@ -118,7 +152,8 @@ export const deleteQuiz = asyncHandler(async (req: Request, res: Response) => {
 export const submitQuiz = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { answers } = req.body;
-    const userId = (req as Request & { user?: { id_user: number } }).user?.id_user;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
 
     if (!userId) {
         res.status(401).json({ error: 'Unauthorized' });
@@ -141,7 +176,8 @@ export const submitQuiz = asyncHandler(async (req: Request, res: Response) => {
 
 // Get user's quiz attempts
 export const getMyAttempts = asyncHandler(async (req: Request, res: Response) => {
-    const userId = (req as Request & { user?: { id_user: number } }).user?.id_user;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
     const { quiz_id } = req.query;
 
     if (!userId) {
@@ -160,7 +196,8 @@ export const getMyAttempts = asyncHandler(async (req: Request, res: Response) =>
 // Get attempt details
 export const getAttemptDetails = asyncHandler(async (req: Request, res: Response) => {
     const { attemptId } = req.params;
-    const userId = (req as Request & { user?: { id_user: number } }).user?.id_user;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
 
     const attempt = await quizService.getAttemptDetails(Number(attemptId));
 
@@ -181,8 +218,20 @@ export const getAttemptDetails = asyncHandler(async (req: Request, res: Response
 // Get quiz statistics (for admin/prestataire)
 export const getQuizStatistics = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const userId = (req as Request & { user?: { id_user: number; role: string } }).user?.id_user;
-    const userRole = (req as Request & { user?: { id_user: number; role: string } }).user?.role;
+    const userId = (req as Request & { user?: { id: number } }).user?.id;
+
+    if (!userId) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { id_user: userId },
+        select: { role: true }
+    });
+    const userRole = user?.role;
+
+
 
     const quiz = await quizService.getQuizById(Number(id));
 
@@ -199,4 +248,13 @@ export const getQuizStatistics = asyncHandler(async (req: Request, res: Response
 
     const statistics = await quizService.getQuizStatistics(Number(id));
     res.json(statistics);
+});
+
+// Check a specific question (return correct answers)
+export const checkQuestion = asyncHandler(async (req: Request, res: Response) => {
+    const { id_question } = req.params;
+
+    const correctAnswers = await quizService.getQuestionSolution(Number(id_question));
+
+    res.json({ correctAnswers });
 });

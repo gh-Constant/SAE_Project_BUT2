@@ -22,7 +22,7 @@
     <div v-else-if="!started && quiz" class="max-w-2xl mx-auto px-4 py-12">
       <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <!-- Quiz Image -->
-        <div class="h-48 bg-gradient-to-br from-antique-bronze to-amber-600 relative">
+        <div class="h-48 bg-antique-bronze relative">
           <img
             v-if="quiz.image_url"
             :src="quiz.image_url"
@@ -99,9 +99,12 @@
         :current-index="currentQuestionIndex"
         :total-questions="totalQuestions"
         :initial-answer="userAnswers[currentQuestion.id_question]"
+        :is-confirmed="questionStates[currentQuestion.id_question]?.isConfirmed"
+        :correct-answers="questionStates[currentQuestion.id_question]?.correctAnswers"
         @answer-selected="handleAnswerSelected"
         @previous="previousQuestion"
         @next="nextQuestion"
+        @confirm="handleConfirm"
         @submit="submitQuiz"
       />
 
@@ -143,7 +146,9 @@ const error = ref<string | null>(null);
 const started = ref(false);
 const submitting = ref(false);
 const currentQuestionIndex = ref(0);
-const userAnswers = ref<Record<number, number>>({});
+const userAnswers = ref<Record<number, number[]>>({});
+const questionStates = ref<Record<number, { isConfirmed: boolean, correctAnswers: number[] }>>({});
+
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 
@@ -160,6 +165,14 @@ async function loadQuiz() {
 
   try {
     const id = Number(route.params.id);
+    
+    if (isNaN(id)) {
+      error.value = 'ID de quiz invalide';
+      // Optional: redirect to list
+      // router.replace('/quiz');
+      return;
+    }
+
     quiz.value = await quizService.getQuizForPlay(id);
     
     if (!quiz.value) {
@@ -176,7 +189,11 @@ async function loadQuiz() {
 function startQuiz() {
   started.value = true;
   currentQuestionIndex.value = 0;
+  started.value = true;
+  currentQuestionIndex.value = 0;
   userAnswers.value = {};
+  questionStates.value = {};
+
 }
 
 function cancelQuiz() {
@@ -186,7 +203,38 @@ function cancelQuiz() {
 }
 
 function handleAnswerSelected(questionId: number, answerId: number) {
-  userAnswers.value[questionId] = answerId;
+  if (questionStates.value[questionId]?.isConfirmed) return; // Prevent changing if confirmed
+
+  if (!userAnswers.value[questionId]) {
+    userAnswers.value[questionId] = [];
+  }
+  
+  const index = userAnswers.value[questionId].indexOf(answerId);
+  if (index === -1) {
+    userAnswers.value[questionId].push(answerId);
+  } else {
+    userAnswers.value[questionId].splice(index, 1);
+  }
+}
+
+async function handleConfirm() {
+  if (!currentQuestion.value || !quiz.value) return;
+  
+  const qId = currentQuestion.value.id_question;
+  
+  // Call API to check
+  try {
+      const result = await quizService.checkQuestion(quiz.value.id_quiz, qId);
+      
+      questionStates.value[qId] = {
+          isConfirmed: true,
+          correctAnswers: result.correctAnswers
+      };
+      
+  } catch (e) {
+      console.error("Error checking question", e);
+      alert("Erreur lors de la validation");
+  }
 }
 
 function previousQuestion() {
@@ -205,7 +253,10 @@ async function submitQuiz() {
   if (!quiz.value || !quiz.value.questions) return;
 
   // Check if all questions are answered
-  const unanswered = quiz.value.questions.filter(q => !userAnswers.value[q.id_question]);
+  const unanswered = quiz.value.questions.filter(q => 
+    !userAnswers.value[q.id_question] || userAnswers.value[q.id_question].length === 0
+  );
+
   if (unanswered.length > 0) {
     alert(`Vous n'avez pas répondu à ${unanswered.length} question(s)`);
     return;
@@ -215,10 +266,16 @@ async function submitQuiz() {
 
   try {
     // Prepare submission
-    const answers = Object.entries(userAnswers.value).map(([questionId, answerId]) => ({
-      id_question: Number(questionId),
-      id_answer: answerId,
-    }));
+    const answers: { id_question: number; id_answer: number }[] = [];
+    
+    Object.entries(userAnswers.value).forEach(([questionId, answerIds]) => {
+      answerIds.forEach(answerId => {
+        answers.push({
+          id_question: Number(questionId),
+          id_answer: answerId,
+        });
+      });
+    });
 
     const result = await quizService.submitQuiz(quiz.value.id_quiz, { answers });
 
@@ -245,5 +302,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@reference "tailwindcss";
 </style>

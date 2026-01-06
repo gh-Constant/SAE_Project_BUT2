@@ -27,6 +27,7 @@ import { seedEvents } from './seeds/events.js';
 import { seedBlogs } from './seeds/blogs.js';
 import { seedQuests } from './seeds/quests.js';
 import { seedUserQuests } from './seeds/userQuests.js';
+import { seedQuizzes } from './seeds/quizzes.js';
 import { seedOrders } from './seeds/orders.js';
 
 /**
@@ -49,7 +50,8 @@ const startServer = async (): Promise<void> => {
     await seedBlogs();
     await seedQuests();
     await seedUserQuests();
-    await seedOrders(); // Orders seeded AFTER products
+    await seedQuizzes();
+    await seedOrders();
 
 
     // Création de l'application Express

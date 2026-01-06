@@ -30,11 +30,12 @@ export interface Quiz {
 
 export interface QuizQuestion {
     id_question: number;
-    content: string; // HTML content from TipTap editor
+    content: string;
     image_url?: string;
     order_index: number;
     id_quiz: number;
     answers: QuizAnswer[];
+    multiple_correct_answers?: boolean;
 }
 
 export interface QuizAnswer {

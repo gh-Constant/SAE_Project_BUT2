@@ -139,6 +139,32 @@
         <QuestSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
+      <!-- Quiz Section -->
+      <div v-if="quizzes.length > 0" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <h3 class="text-xl font-bold text-iron-black mb-4 flex items-center font-medieval">
+          
+          <span class="ml-2">Quiz</span>
+        </h3>
+        <div class="grid gap-3">
+          <div
+            v-for="quiz in quizzes"
+            :key="quiz.id_quiz"
+            class="bg-white/60 p-4 rounded-lg border border-antique-bronze/10 hover:border-antique-bronze/30 transition-colors flex justify-between items-center group shadow-sm"
+          >
+            <div>
+              <h4 class="font-bold text-iron-black group-hover:text-antique-bronze transition-colors">{{ quiz.title }}</h4>
+              <p class="text-sm text-stone-grey line-clamp-1">{{ quiz.description }}</p>
+            </div>
+            <button
+              @click="playQuiz(quiz.id_quiz)"
+              class="ml-4 bg-stone-grey hover:bg-iron-black text-white px-4 py-2 rounded font-medieval font-bold shadow-sm transition-colors border border-stone-grey/50 whitespace-nowrap text-sm"
+            >
+              Jouer
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="flex gap-3 justify-end">
         <button
           class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50"
@@ -156,7 +182,8 @@
  * Gère l'affichage des locations prestataires achetées et la gestion des blogs
  */
 
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { useAuthStore } from '@/stores/auth';
@@ -167,6 +194,7 @@ import QuestSection from './QuestSection.vue';
 import { useI18n } from 'vue-i18n';
 import { locationService } from '@/services/locationService';
 import { isAdmin as checkIsAdmin } from '@/services/roleService';
+import { quizService, Quiz } from '@/services/quizService';
 
 const { t } = useI18n();
 
@@ -248,5 +276,30 @@ const rejectLocation = async () => {
     alert('Erreur lors du refus du lieu.');
   }
 };
+
+
+const router = useRouter();
+const quizzes = ref<Quiz[]>([]);
+
+const playQuiz = (quizId: number) => {
+  emit('close');
+  router.push({ name: 'quiz-play', params: { id: quizId } });
+};
+
+const fetchQuizzes = async () => {
+  try {
+    quizzes.value = await quizService.getQuizzes({
+      id_location: props.location.id,
+      is_active: true
+    });
+  } catch (error) {
+    console.error('Failed to fetch quizzes for location', error);
+    quizzes.value = [];
+  }
+};
+
+watch(() => props.location.id, () => {
+  fetchQuizzes();
+}, { immediate: true });
 
 </script>

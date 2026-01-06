@@ -6,14 +6,12 @@ import { authenticateToken } from '../middleware/auth.middleware.js';
 const router = Router();
 
 // POST /api/v1/upload
-// POST /api/v1/upload
 router.post('/', authenticateToken, (req, res, next) => {
     upload.single('file')(req, res, (err) => {
         if (err) {
-            // Handle Multer errors (like File too large)
-            return res.status(400).json({ error: err.message });
+            res.status(400).json({ error: err.message });
+            return;
         }
-        // No error, proceed to controller
         next();
     });
 }, uploadController.uploadFile);

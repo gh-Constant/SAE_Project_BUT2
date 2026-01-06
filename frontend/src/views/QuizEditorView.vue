@@ -202,7 +202,7 @@
                 <button
                   type="submit"
                   :disabled="saving || !isValid"
-                  class="px-8 py-3 bg-gradient-to-r from-antique-bronze to-amber-700 text-white font-medieval font-bold text-lg rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-3"
+                  class="px-8 py-3 bg-antique-bronze text-white font-medieval font-bold text-lg rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-3"
                 >
                   <span v-if="saving" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
                   <i v-else class="fas fa-save"></i>

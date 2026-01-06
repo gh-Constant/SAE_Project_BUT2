@@ -128,6 +128,10 @@ const quizApiService = {
     async getQuizStatistics(id_quiz: number): Promise<QuizStatistics> {
         return apiRequest<QuizStatistics>(`/quizzes/${id_quiz}/statistics`);
     },
+
+    async checkQuestion(id_quiz: number, id_question: number): Promise<{ correctAnswers: number[] }> {
+        return apiRequest<{ correctAnswers: number[] }>(`/quizzes/${id_quiz}/question/${id_question}/check`);
+    },
 };
 
 // Export the appropriate service based on environment
