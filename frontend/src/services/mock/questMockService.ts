@@ -1,69 +1,68 @@
-import { Quest, UserQuest } from '../questService';
+import { Quest } from '../questService';
+import { QUESTS } from '@/mocks/quests';
+import { USER_QUESTS } from '@/mocks/userQuests';
+import { LOCATIONS } from '@/mocks/locations';
 
-const mockQuests: Quest[] = [
-  {
-    id_quest: 1,
-    title: 'Explore the Park',
-    description: 'Visit all 3 landmarks in the park.',
-    xp_reward: 100,
-    id_location: 1,
-    created_at: new Date().toISOString()
-  },
-  {
-    id_quest: 2,
-    title: 'Coffee tasting',
-    description: 'Drink 3 different coffees.',
-    xp_reward: 50,
-    id_location: 1,
-    created_at: new Date().toISOString()
+const mockQuests = [...QUESTS];
+const userQuests = [...USER_QUESTS];
+
+// Helper to get current user ID from localStorage
+const getCurrentUserId = (): number => {
+  const currentUserStr = localStorage.getItem('currentUser');
+  if (currentUserStr) {
+    try {
+      const user = JSON.parse(currentUserStr);
+      return user.id;
+    } catch {
+      return 2; // Default to Alice (aventurier)
+    }
   }
-];
-
-// Type pour les quêtes utilisateur mockées (avec les quêtes enrichies)
-interface MockUserQuest extends UserQuest {
-  quest?: Quest;
-}
-
-const userQuests: MockUserQuest[] = [];
+  return 2; // Default to Alice (aventurier)
+};
 
 export const questMockService = {
   getQuestsByLocation: async (locationId: number): Promise<Quest[]> => {
     return mockQuests.filter(q => q.id_location === locationId);
   },
 
-  getUserQuests: async (): Promise<MockUserQuest[]> => {
-    return userQuests;
+  getUserQuests: async () => {
+    const userId = getCurrentUserId();
+    return userQuests.filter(uq => uq.id_user === userId);
   },
 
   createQuest: async (quest: Omit<Quest, 'id_quest'>): Promise<Quest> => {
-    const newQuest = { ...quest, id_quest: mockQuests.length + 1, created_at: new Date().toISOString() };
+    const location = LOCATIONS.find(l => l.id === quest.id_location);
+    const newQuest = { ...quest, id_quest: mockQuests.length + 1, location, created_at: new Date().toISOString() };
     mockQuests.push(newQuest);
     return newQuest;
   },
 
   acceptQuest: async (questId: number): Promise<void> => {
+    const userId = getCurrentUserId();
     const quest = mockQuests.find(q => q.id_quest === questId);
-    if (quest && !userQuests.find(uq => uq.id_quest === questId)) {
+    if (quest && !userQuests.find(uq => uq.id_quest === questId && uq.id_user === userId)) {
       userQuests.push({
-        id_user_quest: userQuests.length + 1,
-        id_user: 1, // Mock user ID
+        id_user: userId,
         id_quest: quest.id_quest,
         status: 'accepted',
-        quest: quest,
-        accepted_at: new Date().toISOString()
+        created_at: new Date(),
+        updated_at: new Date(),
+        quest: quest
       });
     }
   },
 
   completeQuest: async (questId: number): Promise<void> => {
-    const uq = userQuests.find(q => q.id_quest === questId);
+    const userId = getCurrentUserId();
+    const uq = userQuests.find(q => q.id_quest === questId && q.id_user === userId);
     if (uq) {
       uq.status = 'completed';
     }
   },
 
   cancelQuest: async (questId: number): Promise<void> => {
-    const index = userQuests.findIndex(q => q.id_quest === questId);
+    const userId = getCurrentUserId();
+    const index = userQuests.findIndex(q => q.id_quest === questId && q.id_user === userId);
     if (index !== -1) {
       userQuests.splice(index, 1);
     }

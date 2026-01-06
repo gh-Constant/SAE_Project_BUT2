@@ -1,45 +1,33 @@
-export interface QuestMock {
-  id: number;
-  title: string;
-  description?: string;
-  xpReward: number;
-  id_location: number;
-}
+import { LOCATIONS } from './locations';
 
-export const QUESTS: QuestMock[] = [
-  // Château Principal (id: 1)
-  { id: 1, title: "Récupérer l'épée du roi", description: "Retrouver l'épée légendaire du roi dans les donjons du château.", xpReward: 150, id_location: 1 },
-  { id: 2, title: "Protéger le trône", description: "Monter la garde devant la salle du trône pendant la cérémonie.", xpReward: 75, id_location: 1 },
-  { id: 3, title: "Livrer un message royal", description: "Apporter un message urgent au conseiller du roi.", xpReward: 25, id_location: 1 },
-  
-  // Forge du Village (id: 2)
-  { id: 4, title: "Collecter du minerai", description: "Rapporter 10 unités de minerai de fer de la mine.", xpReward: 50, id_location: 2 },
-  { id: 5, title: "Forger une épée", description: "Aider le forgeron à créer une épée pour les gardes.", xpReward: 100, id_location: 2 },
-  
-  // Taverne du Dragon Noir (id: 3)
-  { id: 6, title: "Servir les clients", description: "Aider le tavernier pendant l'heure de pointe.", xpReward: 30, id_location: 3 },
-  { id: 7, title: "Résoudre une bagarre", description: "Calmer une dispute entre deux clients mécontents.", xpReward: 45, id_location: 3 },
-  { id: 8, title: "Trouver le voleur", description: "Identifier qui a volé la bourse du marchand.", xpReward: 80, id_location: 3 },
-  
-  // Tour des Mages (id: 4)
-  { id: 9, title: "Collecter des herbes magiques", description: "Récolter 5 herbes rares pour les potions.", xpReward: 60, id_location: 4 },
-  { id: 10, title: "Apprenti du mage", description: "Assister le mage dans ses expériences pendant une journée.", xpReward: 120, id_location: 4 },
-  { id: 11, title: "Décrypter un parchemin", description: "Traduire un ancien parchemin magique.", xpReward: 200, id_location: 4 },
-  
-  // Marché Central (id: 5)
-  { id: 12, title: "Livraison express", description: "Livrer 5 colis avant la fermeture du marché.", xpReward: 35, id_location: 5 },
-  { id: 13, title: "Négocier un prix", description: "Obtenir une réduction de 20% sur un objet rare.", xpReward: 40, id_location: 5 },
-  
-  // Écuries Royales (id: 6)
-  { id: 14, title: "Soigner un cheval", description: "Aider le palefrenier à soigner un cheval blessé.", xpReward: 55, id_location: 6 },
-  { id: 15, title: "Course de chevaux", description: "Participer à la course annuelle et finir dans le top 3.", xpReward: 175, id_location: 6 },
-  
-  // Bibliothèque Ancienne (id: 7)
-  { id: 16, title: "Ranger les archives", description: "Classer les documents historiques par époque.", xpReward: 20, id_location: 7 },
-  { id: 17, title: "Recherche historique", description: "Trouver des informations sur la bataille de 1347.", xpReward: 65, id_location: 7 },
-  
-  // Port des Marchands (id: 8)
-  { id: 18, title: "Décharger un navire", description: "Aider à décharger les marchandises du nouveau navire.", xpReward: 45, id_location: 8 },
-  { id: 19, title: "Escorter un marchand", description: "Accompagner un marchand jusqu'à la ville voisine.", xpReward: 90, id_location: 8 },
-  { id: 20, title: "Pêche miraculeuse", description: "Attraper le poisson légendaire du port.", xpReward: 250, id_location: 8 },
+// Helper to get location by id
+const getLocation = (id: number) => LOCATIONS.find(l => l.id === id);
+
+// Matches backend/src/seeds/quests.ts - hardcoded with IDs and location info
+export const QUESTS = [
+  // Merchant Stall #5 (location id: 14, prestataire 1)
+  { id_quest: 1, title: "Ranger l'étalage", description: "Aider à réorganiser les produits sur l'étalage du marchand.", xp_reward: 25, id_location: 14, location: getLocation(14) },
+  { id_quest: 2, title: "Attirer les clients", description: "Distribuer des échantillons pour attirer les passants vers le stand.", xp_reward: 30, id_location: 14, location: getLocation(14) },
+  { id_quest: 3, title: "Inventaire du matin", description: "Compter et vérifier le stock de marchandises.", xp_reward: 35, id_location: 14, location: getLocation(14) },
+  { id_quest: 4, title: "Livraison urgente", description: "Apporter une commande spéciale à un client VIP.", xp_reward: 50, id_location: 14, location: getLocation(14) },
+  { id_quest: 5, title: "Négociation difficile", description: "Convaincre un client hésitant d'acheter un produit premium.", xp_reward: 75, id_location: 14, location: getLocation(14) },
+  { id_quest: 6, title: "Protection du stand", description: "Surveiller le stand pendant l'absence du marchand.", xp_reward: 45, id_location: 14, location: getLocation(14) },
+  { id_quest: 7, title: "Démonstration produit", description: "Faire une démonstration des nouveaux produits aux visiteurs.", xp_reward: 60, id_location: 14, location: getLocation(14) },
+
+  // Merchant Stall #6 (location id: 15, prestataire 1)
+  { id_quest: 8, title: "Préparation du stand", description: "Installer le stand avant l'ouverture du marché.", xp_reward: 20, id_location: 15, location: getLocation(15) },
+  { id_quest: 9, title: "Service client", description: "Répondre aux questions des clients pendant une heure.", xp_reward: 40, id_location: 15, location: getLocation(15) },
+  { id_quest: 10, title: "Collecte de paiements", description: "Récupérer les paiements en attente auprès des clients.", xp_reward: 55, id_location: 15, location: getLocation(15) },
+  { id_quest: 11, title: "Nettoyage du stand", description: "Nettoyer et ranger le stand après la journée.", xp_reward: 25, id_location: 15, location: getLocation(15) },
+  { id_quest: 12, title: "Commande spéciale", description: "Préparer une commande personnalisée pour un client régulier.", xp_reward: 80, id_location: 15, location: getLocation(15) },
+  { id_quest: 13, title: "Formation apprenti", description: "Former un nouvel apprenti aux techniques de vente.", xp_reward: 100, id_location: 15, location: getLocation(15) },
+
+  // Merchant Stall #7 (location id: 16, prestataire 4)
+  { id_quest: 14, title: "Transport de marchandises", description: "Transporter des caisses depuis l'entrepôt vers le stand.", xp_reward: 35, id_location: 16, location: getLocation(16) },
+  { id_quest: 15, title: "Étude de marché", description: "Observer les concurrents et rapporter leurs prix.", xp_reward: 45, id_location: 16, location: getLocation(16) },
+  { id_quest: 16, title: "Décoration festive", description: "Décorer le stand pour la fête du village.", xp_reward: 30, id_location: 16, location: getLocation(16) },
+  { id_quest: 17, title: "Vente flash", description: "Organiser une vente promotionnelle éclair.", xp_reward: 65, id_location: 16, location: getLocation(16) },
+  { id_quest: 18, title: "Réparation d'urgence", description: "Réparer le toit du stand avant la pluie.", xp_reward: 50, id_location: 16, location: getLocation(16) },
+  { id_quest: 19, title: "Grand inventaire", description: "Faire l'inventaire complet de fin de mois.", xp_reward: 90, id_location: 16, location: getLocation(16) },
+  { id_quest: 20, title: "Partenariat commercial", description: "Négocier un accord avec un fournisseur.", xp_reward: 150, id_location: 16, location: getLocation(16) },
 ];
