@@ -181,16 +181,58 @@
                 <textarea v-model="form.description" rows="3"
                   class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white"></textarea>
               </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-bold text-iron-black mb-1">Début</label>
-                  <input v-model="form.start_time" type="datetime-local"
-                    class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white text-sm">
+              <div class="mb-4">
+                <label class="block text-sm font-bold text-iron-black mb-2">Choisir la date et l'heure</label>
+
+                <!-- Date Navigation -->
+                <div
+                  class="flex items-center justify-between mb-2 bg-antique-bronze/10 p-2 rounded-sm border border-antique-bronze/20">
+                  <button type="button" @click="changeDate(-1)"
+                    class="text-antique-bronze hover:text-iron-black font-bold px-2">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <div class="flex items-center gap-2">
+                    <input type="date" v-model="selectedDate"
+                      class="bg-transparent border-none font-medieval font-bold text-lg text-center focus:ring-0 cursor-pointer text-iron-black">
+                  </div>
+                  <button type="button" @click="changeDate(1)"
+                    class="text-antique-bronze hover:text-iron-black font-bold px-2">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
                 </div>
-                <div>
-                  <label class="block text-sm font-bold text-iron-black mb-1">Fin</label>
-                  <input v-model="form.end_time" type="datetime-local"
-                    class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white text-sm">
+
+                <!-- Time Grid -->
+                <div
+                  class="border-2 border-antique-bronze/30 rounded-sm bg-parchment h-64 overflow-y-auto relative custom-scrollbar">
+                  <div class="grid grid-cols-1 divide-y divide-antique-bronze/10">
+                    <div v-for="hour in 24" :key="hour - 1" @mousedown="startDrag(hour - 1)"
+                      @mouseenter="onMouseEnter(hour - 1)"
+                      class="flex h-10 hover:bg-antique-bronze/5 cursor-pointer transition-colors relative group"
+                      :class="getTimeSlotClass(hour - 1)">
+                      <div
+                        class="w-16 flex-shrink-0 flex items-center justify-end pr-3 border-r border-antique-bronze/20 text-xs font-bold text-stone-500 select-none">
+                        {{ formatHour(hour - 1) }}
+                      </div>
+                      <div class="flex-grow relative">
+                        <!-- Selection Indicator -->
+                        <div v-if="isHourSelected(hour - 1)"
+                          class="absolute inset-0 bg-antique-bronze/20 border-l-4 border-antique-bronze flex items-center px-2 gap-2">
+                          <span class="text-xs font-bold text-antique-bronze" v-if="isStartHour(hour - 1)">Début</span>
+                          <span class="text-xs font-bold text-antique-bronze" v-if="isEndHour(hour - 1)">Fin</span>
+                        </div>
+                        <!-- Hover Hint -->
+                        <div
+                          class="hidden group-hover:flex absolute inset-0 items-center pl-2 text-xs text-stone-400 italic pointer-events-none">
+                          {{ form.start_time && !form.end_time ? 'Définir fin' : 'Définir début' }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-2 text-sm text-center font-bold text-antique-bronze"
+                  v-if="form.start_time && form.end_time">
+                  {{ formatDateTime(form.start_time) }} - {{ formatResultTime(form.end_time) }}
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
@@ -339,7 +381,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore, Event } from '@/stores/event'
 import { locationService } from '@/services/locationService';
@@ -370,6 +412,149 @@ const loadingReservations = ref(false)
 const currentEventReservations = ref<any[]>([])
 const currentReservationEvent = ref<Event | null>(null)
 
+
+// Calendar Logic
+const selectedDate = ref(new Date().toISOString().split('T')[0])
+const isDragging = ref(false)
+const dragStartHour = ref<number | null>(null)
+
+// Initialize selectedDate when opening modal with existing data
+watch(() => form.start_time, (newVal) => {
+  if (newVal) {
+    selectedDate.value = newVal.split('T')[0]
+  }
+}, { immediate: true })
+
+function changeDate(days: number) {
+  const date = new Date(selectedDate.value)
+  date.setDate(date.getDate() + days)
+  selectedDate.value = date.toISOString().split('T')[0]
+}
+
+function formatHour(h: number) {
+  return `${h.toString().padStart(2, '0')}:00`
+}
+
+function formatResultTime(isoString: string) {
+  if (!isoString) return ''
+  const date = new Date(isoString)
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
+function formatDateTime(isoString: string) {
+  if (!isoString) return ''
+  return new Date(isoString).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
+}
+
+function getHourFromISO(isoString: string) {
+  if (!isoString) return -1
+  // Ensure we compare dates properly, ignoring time for date check, but checking same day
+  if (isoString.split('T')[0] !== selectedDate.value) return -1
+  return new Date(isoString).getHours()
+}
+
+function isHourSelected(h: number) {
+  if (!form.start_time) return false
+  const start = getHourFromISO(form.start_time)
+  if (start === -1) return false
+
+  if (!form.end_time) return h === start
+
+  const end = getHourFromISO(form.end_time)
+  // If end day is different (next day), handle strictly less than 24 logic?
+  // For simplicity, handle single day events. 
+  // If end is -1 (different day), maybe we should show full selection?
+  // Let's assume strict single day for visual simplicity first.
+
+  if (end !== -1) {
+    // Standard case: start and end on same day
+    return h >= start && h < end
+  }
+
+  // If end date is > selected date, then all hours after start are selected
+  if (form.end_time.split('T')[0] > selectedDate.value) {
+    return h >= start
+  }
+
+  return h === start
+}
+
+function isStartHour(h: number) {
+  return getHourFromISO(form.start_time) === h
+}
+
+function isEndHour(h: number) {
+  // End time is exclusive in logic (14:00 - 15:00 means 14:00 slot selected), 
+  // but visually we might want to mark the last slot.
+  // With the current logic: 14:00 start, 16:00 end -> 14, 15 selected. 16 is NOT selected.
+  // So "EndHour" visual marker should technically be the last SELECTED block?
+
+  if (!form.end_time) return false
+  const end = getHourFromISO(form.end_time)
+  const start = getHourFromISO(form.start_time)
+
+  // If end is 16, range is [14, 15]. Last selected is 15.
+  // So visual tag "Fin" should be on 15? Or do we want to show strict time?
+  // Let's put "Fin" on the last selected block.
+
+  if (end !== -1) {
+    return h === end - 1
+  }
+  if (form.end_time.split('T')[0] > selectedDate.value && start !== -1) {
+    return h === 23 // Show end on last slot if spanning
+  }
+  return false
+}
+
+function getTimeSlotClass(h: number) {
+  if (isHourSelected(h)) {
+    return 'bg-emerald-100/50'
+  }
+  return ''
+}
+
+function startDrag(h: number) {
+  isDragging.value = true
+  dragStartHour.value = h
+  updateSelection(h)
+}
+
+function onMouseEnter(h: number) {
+  if (isDragging.value && dragStartHour.value !== null) {
+    updateSelection(h)
+  }
+}
+
+function stopDrag() {
+  if (isDragging.value) {
+    isDragging.value = false
+    dragStartHour.value = null
+  }
+}
+
+function updateSelection(currentHour: number) {
+  if (dragStartHour.value === null) return
+
+  const start = Math.min(dragStartHour.value, currentHour)
+  const end = Math.max(dragStartHour.value, currentHour) + 1 // +1 because end time is exclusive
+
+  const startTime = `${selectedDate.value}T${start.toString().padStart(2, '0')}:00`
+  const endTime = `${selectedDate.value}T${end.toString().padStart(2, '0')}:00`
+
+  form.start_time = startTime
+  // Note: endTime might overflow if end is 24.
+  if (end === 24) {
+    // Handle next day overflow properly
+    const nextDay = new Date(selectedDate.value)
+    nextDay.setDate(nextDay.getDate() + 1)
+    form.end_time = `${nextDay.toISOString().split('T')[0]}T00:00`
+  } else {
+    form.end_time = endTime
+  }
+}
+
+
+
 async function viewReservations(event: Event) {
   currentReservationEvent.value = event
   showReservationsModal.value = true
@@ -391,6 +576,7 @@ function closeReservationsModal() {
 }
 
 onMounted(async () => {
+  window.addEventListener('mouseup', stopDrag)
   loading.value = true
 
   // Fetch location details first to check status
@@ -407,6 +593,10 @@ onMounted(async () => {
 
   await eventStore.fetchEvents({ id_location: locationId })
   loading.value = false
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mouseup', stopDrag)
 })
 
 const events = computed(() => eventStore.events.filter(e => e.id_location === locationId))
