@@ -102,16 +102,17 @@ export const useAuthStore = defineStore('auth', {
       // Vider le panier avant de se déconnecter
       const cartStore = useCartStore()
       cartStore.clearCart()
-      
+
       this.user = null
       this.isAuthenticated = false
       // authReady reste true car l'état est bien défini (utilisateur déconnecté)
-      // Nettoyer complètement le localStorage
+      // Nettoyer localStorage de session mais garder les données modifiées persistantes
       localStorage.removeItem('currentUser')
       localStorage.removeItem('authToken')
-      // Nettoyer aussi d'autres clés potentielles
+      // Nettoyer aussi d'autres clés potentielles de session
       localStorage.removeItem('user')
       localStorage.removeItem('token')
+      // NE PAS supprimer 'modifiedUsers' car ces données doivent persister entre sessions
       if (typeof (authService as any).logout === 'function') { // Quand on aura le logout
         (authService as any).logout()
       }
@@ -169,10 +170,13 @@ export const useAuthStore = defineStore('auth', {
     async updateProfile(profileData: {
       firstname?: string;
       lastname?: string;
-      email?: string;
+      email?: string | null;
       avatarUrl?: string | null;
       avatarType?: string | null;
       prestataireTypeId?: number | null;
+      birthDate?: string | null;
+      phone?: string | null;
+      bio?: string | null;
     }) {
       const updatedUser = await (authService as any).updateProfile(profileData)
       this.user = updatedUser as UserMock

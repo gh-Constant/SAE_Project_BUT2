@@ -167,6 +167,84 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Profile Prestataire -->
+  <Teleport to="body">
+    <div v-if="showProfileModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" @click="showProfileModal = false">
+      <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden" @click.stop>
+        <div class="bg-antique-bronze text-white p-6 flex justify-between items-center">
+          <h2 class="text-2xl font-medieval font-bold">{{ prestataire?.firstname }} {{ prestataire?.lastname }}</h2>
+          <button @click="showProfileModal = false" class="text-white hover:text-gray-200 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+          <div v-if="prestataire" class="space-y-6">
+            <!-- Avatar et infos de base -->
+            <div class="flex items-center gap-4 pb-4 border-b border-antique-bronze/20">
+              <img :src="prestataire.avatar_url" :alt="prestataire.firstname"
+                class="w-24 h-24 rounded-full border-4 border-antique-bronze object-cover" />
+              <div>
+                <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
+                <p class="text-sm font-body text-stone-grey italic">{{ prestataireTypeName }}</p>
+                <p class="text-sm text-stone-grey mt-1">{{ prestataire.email }}</p>
+              </div>
+            </div>
+
+            <!-- Bio -->
+            <div v-if="prestataire.bio" class="border-b border-antique-bronze/20 pb-4">
+              <h4 class="text-lg font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.profile.sections.presentation') }}</h4>
+              <div class="prose prose-sm max-w-none" v-html="prestataire.bio"></div>
+            </div>
+
+            <!-- Informations de contact -->
+            <div class="border-b border-antique-bronze/20 pb-4">
+              <h4 class="text-lg font-medieval font-bold text-iron-black mb-3">{{ t('prestataire.profile.sections.identity') }}</h4>
+              <div class="space-y-2 text-stone-grey">
+                <p v-if="prestataire.phone" class="flex items-center gap-2">
+                  <i class="fas fa-phone text-antique-bronze"></i>
+                  {{ prestataire.phone }}
+                </p>
+                <p v-if="prestataire.birth_date" class="flex items-center gap-2">
+                  <i class="fas fa-birthday-cake text-antique-bronze"></i>
+                  {{ new Date(prestataire.birth_date).toLocaleDateString() }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Statut -->
+            <div class="flex gap-4">
+              <div class="flex-1 bg-antique-bronze/10 border border-antique-bronze/20 rounded-lg p-4">
+                <dt class="text-sm font-medium text-stone-grey mb-1">{{ t('prestataire.profile.status.xp') }}</dt>
+                <dd class="text-2xl font-bold text-antique-bronze">{{ prestataire.xp || 0 }}</dd>
+              </div>
+              <div class="flex-1 bg-antique-bronze/10 border border-antique-bronze/20 rounded-lg p-4">
+                <dt class="text-sm font-medium text-stone-grey mb-1">{{ t('prestataire.profile.status.level') }}</dt>
+                <dd class="text-2xl font-bold text-antique-bronze">{{ prestataire.level || 1 }}</dd>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 p-4 flex justify-end gap-3 border-t border-antique-bronze/20">
+          <button
+            v-if="authStore.user && prestataire && authStore.user.id === prestataire.id"
+            @click="goToMyProfile"
+            class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded shadow-md transition-all">
+            {{ t('prestataire.profile.title') }}
+          </button>
+          <button
+            @click="showProfileModal = false"
+            class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors">
+            {{ t('widgets.purchased.close') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -202,12 +280,42 @@ const emit = defineEmits<{
   close: [];
 }>();
 
+const authStore = useAuthStore();
+
 const prestataire = computed(() => {
   // Use prestataire data from location if available (from backend)
   // Otherwise fallback to mock data for development
   if (props.location.prestataire) {
     return props.location.prestataire;
   }
+
+  // Chercher d'abord dans les utilisateurs modifiés persistants (localStorage)
+  const modifiedUsersStr = localStorage.getItem('modifiedUsers');
+  if (modifiedUsersStr) {
+    try {
+      const modifiedUsers = JSON.parse(modifiedUsersStr);
+      if (modifiedUsers[props.location.id_prestataire]) {
+        return modifiedUsers[props.location.id_prestataire];
+      }
+    } catch (error) {
+      console.warn('Error parsing modified users:', error);
+    }
+  }
+
+  // Sinon chercher dans la session actuelle
+  const storedUserStr = localStorage.getItem('currentUser');
+  if (storedUserStr) {
+    try {
+      const storedUser = JSON.parse(storedUserStr);
+      if (storedUser.id === props.location.id_prestataire) {
+        return storedUser;
+      }
+    } catch (error) {
+      console.warn('Error parsing stored user:', error);
+    }
+  }
+
+  // Fallback vers les données mock statiques
   return USERS.find(user => user.id === props.location.id_prestataire);
 });
 
@@ -219,7 +327,6 @@ const prestataireTypeName = computed(() => {
 
 // Check if current user is the owner
 const isOwner = computed(() => {
-  const authStore = useAuthStore();
   if (!authStore.user) return false;
 
   // Strict check: User must be owner AND location must not be PENDING
@@ -231,17 +338,23 @@ const isOwner = computed(() => {
 });
 
 const isPendingOwner = computed(() => {
-  const authStore = useAuthStore();
   return authStore.user?.id === props.location.id_prestataire && props.location.status === 'PENDING';
 });
 
+const showProfileModal = ref(false);
+
 const viewProfile = () => {
-  // TODO: Naviguer vers le profil du prestataire
-  console.log('Affichage du profil de:', prestataire.value?.firstname);
+  if (prestataire.value) {
+    showProfileModal.value = true;
+  }
+};
+
+const goToMyProfile = () => {
+  showProfileModal.value = false;
+  router.push('/prestataire');
 };
 
 const isAdmin = computed(() => {
-  const authStore = useAuthStore();
   return checkIsAdmin(authStore.user);
 });
 

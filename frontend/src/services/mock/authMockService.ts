@@ -27,11 +27,24 @@ export const authMockService = {
     return new Promise((resolve, reject) => {
       // Cherche l'utilisateur correspondant dans le tableau mockUsers partagé
       let user = mockUsers.find(u => u.email === email && u.password_hashed === password);
-      
+
       if (user) {
-        // Vérifier si on a une version mise à jour dans localStorage
+        // Vérifier si on a une version modifiée dans localStorage (persistante entre sessions)
+        const modifiedUsersStr = localStorage.getItem('modifiedUsers');
+        if (modifiedUsersStr) {
+          try {
+            const modifiedUsers = JSON.parse(modifiedUsersStr);
+            if (modifiedUsers[user.id]) {
+              user = modifiedUsers[user.id];
+            }
+          } catch (e) {
+            console.warn('Error parsing modified users, using default:', e);
+          }
+        }
+
+        // Sinon, vérifier si on a une version de la session actuelle dans localStorage
         const storedUserStr = localStorage.getItem('currentUser');
-        if (storedUserStr) {
+        if (storedUserStr && !modifiedUsersStr) {
           try {
             const storedUser = JSON.parse(storedUserStr) as UserMock;
             // Si c'est le même utilisateur (même ID et email), utiliser la version stockée
@@ -39,11 +52,10 @@ export const authMockService = {
               user = storedUser;
             }
           } catch (e) {
-            // Si erreur de parsing, utiliser l'utilisateur du tableau mockUsers
             console.warn('Error parsing stored user, using default:', e);
           }
         }
-        
+
         resolve(user); // Si trouvé, on retourne l'utilisateur (mis à jour si disponible)
       } else {
         reject(new Error('Identifiants incorrects')); // Sinon on renvoie une erreur
@@ -144,7 +156,12 @@ export const authMockService = {
         // Mettre à jour dans le tableau mockUsers
         mockUsers[userIndex] = updatedUser;
 
-        // Mettre à jour localStorage
+        // Sauvegarder les utilisateurs modifiés dans localStorage pour persister entre sessions
+        const modifiedUsers = JSON.parse(localStorage.getItem('modifiedUsers') || '{}');
+        modifiedUsers[currentUser.id] = updatedUser;
+        localStorage.setItem('modifiedUsers', JSON.stringify(modifiedUsers));
+
+        // Mettre à jour localStorage pour la session actuelle
         localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 
         resolve(updatedUser);

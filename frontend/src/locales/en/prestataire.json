@@ -169,5 +169,77 @@
     "already_collected": "Already Collected",
     "scan_again": "Scan Another Order",
     "back_to_dashboard": "Back to Dashboard"
+  },
+  "profile": {
+    "title": "My Prestataire Profile",
+    "fields": {
+      "avatar": "Avatar",
+      "avatarTypeGallery": "Choose from gallery",
+      "avatarTypeUpload": "Upload image",
+      "prestataireTypeReadonly": "Read-only",
+      "firstname": "First name",
+      "lastname": "Last name",
+      "email": "Email address",
+      "phone": "Phone",
+      "birthDate": "Date of birth",
+      "website": "Website",
+      "socialMedia": "Social media",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "bio": "Biography",
+      "bioPlaceholder": "Describe yourself in a few words...",
+      "bioHint": "Maximum 500 characters",
+      "specialties": "Specialties",
+      "specialtiesPlaceholder": "List your specialties, skills...",
+      "languages": "Spoken languages",
+      "experienceYears": "Years of experience",
+      "chooseAvatar": "Choose an avatar"
+    },
+    "sections": {
+      "identity": "Identity",
+      "contact": "Contact",
+      "location": "Location",
+      "presentation": "Presentation",
+      "professional": "Professional information"
+    },
+    "status": {
+      "title": "Status",
+      "xp": "Experience points",
+      "level": "Level"
+    },
+    "messages": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "loading": "Saving...",
+      "success": "Profile updated successfully",
+      "updatedSuccess": "updated successfully",
+      "error": "Error updating profile"
+    },
+    "validation": {
+      "firstnameRequired": "First name is required",
+      "firstnameMinLength": "First name must contain at least 2 characters",
+      "firstnameMaxLength": "First name cannot exceed 255 characters",
+      "firstnameInvalid": "First name can only contain letters",
+      "lastnameRequired": "Last name is required",
+      "lastnameMinLength": "Last name must contain at least 2 characters",
+      "lastnameMaxLength": "Last name cannot exceed 255 characters",
+      "lastnameInvalid": "Last name can only contain letters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "birthDateInvalid": "Invalid birth date",
+      "birthDateFuture": "Birth date cannot be in the future",
+      "birthDateTooYoung": "You must be at least 15 years old",
+      "phoneInvalid": "Invalid phone format",
+      "phoneTooShort": "Phone number is too short",
+      "phoneTooLong": "Phone number is too long",
+      "bioMaxLength": "Biography cannot exceed 500 characters",
+      "websiteInvalid": "URL must start with http:// or https://",
+      "experienceYearsInvalid": "Years of experience must be between 0 and 100",
+      "avatarInvalid": "File must be an image",
+      "avatarTooLarge": "Image is too large (maximum 5 MB)",
+      "formErrors": "Please correct the errors in the form"
+    }
   }
 }

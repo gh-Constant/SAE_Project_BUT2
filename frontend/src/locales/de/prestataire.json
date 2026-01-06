@@ -140,5 +140,77 @@
       "subtitle": "Erkunden Sie die Karte, um Ihre erste Stätte zu erwerben.",
       "explore_button": "Karte erkunden"
     }
+  },
+  "profile": {
+    "title": "Mein Prestataire-Profil",
+    "fields": {
+      "avatar": "Avatar",
+      "avatarTypeGallery": "Aus Galerie wählen",
+      "avatarTypeUpload": "Bild hochladen",
+      "prestataireTypeReadonly": "Nur-Lesen",
+      "firstname": "Vorname",
+      "lastname": "Nachname",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefon",
+      "birthDate": "Geburtsdatum",
+      "website": "Website",
+      "socialMedia": "Soziale Medien",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "bio": "Biografie",
+      "bioPlaceholder": "Beschreiben Sie sich in wenigen Worten...",
+      "bioHint": "Maximal 500 Zeichen",
+      "specialties": "Spezialitäten",
+      "specialtiesPlaceholder": "Listen Sie Ihre Spezialitäten, Fähigkeiten auf...",
+      "languages": "Gesprochene Sprachen",
+      "experienceYears": "Jahre Erfahrung",
+      "chooseAvatar": "Avatar wählen"
+    },
+    "sections": {
+      "identity": "Identität",
+      "contact": "Kontakt",
+      "location": "Standort",
+      "presentation": "Präsentation",
+      "professional": "Berufliche Informationen"
+    },
+    "status": {
+      "title": "Status",
+      "xp": "Erfahrungspunkte",
+      "level": "Level"
+    },
+    "messages": {
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "loading": "Wird gespeichert...",
+      "success": "Profil erfolgreich aktualisiert",
+      "updatedSuccess": "erfolgreich aktualisiert",
+      "error": "Fehler beim Aktualisieren des Profils"
+    },
+    "validation": {
+      "firstnameRequired": "Vorname ist erforderlich",
+      "firstnameMinLength": "Vorname muss mindestens 2 Zeichen enthalten",
+      "firstnameMaxLength": "Vorname darf 255 Zeichen nicht überschreiten",
+      "firstnameInvalid": "Vorname darf nur Buchstaben enthalten",
+      "lastnameRequired": "Nachname ist erforderlich",
+      "lastnameMinLength": "Nachname muss mindestens 2 Zeichen enthalten",
+      "lastnameMaxLength": "Nachname darf 255 Zeichen nicht überschreiten",
+      "lastnameInvalid": "Nachname darf nur Buchstaben enthalten",
+      "emailRequired": "E-Mail ist erforderlich",
+      "emailInvalid": "Ungültiges E-Mail-Format",
+      "birthDateInvalid": "Ungültiges Geburtsdatum",
+      "birthDateFuture": "Geburtsdatum darf nicht in der Zukunft liegen",
+      "birthDateTooYoung": "Sie müssen mindestens 15 Jahre alt sein",
+      "phoneInvalid": "Ungültiges Telefonformat",
+      "phoneTooShort": "Telefonnummer ist zu kurz",
+      "phoneTooLong": "Telefonnummer ist zu lang",
+      "bioMaxLength": "Biografie darf 500 Zeichen nicht überschreiten",
+      "websiteInvalid": "URL muss mit http:// oder https:// beginnen",
+      "experienceYearsInvalid": "Erfahrungsjahre müssen zwischen 0 und 100 liegen",
+      "avatarInvalid": "Datei muss ein Bild sein",
+      "avatarTooLarge": "Bild ist zu groß (maximal 5 MB)",
+      "formErrors": "Bitte korrigieren Sie die Fehler im Formular"
+    }
   }
 }
