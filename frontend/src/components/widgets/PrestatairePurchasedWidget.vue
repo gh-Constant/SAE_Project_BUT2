@@ -131,7 +131,7 @@
       </div>
 
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <EventSection :location-id="location.id" />
+        <EventSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
       <!-- Quest Section -->
@@ -157,6 +157,7 @@
  */
 
 import { computed } from 'vue';
+import { useRouter } from 'vue-router'; // Added import
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { useAuthStore } from '@/stores/auth';
@@ -169,6 +170,7 @@ import { locationService } from '@/services/locationService';
 import { isAdmin as checkIsAdmin } from '@/services/roleService';
 
 const { t } = useI18n();
+const router = useRouter(); // Initialize router
 
 interface Props {
   location: LocationMock;
