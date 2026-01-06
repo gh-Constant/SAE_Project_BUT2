@@ -1,4 +1,8 @@
 {
+  "tabs": {
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
   "dashboard": {
     "title": "Dashboard",
     "services": {

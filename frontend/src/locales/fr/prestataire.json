@@ -1,4 +1,8 @@
 {
+  "tabs": {
+    "dashboard": "Tableau de bord",
+    "profile": "Profil"
+  },
   "dashboard": {
     "title": "Tableau de Bord",
     "services": {

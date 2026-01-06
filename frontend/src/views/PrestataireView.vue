@@ -1,9 +1,41 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
+    <!-- Tabs Navigation -->
+    <div class="bg-white/40 backdrop-blur-sm border-b border-antique-bronze/20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex space-x-8" aria-label="Tabs">
+          <button
+            :class="[
+              activeTab === 'dashboard'
+                ? 'border-antique-bronze text-antique-bronze'
+                : 'border-transparent text-stone-grey hover:text-iron-black hover:border-antique-bronze/30',
+              'whitespace-nowrap py-4 px-1 border-b-2 font-medieval font-bold text-sm transition-colors'
+            ]"
+            @click="updateTab('dashboard')"
+          >
+            {{ t('prestataire.tabs.dashboard') }}
+          </button>
+          <button
+            :class="[
+              activeTab === 'profile'
+                ? 'border-antique-bronze text-antique-bronze'
+                : 'border-transparent text-stone-grey hover:text-iron-black hover:border-antique-bronze/30',
+              'whitespace-nowrap py-4 px-1 border-b-2 font-medieval font-bold text-sm transition-colors'
+            ]"
+            @click="updateTab('profile')"
+          >
+            {{ t('prestataire.tabs.profile') }}
+          </button>
+        </nav>
+      </div>
+    </div>
+
     <!-- Main Content -->
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
+        <!-- Dashboard Tab -->
+        <div v-if="activeTab === 'dashboard'">
         <!-- Dashboard Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           <!-- My Services Card -->
@@ -149,7 +181,7 @@
               {{ t('prestataire.dashboard.quick_actions.view_bookings') }}
             </MedievalButton>
             
-            <MedievalButton variant="primary" :fullWidth="true">
+            <MedievalButton variant="primary" :fullWidth="true" @click="updateTab('profile')">
               {{ t('prestataire.dashboard.quick_actions.edit_profile') }}
             </MedievalButton>
           </div>
@@ -202,6 +234,12 @@
             </ul>
           </div>
         </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div v-if="activeTab === 'profile'">
+          <PrestataireProfileForm />
+        </div>
 
       </div>
     </main>
@@ -209,8 +247,29 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
+import PrestataireProfileForm from '@/components/PrestataireProfileForm.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
+
+// Gérer l'onglet actif depuis la query string
+const activeTab = ref<string>((route.query.tab as string) || 'dashboard')
+
+// Mettre à jour l'URL quand l'onglet change
+const updateTab = (tab: string) => {
+  activeTab.value = tab
+  router.replace({ query: { ...route.query, tab } })
+}
+
+// Écouter les changements de route
+onMounted(() => {
+  if (route.query.tab) {
+    activeTab.value = route.query.tab as string
+  }
+})
 </script>
