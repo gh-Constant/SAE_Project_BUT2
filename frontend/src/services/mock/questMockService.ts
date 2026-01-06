@@ -2,6 +2,8 @@ import { Quest } from '../questService';
 import { QUESTS } from '@/mocks/quests';
 import { USER_QUESTS } from '@/mocks/userQuests';
 import { LOCATIONS } from '@/mocks/locations';
+import { calculateLevelFromXP } from '@/utils/levelCalculator';
+import { useAuthStore } from '@/stores/auth';
 
 const mockQuests = [...QUESTS];
 const userQuests = [...USER_QUESTS];
@@ -53,10 +55,48 @@ export const questMockService = {
   },
 
   completeQuest: async (questId: number): Promise<void> => {
-    const userId = getCurrentUserId();
+    const authStore = useAuthStore();
+    const user = authStore.user;
+    
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const userId = user.id;
+
+    // Trouver la quête utilisateur
     const uq = userQuests.find(q => q.id_quest === questId && q.id_user === userId);
-    if (uq) {
-      uq.status = 'completed';
+    if (!uq) {
+      throw new Error('Quest not found or not accepted');
+    }
+
+    // Trouver la quête pour obtenir l'XP reward
+    const quest = mockQuests.find(q => q.id_quest === questId);
+    if (!quest) {
+      throw new Error('Quest not found');
+    }
+
+    // Calculer les récompenses (seulement XP, pas d'or)
+    const xpReward = quest.xp_reward || 0;
+
+    // Mettre à jour le statut de la quête
+    uq.status = 'completed';
+    uq.updated_at = new Date();
+
+    // Mettre à jour l'utilisateur dans le store (seulement XP et niveau)
+    const newXP = user.xp + xpReward;
+    const newLevel = calculateLevelFromXP(newXP);
+
+    // Mettre à jour le store auth (l'or reste inchangé)
+    authStore.user = {
+      ...user,
+      xp: newXP,
+      level: newLevel
+    };
+
+    // Mettre à jour localStorage en mode mock
+    if (import.meta.env.VITE_NO_BACKEND === 'true') {
+      localStorage.setItem('currentUser', JSON.stringify(authStore.user));
     }
   },
 
@@ -84,5 +124,76 @@ export const questMockService = {
     if (index !== -1) {
       mockQuests.splice(index, 1);
     }
+  },
+
+  /**
+   * Valider une quête en scannant le QR code de la location
+   * @param questId - ID de la quête à valider
+   * @param scannedCode - Code scanné (static_code de la location)
+   * @returns Objet avec success et message/error
+   */
+  validateQuestByQR: async (questId: number, scannedCode: string): Promise<{ success: boolean; message?: string; error?: string }> => {
+    const authStore = useAuthStore();
+    const user = authStore.user;
+    
+    if (!user) {
+      return { success: false, error: 'Utilisateur non connecté' };
+    }
+
+    const userId = user.id;
+
+    // Trouver la quête utilisateur
+    const uq = userQuests.find(q => q.id_quest === questId && q.id_user === userId);
+    if (!uq) {
+      return { success: false, error: 'Quête non trouvée ou non acceptée' };
+    }
+
+    if (uq.status === 'completed') {
+      return { success: false, error: 'Cette quête est déjà terminée' };
+    }
+
+    // Trouver la quête
+    const quest = mockQuests.find(q => q.id_quest === questId);
+    if (!quest) {
+      return { success: false, error: 'Quête non trouvée' };
+    }
+
+    // Trouver la location de la quête
+    const location = LOCATIONS.find(l => l.id === quest.id_location);
+    if (!location) {
+      return { success: false, error: 'Location de la quête non trouvée' };
+    }
+
+    // Vérifier que le code scanné correspond au static_code de la location
+    if (location.static_code !== scannedCode) {
+      return { 
+        success: false, 
+        error: `Mauvais emplacement ! Cette quête doit être validée à "${location.name}"` 
+      };
+    }
+
+    // Tout est bon, compléter la quête
+    const xpReward = quest.xp_reward || 0;
+
+    uq.status = 'completed';
+    uq.updated_at = new Date();
+
+    const newXP = user.xp + xpReward;
+    const newLevel = calculateLevelFromXP(newXP);
+
+    authStore.user = {
+      ...user,
+      xp: newXP,
+      level: newLevel
+    };
+
+    if (import.meta.env.VITE_NO_BACKEND === 'true') {
+      localStorage.setItem('currentUser', JSON.stringify(authStore.user));
+    }
+
+    return { 
+      success: true, 
+      message: `Quête validée ! +${xpReward} XP gagné` 
+    };
   }
 };

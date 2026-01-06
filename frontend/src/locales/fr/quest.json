@@ -31,5 +31,19 @@
         "finish": "[DEV]",
         "confirm_finish": "DEBUG : Voulez-vous marquer cette quête comme terminée ?",
         "error_finish": "Erreur lors de la complétion de la quête."
+    },
+    "scan": {
+        "title": "Scanner le QR Code",
+        "hint": "Pointez votre caméra vers le QR code de l'emplacement de la quête",
+        "camera_error": "Impossible d'accéder à la caméra",
+        "camera_error_hint": "Veuillez autoriser l'accès à la caméra dans les paramètres de votre navigateur.",
+        "retry": "Réessayer",
+        "or_manual": "Ou entrez le code manuellement",
+        "enter_code": "Entrez le code de l'emplacement",
+        "validate": "Valider",
+        "success": "Quête validée !",
+        "failed": "Échec de la validation",
+        "try_again": "Réessayer",
+        "close": "Fermer"
     }
 }

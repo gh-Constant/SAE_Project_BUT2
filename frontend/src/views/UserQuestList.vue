@@ -194,20 +194,140 @@
 
       </div>
     </div>
+
+    <!-- ============================================ -->
+    <!-- QR SCANNER MODAL -->
+    <!-- ============================================ -->
+    <Teleport to="body">
+      <div v-if="showScanner" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div class="bg-parchment rounded-lg shadow-2xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto border-2 border-antique-bronze">
+          <!-- Modal Header -->
+          <div class="px-6 py-4 bg-antique-bronze/10 border-b border-antique-bronze/20 flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-medieval font-bold text-iron-black flex items-center gap-2">
+                <i class="fas fa-qrcode text-antique-bronze"></i>
+                {{ t('quest.scan.title') }}
+              </h2>
+              <p class="text-sm text-stone-grey mt-1">{{ currentQuestTitle }}</p>
+            </div>
+            <button 
+              @click="closeScanner"
+              class="text-stone-grey hover:text-iron-black transition-colors"
+            >
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <div class="p-6">
+            <!-- Camera Error -->
+            <div v-if="cameraError && !scanResult" class="bg-red-50 rounded-lg border border-red-200 p-6 text-center">
+              <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-video-slash text-2xl text-red-500"></i>
+              </div>
+              <p class="font-medieval text-iron-black mb-2">{{ t('quest.scan.camera_error') }}</p>
+              <p class="text-sm text-stone-grey mb-4">{{ t('quest.scan.camera_error_hint') }}</p>
+              <MedievalButton @click="initCamera" small>
+                <i class="fas fa-redo mr-2"></i>
+                {{ t('quest.scan.retry') }}
+              </MedievalButton>
+            </div>
+
+            <!-- Scanner Active -->
+            <div v-else-if="!scanResult" class="space-y-5">
+              <!-- Video Scanner -->
+              <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-iron-black/10 border border-antique-bronze/30">
+                <video ref="videoElement" class="w-full h-full object-cover" autoplay playsinline></video>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-3/4 h-3/4 border-2 border-antique-bronze rounded-lg relative">
+                    <div class="absolute -top-0.5 -left-0.5 w-6 h-6 border-t-4 border-l-4 border-antique-bronze rounded-tl-lg"></div>
+                    <div class="absolute -top-0.5 -right-0.5 w-6 h-6 border-t-4 border-r-4 border-antique-bronze rounded-tr-lg"></div>
+                    <div class="absolute -bottom-0.5 -left-0.5 w-6 h-6 border-b-4 border-l-4 border-antique-bronze rounded-bl-lg"></div>
+                    <div class="absolute -bottom-0.5 -right-0.5 w-6 h-6 border-b-4 border-r-4 border-antique-bronze rounded-br-lg"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-center text-sm text-stone-grey">{{ t('quest.scan.hint') }}</p>
+
+              <!-- Manual Input -->
+              <div class="border-t border-antique-bronze/20 pt-5">
+                <p class="text-sm text-stone-grey text-center mb-3">{{ t('quest.scan.or_manual') }}</p>
+                <div class="flex gap-2">
+                  <input
+                    v-model="manualToken"
+                    type="text"
+                    :placeholder="t('quest.scan.enter_code')"
+                    class="flex-1 px-4 py-2 border border-antique-bronze/30 rounded-md bg-white/50 text-iron-black font-body focus:outline-none focus:ring-2 focus:ring-antique-bronze/50"
+                    @keyup.enter="validateManualToken"
+                  />
+                  <MedievalButton 
+                    @click="validateManualToken" 
+                    :disabled="!manualToken.trim()"
+                    small
+                  >
+                    {{ t('quest.scan.validate') }}
+                  </MedievalButton>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scan Result -->
+            <div v-else class="space-y-5">
+              <!-- Error -->
+              <div v-if="!scanResult.success" class="bg-red-50 rounded-lg border border-red-200 p-6 text-center">
+                <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-times-circle text-3xl text-red-500"></i>
+                </div>
+                <p class="font-medieval text-iron-black mb-2">{{ t('quest.scan.failed') }}</p>
+                <p class="text-sm text-stone-grey mb-5">{{ scanResult.error }}</p>
+                <MedievalButton @click="resetScanner" small>
+                  <i class="fas fa-redo mr-2"></i>
+                  {{ t('quest.scan.try_again') }}
+                </MedievalButton>
+              </div>
+
+              <!-- Success -->
+              <div v-else class="bg-emerald-50 rounded-lg border border-emerald-200 p-6 text-center">
+                <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-check-circle text-3xl text-emerald-600"></i>
+                </div>
+                <p class="font-medieval text-iron-black text-xl mb-2">{{ t('quest.scan.success') }}</p>
+                <p class="text-sm text-emerald-700 mb-5">{{ scanResult.message }}</p>
+                <MedievalButton @click="closeScanner" variant="success" small>
+                  <i class="fas fa-check mr-2"></i>
+                  {{ t('quest.scan.close') }}
+                </MedievalButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { questService } from '@/services/questService';
 import { useI18n } from 'vue-i18n';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
 import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
+import jsQR from 'jsqr';
 
 const { t } = useI18n();
 const quests = ref<any[]>([]);
 const loading = ref(true);
 const isDebug = import.meta.env.DEV;
+
+// QR Scanner state
+const showScanner = ref(false);
+const currentQuestId = ref<number | null>(null);
+const currentQuestTitle = ref('');
+const videoElement = ref<HTMLVideoElement | null>(null);
+const cameraError = ref(false);
+const manualToken = ref('');
+const scanResult = ref<{ success: boolean; message?: string; error?: string } | null>(null);
+let stream: MediaStream | null = null;
+let animationFrame: number | null = null;
 
 // Separate quests by status
 const inProgressQuests = computed(() => quests.value.filter(q => q.status === 'accepted'));
@@ -236,10 +356,128 @@ const completeQuest = async (questId: number) => {
   }
 };
 
+// ========== QR Scanner Functions ==========
+
 const scanQuest = (questId: number) => {
-  // TODO: Implement QR scan functionality
-  console.log('Scan quest:', questId);
+  const userQuest = quests.value.find(q => q.id_quest === questId);
+  currentQuestId.value = questId;
+  currentQuestTitle.value = userQuest?.quest?.title || 'Quête';
+  showScanner.value = true;
+  scanResult.value = null;
+  manualToken.value = '';
+  cameraError.value = false;
+  
+  // Attendre que le DOM soit mis à jour
+  setTimeout(() => {
+    initCamera();
+  }, 100);
 };
+
+const closeScanner = () => {
+  stopCamera();
+  showScanner.value = false;
+  currentQuestId.value = null;
+  currentQuestTitle.value = '';
+  scanResult.value = null;
+  manualToken.value = '';
+};
+
+async function initCamera() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' }
+    });
+    
+    if (videoElement.value) {
+      videoElement.value.srcObject = stream;
+      videoElement.value.onloadedmetadata = () => {
+        startScanning();
+      };
+    }
+  } catch (error) {
+    console.error('Camera access denied:', error);
+    cameraError.value = true;
+  }
+}
+
+function startScanning() {
+  const video = videoElement.value;
+  if (!video) return;
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  function tick() {
+    if (!video || video.readyState !== video.HAVE_ENOUGH_DATA) {
+      animationFrame = requestAnimationFrame(tick);
+      return;
+    }
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
+    if (imageData) {
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (code) {
+        handleQRDetected(code.data);
+        return;
+      }
+    }
+
+    animationFrame = requestAnimationFrame(tick);
+  }
+
+  tick();
+}
+
+function stopCamera() {
+  if (animationFrame) {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = null;
+  }
+
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+  }
+}
+
+async function handleQRDetected(token: string) {
+  stopCamera();
+  await validateQuestWithToken(token);
+}
+
+async function validateManualToken() {
+  if (!manualToken.value.trim()) return;
+  stopCamera();
+  await validateQuestWithToken(manualToken.value.trim());
+}
+
+async function validateQuestWithToken(token: string) {
+  if (!currentQuestId.value) return;
+
+  try {
+    const result = await questService.validateQuestByQR(currentQuestId.value, token);
+    scanResult.value = result;
+    
+    if (result.success) {
+      // Recharger les quêtes après succès
+      await loadQuests();
+    }
+  } catch (error) {
+    console.error('QR validation error:', error);
+    scanResult.value = { success: false, error: 'Erreur de validation du QR code' };
+  }
+}
+
+function resetScanner() {
+  scanResult.value = null;
+  manualToken.value = '';
+  cameraError.value = false;
+  initCamera();
+}
 
 const cancelQuest = async (questId: number) => {
   if (!confirm(t('quest.actions.confirm_cancel'))) return;
@@ -255,5 +493,9 @@ const cancelQuest = async (questId: number) => {
 
 onMounted(() => {
   loadQuests();
+});
+
+onUnmounted(() => {
+  stopCamera();
 });
 </script>

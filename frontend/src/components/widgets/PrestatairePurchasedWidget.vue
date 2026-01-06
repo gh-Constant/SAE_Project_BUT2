@@ -118,10 +118,29 @@
           <span class="font-bold text-iron-black">{{ t('widgets.purchased.status_label') }}</span>
           <span class="text-antique-bronze font-bold">{{ t('widgets.purchased.status_acquired') }}</span>
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-between mb-4">
           <span class="font-bold text-iron-black">{{ t('widgets.purchased.value') }}</span>
           <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} {{
             t('widgets.available.currency') }}</span>
+        </div>
+        
+        <!-- QR Code pour les quêtes -->
+        <div v-if="location.static_code" class="border-t border-antique-bronze/20 pt-4 mt-4">
+          <p class="text-sm font-bold text-iron-black mb-3 text-center">
+            <i class="fas fa-qrcode mr-2 text-antique-bronze"></i>
+            {{ t('widgets.purchased.qr_code_title') }}
+          </p>
+          <div class="flex flex-col items-center gap-3">
+            <div class="bg-white p-3 rounded-lg shadow-inner border border-antique-bronze/30">
+              <canvas :ref="qrCanvasRef" class="qr-canvas"></canvas>
+            </div>
+            <p class="text-xs text-stone-grey text-center max-w-xs">
+              {{ t('widgets.purchased.qr_code_hint') }}
+            </p>
+            <p class="text-xs font-mono text-antique-bronze bg-antique-bronze/10 px-3 py-1 rounded border border-antique-bronze/20">
+              {{ location.static_code }}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -156,7 +175,7 @@
  * Gère l'affichage des locations prestataires achetées et la gestion des blogs
  */
 
-import { computed } from 'vue';
+import { computed, ref, onMounted, nextTick, watch } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { useAuthStore } from '@/stores/auth';
@@ -167,6 +186,7 @@ import QuestSection from './QuestSection.vue';
 import { useI18n } from 'vue-i18n';
 import { locationService } from '@/services/locationService';
 import { isAdmin as checkIsAdmin } from '@/services/roleService';
+import QRCode from 'qrcode';
 
 const { t } = useI18n();
 
@@ -248,5 +268,36 @@ const rejectLocation = async () => {
     alert('Erreur lors du refus du lieu.');
   }
 };
+
+// QR Code generation
+const qrCanvasRef = ref<HTMLCanvasElement | null>(null);
+
+async function renderQRCode() {
+  if (!props.location.static_code || !qrCanvasRef.value) return;
+  
+  await nextTick();
+  
+  try {
+    await QRCode.toCanvas(qrCanvasRef.value, props.location.static_code, {
+      width: 200,
+      margin: 2,
+      color: {
+        dark: '#8B4513', // antique-bronze color
+        light: '#ffffff',
+      },
+    });
+  } catch (error) {
+    console.error('Failed to render QR code:', error);
+  }
+}
+
+// Watch for location changes and render QR code
+watch(() => props.location.static_code, () => {
+  renderQRCode();
+}, { immediate: true });
+
+onMounted(() => {
+  renderQRCode();
+});
 
 </script>

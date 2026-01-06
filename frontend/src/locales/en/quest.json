@@ -31,5 +31,19 @@
         "finish": "[DEV]",
         "confirm_finish": "DEBUG: Do you want to mark this quest as completed?",
         "error_finish": "Error completing the quest."
+    },
+    "scan": {
+        "title": "Scan QR Code",
+        "hint": "Point your camera at the QR code at the quest location",
+        "camera_error": "Unable to access camera",
+        "camera_error_hint": "Please allow camera access in your browser settings.",
+        "retry": "Retry",
+        "or_manual": "Or enter the code manually",
+        "enter_code": "Enter location code",
+        "validate": "Validate",
+        "success": "Quest validated!",
+        "failed": "Validation failed",
+        "try_again": "Try again",
+        "close": "Close"
     }
 }

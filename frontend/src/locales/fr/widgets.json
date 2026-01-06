@@ -33,7 +33,9 @@
         "value": "Valeur :",
         "close": "Fermer",
         "validate_button": "Valider",
-        "reject_button": "Refuser"
+        "reject_button": "Refuser",
+        "qr_code_title": "Code QR pour les quêtes",
+        "qr_code_hint": "Affichez ce code QR aux aventuriers pour qu'ils puissent valider leurs quêtes à cet emplacement"
     },
     "blog": {
         "title": "Blogs",

@@ -31,7 +31,11 @@
         "status_label": "Status:",
         "status_acquired": "Acquired",
         "value": "Value:",
-        "close": "Close"
+        "close": "Close",
+        "validate_button": "Validate",
+        "reject_button": "Reject",
+        "qr_code_title": "QR Code for Quests",
+        "qr_code_hint": "Display this QR code to adventurers so they can validate their quests at this location"
     },
     "blog": {
         "title": "Blogs",

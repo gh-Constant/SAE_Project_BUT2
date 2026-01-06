@@ -126,6 +126,24 @@ const questServiceImpl = {
       }
     });
     if (!response.ok) throw new Error('Failed to delete quest');
+  },
+
+  validateQuestByQR: async (questId: number, scannedCode: string): Promise<{ success: boolean; message?: string; error?: string }> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}/validate-qr`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      },
+      body: JSON.stringify({ scannedCode })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      return { success: false, error: error.error || 'Validation failed' };
+    }
+    
+    return await response.json();
   }
 };
 
