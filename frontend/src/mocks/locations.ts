@@ -25,6 +25,8 @@ export interface LocationMock {
     avatar_url?: string;
     avatar_type?: string;
   };
+
+
 }
 
 export const LOCATIONS: LocationMock[] = [

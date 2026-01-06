@@ -192,7 +192,8 @@
                     <i class="fas fa-chevron-left"></i>
                   </button>
                   <div class="flex items-center gap-2">
-                    <input type="date" v-model="selectedDate"
+                    <input type="date" v-model="selectedDate" :min="settingsStore.festival_start_date || undefined"
+                      :max="settingsStore.festival_end_date || undefined"
                       class="bg-transparent border-none font-medieval font-bold text-lg text-center focus:ring-0 cursor-pointer text-iron-black">
                   </div>
                   <button type="button" @click="changeDate(1)"
@@ -385,10 +386,13 @@ import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore, Event } from '@/stores/event'
 import { locationService } from '@/services/locationService';
+import { LocationMock } from '@/mocks/locations';
+import { useSettingsStore } from '@/stores/settings';
 
 const route = useRoute()
 const router = useRouter()
 const eventStore = useEventStore()
+const settingsStore = useSettingsStore()
 
 const locationId = Number(route.params.locationId)
 const loading = ref(false)
@@ -405,6 +409,8 @@ const form = reactive({
   price: 0,
   capacity: 0
 })
+
+const location = ref<LocationMock | null>(null)
 
 // Reservations Logic
 const showReservationsModal = ref(false)
@@ -428,7 +434,13 @@ watch(() => form.start_time, (newVal) => {
 function changeDate(days: number) {
   const date = new Date(selectedDate.value)
   date.setDate(date.getDate() + days)
-  selectedDate.value = date.toISOString().split('T')[0]
+  const newDateStr = date.toISOString().split('T')[0]
+
+  // Check constraints using Global Settings
+  if (settingsStore.festival_start_date && newDateStr < settingsStore.festival_start_date) return
+  if (settingsStore.festival_end_date && newDateStr > settingsStore.festival_end_date) return
+
+  selectedDate.value = newDateStr
 }
 
 function formatHour(h: number) {
@@ -581,8 +593,17 @@ onMounted(async () => {
 
   // Fetch location details first to check status
   try {
-    const location = await locationService.getLocationById(locationId);
-    if (location.status === 'PENDING') {
+    const loc = await locationService.getLocationById(locationId);
+    location.value = loc;
+
+    // Initialize date to global festival start_date if available and current date is out of range
+    if (settingsStore.festival_start_date) {
+      if (selectedDate.value < settingsStore.festival_start_date) {
+        selectedDate.value = settingsStore.festival_start_date
+      }
+    }
+
+    if (loc.status === 'PENDING') {
       alert("Ce lieu est en attente de validation. Vous ne pouvez pas encore gérer ses événements.");
       router.back();
       return;
