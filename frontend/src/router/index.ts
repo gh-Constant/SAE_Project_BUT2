@@ -89,6 +89,18 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/quizzes',
+    name: 'admin-quizzes',
+    component: () => import('../views/AdminQuizzesView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
+    path: '/admin/quizzes/stats',
+    name: 'admin-quizzes-stats',
+    component: () => import('../views/AdminQuizStatsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/admin/shop/stats',
     name: 'admin-shop-stats',
     component: () => import('../views/AdminShopStatsView.vue'),

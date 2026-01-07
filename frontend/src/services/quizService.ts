@@ -46,20 +46,33 @@ async function apiRequest<T>(
     return response.json();
 }
 
-// API implementation
+
+// Type for top adventurer data from backend
+export interface TopAdventurer {
+    id: number;
+    name: string;
+    completedQuizzes: number;
+    uniqueQuizzes: number;
+}
+
+export interface QuizzesResponse {
+    quizzes: Quiz[];
+    topAdventurers: TopAdventurer[];
+}
+
 const quizApiService = {
     async getQuizzes(filters?: {
         id_location?: number;
         id_creator?: number;
         is_active?: boolean;
-    }): Promise<Quiz[]> {
+    }): Promise<QuizzesResponse> {
         const params = new URLSearchParams();
         if (filters?.id_location) params.set('location_id', String(filters.id_location));
         if (filters?.id_creator) params.set('creator_id', String(filters.id_creator));
         if (filters?.is_active !== undefined) params.set('active', String(filters.is_active));
 
         const queryString = params.toString();
-        return apiRequest<Quiz[]>(`/quizzes${queryString ? `?${queryString}` : ''}`);
+        return apiRequest<QuizzesResponse>(`/quizzes${queryString ? `?${queryString}` : ''}`);
     },
 
     async getQuizById(id_quiz: number): Promise<Quiz | null> {
@@ -134,10 +147,8 @@ const quizApiService = {
     },
 };
 
-// Export the appropriate service based on environment
 export const quizService = isMockEnabled ? quizMockService : quizApiService;
 
-// Re-export types for convenience
 export type {
     Quiz,
     QuizQuestion,

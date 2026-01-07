@@ -31,8 +31,10 @@
           />
           <div v-else class="w-full h-full flex items-center justify-center">
             <svg class="w-20 h-20 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
         </div>
@@ -48,15 +50,19 @@
           <div class="flex items-center gap-4 text-sm text-stone-grey/60 mb-6">
             <span class="flex items-center">
               <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               {{ quiz.questions?.length || 0 }} questions
             </span>
             <span v-if="quiz.location" class="flex items-center">
               <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
               </svg>
               {{ quiz.location.name }}
             </span>
@@ -77,10 +83,10 @@
           </button>
 
           <router-link 
-            to="/quiz" 
+            :to="backLink" 
             class="block text-center mt-4 text-stone-grey/60 hover:text-antique-bronze transition-colors"
           >
-            ← Retour aux quiz
+            ← Retour {{ isFromAdmin ? 'à la gestion' : 'aux quiz' }}
           </router-link>
         </div>
       </div>
@@ -159,6 +165,14 @@ const currentQuestion = computed((): QuizQuestionType | null => {
   return quiz.value.questions[currentQuestionIndex.value] || null;
 });
 
+const backLink = computed(() => {
+  return (route.query.returnTo as string) || '/quiz';
+});
+
+const isFromAdmin = computed(() => {
+  return !!route.query.returnTo;
+});
+
 async function loadQuiz() {
   loading.value = true;
   error.value = null;
@@ -198,7 +212,7 @@ function startQuiz() {
 
 function cancelQuiz() {
   if (confirm('Êtes-vous sûr de vouloir abandonner ? Vos réponses seront perdues.')) {
-    router.push('/quiz');
+    router.push(backLink.value);
   }
 }
 

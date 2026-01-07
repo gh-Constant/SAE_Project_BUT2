@@ -1,9 +1,9 @@
 /**
- * @file quiz.ts
+ * @file quizzes.ts
  * @description Mock data for quizzes
  */
 
-import type { Quiz, QuizQuestion, QuizAnswer, UserQuizAttempt, UserQuizAnswer } from '@/types/quiz';
+import type { Quiz, QuizQuestion, UserQuizAttempt, UserQuizAnswer } from '@/types/quiz';
 
 // Mock Quizzes
 export const mockQuizzes: Quiz[] = [
@@ -27,7 +27,7 @@ export const mockQuizzes: Quiz[] = [
             lastname: 'Le Prestataire',
         },
         _count: {
-            attempts: 45,
+            attempts: 127,
         },
     },
     {
@@ -50,7 +50,7 @@ export const mockQuizzes: Quiz[] = [
             lastname: 'Le Prestataire',
         },
         _count: {
-            attempts: 23,
+            attempts: 89,
         },
     },
     {
@@ -73,7 +73,168 @@ export const mockQuizzes: Quiz[] = [
             lastname: 'La Marchande',
         },
         _count: {
-            attempts: 12,
+            attempts: 56,
+        },
+    },
+    {
+        id_quiz: 4,
+        title: 'Les Châteaux Forts',
+        description: 'Découvrez les secrets des forteresses médiévales !',
+        image_url: '/images/quizzes/castle.jpg',
+        is_active: true,
+        created_at: '2024-12-12T11:00:00Z',
+        updated_at: '2024-12-12T11:00:00Z',
+        id_location: 14,
+        id_creator: 4,
+        location: {
+            id_location: 14,
+            name: 'Stand Marchand #5',
+        },
+        creator: {
+            id_user: 4,
+            firstname: 'Marie',
+            lastname: 'La Marchande',
+        },
+        _count: {
+            attempts: 112,
+        },
+    },
+    {
+        id_quiz: 5,
+        title: 'La Vie des Paysans',
+        description: 'Le quotidien du peuple au Moyen Âge',
+        image_url: '/images/quizzes/peasants.jpg',
+        is_active: true,
+        created_at: '2024-12-14T08:30:00Z',
+        updated_at: '2024-12-14T08:30:00Z',
+        id_location: 17,
+        id_creator: 5,
+        location: {
+            id_location: 17,
+            name: 'La Taverne du Dragon',
+        },
+        creator: {
+            id_user: 5,
+            firstname: 'Jacques',
+            lastname: 'Le Tavernier',
+        },
+        _count: {
+            attempts: 34,
+        },
+    },
+    {
+        id_quiz: 6,
+        title: 'Les Croisades',
+        description: 'L\'histoire des grandes expéditions',
+        image_url: '/images/quizzes/crusades.jpg',
+        is_active: true,
+        created_at: '2024-12-15T15:00:00Z',
+        updated_at: '2024-12-15T15:00:00Z',
+        id_location: 15,
+        id_creator: 5,
+        location: {
+            id_location: 15,
+            name: 'Stand Marchand #6',
+        },
+        creator: {
+            id_user: 5,
+            firstname: 'Jacques',
+            lastname: 'Le Tavernier',
+        },
+        _count: {
+            attempts: 78,
+        },
+    },
+    {
+        id_quiz: 7,
+        title: 'L\'Art Médiéval',
+        description: 'Enluminures, vitraux et sculptures',
+        image_url: '/images/quizzes/art.jpg',
+        is_active: true,
+        created_at: '2024-12-18T10:00:00Z',
+        updated_at: '2024-12-18T10:00:00Z',
+        id_location: 18,
+        id_creator: 6,
+        location: {
+            id_location: 18,
+            name: 'L\'Atelier de l\'Artisan',
+        },
+        creator: {
+            id_user: 6,
+            firstname: 'Pierre',
+            lastname: 'L\'Artisan',
+        },
+        _count: {
+            attempts: 45,
+        },
+    },
+    {
+        id_quiz: 8,
+        title: 'Les Rois de France',
+        description: 'Les grandes dynasties françaises',
+        image_url: '/images/quizzes/kings.jpg',
+        is_active: true,
+        created_at: '2024-12-20T14:00:00Z',
+        updated_at: '2024-12-20T14:00:00Z',
+        id_location: 17,
+        id_creator: 1,
+        location: {
+            id_location: 17,
+            name: 'La Taverne du Dragon',
+        },
+        creator: {
+            id_user: 1,
+            firstname: 'Gérard',
+            lastname: 'Le Prestataire',
+        },
+        _count: {
+            attempts: 156,
+        },
+    },
+    {
+        id_quiz: 9,
+        title: 'Légendes et Mythes',
+        description: 'Dragons, fées et créatures fantastiques',
+        image_url: '/images/quizzes/legends.jpg',
+        is_active: true,
+        created_at: '2024-12-22T09:00:00Z',
+        updated_at: '2024-12-22T09:00:00Z',
+        id_location: 18,
+        id_creator: 4,
+        location: {
+            id_location: 18,
+            name: 'L\'Atelier de l\'Artisan',
+        },
+        creator: {
+            id_user: 4,
+            firstname: 'Marie',
+            lastname: 'La Marchande',
+        },
+        _count: {
+            attempts: 201,
+        },
+    },
+    {
+        id_quiz: 10,
+        title: 'Les Tournois',
+        description: 'Joutes et compétitions chevaleresques',
+        image_url: '/images/quizzes/tournament.jpg',
+        is_active: true,
+        created_at: '2024-12-25T16:00:00Z',
+        updated_at: '2024-12-25T16:00:00Z',
+        id_location: 16,
+        id_creator: 6,
+        location: {
+            id_location: 16,
+            name: 'Stand Marchand #7',
+        },
+        creator: {
+            id_user: 6,
+            firstname: 'Pierre',
+            lastname: 'L\'Artisan',
+        },
+        _count: {
+            attempts: 67,
         },
     },
 ];

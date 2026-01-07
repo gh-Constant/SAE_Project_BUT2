@@ -28,6 +28,7 @@ import { seedBlogs } from './seeds/blogs.js';
 import { seedQuests } from './seeds/quests.js';
 import { seedUserQuests } from './seeds/userQuests.js';
 import { seedQuizzes } from './seeds/quizzes.js';
+import { seedQuizAttempts } from './seeds/quizAttempts.js';
 import { seedOrders } from './seeds/orders.js';
 
 /**
@@ -51,6 +52,7 @@ const startServer = async (): Promise<void> => {
     await seedQuests();
     await seedUserQuests();
     await seedQuizzes();
+    await seedQuizAttempts();
     await seedOrders();
 
 

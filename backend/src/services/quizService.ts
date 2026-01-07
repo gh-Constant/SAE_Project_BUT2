@@ -58,7 +58,7 @@ export async function getQuizzes(filters?: {
     id_creator?: number;
     is_active?: boolean;
 }) {
-    return prisma.quiz.findMany({
+    const quizzes = await prisma.quiz.findMany({
         where: {
             ...(filters?.id_location && { id_location: filters.id_location }),
             ...(filters?.id_creator && { id_creator: filters.id_creator }),
@@ -83,6 +83,16 @@ export async function getQuizzes(filters?: {
                     id_question: true,
                 },
             },
+            attempts: {
+                where: {
+                    completed_at: { not: null }
+                },
+                select: {
+                    id_user: true,
+                    score: true,
+                    total_questions: true,
+                },
+            },
             _count: {
                 select: {
                     attempts: true,
@@ -93,6 +103,88 @@ export async function getQuizzes(filters?: {
             created_at: 'desc',
         },
     });
+
+    // Calculate unique participants and average score for each quiz
+    return quizzes.map(quiz => {
+        const uniqueUsers = new Set(quiz.attempts.map(a => a.id_user));
+
+        // Calculate average score percentage from completed attempts
+        let averageScore = 0;
+        if (quiz.attempts.length > 0) {
+            const totalScorePercent = quiz.attempts.reduce((sum, attempt) => {
+                if (attempt.total_questions > 0) {
+                    return sum + (attempt.score / attempt.total_questions * 100);
+                }
+                return sum;
+            }, 0);
+            averageScore = Math.round(totalScorePercent / quiz.attempts.length);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { attempts, ...quizWithoutAttempts } = quiz;
+        return {
+            ...quizWithoutAttempts,
+            uniqueParticipants: uniqueUsers.size,
+            averageScore,
+        };
+    });
+}
+
+// Get top adventurers based on quiz completions
+export async function getTopAdventurers(limit: number = 5) {
+    // Fetch all completed attempts with user info
+    const attempts = await prisma.userQuizAttempt.findMany({
+        where: {
+            completed_at: { not: null }
+        },
+        select: {
+            id_user: true,
+            id_quiz: true,
+            user: {
+                select: {
+                    id_user: true,
+                    firstname: true,
+                    lastname: true,
+                }
+            }
+        }
+    });
+
+    // Group by user and count
+    const userStats = new Map<number, {
+        id: number;
+        name: string;
+        completedQuizzes: number;
+        uniqueQuizzes: Set<number>;
+    }>();
+
+    for (const attempt of attempts) {
+        const userId = attempt.id_user;
+        const existing = userStats.get(userId);
+
+        if (existing) {
+            existing.completedQuizzes++;
+            existing.uniqueQuizzes.add(attempt.id_quiz);
+        } else {
+            userStats.set(userId, {
+                id: userId,
+                name: `${attempt.user.firstname} ${attempt.user.lastname}`,
+                completedQuizzes: 1,
+                uniqueQuizzes: new Set([attempt.id_quiz])
+            });
+        }
+    }
+
+    // Convert to array and sort by completed quizzes
+    return Array.from(userStats.values())
+        .map(user => ({
+            id: user.id,
+            name: user.name,
+            completedQuizzes: user.completedQuizzes,
+            uniqueQuizzes: user.uniqueQuizzes.size
+        }))
+        .sort((a, b) => b.completedQuizzes - a.completedQuizzes)
+        .slice(0, limit);
 }
 
 // Get a single quiz by ID with all questions and answers
@@ -145,7 +237,7 @@ export async function getQuizForPlay(id_quiz: number) {
                             id_answer: true,
                             content: true,
                             order_index: true,
-                            is_correct: true, 
+                            is_correct: true,
                         },
                     },
                 },

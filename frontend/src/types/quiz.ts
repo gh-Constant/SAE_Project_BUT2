@@ -26,6 +26,8 @@ export interface Quiz {
     _count?: {
         attempts: number;
     };
+    uniqueParticipants?: number;
+    averageScore?: number;
 }
 
 export interface QuizQuestion {
@@ -72,7 +74,6 @@ export interface UserQuizAnswer {
     answer?: QuizAnswer;
 }
 
-// Input types for creating/updating quizzes
 export interface CreateQuizInput {
     title: string;
     description?: string;
@@ -102,7 +103,6 @@ export interface UpdateQuizInput {
     questions?: CreateQuestionInput[];
 }
 
-// Submission types
 export interface QuizSubmission {
     answers: { id_question: number; id_answer: number }[];
 }

@@ -8,13 +8,16 @@ import prisma from '../prisma.js';
 export const getQuizzes = asyncHandler(async (req: Request, res: Response) => {
     const { location_id, creator_id, active } = req.query;
 
-    const quizzes = await quizService.getQuizzes({
-        id_location: location_id ? Number(location_id) : undefined,
-        id_creator: creator_id ? Number(creator_id) : undefined,
-        is_active: active !== undefined ? active === 'true' : undefined,
-    });
+    const [quizzes, topAdventurers] = await Promise.all([
+        quizService.getQuizzes({
+            id_location: location_id ? Number(location_id) : undefined,
+            id_creator: creator_id ? Number(creator_id) : undefined,
+            is_active: active !== undefined ? active === 'true' : undefined,
+        }),
+        quizService.getTopAdventurers(5)
+    ]);
 
-    res.json(quizzes);
+    res.json({ quizzes, topAdventurers });
 });
 
 // Get a single quiz by ID
@@ -30,7 +33,7 @@ export const getQuizById = asyncHandler(async (req: Request, res: Response) => {
     res.json(quiz);
 });
 
-// Get quiz for playing (hides correct answers)
+// Get quiz for playing
 export const getQuizForPlay = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     const quizId = Number(id);

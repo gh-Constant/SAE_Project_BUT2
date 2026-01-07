@@ -12,15 +12,26 @@ import type {
     QuizResult,
     QuizStatistics,
 } from '@/types/quiz';
-import { mockQuizzes, mockQuestions, mockUserAttempts, getQuizWithQuestions } from '@/mocks/quiz';
+import { mockQuizzes, mockQuestions, mockUserAttempts, getQuizWithQuestions } from '@/mocks/quizzes';
 
-// Store for mock data (allows modifications)
+import type { QuizzesResponse, TopAdventurer } from '@/services/quizService';
+
+// Store for mock data 
 const quizzes = [...mockQuizzes];
 const attempts = [...mockUserAttempts];
 let nextQuizId = 4;
 let nextAttemptId = 3;
 let nextQuestionId = 100;
 let nextAnswerId = 100;
+
+// Mock top adventurers data
+const mockTopAdventurers: TopAdventurer[] = [
+    { id: 10, name: 'Margot L\'Exploratrice', completedQuizzes: 7, uniqueQuizzes: 7 },
+    { id: 7, name: 'Thomas Le Brave', completedQuizzes: 6, uniqueQuizzes: 6 },
+    { id: 8, name: 'Jeanne La Courageuse', completedQuizzes: 5, uniqueQuizzes: 5 },
+    { id: 2, name: 'Alice L\'Aventurière', completedQuizzes: 4, uniqueQuizzes: 4 },
+    { id: 9, name: 'Léon Le Curieux', completedQuizzes: 3, uniqueQuizzes: 3 },
+];
 
 export const quizMockService = {
     /**
@@ -30,7 +41,7 @@ export const quizMockService = {
         id_location?: number;
         id_creator?: number;
         is_active?: boolean;
-    }): Promise<Quiz[]> {
+    }): Promise<QuizzesResponse> {
         await delay(200);
 
         let result = [...quizzes];
@@ -45,7 +56,10 @@ export const quizMockService = {
             result = result.filter(q => q.is_active === filters.is_active);
         }
 
-        return result;
+        return {
+            quizzes: result,
+            topAdventurers: mockTopAdventurers
+        };
     },
 
     /**
@@ -74,7 +88,6 @@ export const quizMockService = {
                     content: a.content,
                     order_index: a.order_index,
                     id_question: a.id_question,
-                    // is_correct is intentionally omitted
                 })),
             }));
         }
@@ -99,7 +112,7 @@ export const quizMockService = {
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             id_location: input.id_location,
-            id_creator: 1, // Mock: assume current user is creator
+            id_creator: 1,
             questions: input.questions.map(q => ({
                 id_question: nextQuestionId++,
                 content: q.content,
@@ -111,13 +124,12 @@ export const quizMockService = {
                     content: a.content,
                     is_correct: a.is_correct,
                     order_index: a.order_index,
-                    id_question: nextQuestionId // Matches parent question
+                    id_question: nextQuestionId
                 }))
             })),
             _count: { attempts: 0 },
         };
 
-        // Fix question ID reference in answers (since nextQuestionId incremented)
         if (newQuiz.questions) {
             newQuiz.questions.forEach(q => {
                 q.answers.forEach(a => {
@@ -218,7 +230,7 @@ export const quizMockService = {
             total_questions: totalQuestions,
             completed_at: new Date().toISOString(),
             created_at: new Date().toISOString(),
-            id_user: 2, // Mock current user
+            id_user: 2,
             id_quiz,
             quiz: {
                 id_quiz: quiz.id_quiz,
@@ -319,7 +331,6 @@ export const quizMockService = {
     },
 };
 
-// Helper function for simulating network delay
 function delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
