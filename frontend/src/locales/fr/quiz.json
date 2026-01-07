@@ -5,11 +5,31 @@
         "subtitle": "Testez vos connaissances sur l'histoire et les légendes du royaume.",
         "filter_location": "Filtrer par lieu",
         "all_locations": "Tous les lieux",
+        "filter_merchant": "Filtrer par marchand",
+        "all_merchants": "Tous les marchands",
         "search_placeholder": "Rechercher un quiz...",
-        "empty": "Aucun quiz disponible pour le moment.",
+        "empty": "Aucun quiz trouvé",
         "start": "Commencer",
         "questions_count": "{count} questions",
-        "creator": "Par {name}"
+        "creator": "Par {name}",
+        "create_button": "Créer",
+        "retry_button": "Réessayer",
+        "error_load": "Impossible de charger les quiz",
+        "sort": {
+            "date_desc": "Plus récents",
+            "date_asc": "Plus anciens",
+            "title_asc": "Titre (A-Z)",
+            "title_desc": "Titre (Z-A)",
+            "questions_asc": "Questions (Croissant)",
+            "questions_desc": "Questions (Décroissant)",
+            "location_asc": "Lieu (A-Z)",
+            "location_desc": "Lieu (Z-A)",
+            "creator_asc": "Créateur (A-Z)",
+            "creator_desc": "Créateur (Z-A)"
+        },
+        "attempts_count": "{count} tentatives",
+        "inactive": "Inactif",
+        "edit_tooltip": "Modifier le quiz"
     },
     "play": {
         "start_button": "Commencer le quiz",
@@ -20,7 +40,13 @@
         "confirm_cancel": "Voulez-vous vraiment abandonner le quiz ?",
         "loading": "Chargement du quiz...",
         "error_not_found": "Quiz introuvable ou inactif",
-        "unanswered_alert": "Vous n'avez pas répondu à {count} question(s)"
+        "unanswered_alert": "Vous n'avez pas répondu à {count} question(s)",
+        "back_to_list": "Retour aux quiz",
+        "calculating": "Calcul de votre score...",
+        "error_invalid_id": "ID de quiz invalide",
+        "error_load": "Impossible de charger le quiz",
+        "error_validation": "Erreur lors de la validation",
+        "error_submit": "Erreur lors de la soumission du quiz"
     },
     "results": {
         "title": "Résultats",
@@ -32,12 +58,32 @@
         "back_to_list": "Voir d'autres quiz",
         "details_title": "Récapitulatif détaillé",
         "show_details": "Voir les détails des réponses",
-        "hide_details": "Masquer les détails"
+        "hide_details": "Masquer les détails",
+        "msg_excellent": "Excellent ! ",
+        "msg_good": "Bien joué ! ",
+        "msg_average": "Pas mal ! ",
+        "msg_poor": "Continuez à apprendre ! ",
+        "score_text": "{score} bonnes réponses sur {total}"
     },
     "editor": {
         "title_new": "Écrire un Nouveau Quiz",
         "title_edit": "Modifier le Grimoire",
         "subtitle": "\"Que votre plume soit aussi affûtée que votre épée.\"",
+        "general_info": "Informations Générales",
+        "choose_location": "Choisir un lieu",
+        "choose_image": "Choisir une image",
+        "uploading": "Téléchargement...",
+        "empty_title": "Aucune question",
+        "empty_desc": "Commencez par ajouter une question pour créer votre quiz.",
+        "questions_section": "Questions du Quiz",
+        "save_changes": "Enregistrer",
+        "saving": "Enregistrement...",
+        "back_to_management": "Retour à la gestion",
+        "errors": {
+            "fill_required": "Veuillez remplir tous les champs obligatoires",
+            "upload_fail": "Échec du téléchargement",
+            "save_fail": "Échec de l'enregistrement"
+        },
         "form": {
             "title": "TITRE DU QUIZ",
             "location": "LIEU ASSOCIÉ",
@@ -51,9 +97,16 @@
         "question": {
             "title": "Question {number}",
             "content": "Contenu de la question",
+            "image_optional": "Image (optionnel)",
             "answers": "RÉPONSES",
             "add_answer": "Ajouter une réponse",
-            "correct_answer": "Bonne réponse"
+            "correct_answer": "Bonne réponse",
+            "delete_tooltip": "Supprimer la question",
+            "remove_image": "Supprimer l'image",
+            "answer_placeholder": "Texte de la réponse",
+            "delete_answer": "Supprimer la réponse",
+            "toggle_correct": "Basculer l'état de la réponse",
+            "correct_tip": "Cliquez sur le cercle pour définir les bonnes réponses (plusieurs possibles)"
         }
     },
     "stats": {

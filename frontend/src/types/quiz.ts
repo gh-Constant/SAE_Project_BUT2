@@ -25,6 +25,7 @@ export interface Quiz {
     questions?: QuizQuestion[];
     _count?: {
         attempts: number;
+        questions?: number;
     };
     uniqueParticipants?: number;
     averageScore?: number;

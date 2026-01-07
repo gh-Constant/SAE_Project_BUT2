@@ -1,36 +1,34 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey pt-20 pb-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      
       <!-- En-tête -->
       <div class="mb-8 text-center">
         <div class="inline-flex items-center justify-center p-3 bg-white/40 rounded-full mb-4 border-2 border-antique-bronze/20 shadow-sm backdrop-blur-sm">
           <i class="fas fa-feather-alt text-2xl text-antique-bronze"></i>
         </div>
         <h1 class="text-3xl md:text-4xl font-medieval font-bold text-iron-black mb-3">
-          {{ isEditing ? 'Modifier le Grimoire' : 'Écrire un Nouveau Quiz' }}
+          {{ isEditing ? $t('quiz.editor.title_edit') : $t('quiz.editor.title_new') }}
         </h1>
         <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
         <p class="text-base text-stone-grey text-center max-w-2xl mx-auto italic">
-          "Que votre plume soit aussi affûtée que votre épée."
+          {{ $t('quiz.editor.subtitle') }}
         </p>
       </div>
 
       <main>
         <form @submit.prevent="saveQuiz" class="space-y-8">
-          
           <!-- Carte Informations Générales -->
           <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-md border-2 border-antique-bronze/20 overflow-hidden">
             <div class="bg-antique-bronze/5 px-6 py-4 border-b-2 border-antique-bronze/10 flex items-center gap-3">
               <i class="fas fa-info-circle text-antique-bronze text-xl"></i>
-              <h2 class="font-medieval font-bold text-xl text-iron-black">Informations Générales</h2>
+              <h2 class="font-medieval font-bold text-xl text-iron-black">{{ $t('quiz.editor.general_info') }}</h2>
             </div>
             
             <div class="p-6 md:p-8 space-y-6">
               <!-- Title -->
               <div>
                 <label class="block text-sm font-bold text-iron-black mb-2 uppercase tracking-wide">
-                  Titre du Quiz <span class="text-red-500">*</span>
+                  {{ $t('quiz.editor.form.title') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
                   <input
@@ -50,7 +48,7 @@
                 <!-- Location -->
                 <div>
                   <label class="block text-sm font-bold text-iron-black mb-2 uppercase tracking-wide">
-                    Lieu Associé <span class="text-red-500">*</span>
+                    {{ $t('quiz.editor.form.location') }} <span class="text-red-500">*</span>
                   </label>
                   <div class="relative">
                     <select
@@ -58,7 +56,7 @@
                       required
                       class="w-full pl-4 pr-10 py-3 bg-parchment/50 border-2 border-stone-grey/20 rounded-lg focus:ring-0 focus:border-antique-bronze/60 focus:bg-white transition-all font-body appearance-none cursor-pointer"
                     >
-                      <option :value="0" disabled>Choisir un lieu...</option>
+                      <option :value="0" disabled>{{ $t('quiz.editor.choose_location') }}</option>
                       <option 
                         v-for="location in availableLocations" 
                         :key="location.id" 
@@ -76,7 +74,7 @@
                 <!-- Image Upload -->
                 <div>
                   <label class="block text-sm font-bold text-iron-black mb-2 uppercase tracking-wide">
-                    Image de Couverture
+                    {{ $t('quiz.editor.form.image') }}
                   </label>
                   <div class="relative">
                     <div class="flex items-center gap-4">
@@ -106,8 +104,8 @@
                           class="w-full pl-4 pr-10 py-3 bg-parchment/50 border-2 border-stone-grey/20 rounded-lg cursor-pointer hover:bg-white transition-all font-body text-stone-grey flex items-center gap-2"
                         >
                           <i class="fas fa-image text-antique-bronze"></i>
-                          <span v-if="uploadingCover">Téléchargement...</span>
-                          <span v-else>Choisir une image...</span>
+                          <span v-if="uploadingCover">{{ $t('quiz.editor.uploading') }}</span>
+                          <span v-else>{{ $t('quiz.editor.choose_image') }}</span>
                         </label>
                       </div>
                     </div>
@@ -118,14 +116,14 @@
               <!-- Description -->
               <div>
                 <label class="block text-sm font-bold text-iron-black mb-2 uppercase tracking-wide">
-                  Description
+                  {{ $t('quiz.editor.form.description') }}
                 </label>
-                <textarea
-                  v-model="quizData.description"
-                  rows="3"
-                  placeholder="Narrez en quelques mots ce qui attend les courageux participants..."
-                  class="w-full px-4 py-3 bg-parchment/50 border-2 border-stone-grey/20 rounded-lg focus:ring-0 focus:border-antique-bronze/60 focus:bg-white transition-all font-body resize-none placeholder-stone-grey/40"
-                ></textarea>
+                <div class="prose prose-sm max-w-none">
+                  <Editor
+                    v-model="quizData.description"
+                    class="w-full bg-parchment/50 border-2 border-stone-grey/20 rounded-lg focus-within:border-antique-bronze/60 focus-within:bg-white transition-all"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -137,7 +135,7 @@
                 <div class="bg-antique-bronze text-white w-10 h-10 rounded-lg flex items-center justify-center font-medieval font-bold text-xl shadow-sm">
                   {{ quizData.questions.length }}
                 </div>
-                <h2 class="font-medieval font-bold text-2xl text-iron-black">Questions du Quiz</h2>
+                <h2 class="font-medieval font-bold text-2xl text-iron-black">{{ $t('quiz.editor.questions_section') }}</h2>
               </div>
               
               <button
@@ -148,7 +146,7 @@
                 <div class="w-6 h-6 bg-antique-bronze/10 rounded-full flex items-center justify-center text-antique-bronze group-hover:scale-110 transition-transform">
                   <i class="fas fa-plus text-xs"></i>
                 </div>
-                <span class="font-medieval font-bold text-antique-bronze">Ajouter une question</span>
+                <span class="font-medieval font-bold text-antique-bronze">{{ $t('quiz.editor.form.add_question') }}</span>
               </button>
             </div>
 
@@ -157,15 +155,15 @@
               <div class="w-20 h-20 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <i class="fas fa-scroll text-4xl text-stone-300"></i>
               </div>
-              <h3 class="font-medieval text-xl text-stone-600 mb-2">Le parchemin est encore vierge</h3>
-              <p class="text-stone-500 mb-8 max-w-md mx-auto">Commencez par ajouter une première question pour mettre à l'épreuve les connaissances des aventuriers.</p>
+              <h3 class="font-medieval text-xl text-stone-600 mb-2">{{ $t('quiz.editor.empty_title') }}</h3>
+              <p class="text-stone-500 mb-8 max-w-md mx-auto">{{ $t('quiz.editor.empty_desc') }}</p>
               <button
                 type="button"
                 @click="addQuestion"
                 class="px-6 py-3 bg-antique-bronze text-white rounded-lg hover:bg-amber-700 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 inline-flex items-center gap-2"
               >
                 <i class="fas fa-plus"></i>
-                Ajouter une question
+                {{ $t('quiz.editor.form.add_question') }}
               </button>
             </div>
 
@@ -191,13 +189,13 @@
                 class="px-6 py-2.5 text-stone-600 font-bold hover:text-iron-black transition-colors flex items-center gap-2"
               >
                 <i class="fas fa-arrow-left"></i>
-                Annuler
+                {{ $t('quiz.editor.form.cancel') }}
               </router-link>
               
               <div class="flex items-center gap-4">
                 <span class="text-sm text-stone-500 hidden sm:inline-block" v-if="!isValid">
                   <i class="fas fa-exclamation-circle text-amber-500 mr-1"></i>
-                  Remplissez tous les champs obligatoires
+                  {{ $t('quiz.editor.errors.fill_required') }}
                 </span>
                 <button
                   type="submit"
@@ -206,12 +204,11 @@
                 >
                   <span v-if="saving" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
                   <i v-else class="fas fa-save"></i>
-                  {{ saving ? 'Enregistrement...' : (isEditing ? 'Sauvegarder les Modifs' : 'Publier le Quiz') }}
+                  {{ saving ? $t('quiz.editor.saving') : (isEditing ? $t('quiz.editor.save_changes') : $t('quiz.editor.form.publish')) }}
                 </button>
               </div>
             </div>
           </div>
-
         </form>
       </main>
     </div>
@@ -226,15 +223,18 @@ import type { CreateQuestionInput } from '@/types/quiz';
 import { locationService } from '@/services/locationService';
 import type { LocationMock } from '@/mocks/locations';
 import QuizQuestionEditor from '@/components/quiz/QuizQuestionEditor.vue';
+import Editor from '@/components/editor/Editor.vue';
 
 import { useAuthStore } from '@/stores/auth';
 import { Role } from '@/mocks/users';
 
 import { uploadService } from '@/services/uploadService';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
+const { t } = useI18n();
 
 const isEditing = computed(() => !!route.params.id);
 
@@ -262,7 +262,7 @@ async function handleImageUpload(event: Event) {
     quizData.image_url = response.url;
   } catch (err) {
     console.error('Upload failed:', err);
-    alert('Erreur lors du téléchargement de l\'image');
+    alert(t('quiz.editor.errors.upload_fail'));
   } finally {
     uploadingCover.value = false;
     input.value = ''; // Reset input
@@ -372,7 +372,7 @@ async function saveQuiz() {
     router.push('/quiz');
   } catch (err) {
     console.error('Error saving quiz:', err);
-    alert('Erreur lors de l\'enregistrement du quiz');
+    alert(t('quiz.editor.errors.save_fail'));
   } finally {
     saving.value = false;
   }

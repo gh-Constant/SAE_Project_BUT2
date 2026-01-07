@@ -13,7 +13,7 @@
           to="/quiz" 
           class="px-4 py-2 bg-antique-bronze text-white rounded-lg"
         >
-          Retour aux quiz
+          {{ $t('quiz.play.back_to_list') }}
         </router-link>
       </div>
     </div>
@@ -71,7 +71,7 @@
           <!-- Login prompt if not authenticated -->
           <div v-if="!isAuthenticated" class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
             <p class="text-amber-800 text-sm">
-              Connectez-vous pour sauvegarder vos résultats !
+              {{ $t('quiz.play.login_required') }}
             </p>
           </div>
 
@@ -79,14 +79,14 @@
             @click="startQuiz"
             class="w-full py-3 bg-antique-bronze text-white rounded-lg hover:bg-amber-700 transition-colors font-medium text-lg"
           >
-            Commencer le quiz
+            {{ $t('quiz.play.start_button') }}
           </button>
 
           <router-link 
             :to="backLink" 
             class="block text-center mt-4 text-stone-grey/60 hover:text-antique-bronze transition-colors"
           >
-            ← Retour {{ isFromAdmin ? 'à la gestion' : 'aux quiz' }}
+            ← {{ isFromAdmin ? $t('quiz.editor.back_to_management') : $t('quiz.play.back_to_list') }}
           </router-link>
         </div>
       </div>
@@ -120,7 +120,7 @@
           @click="cancelQuiz"
           class="text-stone-grey/60 hover:text-red-500 transition-colors text-sm"
         >
-          Abandonner le quiz
+          {{ $t('quiz.play.cancel_button') }}
         </button>
       </div>
     </div>
@@ -129,7 +129,7 @@
     <div v-else-if="submitting" class="flex items-center justify-center min-h-screen">
       <div class="text-center">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-antique-bronze mx-auto mb-4"></div>
-        <p class="text-stone-grey">Calcul de votre score...</p>
+        <p class="text-stone-grey">{{ $t('quiz.play.calculating') }}</p>
       </div>
     </div>
   </div>
@@ -138,6 +138,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { quizService, type Quiz, type QuizQuestion as QuizQuestionType } from '@/services/quizService';
 import QuizQuestion from '@/components/quiz/QuizQuestion.vue';
@@ -145,6 +146,7 @@ import QuizQuestion from '@/components/quiz/QuizQuestion.vue';
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
+const { t } = useI18n();
 
 const quiz = ref<Quiz | null>(null);
 const loading = ref(true);
@@ -181,7 +183,7 @@ async function loadQuiz() {
     const id = Number(route.params.id);
     
     if (isNaN(id)) {
-      error.value = 'ID de quiz invalide';
+      error.value = t('quiz.play.error_invalid_id');
       // Optional: redirect to list
       // router.replace('/quiz');
       return;
@@ -190,10 +192,10 @@ async function loadQuiz() {
     quiz.value = await quizService.getQuizForPlay(id);
     
     if (!quiz.value) {
-      error.value = 'Quiz introuvable ou inactif';
+      error.value = t('quiz.play.error_not_found');
     }
   } catch (err) {
-    error.value = 'Impossible de charger le quiz';
+    error.value = t('quiz.play.error_load');
     console.error('Error loading quiz:', err);
   } finally {
     loading.value = false;
@@ -211,7 +213,7 @@ function startQuiz() {
 }
 
 function cancelQuiz() {
-  if (confirm('Êtes-vous sûr de vouloir abandonner ? Vos réponses seront perdues.')) {
+  if (confirm(t('quiz.play.confirm_cancel'))) {
     router.push(backLink.value);
   }
 }
@@ -247,7 +249,7 @@ async function handleConfirm() {
       
   } catch (e) {
       console.error("Error checking question", e);
-      alert("Erreur lors de la validation");
+      alert(t('quiz.play.error_validation'));
   }
 }
 
@@ -272,7 +274,7 @@ async function submitQuiz() {
   );
 
   if (unanswered.length > 0) {
-    alert(`Vous n'avez pas répondu à ${unanswered.length} question(s)`);
+    alert(t('quiz.play.unanswered_alert', { count: unanswered.length }));
     return;
   }
 
@@ -305,7 +307,7 @@ async function submitQuiz() {
     });
   } catch (err) {
     console.error('Error submitting quiz:', err);
-    alert('Erreur lors de la soumission du quiz');
+    alert(t('quiz.play.error_submit'));
     submitting.value = false;
   }
 }

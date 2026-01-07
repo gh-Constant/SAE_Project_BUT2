@@ -288,10 +288,11 @@ const playQuiz = (quizId: number) => {
 
 const fetchQuizzes = async () => {
   try {
-    quizzes.value = await quizService.getQuizzes({
+    const response = await quizService.getQuizzes({
       id_location: props.location.id,
       is_active: true
     });
+    quizzes.value = response.quizzes;
   } catch (error) {
     console.error('Failed to fetch quizzes for location', error);
     quizzes.value = [];

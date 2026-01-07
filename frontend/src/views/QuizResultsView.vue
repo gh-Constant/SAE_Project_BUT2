@@ -42,7 +42,7 @@
           </div>
 
           <p class="text-white/80">
-            {{ score }} bonnes réponses sur {{ total }}
+            {{ $t('quiz.results.score_text', { score, total }) }}
           </p>
         </div>
 
@@ -52,20 +52,20 @@
             :to="`/quiz/${quizId}`"
             class="px-6 py-3 bg-antique-bronze text-white rounded-lg hover:bg-amber-700 transition-colors text-center font-medium"
           >
-            Rejouer
+            {{ $t('quiz.results.replay') }}
           </router-link>
           <router-link
             to="/quiz"
             class="px-6 py-3 border border-stone-grey/30 text-stone-grey rounded-lg hover:bg-stone-grey/10 transition-colors text-center"
           >
-            Voir d'autres quiz
+            {{ $t('quiz.results.back_to_list') }}
           </router-link>
         </div>
       </div>
 
       <!-- Detailed Results -->
       <div v-if="showDetails && quizDetails" class="mb-8">
-        <h2 class="font-display text-xl font-bold mb-4 text-center">Récapitulatif détaillé</h2>
+        <h2 class="font-display text-xl font-bold mb-4 text-center">{{ $t('quiz.results.details_title') }}</h2>
         
         <div class="space-y-4">
           <QuizResultCard
@@ -85,7 +85,7 @@
           @click="toggleDetails"
           class="text-antique-bronze hover:text-amber-700 transition-colors"
         >
-          {{ showDetails ? 'Masquer les détails' : 'Voir les détails des réponses' }}
+          {{ showDetails ? $t('quiz.results.hide_details') : $t('quiz.results.show_details') }}
         </button>
       </div>
     </div>
@@ -95,6 +95,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { quizService, type Quiz, type QuizQuestion } from '@/services/quizService';
 import QuizResultCard from '@/components/quiz/QuizResultCard.vue';
 
@@ -109,11 +110,13 @@ const showDetails = ref(false);
 const quizDetails = ref<Quiz | null>(null);
 const userAnswersFromAttempt = ref<Record<number, number[]>>({});
 
+const { t } = useI18n();
+
 const resultMessage = computed(() => {
-  if (percentage.value >= 80) return 'Excellent ! 🏆';
-  if (percentage.value >= 60) return 'Bien joué ! 👏';
-  if (percentage.value >= 40) return 'Pas mal ! 📚';
-  return 'Continuez à apprendre ! 💪';
+  if (percentage.value >= 80) return t('quiz.results.msg_excellent');
+  if (percentage.value >= 60) return t('quiz.results.msg_good');
+  if (percentage.value >= 40) return t('quiz.results.msg_average');
+  return t('quiz.results.msg_poor');
 });
 
 function toggleDetails() {

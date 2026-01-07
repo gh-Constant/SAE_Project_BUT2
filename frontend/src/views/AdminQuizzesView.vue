@@ -7,8 +7,8 @@
         <!-- Header -->
         <div class="flex flex-col items-center justify-center mb-8 gap-4 text-center">
           <div>
-            <h1 class="text-3xl font-medieval font-bold text-iron-black mb-2">Gestion des Quiz</h1>
-            <p class="text-stone-grey">Consultez, modifiez ou supprimez les quiz du royaume.</p>
+            <h1 class="text-3xl font-medieval font-bold text-iron-black mb-2">{{ t('admin.quizzes.title') }}</h1>
+            <p class="text-stone-grey">{{ t('admin.quizzes.subtitle') }}</p>
           </div>
         </div>
   
@@ -22,7 +22,7 @@
                 <input 
                   v-model="searchQuery" 
                   type="text" 
-                  placeholder="Rechercher un quiz..." 
+                  :placeholder="t('admin.quizzes.search.placeholder')" 
                   class="w-full pl-10 pr-4 py-2 bg-parchment/50 border border-stone-grey/20 rounded-lg focus:ring-2 focus:ring-antique-bronze/50 focus:border-antique-bronze transition-all"
                 />
                 <i class="fas fa-search absolute left-3 top-3 text-stone-grey/50"></i>
@@ -37,12 +37,12 @@
                   v-model="sortBy" 
                   class="w-full pl-10 pr-4 py-2 bg-parchment/50 border border-stone-grey/20 rounded-lg focus:ring-2 focus:ring-antique-bronze/50 focus:border-antique-bronze transition-all appearance-none"
                 >
-                  <option value="title-asc">Titre (A-Z)</option>
-                  <option value="title-desc">Titre (Z-A)</option>
-                  <option value="location-asc">Lieu (A-Z)</option>
-                  <option value="location-desc">Lieu (Z-A)</option>
-                  <option value="creator-asc">Créateur (A-Z)</option>
-                  <option value="creator-desc">Créateur (Z-A)</option>
+                  <option value="title-asc">{{ t('quiz.list.sort.title_asc') }}</option>
+                  <option value="title-desc">{{ t('quiz.list.sort.title_desc') }}</option>
+                  <option value="location-asc">{{ t('quiz.list.sort.location_asc') }}</option>
+                  <option value="location-desc">{{ t('quiz.list.sort.location_desc') }}</option>
+                  <option value="creator-asc">{{ t('quiz.list.sort.creator_asc') }}</option>
+                  <option value="creator-desc">{{ t('quiz.list.sort.creator_desc') }}</option>
                 </select>
                 <i class="fas fa-chevron-down absolute right-3 top-3 text-stone-grey/50 pointer-events-none"></i>
               </div>
@@ -58,7 +58,7 @@
               v-model="locationFilter" 
               class="w-full px-4 py-2 bg-parchment/50 border border-stone-grey/20 rounded-lg focus:ring-2 focus:ring-antique-bronze/50 focus:border-antique-bronze transition-all"
             >
-              <option :value="null">Tous les lieux</option>
+              <option :value="null">{{ t('admin.quizzes.filter.all_locations') }}</option>
               <option v-for="loc in locations" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
             </select>
 
@@ -67,7 +67,7 @@
               v-model="creatorFilter" 
               class="w-full px-4 py-2 bg-parchment/50 border border-stone-grey/20 rounded-lg focus:ring-2 focus:ring-antique-bronze/50 focus:border-antique-bronze transition-all"
             >
-              <option :value="null">Tous les créateurs</option>
+              <option :value="null">{{ t('admin.quizzes.filter.all_creators') }}</option>
               <option v-for="creator in creators" :key="creator.id_user" :value="creator.id_user">
                 {{ creator.firstname }} {{ creator.lastname }}
               </option>
@@ -86,10 +86,10 @@
             <table class="w-full text-left">
               <thead class="bg-antique-bronze/5 border-b border-antique-bronze/10">
                 <tr>
-                  <th class="px-6 py-4 font-medieval font-bold text-iron-black uppercase tracking-wider">Quiz</th>
-                  <th class="px-6 py-4 font-medieval font-bold text-iron-black uppercase tracking-wider">Lieu</th>
-                  <th class="px-6 py-4 font-medieval font-bold text-iron-black uppercase tracking-wider">Créateur</th>
-                  <th class="px-6 py-4 font-medieval font-bold text-iron-black text-right uppercase tracking-wider">Actions</th>
+                  <th class="px-6 py-4 font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.quizzes.table.headers.title') }}</th>
+                  <th class="px-6 py-4 font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.quizzes.table.headers.location') }}</th>
+                  <th class="px-6 py-4 font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.quizzes.table.headers.creator') }}</th>
+                  <th class="px-6 py-4 font-medieval font-bold text-iron-black text-right uppercase tracking-wider">{{ t('admin.quizzes.table.headers.actions') }}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-antique-bronze/10">
@@ -114,7 +114,7 @@
                       </div>
                       <div>
                         <div class="font-bold text-iron-black">{{ quiz.title }}</div>
-                        <div class="text-xs text-stone-grey/70">{{ quiz.questions?.length || 0 }} questions</div>
+                        <div class="text-xs text-stone-grey/70">{{ t('quiz.list.questions_count', { count: quiz.questions?.length ?? quiz._count?.questions ?? 0 }) }}</div>
                       </div>
                     </div>
                   </td>
@@ -122,14 +122,14 @@
                   <!-- Location -->
                   <td class="px-6 py-4">
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {{ quiz.location?.name || 'Inconnu' }}
+                      {{ quiz.location?.name || t('admin.quizzes.table.unknown_location') }}
                     </span>
                   </td>
   
                   <!-- Creator -->
                   <td class="px-6 py-4">
                     <div class="text-sm">
-                      {{ quiz.creator ? `${quiz.creator.firstname} ${quiz.creator.lastname}` : 'Système' }}
+                      {{ quiz.creator ? `${quiz.creator.firstname} ${quiz.creator.lastname}` : t('admin.quizzes.table.system_creator') }}
                     </div>
                   </td>
   
@@ -139,21 +139,21 @@
                       <router-link 
                         :to="{ path: `/quiz/${quiz.id_quiz}`, query: { returnTo: '/admin/quizzes' } }"
                         class="p-2 text-stone-400 hover:text-green-600 transition-colors"
-                        title="Tester le quiz"
+                        :title="t('admin.quizzes.table.actions.test')"
                       >
                         <i class="fas fa-play"></i>
                       </router-link>
                       <router-link 
                         :to="`/quiz/${quiz.id_quiz}/edit`"
                         class="p-2 text-stone-400 hover:text-antique-bronze transition-colors"
-                        title="Modifier"
+                        :title="t('admin.quizzes.table.actions.edit')"
                       >
                         <i class="fas fa-edit"></i>
                       </router-link>
                       <button 
                         @click="deleteQuiz(quiz)"
                         class="p-2 text-stone-400 hover:text-red-500 transition-colors"
-                        title="Supprimer"
+                        :title="t('admin.quizzes.table.actions.delete')"
                       >
                         <i class="fas fa-trash-alt"></i>
                       </button>
@@ -166,8 +166,8 @@
                   <td colspan="6" class="px-6 py-12 text-center text-stone-grey">
                     <div class="flex flex-col items-center justify-center">
                       <i class="fas fa-search text-4xl mb-4 text-stone-300"></i>
-                      <p class="text-lg font-medieval">Aucun quiz trouvé</p>
-                      <p class="text-sm opacity-70">Essayez de modifier vos filtres de recherche</p>
+                      <p class="text-lg font-medieval">{{ t('admin.quizzes.table.empty.title') }}</p>
+                      <p class="text-sm opacity-70">{{ t('admin.quests.no_results.subtitle') }}</p>
                     </div>
                   </td>
                 </tr>
@@ -187,10 +187,12 @@ import { useAuthStore } from '@/stores/auth';
 import { quizService, type Quiz } from '@/services/quizService';
 import { locationService } from '@/services/locationService';
 import type { LocationMock } from '@/mocks/locations';
+import { useI18n } from 'vue-i18n';
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
+const { t } = useI18n();
 const user = computed(() => authStore.user);
 
 const logout = () => {
@@ -292,7 +294,7 @@ async function loadData() {
 }
 
 async function deleteQuiz(quiz: Quiz) {
-  if (!confirm(`Êtes-vous sûr de vouloir supprimer le quiz "${quiz.title}" ? Cette action est irréversible.`)) {
+  if (!confirm(t('admin.quizzes.table.delete_confirm', { title: quiz.title }))) {
     return;
   }
 
@@ -301,7 +303,7 @@ async function deleteQuiz(quiz: Quiz) {
     quizzes.value = quizzes.value.filter(q => q.id_quiz !== quiz.id_quiz);
   } catch (err) {
     console.error('Error deleting quiz:', err);
-    alert("Erreur lors de la suppression");
+    alert(t('admin.quizzes.table.delete_error'));
   }
 }
 

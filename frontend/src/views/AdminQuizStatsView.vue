@@ -9,10 +9,10 @@
         <div class="mb-12 text-center">
           <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center justify-center gap-3">
             <i class="fas fa-chart-bar text-antique-bronze"></i>
-            Statistiques des Quiz
+            {{ t('admin.quiz_stats.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-          <p class="text-base font-body text-stone-grey">Aperçu global de l'engagement et des performances des quiz.</p>
+          <p class="text-base font-body text-stone-grey">{{ t('admin.quiz_stats.subtitle') }}</p>
         </div>
 
         <!-- Loading State -->
@@ -33,11 +33,11 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Total Quiz</h3>
+                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.quiz_stats.cards.total_quizzes') }}</h3>
                   <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ stats.totalQuizzes }}</p>
                   <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                     <i class="fas fa-map-marker-alt text-antique-bronze"></i>
-                    {{ stats.locationsWithQuizzes }} lieux concernés
+                    {{ stats.locationsWithQuizzes }} {{ t('admin.quiz_stats.cards.locations') }}
                   </p>
                 </div>
               </div>
@@ -53,11 +53,11 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Total Tentatives</h3>
+                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.quiz_stats.cards.total_attempts') }}</h3>
                   <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ formatNumber(stats.totalAttempts) }}</p>
                   <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                     <i class="fas fa-redo-alt text-antique-bronze"></i>
-                    {{ stats.avgAttemptsPerQuiz.toFixed(1) }} en moyenne par quiz
+                    {{ stats.avgAttemptsPerQuiz.toFixed(1) }} {{ t('admin.quiz_stats.cards.avg_attempts') }}
                   </p>
                 </div>
               </div>
@@ -73,11 +73,11 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Score Moyen</h3>
+                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.quiz_stats.cards.avg_score') }}</h3>
                   <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ stats.avgScore }}%</p>
                   <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                     <i class="fas fa-check-circle text-antique-bronze"></i>
-                    {{ stats.totalQuestions }} questions au total
+                    {{ stats.totalQuestions }} {{ t('admin.quiz_stats.cards.total_questions') }}
                   </p>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                 <i class="fas fa-user-edit text-white"></i>
               </div>
               <p class="text-3xl font-medieval font-bold text-iron-black">{{ stats.uniqueCreators }}</p>
-              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">Créateurs</p>
+              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">{{ t('admin.quiz_stats.secondary.creators') }}</p>
             </div>
             
             <div class="group bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg p-5 border-2 border-antique-bronze/20 text-center hover:shadow-lg transition-all relative overflow-hidden">
@@ -101,7 +101,7 @@
                 <i class="fas fa-list-ol text-white"></i>
               </div>
               <p class="text-3xl font-medieval font-bold text-iron-black">{{ stats.avgQuestionsPerQuiz.toFixed(1) }}</p>
-              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">Questions / Quiz</p>
+              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">{{ t('admin.quiz_stats.secondary.questions_per_quiz') }}</p>
             </div>
           </div>
 
@@ -115,7 +115,7 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                     <i class="fas fa-fire-alt text-white text-sm"></i>
                   </div>
-                  Quiz les plus populaires
+                  {{ t('admin.quiz_stats.charts.popular') }}
                 </h3>
               </div>
               <div class="p-6 max-h-80 overflow-y-auto">
@@ -133,7 +133,7 @@
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="font-bold text-iron-black truncate">{{ quiz.title }}</p>
-                    <p class="text-xs text-stone-grey truncate">{{ quiz.location?.name || 'Non assigné' }}</p>
+                    <p class="text-xs text-stone-grey truncate">{{ quiz.location?.name || t('admin.quizzes.table.unknown_location') }}</p>
                   </div>
                   <div class="text-right">
                     <span class="inline-flex items-center gap-1 px-2 py-1 bg-antique-bronze/20 text-iron-black rounded-full text-xs font-bold">
@@ -144,7 +144,7 @@
                 </div>
                 <div v-if="topQuizzes.length === 0" class="text-center py-8 text-stone-grey">
                   <i class="fas fa-quiz text-4xl opacity-30 mb-2"></i>
-                  <p>Aucun quiz disponible</p>
+                  <p>{{ t('admin.quiz_stats.charts.empty.quizzes') }}</p>
                 </div>
               </div>
             </div>
@@ -157,7 +157,7 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                     <i class="fas fa-list-ol text-white text-sm"></i>
                   </div>
-                  Répartition par lieu
+                  {{ t('admin.quiz_stats.charts.locations') }}
                 </h3>
               </div>
               <div class="p-6 space-y-4 max-h-80 overflow-y-auto">
@@ -175,7 +175,7 @@
                 </div>
                 <div v-if="locationStats.length === 0" class="text-center py-8 text-stone-grey">
                   <i class="fas fa-map text-4xl opacity-30 mb-2"></i>
-                  <p>Aucun lieu avec des quiz</p>
+                  <p>{{ t('admin.quiz_stats.charts.empty.locations') }}</p>
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
                     <i class="fas fa-trophy text-white text-sm"></i>
                   </div>
-                  Top Créateurs
+                  {{ t('admin.quiz_stats.charts.creators') }}
                 </h3>
               </div>
               <div class="p-6 max-h-80 overflow-y-auto">
@@ -218,7 +218,7 @@
                 </div>
                 <div v-if="topCreators.length === 0" class="text-center py-8 text-stone-grey">
                   <i class="fas fa-user text-4xl opacity-30 mb-2"></i>
-                  <p>Aucun créateur</p>
+                  <p>{{ t('admin.quiz_stats.charts.empty.creators') }}</p>
                 </div>
               </div>
             </div>
@@ -231,7 +231,7 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
                     <i class="fas fa-trophy text-white text-sm"></i>
                   </div>
-                  Top Aventuriers
+                  {{ t('admin.quiz_stats.charts.adventurers') }}
                 </h3>
               </div>
               <div class="p-6 max-h-80 overflow-y-auto">
@@ -249,7 +249,7 @@
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="font-bold text-iron-black truncate">{{ adventurer.name }}</p>
-                    <p class="text-xs text-stone-grey">{{ adventurer.uniqueQuizzes }} quiz différents</p>
+                    <p class="text-xs text-stone-grey">{{ adventurer.uniqueQuizzes }} {{ t('admin.quiz_stats.cards.total_quizzes') }}</p>
                   </div>
                   <div class="text-right">
                     <span class="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 border border-purple-200 rounded-full text-xs font-bold">
@@ -260,7 +260,7 @@
                 </div>
                 <div v-if="topAdventurers.length === 0" class="text-center py-8 text-stone-grey">
                   <i class="fas fa-hiking text-4xl opacity-30 mb-2"></i>
-                  <p>Aucun aventurier</p>
+                  <p>{{ t('admin.quiz_stats.charts.empty.adventurers') }}</p>
                 </div>
               </div>
             </div>
@@ -274,10 +274,10 @@
                 <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                   <i class="fas fa-table text-white text-sm"></i>
                 </div>
-                Détails par Quiz
+                {{ t('admin.quiz_stats.charts.details') }}
               </h3>
               <router-link to="/admin/quizzes" class="text-sm text-antique-bronze hover:underline flex items-center gap-1">
-                Gérer les Quiz
+                {{ t('admin.quiz_stats.detailed.manage_link') }}
                 <i class="fas fa-arrow-right text-xs"></i>
               </router-link>
             </div>
@@ -285,29 +285,29 @@
               <table class="min-w-full divide-y divide-antique-bronze/10">
                 <thead class="bg-antique-bronze/5">
                   <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">Quiz</th>
-                    <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">Créateur</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Questions</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Participants</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Tentatives</th>
+                    <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.quiz_stats.detailed.headers.quiz') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.quiz_stats.detailed.headers.creator') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.quiz_stats.detailed.headers.questions') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.quiz_stats.detailed.headers.participants') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.quiz_stats.detailed.headers.attempts') }}</th>
 
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Score Moyen</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.quiz_stats.detailed.headers.avg_score') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-antique-bronze/10">
                   <tr v-for="quiz in sortedQuizzes" :key="quiz.id_quiz" class="hover:bg-antique-bronze/5 transition-colors">
                     <td class="px-6 py-4">
                       <div class="font-bold text-iron-black">{{ quiz.title }}</div>
-                      <div class="text-xs text-stone-grey/60">{{ quiz.location?.name || 'Non assigné' }}</div>
+                      <div class="text-xs text-stone-grey/60">{{ quiz.location?.name || t('admin.quizzes.table.unknown_location') }}</div>
                     </td>
                     <td class="px-6 py-4">
                       <span class="text-sm text-iron-black">
-                        {{ quiz.creator ? `${quiz.creator.firstname} ${quiz.creator.lastname}` : 'Système' }}
+                        {{ quiz.creator ? `${quiz.creator.firstname} ${quiz.creator.lastname}` : t('admin.quizzes.table.system_creator') }}
                       </span>
                     </td>
                     <td class="px-6 py-4 text-center">
                       <span class="px-2 py-1 bg-blue-100 text-blue-800 border border-blue-200 rounded-full text-xs font-bold">
-                        {{ quiz.questions?.length || 0 }}
+                        {{ quiz.questions?.length ?? quiz._count?.questions ?? 0 }}
                       </span>
                     </td>
                     <td class="px-6 py-4 text-center">
@@ -344,12 +344,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { quizService, type Quiz, type TopAdventurer } from '@/services/quizService';
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
+const { t } = useI18n();
 const user = computed(() => authStore.user);
 
 const logout = () => {
@@ -367,7 +369,7 @@ const stats = computed(() => {
   const activeQuizzes = quizzes.value.filter(q => q.is_active).length;
   const inactiveQuizzes = totalQuizzes - activeQuizzes;
   const totalAttempts = quizzes.value.reduce((sum, q) => sum + (q._count?.attempts || 0), 0);
-  const totalQuestions = quizzes.value.reduce((sum, q) => sum + (q.questions?.length || 0), 0);
+  const totalQuestions = quizzes.value.reduce((sum, q) => sum + (q.questions?.length ?? q._count?.questions ?? 0), 0);
   
   // Unique locations
   const locationIds = new Set(quizzes.value.map(q => q.id_location).filter(Boolean));

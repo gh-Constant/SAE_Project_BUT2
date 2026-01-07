@@ -156,6 +156,30 @@ export async function seedQuizzes() {
                     { content: 'L\'esprit chevaleresque (ou courtois)', is_correct: true, order_index: 2 },
                     { content: 'Le règlement intérieur', is_correct: false, order_index: 3 },
                 ]
+            },
+        },
+        {
+            content: '<p>Quelle cérémonie permet de devenir chevalier ?</p>',
+            order_index: 5,
+            answers: {
+                create: [
+                    { content: 'Le baptême', is_correct: false, order_index: 0 },
+                    { content: 'L\'adoubement', is_correct: true, order_index: 1 },
+                    { content: 'Le mariage', is_correct: false, order_index: 2 },
+                    { content: 'Le sacre', is_correct: false, order_index: 3 },
+                ]
+            }
+        },
+        {
+            content: '<p>Quel objet reçoit le chevalier aux talons ?</p>',
+            order_index: 6,
+            answers: {
+                create: [
+                    { content: 'Des éperons dorés', is_correct: true, order_index: 0 },
+                    { content: 'Des fers à cheval', is_correct: false, order_index: 1 },
+                    { content: 'Des bottes rouges', is_correct: false, order_index: 2 },
+                    { content: 'Des clochettes', is_correct: false, order_index: 3 },
+                ]
             }
         }
     ];
@@ -235,6 +259,18 @@ export async function seedQuizzes() {
                     { content: 'Avec des baguettes', is_correct: false, order_index: 2 },
                     { content: 'Avec une paille', is_correct: false, order_index: 3 },
                 ]
+            },
+        },
+        {
+            content: '<p>Quels jours étaient considérés comme "maigres" (sans viande) ?</p>',
+            order_index: 5,
+            answers: {
+                create: [
+                    { content: 'Les mardis', is_correct: false, order_index: 0 },
+                    { content: 'Les vendredis (et Carême)', is_correct: true, order_index: 1 },
+                    { content: 'Les dimanches', is_correct: false, order_index: 2 },
+                    { content: 'Les jours fériés', is_correct: false, order_index: 3 },
+                ]
             }
         }
     ];
@@ -257,20 +293,8 @@ export async function seedQuizzes() {
     // 4. Test Multi-Réponses
     const q4Questions = [
         {
-            content: '<p>Quelles sont les couleurs primaires ?</p>',
-            order_index: 0,
-            answers: {
-                create: [
-                    { content: 'Rouge', is_correct: true, order_index: 0 },
-                    { content: 'Vert', is_correct: false, order_index: 1 },
-                    { content: 'Bleu', is_correct: true, order_index: 2 },
-                    { content: 'Orange', is_correct: false, order_index: 3 },
-                ]
-            }
-        },
-        {
             content: '<p>Quels animaux sont des mammifères ?</p>',
-            order_index: 1,
+            order_index: 0,
             answers: {
                 create: [
                     { content: 'Chien', is_correct: true, order_index: 0 },
@@ -283,7 +307,7 @@ export async function seedQuizzes() {
         },
         {
             content: '<p>Question piège : Une seule bonne réponse.</p>',
-            order_index: 2,
+            order_index: 1,
             answers: {
                 create: [
                     { content: 'Bonne réponse', is_correct: true, order_index: 0 },
@@ -326,7 +350,7 @@ export async function seedQuizzes() {
             description: 'Découvrez les secrets des forteresses médiévales !',
             image_url: '/images/quizzes/castle.jpg',
             is_active: true,
-            id_location: 14,
+            id_location: 16,
             id_creator: 4,
             questions: { create: q4Questions }
         }
@@ -367,6 +391,30 @@ export async function seedQuizzes() {
                     { content: 'La taille', is_correct: true, order_index: 1 },
                     { content: 'L\'impôt sur le revenu', is_correct: false, order_index: 2 },
                     { content: 'La cotisation', is_correct: false, order_index: 3 },
+                ]
+            },
+        },
+        {
+            content: '<p>Qu\'est-ce que la corvée ?</p>',
+            order_index: 3,
+            answers: {
+                create: [
+                    { content: 'Un travail gratuit pour le seigneur', is_correct: true, order_index: 0 },
+                    { content: 'Un impôt en argent', is_correct: false, order_index: 1 },
+                    { content: 'Une fête de village', is_correct: false, order_index: 2 },
+                    { content: 'Un outil agricole', is_correct: false, order_index: 3 },
+                ]
+            }
+        },
+        {
+            content: '<p>Quel outil agricole est emblématique du paysan ?</p>',
+            order_index: 4,
+            answers: {
+                create: [
+                    { content: 'L\'épée', is_correct: false, order_index: 0 },
+                    { content: 'La faux', is_correct: true, order_index: 1 },
+                    { content: 'Le marteau', is_correct: false, order_index: 2 },
+                    { content: 'La balance', is_correct: false, order_index: 3 },
                 ]
             }
         }
@@ -423,6 +471,30 @@ export async function seedQuizzes() {
                     { content: 'Charlemagne', is_correct: false, order_index: 2 },
                     { content: 'Louis XIV', is_correct: false, order_index: 3 },
                 ]
+            },
+        },
+        {
+            content: '<p>Quel ordre militaire religieux fut créé pour protéger les pèlerins ?</p>',
+            order_index: 3,
+            answers: {
+                create: [
+                    { content: 'Les Templiers', is_correct: true, order_index: 0 },
+                    { content: 'Les Mousquetaires', is_correct: false, order_index: 1 },
+                    { content: 'La Garde Suisse', is_correct: false, order_index: 2 },
+                    { content: 'Les Samouraïs', is_correct: false, order_index: 3 },
+                ]
+            }
+        },
+        {
+            content: '<p>Quel grand chef musulman reprit Jérusalem ?</p>',
+            order_index: 4,
+            answers: {
+                create: [
+                    { content: 'Saladin', is_correct: true, order_index: 0 },
+                    { content: 'Soliman le Magnifique', is_correct: false, order_index: 1 },
+                    { content: 'Mehmed II', is_correct: false, order_index: 2 },
+                    { content: 'Gengis Khan', is_correct: false, order_index: 3 },
+                ]
             }
         }
     ];
@@ -436,7 +508,7 @@ export async function seedQuizzes() {
             description: 'L\'histoire des grandes expéditions',
             image_url: '/images/quizzes/crusades.jpg',
             is_active: true,
-            id_location: 15,
+            id_location: 17,
             id_creator: 5,
             questions: { create: q6Questions }
         }
@@ -477,6 +549,18 @@ export async function seedQuizzes() {
                     { content: 'Le vitrail', is_correct: true, order_index: 1 },
                     { content: 'Le papier', is_correct: false, order_index: 2 },
                     { content: 'Le bois peint', is_correct: false, order_index: 3 },
+                ]
+            },
+        },
+        {
+            content: '<p>Quelle œuvre d\'art textile célèbre raconte la conquête de l\'Angleterre ?</p>',
+            order_index: 3,
+            answers: {
+                create: [
+                    { content: 'La Tapisserie de Bayeux', is_correct: true, order_index: 0 },
+                    { content: 'La Joconde', is_correct: false, order_index: 1 },
+                    { content: 'Les Nymphéas', is_correct: false, order_index: 2 },
+                    { content: 'La Vénus de Milo', is_correct: false, order_index: 3 },
                 ]
             }
         }
@@ -533,6 +617,18 @@ export async function seedQuizzes() {
                     { content: 'Charles VII', is_correct: false, order_index: 2 },
                     { content: 'François Ier', is_correct: false, order_index: 3 },
                 ]
+            },
+        },
+        {
+            content: '<p>Quel roi est surnommé "Le Roi-Soleil" (Période moderne mais pour le piège) ?</p>',
+            order_index: 3,
+            answers: {
+                create: [
+                    { content: 'Louis XIV', is_correct: true, order_index: 0 },
+                    { content: 'Louis IX', is_correct: false, order_index: 1 },
+                    { content: 'Henri IV', is_correct: false, order_index: 2 },
+                    { content: 'François Ier', is_correct: false, order_index: 3 },
+                ]
             }
         }
     ];
@@ -546,7 +642,7 @@ export async function seedQuizzes() {
             description: 'Les grandes dynasties françaises',
             image_url: '/images/quizzes/kings.jpg',
             is_active: true,
-            id_location: 17,
+            id_location: 15,
             id_creator: 1,
             questions: { create: q8Questions }
         }
@@ -601,7 +697,7 @@ export async function seedQuizzes() {
             description: 'Dragons, fées et créatures fantastiques',
             image_url: '/images/quizzes/legends.jpg',
             is_active: true,
-            id_location: 18,
+            id_location: 16,
             id_creator: 4,
             questions: { create: q9Questions }
         }
@@ -656,7 +752,7 @@ export async function seedQuizzes() {
             description: 'Joutes et compétitions chevaleresques',
             image_url: '/images/quizzes/tournament.jpg',
             is_active: true,
-            id_location: 16,
+            id_location: 18,
             id_creator: 6,
             questions: { create: q10Questions }
         }

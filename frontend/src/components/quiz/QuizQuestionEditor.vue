@@ -3,13 +3,13 @@
     <!-- Question Header -->
     <div class="flex items-center justify-between mb-4">
       <h4 class="font-medium text-stone-grey">
-        Question {{ index + 1 }}
+        {{ $t('quiz.editor.question.title', { number: index + 1 }) }}
       </h4>
       <button
         v-if="canDelete"
         class="text-red-500 hover:text-red-700 transition-colors p-1"
         @click="$emit('delete')"
-        title="Supprimer la question"
+        :title="$t('quiz.editor.question.delete_tooltip')"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -21,7 +21,7 @@
     <!-- Question Content Editor -->
     <div class="mb-4">
       <label class="block text-sm font-medium text-stone-grey mb-2">
-        Contenu de la question
+        {{ $t('quiz.editor.question.content') }}
       </label>
       <Editor 
         ref="editorRef"
@@ -33,7 +33,7 @@
     <!-- Question Image -->
     <div class="mb-4">
       <label class="block text-sm font-medium text-stone-grey mb-2">
-        Image (optionnel)
+        {{ $t('quiz.editor.question.image_optional') }}
       </label>
       
       <div class="flex items-center gap-4">
@@ -44,7 +44,7 @@
             type="button"
             @click="updateField('image_url', '')"
             class="absolute inset-0 bg-black/50 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
-            title="Supprimer l'image"
+            :title="$t('quiz.editor.question.remove_image')"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -63,7 +63,7 @@
               <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span class="text-sm">{{ uploading ? 'Téléchargement...' : 'Choisir une image' }}</span>
+              <span class="text-sm">{{ uploading ? $t('quiz.editor.uploading') : $t('quiz.editor.choose_image') }}</span>
             </div>
             <input
               type="file"
@@ -81,7 +81,7 @@
     <div class="mb-4">
       <div class="flex items-center justify-between mb-2">
         <label class="block text-sm font-medium text-stone-grey">
-          Réponses
+          {{ $t('quiz.editor.question.answers') }}
         </label>
         <button
           v-if="modelValue.answers.length < 6"
@@ -91,7 +91,7 @@
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
-          Ajouter une réponse
+          {{ $t('quiz.editor.question.add_answer') }}
         </button>
       </div>
 
@@ -109,7 +109,7 @@
               'border-stone-grey/40 hover:border-emerald-400': !answer.is_correct,
             }"
             @click="toggleCorrectAnswer(answerIndex)"
-            title="Basculer l'état de la réponse"
+            :title="$t('quiz.editor.question.toggle_correct')"
 
           >
             <svg 
@@ -127,7 +127,7 @@
             type="text"
             :value="answer.content"
             @input="updateAnswer(answerIndex, 'content', ($event.target as HTMLInputElement).value)"
-            placeholder="Texte de la réponse"
+            :placeholder="$t('quiz.editor.question.answer_placeholder')"
             class="flex-1 px-3 py-2 border border-stone-grey/30 rounded-lg focus:ring-2 focus:ring-antique-bronze focus:border-transparent"
           />
 
@@ -136,7 +136,7 @@
             v-if="modelValue.answers.length > 2"
             class="flex-shrink-0 text-red-400 hover:text-red-600 transition-colors"
             @click="removeAnswer(answerIndex)"
-            title="Supprimer"
+            :title="$t('quiz.editor.question.delete_answer')"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -146,8 +146,7 @@
       </div>
 
       <p class="text-xs text-stone-grey/60 mt-2">
-        Cliquez sur le cercle pour définir les bonnes réponses (plusieurs possibles)
-
+        {{ $t('quiz.editor.question.correct_tip') }}
       </p>
     </div>
   </div>
@@ -155,6 +154,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Editor from '@/components/editor/Editor.vue';
 import type { CreateQuestionInput, CreateAnswerInput } from '@/types/quiz';
 import { uploadService } from '@/services/uploadService';
@@ -180,6 +180,7 @@ const emit = defineEmits<{
   delete: [];
 }>();
 
+const { t } = useI18n();
 const editorRef = ref<InstanceType<typeof Editor> | null>(null);
 const uploading = ref(false);
 
@@ -195,7 +196,7 @@ async function handleImageUpload(event: Event) {
     updateField('image_url', response.url);
   } catch (err) {
     console.error('Upload failed:', err);
-    alert('Erreur lors du téléchargement de l\'image');
+    alert(t('quiz.editor.errors.upload_fail'));
   } finally {
     uploading.value = false;
     input.value = ''; // Reset
@@ -206,7 +207,6 @@ function onEditorReady() {
   // Editor is ready
 }
 
-// Update content from editor when it changes
 function updateEditorContent() {
   if (editorRef.value) {
     const content = editorRef.value.getHTML();
@@ -219,7 +219,6 @@ function updateEditorContent() {
   }
 }
 
-// Watch for content changes via polling (TipTap doesn't emit on every change)
 let contentInterval: ReturnType<typeof setInterval> | null = null;
 watch(() => editorRef.value, (editor) => {
   if (editor) {

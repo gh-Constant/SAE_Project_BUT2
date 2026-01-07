@@ -5,11 +5,31 @@
         "subtitle": "Test your knowledge of the kingdom's history and legends.",
         "filter_location": "Filter by location",
         "all_locations": "All locations",
-        "search_placeholder": "Search for a quiz...",
-        "empty": "No quizzes available at the moment.",
+        "filter_merchant": "Filter by merchant",
+        "all_merchants": "All merchants",
+        "search_placeholder": "Search a quiz...",
+        "empty": "No quizzes found",
         "start": "Start",
         "questions_count": "{count} questions",
-        "creator": "By {name}"
+        "creator": "By {name}",
+        "create_button": "Create",
+        "retry_button": "Retry",
+        "error_load": "Unable to load quizzes",
+        "sort": {
+            "date_desc": "Newest",
+            "date_asc": "Oldest",
+            "title_asc": "Title (A-Z)",
+            "title_desc": "Title (Z-A)",
+            "questions_asc": "Questions (Ascending)",
+            "questions_desc": "Questions (Descending)",
+            "location_asc": "Location (A-Z)",
+            "location_desc": "Location (Z-A)",
+            "creator_asc": "Creator (A-Z)",
+            "creator_desc": "Creator (Z-A)"
+        },
+        "attempts_count": "{count} attempts",
+        "inactive": "Inactive",
+        "edit_tooltip": "Edit quiz"
     },
     "play": {
         "start_button": "Start Quiz",
@@ -20,7 +40,13 @@
         "confirm_cancel": "Do you really want to abandon the quiz?",
         "loading": "Loading quiz...",
         "error_not_found": "Quiz not found or inactive",
-        "unanswered_alert": "You have not answered {count} question(s)"
+        "unanswered_alert": "You have not answered {count} question(s)",
+        "back_to_list": "Back to quizzes",
+        "calculating": "Calculating your score...",
+        "error_invalid_id": "Invalid Quiz ID",
+        "error_load": "Unable to load quiz",
+        "error_validation": "Validation error",
+        "error_submit": "Error submitting quiz"
     },
     "results": {
         "title": "Results",
@@ -32,12 +58,32 @@
         "back_to_list": "See other quizzes",
         "details_title": "Detailed Summary",
         "show_details": "Show answer details",
-        "hide_details": "Hide details"
+        "hide_details": "Hide details",
+        "msg_excellent": "Excellent! ",
+        "msg_good": "Well done! ",
+        "msg_average": "Not bad! ",
+        "msg_poor": "Keep learning! ",
+        "score_text": "{score} correct answers out of {total}"
     },
     "editor": {
         "title_new": "Write a New Quiz",
         "title_edit": "Modify the Grimoire",
         "subtitle": "\"May your quill be as sharp as your sword.\"",
+        "general_info": "General Information",
+        "choose_location": "Choose a location",
+        "choose_image": "Choose an image",
+        "uploading": "Uploading...",
+        "empty_title": "No questions",
+        "empty_desc": "Start by adding a question to create your quiz.",
+        "questions_section": "Quiz Questions",
+        "save_changes": "Save Changes",
+        "saving": "Saving...",
+        "back_to_management": "Back to management",
+        "errors": {
+            "fill_required": "Please fill in all required fields",
+            "upload_fail": "Upload failed",
+            "save_fail": "Save failed"
+        },
         "form": {
             "title": "QUIZ TITLE",
             "location": "ASSOCIATED LOCATION",
@@ -51,9 +97,16 @@
         "question": {
             "title": "Question {number}",
             "content": "Question Content",
+            "image_optional": "Image (optional)",
             "answers": "ANSWERS",
             "add_answer": "Add an answer",
-            "correct_answer": "Correct answer"
+            "correct_answer": "Correct answer",
+            "delete_tooltip": "Delete Question",
+            "remove_image": "Remove Image",
+            "answer_placeholder": "Answer text",
+            "delete_answer": "Delete Answer",
+            "toggle_correct": "Toggle Correct Answer",
+            "correct_tip": "Click the circle to mark correct answers (multiple possible)"
         }
     },
     "stats": {

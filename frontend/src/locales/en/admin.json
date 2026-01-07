@@ -248,7 +248,11 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "test": "Test"
-            }
+            },
+            "unknown_location": "Unknown location",
+            "system_creator": "System",
+            "delete_confirm": "Are you sure you want to delete the quiz \"{title}\"? This action cannot be undone.",
+            "delete_error": "Error deleting quiz"
         }
     },
     "quiz_stats": {
@@ -267,7 +271,28 @@
             "locations": "Distribution by Location",
             "creators": "Top Creators",
             "adventurers": "Top Adventurers",
-            "details": "Details by Quiz"
+            "details": "Details by Quiz",
+            "empty": {
+                "quizzes": "No quizzes available",
+                "locations": "No locations with quizzes",
+                "creators": "No creators",
+                "adventurers": "No adventurers"
+            }
+        },
+        "secondary": {
+            "creators": "Creators",
+            "questions_per_quiz": "Questions / Quiz"
+        },
+        "detailed": {
+            "manage_link": "Manage Quizzes",
+            "headers": {
+                "quiz": "Quiz",
+                "creator": "Creator",
+                "questions": "Questions",
+                "participants": "Participants",
+                "attempts": "Attempts",
+                "avg_score": "Avg Score"
+            }
         },
         "empty": "No data available"
     }

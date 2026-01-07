@@ -11,18 +11,38 @@ import type {
     QuizSubmission,
     QuizResult,
     QuizStatistics,
+    UserQuizAnswer,
 } from '@/types/quiz';
-import { mockQuizzes, mockQuestions, mockUserAttempts, getQuizWithQuestions } from '@/mocks/quizzes';
+import { mockQuizzes, mockQuestions, mockUserAttempts, mockUserAnswers, getQuizWithQuestions } from '@/mocks/quizzes';
 
 import type { QuizzesResponse, TopAdventurer } from '@/services/quizService';
 
 // Store for mock data 
 const quizzes = [...mockQuizzes];
 const attempts = [...mockUserAttempts];
-let nextQuizId = 4;
+let nextQuizId = Math.max(...quizzes.map(q => q.id_quiz)) + 1;
 let nextAttemptId = 3;
 let nextQuestionId = 100;
 let nextAnswerId = 100;
+
+// Helper to generate mock questions if missing
+function generateMockQuestions(id_quiz: number, count: number): import('@/types/quiz').QuizQuestion[] {
+    return Array.from({ length: count }).map((_, i) => {
+        const qId = nextQuestionId++;
+        return {
+            id_question: qId,
+            content: `<p>Question générée automatiquement #${i + 1} du quiz ${id_quiz}</p>`,
+            answers: [
+                { id_answer: nextAnswerId++, content: 'Vrai', is_correct: true, order_index: 0, id_question: qId },
+                { id_answer: nextAnswerId++, content: 'Faux', is_correct: false, order_index: 1, id_question: qId },
+                { id_answer: nextAnswerId++, content: 'Peut-être', is_correct: false, order_index: 2, id_question: qId },
+                { id_answer: nextAnswerId++, content: 'Je ne sais pas', is_correct: false, order_index: 3, id_question: qId }
+            ],
+            order_index: i,
+            id_quiz
+        };
+    });
+}
 
 // Mock top adventurers data
 const mockTopAdventurers: TopAdventurer[] = [
@@ -67,7 +87,28 @@ export const quizMockService = {
      */
     async getQuizById(id_quiz: number): Promise<Quiz | null> {
         await delay(150);
-        return getQuizWithQuestions(id_quiz) || null;
+        const quiz = quizzes.find(q => q.id_quiz === id_quiz);
+        if (!quiz) return null;
+
+        // If quiz already has questions (newly created/updated), return it
+        if (quiz.questions && quiz.questions.length > 0) {
+            return quiz;
+        }
+
+        // Otherwise try to find matching questions in mock data
+        let questions = mockQuestions.filter(q => q.id_quiz === id_quiz);
+
+        // If still no questions but we have a count, generate them
+        if (questions.length === 0 && quiz._count && quiz._count.questions && quiz._count.questions > 0) {
+            questions = generateMockQuestions(id_quiz, quiz._count.questions);
+            // Attach to quiz locally so they persist for this session
+            quiz.questions = questions;
+        }
+
+        return {
+            ...quiz,
+            questions: questions.length > 0 ? questions : [],
+        };
     },
 
     /**
@@ -75,13 +116,31 @@ export const quizMockService = {
      */
     async getQuizForPlay(id_quiz: number): Promise<Quiz | null> {
         await delay(150);
-        const quiz = getQuizWithQuestions(id_quiz);
+
+        let quiz = quizzes.find(q => q.id_quiz === id_quiz);
+        if (!quiz) return null;
+
+        // Ensure questions are attached
+        if (!quiz.questions || quiz.questions.length === 0) {
+            let questions = mockQuestions.filter(q => q.id_quiz === id_quiz);
+            if (questions.length === 0 && quiz._count?.questions && quiz._count.questions > 0) {
+                questions = generateMockQuestions(id_quiz, quiz._count.questions);
+                quiz.questions = questions;
+            }
+
+            if (questions.length > 0) {
+                quiz = { ...quiz, questions };
+            }
+        }
 
         if (!quiz || !quiz.is_active) return null;
 
+        // Clone to avoid mutating storage
+        const quizForPlay = JSON.parse(JSON.stringify(quiz)) as Quiz;
+
         // Hide correct answers
-        if (quiz.questions) {
-            quiz.questions = quiz.questions.map(q => ({
+        if (quizForPlay.questions) {
+            quizForPlay.questions = quizForPlay.questions.map(q => ({
                 ...q,
                 answers: q.answers.map(a => ({
                     id_answer: a.id_answer,
@@ -92,7 +151,7 @@ export const quizMockService = {
             }));
         }
 
-        return quiz;
+        return quizForPlay;
     },
 
     /**
@@ -205,22 +264,47 @@ export const quizMockService = {
     async submitQuiz(id_quiz: number, submission: QuizSubmission): Promise<QuizResult> {
         await delay(500);
 
-        const quiz = getQuizWithQuestions(id_quiz);
-        if (!quiz || !quiz.questions) {
+        const quiz = quizzes.find(q => q.id_quiz === id_quiz);
+        if (!quiz) {
             throw new Error('Quiz not found');
+        }
+
+        let questions = quiz.questions;
+        if (!questions || questions.length === 0) {
+            questions = mockQuestions.filter(q => q.id_quiz === id_quiz);
+            if (questions.length === 0 && quiz._count?.questions && quiz._count.questions > 0) {
+                questions = generateMockQuestions(id_quiz, quiz._count.questions);
+                quiz.questions = questions;
+            }
+        }
+
+        if (!questions || questions.length === 0) {
+            throw new Error('Quiz has no questions');
         }
 
         // Calculate score
         let score = 0;
-        const totalQuestions = quiz.questions.length;
+        const totalQuestions = questions.length;
+
+        const userAnswers: UserQuizAnswer[] = [];
 
         for (const userAnswer of submission.answers) {
-            const question = quiz.questions.find(q => q.id_question === userAnswer.id_question);
+            const question = questions.find(q => q.id_question === userAnswer.id_question);
             if (question) {
                 const correctAnswer = question.answers.find(a => a.is_correct);
-                if (correctAnswer?.id_answer === userAnswer.id_answer) {
+                const isCorrect = correctAnswer?.id_answer === userAnswer.id_answer;
+
+                if (isCorrect) {
                     score++;
                 }
+
+                userAnswers.push({
+                    id_user_answer: nextAnswerId++, // Using nextAnswerId as a simple counter for mock IDs
+                    id_attempt: nextAttemptId,
+                    id_question: userAnswer.id_question,
+                    id_answer: userAnswer.id_answer,
+                    is_correct: isCorrect
+                });
             }
         }
 
@@ -237,6 +321,7 @@ export const quizMockService = {
                 title: quiz.title,
                 image_url: quiz.image_url,
             },
+            answers: userAnswers
         };
 
         attempts.push(attempt);
@@ -277,13 +362,17 @@ export const quizMockService = {
 
         // Add full quiz data
         const quiz = getQuizWithQuestions(attempt.id_quiz);
+
+        // Ensure answers are present (from static mock or dynamic attempt)
+        let answers = attempt.answers;
+        if (!answers || answers.length === 0) {
+            answers = mockUserAnswers.filter(a => a.id_attempt === id_attempt);
+        }
+
         return {
             ...attempt,
-            quiz: quiz ? {
-                id_quiz: quiz.id_quiz,
-                title: quiz.title,
-                image_url: quiz.image_url,
-            } : undefined,
+            answers,
+            quiz: quiz || undefined,
         };
     },
 
@@ -313,12 +402,27 @@ export const quizMockService = {
     async checkQuestion(id_quiz: number, id_question: number): Promise<{ correctAnswers: number[] }> {
         await delay(150);
 
-        const quiz = getQuizWithQuestions(id_quiz);
-        if (!quiz || !quiz.questions) {
+        const quiz = quizzes.find(q => q.id_quiz === id_quiz);
+        if (!quiz) {
             throw new Error("Quiz not found");
         }
 
-        const question = quiz.questions.find(q => q.id_question === id_question);
+        // Ensure questions are attached for lookup
+        let questions = quiz.questions;
+        if (!questions || questions.length === 0) {
+            questions = mockQuestions.filter(q => q.id_quiz === id_quiz);
+            if (questions.length === 0 && quiz._count?.questions && quiz._count.questions > 0) {
+                questions = generateMockQuestions(id_quiz, quiz._count.questions);
+                // Important: persist generated questions to quiz so indices and IDs remain consistent for check
+                quiz.questions = questions;
+            }
+        }
+
+        if (!questions) {
+            throw new Error("Quiz has no questions");
+        }
+
+        const question = questions.find(q => q.id_question === id_question);
         if (!question) {
             throw new Error("Question not found");
         }

@@ -248,7 +248,11 @@
                 "edit": "Modifier",
                 "delete": "Supprimer",
                 "test": "Tester"
-            }
+            },
+            "unknown_location": "Lieu inconnu",
+            "system_creator": "Système",
+            "delete_confirm": "Êtes-vous sûr de vouloir supprimer le quiz \"{title}\" ? Cette action est irréversible.",
+            "delete_error": "Erreur lors de la suppression"
         }
     },
     "quiz_stats": {
@@ -267,7 +271,28 @@
             "locations": "Répartition par lieu",
             "creators": "Top Créateurs",
             "adventurers": "Top Aventuriers",
-            "details": "Détails par Quiz"
+            "details": "Détails par Quiz",
+            "empty": {
+                "quizzes": "Aucun quiz disponible",
+                "locations": "Aucun lieu avec des quiz",
+                "creators": "Aucun créateur",
+                "adventurers": "Aucun aventurier"
+            }
+        },
+        "secondary": {
+            "creators": "Créateurs",
+            "questions_per_quiz": "Questions / Quiz"
+        },
+        "detailed": {
+            "manage_link": "Gérer les Quiz",
+            "headers": {
+                "quiz": "Quiz",
+                "creator": "Créateur",
+                "questions": "Questions",
+                "participants": "Participants",
+                "attempts": "Tentatives",
+                "avg_score": "Score Moyen"
+            }
         },
         "empty": "Aucune donnée disponible"
     }
