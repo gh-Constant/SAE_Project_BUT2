@@ -122,8 +122,8 @@ const profileRoute = computed(() => {
   } else if (isPrestataire(auth.user)) {
     return '/prestataire';
   }
-  // Pour les aventuriers ou autres rôles, on pourrait créer une route /profile
-  return '/';
+  // Pour les aventuriers, route vers la page de profil
+  return '/profile';
 });
 
 </script>
