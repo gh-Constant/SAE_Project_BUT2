@@ -233,33 +233,24 @@
             <h3 class="text-xl font-bold text-gray-900 mb-6 border-b-2 border-orange-500 pb-2">
               {{ t('profile.sections.presentation') }}
             </h3>
-            <div class="relative">
-              <textarea
-                id="bio"
-                v-model="formData.bio"
-                rows="5"
-                maxlength="500"
-                class="w-full px-4 py-3 border rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all duration-200 peer resize-none"
-                :class="fieldErrors.bio ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'"
-                :placeholder="t('profile.fields.bioPlaceholder')"
-                @blur="validateField('bio', formData.bio)"
-              />
-              <label 
-                for="bio" 
-                class="absolute left-4 top-1 text-xs bg-white px-2 text-gray-500"
-                :style="{ color: fieldErrors.bio ? '#ef4444' : '#6b7280' }"
-              >
-                {{ (fieldErrors.bio && formData.bio) ? fieldErrors.bio : t('profile.fields.bio') }}
-              </label>
-              <p v-if="fieldErrors.bio && formData.bio" class="mt-1 text-xs text-red-500 px-4">
-                {{ fieldErrors.bio }}
-              </p>
-              <div class="mt-2 flex justify-between items-center">
-                <p class="text-xs text-gray-500 ml-4">{{ t('profile.fields.bioHint') }}</p>
-                <span class="text-xs" :class="formData.bio.length > 450 ? 'text-red-500' : 'text-gray-500'">
-                  {{ formData.bio.length }}/500
-                </span>
+            <div class="space-y-6">
+              <!-- Bio -->
+              <div>
+                <label class="block text-sm font-medium text-gray-500 mb-2">
+                  {{ t('profile.fields.bio') }}
+                </label>
+                <Editor 
+                  ref="bioEditorRef" 
+                  :initialContent="formData.bio || '<p></p>'" 
+                />
+                <p v-if="fieldErrors.bio" class="mt-1 text-xs text-red-500 px-4">
+                  {{ fieldErrors.bio }}
+                </p>
+                <div class="mt-2 flex justify-between items-center">
+                  <p class="text-xs text-gray-500 ml-4">{{ t('profile.fields.bioHint') }}</p>
+                </div>
               </div>
+
             </div>
           </div>
 
@@ -421,11 +412,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes'
 import { isPrestataire, isAventurier } from '@/services/roleService'
 import { useI18n } from 'vue-i18n'
+import Editor from '@/components/editor/Editor.vue'
 
 const { t } = useI18n()
 
@@ -453,6 +445,7 @@ const successMessage = ref('')
 const showAvatarModal = ref(false)
 const selectedAvatar = ref<string>('') // Pour le suivi de l'avatar sélectionné
 const changedFields = ref<string[]>([]) // Pour stocker les champs modifiés
+const bioEditorRef = ref<InstanceType<typeof Editor> | null>(null)
 
 // Erreurs de validation
 const fieldErrors = ref({
@@ -511,6 +504,13 @@ onMounted(() => {
         selectedAvatar.value = avatarName
       }
     }
+    
+    // Initialiser l'éditeur bio avec le contenu après le montage
+    nextTick(() => {
+      if (bioEditorRef.value && user.value?.bio) {
+        bioEditorRef.value.setHTML(user.value.bio)
+      }
+    })
   }
 })
 
@@ -595,8 +595,17 @@ const validateField = (field: string, value: string) => {
       }
       break
     case 'bio':
-      if (value && value.length > 500) {
-        fieldErrors.value.bio = t('profile.validation.bioMaxLength')
+      // Pour l'éditeur, on utilise la valeur passée (HTML) et on vérifie la longueur du texte brut
+      if (value) {
+        // Extraire le texte brut du HTML pour vérifier la longueur
+        const tempDiv = document.createElement('div')
+        tempDiv.innerHTML = value
+        const textContent = tempDiv.textContent || tempDiv.innerText || ''
+        if (textContent.length > 500) {
+          fieldErrors.value.bio = t('profile.validation.bioMaxLength')
+        } else {
+          fieldErrors.value.bio = ''
+        }
       } else {
         fieldErrors.value.bio = ''
       }
