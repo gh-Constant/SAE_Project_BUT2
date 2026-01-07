@@ -600,7 +600,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
 ];
 
 export async function seedLocations() {
-  console.log('🌍 Seeding locations...');
+  console.log(' Seeding locations...');
 
   for (const location of LOCATION_SEEDS) {
     await prisma.location.upsert({

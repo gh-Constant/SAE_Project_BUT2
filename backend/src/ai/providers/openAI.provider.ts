@@ -19,7 +19,7 @@ export class OpenAIProvider implements AIProvider {
   private client: OpenAI
 
   constructor(config: AIProviderConfig) {
-    // 🔐 Création du client OpenAI avec clé API et URL (personnalisable)
+    //  Création du client OpenAI avec clé API et URL (personnalisable)
     this.client = new OpenAI({
       apiKey: config.apiKey,
       baseURL: config.baseURL || 'https://api.openai.com/v1',
@@ -38,7 +38,7 @@ export class OpenAIProvider implements AIProvider {
         max_tokens: options?.maxTokens ?? 1000,
       })
 
-      // 📤 Retourne le texte généré par le modèle
+      //  Retourne le texte généré par le modèle
       return response.choices[0]?.message?.content || ''
     } catch (error) {
       console.error('OpenAI API error:', error)

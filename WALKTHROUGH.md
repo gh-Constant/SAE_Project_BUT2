@@ -1,6 +1,6 @@
-# 🏰 Les Terres Du Lions - Walkthrough Complet
+#  Les Terres Du Lions - Walkthrough Complet
 
-## 📋 Table des matières
+##  Table des matières
 
 - [Vue d'ensemble](#vue-densemble)
 - [Rôle : Aventurier (Client)](#rôle--aventurier-client)
@@ -1092,7 +1092,7 @@ SAE_Project_BUT2/
   ├─ /location/{locationId}/events (Événements par location)
   └─ /qr/scan (Scan QR code public)
 
-📍 Aventurier (connecté)
+ Aventurier (connecté)
   ├─ /profile (Mon profil)
   ├─ /my-quests (Mes quêtes)
   │   └─ /qr/scan (Scanner pour valider quête)
@@ -1101,7 +1101,7 @@ SAE_Project_BUT2/
   ├─ /checkout (Validation commande)
   └─ /commandes (Mes commandes)
 
-🛠️ Prestataire (connecté)
+️ Prestataire (connecté)
   ├─ /prestataire (Dashboard prestataire)
   │   ├─ Tab: Profil → Formulaire profil intégré
   │   ├─ /prestataire/products (Gestion produits)
@@ -1111,7 +1111,7 @@ SAE_Project_BUT2/
   │   └─ /prestataire/orders/scan (Scanner commandes clients)
   └─ Accès aux pages Aventurier (en tant qu'utilisateur)
 
-👑 Administrateur (connecté)
+ Administrateur (connecté)
   ├─ /admin (Dashboard admin)
   │   ├─ /admin/users (Gestion utilisateurs)
   │   ├─ /admin/locations (Gestion locations)
@@ -1121,7 +1121,7 @@ SAE_Project_BUT2/
   │   └─ /admin/quests/stats (Statistiques quêtes)
   └─ Accès à toutes les pages (lecture/test)
 
-🔧 Utilitaires
+ Utilitaires
   ├─ /qr/generate (Génération QR codes)
   ├─ /qr/scan (Scan QR codes)
   └─ /editor-test (Page de test éditeur, dev uniquement)

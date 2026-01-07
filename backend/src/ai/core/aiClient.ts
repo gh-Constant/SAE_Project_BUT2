@@ -26,7 +26,7 @@ export class AIClient {
       }
       this.provider = provider
     } else {
-      // 🧱 Utilise le provider par défaut si aucun n’est spécifié
+      //  Utilise le provider par défaut si aucun n’est spécifié
       const defaultProvider = providerManager.getDefaultProvider()
       if (!defaultProvider) {
         throw new Error('No default provider available')

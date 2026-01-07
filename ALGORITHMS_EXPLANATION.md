@@ -1,12 +1,12 @@
-# 📚 Explication des Algorithmes Développés
+#  Explication des Algorithmes Développés
 
-## 🎯 Vue d'ensemble
+##  Vue d'ensemble
 
 Ce document explique en détail les **algorithmes et systèmes** que j'ai développés lors des derniers commits, notamment pour résoudre le problème de **persistance des commandes** et améliorer l'expérience utilisateur.
 
 ---
 
-## 🗂️ Table des matières
+## ️ Table des matières
 
 1. [Système de Persistence LocalStorage](#1-système-de-persistence-localstorage)
 2. [Gestion Intelligente du Panier](#2-gestion-intelligente-du-panier)
@@ -19,10 +19,10 @@ Ce document explique en détail les **algorithmes et systèmes** que j'ai dével
 
 ## 1. Système de Persistence LocalStorage
 
-### 🎯 Problème initial
+###  Problème initial
 Les commandes disparaissaient après un rechargement de page car elles n'étaient stockées qu'en mémoire vive.
 
-### 💡 Solution algorithmique
+###  Solution algorithmique
 
 #### Fichier : `frontend/src/mocks/commande.ts`
 
@@ -32,7 +32,7 @@ function initializeCommandes(): CommandeMock[] {
     if (stored) {
         try {
             const parsed = JSON.parse(stored);
-            // ⚡ CONVERSION AUTOMATIQUE : JSON → Date objects
+            //  CONVERSION AUTOMATIQUE : JSON → Date objects
             return parsed.map((cmd: any) => ({
                 ...cmd,
                 date_commande: new Date(cmd.date_commande),
@@ -47,7 +47,7 @@ function initializeCommandes(): CommandeMock[] {
 }
 ```
 
-### 🔑 Points clés de l'algorithme :
+###  Points clés de l'algorithme :
 
 1. **Stratégie de fallback à 3 niveaux** :
    - Niveau 1 : Charger depuis `localStorage`
@@ -64,7 +64,7 @@ function initializeCommandes(): CommandeMock[] {
    - Message d'avertissement en console pour debug
    - Fallback automatique en cas d'échec
 
-### 📊 Fonctions auxiliaires
+###  Fonctions auxiliaires
 
 ```typescript
 export function saveCommandes() {
@@ -87,10 +87,10 @@ export function resetCommandes() {
 
 ## 2. Gestion Intelligente du Panier
 
-### 🎯 Problème initial
+###  Problème initial
 Le panier ne persistait pas entre les sessions, et les données se mélangeaient entre utilisateurs.
 
-### 💡 Solution algorithmique
+###  Solution algorithmique
 
 #### Fichier : `frontend/src/stores/cart.ts`
 
@@ -99,7 +99,7 @@ saveToLocalStorage() {
     if (isMockEnabled) {
         const authStore = useAuthStore();
         if (authStore.user) {
-            // 🔑 CLÉ UNIQUE PAR UTILISATEUR
+            //  CLÉ UNIQUE PAR UTILISATEUR
             const cartKey = `cart_${authStore.user.id}`;
             localStorage.setItem(cartKey, JSON.stringify(this.items));
         }
@@ -107,7 +107,7 @@ saveToLocalStorage() {
 }
 ```
 
-### 🔑 Points clés de l'algorithme :
+###  Points clés de l'algorithme :
 
 1. **Isolation des données par utilisateur** :
    - Clé dynamique : `cart_${userId}`
@@ -123,7 +123,7 @@ saveToLocalStorage() {
    - Appelé après chaque modification (`addToCart`, `removeFromCart`, `updateQuantity`)
    - Pattern "save-on-change" pour éviter les pertes de données
 
-### 📈 Chargement intelligent
+###  Chargement intelligent
 
 ```typescript
 loadCartForUser(userId: number) {
@@ -133,7 +133,7 @@ loadCartForUser(userId: number) {
         if (cartStr) {
             try {
                 const parsedItems = JSON.parse(cartStr);
-                // 🔄 MIGRATION AUTOMATIQUE
+                //  MIGRATION AUTOMATIQUE
                 this.items = this.migrateCartItems(parsedItems);
                 this.saveToLocalStorage(); // Sauvegarder la version migrée
             } catch (error) {
@@ -158,10 +158,10 @@ loadCartForUser(userId: number) {
 
 ## 3. Groupement par Location
 
-### 🎯 Problème initial
+###  Problème initial
 Besoin de créer des commandes séparées pour chaque boutique (système Click & Collect).
 
-### 💡 Solution algorithmique
+###  Solution algorithmique
 
 ```typescript
 groupedByLocation: (state): Record<number, CartItem[]> => {
@@ -177,7 +177,7 @@ groupedByLocation: (state): Record<number, CartItem[]> => {
 }
 ```
 
-### 🔑 Points clés de l'algorithme :
+###  Points clés de l'algorithme :
 
 1. **Pattern Map/Reduce optimisé** :
    - Utilise un objet comme HashMap (`Record<number, CartItem[]>`)
@@ -194,14 +194,14 @@ groupedByLocation: (state): Record<number, CartItem[]> => {
    - Auto-complétion dans l'IDE
    - Prévient les erreurs de type
 
-### 📦 Utilisation pour créer des commandes
+###  Utilisation pour créer des commandes
 
 ```typescript
 async createOrder() {
     const grouped = this.groupedByLocation;
     const orders: CommandeMock[] = [];
 
-    // 🔄 CRÉATION D'UNE COMMANDE PAR LOCATION
+    //  CRÉATION D'UNE COMMANDE PAR LOCATION
     for (const [locationIdStr, items] of Object.entries(grouped)) {
         const locationId = Number(locationIdStr);
         
@@ -233,7 +233,7 @@ async createOrder() {
         COMMANDES.push(order);
     }
 
-    // 💾 SAUVEGARDER TOUT À LA FIN
+    //  SAUVEGARDER TOUT À LA FIN
     saveCommandes();
     saveLignesCommande();
     
@@ -255,10 +255,10 @@ async createOrder() {
 
 ## 4. Migration Automatique de Données
 
-### 🎯 Problème initial
+###  Problème initial
 Anciennes versions du panier ne contenaient pas le champ `id_location`, causant des erreurs.
 
-### 💡 Solution algorithmique
+###  Solution algorithmique
 
 ```typescript
 migrateCartItems(items: Partial<CartItem>[]): CartItem[] {
@@ -278,7 +278,7 @@ migrateCartItems(items: Partial<CartItem>[]): CartItem[] {
 }
 ```
 
-### 🔑 Points clés de l'algorithme :
+###  Points clés de l'algorithme :
 
 1. **Détection automatique** :
    - Vérifie si `id_location` existe déjà
@@ -295,7 +295,7 @@ migrateCartItems(items: Partial<CartItem>[]): CartItem[] {
    - `CartItem` en sortie (garantit tous les champs)
    - TypeScript vérifie la cohérence
 
-### 🔄 Version avancée (commentée dans le code)
+###  Version avancée (commentée dans le code)
 
 ```typescript
 // Version avec récupération depuis productService (désactivée car async)
@@ -317,10 +317,10 @@ return {
 
 ## 5. Watchers et Auto-Save
 
-### 🎯 Problème initial
+###  Problème initial
 Oublier de sauvegarder après chaque modification causait des pertes de données.
 
-### 💡 Solution algorithmique
+###  Solution algorithmique
 
 #### Pattern "Save-on-Change"
 
@@ -343,12 +343,12 @@ addToCart(product: ProductMock, quantity = 1) {
         });
     }
 
-    // ⚡ AUTO-SAVE APRÈS CHAQUE MODIFICATION
+    //  AUTO-SAVE APRÈS CHAQUE MODIFICATION
     this.saveToLocalStorage();
 }
 ```
 
-### 🔑 Points clés du pattern :
+###  Points clés du pattern :
 
 1. **Systematic save** :
    - Chaque action de modification appelle `saveToLocalStorage()`
@@ -366,7 +366,7 @@ addToCart(product: ProductMock, quantity = 1) {
    - `localStorage.setItem()` est très rapide
    - Pas besoin de debouncing pour ce use-case
 
-### 🔄 Pattern de cleanup
+###  Pattern de cleanup
 
 ```typescript
 clearCartAndStorage() {
@@ -390,10 +390,10 @@ clearCartAndStorage() {
 
 ## 6. Validation et Conversion de Types
 
-### 🎯 Problème initial
+###  Problème initial
 Les dates JSON sont des strings, causant des erreurs de comparaison et affichage.
 
-### 💡 Solution algorithmique
+###  Solution algorithmique
 
 ```typescript
 function initializeCommandes(): CommandeMock[] {
@@ -402,7 +402,7 @@ function initializeCommandes(): CommandeMock[] {
         try {
             const parsed = JSON.parse(stored);
             
-            // 🔄 CONVERSION STRING → DATE
+            //  CONVERSION STRING → DATE
             return parsed.map((cmd: any) => ({
                 ...cmd,
                 date_commande: new Date(cmd.date_commande),
@@ -418,7 +418,7 @@ function initializeCommandes(): CommandeMock[] {
 }
 ```
 
-### 🔑 Points clés de l'algorithme :
+###  Points clés de l'algorithme :
 
 1. **Type coercion intelligente** :
    - `new Date(string)` convertit automatiquement
@@ -439,7 +439,7 @@ function initializeCommandes(): CommandeMock[] {
    new Date()          // String → Date Object
    ```
 
-### 📅 Helper pour dates de démonstration
+###  Helper pour dates de démonstration
 
 ```typescript
 const daysAgo = (days: number): Date => {
@@ -466,7 +466,7 @@ const daysAgo = (days: number): Date => {
 
 ---
 
-## 🎓 Résumé pour le Jury
+##  Résumé pour le Jury
 
 ### Compétences démontrées :
 
@@ -504,7 +504,7 @@ const daysAgo = (days: number): Date => {
 
 ---
 
-## 📝 Questions potentielles du jury
+##  Questions potentielles du jury
 
 ### Q: Pourquoi localStorage et pas une base de données ?
 **R:** Mode mock pour développement frontend sans backend. En production, le système serait remplacé par des appels API, d'où la séparation claire entre logique métier et stockage.
@@ -527,7 +527,7 @@ const daysAgo = (days: number): Date => {
 
 ---
 
-## 🔗 Fichiers concernés
+##  Fichiers concernés
 
 | Fichier | Algorithmes principaux |
 |---------|------------------------|

@@ -33,11 +33,11 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
     const url = req.originalUrl;
     const userAgent = req.get('User-Agent') || 'Unknown';
 
-    console.log(`🌐 ${timestamp} | ${method} ${url} | ${userAgent}`);
+    console.log(` ${timestamp} | ${method} ${url} | ${userAgent}`);
 
     // Log du corps de la requête pour certaines méthodes (attention aux données sensibles)
     if (['POST', 'PUT', 'PATCH'].includes(method) && req.body) {
-      console.log('📝 Request Body:', JSON.stringify(req.body, null, 2));
+      console.log(' Request Body:', JSON.stringify(req.body, null, 2));
     }
   }
 
@@ -55,7 +55,7 @@ export const responseTimeLogger = (req: Request, res: Response, next: NextFuncti
     if (config.isDevelopment) {
       const duration = Date.now() - startTime;
       const statusCode = res.statusCode;
-      const statusEmoji = statusCode >= 400 ? '❌' : statusCode >= 300 ? '⚠️' : '✅';
+      const statusEmoji = statusCode >= 400 ? '❌' : statusCode >= 300 ? '️' : '✅';
 
       console.log(`${statusEmoji} ${req.method} ${req.originalUrl} | ${statusCode} | ${duration}ms`);
     }

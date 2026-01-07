@@ -6,12 +6,12 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 import { getDatabaseConfig } from './backend/dist/config/database.js';
 
-console.log('🧪 Testing database configuration...');
+console.log(' Testing database configuration...');
 console.log('');
 
 // Test the configuration
 const config = getDatabaseConfig();
-console.log('📋 Database configuration:');
+console.log(' Database configuration:');
 console.log(`   Host: ${config.host}`);
 console.log(`   Port: ${config.port}`);
 console.log(`   Username: ${config.username}`);
@@ -27,7 +27,7 @@ const possiblePaths = [
   path.resolve(process.cwd(), 'backend/database/database.sql')
 ];
 
-console.log('📁 Testing SQL file path resolution...');
+console.log(' Testing SQL file path resolution...');
 for (const filePath of possiblePaths) {
   const exists = fs.existsSync(filePath);
   console.log(`   ${exists ? '✅' : '❌'} ${filePath}`);

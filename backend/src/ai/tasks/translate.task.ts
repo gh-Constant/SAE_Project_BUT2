@@ -37,10 +37,10 @@ export class TranslateTask {
   async execute(options: TranslateOptions): Promise<string> {
     const { text, targetLanguage, sourceLanguage } = options
 
-    // 🧱 Génération du prompt clair et structuré pour le modèle
+    //  Génération du prompt clair et structuré pour le modèle
     const prompt = this.buildTranslationPrompt(text, targetLanguage, sourceLanguage)
 
-    // 🧠 Appel au modèle IA pour générer le texte traduit
+    //  Appel au modèle IA pour générer le texte traduit
     const translatedText = await this.aiClient.generateText(prompt, {
       temperature: 0.3, // Température faible → traduction plus cohérente
       maxTokens: 1000,  // Longueur maximale de la réponse

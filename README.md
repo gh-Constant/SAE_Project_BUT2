@@ -25,9 +25,9 @@
 3. Lancer le serveur de développement : `npm run backend:dev`
 4. Tester la connexion à la base de données : `curl http://localhost:3000/api/roles`
 
-   💡 *Note : Le déploiement sur le vrai site internet ne marche pas s'il y a des erreurs de types.*
+    *Note : Le déploiement sur le vrai site internet ne marche pas s'il y a des erreurs de types.*
 
-⚠️ **Pour chaque page, vous devez faire les traductions avec i18n dans le dossier locales**
+️ **Pour chaque page, vous devez faire les traductions avec i18n dans le dossier locales**
 
-⚠️ **Pour chaque marqueur prédéfini, vous devez les mettre dans /utils/predefinedmarkers.ts**
+️ **Pour chaque marqueur prédéfini, vous devez les mettre dans /utils/predefinedmarkers.ts**
 test

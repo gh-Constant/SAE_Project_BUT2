@@ -46,7 +46,7 @@ const SERVICE_SEEDS: ServiceSeed[] = [
 ];
 
 export async function seedServices() {
-  console.log('🛠️ Seeding services...');
+  console.log('️ Seeding services...');
 
   for (const service of SERVICE_SEEDS) {
     await prisma.service.upsert({

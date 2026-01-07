@@ -57,9 +57,9 @@ const startServer = async (): Promise<void> => {
 
     // Démarrage du serveur
     const server = app.listen(config.port, config.host, () => {
-      console.log(`🚀 Server running on http://${config.host}:${config.port}`);
-      console.log(`📱 Environment: ${config.nodeEnv}`);
-      console.log(`⏰ Started at: ${new Date().toISOString()}`);
+      console.log(` Server running on http://${config.host}:${config.port}`);
+      console.log(` Environment: ${config.nodeEnv}`);
+      console.log(` Started at: ${new Date().toISOString()}`);
     });
 
     /**
@@ -67,7 +67,7 @@ const startServer = async (): Promise<void> => {
      * @param signal - Signal reçu (SIGTERM ou SIGINT)
      */
     const gracefulShutdown = async (signal: string) => {
-      console.log(`🛑 ${signal} received, shutting down gracefully...`);
+      console.log(` ${signal} received, shutting down gracefully...`);
       // Fermeture du serveur
       server.close(() => {
         console.log('✅ Server closed');

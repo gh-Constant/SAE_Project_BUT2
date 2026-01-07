@@ -3,7 +3,7 @@ import prisma from '../prisma.js';
 export async function seedServiceTypes() {
   const types = ['shop', 'reservation', 'blog', 'restaurant', 'quest', 'quiz'];
 
-  console.log('🏷️ Seeding service types...');
+  console.log('️ Seeding service types...');
 
   for (let i = 0; i < types.length; i++) {
     await prisma.serviceType.upsert({

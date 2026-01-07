@@ -231,7 +231,7 @@ const ORDER_LINE_SEEDS: OrderLineSeed[] = [
 ];
 
 export async function seedOrders() {
-    console.log('🛒 Seeding orders...');
+    console.log(' Seeding orders...');
 
     // Seed orders
     for (const order of ORDER_SEEDS) {
@@ -258,7 +258,7 @@ export async function seedOrders() {
     console.log(`✅ Seeded ${ORDER_SEEDS.length} orders`);
 
     // Seed order lines
-    console.log('📦 Seeding order lines...');
+    console.log(' Seeding order lines...');
 
     for (const line of ORDER_LINE_SEEDS) {
         await prisma.ligneCommande.upsert({

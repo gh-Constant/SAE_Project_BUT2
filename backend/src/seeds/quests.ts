@@ -29,7 +29,7 @@ const questSeeds = [
 ];
 
 export async function seedQuests() {
-  console.log('🎯 Seeding quests...');
+  console.log(' Seeding quests...');
 
   for (const quest of questSeeds) {
     await prisma.quest.upsert({

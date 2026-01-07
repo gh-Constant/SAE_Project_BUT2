@@ -6,7 +6,7 @@
 
       <!-- Camera Permission Error -->
       <div v-if="cameraError" class="error-message">
-        <span class="error-icon">📷</span>
+        <span class="error-icon"></span>
         <p>{{ $t('qrcode.scan.cameraError') }}</p>
         <button class="btn-retry" @click="initCamera">
           {{ $t('qrcode.scan.retry') }}

@@ -2,7 +2,7 @@
 
 ---
 
-## 📊 Définition
+##  Définition
 
 Une **variable aléatoire continue** $X$ est une fonction qui associe à chaque issue d'une expérience aléatoire un nombre réel :
 
@@ -18,7 +18,7 @@ Soit $X$ la taille d'une personne choisie au hasard. Cette variable peut prendre
 
 ---
 
-## 🔄 Comparaison : Cas discret vs Cas continu
+##  Comparaison : Cas discret vs Cas continu
 
 ### Variables aléatoires discrètes
 
@@ -48,11 +48,11 @@ $$
 
 On utilise alors une **fonction de densité** $f(x)$, telle que la probabilité qu'une valeur appartienne à un **intervalle** correspond à **l'aire sous la courbe** de cette fonction.
 
-> **⚠️ Remarque importante :** $f(x)$ n'est **pas** une probabilité, c'est une **densité de probabilité**.
+> **️ Remarque importante :** $f(x)$ n'est **pas** une probabilité, c'est une **densité de probabilité**.
 
 ---
 
-## ❓ Problématique
+##  Problématique
 
 La description d'une loi continue diffère fondamentalement de celle d'une loi discrète :
 
@@ -82,7 +82,7 @@ En revanche, on peut décrire la loi d'une variable continue grâce à la **fonc
 
 ---
 
-## 📈 Fonction de répartition
+##  Fonction de répartition
 
 ### Définition
 
@@ -100,7 +100,7 @@ Elle permet de calculer les probabilités que $X$ prenne ses valeurs dans une pa
 
 ---
 
-## 📐 Loi de probabilité d'une variable continue
+##  Loi de probabilité d'une variable continue
 
 ### Relation entre densité et répartition
 
@@ -159,7 +159,7 @@ _Figure : Illustration de la probabilité comme aire sous la courbe de densité 
 
 ---
 
-## 📊 Espérance et variance
+##  Espérance et variance
 
 ### Définition
 
@@ -189,7 +189,7 @@ $$
 
 ---
 
-## 🎲 Lois usuelles
+##  Lois usuelles
 
 ### 3.1 Loi uniforme
 
@@ -282,7 +282,7 @@ $$
 f(x) = \frac{1}{\sigma \sqrt{2\pi}} \cdot e^{-\frac{(x-\mu)^2}{2\sigma^2}}
 $$
 
-> **📝 Remarque :** Certains auteurs utilisent la notation $N(\mu, \sigma^2)$ au lieu de $\mathcal{N}(\mu, \sigma^2)$.
+> ** Remarque :** Certains auteurs utilisent la notation $N(\mu, \sigma^2)$ au lieu de $\mathcal{N}(\mu, \sigma^2)$.
 
 #### Illustration graphique
 
@@ -315,12 +315,12 @@ La loi normale présente une propriété remarquable de **concentration des vale
 
 - **Intervalle à 3 écarts-types :** Dans l'intervalle $[\mu - 3\sigma, \mu + 3\sigma]$, de **longueur $6\sigma$** et **centré autour de la moyenne** $\mu$, on peut observer environ **99,7%** des individus lorsque la variable aléatoire suit une loi normale.
 
-> **💡 Interprétation pratique :** Ces intervalles permettent de comprendre la dispersion des données. Par exemple, si $\mu = 170$ cm et $\sigma = 10$ cm pour la taille d'une population :
+> ** Interprétation pratique :** Ces intervalles permettent de comprendre la dispersion des données. Par exemple, si $\mu = 170$ cm et $\sigma = 10$ cm pour la taille d'une population :
 >
 > - 68% des individus mesurent entre 160 cm et 180 cm (intervalle $[170-10, 170+10]$)
 > - 95% des individus mesurent entre 150 cm et 190 cm (intervalle $[170-20, 170+20]$)
 > - 99,7% des individus mesurent entre 140 cm et 200 cm (intervalle $[170-30, 170+30]$)
 
-> **⚠️ Condition d'application :** Cette règle ne s'applique que lorsque la distribution des données suit effectivement une **loi normale**. Pour d'autres distributions (asymétriques, multimodales, etc.), ces pourcentages ne sont pas valables.
+> **️ Condition d'application :** Cette règle ne s'applique que lorsque la distribution des données suit effectivement une **loi normale**. Pour d'autres distributions (asymétriques, multimodales, etc.), ces pourcentages ne sont pas valables.
 
 ---

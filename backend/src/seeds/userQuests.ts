@@ -32,7 +32,7 @@ const userQuestSeeds = [
 ];
 
 export async function seedUserQuests() {
-  console.log('📜 Seeding user quests...');
+  console.log(' Seeding user quests...');
 
   for (const uq of userQuestSeeds) {
     await prisma.userQuest.upsert({

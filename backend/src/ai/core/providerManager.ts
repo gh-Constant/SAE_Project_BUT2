@@ -40,5 +40,5 @@ export class ProviderManager {
   }
 }
 
-// 🔧 Instance unique partagée dans tout le projet
+//  Instance unique partagée dans tout le projet
 export const providerManager = new ProviderManager()

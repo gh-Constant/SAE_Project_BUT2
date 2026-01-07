@@ -54,7 +54,7 @@ function getEventSeeds(): EventSeed[] {
 }
 
 export async function seedEvents() {
-  console.log('🎪 Seeding events...');
+  console.log(' Seeding events...');
 
   const events = getEventSeeds();
 

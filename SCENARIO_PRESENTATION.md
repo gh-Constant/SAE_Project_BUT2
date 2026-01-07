@@ -1,11 +1,11 @@
-# 🏰 Une Journée sur Les Terres Du Lions
+#  Une Journée sur Les Terres Du Lions
 ## Scénario de Présentation Produit
 
 > *Plongée au cœur de notre application à travers trois regards : Alice l'Aventurière, Gérard le Tavernier et Godefroy le Sénéchal.*
 
 ---
 
-## 🎬 Acte 1 – L’Éveil du Royaume
+##  Acte 1 – L’Éveil du Royaume
 
 ### 8h00. Le parc s'anime.
 Les "Terres Du Lions" ne sont pas qu’un parc médiéval. C’est un monde vivant, gamifié, où chaque visiteur devient acteur de son aventure.
@@ -28,7 +28,7 @@ Chacun dégaine son téléphone. Logo du lion. Chargement instantané. Une seule
 
 ---
 
-## ⚔️ Acte 2 – L'Aventure d'Alice
+## ️ Acte 2 – L'Aventure d'Alice
 
 ### L'Entrée en Scène
 Devant la herse du château, Alice lance l'appli. Pas de temps à perdre.
@@ -62,7 +62,7 @@ Elle vise. Focus.
 **Bip !**
 
 L'écran jubile :
-> **🎉 Quête Complétée !**
+> ** Quête Complétée !**
 > **+ 25 XP**
 > Progression Niveau 2 : 50%
 
@@ -73,7 +73,7 @@ Alice ne s'arrête plus. Elle file au marché, puis à la forge.
 Deux nouvelles quêtes validées. 
 Au troisième scan, le téléphone vibre fort.
 
-> **🎊 LEVEL UP !**
+> ** LEVEL UP !**
 > **Niveau 2 Atteint**
 > Alice débloque le titre "Apprentie du Royaume"
 
@@ -111,7 +111,7 @@ Elle est pleinement immergée. Le parc est son terrain de jeu.
 
 ---
 
-## 🛠️ Acte 3 – Gérard aux Commandes
+## ️ Acte 3 – Gérard aux Commandes
 
 ### Le Cockpit du Commerçant
 Pendant qu'Alice joue, Gérard bosse. Sur sa tablette, son interface est radicalement différente.
@@ -159,7 +159,7 @@ Zéro papier. Zéro erreur.
 
 ---
 
-## 👑 Acte 4 – L'Œil de Godefroy
+##  Acte 4 – L'Œil de Godefroy
 
 ### La Tour de Contrôle
 Godefroy a la vue divine. Son dashboard Admin est une mine d'or de données.
@@ -192,7 +192,7 @@ Réactivité immédiate.
 
 ---
 
-## 🏁 Acte 5 – Le Final
+##  Acte 5 – Le Final
 
 ### Le Banquet
 19h00. La Taverne est pleine.

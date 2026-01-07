@@ -1,5 +1,5 @@
 {
   "title": "Interactive Map Explorer",
-  "instructions": "🖱️ Click on the map to add markers • 🗑️ Click on markers to remove them",
+  "instructions": "️ Click on the map to add markers • ️ Click on markers to remove them",
   "popup": "Location at {lat}, {lng}"
 }

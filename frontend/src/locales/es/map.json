@@ -1,5 +1,5 @@
 {
   "title": "Explorador de Mapa Interactivo",
-  "instructions": "🖱️ Haz clic en el mapa para agregar marcadores • 🗑️ Haz clic en los marcadores para eliminarlos",
+  "instructions": "️ Haz clic en el mapa para agregar marcadores • ️ Haz clic en los marcadores para eliminarlos",
   "popup": "Ubicación en {lat}, {lng}"
 }

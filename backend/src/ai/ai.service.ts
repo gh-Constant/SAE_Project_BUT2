@@ -29,20 +29,20 @@ export class AIService {
   private translateTask: TranslateTask
 
   constructor() {
-    // 🔧 Initialisation du fournisseur OpenAI (compatible OpenRouter)
+    //  Initialisation du fournisseur OpenAI (compatible OpenRouter)
     const openAIProvider = new OpenAIProvider({
       apiKey: process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY || '',
       baseURL: process.env.OPENAI_BASE_URL ||
         (process.env.OPENROUTER_API_KEY ? 'https://openrouter.ai/api/v1' : undefined),
     })
 
-    // 🧩 Enregistrement du provider dans le gestionnaire global
+    //  Enregistrement du provider dans le gestionnaire global
     providerManager.registerProvider('openai', openAIProvider)
 
-    // 🧠 Création d’un client IA utilisant le provider "openai"
+    //  Création d’un client IA utilisant le provider "openai"
     this.openAIClient = new AIClient("openai")
 
-    // 💬 Initialisation de la tâche de traduction
+    //  Initialisation de la tâche de traduction
     this.translateTask = new TranslateTask(this.openAIClient)
   }
 
@@ -58,5 +58,5 @@ export class AIService {
   }
 }
 
-// 🧱 Export d’une instance unique pour simplifier l’usage dans le backend
+//  Export d’une instance unique pour simplifier l’usage dans le backend
 export const aiService = new AIService()

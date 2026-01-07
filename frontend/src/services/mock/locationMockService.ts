@@ -139,7 +139,7 @@ export const locationMockService = {
           <strong>${location.name}</strong><br/>
           ${location.description}<br/>
           ${location.price ? `Price: ${location.price} gold` : ''}<br/>
-          ${location.purchased ? '🟢 Purchased' : '🔴 Available'}
+          ${location.purchased ? ' Purchased' : ' Available'}
         `);
       }
 

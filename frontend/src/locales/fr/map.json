@@ -1,5 +1,5 @@
 {
   "title": "Explorateur de Carte Interactif",
-  "instructions": "🖱️ Cliquez sur la carte pour ajouter des marqueurs • 🗑️ Cliquez sur les marqueurs pour les supprimer",
+  "instructions": "️ Cliquez sur la carte pour ajouter des marqueurs • ️ Cliquez sur les marqueurs pour les supprimer",
   "popup": "Emplacement à {lat}, {lng}"
 }
