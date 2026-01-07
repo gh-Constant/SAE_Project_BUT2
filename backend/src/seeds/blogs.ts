@@ -12,26 +12,31 @@ interface BlogSeed {
 const BLOG_SEEDS: BlogSeed[] = [
   {
     id_blog: 1,
-    title: 'Welcome to our Lodge',
-    content: '<p>We are happy to welcome you to our beautiful lodge in the mountains.</p>',
-    id_location: 1,
-    price: undefined,
+    title: 'Le Tournoi des Chevaliers commence !',
+    content: '<p>Oyez, oyez ! Les plus grands guerriers du royaume se rassemblent demain à l\'arène principale. Venez admirer les joutes et encourager vos champions préférés !</p>',
+    id_location: 14, // Gérard (Merchant Stall #5)
     is_sellable: false,
   },
   {
     id_blog: 2,
-    title: 'Hiking Trails Nearby',
-    content: '<p>Check out the amazing hiking trails just 5 minutes from here.</p>',
-    id_location: 1,
-    price: 50.00,
+    title: 'Élixir de Force : Nouvelle Potion',
+    content: '<p>Notre alchimiste a enfin terminé sa dernière création. L\'Élixir de Force vous donnera une puissance inégalée pour vos prochaines quêtes. Disponible dès maintenant à la boutique !</p>',
+    id_location: 16, // Marie (Merchant Stall #7)
+    price: 45.00,
     is_sellable: true,
   },
   {
     id_blog: 3,
-    title: 'Special Dinner Event',
-    content: '<p>Join us for a special dinner this weekend!</p>',
-    id_location: 2,
-    price: undefined,
+    title: 'Mystère dans la Forêt des Lions',
+    content: '<p>Plusieurs voyageurs rapportent des lueurs étranges venant de la forêt profonde. Les gardes recommandent la plus grande prudence à tous les aventuriers s\'aventurant au-delà des sentiers connus.</p>',
+    id_location: 16, // Marie (Merchant Stall #7)
+    is_sellable: false,
+  },
+  {
+    id_blog: 4,
+    title: 'Grand Banquet au Château',
+    content: '<p>Le Roi invite tous les citoyens à célébrer la fin des récoltes. Un banquet gargantuesque sera servi sur la place du marché. Ne manquez pas ce rendez-vous historique !</p>',
+    id_location: 14, // Gérard (Merchant Stall #5)
     is_sellable: false,
   },
 ];
@@ -46,7 +51,7 @@ export async function seedBlogs() {
       id_location: blog.id_location,
       is_sellable: blog.is_sellable !== undefined ? blog.is_sellable : false,
     };
-    
+
     if (blog.price !== undefined) {
       updateData.price = blog.price;
     }
