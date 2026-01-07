@@ -28,7 +28,7 @@ export interface LigneCommandeMock {
  * 9: Arc en bois (55.00€)
  * 10: Flèches en plumes (15.00€)
  */
-export const LIGNES_COMMANDE: LigneCommandeMock[] = [
+const DEMO_LIGNES_COMMANDE: LigneCommandeMock[] = [
   // Commande 1: Potion + Hydromel = 47.00€
   { id_commande: 1, id_product: 1, quantite: 1, price: 25.00 },
   { id_commande: 1, id_product: 6, quantite: 1, price: 22.00 },
@@ -92,3 +92,33 @@ export const LIGNES_COMMANDE: LigneCommandeMock[] = [
   // Commande 18: Jambon = 18.90€
   { id_commande: 18, id_product: 3, quantite: 1, price: 18.90 }
 ];
+
+// Initialize from localStorage or fallback to demo data
+function initializeLignesCommande(): LigneCommandeMock[] {
+  const stored = localStorage.getItem('mock_lignesCommande');
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (e) {
+      console.warn('Failed to parse stored lignes commande, using demo data');
+      return [...DEMO_LIGNES_COMMANDE];
+    }
+  }
+  return [...DEMO_LIGNES_COMMANDE];
+}
+
+// Export mutable array that gets initialized
+export const LIGNES_COMMANDE: LigneCommandeMock[] = initializeLignesCommande();
+
+// Save lignes commande to localStorage
+export function saveLignesCommande() {
+  localStorage.setItem('mock_lignesCommande', JSON.stringify(LIGNES_COMMANDE));
+}
+
+// Reset to demo data (for testing)
+export function resetLignesCommande() {
+  localStorage.removeItem('mock_lignesCommande');
+  LIGNES_COMMANDE.length = 0;
+  LIGNES_COMMANDE.push(...DEMO_LIGNES_COMMANDE);
+}
+

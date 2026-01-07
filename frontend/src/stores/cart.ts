@@ -21,8 +21,8 @@
 
 import { defineStore } from 'pinia'
 import { ProductMock } from '@/mocks/products'
-import { CommandeMock, EtatCommande } from '@/mocks/commande'
-import { LigneCommandeMock } from '@/mocks/ligneCommande'
+import { CommandeMock, EtatCommande, saveCommandes } from '@/mocks/commande'
+import { LigneCommandeMock, saveLignesCommande } from '@/mocks/ligneCommande'
 import { COMMANDES } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { useAuthStore } from './auth'
@@ -252,6 +252,10 @@ export const useCartStore = defineStore('cart', {
 
         COMMANDES.push(order)
       }
+
+      // Save to localStorage after all orders are created
+      saveCommandes()
+      saveLignesCommande()
 
       // Vider le panier après création des commandes (mémoire + localStorage)
       this.clearCartAndStorage()

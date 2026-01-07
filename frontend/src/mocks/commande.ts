@@ -24,7 +24,8 @@ const daysAgo = (days: number): Date => {
     return date;
 };
 
-export const COMMANDES: CommandeMock[] = [
+// Hardcoded demo orders for demo user (Alice, id: 2)
+const DEMO_COMMANDES: CommandeMock[] = [
     // === Commandes PAID (environ 40%) ===
     {
         id: 1,
@@ -205,3 +206,38 @@ export const COMMANDES: CommandeMock[] = [
         etat_commande: EtatCommande.WAITING
     }
 ];
+
+// Initialize from localStorage or fallback to demo data
+function initializeCommandes(): CommandeMock[] {
+    const stored = localStorage.getItem('mock_commandes');
+    if (stored) {
+        try {
+            const parsed = JSON.parse(stored);
+            // Convert date strings back to Date objects
+            return parsed.map((cmd: any) => ({
+                ...cmd,
+                date_commande: new Date(cmd.date_commande),
+                date_collect: cmd.date_collect ? new Date(cmd.date_collect) : undefined
+            }));
+        } catch (e) {
+            console.warn('Failed to parse stored commandes, using demo data');
+            return [...DEMO_COMMANDES];
+        }
+    }
+    return [...DEMO_COMMANDES];
+}
+
+// Export mutable array that gets initialized
+export const COMMANDES: CommandeMock[] = initializeCommandes();
+
+// Save commandes to localStorage
+export function saveCommandes() {
+    localStorage.setItem('mock_commandes', JSON.stringify(COMMANDES));
+}
+
+// Reset to demo data (for testing)
+export function resetCommandes() {
+    localStorage.removeItem('mock_commandes');
+    COMMANDES.length = 0;
+    COMMANDES.push(...DEMO_COMMANDES);
+}

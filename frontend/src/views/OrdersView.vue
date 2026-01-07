@@ -223,7 +223,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { COMMANDES, EtatCommande } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
@@ -393,5 +393,11 @@ onMounted(async () => {
   // Render QR codes after component is mounted
   await renderQRCodes()
 })
+
+// Watch filteredOrders to re-render QR codes when filter changes
+watch(filteredOrders, async () => {
+  await renderQRCodes()
+})
 </script>
+
 

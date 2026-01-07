@@ -8,15 +8,15 @@ export interface LocationMock {
   presentation?: string; // Use Text editor
   static_code?: string;
   price: number;
-  
+
   id_location_type: number;
   purchased: boolean;
-  
+
   position: [number, number];
   icon_name?: string;
   banner_image?: string;
 
-  status: 'AVAILABLE' | 'PENDING' | 'APPROVED'; 
+  status: 'AVAILABLE' | 'PENDING' | 'APPROVED';
   id_prestataire?: number; // Reference to user id
   prestataire?: { // User details from backend 
     id_user: number;
@@ -201,7 +201,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 14,
     static_code: 'PRESTA_STALL_5',
-    name: 'Merchant Stall #5',
+    name: 'La Taverne du Lion d\'Or',
     description:
       'A popular location among travelers, known for its high foot traffic.',
     price: 140,
@@ -216,7 +216,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 15,
     static_code: 'PRESTA_STALL_6',
-    name: 'Merchant Stall #6',
+    name: 'L\'Échoppe de la Place',
     description:
       'Situated near the town square, this stall benefits from constant visibility.',
     price: 160,
@@ -231,7 +231,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 16,
     static_code: 'PRESTA_STALL_7',
-    name: 'Merchant Stall #7',
+    name: 'Le Comptoir du Voyageur',
     description:
       'A strategic location for merchants, close to the main road.',
     price: 110,
@@ -246,7 +246,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 17,
     static_code: 'PRESTA_STALL_8',
-    name: 'Merchant Stall #8',
+    name: 'L\'Artisan du Royaume',
     description:
       'A cozy stall, perfect for selling handmade goods and local crafts.',
     price: 115,
@@ -261,7 +261,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 18,
     static_code: 'PRESTA_STALL_9',
-    name: 'Merchant Stall #9',
+    name: 'Le Bazar Enchanté',
     description:
       'Known for its vibrant atmosphere and diverse range of products.',
     price: 125,
@@ -276,7 +276,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 19,
     static_code: 'PRESTA_STALL_10',
-    name: 'Merchant Stall #10',
+    name: 'Le Marché des Merveilles',
     description:
       'A prime spot for attracting both locals and tourists alike.',
     price: 135,
@@ -291,7 +291,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 20,
     static_code: 'PRESTA_STALL_11',
-    name: 'Merchant Stall #11',
+    name: 'Le Carrefour d\'Or',
     description:
       'Located at a busy intersection, ensuring a steady stream of potential customers.',
     price: 145,
@@ -306,7 +306,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 21,
     static_code: 'PRESTA_STALL_12',
-    name: 'Merchant Stall #12',
+    name: 'La Halle du Marché',
     description:
       'A bustling area known for its lively market scene and diverse offerings.',
     price: 155,
@@ -321,7 +321,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 22,
     static_code: 'PRESTA_STALL_13',
-    name: 'Merchant Stall #13',
+    name: 'L\'Auberge du Croissant',
     description:
       'Close to the tavern, this stall benefits from thirsty travelers looking for refreshments.',
     price: 165,
@@ -336,7 +336,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 23,
     static_code: 'PRESTA_STALL_14',
-    name: 'Merchant Stall #14',
+    name: 'L\'Écurie Royale',
     description:
       'A favored spot for its proximity to the stables and the smell of fresh hay.',
     price: 175,
@@ -351,7 +351,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 24,
     static_code: 'PRESTA_STALL_15',
-    name: 'Merchant Stall #15',
+    name: 'Le Belvédère',
     description:
       'Known for its excellent view of the market square, ideal for attracting attention.',
     price: 185,
@@ -366,7 +366,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 25,
     static_code: 'PRESTA_STALL_16',
-    name: 'Merchant Stall #16',
+    name: 'La Fontaine d\'Argent',
     description:
       'A strategic location near the fountain, popular with both locals and tourists.',
     price: 195,
@@ -381,7 +381,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 26,
     static_code: 'PRESTA_STALL_17',
-    name: 'Merchant Stall #17',
+    name: 'La Porte du Marché',
     description:
       'Close to the entrance of the market, ensuring high visibility for your goods.',
     price: 205,
@@ -396,7 +396,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 27,
     static_code: 'PRESTA_STALL_18',
-    name: 'Merchant Stall #18',
+    name: 'Vue sur le Château',
     description:
       'A charming stall with a great view of the castle, perfect for attracting tourists.',
     price: 215,
@@ -411,7 +411,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 28,
     static_code: 'PRESTA_STALL_19',
-    name: 'Merchant Stall #19',
+    name: 'Scène du Troubadour',
     description:
       "Located near the bard's stage, enjoy the added benefit of musical entertainment.",
     price: 225,
@@ -426,7 +426,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 29,
     static_code: 'PRESTA_STALL_20',
-    name: 'Merchant Stall #20',
+    name: 'Trésors d\'Orient',
     description:
       'A prime location for selling exotic goods from distant lands.',
     price: 235,
@@ -441,7 +441,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 30,
     static_code: 'PRESTA_STALL_21',
-    name: 'Merchant Stall #21',
+    name: 'L\'Épicerie Médiévale',
     description:
       'Known for its vibrant colors and the enticing smell of delicious food.',
     price: 245,
@@ -456,7 +456,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 31,
     static_code: 'PRESTA_STALL_22',
-    name: 'Merchant Stall #22',
+    name: 'Le Bazar Sympathique',
     description:
       'A popular spot for its variety of goods and friendly merchants.',
     price: 255,
@@ -471,7 +471,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 32,
     static_code: 'PRESTA_STALL_23',
-    name: 'Merchant Stall #23',
+    name: 'L\'Arsenal du Guerrier',
     description:
       'Close to the blacksmith, attracting customers looking for weapons and armor.',
     price: 265,
@@ -486,7 +486,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 33,
     static_code: 'PRESTA_STALL_24',
-    name: 'Merchant Stall #24',
+    name: 'L\'Ombre du Puits',
     description: 'A favored location for its shade and the nearby well.',
     price: 275,
     purchased: false,
@@ -500,7 +500,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 34,
     static_code: 'PRESTA_STALL_25',
-    name: 'Merchant Stall #25',
+    name: 'Le Poste de Garde',
     description:
       'Known for its strategic location near the guard post, ensuring safety and visibility.',
     price: 285,
@@ -515,7 +515,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 35,
     static_code: 'PRESTA_STALL_26',
-    name: 'Merchant Stall #26',
+    name: 'Arcanes & Sortilèges',
     description:
       'A prime spot for selling magical artifacts and rare ingredients.',
     price: 295,
@@ -530,7 +530,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 37,
     static_code: 'PRESTA_STALL_28',
-    name: 'Merchant Stall #28',
+    name: 'La Boulangerie Dorée',
     description:
       'A cozy stall, ideal for selling baked goods and sweet treats.',
     price: 315,
@@ -545,7 +545,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 38,
     static_code: 'PRESTA_STALL_29',
-    name: 'Merchant Stall #29',
+    name: 'Le Panorama Royal',
     description:
       'Known for its excellent view of the market square, ideal for attracting attention.',
     price: 325,
@@ -560,7 +560,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 39,
     static_code: 'PRESTA_STALL_30',
-    name: 'Merchant Stall #30',
+    name: 'La Fontaine des Vœux',
     description:
       'A strategic location near the fountain, popular with both locals and tourists.',
     price: 335,
@@ -575,7 +575,7 @@ export const LOCATIONS: LocationMock[] = [
   {
     id: 40,
     static_code: 'PRESTA_STALL_31',
-    name: 'Merchant Stall #31',
+    name: 'L\'Entrée du Marché',
     description:
       'Close to the entrance of the market, ensuring high visibility for your goods.',
     price: 345,

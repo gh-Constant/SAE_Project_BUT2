@@ -12,19 +12,22 @@
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-xl font-bold text-gray-800">{{ t('widgets.shop.title') }}</h3>
       <div class="flex gap-2">
-        <button 
+        <MedievalButton 
           v-if="isOwner"
           @click="addProduct"
-          class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
+          variant="success"
+          small
+          class="!shadow-[0_2px_0_#1B5E20] !active:translate-y-[2px]"
         >
           <i class="fas fa-plus mr-2"></i> {{ t('widgets.shop.add_product') }}
-        </button>
-        <button 
+        </MedievalButton>
+        <MedievalButton 
           @click="goToShop" 
-          class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
+          small
+          class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
         >
           <i class="fas fa-store mr-2"></i> {{ t('widgets.shop.view_all') }}
-        </button>
+        </MedievalButton>
       </div>
     </div>
 
@@ -74,6 +77,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { productService, ProductStoreMock } from '@/services/productService';
 import { useI18n } from 'vue-i18n';
+import MedievalButton from '@/components/ui/MedievalButton.vue';
 
 const { t } = useI18n();
 
