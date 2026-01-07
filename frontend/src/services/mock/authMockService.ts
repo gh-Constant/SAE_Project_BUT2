@@ -23,7 +23,7 @@ export const authMockService = {
 
   // Fonction login en mode mock
 
-  login(email : string, password : string) {
+  login(email: string, password: string) {
     return new Promise((resolve, reject) => {
       // Cherche l'utilisateur correspondant dans le tableau mockUsers partagé
       let user = mockUsers.find(u => u.email === email && u.password_hashed === password);
@@ -73,9 +73,16 @@ export const authMockService = {
         reject(new Error('Email already exists')); // Empêche la création de doublons
         return; // Sortie aprés rejet
       }
+
+      // Generate a unique ID that won't collide with hardcoded quest user IDs (2, 3, 5)
+      // Strategy: start from ID 100 for new mock users to avoid collision with demo data
+      const existingIds = mockUsers.map(u => u.id);
+      const maxId = Math.max(...existingIds, 99); // Minimum 100
+      const newId = maxId + 1;
+
       // Puisque le return n'a pas été fait, création d'un nouvel utilisateur mock
       const newUser: UserMock = {
-        id: mockUsers.length + 1, // ID auto-incrémenté (fait à la va vite pour mock).
+        id: newId, // Use guaranteed unique ID
         firstname: firstName,
         lastname: lastName,
         birth_date: undefined,
@@ -89,8 +96,25 @@ export const authMockService = {
         is_verified: false,
         xp: 0,
         level: 1,
+        gold: 0, // Initialize gold to 0
       };
+
       mockUsers.push(newUser); // Ajoute l'utilisateur au tableau mockUsers partagé
+
+      // CRITICAL: Clear quest data for this truly new user
+      // This prevents inheriting quests from previous localStorage sessions
+      const storedQuests = localStorage.getItem('mock_userQuests');
+      if (storedQuests) {
+        try {
+          const parsed = JSON.parse(storedQuests);
+          // Remove any quests that might exist for this new ID (shouldn't happen, but safety)
+          const filtered = parsed.filter((uq: any) => uq.id_user !== newId);
+          localStorage.setItem('mock_userQuests', JSON.stringify(filtered));
+        } catch (e) {
+          console.warn('Failed to clean quest data for new user:', e);
+        }
+      }
+
       resolve(newUser);    // Retourne le nouvel utilisateur
     });
   },

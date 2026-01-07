@@ -6,7 +6,46 @@ import { calculateLevelFromXP } from '@/utils/levelCalculator';
 import { useAuthStore } from '@/stores/auth';
 
 const mockQuests = [...QUESTS];
-const userQuests = [...USER_QUESTS];
+
+// Initialize user quests from localStorage or fallback to static data
+const initializeUserQuests = () => {
+  const stored = localStorage.getItem('mock_userQuests');
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      // Ensure each quest has the full quest object
+      return parsed.map((uq: any) => ({
+        ...uq,
+        created_at: new Date(uq.created_at),
+        updated_at: new Date(uq.updated_at),
+        quest: QUESTS.find(q => q.id_quest === uq.id_quest)
+      }));
+    } catch (error) {
+      console.warn('Failed to parse stored quests, using defaults:', error);
+      return [...USER_QUESTS];
+    }
+  }
+  return [...USER_QUESTS];
+};
+
+let userQuests = initializeUserQuests();
+
+// Save user quests to localStorage
+const saveUserQuests = () => {
+  try {
+    // Only save essential data to reduce localStorage size
+    const toSave = userQuests.map(uq => ({
+      id_user: uq.id_user,
+      id_quest: uq.id_quest,
+      status: uq.status,
+      created_at: uq.created_at,
+      updated_at: uq.updated_at
+    }));
+    localStorage.setItem('mock_userQuests', JSON.stringify(toSave));
+  } catch (error) {
+    console.error('Failed to save quests to localStorage:', error);
+  }
+};
 
 // Helper to get current user ID from localStorage
 const getCurrentUserId = (): number => {
@@ -51,13 +90,14 @@ export const questMockService = {
         updated_at: new Date(),
         quest: quest
       });
+      saveUserQuests(); // Persist to localStorage
     }
   },
 
   completeQuest: async (questId: number): Promise<void> => {
     const authStore = useAuthStore();
     const user = authStore.user;
-    
+
     if (!user) {
       throw new Error('User not found');
     }
@@ -98,6 +138,9 @@ export const questMockService = {
     if (import.meta.env.VITE_NO_BACKEND === 'true') {
       localStorage.setItem('currentUser', JSON.stringify(authStore.user));
     }
+
+    // Persist quest state
+    saveUserQuests();
   },
 
   cancelQuest: async (questId: number): Promise<void> => {
@@ -105,6 +148,7 @@ export const questMockService = {
     const index = userQuests.findIndex(q => q.id_quest === questId && q.id_user === userId);
     if (index !== -1) {
       userQuests.splice(index, 1);
+      saveUserQuests(); // Persist to localStorage
     }
   },
 
@@ -135,7 +179,7 @@ export const questMockService = {
   validateQuestByQR: async (questId: number, scannedCode: string): Promise<{ success: boolean; message?: string; error?: string }> => {
     const authStore = useAuthStore();
     const user = authStore.user;
-    
+
     if (!user) {
       return { success: false, error: 'Utilisateur non connecté' };
     }
@@ -166,9 +210,9 @@ export const questMockService = {
 
     // Vérifier que le code scanné correspond au static_code de la location
     if (location.static_code !== scannedCode) {
-      return { 
-        success: false, 
-        error: `Mauvais emplacement ! Cette quête doit être validée à "${location.name}"` 
+      return {
+        success: false,
+        error: `Mauvais emplacement ! Cette quête doit être validée à "${location.name}"`
       };
     }
 
@@ -191,9 +235,21 @@ export const questMockService = {
       localStorage.setItem('currentUser', JSON.stringify(authStore.user));
     }
 
-    return { 
-      success: true, 
-      message: `Quête validée ! +${xpReward} XP gagné` 
+    // Persist quest state
+    saveUserQuests();
+
+    return {
+      success: true,
+      message: `Quête validée ! +${xpReward} XP gagné`
     };
+  },
+
+  /**
+   * Reset user quests to initial data (for testing/demo)
+   */
+  resetUserQuests: () => {
+    userQuests = [...USER_QUESTS];
+    saveUserQuests();
+    console.log('Quest data reset to initial state');
   }
 };
