@@ -115,6 +115,21 @@ export const authMockService = {
         }
       }
 
+      // CRITICAL: Clear reservation data for this new user
+      // RESERVATIONS array contains hardcoded data for id_user: 2
+      // Import is mutable so we need to filter it
+      const RESERVATIONS_KEY = 'mock_reservations';
+      const storedReservations = localStorage.getItem(RESERVATIONS_KEY);
+      if (storedReservations) {
+        try {
+          const parsed = JSON.parse(storedReservations);
+          const filtered = parsed.filter((r: any) => r.id_user !== newId);
+          localStorage.setItem(RESERVATIONS_KEY, JSON.stringify(filtered));
+        } catch (e) {
+          console.warn('Failed to clean reservation data for new user:', e);
+        }
+      }
+
       resolve(newUser);    // Retourne le nouvel utilisateur
     });
   },

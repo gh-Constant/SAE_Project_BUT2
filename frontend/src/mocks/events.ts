@@ -41,8 +41,8 @@ export const EVENTS: EventMock[] = [
     id_event: 2,
     title: "Banquet Royal",
     description: "Un festin digne des rois avec musiciens, jongleurs et mets exquis.",
-    start_time: new Date(Date.now() + 172800000).toISOString(), // Après-demain
-    end_time: new Date(Date.now() + 180000000).toISOString(),
+    start_time: new Date('2026-01-09T19:00:00').toISOString(), // Vendredi 9 janvier 2026 à 19h00
+    end_time: new Date('2026-01-09T22:00:00').toISOString(), // Fin à 22h00
     price: 120,
     capacity: 200,
     sold: 180,

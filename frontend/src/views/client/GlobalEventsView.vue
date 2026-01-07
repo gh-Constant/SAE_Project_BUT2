@@ -52,6 +52,21 @@
           </div>
         </div>
       </div>
+      
+      <!-- CTA Button to view my reservations -->
+      <div v-if="events.length > 0" class="mt-12 text-center">
+        <MedievalButton 
+          to="/my-reservations" 
+          class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px] !text-lg !px-8 !py-4"
+        >
+          <i class="fas fa-ticket-alt mr-2"></i>
+          Déjà réservé ? Consultez vos billets
+          <i class="fas fa-arrow-right ml-2"></i>
+        </MedievalButton>
+        <p class="mt-4 text-sm text-stone-grey font-medieval">
+          Accédez rapidement à toutes vos réservations confirmées
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +76,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEventStore, Event } from '@/stores/event'
 import { useI18n } from 'vue-i18n'
+import MedievalButton from '@/components/ui/MedievalButton.vue'
 
 const { t } = useI18n()
 

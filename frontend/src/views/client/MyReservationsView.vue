@@ -66,6 +66,21 @@
             </div>
           </div>
         </div>
+        
+        <!-- CTA Button to discover more events -->
+        <div class="mt-12 text-center">
+          <MedievalButton 
+            to="/events" 
+            class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px] !text-lg !px-8 !py-4"
+          >
+            <i class="fas fa-sparkles mr-2"></i>
+            Envie d'autres aventures épiques ?
+            <i class="fas fa-arrow-right ml-2"></i>
+          </MedievalButton>
+          <p class="mt-4 text-sm text-stone-grey font-medieval">
+            Découvrez nos prochains tournois, banquets et festivités légendaires
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -75,6 +90,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useEventStore } from '@/stores/event'
 import { useI18n } from 'vue-i18n'
+import MedievalButton from '@/components/ui/MedievalButton.vue'
 
 const { t } = useI18n()
 const eventStore = useEventStore()

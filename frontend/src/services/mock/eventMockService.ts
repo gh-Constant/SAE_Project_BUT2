@@ -3,6 +3,20 @@ import { RESERVATIONS, ReservationMock } from '@/mocks/reservations';
 import { LOCATIONS } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 
+// Helper to get current user ID from localStorage
+const getCurrentUserId = (): number => {
+  const currentUserStr = localStorage.getItem('currentUser');
+  if (currentUserStr) {
+    try {
+      const user = JSON.parse(currentUserStr);
+      return user.id;
+    } catch {
+      return 2; // Default to Alice (aventurier)
+    }
+  }
+  return 2; // Default to Alice (aventurier)
+};
+
 export const eventMockService = {
   getEvents: async (filters?: { id_location?: number; published?: boolean }): Promise<EventMock[]> => {
     return new Promise((resolve) => {
@@ -100,7 +114,7 @@ export const eventMockService = {
 
       const newReservation: ReservationMock = {
         id_reservation: Math.max(...RESERVATIONS.map(r => r.id_reservation), 0) + 1,
-        id_user: 2, // Mock user ID
+        id_user: getCurrentUserId(), // Use actual logged-in user ID
         id_event: eventId,
         quantity,
         total_price: event.price * quantity,
@@ -119,7 +133,8 @@ export const eventMockService = {
 
   getUserReservations: async (): Promise<ReservationMock[]> => {
     return new Promise((resolve) => {
-      const userReservations = RESERVATIONS.filter(r => r.id_user === 2).map(r => {
+      const userId = getCurrentUserId();
+      const userReservations = RESERVATIONS.filter(r => r.id_user === userId).map(r => {
         const event = EVENTS.find(e => e.id_event === r.id_event);
         if (event) {
           return {
