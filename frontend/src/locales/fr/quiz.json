@@ -1,0 +1,66 @@
+{
+    "title": "Quiz",
+    "list": {
+        "title": "Quiz du Royaume",
+        "subtitle": "Testez vos connaissances sur l'histoire et les légendes du royaume.",
+        "filter_location": "Filtrer par lieu",
+        "all_locations": "Tous les lieux",
+        "search_placeholder": "Rechercher un quiz...",
+        "empty": "Aucun quiz disponible pour le moment.",
+        "start": "Commencer",
+        "questions_count": "{count} questions",
+        "creator": "Par {name}"
+    },
+    "play": {
+        "start_button": "Commencer le quiz",
+        "submit_button": "Soumettre les réponses",
+        "cancel_button": "Abandonner le quiz",
+        "question_progress": "Question {current} / {total}",
+        "login_required": "Connectez-vous pour sauvegarder vos résultats !",
+        "confirm_cancel": "Voulez-vous vraiment abandonner le quiz ?",
+        "loading": "Chargement du quiz...",
+        "error_not_found": "Quiz introuvable ou inactif",
+        "unanswered_alert": "Vous n'avez pas répondu à {count} question(s)"
+    },
+    "results": {
+        "title": "Résultats",
+        "score": "Votre score : {score} / {total}",
+        "percentage": "{percent}%",
+        "success_message": "Félicitations !",
+        "failure_message": "Dommage, retentez votre chance !",
+        "replay": "Rejouer",
+        "back_to_list": "Voir d'autres quiz",
+        "details_title": "Récapitulatif détaillé",
+        "show_details": "Voir les détails des réponses",
+        "hide_details": "Masquer les détails"
+    },
+    "editor": {
+        "title_new": "Écrire un Nouveau Quiz",
+        "title_edit": "Modifier le Grimoire",
+        "subtitle": "\"Que votre plume soit aussi affûtée que votre épée.\"",
+        "form": {
+            "title": "TITRE DU QUIZ",
+            "location": "LIEU ASSOCIÉ",
+            "image": "IMAGE DE COUVERTURE",
+            "description": "DESCRIPTION",
+            "add_question": "Ajouter une question",
+            "save_draft": "Sauvegarder",
+            "publish": "Publier le Quiz",
+            "cancel": "Annuler"
+        },
+        "question": {
+            "title": "Question {number}",
+            "content": "Contenu de la question",
+            "answers": "RÉPONSES",
+            "add_answer": "Ajouter une réponse",
+            "correct_answer": "Bonne réponse"
+        }
+    },
+    "stats": {
+        "title": "Statistiques",
+        "total_attempts": "Total Tentatives",
+        "average_score": "Score Moyen",
+        "participants": "Participants",
+        "questions": "Questions"
+    }
+}

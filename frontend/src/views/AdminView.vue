@@ -228,8 +228,8 @@
                   <i class="fas fa-question-circle text-white text-xl"></i>
                 </div>
                 <div>
-                  <h2 class="text-2xl font-medieval font-bold text-iron-black">Quiz</h2>
-                  <p class="text-sm text-stone-grey">QCM & Évaluations</p>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">{{ t('admin.dashboard.quizzes.title') }}</h2>
+                  <p class="text-sm text-stone-grey">{{ t('admin.dashboard.quizzes.subtitle') }}</p>
                 </div>
               </div>
 
@@ -240,7 +240,7 @@
                 >
                   <span class="flex items-center gap-3">
                     <i class="fas fa-list text-antique-bronze"></i>
-                    <span class="font-medieval font-bold text-iron-black">Gestion des Quiz</span>
+                    <span class="font-medieval font-bold text-iron-black">{{ t('admin.quizzes.title') }}</span>
                   </span>
                   <i
                     class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
@@ -252,7 +252,7 @@
                 >
                   <span class="flex items-center gap-3">
                     <i class="fas fa-chart-bar text-antique-bronze"></i>
-                    <span class="font-medieval font-bold text-iron-black">Statistiques</span>
+                    <span class="font-medieval font-bold text-iron-black">{{ t('admin.quizzes.view_stats') }}</span>
                   </span>
                   <i
                     class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"

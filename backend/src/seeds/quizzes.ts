@@ -11,7 +11,7 @@ export async function seedQuizzes() {
         });
 
         await prisma.quizQuestion.deleteMany({
-            where: { id_quiz: { in: [1, 2, 3, 4] } }
+            where: { id_quiz: { in: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] } }
         });
     } catch (e) {
         console.warn("Warning clearing quiz questions:", e);

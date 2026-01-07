@@ -1,0 +1,66 @@
+{
+    "title": "Quizzes",
+    "list": {
+        "title": "Kingdom Quizzes",
+        "subtitle": "Test your knowledge of the kingdom's history and legends.",
+        "filter_location": "Filter by location",
+        "all_locations": "All locations",
+        "search_placeholder": "Search for a quiz...",
+        "empty": "No quizzes available at the moment.",
+        "start": "Start",
+        "questions_count": "{count} questions",
+        "creator": "By {name}"
+    },
+    "play": {
+        "start_button": "Start Quiz",
+        "submit_button": "Submit Answers",
+        "cancel_button": "Abandon Quiz",
+        "question_progress": "Question {current} / {total}",
+        "login_required": "Log in to save your results!",
+        "confirm_cancel": "Do you really want to abandon the quiz?",
+        "loading": "Loading quiz...",
+        "error_not_found": "Quiz not found or inactive",
+        "unanswered_alert": "You have not answered {count} question(s)"
+    },
+    "results": {
+        "title": "Results",
+        "score": "Your score: {score} / {total}",
+        "percentage": "{percent}%",
+        "success_message": "Congratulations!",
+        "failure_message": "Too bad, try again!",
+        "replay": "Play Again",
+        "back_to_list": "See other quizzes",
+        "details_title": "Detailed Summary",
+        "show_details": "Show answer details",
+        "hide_details": "Hide details"
+    },
+    "editor": {
+        "title_new": "Write a New Quiz",
+        "title_edit": "Modify the Grimoire",
+        "subtitle": "\"May your quill be as sharp as your sword.\"",
+        "form": {
+            "title": "QUIZ TITLE",
+            "location": "ASSOCIATED LOCATION",
+            "image": "COVER IMAGE",
+            "description": "DESCRIPTION",
+            "add_question": "Add a question",
+            "save_draft": "Save",
+            "publish": "Publish Quiz",
+            "cancel": "Cancel"
+        },
+        "question": {
+            "title": "Question {number}",
+            "content": "Question Content",
+            "answers": "ANSWERS",
+            "add_answer": "Add an answer",
+            "correct_answer": "Correct answer"
+        }
+    },
+    "stats": {
+        "title": "Statistics",
+        "total_attempts": "Total Attempts",
+        "average_score": "Average Score",
+        "participants": "Participants",
+        "questions": "Questions"
+    }
+}
