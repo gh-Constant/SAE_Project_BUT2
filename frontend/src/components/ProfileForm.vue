@@ -637,6 +637,9 @@ const isFormValid = computed(() => {
 // Vérifier s'il y a des changements par rapport aux valeurs initiales
 const hasChanges = computed(() => {
   if (!user.value) return false
+
+  // Récupérer le HTML de l'éditeur bio pour la comparaison
+  const currentBioHTML = bioEditorRef.value?.getHTML() || ''
   
   const hasFirstNameChanged = formData.value.firstname !== user.value.firstname
   const hasLastNameChanged = formData.value.lastname !== user.value.lastname
@@ -644,7 +647,7 @@ const hasChanges = computed(() => {
   const hasAvatarChanged = formData.value.avatarUrl !== (user.value.avatar_url || null)
   const hasBirthDateChanged = formData.value.birthDate !== (user.value.birth_date ? new Date(user.value.birth_date).toISOString().split('T')[0] : null)
   const hasPhoneChanged = formData.value.phone !== (user.value.phone || '')
-  const hasBioChanged = formData.value.bio !== (user.value.bio || '')
+  const hasBioChanged = currentBioHTML !== (user.value.bio || '')
 
   
   return hasFirstNameChanged || hasLastNameChanged || hasEmailChanged || hasAvatarChanged ||
@@ -737,6 +740,11 @@ const resetForm = () => {
     Object.keys(fieldErrors.value).forEach(key => {
       fieldErrors.value[key as keyof typeof fieldErrors.value] = ''
     })
+    
+    // Mettre à jour l'éditeur bio avec le nouveau contenu
+    if (bioEditorRef.value) {
+      bioEditorRef.value.setHTML(user.value.bio || '<p></p>')
+    }
   }
 }
 
@@ -746,13 +754,17 @@ const handleSubmit = async () => {
   successMessage.value = ''
   changedFields.value = []
 
+  // Récupérer le HTML de l'éditeur bio
+  const bioHTML = bioEditorRef.value?.getHTML() || ''
+  formData.value.bio = bioHTML
+
   // Valider tous les champs
   validateField('firstname', formData.value.firstname)
   validateField('lastname', formData.value.lastname)
   validateField('email', formData.value.email)
   validateField('phone', formData.value.phone)
   validateField('birthDate', formData.value.birthDate || '')
-  validateField('bio', formData.value.bio)
+  validateField('bio', bioHTML)
 
   // Vérifier s'il y a des erreurs de validation
   const hasErrors = Object.values(fieldErrors.value).some(error => error !== '')
@@ -805,8 +817,11 @@ const handleSubmit = async () => {
       profileData.phone = formData.value.phone || null
       changedFields.value.push('phone')
     }
-    if (formData.value.bio !== (user.value?.bio || '')) {
-      profileData.bio = formData.value.bio || null
+    // Récupérer le HTML de l'éditeur bio pour la comparaison
+    const currentBioHTML = bioEditorRef.value?.getHTML() || ''
+
+    if (currentBioHTML !== (user.value?.bio || '')) {
+      profileData.bio = currentBioHTML || null
       changedFields.value.push('bio')
     }
 
