@@ -239,7 +239,7 @@
                   class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"
                 >
                   <span class="flex items-center gap-3">
-                    <i class="fas fa-list text-antique-bronze"></i>
+                    <i class="fa-solid fa-gear text-antique-bronze"></i>
                     <span class="font-medieval font-bold text-iron-black">{{ t('admin.quizzes.title') }}</span>
                   </span>
                   <i

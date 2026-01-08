@@ -120,7 +120,6 @@ export async function getQuizzes(filters?: {
             averageScore = Math.round(totalScorePercent / quiz.attempts.length);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { attempts, ...quizWithoutAttempts } = quiz;
         return {
             ...quizWithoutAttempts,
@@ -131,8 +130,7 @@ export async function getQuizzes(filters?: {
 }
 
 // Get top adventurers based on quiz completions
-export async function getTopAdventurers(limit: number = 5) {
-    // Fetch all completed attempts with user info
+export async function getTopAdventurers(limit = 5) {
     const attempts = await prisma.userQuizAttempt.findMany({
         where: {
             completed_at: { not: null }
