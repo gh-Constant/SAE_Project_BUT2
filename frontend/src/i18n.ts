@@ -79,6 +79,11 @@ import frQrcode from './locales/fr/qrcode.json';
 import deQrcode from './locales/de/qrcode.json';
 import esQrcode from './locales/es/qrcode.json';
 
+import enQuiz from './locales/en/quiz.json';
+import frQuiz from './locales/fr/quiz.json';
+import deQuiz from './locales/de/quiz.json';
+import esQuiz from './locales/es/quiz.json';
+import mcQuiz from './locales/mc/quiz.json';
 
 
 const messages = {
@@ -99,7 +104,8 @@ const messages = {
     reservations: enReservations,
     events: enEvents,
     widgets: enWidgets,
-    qrcode: enQrcode
+    qrcode: enQrcode,
+    quiz: enQuiz
   },
   fr: {
     map: frMap,
@@ -118,7 +124,8 @@ const messages = {
     reservations: frReservations,
     events: frEvents,
     widgets: frWidgets,
-    qrcode: frQrcode
+    qrcode: frQrcode,
+    quiz: frQuiz
   },
   de: {
     map: deMap,
@@ -137,7 +144,8 @@ const messages = {
     reservations: deReservations,
     events: deEvents,
     widgets: deWidgets,
-    qrcode: deQrcode
+    qrcode: deQrcode,
+    quiz: deQuiz
   },
   es: {
     map: esMap,
@@ -156,13 +164,15 @@ const messages = {
     reservations: esReservations,
     events: esEvents,
     widgets: esWidgets,
-    qrcode: esQrcode
+    qrcode: esQrcode,
+    quiz: esQuiz
   },
   mc: {
     map: mcMap,
     navbar: mcNavbar,
     home: mcHome,
-    prestataire: mcPrestataire
+    prestataire: mcPrestataire,
+    quiz: mcQuiz
   }
 };
 

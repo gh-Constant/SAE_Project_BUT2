@@ -216,8 +216,8 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A cozy stall, perfect for selling handmade goods and local crafts.',
     price: 115,
-    purchased: false,
-    id_prestataire: null,
+    purchased: true,
+    id_prestataire: 5,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2386, 3379],
     icon_name: 'prestataire',
@@ -230,8 +230,8 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'Known for its vibrant atmosphere and diverse range of products.',
     price: 125,
-    purchased: false,
-    id_prestataire: null,
+    purchased: true,
+    id_prestataire: 6,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2236, 2491],
     icon_name: 'prestataire',

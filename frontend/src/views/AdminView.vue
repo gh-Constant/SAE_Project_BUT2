@@ -44,20 +44,21 @@
             </button>
           </div>
         </div>
-
         <!-- Admin Categories -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-
           <!-- Quêtes Category -->
           <div
-            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          >
             <div
-              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110">
+              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"
+            >
             </div>
             <div class="relative p-6">
               <div class="flex items-center gap-4 mb-6">
                 <div
-                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md"
+                >
                   <i class="fas fa-scroll text-white text-xl"></i>
                 </div>
                 <div>
@@ -67,26 +68,34 @@
               </div>
 
               <div class="space-y-3">
-                <router-link to="/admin/quests"
-                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                <router-link
+                  to="/admin/quests"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn"
+                >
                   <span class="flex items-center gap-3">
                     <i
-                      class="fas fa-cog text-antique-bronze group-hover/btn:rotate-90 transition-transform duration-500"></i>
+                      class="fas fa-cog text-antique-bronze group-hover/btn:rotate-90 transition-transform duration-500"
+                    ></i>
                     <span class="font-medieval font-bold text-iron-black">Gestion des Quêtes</span>
                   </span>
                   <i
-                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
                 </router-link>
 
-                <router-link to="/admin/quests/stats"
-                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                <router-link
+                  to="/admin/quests/stats"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn"
+                >
                   <span class="flex items-center gap-3">
                     <i
-                      class="fas fa-chart-pie text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"></i>
+                      class="fas fa-chart-pie text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"
+                    ></i>
                     <span class="font-medieval font-bold text-iron-black">Statistiques</span>
                   </span>
                   <i
-                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
                 </router-link>
               </div>
             </div>
@@ -94,14 +103,17 @@
 
           <!-- Boutique Category -->
           <div
-            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          >
             <div
-              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110">
+              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"
+            >
             </div>
             <div class="relative p-6">
               <div class="flex items-center gap-4 mb-6">
                 <div
-                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md"
+                >
                   <i class="fas fa-store text-white text-xl"></i>
                 </div>
                 <div>
@@ -111,26 +123,34 @@
               </div>
 
               <div class="space-y-3">
-                <router-link to="/admin/products"
-                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                <router-link
+                  to="/admin/products"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn"
+                >
                   <span class="flex items-center gap-3">
                     <i
-                      class="fas fa-box-open text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"></i>
+                      class="fas fa-box-open text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"
+                    ></i>
                     <span class="font-medieval font-bold text-iron-black">Gestion Boutique</span>
                   </span>
                   <i
-                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
                 </router-link>
 
-                <router-link to="/admin/shop/stats"
-                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn">
+                <router-link
+                  to="/admin/shop/stats"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn"
+                >
                   <span class="flex items-center gap-3">
                     <i
-                      class="fas fa-chart-line text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"></i>
+                      class="fas fa-chart-line text-antique-bronze group-hover/btn:scale-110 transition-transform duration-300"
+                    ></i>
                     <span class="font-medieval font-bold text-iron-black">Statistiques</span>
                   </span>
                   <i
-                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
                 </router-link>
               </div>
             </div>
@@ -138,14 +158,17 @@
 
           <!-- Utilisateurs Category -->
           <div
-            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          >
             <div
-              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110">
+              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"
+            >
             </div>
             <div class="relative p-6">
               <div class="flex items-center gap-4 mb-6">
                 <div
-                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md"
+                >
                   <i class="fas fa-users text-white text-xl"></i>
                 </div>
                 <div>
@@ -155,17 +178,21 @@
               </div>
 
               <div class="space-y-3">
-                <router-link to="/admin/users"
-                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full">
+                <router-link
+                  to="/admin/users"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"
+                >
                   <span class="flex items-center gap-3">
                     <i class="fas fa-user-cog text-antique-bronze"></i>
                     <span class="font-medieval font-bold text-iron-black">Gestion Utilisateurs</span>
                   </span>
                   <i
-                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
                 </router-link>
                 <button
-                  class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full"
+                >
                   <span class="flex items-center gap-3">
                     <i class="fas fa-chart-bar text-antique-bronze/60"></i>
                     <span class="font-medieval font-bold text-stone-grey">Statistiques</span>
@@ -178,14 +205,17 @@
 
           <!-- Lieux Category -->
           <div
-            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          >
             <div
-              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110">
+              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"
+            >
             </div>
             <div class="relative p-6">
               <div class="flex items-center gap-4 mb-6">
                 <div
-                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md"
+                >
                   <i class="fas fa-map-marked-alt text-white text-xl"></i>
                 </div>
                 <div>
@@ -195,17 +225,21 @@
               </div>
 
               <div class="space-y-3">
-                <router-link to="/admin/locations"
-                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full">
+                <router-link
+                  to="/admin/locations"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"
+                >
                   <span class="flex items-center gap-3">
                     <i class="fas fa-map-marker-alt text-antique-bronze"></i>
                     <span class="font-medieval font-bold text-iron-black">Gestion Lieux</span>
                   </span>
                   <i
-                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"></i>
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
                 </router-link>
                 <button
-                  class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full">
+                  class="flex items-center justify-between px-4 py-3 bg-white/30 border border-antique-bronze/10 rounded-lg cursor-not-allowed opacity-70 w-full"
+                >
                   <span class="flex items-center gap-3">
                     <i class="fas fa-globe-europe text-antique-bronze/60"></i>
                     <span class="font-medieval font-bold text-stone-grey">Statistiques</span>
@@ -216,6 +250,55 @@
             </div>
           </div>
 
+          <!-- Quiz Category -->
+          <div
+            class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          >
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-antique-bronze/10 rounded-bl-full transform transition-transform group-hover:scale-110"
+            >
+            </div>
+            <div class="relative p-6">
+              <div class="flex items-center gap-4 mb-6">
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md"
+                >
+                  <i class="fas fa-question-circle text-white text-xl"></i>
+                </div>
+                <div>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">{{ t('admin.dashboard.quizzes.title') }}</h2>
+                  <p class="text-sm text-stone-grey">{{ t('admin.dashboard.quizzes.subtitle') }}</p>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <router-link
+                  to="/admin/quizzes"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"
+                >
+                  <span class="flex items-center gap-3">
+                    <i class="fa-solid fa-gear text-antique-bronze"></i>
+                    <span class="font-medieval font-bold text-iron-black">{{ t('admin.quizzes.title') }}</span>
+                  </span>
+                  <i
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
+                </router-link>
+                <router-link
+                  to="/admin/quizzes/stats"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"
+                >
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-chart-bar text-antique-bronze"></i>
+                    <span class="font-medieval font-bold text-iron-black">{{ t('admin.quizzes.view_stats') }}</span>
+                  </span>
+                  <i
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
+                </router-link>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Recent Activity -->
@@ -233,7 +316,8 @@
                       {{ t('admin.recent_activity.user_created.title') }}
                     </p>
                     <span
-                      class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-green-100 text-green-800 border border-green-200">
+                      class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-green-100 text-green-800 border border-green-200"
+                    >
                       {{ t('admin.recent_activity.user_created.status') }}
                     </span>
                   </div>
@@ -241,7 +325,8 @@
                     <p class="text-stone-grey text-sm">
                       {{ t('admin.recent_activity.user_created.description', { name: "Jean Dupont" }) }}
                     </p>
-                    <p class="text-xs font-bold text-antique-bronze/60">{{ t('admin.recent_activity.time.hour_ago') }}
+                    <p class="text-xs font-bold text-antique-bronze/60">
+                      {{ t('admin.recent_activity.time.hour_ago') }}
                     </p>
                   </div>
                 </div>
@@ -253,7 +338,8 @@
                       {{ t('admin.recent_activity.location_added.title') }}
                     </p>
                     <span
-                      class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200">
+                      class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200"
+                    >
                       {{ t('admin.recent_activity.location_added.status') }}
                     </span>
                   </div>
@@ -261,7 +347,8 @@
                     <p class="text-stone-grey text-sm">
                       {{ t('admin.recent_activity.location_added.description', { name: "Château de la Loire" }) }}
                     </p>
-                    <p class="text-xs font-bold text-antique-bronze/60">{{ t('admin.recent_activity.time.yesterday') }}
+                    <p class="text-xs font-bold text-antique-bronze/60">
+                      {{ t('admin.recent_activity.time.yesterday') }}
                     </p>
                   </div>
                 </div>
@@ -278,7 +365,6 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import MedievalButton from '@/components/ui/MedievalButton.vue'
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue'
 import { useI18n } from 'vue-i18n'
 

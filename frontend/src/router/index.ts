@@ -89,6 +89,18 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/quizzes',
+    name: 'admin-quizzes',
+    component: () => import('../views/AdminQuizzesView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
+    path: '/admin/quizzes/stats',
+    name: 'admin-quizzes-stats',
+    component: () => import('../views/AdminQuizStatsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/admin/shop/stats',
     name: 'admin-shop-stats',
     component: () => import('../views/AdminShopStatsView.vue'),
@@ -236,6 +248,34 @@ export const routes = [
     path: '/qr/scan',
     name: 'qr-scan',
     component: () => import('../views/QRScanView.vue'),
+  },
+  // Quiz routes
+  {
+    path: '/quiz',
+    name: 'quiz-list',
+    component: () => import('../views/QuizListView.vue'),
+  },
+  {
+    path: '/quiz/create',
+    name: 'quiz-create',
+    component: () => import('../views/QuizEditorView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/quiz/:id',
+    name: 'quiz-play',
+    component: () => import('../views/QuizPlayView.vue'),
+  },
+  {
+    path: '/quiz/:id/edit',
+    name: 'quiz-edit',
+    component: () => import('../views/QuizEditorView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/quiz/:id/results',
+    name: 'quiz-results',
+    component: () => import('../views/QuizResultsView.vue'),
   },
 ];
 

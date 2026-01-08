@@ -28,6 +28,13 @@ const locationServiceImpl = {
     return await response.json();
   },
 
+  getLocationsByProviderId: async (providerId: number): Promise<LocationMock[]> => {
+    // Note: In a real API, we might have a query param like ?provider_id=X or a dedicated endpoint
+    // For now, sorting client-side or assuming an endpoint structure
+    const allLocations = await locationServiceImpl.getAllLocations();
+    return allLocations.filter(loc => loc.id_prestataire === providerId);
+  },
+
   purchaseLocation: async (locationId: number, userId: number): Promise<LocationMock> => {
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -45,12 +52,12 @@ const locationServiceImpl = {
         id_prestataire: userId
       })
     });
-    
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || 'Failed to purchase location');
     }
-    
+
     return await response.json();
   },
 
@@ -62,13 +69,14 @@ const locationServiceImpl = {
     } else {
       // Other users see validated (APPROVED) locations
       locations = locations.filter(location =>
-        location.status === 'APPROVED'
+        location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID ||
+        (location.purchased && location.id_prestataire && location.id_prestataire > 0)
       );
     }
 
     locations.forEach((location) => {
       const iconName = location.icon_name || 'default';
-      
+
       let status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED';
 
       if (userRole === 'admin' && location.status === 'PENDING') {
@@ -83,7 +91,7 @@ const locationServiceImpl = {
       if (!location.position || !Array.isArray(location.position) || location.position.length !== 2) {
         return;
       }
-      
+
       const marker = L.marker(location.position as [number, number], { icon });
 
       if (onMarkerClick) {
@@ -128,45 +136,43 @@ const locationServiceImpl = {
   },
 
   validatePurchase: async (locationId: number): Promise<LocationMock> => {
-    // Mock implementation call (will be handled by mockService if enabled)
-    // In real app, this would be a PATCH to /locations/{id}/validate
-     const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/validate`, {
-        method: 'POST',
-         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/validate`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
     });
     return response.json();
   },
 
   rejectPurchase: async (locationId: number): Promise<LocationMock> => {
-      const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/reject`, {
-        method: 'POST',
-         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/reject`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
     });
     return response.json();
   },
 
   removeOwner: async (locationId: number): Promise<LocationMock> => {
-       const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
-        method: 'DELETE',
-         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
     });
     return response.json();
   },
 
   updateOwner: async (locationId: number, userId: number): Promise<LocationMock> => {
-       const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        },
-        body: JSON.stringify({ userId })
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      },
+      body: JSON.stringify({ userId })
     });
     return response.json();
   }

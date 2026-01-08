@@ -66,6 +66,9 @@ export const createApp = (): Application => {
   // Routes principales de l'application
   app.use('/', routes);
 
+  // Servir les fichiers statiques (uploads)
+  app.use('/uploads', express.static('uploads'));
+
   // Middleware pour gérer les routes non trouvées (404)
   app.use(notFoundHandler);
 

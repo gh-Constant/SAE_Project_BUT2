@@ -132,7 +132,7 @@
           </p>
           <div class="flex flex-col items-center gap-3">
             <div class="bg-white p-3 rounded-lg shadow-inner border border-antique-bronze/30">
-              <canvas :ref="qrCanvasRef" class="qr-canvas"></canvas>
+              <canvas ref="qrCanvasRef" class="qr-canvas"></canvas>
             </div>
             <p class="text-xs text-stone-grey text-center max-w-xs">
               {{ t('widgets.purchased.qr_code_hint') }}
@@ -156,6 +156,32 @@
       <!-- Quest Section -->
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <QuestSection :location-id="location.id" :is-owner="isOwner" />
+      </div>
+
+      <!-- Quiz Section -->
+      <div v-if="quizzes.length > 0" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <h3 class="text-xl font-bold text-iron-black mb-4 flex items-center font-medieval">
+          
+          <span class="ml-2">Quiz</span>
+        </h3>
+        <div class="grid gap-3">
+          <div
+            v-for="quiz in quizzes"
+            :key="quiz.id_quiz"
+            class="bg-white/60 p-4 rounded-lg border border-antique-bronze/10 hover:border-antique-bronze/30 transition-colors flex justify-between items-center group shadow-sm"
+          >
+            <div>
+              <h4 class="font-bold text-iron-black group-hover:text-antique-bronze transition-colors">{{ quiz.title }}</h4>
+              <p class="text-sm text-stone-grey line-clamp-1">{{ quiz.description }}</p>
+            </div>
+            <button
+              @click="playQuiz(quiz.id_quiz)"
+              class="ml-4 bg-stone-grey hover:bg-iron-black text-white px-4 py-2 rounded font-medieval font-bold shadow-sm transition-colors border border-stone-grey/50 whitespace-nowrap text-sm"
+            >
+              Jouer
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="flex gap-3 justify-end">
@@ -265,7 +291,9 @@ import QuestSection from './QuestSection.vue';
 import { useI18n } from 'vue-i18n';
 import { locationService } from '@/services/locationService';
 import { isAdmin as checkIsAdmin } from '@/services/roleService';
-import QRCode from 'qrcode';
+import QRCode from 'qrcode'; 
+import { quizService } from '@/services/quizService';
+import type { Quiz } from '@/types/quiz';
 
 const { t } = useI18n();
 const router = useRouter(); // Initialize router
@@ -281,6 +309,8 @@ const emit = defineEmits<{
 }>();
 
 const authStore = useAuthStore();
+const qrCanvasRef = ref<HTMLCanvasElement | null>(null);
+const quizzes = ref<Quiz[]>([]);
 
 const prestataire = computed(() => {
   // Use prestataire data from location if available (from backend)
@@ -294,7 +324,7 @@ const prestataire = computed(() => {
   if (modifiedUsersStr) {
     try {
       const modifiedUsers = JSON.parse(modifiedUsersStr);
-      if (modifiedUsers[props.location.id_prestataire]) {
+      if (props.location.id_prestataire && modifiedUsers[props.location.id_prestataire]) {
         return modifiedUsers[props.location.id_prestataire];
       }
     } catch (error) {
@@ -384,35 +414,49 @@ const rejectLocation = async () => {
   }
 };
 
-// QR Code generation
-const qrCanvasRef = ref<HTMLCanvasElement | null>(null);
-
-async function renderQRCode() {
-  if (!props.location.static_code || !qrCanvasRef.value) return;
-  
-  await nextTick();
-  
-  try {
-    await QRCode.toCanvas(qrCanvasRef.value, props.location.static_code, {
-      width: 200,
-      margin: 2,
-      color: {
-        dark: '#8B4513', // antique-bronze color
-        light: '#ffffff',
-      },
-    });
-  } catch (error) {
-    console.error('Failed to render QR code:', error);
+const generateQRCode = async () => {
+  if (props.location.static_code && qrCanvasRef.value) {
+    try {
+      await QRCode.toCanvas(qrCanvasRef.value, props.location.static_code, {
+        width: 150,
+        margin: 1,
+        color: {
+            dark: '#8B4513', // Antique bronze like color
+            light: '#FFFFFF'
+        }
+      });
+    } catch (err) {
+      console.error('Failed to generate QR code', err);
+    }
   }
-}
+};
 
-// Watch for location changes and render QR code
-watch(() => props.location.static_code, () => {
-  renderQRCode();
-}, { immediate: true });
+const fetchQuizzes = async () => {
+    try {
+        const response = await quizService.getQuizzes({ id_location: props.location.id });
+        quizzes.value = response.quizzes;
+    } catch (e) {
+        console.error('Failed to fetch quizzes', e);
+    }
+};
+
+const playQuiz = (quizId: number) => {
+    router.push(`/quiz/${quizId}/play`);
+};
+
+watch(() => props.location, () => {
+    nextTick(() => {
+        generateQRCode();
+        fetchQuizzes();
+    });
+}, { deep: true });
 
 onMounted(() => {
-  renderQRCode();
+   nextTick(() => {
+       generateQRCode();
+       fetchQuizzes();
+   });
 });
 
 </script>
+```

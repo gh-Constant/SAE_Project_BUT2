@@ -53,6 +53,13 @@ export const locationMockService = {
     });
   },
 
+  getLocationsByProviderId(providerId: number): Promise<LocationMock[]> {
+    return new Promise((resolve) => {
+      const locations = LOCATIONS.filter(loc => loc.id_prestataire === providerId);
+      resolve([...locations]);
+    });
+  },
+
   /**
    * Achète une location pour un utilisateur
    * @param locationId ID de la location à acheter
@@ -115,7 +122,7 @@ export const locationMockService = {
     locations.forEach((location) => {
       // Utiliser l'icône spécifiée ou l'icône par défaut si elle n'existe pas
       const iconName = location.icon_name || 'default';
-      
+
       let status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED';
 
       if (userRole === 'admin' && location.status === 'PENDING') {
@@ -150,32 +157,32 @@ export const locationMockService = {
 
   updateLocation: (location: LocationMock): Promise<LocationMock> => {
     // TODO: supprimer toutes les enven, produit, ... si changement de prestataire
-    
+
     return new Promise((resolve, reject) => {
       const index = LOCATIONS.findIndex(loc => loc.id === location.id);
       if (index !== -1) {
         // Enforce business logic: status/purchased is derived from owner presence
         if (location.id_prestataire) {
-             location.status = 'APPROVED';
-             location.purchased = true;
+          location.status = 'APPROVED';
+          location.purchased = true;
 
-             // Hydrate prestataire info if available in USERS
-             const user = USERS.find(u => u.id === location.id_prestataire);
-             if (user) {
-                 location.prestataire = {
-                    id_user: user.id,
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    avatar_url: user.avatar_url,
-                    avatar_type: user.avatar_type,
-                 };
-             }
+          // Hydrate prestataire info if available in USERS
+          const user = USERS.find(u => u.id === location.id_prestataire);
+          if (user) {
+            location.prestataire = {
+              id_user: user.id,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              avatar_url: user.avatar_url,
+              avatar_type: user.avatar_type,
+            };
+          }
         } else {
-            // No owner implied available
-            location.status = 'AVAILABLE';
-            location.purchased = false;
-            location.id_prestataire = undefined;
-            location.prestataire = undefined;
+          // No owner implied available
+          location.status = 'AVAILABLE';
+          location.purchased = false;
+          location.id_prestataire = undefined;
+          location.prestataire = undefined;
         }
 
         // Update fields
@@ -233,28 +240,28 @@ export const locationMockService = {
   },
 
   updateOwner(locationId: number, userId: number): Promise<LocationMock> {
-      return new Promise((resolve, reject) => {
-        const location = LOCATIONS.find(loc => loc.id === locationId);
-        if (!location) {
-            return reject(new Error('Location not found'));
-        }
+    return new Promise((resolve, reject) => {
+      const location = LOCATIONS.find(loc => loc.id === locationId);
+      if (!location) {
+        return reject(new Error('Location not found'));
+      }
 
-        const user = USERS.find(u => u.id === userId);
-        if (!user) {
-             return reject(new Error('User not found'));
-        }
+      const user = USERS.find(u => u.id === userId);
+      if (!user) {
+        return reject(new Error('User not found'));
+      }
 
-        location.purchased = true;
-        location.status = 'APPROVED';
-        location.id_prestataire = userId;
-        location.prestataire = {
-            id_user: user.id,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            avatar_url: user.avatar_url,
-            avatar_type: user.avatar_type,
-        };
-        resolve({ ...location });
+      location.purchased = true;
+      location.status = 'APPROVED';
+      location.id_prestataire = userId;
+      location.prestataire = {
+        id_user: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        avatar_url: user.avatar_url,
+        avatar_type: user.avatar_type,
+      };
+      resolve({ ...location });
     });
   }
 };

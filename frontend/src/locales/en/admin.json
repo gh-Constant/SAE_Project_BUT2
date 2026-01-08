@@ -15,6 +15,10 @@
             "status": "Active",
             "subtitle": "system stats",
             "action": "View statistics"
+        },
+        "quizzes": {
+            "title": "Quizzes",
+            "subtitle": "MCQ & Assessments"
         }
     },
     "quick_actions": {
@@ -28,7 +32,12 @@
         "manage_quests": "Manage Quests",
         "manage_quests_desc": "Create, edit, and delete quests",
         "quest_stats": "Quest Statistics",
-        "quest_stats_desc": "View stats and leaderboard"
+        "quest_stats_desc": "View stats and leaderboard",
+        "quizzes_section": "Quiz Management",
+        "manage_quizzes": "Manage Quizzes",
+        "manage_quizzes_desc": "Create, edit, and delete quizzes",
+        "quiz_stats": "Quiz Statistics",
+        "quiz_stats_desc": "View stats and leaderboard"
     },
     "recent_activity": {
         "title": "Recent Activity",
@@ -203,5 +212,88 @@
             "in_progress": "in progress",
             "empty": "No participants yet"
         }
+    },
+    "quizzes": {
+        "title": "Quiz Management",
+        "subtitle": "Overview and management of all system quizzes",
+        "view_stats": "View Statistics",
+        "search": {
+            "label": "Search quiz",
+            "placeholder": "Search by title or description..."
+        },
+        "filter": {
+            "creator": "Filter by creator",
+            "all_creators": "All creators",
+            "location": "Filter by location",
+            "all_locations": "All locations"
+        },
+        "stats": {
+            "active": "active quizzes",
+            "total": "total quizzes"
+        },
+        "table": {
+            "headers": {
+                "title": "Title",
+                "location": "Location",
+                "creator": "Creator",
+                "questions": "Questions",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "No quizzes registered",
+                "subtitle": "Create your first quiz to start managing"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "test": "Test"
+            },
+            "unknown_location": "Unknown location",
+            "system_creator": "System",
+            "delete_confirm": "Are you sure you want to delete the quiz \"{title}\"? This action cannot be undone.",
+            "delete_error": "Error deleting quiz"
+        }
+    },
+    "quiz_stats": {
+        "title": "Quiz Statistics",
+        "subtitle": "Analytics dashboard for quizzes and performance",
+        "cards": {
+            "total_quizzes": "Total Quizzes",
+            "total_attempts": "Total Attempts",
+            "avg_score": "Avg Score",
+            "locations": "locations involved",
+            "avg_attempts": "on avg per quiz",
+            "total_questions": "total questions"
+        },
+        "charts": {
+            "popular": "Most Popular Quizzes",
+            "locations": "Distribution by Location",
+            "creators": "Top Creators",
+            "adventurers": "Top Adventurers",
+            "details": "Details by Quiz",
+            "empty": {
+                "quizzes": "No quizzes available",
+                "locations": "No locations with quizzes",
+                "creators": "No creators",
+                "adventurers": "No adventurers"
+            }
+        },
+        "secondary": {
+            "creators": "Creators",
+            "questions_per_quiz": "Questions / Quiz"
+        },
+        "detailed": {
+            "manage_link": "Manage Quizzes",
+            "headers": {
+                "quiz": "Quiz",
+                "creator": "Creator",
+                "questions": "Questions",
+                "participants": "Participants",
+                "attempts": "Attempts",
+                "avg_score": "Avg Score"
+            }
+        },
+        "empty": "No data available"
     }
 }

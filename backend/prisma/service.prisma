@@ -49,6 +49,7 @@ model Location {
   events        Event[]
   quests        Quest[]
   blogs         Blog[]
+  quizzes       Quiz[]
 
   @@index([id_prestataire])
   @@map("locations")

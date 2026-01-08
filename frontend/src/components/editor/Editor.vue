@@ -37,18 +37,21 @@ import Toolbar from './Toolbar.vue'
  * Props for the Editor component
  */
 interface Props {
+  modelValue?: string;
   initialContent?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  initialContent: defaultContent
+  modelValue: '',
+  initialContent: '' // Default to empty if not provided, though we fallback to defaultContent below if both are empty
 });
 
 /**
- * Émet un événement 'ready' lorsque l'éditeur est complètement initialisé.
+ * Emits for v-model support and ready event
  */
 const emit = defineEmits<{
-  ready: [editor: any]
+  ready: [editor: any];
+  'update:modelValue': [value: string];
 }>()
 
 // Liste des textes placeholder connus
@@ -92,7 +95,7 @@ const isPlaceholderContent = (content: string, cursorPosition?: number): boolean
  */
 const editor = useEditor({
   extensions: editorExtensions,
-  content: props.initialContent,
+  content: props.modelValue || props.initialContent || defaultContent,
   editorProps: {
     attributes: {
       class: 'tiptap prose prose-sm sm:prose lg:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
@@ -145,12 +148,15 @@ const editor = useEditor({
       }
     }
   },
+  onUpdate: ({ editor }) => {
+    emit('update:modelValue', editor.getHTML())
+  },
 })
 
 /**
- * Watch for changes to initialContent and update editor
+ * Watch for changes to modelValue and update editor if needed
  */
-watch(() => props.initialContent, (newContent) => {
+watch(() => props.modelValue, (newContent) => {
   if (editor.value && newContent !== editor.value.getHTML()) {
     editor.value.commands.setContent(newContent);
   }
