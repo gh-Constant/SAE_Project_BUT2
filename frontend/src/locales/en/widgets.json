@@ -81,5 +81,19 @@
         "error_accept": "Unable to accept quest (maybe already accepted?)",
         "view_more": "View {count} more quests",
         "view_less": "Show less"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "success_title": "Success!",
+        "success_message": "Message sent successfully! We will get back to you soon.",
+        "name_label": "Name",
+        "name_placeholder": "Your Name",
+        "email_label": "Email",
+        "email_placeholder": "your@email.com",
+        "message_label": "Message",
+        "message_placeholder": "Your message here...",
+        "sending_button": "Sending...",
+        "send_button": "Send Message",
+        "error_message": "Failed to send message. Please try again."
     }
 }

@@ -277,6 +277,12 @@ export const routes = [
     name: 'quiz-results',
     component: () => import('../views/QuizResultsView.vue'),
   },
+  {
+    path: '/conversations',
+    name: 'conversations',
+    component: () => import('../views/ConversationsView.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

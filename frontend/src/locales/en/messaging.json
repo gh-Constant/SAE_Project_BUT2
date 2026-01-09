@@ -1,0 +1,10 @@
+{
+    "title": "Messages",
+    "conversations": "Conversations",
+    "no_conversations": "No conversations yet.",
+    "select_conversation": "Select a conversation to start chatting.",
+    "no_messages": "No messages yet. Start the conversation!",
+    "type_placeholder": "Type your message...",
+    "send": "Send",
+    "confirm_delete": "Are you sure you want to permanently delete this conversation?"
+}

@@ -36,9 +36,11 @@
         <div class="flex">
           <div class="flex-shrink-0">
             <svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
+              <path
+                fill-rule="evenodd"
                 d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                clip-rule="evenodd" />
+                clip-rule="evenodd"
+              />
             </svg>
           </div>
           <div class="ml-3">
@@ -51,21 +53,27 @@
               <div class="flex gap-3 mt-2">
                 <button
                   class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded shadow-sm text-sm font-bold transition-colors flex items-center gap-1"
-                  @click="validateLocation">
+                  @click="validateLocation"
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
+                    <path
+                      fill-rule="evenodd"
                       d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd" />
+                      clip-rule="evenodd"
+                    />
                   </svg>
                   {{ t('widgets.purchased.validate_button') }}
                 </button>
                 <button
                   class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-1.5 rounded shadow-sm text-sm font-bold transition-colors flex items-center gap-1"
-                  @click="rejectLocation">
+                  @click="rejectLocation"
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
+                    <path
+                      fill-rule="evenodd"
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd" />
+                      clip-rule="evenodd"
+                    />
                   </svg>
                   {{ t('widgets.purchased.reject_button') }}
                 </button>
@@ -76,29 +84,39 @@
       </div>
 
       <!-- Prestataire Profile Section -->
-      <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm"
-        v-if="prestataire">
+      <div
+        class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm"
+        v-if="prestataire"
+      >
         <div class="flex items-center mb-4">
           <div class="relative">
-            <img :src="prestataire.avatar_url" :alt="prestataire.firstname"
-              class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover" />
+            <img
+              :src="prestataire.avatar_url" :alt="prestataire.firstname"
+              class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover"
+            />
             <div
-              class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white">
+              class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white"
+            >
               {{ t('widgets.purchased.owner_label') }}
             </div>
           </div>
           <div class="flex-1">
-            <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{
-              prestataire.lastname }}</h3>
+            <h3 class="text-xl font-medieval font-bold text-iron-black">
+              {{ prestataire.firstname }} {{
+                prestataire.lastname }}
+            </h3>
             <p class="text-sm font-body text-stone-grey italic">{{ prestataireTypeName }}</p>
           </div>
         </div>
         <button
           class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2 px-4 rounded shadow-md transition-all duration-200 flex items-center justify-center gap-2"
-          @click="viewProfile">
+          @click="viewProfile"
+        >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <path
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
           </svg>
           {{ t('widgets.purchased.view_profile') }}
         </button>
@@ -144,6 +162,8 @@
         </div>
       </div>
 
+
+
       <!-- Shop Section -->
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <ShopSection :location-id="location.id" :is-owner="isOwner" />
@@ -161,7 +181,6 @@
       <!-- Quiz Section -->
       <div v-if="quizzes.length > 0" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <h3 class="text-xl font-bold text-iron-black mb-4 flex items-center font-medieval">
-          
           <span class="ml-2">Quiz</span>
         </h3>
         <div class="grid gap-3">
@@ -184,10 +203,16 @@
         </div>
       </div>
 
+      <!-- Contact Section (Visible to non-owners) -->
+      <div v-if="!isOwner" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <ContactSection :location-id="location.id" />
+      </div>
+
       <div class="flex gap-3 justify-end">
         <button
           class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50"
-          @click="$emit('close')">
+          @click="$emit('close')"
+        >
           {{ t('widgets.purchased.close') }}
         </button>
       </div>
@@ -211,8 +236,10 @@
           <div v-if="prestataire" class="space-y-6">
             <!-- Avatar et infos de base -->
             <div class="flex items-center gap-4 pb-4 border-b border-antique-bronze/20">
-              <img :src="prestataire.avatar_url" :alt="prestataire.firstname"
-                class="w-24 h-24 rounded-full border-4 border-antique-bronze object-cover" />
+              <img
+                :src="prestataire.avatar_url" :alt="prestataire.firstname"
+                class="w-24 h-24 rounded-full border-4 border-antique-bronze object-cover"
+              />
               <div>
                 <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
                 <p class="text-sm font-body text-stone-grey italic">{{ prestataireTypeName }}</p>
@@ -259,12 +286,14 @@
           <button
             v-if="authStore.user && prestataire && authStore.user.id === prestataire.id"
             @click="goToMyProfile"
-            class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded shadow-md transition-all">
+            class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded shadow-md transition-all"
+          >
             {{ t('prestataire.profile.title') }}
           </button>
           <button
             @click="showProfileModal = false"
-            class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors">
+            class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors"
+          >
             {{ t('widgets.purchased.close') }}
           </button>
         </div>
@@ -285,6 +314,7 @@ import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
 import { useAuthStore } from '@/stores/auth';
 import BlogSection from './BlogSection.vue';
+import ContactSection from './ContactSection.vue';
 import ShopSection from './ShopSection.vue';
 import EventSection from './EventSection.vue';
 import QuestSection from './QuestSection.vue';

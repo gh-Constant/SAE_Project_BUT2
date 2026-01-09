@@ -85,6 +85,9 @@ import deQuiz from './locales/de/quiz.json';
 import esQuiz from './locales/es/quiz.json';
 import mcQuiz from './locales/mc/quiz.json';
 
+import enMessaging from './locales/en/messaging.json';
+import frMessaging from './locales/fr/messaging.json';
+
 
 const messages = {
   en: {
@@ -105,7 +108,8 @@ const messages = {
     events: enEvents,
     widgets: enWidgets,
     qrcode: enQrcode,
-    quiz: enQuiz
+    quiz: enQuiz,
+    messaging: enMessaging
   },
   fr: {
     map: frMap,
@@ -125,7 +129,8 @@ const messages = {
     events: frEvents,
     widgets: frWidgets,
     qrcode: frQrcode,
-    quiz: frQuiz
+    quiz: frQuiz,
+    messaging: frMessaging
   },
   de: {
     map: deMap,
@@ -145,7 +150,8 @@ const messages = {
     events: deEvents,
     widgets: deWidgets,
     qrcode: deQrcode,
-    quiz: deQuiz
+    quiz: deQuiz,
+    messaging: enMessaging
   },
   es: {
     map: esMap,
@@ -165,14 +171,16 @@ const messages = {
     events: esEvents,
     widgets: esWidgets,
     qrcode: esQrcode,
-    quiz: esQuiz
+    quiz: esQuiz,
+    messaging: enMessaging
   },
   mc: {
     map: mcMap,
     navbar: mcNavbar,
     home: mcHome,
     prestataire: mcPrestataire,
-    quiz: mcQuiz
+    quiz: mcQuiz,
+    messaging: frMessaging // Fallback to FR
   }
 };
 
