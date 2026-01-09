@@ -74,5 +74,19 @@
         "accepted": "Aceptada",
         "success_accept": "¡Misión aceptada! Encuéntrala en tu perfil.",
         "error_accept": "No se pudo aceptar la misión (¿quizás ya aceptada?)"
+    },
+    "contact": {
+        "title": "Contáctenos",
+        "success_title": "¡Éxito!",
+        "success_message": "¡Mensaje enviado con éxito! Le responderemos pronto.",
+        "name_label": "Nombre",
+        "name_placeholder": "Su nombre",
+        "email_label": "Correo electrónico",
+        "email_placeholder": "su@email.com",
+        "message_label": "Mensaje",
+        "message_placeholder": "Su mensaje aquí...",
+        "sending_button": "Enviando...",
+        "send_button": "Enviar mensaje",
+        "error_message": "Error al enviar el mensaje. Inténtelo de nuevo."
     }
 }

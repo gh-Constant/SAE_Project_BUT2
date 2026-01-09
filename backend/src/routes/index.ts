@@ -88,6 +88,14 @@ apiRouter.use('/quizzes', quizRoutes);
 // Ajout des routes d'upload
 apiRouter.use('/upload', uploadRoutes);
 
+// Ajout des routes de contact
+import contactRoutes from './contactRoutes.js';
+apiRouter.use('/contact', contactRoutes);
+
+// Ajout des routes de messagerie
+import messagingRoutes from './messagingRoutes.js';
+apiRouter.use('/', messagingRoutes);
+
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);
 

@@ -28,6 +28,7 @@ export interface AuthenticatedRequest extends Request {
   user?: {
     id: number;
     email: string;
+    role: string;
   };
 }
 
@@ -41,7 +42,7 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string }; // Vérifier et décoder le token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string; role: string }; // Vérifier et décoder le token
     req.user = decoded; // Ajouter les infos utilisateur à la requête
     next(); // Passer au middleware suivant
   } catch (error) {
@@ -64,7 +65,7 @@ export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: Nex
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string }; // Vérifier le token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string; role: string }; // Vérifier le token
     req.user = decoded; // Ajouter les infos utilisateur si valide
     next(); // Continuer avec l'utilisateur authentifié
     next(); // Continuer avec l'utilisateur authentifié

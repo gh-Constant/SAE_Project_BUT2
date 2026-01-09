@@ -74,5 +74,19 @@
         "accepted": "Angenommen",
         "success_accept": "Quest angenommen! Finden Sie sie in Ihrem Profil.",
         "error_accept": "Quest konnte nicht angenommen werden (vielleicht schon angenommen?)"
+    },
+    "contact": {
+        "title": "Kontaktiere uns",
+        "success_title": "Erfolg!",
+        "success_message": "Nachricht erfolgreich gesendet! Wir werden uns bald bei Ihnen melden.",
+        "name_label": "Name",
+        "name_placeholder": "Ihr Name",
+        "email_label": "E-Mail",
+        "email_placeholder": "ihre@email.com",
+        "message_label": "Nachricht",
+        "message_placeholder": "Ihre Nachricht hier...",
+        "sending_button": "Senden...",
+        "send_button": "Nachricht senden",
+        "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
     }
 }

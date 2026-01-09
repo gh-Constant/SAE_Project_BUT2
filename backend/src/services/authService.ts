@@ -43,8 +43,13 @@ export async function login(email: string, password: string) {
 
   // Génère un token JWT avec l'ID et l'email utilisateur
   const token = jwt.sign(
-    { id: user.id_user, email: user.email },
+<<<<<<< HEAD
+    { id: user.id_user, email: user.email, role: user.role },
     process.env.JWT_SECRET!, // Clé secrète depuis les variables d'environnement
+=======
+    { id: user.id_user, email: user.email },
+    process.env.JWT_SECRET || 'dev_secret_key_change_in_prod', // Clé secrète (fallback pour dev)
+>>>>>>> 28792d9 (swagger , 54 route , 7 non triviales , fix un truc aux backend)
     { expiresIn: "1h" } // Token valide 1 heure
   );
 
@@ -91,7 +96,7 @@ export async function register(
 export async function verifyToken(token: string) {
   try {
     // Décode et vérifie le token JWT
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string };
 
     // Vérifie que l'utilisateur existe toujours en base
     const user = await prisma.user.findUnique({
@@ -117,7 +122,7 @@ export async function verifyToken(token: string) {
 export async function getUserFromToken(token: string) {
   try {
     // Décode le token pour obtenir l'ID utilisateur
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number; email: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string };
 
     // Récupère l'utilisateur depuis la base de données
     return await prisma.user.findUnique({

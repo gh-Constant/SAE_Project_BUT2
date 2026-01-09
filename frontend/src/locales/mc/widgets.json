@@ -1,0 +1,16 @@
+{
+    "contact": {
+        "title": "ᚳᛟᚾᛏᚪᚳᛏ ᚢᛋ",
+        "success_title": "ᛋᚢᚳᚳᛖᛋᛋ!",
+        "success_message": "ᛗᛖᛋᛋᚪᚷᛖ ᛋᛖᚾᛏ ᛋᚢᚳᚳᛖᛋᛋᚠᚢᛚᛚᚣ! ᚹᛖ ᚹᛁᛚᛚ ᚷᛖᛏ ᛒᚪᚳᚲ ᛏᛟ ᚣᛟᚢ ᛋᛟᛟᚾ.",
+        "name_label": "ᚾᚪᛗᛖ",
+        "name_placeholder": "ᚣᛟᚢᚱ ᚾᚪᛗᛖ",
+        "email_label": "ᛖᛗᚪᛁᛚ",
+        "email_placeholder": "ᚣᛟᚢᚱ@ᛖᛗᚪᛁᛚ.ᚳᛟᛗ",
+        "message_label": "ᛗᛖᛋᛋᚪᚷᛖ",
+        "message_placeholder": "ᚣᛟᚢᚱ ᛗᛖᛋᛋᚪᚷᛖ ᚻᛖᚱᛖ...",
+        "sending_button": "ᛋᛖᚾᛞᛁᚾᚷ...",
+        "send_button": "ᛋᛖᚾᛞ ᛗᛖᛋᛋᚪᚷᛖ",
+        "error_message": "ᚠᚪᛁᛚᛖᛞ ᛏᛟ ᛋᛖᚾᛞ ᛗᛖᛋᛋᚪᚷᛖ. ᛈᛚᛖᚪᛋᛖ ᛏᚱᚣ ᚪᚷᚪᛁᚾ."
+    }
+}

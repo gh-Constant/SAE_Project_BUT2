@@ -50,9 +50,46 @@ model Location {
   quests        Quest[]
   blogs         Blog[]
   quizzes       Quiz[]
+  contactMessages ContactMessage[]
+  conversations   Conversation[]
 
   @@index([id_prestataire])
   @@map("locations")
+}
+
+model Conversation {
+  id_conversation Int @id @default(autoincrement())
+  created_at      DateTime @default(now()) @db.DateTime(0)
+  updated_at      DateTime @updatedAt @db.DateTime(0)
+
+  id_user     Int
+  user        User     @relation(fields: [id_user], references: [id_user])
+
+  id_location Int
+  location    Location @relation(fields: [id_location], references: [id_location])
+
+  messages    Message[]
+
+  @@index([id_user])
+  @@index([id_location])
+  @@map("conversations")
+}
+
+model Message {
+  id_message Int      @id @default(autoincrement())
+  content    String   @db.Text
+  created_at DateTime @default(now()) @db.DateTime(0)
+  read       Boolean  @default(false)
+
+  id_conversation Int
+  conversation    Conversation @relation(fields: [id_conversation], references: [id_conversation])
+
+  sender_id Int
+  sender    User @relation("MessageSender", fields: [sender_id], references: [id_user])
+
+  @@index([id_conversation])
+  @@index([sender_id])
+  @@map("messages")
 }
 
 model Blog {
@@ -144,4 +181,21 @@ model Service {
   @@index([id_service_type])
   @@index([id_location])
   @@map("services")
+}
+
+model ContactMessage {
+  id_contact  Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  email       String   @db.VarChar(255)
+  message     String   @db.Text
+  
+  read        Boolean  @default(false)
+  
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  
+  id_location Int
+  location    Location @relation(fields: [id_location], references: [id_location])
+
+  @@index([id_location])
+  @@map("contact_messages")
 }

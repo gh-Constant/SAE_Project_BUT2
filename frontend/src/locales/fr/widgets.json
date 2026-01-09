@@ -81,5 +81,19 @@
         "error_accept": "Impossible d'accepter la quête (peut-être déjà acceptée ?)",
         "view_more": "Voir {count} autres quêtes",
         "view_less": "Afficher moins"
+    },
+    "contact": {
+        "title": "Nous contacter",
+        "success_title": "Succès !",
+        "success_message": "Message envoyé avec succès ! Nous vous répondrons bientôt.",
+        "name_label": "Nom",
+        "name_placeholder": "Votre Nom",
+        "email_label": "Email",
+        "email_placeholder": "votre@email.com",
+        "message_label": "Message",
+        "message_placeholder": "Votre message ici...",
+        "sending_button": "Envoi en cours...",
+        "send_button": "Envoyer le message",
+        "error_message": "Échec de l'envoi du message. Veuillez réessayer."
     }
 }
