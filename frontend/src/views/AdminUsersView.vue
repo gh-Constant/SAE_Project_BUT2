@@ -24,7 +24,7 @@
             <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
             Tous les Utilisateurs
           </h2>
-          
+
           <div v-if="unverifiedUsers.length !== 0"
             class=" bg-white/40 rounded-lg p-8 text-center border border-antique-bronze/10">
             <p class="text-stone-grey italic">Inscription en attente: {{ unverifiedUsers.length }}</p>
@@ -43,6 +43,9 @@
                       class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
                       Email</th>
                     <th scope="col"
+                      class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                      Type</th>
+                    <th scope="col"
                       class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
                       Statut</th>
                     <th scope="col"
@@ -57,6 +60,9 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-grey">
                       {{ user.email }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-antique-bronze">
+                      {{ getRoleLabel(user.role) }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
                       <span :class="[
@@ -112,11 +118,33 @@ const unverifiedUsers = computed(() => usersStore.unverifiedUsers);
 const allUsers = computed(() => {
   const users = usersStore.allUsers;
   return users.sort((a, b) => {
+    // 1. Unverified first
     if (!a.isVerified && b.isVerified) return -1;
     if (a.isVerified && !b.isVerified) return 1;
+
+    // 2. Prestataire before others (among verified or among unverified)
+    // Actually the requirement says "garder comme ordre les utilisateur non vérifié au début et ensuite rajouté les prestataire au début"
+    // This implies sorting by verification status first (unverified first), 
+    // AND THEN sorting by role (Prestataire first).
+
+    if (a.role === 'prestataire' && b.role !== 'prestataire') return -1;
+    if (a.role !== 'prestataire' && b.role === 'prestataire') return 1;
+
+    // 3. Adventurer after Provider (implicit from above if we just push provider to top)
+    if (a.role === 'aventurier' && b.role !== 'aventurier' && b.role !== 'prestataire') return -1;
+
     return 0;
   });
 });
+
+const getRoleLabel = (role: string) => {
+  switch (role) {
+    case 'prestataire': return 'Prestataire';
+    case 'aventurier': return 'Aventurier';
+    case 'admin': return 'Admin';
+    default: return role;
+  }
+};
 
 onMounted(async () => {
   await usersStore.fetchUsers();

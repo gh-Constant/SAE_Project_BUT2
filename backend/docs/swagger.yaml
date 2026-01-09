@@ -17,6 +17,10 @@ info:
     ## Authentification
     Les routes protégées nécessitent un token JWT dans le header `Authorization: Bearer <token>`.
 
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Serveur de développement local
+
 tags:
   - name: Auth
     description: Authentification et gestion de session
@@ -46,6 +50,8 @@ tags:
     description: Gestion des quiz et tentatives
   - name: Upload
     description: Upload de fichiers
+  - name: Non-Trivial
+    description: Routes complexes avec logique métier avancée (≥2 tables + algorithmes)
 
 paths:
   # ========== AUTH ===================
@@ -308,9 +314,18 @@ paths:
   # ========== PRODUCTS ==========
   /products:
     get:
-      tags: [Products]
+      tags: [Products, Non-Trivial]
       summary: Lister tous les produits
-      description: Retourne la liste des produits avec filtrage et tri optionnels.
+      description: |
+        **Route Non-Triviale** : Recherche avancée de produits avec filtrage dynamique et tri.
+        
+        **Complexité** :
+        - Filtrage dynamique multi-critères (search, price range, stock, location, prestataire)
+        - Construction WHERE conditionnelle avec Prisma
+        - Tri configurable (price-asc/desc, name-asc/desc)
+        - Jointures avec Location et Prestataire (include)
+        
+        **Tables impliquées** : Products, Locations, Users (prestataires)
       operationId: getAllProducts
       parameters:
         - name: search
@@ -553,8 +568,18 @@ paths:
 
   /events/book:
     post:
-      tags: [Events]
+      tags: [Events, Non-Trivial]
       summary: Réserver un événement
+      description: |
+        **Route Non-Triviale** : Gère la réservation d'événements avec validation de capacité.
+        
+        **Complexité** :
+        - Vérification de disponibilité (sold + quantity ≤ capacity)
+        - Calcul du prix total (price × quantity)
+        - Transaction atomique (création réservation + mise à jour sold)
+        - Gestion d'erreurs métier (capacité dépassée)
+        
+        **Tables impliquées** : Events, EventReservation, Users
       operationId: bookEvent
       security:
         - bearerAuth: []
@@ -578,8 +603,17 @@ paths:
 
   /events/user/reservations:
     get:
-      tags: [Events]
+      tags: [Events, Non-Trivial]
       summary: Récupérer mes réservations
+      description: |
+        **Route Non-Triviale** : Récupère toutes les réservations d'événements d'un utilisateur.
+        
+        **Complexité** :
+        - Jointure triple : User → EventReservation → Events
+        - Filtrage par utilisateur authentifié (JWT)
+        - Inclusion des détails d'événements liés
+        
+        **Tables impliquées** : EventReservation, Events, Users
       operationId: getUserReservations
       security:
         - bearerAuth: []
@@ -615,9 +649,18 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
     post:
-      tags: [Quests]
+      tags: [Quests, Non-Trivial]
       summary: Créer une quête
-      description: Seul le prestataire de la location peut créer une quête.
+      description: |
+        **Route Non-Triviale** : Crée une quête avec vérification d'ownership de la location.
+        
+        **Complexité** :
+        - Vérification ownership : seul le prestataire propriétaire de la location peut créer
+        - Middleware checkLocationOwnership vérifie Location.id_prestataire = user.id
+        - Validation des données (titre, XP reward, location ID)
+        - Gestion d'erreurs (location inexistante, prestataire non autorisé)
+        
+        **Tables impliquées** : Quest, Location, Users (prestataires)
       operationId: createQuest
       security:
         - bearerAuth: []
@@ -639,8 +682,17 @@ paths:
 
   /quests/statistics:
     get:
-      tags: [Quests]
+      tags: [Quests, Non-Trivial]
       summary: Statistiques des quêtes
+      description: |
+        **Route Non-Triviale** : Statistiques agrégées sur le système de quêtes.
+        
+        **Complexité** :
+        - Agrégations SQL multiples (COUNT, GROUP BY)
+        - Calcul : total quêtes, quêtes complétées, utilisateurs actifs
+        - Combinaison de données depuis Quest et UserQuest
+        
+        **Tables impliquées** : Quest, UserQuest, Users
       operationId: getQuestStatistics
       security:
         - bearerAuth: []
@@ -715,8 +767,19 @@ paths:
 
   /quests/{questId}/complete:
     post:
-      tags: [Quests]
+      tags: [Quests, Non-Trivial]
       summary: Compléter une quête
+      description: |
+        **Route Non-Triviale** : Marque une quête comme complétée et attribue l'XP à l'utilisateur.
+        
+        **Complexité** :
+        - Vérification état quête (doit être ACCEPTED)
+        - Mise à jour statut : ACCEPTED → COMPLETED
+        - Attribution XP (user.xp += quest.xp_reward)
+        - Calcul potentiel du niveau (level up si seuil atteint)
+        - Gestion d'erreurs métier (quête déjà complétée, non acceptée)
+        
+        **Tables impliquées** : UserQuest, Quest, Users
       operationId: completeQuest
       security:
         - bearerAuth: []
@@ -810,8 +873,17 @@ paths:
 
   /blogs/locations/{locationId}/blogs:
     get:
-      tags: [Blogs]
+      tags: [Blogs, Non-Trivial]
       summary: Articles par location
+      description: |
+        **Route Non-Triviale** : Récupère tous les blogs associés à une location spécifique.
+        
+        **Complexité** :
+        - Filtrage relationnel : Blogs WHERE id_location = :locationId
+        - Jointure avec Location et Prestataire (auteur des blogs)
+        - Tri chronologique (ORDER BY created_at DESC)
+        
+        **Tables impliquées** : Blogs, Locations, Users (prestataires)
       operationId: getBlogsByLocation
       parameters:
         - $ref: '#/components/parameters/LocationId'
@@ -878,11 +950,203 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 
+  # ========== ORDERS ==========
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Créer une commande
+      description: Crée une nouvelle commande à partir des produits sélectionnés.
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+            example:
+              userId: 1
+              items:
+                - productId: 1
+                  quantity: 2
+                  price: 25.00
+                - productId: 3
+                  quantity: 1
+                  price: 50.00
+      responses:
+        '201':
+          description: Commande créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /orders/{id}/pay:
+    put:
+      tags: [Orders]
+      summary: Payer une commande
+      description: Marque une commande comme payée et finalise la transaction.
+      operationId: payOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifiant de la commande
+          schema:
+            type: integer
+            minimum: 1
+          example: 1
+      responses:
+        '200':
+          description: Paiement effectué avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  # ========== QRCODE ==========
+  /qrcode/generate:
+    post:
+      tags: [QRCode]
+      summary: Générer un QR code
+      description: Génère une nouvelle session de QR code pour l'authentification ou l'accès à une quête.
+      operationId: generateQR
+      responses:
+        '201':
+          description: QR code généré avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRSession'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /qrcode/validate:
+    post:
+      tags: [QRCode]
+      summary: Valider un QR code scanné
+      description: Valide un token de QR code après scan par l'utilisateur.
+      operationId: validateQR
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+                  description: Token du QR code scanné
+                  example: "qr_abc123xyz789"
+      responses:
+        '200':
+          description: QR code valide
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  session:
+                    $ref: '#/components/schemas/QRSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /qrcode/status/{id}:
+    get:
+      tags: [QRCode]
+      summary: Récupérer le statut d'une session QR
+      description: Permet de vérifier l'état actuel d'une session QR (pour polling côté client).
+      operationId: getQRStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifiant de la session QR
+          schema:
+            type: string
+          example: "session_abc123"
+      responses:
+        '200':
+          description: Statut récupéré avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRSession'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /qrcode/{id}/use:
+    post:
+      tags: [QRCode]
+      summary: Marquer un QR code comme utilisé
+      description: Marque une session QR code comme utilisée après validation.
+      operationId: markQRAsUsed
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifiant de la session QR
+          schema:
+            type: string
+          example: "session_abc123"
+      responses:
+        '200':
+          description: QR code marqué comme utilisé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRSession'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  # ========== TRANSLATION ==========
+  /translate:
+    post:
+      tags: [System]
+      summary: Traduire du texte
+      description: Traduit un texte d'une langue source vers une langue cible.
+      operationId: translateText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslationRequest'
+            example:
+              text: "Bonjour le monde"
+              sourceLang: "fr"
+              targetLang: "en"
+      responses:
+        '200':
+          description: Traduction effectuée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   # ========== ROLES ==========
   /roles:
     get:
       tags: [System]
       summary: Lister tous les rôles
+      description: Retourne la liste de tous les rôles disponibles dans le système.
       operationId: getAllRoles
       responses:
         '200':
@@ -896,14 +1160,81 @@ paths:
                   properties:
                     id:
                       type: integer
+                      example: 1
                     name:
                       type: string
+                      example: aventurier
+
+  /roles/name/{name}:
+    get:
+      tags: [System]
+      summary: Récupérer un rôle par son nom
+      description: Retourne les informations d'un rôle spécifique à partir de son nom.
+      operationId: getRoleByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Nom du rôle
+          schema:
+            type: string
+            enum: [admin, aventurier, prestataire]
+          example: aventurier
+      responses:
+        '200':
+          description: Rôle trouvé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 2
+                  name:
+                    type: string
+                    example: aventurier
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /roles/user/{userId}:
+    get:
+      tags: [System]
+      summary: Récupérer le rôle d'un utilisateur
+      description: Retourne le rôle d'un utilisateur spécifique à partir de son ID.
+      operationId: getUserRole
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Identifiant de l'utilisateur
+          schema:
+            type: integer
+            minimum: 1
+          example: 1
+      responses:
+        '200':
+          description: Rôle de l'utilisateur récupéré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                    example: 1
+                  role:
+                    type: string
+                    example: aventurier
+        '404':
+          $ref: '#/components/responses/NotFound'
 
   # ========== HEALTH ==========
   /health:
     get:
       tags: [System]
       summary: Vérifier la santé de l'API
+      description: Endpoint détaillé pour vérifier l'état de l'API, l'environnement et l'uptime.
       operationId: getHealth
       responses:
         '200':
@@ -923,14 +1254,15 @@ paths:
                     type: string
                     example: development
 
-  /health/database:
+  /status:
     get:
       tags: [System]
-      summary: Vérifier la connexion à la base de données
-      operationId: getDatabaseHealth
+      summary: Vérifier le statut du serveur
+      description: Endpoint simple pour vérifier que le serveur est en ligne (health check rapide).
+      operationId: getStatus
       responses:
         '200':
-          description: Base de données connectée
+          description: Serveur en ligne
           content:
             application/json:
               schema:
@@ -938,10 +1270,379 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: connected
-                  responseTime:
-                    type: integer
-                    example: 15
+                    example: online
+                  timestamp:
+                    type: string
+                    format: date-time
+
+
+  # ========== CONTACT ================
+  /contact:
+    post:
+      tags: [Contact]
+      summary: Envoyer un message de contact
+      operationId: createContactMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactMessageInput'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactMessage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /contact/location/{id}:
+    get:
+      tags: [Contact]
+      summary: Récupérer les messages de contact pour une location
+      operationId: getContactMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      responses:
+        '200':
+          description: Liste des messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContactMessage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ========== MESSAGING ==============
+  /conversations:
+    get:
+      tags: [Messaging]
+      summary: Lister mes conversations
+      operationId: getConversations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conversation'
+    post:
+      tags: [Messaging]
+      summary: Créer une conversation
+      operationId: createConversation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversationInput'
+      responses:
+        '201':
+          description: Conversation créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+
+  /conversations/{id}:
+    delete:
+      tags: [Messaging]
+      summary: Supprimer une conversation
+      operationId: deleteConversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Conversation supprimée
+
+  /conversations/{id}/messages:
+    get:
+      tags: [Messaging]
+      summary: Récupérer les messages d'une conversation
+      operationId: getMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+  /messages:
+    post:
+      tags: [Messaging]
+      summary: Envoyer un message
+      operationId: sendMessage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageInput'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  # ========== QUIZZES ==============
+  /quizzes:
+    get:
+      tags: [Quizzes]
+      summary: Lister les quiz
+      operationId: getQuizzes
+      responses:
+        '200':
+          description: Liste des quiz
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quiz'
+    post:
+      tags: [Quizzes]
+      summary: Créer un quiz
+      operationId: createQuiz
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizInput'
+      responses:
+        '201':
+          description: Quiz créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+
+  /quizzes/{id}:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer un quiz par ID
+      operationId: getQuizById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+    put:
+      tags: [Quizzes]
+      summary: Mettre à jour un quiz
+      operationId: updateQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizInput'
+      responses:
+        '200':
+          description: Quiz mis à jour
+    delete:
+      tags: [Quizzes]
+      summary: Supprimer un quiz
+      operationId: deleteQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz supprimé
+
+  /quizzes/{id}/play:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer un quiz pour jouer
+      operationId: getQuizForPlay
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz prêt à jouer
+
+  /quizzes/{id}/submit:
+    post:
+      tags: [Quizzes]
+      summary: Soumettre une tentative de quiz
+      operationId: submitQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tentative enregistrée
+
+  /quizzes/my-attempts:
+    get:
+      tags: [Quizzes]
+      summary: Mes tentatives de quiz
+      operationId: getMyAttempts
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Historique des tentatives
+
+  # ========== ORDERS ===============
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Créer une commande
+      operationId: createOrder
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Commande créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /orders/{id}/pay:
+    put:
+      tags: [Orders]
+      summary: Payer une commande
+      operationId: payOrder
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Commande payée
+
+  # ========== QRCODE ===============
+  /qrcode/generate:
+    post:
+      tags: [QRCode]
+      summary: Générer un QR Code
+      operationId: generateQR
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: QR Code généré
+
+  /qrcode/validate:
+    post:
+      tags: [QRCode]
+      summary: Valider un QR Code
+      operationId: validateQR
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Résultat de validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRCodeStatus'
+
+  # ========== UPLOAD ===============
+  /upload:
+    post:
+      tags: [Upload]
+      summary: Uploader un fichier
+      operationId: uploadFile
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Fichier uploadé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
 
   # ========== CONTACT ================
   /contact:
@@ -1333,7 +2034,7 @@ components:
       example: 1
 
     LocationId:
-      name: id
+      name: locationId
       in: path
       required: true
       description: Identifiant unique de la location
@@ -1858,6 +2559,128 @@ components:
         locationId:
           type: integer
           example: 1
+
+    # ===== ORDER SCHEMAS =====
+    OrderInput:
+      type: object
+      required: [userId, items]
+      properties:
+        userId:
+          type: integer
+          example: 1
+        items:
+          type: array
+          items:
+            type: object
+            required: [productId, quantity, price]
+            properties:
+              productId:
+                type: integer
+                example: 1
+              quantity:
+                type: integer
+                minimum: 1
+                example: 2
+              price:
+                type: number
+                example: 25.00
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        totalAmount:
+          type: number
+          example: 100.00
+        status:
+          type: string
+          enum: [pending, paid, cancelled]
+          example: pending
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: integer
+              quantity:
+                type: integer
+              price:
+                type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    # ===== QRCODE SCHEMAS =====
+    QRSession:
+      type: object
+      properties:
+        id:
+          type: string
+          example: session_abc123
+        token:
+          type: string
+          example: qr_abc123xyz789
+        qrCodeUrl:
+          type: string
+          example: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
+        status:
+          type: string
+          enum: [pending, validated, used, expired]
+          example: pending
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        userId:
+          type: integer
+          nullable: true
+          example: null
+        questId:
+          type: integer
+          nullable: true
+          example: null
+
+    # ===== TRANSLATION SCHEMAS =====
+    TranslationRequest:
+      type: object
+      required: [text, sourceLang, targetLang]
+      properties:
+        text:
+          type: string
+          example: Bonjour le monde
+        sourceLang:
+          type: string
+          example: fr
+        targetLang:
+          type: string
+          example: en
+
+    TranslationResponse:
+      type: object
+      properties:
+        originalText:
+          type: string
+          example: Bonjour le monde
+        translatedText:
+          type: string
+          example: Hello world
+        sourceLang:
+          type: string
+          example: fr
+        targetLang:
+          type: string
+          example: en
 
     # ===== ERROR SCHEMAS =====
     Error:

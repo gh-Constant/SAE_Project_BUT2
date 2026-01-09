@@ -5,7 +5,8 @@ import { userService } from '@/services/userService';
 
 // Interface pour les utilisateurs mappés
 interface MappedUser {
-    id_user: number;
+    id: number;
+    id_user?: number;
     firstname: string;
     lastname: string;
     email: string;
@@ -34,8 +35,9 @@ export const useUsersStore = defineStore('users', () => {
         const data = await response.json();
 
         // Mapping des données brutes (snake_case) vers le format attendu par la vue (camelCase)
-        const mappedUsers = data.map((user: RawUser) => ({
+        const mappedUsers = data.map((user: any) => ({
             ...user,
+            id: user.id || user.id_user,
             name: `${user.firstname} ${user.lastname}`,
             isVerified: user.is_verified,
         }));
