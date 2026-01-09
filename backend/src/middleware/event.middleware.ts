@@ -50,19 +50,19 @@ export const validateEventData = (req: Request<any, any, EventData>, res: Respon
 };
 
 interface BookingData {
-  eventId: number;
+  id_event: number;
   quantity: number;
 }
 
 export const validateBookingData = (req: Request<any, any, BookingData>, res: Response, next: NextFunction) => {
-  const { eventId, quantity } = req.body;
+  const { id_event, quantity } = req.body;
 
-  if (eventId === undefined || quantity === undefined) {
-    return res.status(400).json({ message: 'Missing required booking fields (eventId, quantity).' });
+  if (id_event === undefined || quantity === undefined) {
+    return res.status(400).json({ message: 'Missing required booking fields (id_event, quantity).' });
   }
 
-  if (typeof eventId !== 'number' || eventId <= 0) {
-    return res.status(400).json({ message: 'eventId must be a positive number.' });
+  if (typeof id_event !== 'number' || id_event <= 0) {
+    return res.status(400).json({ message: 'id_event must be a positive number.' });
   }
 
   if (typeof quantity !== 'number' || quantity <= 0) {

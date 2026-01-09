@@ -58,25 +58,25 @@ export const eventController = {
 
   async bookEvent(req: Request, res: Response): Promise<void> {
     try {
-      const { categoryId, quantity } = req.body;
+      const { id_event, quantity } = req.body;
       const userId = (req as AuthenticatedRequest).user?.id;
-      
+
       if (!userId) {
         res.status(401).json({ error: 'Unauthorized' });
         return;
       }
 
-      const reservation = await eventService.bookEvent(userId, Number(categoryId), Number(quantity));
+      const reservation = await eventService.bookEvent(userId, Number(id_event), Number(quantity));
       res.status(201).json(reservation);
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
   },
-  
+
   async getUserReservations(req: Request, res: Response): Promise<void> {
     try {
-       const userId = (req as AuthenticatedRequest).user?.id;
-       if (!userId) {
+      const userId = (req as AuthenticatedRequest).user?.id;
+      if (!userId) {
         res.status(401).json({ error: 'Unauthorized' });
         return;
       }
