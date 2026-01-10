@@ -1,6 +1,9 @@
-import { PrismaClient, UserQuestStatus } from '@prisma/client';
+import { Prisma, UserQuestStatus, Quest, UserQuest } from '@prisma/client';
+import prisma from '../prisma.js';
 
-const prisma = new PrismaClient();
+type QuestWithRelations = Prisma.QuestGetPayload<{
+  include: { location: true; userQuests: true }
+}>;
 
 interface CreateQuestData {
   title: string;
@@ -193,14 +196,14 @@ export const getQuestStatistics = async () => {
   
   // Calculate hero stats
   const totalQuests = quests.length;
-  const totalXP = quests.reduce((sum, q) => sum + (q.xp_reward || 0), 0);
+  const totalXP = quests.reduce((sum: number, q: QuestWithRelations) => sum + (q.xp_reward || 0), 0);
   const avgXP = totalQuests > 0 ? Math.round(totalXP / totalQuests) : 0;
-  const locationsWithQuests = new Set(quests.map(q => q.id_location)).size;
+  const locationsWithQuests = new Set(quests.map((q: QuestWithRelations) => q.id_location)).size;
   
   // User engagement
-  const completedUserQuests = userQuests.filter(uq => uq.status === 'completed');
-  const inProgressUserQuests = userQuests.filter(uq => uq.status === 'accepted');
-  const uniqueUsers = new Set(userQuests.map(uq => uq.id_user));
+  const completedUserQuests = userQuests.filter((uq: UserQuest) => uq.status === 'completed');
+  const inProgressUserQuests = userQuests.filter((uq: UserQuest) => uq.status === 'accepted');
+  const uniqueUsers = new Set(userQuests.map((uq: UserQuest) => uq.id_user));
   
   const totalParticipants = uniqueUsers.size;
   const questsInProgress = inProgressUserQuests.length;
@@ -209,8 +212,8 @@ export const getQuestStatistics = async () => {
   const completionRate = totalUserQuestsCount > 0 ? Math.round((completedQuests / totalUserQuestsCount) * 100) : 0;
   
   // XP given from completed quests
-  const xpGiven = completedUserQuests.reduce((sum, uq) => {
-    const quest = quests.find(q => q.id_quest === uq.id_quest);
+  const xpGiven = completedUserQuests.reduce((sum: number, uq: UserQuest) => {
+    const quest = quests.find((q: QuestWithRelations) => q.id_quest === uq.id_quest);
     return sum + (quest?.xp_reward || 0);
   }, 0);
   const xpGivenToday = Math.floor(xpGiven * 0.15); // Simulated daily portion
@@ -219,12 +222,12 @@ export const getQuestStatistics = async () => {
   
   // Top quests by participation
   const questParticipation = new Map<number, number>();
-  userQuests.forEach(uq => {
+  userQuests.forEach((uq: UserQuest) => {
     questParticipation.set(uq.id_quest, (questParticipation.get(uq.id_quest) || 0) + 1);
   });
   
   const topQuests = quests
-    .map(q => ({
+    .map((q: QuestWithRelations) => ({
       id_quest: q.id_quest,
       title: q.title,
       description: q.description || '',
@@ -236,11 +239,10 @@ export const getQuestStatistics = async () => {
     .slice(0, 5);
   
   // Location stats
-  const locationQuestMap = new Map<number, typeof quests>();
-  quests.forEach(q => {
-    if (!locationQuestMap.has(q.id_location)) {
-      locationQuestMap.set(q.id_location, []);
-    }
+  const locationQuestMap = new Map<number, QuestWithRelations[]>();
+  quests.forEach((q: QuestWithRelations) => {
+
+    locationQuestMap.set(q.id_location, locationQuestMap.get(q.id_location) || []);
     locationQuestMap.get(q.id_location)!.push(q);
   });
   
@@ -248,15 +250,15 @@ export const getQuestStatistics = async () => {
   
   const locationStats = Array.from(locationQuestMap.entries())
     .map(([locId, locQuests]) => {
-      const locUserQuests = userQuests.filter(uq => locQuests.some(q => q.id_quest === uq.id_quest));
-      const locCompletedQuests = locUserQuests.filter(uq => uq.status === 'completed');
-      const locParticipants = new Set(locUserQuests.map(uq => uq.id_user)).size;
+      const locUserQuests = userQuests.filter((uq: UserQuest) => locQuests.some((q: Quest) => q.id_quest === uq.id_quest));
+      const locCompletedQuests = locUserQuests.filter((uq: UserQuest) => uq.status === 'completed');
+      const locParticipants = new Set(locUserQuests.map((uq: UserQuest) => uq.id_user)).size;
       
       return {
         id: locId,
         name: locQuests[0]?.location?.name || 'Unknown',
         questCount: locQuests.length,
-        totalXP: locQuests.reduce((sum, q) => sum + (q.xp_reward || 0), 0),
+        totalXP: locQuests.reduce((sum: number, q: Quest) => sum + (q.xp_reward || 0), 0),
         participants: locParticipants,
         completionRate: locUserQuests.length > 0 ? Math.round((locCompletedQuests.length / locUserQuests.length) * 100) : 0,
         percentage: Math.round((locQuests.length / maxQuestCount) * 100)
@@ -273,7 +275,7 @@ export const getQuestStatistics = async () => {
     { range: '200+', min: 201, max: Infinity, count: 0, percentage: 0 }
   ];
   
-  quests.forEach(q => {
+  quests.forEach((q: Quest) => {
     const xpReward = q.xp_reward || 0;
     const bucket = xpBuckets.find(b => xpReward >= b.min && xpReward <= b.max);
     if (bucket) bucket.count++;

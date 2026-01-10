@@ -43,13 +43,8 @@ export async function login(email: string, password: string) {
 
   // Génère un token JWT avec l'ID et l'email utilisateur
   const token = jwt.sign(
-<<<<<<< HEAD
     { id: user.id_user, email: user.email, role: user.role },
-    process.env.JWT_SECRET!, // Clé secrète depuis les variables d'environnement
-=======
-    { id: user.id_user, email: user.email },
     process.env.JWT_SECRET || 'dev_secret_key_change_in_prod', // Clé secrète (fallback pour dev)
->>>>>>> 28792d9 (swagger , 54 route , 7 non triviales , fix un truc aux backend)
     { expiresIn: "1h" } // Token valide 1 heure
   );
 
