@@ -42,6 +42,14 @@ tags:
     description: Génération et scan de QR codes
   - name: System
     description: Health check et configuration
+  - name: Contact
+    description: Formulaire de contact et messages
+  - name: Messaging
+    description: Messagerie privée entre utilisateurs
+  - name: Quizzes
+    description: Gestion des quiz et tentatives
+  - name: Upload
+    description: Upload de fichiers
   - name: Non-Trivial
     description: Routes complexes avec logique métier avancée (≥2 tables + algorithmes)
 
@@ -1268,9 +1276,746 @@ paths:
                     format: date-time
 
 
+  # ========== CONTACT ================
+  /contact:
+    post:
+      tags: [Contact]
+      summary: Envoyer un message de contact
+      operationId: createContactMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactMessageInput'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactMessage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /contact/location/{id}:
+    get:
+      tags: [Contact]
+      summary: Récupérer les messages de contact pour une location
+      operationId: getContactMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      responses:
+        '200':
+          description: Liste des messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContactMessage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ========== MESSAGING ==============
+  /conversations:
+    get:
+      tags: [Messaging]
+      summary: Lister mes conversations
+      operationId: getConversations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conversation'
+    post:
+      tags: [Messaging]
+      summary: Créer une conversation
+      operationId: createConversation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversationInput'
+      responses:
+        '201':
+          description: Conversation créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+
+  /conversations/{id}:
+    delete:
+      tags: [Messaging]
+      summary: Supprimer une conversation
+      operationId: deleteConversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Conversation supprimée
+
+  /conversations/{id}/messages:
+    get:
+      tags: [Messaging]
+      summary: Récupérer les messages d'une conversation
+      operationId: getMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+  /messages:
+    post:
+      tags: [Messaging]
+      summary: Envoyer un message
+      operationId: sendMessage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageInput'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  # ========== QUIZZES ==============
+  /quizzes:
+    get:
+      tags: [Quizzes]
+      summary: Lister les quiz
+      operationId: getQuizzes
+      responses:
+        '200':
+          description: Liste des quiz
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quiz'
+    post:
+      tags: [Quizzes]
+      summary: Créer un quiz
+      operationId: createQuiz
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizInput'
+      responses:
+        '201':
+          description: Quiz créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+
+  /quizzes/{id}:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer un quiz par ID
+      operationId: getQuizById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+    put:
+      tags: [Quizzes]
+      summary: Mettre à jour un quiz
+      operationId: updateQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizInput'
+      responses:
+        '200':
+          description: Quiz mis à jour
+    delete:
+      tags: [Quizzes]
+      summary: Supprimer un quiz
+      operationId: deleteQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz supprimé
+
+  /quizzes/{id}/play:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer un quiz pour jouer
+      operationId: getQuizForPlay
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz prêt à jouer
+
+  /quizzes/{id}/submit:
+    post:
+      tags: [Quizzes]
+      summary: Soumettre une tentative de quiz
+      operationId: submitQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tentative enregistrée
+
+  /quizzes/my-attempts:
+    get:
+      tags: [Quizzes]
+      summary: Mes tentatives de quiz
+      operationId: getMyAttempts
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Historique des tentatives
+
+  # ========== ORDERS ===============
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Créer une commande
+      operationId: createOrder
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Commande créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /orders/{id}/pay:
+    put:
+      tags: [Orders]
+      summary: Payer une commande
+      operationId: payOrder
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Commande payée
+
+  # ========== QRCODE ===============
+  /qrcode/generate:
+    post:
+      tags: [QRCode]
+      summary: Générer un QR Code
+      operationId: generateQR
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: QR Code généré
+
+  /qrcode/validate:
+    post:
+      tags: [QRCode]
+      summary: Valider un QR Code
+      operationId: validateQR
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Résultat de validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRCodeStatus'
+
+  # ========== UPLOAD ===============
+  /upload:
+    post:
+      tags: [Upload]
+      summary: Uploader un fichier
+      operationId: uploadFile
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Fichier uploadé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+
+  # ========== CONTACT ================
+  /contact:
+    post:
+      tags: [Contact]
+      summary: Envoyer un message de contact
+      operationId: createContactMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactMessageInput'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactMessage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /contact/location/{id}:
+    get:
+      tags: [Contact]
+      summary: Récupérer les messages de contact pour une location
+      operationId: getContactMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/LocationId'
+      responses:
+        '200':
+          description: Liste des messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContactMessage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ========== MESSAGING ==============
+  /conversations:
+    get:
+      tags: [Messaging]
+      summary: Lister mes conversations
+      operationId: getConversations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conversation'
+    post:
+      tags: [Messaging]
+      summary: Créer une conversation
+      operationId: createConversation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversationInput'
+      responses:
+        '201':
+          description: Conversation créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+
+  /conversations/{id}:
+    delete:
+      tags: [Messaging]
+      summary: Supprimer une conversation
+      operationId: deleteConversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Conversation supprimée
+
+  /conversations/{id}/messages:
+    get:
+      tags: [Messaging]
+      summary: Récupérer les messages d'une conversation
+      operationId: getMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+  /messages:
+    post:
+      tags: [Messaging]
+      summary: Envoyer un message
+      operationId: sendMessage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageInput'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  # ========== QUIZZES ==============
+  /quizzes:
+    get:
+      tags: [Quizzes]
+      summary: Lister les quiz
+      operationId: getQuizzes
+      responses:
+        '200':
+          description: Liste des quiz
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quiz'
+    post:
+      tags: [Quizzes]
+      summary: Créer un quiz
+      operationId: createQuiz
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizInput'
+      responses:
+        '201':
+          description: Quiz créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+
+  /quizzes/{id}:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer un quiz par ID
+      operationId: getQuizById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+    put:
+      tags: [Quizzes]
+      summary: Mettre à jour un quiz
+      operationId: updateQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizInput'
+      responses:
+        '200':
+          description: Quiz mis à jour
+    delete:
+      tags: [Quizzes]
+      summary: Supprimer un quiz
+      operationId: deleteQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz supprimé
+
+  /quizzes/{id}/play:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer un quiz pour jouer
+      operationId: getQuizForPlay
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz prêt à jouer
+
+  /quizzes/{id}/submit:
+    post:
+      tags: [Quizzes]
+      summary: Soumettre une tentative de quiz
+      operationId: submitQuiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tentative enregistrée
+
+  /quizzes/my-attempts:
+    get:
+      tags: [Quizzes]
+      summary: Mes tentatives de quiz
+      operationId: getMyAttempts
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Historique des tentatives
+
+  # ========== ORDERS ===============
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Créer une commande
+      operationId: createOrder
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Commande créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /orders/{id}/pay:
+    put:
+      tags: [Orders]
+      summary: Payer une commande
+      operationId: payOrder
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Commande payée
+
+  # ========== QRCODE ===============
+  /qrcode/generate:
+    post:
+      tags: [QRCode]
+      summary: Générer un QR Code
+      operationId: generateQR
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: QR Code généré
+
+  /qrcode/validate:
+    post:
+      tags: [QRCode]
+      summary: Valider un QR Code
+      operationId: validateQR
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Résultat de validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRCodeStatus'
+
+  # ========== UPLOAD ===============
+  /upload:
+    post:
+      tags: [Upload]
+      summary: Uploader un fichier
+      operationId: uploadFile
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Fichier uploadé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+
 # ========== COMPONENTS ==========
 components:
   securitySchemes:
+
     bearerAuth:
       type: http
       scheme: bearer
@@ -1948,6 +2693,228 @@ components:
           type: string
           example: Message d'erreur détaillé
 
+    # ===== CONTACT SCHEMAS =====
+    ContactMessage:
+      type: object
+      properties:
+        id_contact:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Jean Dupont
+        email:
+          type: string
+          format: email
+          example: jean@example.com
+        message:
+          type: string
+          example: Bonjour, j'aimerais savoir...
+        id_location:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+
+    ContactMessageInput:
+      type: object
+      required: [name, email, message, id_location]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        message:
+          type: string
+        id_location:
+          type: integer
+
+    # ===== MESSAGING SCHEMAS =====
+    Conversation:
+      type: object
+      properties:
+        id_conversation:
+          type: integer
+          example: 1
+        id_user:
+          type: integer
+          example: 1
+        id_location:
+          type: integer
+          example: 5
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        lastMessage:
+          $ref: '#/components/schemas/Message'
+
+    Message:
+      type: object
+      properties:
+        id_message:
+          type: integer
+          example: 101
+        content:
+          type: string
+          example: Bonjour, est-ce disponible ?
+        sender_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+        read:
+          type: boolean
+          example: false
+
+    MessageInput:
+      type: object
+      required: [content, conversationId]
+      properties:
+        content:
+          type: string
+        conversationId:
+          type: integer
+
+    ConversationInput:
+      type: object
+      required: [locationId, message]
+      properties:
+        locationId:
+          type: integer
+        message:
+          type: string
+
+    # ===== QUIZ SCHEMAS =====
+    Quiz:
+      type: object
+      properties:
+        id_quiz:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Quiz Histoire Médiévale
+        description:
+          type: string
+        id_location:
+          type: integer
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+
+    QuizInput:
+      type: object
+      required: [title, id_location, questions]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        id_location:
+          type: integer
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionInput'
+
+    Question:
+      type: object
+      properties:
+        id_question:
+          type: integer
+        text:
+          type: string
+        points:
+          type: integer
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+
+    QuestionInput:
+      type: object
+      properties:
+        text:
+          type: string
+        points:
+          type: integer
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerInput'
+
+    Answer:
+      type: object
+      properties:
+        id_answer:
+          type: integer
+        text:
+          type: string
+        is_correct:
+          type: boolean
+
+    AnswerInput:
+      type: object
+      properties:
+        text:
+          type: string
+        is_correct:
+          type: boolean
+
+    # ===== ORDER SCHEMAS =====
+    Order:
+      type: object
+      properties:
+        id_order:
+          type: integer
+        total_price:
+          type: number
+        status:
+          type: string
+          enum: [PENDING, PAID, CANCELLED]
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id_product:
+                type: integer
+              quantity:
+                type: integer
+              price:
+                type: number
+
+    OrderInput:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required: [productId, quantity]
+            properties:
+              productId:
+                type: integer
+              quantity:
+                type: integer
+
+    # ===== QRCODE SCHEMAS =====
+    QRCodeStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [valid, used, expired, invalid]
+        data:
+          type: object
+
   responses:
     NotFound:
       description: Ressource non trouvée
@@ -1993,3 +2960,4 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             error: Erreur serveur interne
+

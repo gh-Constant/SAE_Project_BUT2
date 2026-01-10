@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
 import { useCartStore } from '@/stores/cart';
-import { isAdmin, isPrestataire } from '@/services/roleService';
+import { isAdmin, isPrestataire, isAventurier } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 
 import CartDropdown from './CartDropdown.vue';
@@ -154,7 +154,7 @@ const profileRoute = computed(() => {
             <span class="ml-2">{{ $t('navbar.map') }}</span>
           </MedievalButton>
           <MedievalButton 
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && isAventurier(auth.user)"
             to="/events" 
             class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             active-class="!bg-[#8B6B43] !border-[#5D4037]"
@@ -166,7 +166,7 @@ const profileRoute = computed(() => {
 
         <div class="flex items-center space-x-4 ml-auto">
           <!-- Icône panier (visible uniquement si connecté, caché sur mobile) -->
-          <div v-if="isLoggedIn" class="relative cart-dropdown-container hidden md:block">
+          <div v-if="isLoggedIn && isAventurier(auth.user)" class="relative cart-dropdown-container hidden md:block">
             <MedievalButton
               @click="toggleCartDropdown"
               small
@@ -262,7 +262,7 @@ const profileRoute = computed(() => {
               </div>
               
               <!-- Player Stats (Level & Gold) -->
-              <PlayerStatsBar />
+              <PlayerStatsBar v-if="isAventurier(auth.user)" />
               
               <!-- Menu Items -->
               <router-link
@@ -283,8 +283,9 @@ const profileRoute = computed(() => {
                 <i class="fas fa-briefcase mr-3 text-antique-bronze" />
                 {{ $t('navbar.prestataire_panel') }}
               </router-link>
-              <div class="border-t border-antique-bronze/20" />
+              <div v-if="isAventurier(auth.user)" class="border-t border-antique-bronze/20" />
               <router-link
+                v-if="isAventurier(auth.user)"
                 to="/commandes"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -293,6 +294,7 @@ const profileRoute = computed(() => {
                 {{ $t('navbar.my_orders') }}
               </router-link>
               <router-link
+                v-if="isAventurier(auth.user)"
                 to="/my-reservations"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -301,6 +303,7 @@ const profileRoute = computed(() => {
                 {{ $t('navbar.my_reservations') }}
               </router-link>
               <router-link
+                v-if="isAventurier(auth.user)"
                 to="/my-quests"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -317,6 +320,7 @@ const profileRoute = computed(() => {
                 {{ $t('messaging.title') || 'Messages' }}
               </router-link>
               <router-link
+                v-if="isAventurier(auth.user)"
                 to="/quiz"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown"
@@ -437,7 +441,7 @@ const profileRoute = computed(() => {
           </MedievalButton>
 
           <MedievalButton 
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && isAventurier(auth.user)"
             to="/events" 
             full-width
             class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -450,7 +454,7 @@ const profileRoute = computed(() => {
 
           <!-- Cart button in mobile menu -->
           <MedievalButton 
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && isAventurier(auth.user)"
             to="/panier" 
             full-width
             class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -490,11 +494,12 @@ const profileRoute = computed(() => {
             </div>
 
             <!-- Player Stats (Level & Gold) - Mobile -->
-            <div class="mx-2 mb-2 bg-parchment/50 rounded-md border border-antique-bronze/20">
+            <div v-if="isAventurier(auth.user)" class="mx-2 mb-2 bg-parchment/50 rounded-md border border-antique-bronze/20">
               <PlayerStatsBar />
             </div>
 
             <MedievalButton
+              v-if="isAventurier(auth.user)"
               to="/commandes"
               full-width
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -505,6 +510,7 @@ const profileRoute = computed(() => {
             </MedievalButton>
 
             <MedievalButton
+              v-if="isAventurier(auth.user)"
               to="/my-reservations"
               full-width
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -515,6 +521,7 @@ const profileRoute = computed(() => {
             </MedievalButton>
 
             <MedievalButton
+              v-if="isAventurier(auth.user)"
               to="/my-quests"
               full-width
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
@@ -535,6 +542,7 @@ const profileRoute = computed(() => {
             </MedievalButton>
 
             <MedievalButton
+              v-if="isAventurier(auth.user)"
               to="/quiz"
               full-width
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
