@@ -32,7 +32,7 @@ export const getAllLocations = async (req: Request, res: Response) => {
 
     // Transform data to match frontend expectations if needed
     // Frontend expects: id, name, description, static_code, price, purchased, position, icon_name, banner_image, id_prestataire, id_location_type, prestataire
-    const mappedLocations = locations.map(loc => ({
+    const mappedLocations = locations.map((loc: any) => ({
       id: loc.id_location,
       name: loc.name,
       description: loc.description,

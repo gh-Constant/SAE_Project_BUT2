@@ -1,4 +1,5 @@
 import prisma from '../prisma.js';
+import { Prisma, LigneCommande } from '@prisma/client';
 import qrcodeService from './qrcodeService.js';
 
 interface CreateOrderItemDTO {
@@ -33,7 +34,7 @@ const createOrder = async (data: CreateOrderDTO) => {
     console.log('Order Details - Provider:', _id_prestataire);
 
     // Use transaction to ensure order and lines are created together
-    return prisma.$transaction(async (tx) => {
+    return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         // Create the order
         const commande = await tx.commande.create({
             data: {
@@ -64,7 +65,7 @@ const createOrder = async (data: CreateOrderDTO) => {
  * Pay an order and generate a QR code for it
  */
 const payOrder = async (orderId: number, userId: number) => {
-    return prisma.$transaction(async (tx) => {
+    return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         // Find the order
         const commande = await tx.commande.findUnique({
             where: { id_commande: orderId },
@@ -96,7 +97,7 @@ const payOrder = async (orderId: number, userId: number) => {
                 orderId: commande.id_commande,
                 userId: commande.id_user,
                 totalPrice: Number(commande.total_price),
-                items: commande.lignesCommande.map(l => ({
+                items: commande.lignesCommande.map((l: LigneCommande) => ({
                     productId: l.id_product,
                     quantity: l.quantite,
                     price: Number(l.price)

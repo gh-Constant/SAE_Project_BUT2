@@ -1,4 +1,5 @@
 import prisma from '../prisma.js';
+import { QuizAnswer, UserQuizAttempt } from '@prisma/client';
 
 // Types for quiz operations
 interface CreateQuizInput {
@@ -105,13 +106,13 @@ export async function getQuizzes(filters?: {
     });
 
     // Calculate unique participants and average score for each quiz
-    return quizzes.map(quiz => {
-        const uniqueUsers = new Set(quiz.attempts.map(a => a.id_user));
+    return quizzes.map((quiz: any) => {
+        const uniqueUsers = new Set(quiz.attempts.map((a: { id_user: number }) => a.id_user));
 
         // Calculate average score percentage from completed attempts
         let averageScore = 0;
         if (quiz.attempts.length > 0) {
-            const totalScorePercent = quiz.attempts.reduce((sum, attempt) => {
+            const totalScorePercent = quiz.attempts.reduce((sum: number, attempt: { total_questions: number; score: number }) => {
                 if (attempt.total_questions > 0) {
                     return sum + (attempt.score / attempt.total_questions * 100);
                 }
@@ -246,9 +247,9 @@ export async function getQuizForPlay(id_quiz: number) {
     if (!quiz) return null;
 
     // Post-process to hide correct answers but add 'multiple_correct_answers' flag
-    const sanitizedQuestions = quiz.questions.map(q => {
-        const correctCount = q.answers.filter(a => a.is_correct).length;
-        const sanitizedAnswers = q.answers.map(({ is_correct, ...rest }) => rest);
+    const sanitizedQuestions = quiz.questions.map((q: any) => {
+        const correctCount = q.answers.filter((a: QuizAnswer) => a.is_correct).length;
+        const sanitizedAnswers = q.answers.map(({ is_correct, ...rest }: QuizAnswer) => rest);
 
         return {
             ...q,
@@ -381,7 +382,7 @@ export async function submitQuizAttempt(input: SubmitQuizInput) {
 
     for (const question of quiz.questions) {
         const userAnswers = userAnswersByQuestion.get(question.id_question) || [];
-        const correctAnswers = question.answers.filter((a) => a.is_correct).map((a) => a.id_answer);
+        const correctAnswers = question.answers.filter((a: QuizAnswer) => a.is_correct).map((a: QuizAnswer) => a.id_answer);
 
         const isCorrect = userAnswers.length === correctAnswers.length &&
             userAnswers.every((id) => correctAnswers.includes(id));
@@ -502,7 +503,7 @@ export async function getQuizStatistics(id_quiz: number) {
 
     const totalAttempts = attempts.length;
     const averageScore = totalAttempts > 0
-        ? attempts.reduce((sum, a) => sum + (a.score / a.total_questions) * 100, 0) / totalAttempts
+        ? attempts.reduce((sum: number, a: UserQuizAttempt) => sum + (a.score / a.total_questions) * 100, 0) / totalAttempts
         : 0;
 
     return {
@@ -524,5 +525,5 @@ export async function getQuestionSolution(id_question: number) {
         }
     });
 
-    return answers.map(a => a.id_answer);
+    return answers.map((a: { id_answer: number }) => a.id_answer);
 }

@@ -3,7 +3,7 @@
  * @description Service for managing product-related operations.
  */
 
-import { Prisma } from '@prisma/client';
+import { Prisma, Stock } from '@prisma/client';
 import prisma from '../prisma.js';
 
 /**
@@ -104,7 +104,7 @@ const productService = {
         });
 
         // Post-processing for Stock Filter and Sorting
-        let processedProducts = products.map((product) => {
+        let processedProducts = products.map((product: any) => {
             // Calculate effective stock
             let effectiveStock = 0;
 
@@ -117,11 +117,11 @@ const productService = {
             if (locationId) {
                 // Sum stock only for the specific location
                 effectiveStock = product.stock
-                    .filter((s) => s.service.id_location === Number(locationId))
-                    .reduce((sum, s) => sum + s.stock, 0);
+                    .filter((s: any) => s.service.id_location === Number(locationId))
+                    .reduce((sum: number, s: any) => sum + s.stock, 0);
             } else {
                 // Sum all stock
-                effectiveStock = product.stock.reduce((sum, s) => sum + s.stock, 0);
+                effectiveStock = product.stock.reduce((sum: number, s: Stock) => sum + s.stock, 0);
             }
 
             // Determine locationId from stock if available
@@ -148,15 +148,15 @@ const productService = {
         // Stock Filter
         if (stock) {
             if (stock === 'in-stock') {
-                processedProducts = processedProducts.filter((p) => p.stock > 0);
+                processedProducts = processedProducts.filter((p: any) => p.stock > 0);
             } else if (stock === 'out-of-stock') {
-                processedProducts = processedProducts.filter((p) => p.stock === 0);
+                processedProducts = processedProducts.filter((p: any) => p.stock === 0);
             }
         }
 
         // Sorting
         if (sortBy) {
-            processedProducts.sort((a, b) => {
+            processedProducts.sort((a: any, b: any) => {
                 switch (sortBy) {
                     case 'name-asc': return a.name.localeCompare(b.name);
                     case 'name-desc': return b.name.localeCompare(a.name);
@@ -198,7 +198,7 @@ const productService = {
         if (!product) return null;
 
         // Calculate total stock
-        const totalStock = product.stock.reduce((sum, s) => sum + s.stock, 0);
+        const totalStock = product.stock.reduce((sum: number, s: Stock) => sum + s.stock, 0);
 
         return {
             ...product,
@@ -214,7 +214,7 @@ const productService = {
      * Create a new product.
      */
     async createProduct(data: CreateProductDTO & { locationId?: number; stock?: number }) {
-        return prisma.$transaction(async (tx) => {
+        return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
             const product = await tx.product.create({
                 data: {
                     name: data.name,
