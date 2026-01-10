@@ -19,7 +19,11 @@
         "stats": {
             "users": "Users",
             "paying_users": "Paying Clients",
-            "revenue": "Total Revenue"
+            "revenue": "Revenue"
+        },
+        "charts": {
+            "users_growth": "Users Growth (Last 6 Months)",
+            "revenue_trend": "Revenue Trend (Last 6 Months)"
         },
         "quizzes": {
             "title": "Quizzes",

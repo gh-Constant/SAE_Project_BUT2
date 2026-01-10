@@ -19,7 +19,11 @@
         "stats": {
             "users": "Utilisateurs",
             "paying_users": "Clients (Payants)",
-            "revenue": "Revenus Totaux"
+            "revenue": "Chiffre d'Affaires"
+        },
+        "charts": {
+            "users_growth": "Croissance Utilisateurs (6 derniers mois)",
+            "revenue_trend": "Évolution CA (6 derniers mois)"
         },
         "quizzes": {
             "title": "Quiz",

@@ -84,6 +84,10 @@
           </div>
         </div>
 
+
+        <!-- Charts Section -->
+        <DashboardCharts :stats="stats" />
+
         <!-- Admin Categories -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <!-- Quêtes Category -->
@@ -391,6 +395,7 @@ import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue'
+import DashboardCharts from '@/components/admin/DashboardCharts.vue'
 import { useI18n } from 'vue-i18n'
 import { statsService, type AdminStats } from '@/services/statsService'
 

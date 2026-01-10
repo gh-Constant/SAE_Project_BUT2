@@ -15,6 +15,11 @@ export interface AdminStats {
     payingUserCount: number;
     totalRevenue: number;
     recentActivity: RecentActivityItem[];
+    charts: {
+        months: string[];
+        revenue: number[];
+        users: number[];
+    };
 }
 
 export interface ProviderStats {
@@ -73,7 +78,12 @@ class MockStatsService {
                     name: 'Marie Curie',
                     date: new Date(Date.now() - 90000000).toISOString()
                 }
-            ]
+            ],
+            charts: {
+                months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                revenue: [5000, 7500, 6200, 8900, 10500, 12000],
+                users: [15, 22, 18, 30, 45, 60]
+            }
         };
     }
 
