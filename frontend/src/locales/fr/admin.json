@@ -16,9 +16,49 @@
             "subtitle": "statistiques système",
             "action": "Voir les statistiques"
         },
+        "stats": {
+            "users": "Utilisateurs",
+            "paying_users": "Clients (Payants)",
+            "revenue": "Revenus Totaux"
+        },
         "quizzes": {
             "title": "Quiz",
             "subtitle": "QCM & Évaluations"
+        },
+        "festival": {
+            "title": "Festival du",
+            "to": "au",
+            "from_label": "Du",
+            "to_label": "Au",
+            "edit": "Modifier les dates",
+            "validate": "Valider"
+        },
+        "categories": {
+            "quests": {
+                "title": "Quêtes",
+                "subtitle": "Gestion & Statistiques",
+                "manage": "Gestion des Quêtes",
+                "stats": "Statistiques"
+            },
+            "shop": {
+                "title": "Boutique",
+                "subtitle": "Produits & Ventes",
+                "manage": "Gestion Boutique",
+                "stats": "Statistiques"
+            },
+            "users": {
+                "title": "Utilisateurs",
+                "subtitle": "Comptes & Activité",
+                "manage": "Gestion Utilisateurs",
+                "stats": "Statistiques"
+            },
+            "locations": {
+                "title": "Lieux",
+                "subtitle": "Points d'intérêts",
+                "manage": "Gestion Lieux",
+                "stats": "Statistiques"
+            },
+            "soon": "Bientôt"
         }
     },
     "quick_actions": {

@@ -6,5 +6,6 @@
     "no_messages": "Aucun message. Commencez la discussion !",
     "type_placeholder": "Écrivez votre message...",
     "send": "Envoyer",
-    "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette conversation définitivement ?"
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette conversation définitivement ?",
+    "delete": "Supprimer"
 }

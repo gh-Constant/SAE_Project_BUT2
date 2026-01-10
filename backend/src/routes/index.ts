@@ -93,8 +93,13 @@ import contactRoutes from './contactRoutes.js';
 apiRouter.use('/contact', contactRoutes);
 
 // Ajout des routes de messagerie
+// Ajout des routes de messagerie
 import messagingRoutes from './messagingRoutes.js';
 apiRouter.use('/', messagingRoutes);
+
+// Ajout des routes de statistiques
+import statsRoutes from './statsRoutes.js';
+apiRouter.use('/stats', statsRoutes);
 
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);

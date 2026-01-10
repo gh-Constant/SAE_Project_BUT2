@@ -68,7 +68,7 @@ export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: Nex
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string; role: string }; // Vérifier le token
     req.user = decoded; // Ajouter les infos utilisateur si valide
     next(); // Continuer avec l'utilisateur authentifié
-    next(); // Continuer avec l'utilisateur authentifié
+
   } catch (error) {
     next(); // Token invalide, continuer sans authentification
   }
@@ -99,4 +99,20 @@ export const requireAdmin = async (req: AuthenticatedRequest, res: Response, nex
     console.error('Admin check error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+};
+
+export const authorize = (allowedRoles: string[]) => {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({ error: 'Authentication required' });
+      return;
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      res.status(403).json({ error: 'Insufficient permissions' });
+      return;
+    }
+
+    next();
+  };
 };

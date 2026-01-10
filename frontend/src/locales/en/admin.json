@@ -16,9 +16,49 @@
             "subtitle": "system stats",
             "action": "View statistics"
         },
+        "stats": {
+            "users": "Users",
+            "paying_users": "Paying Clients",
+            "revenue": "Total Revenue"
+        },
         "quizzes": {
             "title": "Quizzes",
             "subtitle": "MCQ & Assessments"
+        },
+        "festival": {
+            "title": "Festival from",
+            "to": "to",
+            "from_label": "From",
+            "to_label": "To",
+            "edit": "Edit dates",
+            "validate": "Validate"
+        },
+        "categories": {
+            "quests": {
+                "title": "Quests",
+                "subtitle": "Management & Stats",
+                "manage": "Manage Quests",
+                "stats": "Statistics"
+            },
+            "shop": {
+                "title": "Shop",
+                "subtitle": "Products & Sales",
+                "manage": "Manage Shop",
+                "stats": "Statistics"
+            },
+            "users": {
+                "title": "Users",
+                "subtitle": "Accounts & Activity",
+                "manage": "Manage Users",
+                "stats": "Statistics"
+            },
+            "locations": {
+                "title": "Locations",
+                "subtitle": "Points of Interest",
+                "manage": "Manage Locations",
+                "stats": "Statistics"
+            },
+            "soon": "Soon"
         }
     },
     "quick_actions": {

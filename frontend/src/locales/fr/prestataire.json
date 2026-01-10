@@ -15,6 +15,11 @@
       "managed_count_label": "lieux gérés",
       "view": "Voir mes lieux"
     },
+    "orders": {
+      "title": "Commandes effectuées",
+      "total_label": "Total des commandes",
+      "scan": "Scanner une commande"
+    },
     "earnings": {
       "title": "Revenus ce mois",
       "monthly_total": "total mensuel",
@@ -25,6 +30,7 @@
       "add_service": "Ajouter un service",
       "manage_shop": "Gérer ma boutique",
       "manage_quests": "Gérer mes quêtes",
+      "manage_quizzes": "Gérer les Quiz",
       "scan_order": "Scanner une commande",
       "create_location": "Créer un lieu",
       "view_bookings": "Voir les réservations",

@@ -20,11 +20,17 @@
       "monthly_total": "monthly total",
       "view_details": "View Details"
     },
+    "orders": {
+      "title": "Orders Made",
+      "total_label": "Total Orders",
+      "scan": "Scan Order"
+    },
     "quick_actions": {
       "title": "Quick Deeds",
       "add_service": "Add Service",
       "manage_shop": "Manage Shop",
       "manage_quests": "Manage Quests",
+      "manage_quizzes": "Manage Quizzes",
       "scan_order": "Scan Order",
       "create_location": "Establish Place",
       "view_bookings": "View Bookings",
