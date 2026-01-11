@@ -36,11 +36,9 @@
         <div class="flex">
           <div class="flex-shrink-0">
             <svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fill-rule="evenodd"
+              <path fill-rule="evenodd"
                 d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                clip-rule="evenodd"
-              />
+                clip-rule="evenodd" />
             </svg>
           </div>
           <div class="ml-3">
@@ -53,27 +51,21 @@
               <div class="flex gap-3 mt-2">
                 <button
                   class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded shadow-sm text-sm font-bold transition-colors flex items-center gap-1"
-                  @click="validateLocation"
-                >
+                  @click="validateLocation">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path
-                      fill-rule="evenodd"
+                    <path fill-rule="evenodd"
                       d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
-                    />
+                      clip-rule="evenodd" />
                   </svg>
                   {{ t('widgets.purchased.validate_button') }}
                 </button>
                 <button
                   class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-1.5 rounded shadow-sm text-sm font-bold transition-colors flex items-center gap-1"
-                  @click="rejectLocation"
-                >
+                  @click="rejectLocation">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path
-                      fill-rule="evenodd"
+                    <path fill-rule="evenodd"
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    />
+                      clip-rule="evenodd" />
                   </svg>
                   {{ t('widgets.purchased.reject_button') }}
                 </button>
@@ -84,19 +76,14 @@
       </div>
 
       <!-- Prestataire Profile Section -->
-      <div
-        class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm"
-        v-if="prestataire"
-      >
+      <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 shadow-sm"
+        v-if="prestataire">
         <div class="flex items-center mb-4">
           <div class="relative">
-            <img
-              :src="prestataire.avatar_url" :alt="prestataire.firstname"
-              class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover"
-            />
+            <img :src="prestataire.avatar_url" :alt="prestataire.firstname"
+              class="w-16 h-16 rounded-full mr-4 border-2 border-antique-bronze object-cover" />
             <div
-              class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white"
-            >
+              class="absolute -bottom-1 -right-1 bg-antique-bronze text-white text-xs px-2 py-0.5 rounded-full font-medieval border border-white">
               {{ t('widgets.purchased.owner_label') }}
             </div>
           </div>
@@ -110,13 +97,10 @@
         </div>
         <button
           class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2 px-4 rounded shadow-md transition-all duration-200 flex items-center justify-center gap-2"
-          @click="viewProfile"
-        >
+          @click="viewProfile">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           {{ t('widgets.purchased.view_profile') }}
         </button>
@@ -141,7 +125,7 @@
           <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} {{
             t('widgets.available.currency') }}</span>
         </div>
-        
+
         <!-- QR Code pour les quêtes -->
         <div v-if="location.static_code" class="border-t border-antique-bronze/20 pt-4 mt-4">
           <p class="text-sm font-bold text-iron-black mb-3 text-center">
@@ -155,7 +139,8 @@
             <p class="text-xs text-stone-grey text-center max-w-xs">
               {{ t('widgets.purchased.qr_code_hint') }}
             </p>
-            <p class="text-xs font-mono text-antique-bronze bg-antique-bronze/10 px-3 py-1 rounded border border-antique-bronze/20">
+            <p
+              class="text-xs font-mono text-antique-bronze bg-antique-bronze/10 px-3 py-1 rounded border border-antique-bronze/20">
               {{ location.static_code }}
             </p>
           </div>
@@ -184,19 +169,15 @@
           <span class="ml-2">Quiz</span>
         </h3>
         <div class="grid gap-3">
-          <div
-            v-for="quiz in quizzes"
-            :key="quiz.id_quiz"
-            class="bg-white/60 p-4 rounded-lg border border-antique-bronze/10 hover:border-antique-bronze/30 transition-colors flex justify-between items-center group shadow-sm"
-          >
+          <div v-for="quiz in quizzes" :key="quiz.id_quiz"
+            class="bg-white/60 p-4 rounded-lg border border-antique-bronze/10 hover:border-antique-bronze/30 transition-colors flex justify-between items-center group shadow-sm">
             <div>
-              <h4 class="font-bold text-iron-black group-hover:text-antique-bronze transition-colors">{{ quiz.title }}</h4>
+              <h4 class="font-bold text-iron-black group-hover:text-antique-bronze transition-colors">{{ quiz.title }}
+              </h4>
               <p class="text-sm text-stone-grey line-clamp-1">{{ quiz.description }}</p>
             </div>
-            <button
-              @click="playQuiz(quiz.id_quiz)"
-              class="ml-4 bg-stone-grey hover:bg-iron-black text-white px-4 py-2 rounded font-medieval font-bold shadow-sm transition-colors border border-stone-grey/50 whitespace-nowrap text-sm"
-            >
+            <button @click="playQuiz(quiz.id_quiz)"
+              class="ml-4 bg-stone-grey hover:bg-iron-black text-white px-4 py-2 rounded font-medieval font-bold shadow-sm transition-colors border border-stone-grey/50 whitespace-nowrap text-sm">
               Jouer
             </button>
           </div>
@@ -211,8 +192,7 @@
       <div class="flex gap-3 justify-end">
         <button
           class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors border border-stone-grey/50"
-          @click="$emit('close')"
-        >
+          @click="$emit('close')">
           {{ t('widgets.purchased.close') }}
         </button>
       </div>
@@ -221,7 +201,9 @@
 
   <!-- Modal Profile Prestataire -->
   <Teleport to="body">
-    <div v-if="showProfileModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" @click="showProfileModal = false">
+    <div v-if="showProfileModal"
+      class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+      @click="showProfileModal = false">
       <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden" @click.stop>
         <div class="bg-antique-bronze text-white p-6 flex justify-between items-center">
           <h2 class="text-2xl font-medieval font-bold">{{ prestataire?.firstname }} {{ prestataire?.lastname }}</h2>
@@ -231,17 +213,16 @@
             </svg>
           </button>
         </div>
-        
+
         <div class="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
           <div v-if="prestataire" class="space-y-6">
             <!-- Avatar et infos de base -->
             <div class="flex items-center gap-4 pb-4 border-b border-antique-bronze/20">
-              <img
-                :src="prestataire.avatar_url" :alt="prestataire.firstname"
-                class="w-24 h-24 rounded-full border-4 border-antique-bronze object-cover"
-              />
+              <img :src="prestataire.avatar_url" :alt="prestataire.firstname"
+                class="w-24 h-24 rounded-full border-4 border-antique-bronze object-cover" />
               <div>
-                <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{ prestataire.lastname }}</h3>
+                <h3 class="text-xl font-medieval font-bold text-iron-black">{{ prestataire.firstname }} {{
+                  prestataire.lastname }}</h3>
                 <p class="text-sm font-body text-stone-grey italic">{{ prestataireTypeName }}</p>
                 <p class="text-sm text-stone-grey mt-1">{{ prestataire.email }}</p>
               </div>
@@ -249,13 +230,15 @@
 
             <!-- Bio -->
             <div v-if="prestataire.bio" class="border-b border-antique-bronze/20 pb-4">
-              <h4 class="text-lg font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.profile.sections.presentation') }}</h4>
+              <h4 class="text-lg font-medieval font-bold text-iron-black mb-2">{{
+                t('prestataire.profile.sections.presentation') }}</h4>
               <div class="prose prose-sm max-w-none" v-html="prestataire.bio"></div>
             </div>
 
             <!-- Informations de contact -->
             <div class="border-b border-antique-bronze/20 pb-4">
-              <h4 class="text-lg font-medieval font-bold text-iron-black mb-3">{{ t('prestataire.profile.sections.identity') }}</h4>
+              <h4 class="text-lg font-medieval font-bold text-iron-black mb-3">{{
+                t('prestataire.profile.sections.identity') }}</h4>
               <div class="space-y-2 text-stone-grey">
                 <p v-if="prestataire.phone" class="flex items-center gap-2">
                   <i class="fas fa-phone text-antique-bronze"></i>
@@ -283,17 +266,12 @@
         </div>
 
         <div class="bg-gray-50 p-4 flex justify-end gap-3 border-t border-antique-bronze/20">
-          <button
-            v-if="authStore.user && prestataire && authStore.user.id === prestataire.id"
-            @click="goToMyProfile"
-            class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded shadow-md transition-all"
-          >
+          <button v-if="authStore.user && prestataire && authStore.user.id === prestataire.id" @click="goToMyProfile"
+            class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded shadow-md transition-all">
             {{ t('prestataire.profile.title') }}
           </button>
-          <button
-            @click="showProfileModal = false"
-            class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors"
-          >
+          <button @click="showProfileModal = false"
+            class="px-6 py-2 bg-stone-grey hover:bg-iron-black text-white font-medieval font-bold rounded shadow-md transition-colors">
             {{ t('widgets.purchased.close') }}
           </button>
         </div>
@@ -321,7 +299,7 @@ import QuestSection from './QuestSection.vue';
 import { useI18n } from 'vue-i18n';
 import { locationService } from '@/services/locationService';
 import { isAdmin as checkIsAdmin } from '@/services/roleService';
-import QRCode from 'qrcode'; 
+import QRCode from 'qrcode';
 import { quizService } from '@/services/quizService';
 import type { Quiz } from '@/types/quiz';
 
@@ -397,9 +375,7 @@ const isOwner = computed(() => {
   return userIsOwner && isApproved;
 });
 
-const isPendingOwner = computed(() => {
-  return authStore.user?.id === props.location.id_prestataire && props.location.status === 'PENDING';
-});
+
 
 const showProfileModal = ref(false);
 
@@ -451,8 +427,8 @@ const generateQRCode = async () => {
         width: 150,
         margin: 1,
         color: {
-            dark: '#8B4513', // Antique bronze like color
-            light: '#FFFFFF'
+          dark: '#8B4513', // Antique bronze like color
+          light: '#FFFFFF'
         }
       });
     } catch (err) {
@@ -462,30 +438,30 @@ const generateQRCode = async () => {
 };
 
 const fetchQuizzes = async () => {
-    try {
-        const response = await quizService.getQuizzes({ id_location: props.location.id });
-        quizzes.value = response.quizzes;
-    } catch (e) {
-        console.error('Failed to fetch quizzes', e);
-    }
+  try {
+    const response = await quizService.getQuizzes({ id_location: props.location.id });
+    quizzes.value = response.quizzes;
+  } catch (e) {
+    console.error('Failed to fetch quizzes', e);
+  }
 };
 
 const playQuiz = (quizId: number) => {
-    router.push(`/quiz/${quizId}/play`);
+  router.push(`/quiz/${quizId}/play`);
 };
 
 watch(() => props.location, () => {
-    nextTick(() => {
-        generateQRCode();
-        fetchQuizzes();
-    });
+  nextTick(() => {
+    generateQRCode();
+    fetchQuizzes();
+  });
 }, { deep: true });
 
 onMounted(() => {
-   nextTick(() => {
-       generateQRCode();
-       fetchQuizzes();
-   });
+  nextTick(() => {
+    generateQRCode();
+    fetchQuizzes();
+  });
 });
 
 </script>

@@ -4,5 +4,5 @@ export interface StockMock {
     stock: number;
 }
 
-const STOCKS: StockMock[] = [
+export const STOCKS: StockMock[] = [
 ];

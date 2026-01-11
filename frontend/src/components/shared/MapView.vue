@@ -90,7 +90,7 @@ const isClickDebugActive = ref(false);
 const selectedLocation = ref<LocationMock | null>(null);
 const isDev = import.meta.env.DEV;
 
-const props = defineProps({
+defineProps({
   isFullScreen: {
     type: Boolean,
     default: false

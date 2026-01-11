@@ -1,4 +1,4 @@
-import { QUESTS, QuestMock } from '@/mocks/quests';
+import { QUESTS } from '@/mocks/quests';
 import { LOCATIONS } from '@/mocks/locations';
 import { USER_QUESTS } from '@/mocks/userQuests';
 import { UserQuestStatus } from '@/types/quest';
@@ -32,6 +32,7 @@ export interface LocationDistribution {
   count: number;
   percentage: number;
   color: string; // For the chart
+  label: string; // For ChartData compatibility
 }
 
 
@@ -95,10 +96,10 @@ export const questStatisticMockService = {
     
     // Calculate hero stats
     const totalQuests = quests.length;
-    const totalXP = quests.reduce((sum, q) => sum + q.xpReward, 0);
+    const totalXP = quests.reduce((sum, q) => sum + q.xp_reward, 0);
     const avgXP = totalQuests > 0 ? Math.round(totalXP / totalQuests) : 0;
-    const minXP = totalQuests > 0 ? Math.min(...quests.map(q => q.xpReward)) : 0;
-    const maxXP = totalQuests > 0 ? Math.max(...quests.map(q => q.xpReward)) : 0;
+    const minXP = totalQuests > 0 ? Math.min(...quests.map(q => q.xp_reward)) : 0;
+    const maxXP = totalQuests > 0 ? Math.max(...quests.map(q => q.xp_reward)) : 0;
     
     const locationIds = new Set(quests.map(q => q.id_location));
     const locationsWithQuests = locationIds.size;
@@ -113,17 +114,17 @@ export const questStatisticMockService = {
     // Top quests by XP reward (real data)
     const topQuests: TopQuest[] = quests
       .map(q => ({
-        id_quest: q.id,
+        id_quest: q.id_quest,
         title: q.title,
         description: q.description || '',
-        xp_reward: q.xpReward,
+        xp_reward: q.xp_reward,
         locationName: getLocationName(q.id_location)
       }))
       .sort((a, b) => b.xp_reward - a.xp_reward)
       .slice(0, 5);
     
     // Location stats (real data)
-    const locationQuestCounts = new Map<number, QuestMock[]>();
+    const locationQuestCounts = new Map<number, typeof QUESTS[0][]>();
     quests.forEach(q => {
       if (!locationQuestCounts.has(q.id_location)) {
         locationQuestCounts.set(q.id_location, []);
@@ -135,7 +136,7 @@ export const questStatisticMockService = {
     
     const locationStats: LocationStat[] = Array.from(locationQuestCounts.entries())
       .map(([locId, locQuests]) => {
-        const locTotalXP = locQuests.reduce((sum, q) => sum + q.xpReward, 0);
+        const locTotalXP = locQuests.reduce((sum, q) => sum + q.xp_reward, 0);
         return {
           id: locId,
           name: getLocationName(locId),
@@ -157,7 +158,7 @@ export const questStatisticMockService = {
     ];
     
     quests.forEach(q => {
-      const bucket = buckets.find(b => q.xpReward >= b.min && q.xpReward <= b.max);
+      const bucket = buckets.find(b => q.xp_reward >= b.min && q.xp_reward <= b.max);
       if (bucket) bucket.count++;
     });
     
@@ -175,8 +176,8 @@ export const questStatisticMockService = {
         
         // Calculate XP earned from completed quests
         const totalXpEarned = completed.reduce((sum, uq) => {
-          const quest = quests.find(q => q.id === uq.id_quest);
-          return sum + (quest?.xpReward || 0);
+          const quest = quests.find(q => q.id_quest === uq.id_quest);
+          return sum + (quest?.xp_reward || 0);
         }, 0);
         
         return {
@@ -229,7 +230,8 @@ export const questStatisticMockService = {
       name: loc.name,
       count: loc.questCount,
       percentage: Math.round((loc.questCount / totalQuests) * 100),
-      color: locationColors[index % locationColors.length]
+      color: locationColors[index % locationColors.length],
+      label: loc.name
     }));
     
     if (otherLocations.length > 0) {
@@ -239,7 +241,8 @@ export const questStatisticMockService = {
         name: 'Autres',
         count: otherCount,
         percentage: Math.round((otherCount / totalQuests) * 100),
-        color: locationColors[5]
+        color: locationColors[5],
+        label: 'Autres'
       });
     }
 

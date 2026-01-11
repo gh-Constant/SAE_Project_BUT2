@@ -1,4 +1,4 @@
-import { UserMock } from "@/mocks/users";
+
 import { mockUsers } from "./sharedMockData";
 
 export const userServiceMock = {

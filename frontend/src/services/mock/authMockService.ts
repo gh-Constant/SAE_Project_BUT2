@@ -48,7 +48,7 @@ export const authMockService = {
           try {
             const storedUser = JSON.parse(storedUserStr) as UserMock;
             // Si c'est le même utilisateur (même ID et email), utiliser la version stockée
-            if (storedUser.id === user.id && storedUser.email === user.email) {
+            if (storedUser.id === user!.id && storedUser.email === user!.email) {
               user = storedUser;
             }
           } catch (e) {

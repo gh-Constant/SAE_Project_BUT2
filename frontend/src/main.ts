@@ -24,7 +24,7 @@ import { createAppRouter } from './router';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { useAuthStore } from './stores/auth';
-import { useCartStore } from './stores/cart';
+
 import App from './app/App.vue';
 import i18n from './i18n';
 

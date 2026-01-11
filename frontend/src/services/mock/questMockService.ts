@@ -34,7 +34,7 @@ let userQuests = initializeUserQuests();
 const saveUserQuests = () => {
   try {
     // Only save essential data to reduce localStorage size
-    const toSave = userQuests.map(uq => ({
+    const toSave = userQuests.map((uq: any) => ({
       id_user: uq.id_user,
       id_quest: uq.id_quest,
       status: uq.status,
@@ -68,7 +68,7 @@ export const questMockService = {
 
   getUserQuests: async () => {
     const userId = getCurrentUserId();
-    return userQuests.filter(uq => uq.id_user === userId);
+    return userQuests.filter((uq: any) => uq.id_user === userId);
   },
 
   createQuest: async (quest: Omit<Quest, 'id_quest'>): Promise<Quest> => {
@@ -81,7 +81,7 @@ export const questMockService = {
   acceptQuest: async (questId: number): Promise<void> => {
     const userId = getCurrentUserId();
     const quest = mockQuests.find(q => q.id_quest === questId);
-    if (quest && !userQuests.find(uq => uq.id_quest === questId && uq.id_user === userId)) {
+    if (quest && !userQuests.find((uq: any) => uq.id_quest === questId && uq.id_user === userId)) {
       userQuests.push({
         id_user: userId,
         id_quest: quest.id_quest,
@@ -105,7 +105,7 @@ export const questMockService = {
     const userId = user.id;
 
     // Trouver la quête utilisateur
-    const uq = userQuests.find(q => q.id_quest === questId && q.id_user === userId);
+    const uq = userQuests.find((q: any) => q.id_quest === questId && q.id_user === userId);
     if (!uq) {
       throw new Error('Quest not found or not accepted');
     }
@@ -145,7 +145,7 @@ export const questMockService = {
 
   cancelQuest: async (questId: number): Promise<void> => {
     const userId = getCurrentUserId();
-    const index = userQuests.findIndex(q => q.id_quest === questId && q.id_user === userId);
+    const index = userQuests.findIndex((q: any) => q.id_quest === questId && q.id_user === userId);
     if (index !== -1) {
       userQuests.splice(index, 1);
       saveUserQuests(); // Persist to localStorage
@@ -187,7 +187,7 @@ export const questMockService = {
     const userId = user.id;
 
     // Trouver la quête utilisateur
-    const uq = userQuests.find(q => q.id_quest === questId && q.id_user === userId);
+    const uq = userQuests.find((q: any) => q.id_quest === questId && q.id_user === userId);
     if (!uq) {
       return { success: false, error: 'Quête non trouvée ou non acceptée' };
     }

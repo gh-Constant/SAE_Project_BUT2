@@ -683,7 +683,8 @@ async function saveEvent() {
   const eventData = {
     ...form,
     id_location: locationId,
-    published: true
+    published: true,
+    categories: []
   }
 
   try {

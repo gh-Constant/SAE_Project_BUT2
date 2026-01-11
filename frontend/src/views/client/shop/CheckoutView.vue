@@ -9,20 +9,21 @@
         <p class="text-base font-body text-stone-grey">{{ t('checkout.subtitle') }}</p>
       </div>
 
-      <div v-if="pendingOrders.length === 0" class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-16 text-center shadow-sm">
+      <div v-if="pendingOrders.length === 0"
+        class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-16 text-center shadow-sm">
         <div class="w-20 h-20 bg-green-100/50 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg class="w-10 h-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
         <p class="text-xl font-medieval text-iron-black mb-2">{{ t('checkout.all_paid.title') }}</p>
         <p class="text-sm font-body text-stone-grey mb-8">{{ t('checkout.all_paid.description') }}</p>
-        <router-link
-          to="/commandes"
-          class="inline-flex items-center bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200"
-        >
+        <router-link to="/commandes"
+          class="inline-flex items-center bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-200">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
           </svg>
           {{ t('checkout.all_paid.button') }}
         </router-link>
@@ -31,11 +32,8 @@
       <div v-else class="space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="lg:col-span-2 space-y-6">
-            <div
-              v-for="order in pendingOrders"
-              :key="order.id"
-              class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 overflow-hidden hover:shadow-lg transition-shadow duration-200"
-            >
+            <div v-for="order in pendingOrders" :key="order.id"
+              class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 overflow-hidden hover:shadow-lg transition-shadow duration-200">
               <div class="px-6 py-4 border-b border-antique-bronze/10 flex items-center justify-between">
                 <div>
                   <h3 class="text-lg font-medieval font-bold text-iron-black">
@@ -43,15 +41,19 @@
                   </h3>
                   <p class="text-sm font-body text-stone-grey mt-1 flex items-center gap-2">
                     <svg class="w-4 h-4 text-antique-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     {{ getLocationName(order.id_location) }}
                   </p>
                 </div>
-                <span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold font-body rounded-full border border-orange-200 flex items-center gap-1">
+                <span
+                  class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold font-body rounded-full border border-orange-200 flex items-center gap-1">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   {{ t('checkout.order_card.waiting') }}
                 </span>
@@ -59,11 +61,8 @@
 
               <div class="px-6 py-4 bg-antique-bronze/5">
                 <div class="space-y-2 mb-4">
-                  <div
-                    v-for="ligne in getOrderItems(order.id)"
-                    :key="`${order.id}-${ligne.id_product}`"
-                    class="flex justify-between items-center text-sm font-body"
-                  >
+                  <div v-for="ligne in getOrderItems(order.id)" :key="`${order.id}-${ligne.id_product}`"
+                    class="flex justify-between items-center text-sm font-body">
                     <span class="text-stone-grey">
                       <span class="font-medium text-iron-black">{{ ligne.productName }}</span>
                       <span class="text-antique-bronze ml-2">× {{ ligne.quantite }}</span>
@@ -76,29 +75,29 @@
               </div>
 
               <div class="px-6 py-4 bg-white/40 border-t border-antique-bronze/10 flex justify-between items-center">
-                 <div class="text-left">
-                    <p class="text-xs font-body text-stone-grey">{{ t('checkout.order_card.total_order') }}</p>
-                    <p class="text-xl font-medieval font-bold text-antique-bronze">
-                      {{ order.total_price.toFixed(2) }} gold
-                    </p>
-                  </div>
-                
-                <button
-                  @click="payOrder(order.id)"
-                  :disabled="isPaying[order.id] || order.etat_commande !== EtatCommande.WAITING"
-                  :class="[
+                <div class="text-left">
+                  <p class="text-xs font-body text-stone-grey">{{ t('checkout.order_card.total_order') }}</p>
+                  <p class="text-xl font-medieval font-bold text-antique-bronze">
+                    {{ order.total_price.toFixed(2) }} gold
+                  </p>
+                </div>
+
+                <button @click="payOrder(order.id)"
+                  :disabled="isPaying[order.id] || order.etat_commande !== EtatCommande.WAITING" :class="[
                     'py-2 px-6 rounded-md font-body font-semibold shadow-md transition-all duration-200 flex items-center gap-2',
                     order.etat_commande !== EtatCommande.WAITING || isPaying[order.id]
                       ? 'bg-stone-grey/20 text-stone-grey cursor-not-allowed'
                       : 'bg-antique-bronze hover:brightness-110 text-white'
-                  ]"
-                >
+                  ]">
                   <svg v-if="!isPaying[order.id]" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
                   <svg v-else class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
                   </svg>
                   {{ isPaying[order.id] ? t('checkout.order_card.processing') : t('checkout.order_card.pay') }}
                 </button>
@@ -107,7 +106,7 @@
           </div>
 
           <div class="lg:col-span-1">
-             <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 sticky top-8">
+            <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 sticky top-8">
               <h3 class="text-xl font-medieval font-bold text-iron-black mb-4 border-b border-antique-bronze/10 pb-2">
                 Récapitulatif
               </h3>
@@ -120,9 +119,9 @@
                   <span>Commandes déjà payées</span>
                   <span class="font-bold text-iron-black">{{ paidOrdersCount }}/{{ totalOrdersCount }}</span>
                 </div>
-                
+
                 <div class="h-px bg-antique-bronze/20 my-2"></div>
-                
+
                 <div class="flex justify-between items-end">
                   <span class="text-base font-semibold text-iron-black">{{ t('checkout.summary.grand_total') }}</span>
                   <span class="text-2xl font-medieval font-bold text-antique-bronze">
@@ -217,9 +216,9 @@ const getOrderItems = (orderId: number) => {
 const decreaseStockForOrder = async (orderId: number) => {
   const lignes = LIGNES_COMMANDE.filter((ligne) => ligne.id_commande === orderId)
   const allProducts = await productService.getProducts()
-  
+
   for (const ligne of lignes) {
-    const product = allProducts.find((p) => p.id === ligne.id_product)
+    const product = allProducts.find((p: any) => p.id === ligne.id_product)
     if (product) {
       product.stock = Math.max(0, product.stock - ligne.quantite)
       await productService.updateProduct(product)
@@ -243,7 +242,7 @@ const payOrder = async (orderId: number) => {
 
     // Changer l'état de la commande
     order.etat_commande = EtatCommande.PAID
-    
+
     // Générer le token QR pour la collecte
     order.qrToken = `ORDER-${orderId}-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
 

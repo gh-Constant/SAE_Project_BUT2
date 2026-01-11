@@ -1,4 +1,4 @@
-import { PRESTATAIRE_USER_ID, PRESTATAIRE_USER_ID_2 } from './users';
+import { PRESTATAIRE_USER_ID_2 } from './users';
 import { LocationType } from "./locationTypes";
 
 export interface LocationMock {

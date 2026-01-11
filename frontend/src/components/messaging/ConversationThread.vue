@@ -4,7 +4,8 @@
     <div class="bg-antique-bronze/10 p-4 border-b border-antique-bronze/20 flex justify-between items-center">
       <div v-if="conversation">
         <h3 class="font-medieval font-bold text-lg text-iron-black pointer-events-none select-none">
-          {{ isProviderView ? conversation.user?.firstname + ' ' + conversation.user?.lastname : conversation.location.name }}
+          {{ isProviderView ? conversation.user?.firstname + ' ' + conversation.user?.lastname :
+            conversation.location.name }}
         </h3>
         <p class="text-xs text-stone-grey" v-if="!isProviderView">
           <span v-if="conversation.location.prestataire">
@@ -23,22 +24,16 @@
       <div v-if="loadingMessages" class="flex justify-center p-4">
         <i class="fas fa-spinner fa-spin text-antique-bronze text-2xl"></i>
       </div>
-      
+
       <div v-else-if="messages.length === 0" class="text-center text-stone-grey py-8 italic">
         {{ t('messaging.no_messages') || 'No messages yet. Start the conversation!' }}
       </div>
 
       <template v-else>
-        <div 
-          v-for="msg in messages" 
-          :key="msg.id_message" 
-          class="flex flex-col max-w-[80%]"
-          :class="isMyMessage(msg) ? 'self-end items-end' : 'self-start items-start'"
-        >
-          <div 
-            class="px-4 py-2 rounded-lg shadow-sm text-sm"
-            :class="isMyMessage(msg) ? 'bg-antique-bronze text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none'"
-          >
+        <div v-for="msg in messages" :key="msg.id_message" class="flex flex-col max-w-[80%]"
+          :class="isMyMessage(msg) ? 'self-end items-end' : 'self-start items-start'">
+          <div class="px-4 py-2 rounded-lg shadow-sm text-sm"
+            :class="isMyMessage(msg) ? 'bg-antique-bronze text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none'">
             {{ msg.content }}
           </div>
           <span class="text-[10px] text-stone-grey mt-1 px-1">
@@ -51,18 +46,12 @@
     <!-- Input Area -->
     <div class="p-3 bg-white border-t border-antique-bronze/20">
       <form @submit.prevent="sendMessage" class="flex gap-2">
-        <input 
-          v-model="newMessage" 
-          type="text" 
+        <input v-model="newMessage" type="text"
           class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-antique-bronze focus:ring-1 focus:ring-antique-bronze transition-colors"
-          :placeholder="t('messaging.type_placeholder') || 'Type a message...'"
-          :disabled="sending"
-        >
-        <button 
-          type="submit" 
+          :placeholder="t('messaging.type_placeholder') || 'Type a message...'" :disabled="sending">
+        <button type="submit"
           class="bg-antique-bronze hover:brightness-110 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="!newMessage.trim() || sending"
-        >
+          :disabled="!newMessage.trim() || sending">
           <i v-if="sending" class="fas fa-spinner fa-spin"></i>
           <i v-else class="fas fa-paper-plane"></i>
         </button>
@@ -72,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick, computed } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { messagingService, type Conversation, type Message } from '@/services/messagingService';
@@ -106,7 +95,7 @@ const scrollToBottom = async () => {
 
 const fetchMessages = async () => {
   if (!props.conversationId) return;
-  
+
   loadingMessages.value = true;
   try {
     messages.value = await messagingService.getMessages(props.conversationId);

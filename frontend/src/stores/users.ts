@@ -17,14 +17,7 @@ interface MappedUser {
 }
 
 // Interface pour les données brutes de l'API
-interface RawUser {
-    id_user: number;
-    firstname: string;
-    lastname: string;
-    email: string;
-    role: string;
-    is_verified: boolean;
-}
+
 
 export const useUsersStore = defineStore('users', () => {
     const unverifiedUsers = ref<MappedUser[]>([]);

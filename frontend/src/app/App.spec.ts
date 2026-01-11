@@ -7,7 +7,9 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { createPinia } from 'pinia';
+// @ts-ignore
 import { createAppRouter } from '@/router/index';
+// @ts-ignore
 import i18n from '@/i18n';
 import { mount } from '@vue/test-utils';
 import App from './App.vue';
