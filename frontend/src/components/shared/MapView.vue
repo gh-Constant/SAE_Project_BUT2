@@ -67,12 +67,12 @@ import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { locationService } from '../services/locationService';
-import { clickIcon } from '../utils/map/iconsMarkers';
+import { locationService } from '@/services/locationService';
+import { clickIcon } from '@/utils/map/iconsMarkers';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { isPrestataire, isAdmin } from '@/services/roleService';
-import Widget from './widgets/Widget.vue';
+import Widget from '@/components/widgets/Widget.vue';
 import { LocationMock } from '@/mocks/locations';
 
 const { t } = useI18n();

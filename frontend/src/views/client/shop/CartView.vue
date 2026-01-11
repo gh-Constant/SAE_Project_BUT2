@@ -116,7 +116,7 @@ import { useI18n } from 'vue-i18n'
 import { useCartStore, type CartItem } from '@/stores/cart'
 import { USERS } from '@/mocks/users'
 import { productService } from '@/services/productService'
-import CartItemComponent from '@/components/CartItem.vue'
+import CartItemComponent from '@/components/shop/CartItem.vue'
 
 const router = useRouter()
 const { t } = useI18n()

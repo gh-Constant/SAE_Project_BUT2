@@ -1,6 +1,7 @@
 import { QUESTS, QuestMock } from '@/mocks/quests';
 import { LOCATIONS } from '@/mocks/locations';
-import { USER_QUESTS, UserQuestStatus } from '@/mocks/userQuests';
+import { USER_QUESTS } from '@/mocks/userQuests';
+import { UserQuestStatus } from '@/types/quest';
 import { USERS } from '@/mocks/users';
 
 export interface QuestStatistics {

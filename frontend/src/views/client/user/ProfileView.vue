@@ -22,7 +22,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
 import { isPrestataire } from '@/services/roleService'
-import ProfileForm from '@/components/ProfileForm.vue'
+import ProfileForm from '@/components/forms/ProfileForm.vue'
 
 const { t } = useI18n()
 const router = useRouter()

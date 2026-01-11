@@ -1,28 +1,24 @@
 <template>
-  <div class="bg-parchment min-h-screen font-body text-stone-grey selection:bg-antique-bronze selection:text-white overflow-x-hidden">
-    
+  <div
+    class="bg-parchment min-h-screen font-body text-stone-grey selection:bg-antique-bronze selection:text-white overflow-x-hidden">
+
     <!-- 1. HERO SPLASH SECTION (Image + Logo) -->
     <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black">
       <!-- Background Image -->
       <div class="absolute inset-0 z-0">
-        <img 
-          src="/images/realfake.png" 
-          alt="Kingdom Background" 
-          class="w-full h-full object-cover"
-        />
+        <img src="/images/realfake.png" alt="Kingdom Background" class="w-full h-full object-cover" />
         <!-- Vignette / Side Shadows -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_60%,rgba(0,0,0,0.8)_100%)]"></div>
+        <div
+          class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_60%,rgba(0,0,0,0.8)_100%)]">
+        </div>
         <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60"></div>
       </div>
-      
+
       <div class="relative z-10">
         <!-- Animated Lion Logo -->
         <div class="animate-slide-in-left">
-          <img 
-            src="/images/transparent_logo.png" 
-            alt="Kingdom Logo" 
-            class="w-full max-w-[1200px] h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,1)]"
-          />
+          <img src="/images/transparent_logo.png" alt="Kingdom Logo"
+            class="w-full max-w-[1200px] h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,1)]" />
         </div>
       </div>
     </section>
@@ -34,9 +30,7 @@
     <section class="bg-parchment py-20 md:py-24 text-center relative z-10">
       <div class="max-w-4xl mx-auto px-4">
         <MedievalSectionTitle>{{ t('home.hero.title') }}</MedievalSectionTitle>
-        <p
-          class="text-lg md:text-xl text-stone-grey mb-10 leading-relaxed font-body"
-        >
+        <p class="text-lg md:text-xl text-stone-grey mb-10 leading-relaxed font-body">
           "{{ t('home.hero.subtitle') }}"
         </p>
         <div class="animate-fade-in-up">
@@ -66,11 +60,13 @@
           </div>
           <!-- Image Right (Placeholder) -->
           <div class="order-1 md:order-2 relative">
-            <div class="aspect-[4/3] bg-aged-paper rounded-sm border-4 border-double border-antique-bronze/40 shadow-xl overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500">
+            <div
+              class="aspect-[4/3] bg-aged-paper rounded-sm border-4 border-double border-antique-bronze/40 shadow-xl overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500">
               <!-- Placeholder for an image -->
               <div class="w-full h-full flex items-center justify-center bg-black/5">
                 <span class="font-citation text-4xl text-antique-bronze/50">{{ t('home.intro.visual_alt') }}</span>
-                <img src="/images/activite_arc_compressed.png" :alt="t('home.intro.visual_alt')" class="absolute inset-0 w-full h-full object-cover" />
+                <img src="/images/activite_arc_compressed.png" :alt="t('home.intro.visual_alt')"
+                  class="absolute inset-0 w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -130,9 +126,9 @@
           <MedievalSectionTitle>{{ t('map.title') }}</MedievalSectionTitle>
 
         </div>
-        
+
         <!-- Framed Map Container -->
-          <MapView />
+        <MapView />
       </div>
     </section>
 
@@ -140,8 +136,10 @@
 
     <!-- CTA SECTION (Dark Wood) -->
     <section class="bg-dark-wood py-20 md:py-32 text-center relative overflow-hidden">
-       <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] pointer-events-none"></div>
-       
+      <div
+        class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] pointer-events-none">
+      </div>
+
       <div class="max-w-3xl mx-auto px-4 relative z-10">
         <MedievalSectionTitle theme="dark">{{ t('home.cta.title') }}</MedievalSectionTitle>
         <p class="text-xl text-warm-sand mb-10 font-body max-w-2xl mx-auto">
@@ -158,7 +156,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import MapView from '@/components/MapView.vue';
+import MapView from '@/components/shared/MapView.vue';
 import BrokenPaperSeparator from '@/components/ui/BrokenPaperSeparator.vue';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
 import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';

@@ -318,7 +318,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
-import PrestataireProfileForm from '@/components/PrestataireProfileForm.vue'
+import PrestataireProfileForm from '@/components/forms/PrestataireProfileForm.vue'
 import ConversationThread from '@/components/messaging/ConversationThread.vue'
 import { useI18n } from 'vue-i18n'
 import { messagingService, type Conversation } from '@/services/messagingService'

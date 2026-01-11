@@ -2,7 +2,7 @@
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import Navbar from '@/components/navbar/Navbar.vue'
 import PrestataireNavbar from '@/components/navbar/PrestataireNavbar.vue'
-import Footer from '@/components/Footer.vue'
+import Footer from '@/components/shared/Footer.vue'
 import { computed } from 'vue'
 import { useUIStore } from '@/stores/ui'
 import { useAuthStore } from '@/stores/auth'
@@ -33,11 +33,7 @@ const logout = () => {
 <template>
   <div id="app">
     <Navbar v-if="!isLoginOrRegisterPage && !isPrestataireRoute && !uiStore.isWidgetOpen" />
-    <PrestataireNavbar 
-      v-if="isPrestataireRoute" 
-      :user="authStore.user" 
-      @logout="logout"
-    />
+    <PrestataireNavbar v-if="isPrestataireRoute" :user="authStore.user" @logout="logout" />
     <main>
       <RouterView />
     </main>
