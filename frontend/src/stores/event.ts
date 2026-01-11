@@ -1,3 +1,4 @@
+import type { UserMock } from '@/mocks/users'
 import { defineStore } from 'pinia'
 import { eventService } from '@/services/eventService'
 import type { LocationMock } from '@/mocks/locations'
@@ -37,6 +38,9 @@ export interface EventReservation {
   event?: Event
 }
 
+export interface ProviderReservation extends EventReservation {
+  user?: UserMock
+}
 
 export type { EventInput, EventUpdateInput }
 
@@ -45,6 +49,7 @@ export const useEventStore = defineStore('event', {
     events: [] as Event[],
     currentEvent: null as Event | null,
     userReservations: [] as EventReservation[],
+    providerReservations: [] as ProviderReservation[],
     loading: false,
     error: null as string | null,
   }),
@@ -56,9 +61,8 @@ export const useEventStore = defineStore('event', {
         this.events = await eventService.getEvents(filters) as Event[]
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-      } finally {
-        this.loading = false
       }
+      this.loading = false
     },
 
     async fetchEventById(id: number) {
@@ -66,12 +70,12 @@ export const useEventStore = defineStore('event', {
       try {
         const event = await eventService.getEventById(id)
         this.currentEvent = event as Event
+        this.loading = false
         return event
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-        return null
-      } finally {
         this.loading = false
+        return null
       }
     },
 
@@ -80,12 +84,12 @@ export const useEventStore = defineStore('event', {
       try {
         const newEvent = await eventService.createEvent(eventData)
         this.events.push(newEvent as Event)
+        this.loading = false
         return newEvent
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-        throw err
-      } finally {
         this.loading = false
+        throw err
       }
     },
 
@@ -97,12 +101,12 @@ export const useEventStore = defineStore('event', {
         if (index !== -1) {
           this.events[index] = updatedEvent as Event
         }
+        this.loading = false
         return updatedEvent
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-        throw err
-      } finally {
         this.loading = false
+        throw err
       }
     },
 
@@ -111,23 +115,24 @@ export const useEventStore = defineStore('event', {
       try {
         await eventService.deleteEvent(id)
         this.events = this.events.filter(e => e.id_event !== id)
+        this.loading = false
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-        throw err
-      } finally {
         this.loading = false
+        throw err
       }
     },
 
     async bookEvent(eventId: number, quantity: number) {
       this.loading = true
       try {
-        return await eventService.bookEvent(eventId, quantity)
+        const result = await eventService.bookEvent(eventId, quantity)
+        this.loading = false
+        return result
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-        throw err
-      } finally {
         this.loading = false
+        throw err
       }
     },
 
@@ -137,21 +142,31 @@ export const useEventStore = defineStore('event', {
         this.userReservations = await eventService.getUserReservations()
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-      } finally {
-        this.loading = false
       }
+      this.loading = false
     },
 
     async fetchEventReservations(eventId: number) {
       this.loading = true
       try {
-        return await eventService.getEventReservations(eventId)
+        const result = await eventService.getEventReservations(eventId)
+        this.loading = false
+        return result
       } catch (err: unknown) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
-        throw err
-      } finally {
         this.loading = false
+        throw err
       }
+    },
+
+    async fetchProviderReservations() {
+      this.loading = true
+      try {
+        this.providerReservations = await eventService.getProviderReservations()
+      } catch (err: unknown) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
+      }
+      this.loading = false
     }
   }
 })

@@ -200,6 +200,12 @@
                 </MedievalButton>
               </router-link>
 
+              <router-link to="/prestataire/events" class="contents">
+                <MedievalButton variant="primary" :fullWidth="true">
+                  {{ t('prestataire.dashboard.quick_actions.manage_events') }}
+                </MedievalButton>
+              </router-link>
+
               <router-link to="/prestataire/quests" class="contents">
                 <MedievalButton variant="primary" :fullWidth="true">
                   {{ t('prestataire.dashboard.quick_actions.manage_quests') }}
@@ -218,9 +224,11 @@
                 </MedievalButton>
               </router-link>
 
-              <MedievalButton variant="primary" :fullWidth="true">
-                {{ t('prestataire.dashboard.quick_actions.view_bookings') }}
-              </MedievalButton>
+              <router-link to="/prestataire/reservations" class="contents">
+                <MedievalButton variant="primary" :fullWidth="true">
+                  {{ t('prestataire.dashboard.quick_actions.view_bookings') }}
+                </MedievalButton>
+              </router-link>
 
               <MedievalButton variant="primary" :fullWidth="true" @click="updateTab('profile')">
                 {{ t('prestataire.dashboard.quick_actions.edit_profile') }}

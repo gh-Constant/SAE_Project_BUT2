@@ -65,6 +65,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/events',
+    name: 'admin-events',
+    component: () => import('../views/AdminEventsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/admin/products',
     name: 'admin-products',
     component: () => import('../views/AdminProductsView.vue'),
@@ -158,6 +164,18 @@ export const routes = [
     path: '/prestataire/location/:locationId/events',
     name: 'prestataire-location-events',
     component: () => import('../views/prestataire/LocationEventsManager.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/events',
+    name: 'prestataire-events',
+    component: () => import('../views/PrestataireEventsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
+  },
+  {
+    path: '/prestataire/reservations',
+    name: 'prestataire-reservations',
+    component: () => import('../views/PrestataireReservationsView.vue'),
     meta: { requiresAuth: true, requiredRole: Role.PRESTATAIRE_ROLE_ID },
   },
   {

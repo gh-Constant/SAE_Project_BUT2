@@ -1,4 +1,7 @@
 {
+  "details": {
+    "back": "Zurück"
+  },
   "dashboard": {
     "title": "Instrumententafel",
     "services": {
@@ -20,6 +23,7 @@
       "title": "Schnelle Taten",
       "add_service": "Dienst hinzufügen",
       "manage_shop": "Laden verwalten",
+      "manage_events": "Veranstaltungen verwalten",
       "manage_quests": "Quests verwalten",
       "create_location": "Ort gründen",
       "view_bookings": "Buchungen ansehen",
@@ -211,6 +215,38 @@
       "avatarInvalid": "Datei muss ein Bild sein",
       "avatarTooLarge": "Bild ist zu groß (maximal 5 MB)",
       "formErrors": "Bitte korrigieren Sie die Fehler im Formular"
+    }
+  },
+  "events": {
+    "title": "Meine Veranstaltungen",
+    "subtitle": "Verwalten Sie die Festlichkeiten Ihrer Stätten",
+    "search": {
+      "label": "Veranstaltung suchen",
+      "placeholder": "Nach Titel suchen...",
+      "clear": "Löschen"
+    },
+    "filter": {
+      "location": "Ort",
+      "all_locations": "Alle meine Orte",
+      "reset": "Zurücksetzen"
+    },
+    "table": {
+      "headers": {
+        "title": "Titel",
+        "date": "Datum",
+        "location": "Ort",
+        "price": "Preis",
+        "capacity": "Kapazität",
+        "sold": "Verkauft",
+        "actions": "Taten"
+      },
+      "empty": {
+        "title": "Keine Veranstaltungen",
+        "subtitle": "Sie haben keine Veranstaltungen geplant."
+      },
+      "actions": {
+        "manage": "Verwalten / Bearbeiten"
+      }
     }
   }
 }

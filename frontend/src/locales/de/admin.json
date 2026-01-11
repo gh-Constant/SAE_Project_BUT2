@@ -10,6 +10,12 @@
             "subtitle": "aktive Orte",
             "action": "Orte verwalten"
         },
+        "events": {
+            "title": "Veranstaltungen",
+            "subtitle": "Verwaltung & Planung",
+            "manage": "Veranstaltungen verwalten",
+            "stats": "Statistiken"
+        },
         "system": {
             "title": "System",
             "status": "Aktiv",
@@ -108,5 +114,39 @@
         "location": "Ort",
         "reservations": "Reservierungen",
         "table_revenue": "Einnahmen"
+    },
+    "events": {
+        "title": "Veranstaltungsmanagement",
+        "subtitle": "Übersicht und Verwaltung von Königreich-Veranstaltungen",
+        "search": {
+            "label": "Veranstaltung suchen",
+            "placeholder": "Suche nach Titel oder Beschreibung...",
+            "clear": "Suche löschen"
+        },
+        "filter": {
+            "location": "Nach Ort filtern",
+            "all_locations": "Alle Orte",
+            "reset": "Zurücksetzen"
+        },
+        "table": {
+            "headers": {
+                "image": "Bild",
+                "title": "Titel",
+                "date": "Datum",
+                "location": "Ort",
+                "price": "Preis",
+                "capacity": "Kapazität",
+                "sold": "Verkauft",
+                "actions": "Aktionen"
+            },
+            "empty": {
+                "title": "Keine Veranstaltungen gefunden",
+                "subtitle": "Versuchen Sie, Ihre Filter anzupassen"
+            },
+            "actions": {
+                "delete": "Löschen",
+                "cancel": "Abbrechen"
+            }
+        }
     }
 }

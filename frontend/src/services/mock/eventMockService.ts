@@ -66,7 +66,8 @@ export const eventMockService = {
         capacity: eventData.capacity,
         id_location: eventData.id_location,
         published: eventData.published,
-        sold: 0
+        sold: 0,
+        categories: []
       };
       EVENTS.push(newEvent);
       resolve(newEvent);
@@ -158,6 +159,29 @@ export const eventMockService = {
         user: USERS.find(u => u.id === r.id_user)
       }));
       resolve(eventReservations);
+    });
+  },
+
+  getProviderReservations: async (): Promise<any[]> => {
+    return new Promise((resolve) => {
+      const userId = getCurrentUserId();
+      const providerLocationIds = LOCATIONS.filter(l => l.id_prestataire === userId).map(l => l.id);
+      const providerEventIds = EVENTS.filter(e => providerLocationIds.includes(e.id_location)).map(e => e.id_event);
+      const providerReservations = RESERVATIONS.filter(r => providerEventIds.includes(r.id_event)).map(r => {
+        const event = EVENTS.find(e => e.id_event === r.id_event);
+        const user = USERS.find(u => u.id === r.id_user);
+
+        return {
+          ...r,
+          user,
+          event: event ? {
+            ...event,
+            location: LOCATIONS.find(l => l.id === event.id_location)
+          } : undefined
+        };
+      });
+
+      resolve(providerReservations);
     });
   }
 };

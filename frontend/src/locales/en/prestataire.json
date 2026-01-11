@@ -3,6 +3,9 @@
     "dashboard": "Dashboard",
     "profile": "Profile"
   },
+  "details": {
+    "back": "Back"
+  },
   "dashboard": {
     "title": "Dashboard",
     "services": {
@@ -29,6 +32,7 @@
       "title": "Quick Deeds",
       "add_service": "Add Service",
       "manage_shop": "Manage Shop",
+      "manage_events": "Manage Events",
       "manage_quests": "Manage Quests",
       "manage_quizzes": "Manage Quizzes",
       "scan_order": "Scan Order",
@@ -246,6 +250,38 @@
       "avatarInvalid": "File must be an image",
       "avatarTooLarge": "Image is too large (maximum 5 MB)",
       "formErrors": "Please correct the errors in the form"
+    }
+  },
+  "events": {
+    "title": "My Events",
+    "subtitle": "Manage festivities for your establishments",
+    "search": {
+      "label": "Search Event",
+      "placeholder": "Search by title...",
+      "clear": "Clear"
+    },
+    "filter": {
+      "location": "Location",
+      "all_locations": "All my locations",
+      "reset": "Reset"
+    },
+    "table": {
+      "headers": {
+        "title": "Title",
+        "date": "Date",
+        "location": "Location",
+        "price": "Price",
+        "capacity": "Capacity",
+        "sold": "Sold",
+        "actions": "Deeds"
+      },
+      "empty": {
+        "title": "No events",
+        "subtitle": "You have no events scheduled."
+      },
+      "actions": {
+        "manage": "Manage / Edit"
+      }
     }
   }
 }

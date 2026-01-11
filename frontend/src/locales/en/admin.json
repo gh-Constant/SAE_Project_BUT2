@@ -56,11 +56,17 @@
                 "manage": "Manage Users",
                 "stats": "Statistics"
             },
-            "locations": {
-                "title": "Locations",
-                "subtitle": "Points of Interest",
-                "manage": "Manage Locations",
+            "events": {
+                "title": "Events",
+                "subtitle": "Management & Schedule",
+                "manage": "Manage Events",
                 "stats": "Statistics"
+            },
+            "reservations": {
+                "title": "Reservation",
+                "subtitle": "Statistics",
+                "manage": "Manage Reservations",
+                "stats": "Reservation Statistics"
             },
             "soon": "Soon"
         }
@@ -352,5 +358,39 @@
         "location": "Location",
         "reservations": "Reservations",
         "table_revenue": "Revenue"
+    },
+    "events": {
+        "title": "Event Management",
+        "subtitle": "Overview and management of kingdom events",
+        "search": {
+            "label": "Search event",
+            "placeholder": "Search by title or description...",
+            "clear": "Clear search"
+        },
+        "filter": {
+            "location": "Filter by location",
+            "all_locations": "All locations",
+            "reset": "Reset"
+        },
+        "table": {
+            "headers": {
+                "image": "Image",
+                "title": "Title",
+                "date": "Date",
+                "location": "Location",
+                "price": "Price",
+                "capacity": "Capacity",
+                "sold": "Sold",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "No events found",
+                "subtitle": "Try adjusting your filters"
+            },
+            "actions": {
+                "delete": "Delete",
+                "cancel": "Cancel"
+            }
+        }
     }
 }

@@ -10,6 +10,12 @@
             "subtitle": "ubicaciones activas",
             "action": "Gestionar ubicaciones"
         },
+        "events": {
+            "title": "Eventos",
+            "subtitle": "Gestión y Planificación",
+            "manage": "Gestionar eventos",
+            "stats": "Estadísticas"
+        },
         "system": {
             "title": "Sistema",
             "status": "Activo",
@@ -108,5 +114,39 @@
         "location": "Ubicación",
         "reservations": "Reservas",
         "table_revenue": "Ingresos"
+    },
+    "events": {
+        "title": "Gestión de Eventos",
+        "subtitle": "Descripción general y gestión de eventos del reino",
+        "search": {
+            "label": "Buscar evento",
+            "placeholder": "Buscar por título o descripción...",
+            "clear": "Borrar búsqueda"
+        },
+        "filter": {
+            "location": "Filtrar por ubicación",
+            "all_locations": "Todas las ubicaciones",
+            "reset": "Restablecer"
+        },
+        "table": {
+            "headers": {
+                "image": "Imagen",
+                "title": "Título",
+                "date": "Fecha",
+                "location": "Ubicación",
+                "price": "Precio",
+                "capacity": "Capacidad",
+                "sold": "Vendido",
+                "actions": "Acciones"
+            },
+            "empty": {
+                "title": "No se encontraron eventos",
+                "subtitle": "Intente ajustar sus filtros"
+            },
+            "actions": {
+                "delete": "Eliminar",
+                "cancel": "Cancelar"
+            }
+        }
     }
 }

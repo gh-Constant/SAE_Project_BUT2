@@ -54,8 +54,14 @@
                 "manage": "Gestion Boutique",
                 "stats": "Statistiques"
             },
+            "events": {
+                "title": "Événements",
+                "subtitle": "Gestion & Planning",
+                "manage": "Gestion des Événements",
+                "stats": "Statistiques"
+            },
             "reservations": {
-                "title": "Reservation",
+                "title": "Réservation",
                 "subtitle": "Statistiques",
                 "manage": "Gestion des Réservations",
                 "stats": "Statistiques des Réservations"
@@ -363,5 +369,39 @@
         "location": "Lieu",
         "reservations": "Réservations",
         "table_revenue": "Revenus"
+    },
+    "events": {
+        "title": "Gestion des Événements",
+        "subtitle": "Vue d'ensemble et gestion des événements du royaume",
+        "search": {
+            "label": "Rechercher un événement",
+            "placeholder": "Rechercher par titre ou description...",
+            "clear": "Effacer la recherche"
+        },
+        "filter": {
+            "location": "Filtrer par lieu",
+            "all_locations": "Tous les lieux",
+            "reset": "Réinitialiser"
+        },
+        "table": {
+            "headers": {
+                "image": "Image",
+                "title": "Titre",
+                "date": "Date",
+                "location": "Lieu",
+                "price": "Prix",
+                "capacity": "Capacité",
+                "sold": "Vendus",
+                "actions": "Actions"
+            },
+            "empty": {
+                "title": "Aucun événement trouvé",
+                "subtitle": "Essayez de modifier vos filtres"
+            },
+            "actions": {
+                "delete": "Supprimer",
+                "cancel": "Annuler"
+            }
+        }
     }
 }

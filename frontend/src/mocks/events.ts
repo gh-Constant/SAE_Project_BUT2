@@ -1,5 +1,13 @@
 import type { LocationMock } from './locations';
 
+export interface EventCategoryMock {
+  id_event_category?: number;
+  name: string;
+  price: number;
+  capacity: number;
+  sold?: number;
+}
+
 
 export interface EventMock {
   id_event: number;
@@ -13,6 +21,7 @@ export interface EventMock {
   id_location: number;
   published: boolean;
   location?: LocationMock;
+  categories: EventCategoryMock[];
 }
 
 // Type pour les données d'entrée lors de la création d'un événement
@@ -34,7 +43,8 @@ export const EVENTS: EventMock[] = [
     price: 50,
     capacity: 1000,
     sold: 450,
-    id_location: 1, // Assumes location 1 exists
+    categories: [],
+    id_location: 1, 
     published: true
   },
   {
@@ -46,6 +56,7 @@ export const EVENTS: EventMock[] = [
     price: 120,
     capacity: 200,
     sold: 180,
+    categories: [],
     id_location: 2,
     published: true
   },
@@ -58,6 +69,7 @@ export const EVENTS: EventMock[] = [
     price: 0,
     capacity: 5000,
     sold: 120,
+    categories: [],
     id_location: 1,
     published: true
   }

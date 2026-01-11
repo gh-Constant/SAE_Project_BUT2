@@ -200,7 +200,7 @@
             </div>
           </div>
 
-          <!-- Réservations Category -->
+          <!-- Événements Category -->
           <div
             class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
           >
@@ -213,15 +213,28 @@
                 <div
                   class="w-14 h-14 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md"
                 >
-                  <i class="fas fa-question-circle text-white text-xl"></i>
+                  <i class="fas fa-calendar-alt text-white text-xl"></i>
                 </div>
                 <div>
-                  <h2 class="text-2xl font-medieval font-bold text-iron-black">{{ t('admin.dashboard.reservations.title') }}</h2>
-                  <p class="text-sm text-stone-grey">{{ t('admin.dashboard.reservations.subtitle') }}</p>
+                  <h2 class="text-2xl font-medieval font-bold text-iron-black">{{ t('admin.dashboard.categories.events.title') }}</h2>
+                  <p class="text-sm text-stone-grey">{{ t('admin.dashboard.categories.events.subtitle') }}</p>
                 </div>
               </div>
 
               <div class="space-y-3">
+                <router-link
+                  to="/admin/events"
+                  class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"
+                >
+                  <span class="flex items-center gap-3">
+                    <i class="fas fa-tasks text-antique-bronze"></i>
+                    <span class="font-medieval font-bold text-iron-black">{{ t('admin.dashboard.categories.events.manage') }}</span>
+                  </span>
+                  <i
+                    class="fas fa-arrow-right text-antique-bronze opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all"
+                  ></i>
+                </router-link>
+
                 <router-link
                   to="/admin/reservations/stats"
                   class="flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-white/80 border border-antique-bronze/20 rounded-lg transition-all duration-300 group/btn w-full"

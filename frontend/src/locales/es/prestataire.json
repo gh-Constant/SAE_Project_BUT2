@@ -1,4 +1,7 @@
 {
+  "details": {
+    "back": "Volver"
+  },
   "dashboard": {
     "title": "Tablero de Mando",
     "services": {
@@ -20,6 +23,7 @@
       "title": "Acciones Rápidas",
       "add_service": "Añadir servicio",
       "manage_shop": "Gestionar tienda",
+      "manage_events": "Gestionar eventos",
       "manage_quests": "Gestionar misiones",
       "create_location": "Crear lugar",
       "view_bookings": "Ver reservas",
@@ -211,6 +215,38 @@
       "avatarInvalid": "El archivo debe ser una imagen",
       "avatarTooLarge": "La imagen es demasiado grande (máximo 5 MB)",
       "formErrors": "Por favor corrija los errores en el formulario"
+    }
+  },
+  "events": {
+    "title": "Mis Eventos",
+    "subtitle": "Gestiona las festividades de tus establecimientos",
+    "search": {
+      "label": "Buscar evento",
+      "placeholder": "Buscar por título...",
+      "clear": "Borrar"
+    },
+    "filter": {
+      "location": "Ubicación",
+      "all_locations": "Todas mis ubicaciones",
+      "reset": "Restablecer"
+    },
+    "table": {
+      "headers": {
+        "title": "Título",
+        "date": "Fecha",
+        "location": "Ubicación",
+        "price": "Precio",
+        "capacity": "Capacidad",
+        "sold": "Vendidos",
+        "actions": "Acciones"
+      },
+      "empty": {
+        "title": "Sin eventos",
+        "subtitle": "No tienes eventos programados."
+      },
+      "actions": {
+        "manage": "Gestionar / Editar"
+      }
     }
   }
 }

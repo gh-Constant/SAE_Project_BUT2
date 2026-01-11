@@ -54,6 +54,22 @@ const eventServiceImpl = {
       headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
+  },
+
+  getEventReservations: async (eventId: number): Promise<any[]> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/events/${eventId}/reservations`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  },
+
+  getProviderReservations: async (): Promise<any[]> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/events/provider/reservations`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
   }
 };
 

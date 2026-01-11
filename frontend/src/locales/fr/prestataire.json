@@ -3,6 +3,9 @@
     "dashboard": "Tableau de bord",
     "profile": "Profil"
   },
+  "details": {
+    "back": "Retour"
+  },
   "dashboard": {
     "title": "Tableau de Bord",
     "services": {
@@ -29,6 +32,7 @@
       "title": "Actions Rapides",
       "add_service": "Ajouter un service",
       "manage_shop": "Gérer ma boutique",
+      "manage_events": "Gérer mes événements",
       "manage_quests": "Gérer mes quêtes",
       "manage_quizzes": "Gérer les Quiz",
       "scan_order": "Scanner une commande",
@@ -246,6 +250,60 @@
       "avatarInvalid": "Le fichier doit être une image",
       "avatarTooLarge": "L'image est trop volumineuse (maximum 5 Mo)",
       "formErrors": "Veuillez corriger les erreurs dans le formulaire"
+    }
+  },
+  "events": {
+    "title": "Mes Événements",
+    "subtitle": "Gérez les festivités de vos établissements",
+    "search": {
+      "label": "Rechercher un événement",
+      "placeholder": "Rechercher par titre...",
+      "clear": "Effacer"
+    },
+    "filter": {
+      "location": "Lieu",
+      "all_locations": "Tous mes lieux",
+      "reset": "Réinitialiser"
+    },
+    "table": {
+      "headers": {
+        "title": "Titre",
+        "date": "Date",
+        "location": "Lieu",
+        "price": "Prix",
+        "capacity": "Capacité",
+        "sold": "Vendus",
+        "actions": "Actions"
+      },
+      "empty": {
+        "title": "Aucun événement",
+        "subtitle": "Vous n'avez aucun événement planifié."
+      },
+      "actions": {
+        "manage": "Gérer / Modifier"
+      }
+    }
+  },
+  "reservations": {
+    "title": "Gestion des Réservations",
+    "subtitle": "Suivez les inscriptions à vos événements",
+    "search": {
+      "label": "Rechercher",
+      "placeholder": "Rechercher par client ou événement..."
+    },
+    "table": {
+      "headers": {
+        "event": "Événement",
+        "customer": "Client",
+        "date": "Date",
+        "quantity": "Qté",
+        "total": "Total",
+        "status": "Statut"
+      },
+      "empty": {
+        "title": "Aucune réservation",
+        "subtitle": "Vos événements n'ont pas encore reçu d'inscriptions."
+      }
     }
   }
 }
