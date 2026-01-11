@@ -1,33 +1,47 @@
 # SAEProjectBUT2
 
-## Configuration du Backend et de la Base de Données
+## Prérequis
 
-1. Installer les dépendances : `npm install` (dans le répertoire racine)
-2. Configurer la base de données :
-   - **Option 1 : Utiliser Docker Compose (recommandé pour le développement)**
-     - Exécuter `docker-compose up -d` pour démarrer MYSQL
-     - Copier `.env.example` vers `.env` et mettre à jour les informations d'authentification si nécessaire (par défaut : `mysql://sae_user:sae_password@localhost:3306/sae_project_db`)
-   - **Option 2 : Base de données auto-hébergée**
-     - Configurer votre propre base de données MYSQL
-     - Copier `.env.example` vers `.env` et remplir le `DATABASE_URL` ou les variables individuelles de base de données
+Avant de commencer, installez toutes les dépendances du projet :
+\`npm install\` (dans le répertoire racine)
 
-## Comment démarrer le frontend
+## 1. Démarrer le projet (Frontend uniquement)
 
-1. Installer les dépendances : `npm install` (dans le répertoire racine)
-2. Lancer le serveur de développement : `npm run frontend:dev`
-   - Pour démarrer sans backend : `npm run frontend:dev:mock` (Premier livrable)
-3. Vérifier les types : `npm run frontend:typecheck`
+### Mode Mock (Sans Backend)
+C'est la méthode la plus simple pour voir le frontend et développer sans avoir besoin de base de données ou de backend.
+- Commande : \`npm run frontend:dev:mock\`
 
-## Comment démarrer le backend
+---
 
-1. Démarrer la base de données (voir section ci-dessus)
-2. Installer les dépendances : `npm install` (dans le répertoire racine)
-3. Lancer le serveur de développement : `npm run backend:dev`
-4. Tester la connexion à la base de données : `curl http://localhost:3000/api/roles`
+## 2. Démarrer le projet complet (Backend + Frontend)
 
-    *Note : Le déploiement sur le vrai site internet ne marche pas s'il y a des erreurs de types.*
+Pour faire fonctionner le site normalement avec la base de données.
 
-️ **Pour chaque page, vous devez faire les traductions avec i18n dans le dossier locales**
+### Étape A : Configurer la Base de Données
 
-️ **Pour chaque marqueur prédéfini, vous devez les mettre dans /utils/predefinedmarkers.ts**
-test
+Vous avez deux options :
+
+**Option 1 : Via Docker (Recommandé)**
+Si vous avez Docker installé, lancez simplement :
+\`docker-compose up -d\`
+
+**Option 2 : Via MySQL Local**
+Si vous n'utilisez pas Docker, vous devez avoir un serveur MySQL qui tourne sur votre machine.
+- Configurez le fichier \`.env\` avec vos informations de connexion MySQL.
+
+### Étape B : Initialiser Prisma
+Une fois la base de données (Docker ou Locale) prête, lancez ces commandes pour créer les tables et générer le client :
+
+1. Générer le client Prisma :
+   \`npx prisma generate\`
+
+2. Pousser le schéma vers la base de données :
+   \`npx prisma db push\` (ou \`npx prisma migrate dev\` pour un environnement de dév strict)
+
+### Étape C : Lancer les serveurs
+
+1. **Démarrer le Backend :**
+   \`npm run backend:dev\`
+
+2. **Démarrer le Frontend (Mode Normal) :**
+   \`npm run frontend:dev\`
