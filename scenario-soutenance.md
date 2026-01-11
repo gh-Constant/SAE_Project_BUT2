@@ -417,3 +417,38 @@ Il scanne.
 Commande validée.
 
 ---
+
+
+# SCÉNARIO 3 — L’ADMINISTRATEUR
+
+*(La plateforme vue par l’organisateur du festival)*
+
+Pendant qu’Alice explore et que Gérard sert ses clients, un troisième regard supervise l’ensemble du royaume. Dans sa tour de contrôle, Godefroy, l’organisateur des Terres du Lion, ouvre son Panel Administrateur.
+
+### La Vision Globale
+Dès l'ouverture, Godefroy accède au Dashboard. Contrairement aux utilisateurs classiques, il bénéficie d'une vue omnisciente sur l'intégralité du festival.
+
+Statistiques en temps réel : Il ne surveille pas qu'un seul stand, mais tous les services simultanément.
+
+Indicateurs clés : Il suit le nombre total d'aventuriers connectés, le volume global des transactions et l'activité de chaque prestataire.
+
+### Le Gardien de l'Ordre : Modération des Utilisateurs
+Godefroy veille à la sécurité et à la convivialité de la communauté. Dans son onglet de gestion :
+
+Supervision des profils : Il peut consulter la liste des Aventuriers et des Prestataires.
+
+Action immédiate : Si un utilisateur adopte un comportement toxique ou utilise un pseudonyme injurieux, Godefroy a le pouvoir de bannir ou supprimer définitivement le compte.
+
+Note technique : Pour des raisons de sécurité, Godefroy ne peut pas modifier les données privées (comme les mots de passe), garantissant ainsi la confidentialité des comptes.
+
+### Maître du Contenu et de l'Éthique
+Rien ne doit venir briser l'immersion ou la sécurité des visiteurs. Godefroy a un droit de regard total sur ce qui est mis en ligne par les prestataires.
+
+Contrôle du catalogue : Il peut intervenir sur chaque produit ou billet de spectacle. Si un article est jugé inapproprié pour l'univers du parc ou si un événement ne respecte pas les règles de sécurité, il peut le supprimer instantanément.
+
+Nettoyage du Royaume : Il peut modifier les descriptions des lieux ou supprimer des blogs si le contenu n'est pas conforme à l'image des Terres du Lion.
+
+Gestion des Quêtes : Si une quête s'avère problématique ou contient des éléments inappropriés, il peut la retirer du jeu immédiatement pour protéger l'expérience des aventuriers comme Alice.
+
+### Conclusion : La Paix du Royaume
+Grâce à ce tableau de bord, Godefroy garantit que le festival reste un lieu sûr, cohérent et fluide. La technologie lui permet d'être partout à la fois, s'assurant que chaque transaction et chaque interaction contribuent à la magie de l'événement.
