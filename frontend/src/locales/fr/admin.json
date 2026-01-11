@@ -29,6 +29,10 @@
             "title": "Quiz",
             "subtitle": "QCM & Évaluations"
         },
+        "reservations": {
+            "title": "Réservations",
+            "subtitle": "Statistiques"
+        },
         "festival": {
             "title": "Festival du",
             "to": "au",
@@ -49,6 +53,12 @@
                 "subtitle": "Produits & Ventes",
                 "manage": "Gestion Boutique",
                 "stats": "Statistiques"
+            },
+             "reservations": {
+                "title": "Reservation",
+                "subtitle": "Statistiques",
+                "manage": "Gestion des Réservations",
+                "stats": "Statistiques des Réservations"
             },
             "users": {
                 "title": "Utilisateurs",
@@ -78,6 +88,7 @@
         "quest_stats": "Statistiques des Quêtes",
         "quest_stats_desc": "Voir les stats et le classement",
         "quizzes_section": "Gestion des Quiz",
+        "reservations_section" :"Statistiques des réservations",
         "manage_quizzes": "Gérer les Quiz",
         "manage_quizzes_desc": "Créer, modifier et supprimer les quiz",
         "quiz_stats": "Statistiques des Quiz",

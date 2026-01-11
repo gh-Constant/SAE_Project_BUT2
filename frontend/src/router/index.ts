@@ -107,6 +107,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/reservations/stats',
+    name: 'admin-reservations-stats',
+    component: () => import('../views/AdminReservationStatsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/prestataire',
     name: 'prestataire',
     component: () => import('../views/PrestataireView.vue'),
