@@ -85,7 +85,9 @@
               <thead class="bg-antique-bronze/10">
                 <tr>
                   <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.title') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.date') }}</th>
+                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.start_date') }}</th>
+                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.end_date') }}</th>
+                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.organizer') }}</th>
                   <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.location') }}</th>
                   <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.price') }}</th>
                   <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.capacity') }}</th>
@@ -103,6 +105,14 @@
                     {{ new Date(event.start_time).toLocaleDateString() }}
                     <br>
                     <span class="text-xs">{{ new Date(event.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                  </td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-stone-600">
+                    {{ new Date(event.end_time).toLocaleDateString() }}
+                    <br>
+                    <span class="text-xs">{{ new Date(event.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-stone-600">
+                    {{ getOrganizerName(event.id_location) }}
                   </td>
                   <td class="px-6 py-4 text-center text-sm text-stone-600">
                     {{ getLocationName(event.id_location) }}
@@ -155,6 +165,7 @@ import { useEventStore } from '@/stores/event'
 import { useI18n } from 'vue-i18n'
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue'
 import { locationsMock } from '@/mocks/locations'
+import { USERS } from '@/mocks/users'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -165,6 +176,7 @@ const user = computed(() => authStore.user)
 
 const searchQuery = ref('')
 const selectedLocationId = ref<number | null>(null)
+const sortOption = ref('date_asc')
 
 // Computed
 const filteredEvents = computed(() => {
@@ -181,6 +193,26 @@ const filteredEvents = computed(() => {
       (e.description && e.description.toLowerCase().includes(query))
     )
   }
+
+  // Sorting
+  events.sort((a, b) => {
+    switch (sortOption.value) {
+      case 'date_asc':
+        return new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
+      case 'date_desc':
+        return new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
+      case 'title_asc':
+        return a.title.localeCompare(b.title)
+      case 'title_desc':
+        return b.title.localeCompare(a.title)
+      case 'price_asc':
+        return (a.price || 0) - (b.price || 0)
+      case 'price_desc':
+        return (b.price || 0) - (a.price || 0)
+      default:
+        return 0
+    }
+  })
 
   return events
 })
@@ -199,11 +231,23 @@ function handleLogout() {
 function clearFilters() {
   searchQuery.value = ''
   selectedLocationId.value = null
+  sortOption.value = 'date_asc'
 }
 
 function getLocationName(locationId: number) {
   const loc = locationsMock.find(l => l.id === locationId)
-  return loc ? loc.name : 'Unknown'
+  return loc ? loc.name : t('admin.system.unknown')
+}
+
+function getOrganizerName(locationId: number) {
+  const loc = locationsMock.find(l => l.id === locationId)
+  if (!loc) return t('admin.system.unknown')
+  
+  // If it's a story location or has no prestataire, return "Système" or check specific logic
+  if (!loc.id_prestataire) return t('admin.system.creator')
+
+  const user = USERS.find(u => u.id === loc.id_prestataire)
+  return user ? `${user.firstname} ${user.lastname}` : t('admin.system.unknown')
 }
 
 async function deleteEvent(id: number) {

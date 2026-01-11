@@ -10,17 +10,71 @@
             "subtitle": "ubicaciones activas",
             "action": "Gestionar ubicaciones"
         },
-        "events": {
-            "title": "Eventos",
-            "subtitle": "Gestión y Planificación",
-            "manage": "Gestionar eventos",
-            "stats": "Estadísticas"
-        },
         "system": {
             "title": "Sistema",
             "status": "Activo",
             "subtitle": "estadísticas del sistema",
             "action": "Ver estadísticas"
+        },
+        "stats": {
+            "users": "Usuarios",
+            "paying_users": "Clientes (Pago)",
+            "revenue": "Ingresos"
+        },
+        "charts": {
+            "users_growth": "Crecimiento de Usuarios (últimos 6 meses)",
+            "revenue_trend": "Tendencia de Ingresos (últimos 6 meses)"
+        },
+        "quizzes": {
+            "title": "Quiz",
+            "subtitle": "MCQ y Evaluaciones"
+        },
+        "festival": {
+            "title": "Festival del",
+            "to": "al",
+            "from_label": "Del",
+            "to_label": "Al",
+            "edit": "Editar fechas",
+            "validate": "Validar"
+        },
+        "categories": {
+            "quests": {
+                "title": "Misiones",
+                "subtitle": "Gestión y Estadísticas",
+                "manage": "Gestionar Misiones",
+                "stats": "Estadísticas"
+            },
+            "shop": {
+                "title": "Tienda",
+                "subtitle": "Productos y Ventas",
+                "manage": "Gestionar Tienda",
+                "stats": "Estadísticas"
+            },
+            "users": {
+                "title": "Usuarios",
+                "subtitle": "Cuentas y Actividad",
+                "manage": "Gestionar Usuarios",
+                "stats": "Estadísticas"
+            },
+            "events": {
+                "title": "Eventos y Reservas",
+                "subtitle": "Gestión y Planificación",
+                "manage": "Gestionar Eventos",
+                "stats": "Estadísticas"
+            },
+            "reservations": {
+                "title": "Reservas",
+                "subtitle": "Estadísticas",
+                "manage": "Gestionar Reservas",
+                "stats": "Estadísticas"
+            },
+            "locations": {
+                "title": "Ubicaciones",
+                "subtitle": "Puntos de interés",
+                "manage": "Gestionar Ubicaciones",
+                "stats": "Estadísticas"
+            },
+            "soon": "Pronto"
         }
     },
     "quick_actions": {
@@ -29,7 +83,17 @@
         "add_location": "Añadir ubicación",
         "manage_roles": "Gestionar roles",
         "view_logs": "Ver registros",
-        "manage_products": "Gestionar artículos"
+        "manage_products": "Gestionar artículos",
+        "quests_section": "Gestión de Misiones",
+        "manage_quests": "Gestionar Misiones",
+        "manage_quests_desc": "Crear, editar y eliminar misiones",
+        "quest_stats": "Estadísticas de Misiones",
+        "quest_stats_desc": "Ver estadísticas y clasificación",
+        "quizzes_section": "Gestión de Quiz",
+        "manage_quizzes": "Gestionar Quiz",
+        "manage_quizzes_desc": "Crear, editar y eliminar quiz",
+        "quiz_stats": "Estadísticas de Quiz",
+        "quiz_stats_desc": "Ver estadísticas y clasificación"
     },
     "recent_activity": {
         "title": "Actividad Reciente",
@@ -68,7 +132,7 @@
         "filter": {
             "price": "Precio (Oro)",
             "min": "Mín",
-            "max": "Máx",
+            "max": "Max",
             "availability": "Disponibilidad",
             "all": "Todos los productos",
             "in_stock": "En stock",
@@ -102,6 +166,196 @@
             }
         }
     },
+    "system": {
+        "creator": "Sistema",
+        "unknown": "Desconocido"
+    },
+    "quests": {
+        "title": "Gestión de Misiones",
+        "subtitle": "Visión general y gestión de todas las misiones del sistema",
+        "view_stats": "Estadísticas",
+        "search": {
+            "label": "Buscar misión",
+            "placeholder": "Buscar por título o descripción..."
+        },
+        "filter": {
+            "location": "Filtrar por ubicación",
+            "all_locations": "Todas las ubicaciones",
+            "only_with_quests": "Mostrar solo ubicaciones con misiones"
+        },
+        "stats": {
+            "locations": "ubicaciones",
+            "quests": "misiones"
+        },
+        "view_more": "Ver {remaining} ubicación(es) más",
+        "location": {
+            "quest_count": "{n} misión | {n} misiones",
+            "create_quest": "Crear Misión"
+        },
+        "add_form": {
+            "title": "Escribir una nueva misión",
+            "quest_title_label": "Título de la misión",
+            "quest_title_placeholder": "Ej: Entregar un paquete en el castillo",
+            "reward_label": "Recompensa (XP)",
+            "description_label": "Descripción detallada",
+            "description_placeholder": "Describa los objetivos de la misión...",
+            "cancel": "Cancelar",
+            "submit": "Publicar Misión",
+            "submitting": "Publicando..."
+        },
+        "table": {
+            "headers": {
+                "title": "Título",
+                "description": "Descripción",
+                "reward": "Recompensa",
+                "actions": "Acciones"
+            },
+            "empty": {
+                "title": "No hay misiones registradas",
+                "subtitle": "Cree su primera misión para esta ubicación"
+            },
+            "actions": {
+                "edit": "Editar",
+                "delete": "Eliminar",
+                "save": "Guardar",
+                "cancel": "Cancelar"
+            }
+        },
+        "no_results": {
+            "title": "No se encontraron resultados",
+            "subtitle": "Intente modificar sus filtros de búsqueda",
+            "reset": "Restablecer filtros"
+        }
+    },
+    "quest_stats": {
+        "title": "Estadísticas de Misiones",
+        "subtitle": "Panel de análisis de misiones y rendimiento",
+        "hero": {
+            "total_quests": "Misiones Totales",
+            "across_locations": "En {count} ubicaciones",
+            "total_xp": "XP Disponible",
+            "avg_reward": "Recompensa media",
+            "xp_range": "Rango XP",
+            "xp_range_label": "Mín - Máx recompensas"
+        },
+        "secondary": {
+            "locations": "Ubicaciones",
+            "avg_xp": "XP Medio",
+            "min_xp": "XP Mín",
+            "max_xp": "XP Máx"
+        },
+        "popular": {
+            "title": "Mejores Misiones",
+            "empty": "No hay misiones todavía"
+        },
+        "locations": {
+            "title": "Distribución por Ubicación",
+            "quests": "misiones",
+            "empty": "No hay datos disponibles"
+        },
+        "xp_distribution": {
+            "title": "Distribución de Recompensas XP"
+        },
+        "detailed": {
+            "title": "Estadísticas Detalladas",
+            "manage_link": "Gestionar misiones",
+            "location": "Ubicación",
+            "quests": "Misiones",
+            "total_xp": "Total XP",
+            "avg_xp": "Medio XP",
+            "distribution": "Distribución"
+        },
+        "leaderboard": {
+            "title": "Clasificación de Aventureros",
+            "level": "Nivel",
+            "completed": "Completadas",
+            "in_progress": "en curso",
+            "empty": "No hay participantes todavía"
+        }
+    },
+    "quizzes": {
+        "title": "Gestión de Quiz",
+        "subtitle": "Visión general y gestión de todos los quiz del reino",
+        "view_stats": "Estadísticas",
+        "search": {
+            "label": "Buscar quiz",
+            "placeholder": "Buscar por título o descripción..."
+        },
+        "filter": {
+            "creator": "Filtrar por creador",
+            "all_creators": "Todos los creadores",
+            "location": "Filtrar por ubicación",
+            "all_locations": "Todas las ubicaciones"
+        },
+        "stats": {
+            "active": "quiz activos",
+            "total": "quiz totales"
+        },
+        "table": {
+            "headers": {
+                "title": "Título",
+                "location": "Ubicación",
+                "creator": "Creador",
+                "questions": "Preguntas",
+                "status": "Estado",
+                "actions": "Acciones"
+            },
+            "empty": {
+                "title": "No hay quiz registrados",
+                "subtitle": "Cree su primer quiz para empezar a gestionar"
+            },
+            "actions": {
+                "edit": "Editar",
+                "delete": "Eliminar",
+                "test": "Probar"
+            },
+            "unknown_location": "Ubicación desconocida",
+            "system_creator": "Sistema",
+            "delete_confirm": "¿Estás seguro de que quieres eliminar el quiz \"{title}\"? Esta acción no se puede deshacer.",
+            "delete_error": "Error al eliminar el quiz"
+        }
+    },
+    "quiz_stats": {
+        "title": "Estadísticas de Quiz",
+        "subtitle": "Panel de análisis de quiz y rendimiento",
+        "cards": {
+            "total_quizzes": "Quiz Totales",
+            "total_attempts": "Intentos Totales",
+            "avg_score": "Puntuación Media",
+            "locations": "ubicaciones implicadas",
+            "avg_attempts": "de media por quiz",
+            "total_questions": "preguntas totales"
+        },
+        "charts": {
+            "popular": "Quiz Más Populares",
+            "locations": "Distribución por Ubicación",
+            "creators": "Mejores Creadores",
+            "adventurers": "Mejores Aventureros",
+            "details": "Detalles por Quiz",
+            "empty": {
+                "quizzes": "No hay quiz disponibles",
+                "locations": "No hay ubicaciones con quiz",
+                "creators": "No hay creadores",
+                "adventurers": "No hay aventureros"
+            }
+        },
+        "secondary": {
+            "creators": "Creadores",
+            "questions_per_quiz": "Preguntas / Quiz"
+        },
+        "detailed": {
+            "manage_link": "Gestionar Quiz",
+            "headers": {
+                "quiz": "Quiz",
+                "creator": "Creador",
+                "questions": "Preguntas",
+                "participants": "Participantes",
+                "attempts": "Intentos",
+                "avg_score": "Puntuación Media"
+            }
+        },
+        "empty": "No hay datos disponibles"
+    },
     "reservation_stats": {
         "title": "Estadísticas de Reservas",
         "subtitle": "Análisis de reservas e ingresos",
@@ -113,7 +367,15 @@
         "details_by_location": "Detalles por ubicación",
         "location": "Ubicación",
         "reservations": "Reservas",
-        "table_revenue": "Ingresos"
+        "table_revenue": "Ingresos",
+        "events_title": "Resumen de Eventos",
+        "total_events": "Total Eventos",
+        "active_events": "Eventos Activos",
+        "sold_tickets": "Entradas Vendidas",
+        "attendance_rate": "Tasa de Asistencia",
+        "top_events": "Mejores Eventos",
+        "occupancy": "Ocupación",
+        "revenue": "Ingresos"
     },
     "events": {
         "title": "Gestión de Eventos",
@@ -128,11 +390,17 @@
             "all_locations": "Todas las ubicaciones",
             "reset": "Restablecer"
         },
+        "sort": {
+            "date_asc": "Fecha (Ascendente)",
+            "date_desc": "Fecha (Descendente)"
+        },
         "table": {
             "headers": {
                 "image": "Imagen",
                 "title": "Título",
-                "date": "Fecha",
+                "start_date": "Fecha de inicio",
+                "end_date": "Fecha de fin",
+                "organizer": "Organizador",
                 "location": "Ubicación",
                 "price": "Precio",
                 "capacity": "Capacidad",
