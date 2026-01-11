@@ -339,5 +339,18 @@
             }
         },
         "empty": "No data available"
+    },
+    "reservation_stats": {
+        "title": "Reservation Statistics",
+        "subtitle": "Analysis of reservations and revenue",
+        "total_reservations": "Total Reservations",
+        "revenue": "Revenue",
+        "average_basket": "Average Basket",
+        "status_distribution": "Status Distribution",
+        "revenue_by_location": "Revenue by Location",
+        "details_by_location": "Details by Location",
+        "location": "Location",
+        "reservations": "Reservations",
+        "table_revenue": "Revenue"
     }
 }

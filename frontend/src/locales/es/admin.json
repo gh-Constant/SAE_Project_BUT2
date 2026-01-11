@@ -95,5 +95,18 @@
                 "sold_out": "Agotado"
             }
         }
+    },
+    "reservation_stats": {
+        "title": "Estadísticas de Reservas",
+        "subtitle": "Análisis de reservas e ingresos",
+        "total_reservations": "Número de Reservas",
+        "revenue": "Ingresos",
+        "average_basket": "Cesta media",
+        "status_distribution": "Distribución de estados",
+        "revenue_by_location": "Ingresos por ubicación",
+        "details_by_location": "Detalles por ubicación",
+        "location": "Ubicación",
+        "reservations": "Reservas",
+        "table_revenue": "Ingresos"
     }
 }

@@ -95,5 +95,18 @@
                 "sold_out": "Ausverkauft"
             }
         }
+    },
+    "reservation_stats": {
+        "title": "Reservierungsstatistiken",
+        "subtitle": "Analyse der Reservierungen und Einnahmen",
+        "total_reservations": "Anzahl der Reservierungen",
+        "revenue": "Einnahmen",
+        "average_basket": "Durchschnittlicher Warenkorb",
+        "status_distribution": "Statusverteilung",
+        "revenue_by_location": "Einnahmen nach Ort",
+        "details_by_location": "Details nach Ort",
+        "location": "Ort",
+        "reservations": "Reservierungen",
+        "table_revenue": "Einnahmen"
     }
 }

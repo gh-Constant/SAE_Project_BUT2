@@ -9,11 +9,11 @@
         <div class="mb-12 text-center">
           <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center justify-center gap-3">
             <i class="fas fa-calendar-check text-antique-bronze"></i>
-            Statistiques des Réservations
+            {{ t('admin.reservation_stats.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
           <p class="text-base text-stone-grey">
-            Analyse des réservations et des revenus
+            {{ t('admin.reservation_stats.subtitle') }}
           </p>
         </div>
 
@@ -33,7 +33,7 @@
                 <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
                   <i class="fas fa-calendar text-2xl text-white"></i>
                 </div>
-                <h3 class="text-sm uppercase tracking-widest font-bold">Nombre de Réservations</h3>
+                <h3 class="text-sm uppercase tracking-widest font-bold">{{ t('admin.reservation_stats.total_reservations') }}</h3>
                 <p class="text-5xl font-medieval font-bold text-iron-black">
                   {{ stats.totalReservations }}
                 </p>
@@ -47,7 +47,7 @@
                 <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
                   <i class="fas fa-coins text-2xl text-white"></i>
                 </div>
-                <h3 class="text-sm uppercase tracking-widest font-bold">Revenus</h3>
+                <h3 class="text-sm uppercase tracking-widest font-bold">{{ t('admin.reservation_stats.revenue') }}</h3>
                 <p class="text-5xl font-medieval font-bold text-iron-black">
                   {{ formatCurrency(stats.totalRevenue) }}
                 </p>
@@ -61,7 +61,7 @@
                 <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
                   <i class="fas fa-receipt text-2xl text-white"></i>
                 </div>
-                <h3 class="text-sm uppercase tracking-widest font-bold">Panier moyen</h3>
+                <h3 class="text-sm uppercase tracking-widest font-bold">{{ t('admin.reservation_stats.average_basket') }}</h3>
                 <p class="text-5xl font-medieval font-bold text-iron-black">
                   {{ formatCurrency(stats.averageReservationValue) }}
                 </p>
@@ -75,7 +75,7 @@
               <div class="bg-antique-bronze/10 px-6 py-4 border-b border-antique-bronze/20">
                 <h3 class="font-medieval font-bold text-iron-black flex items-center gap-2">
                   <i class="fas fa-chart-pie text-antique-bronze"></i>
-                  Répartition des status
+                  {{ t('admin.reservation_stats.status_distribution') }}
                 </h3>
               </div>
               <div class="p-6 space-y-4">
@@ -99,7 +99,7 @@
               <div class="bg-antique-bronze/10 px-6 py-4 border-b border-antique-bronze/20">
                 <h3 class="font-medieval font-bold text-iron-black flex items-center gap-2">
                   <i class="fas fa-map-marked-alt text-antique-bronze"></i>
-                  Revenus par lieu
+                  {{ t('admin.reservation_stats.revenue_by_location') }}
                 </h3>
               </div>
               <div class="p-6 space-y-4">
@@ -124,16 +124,16 @@
             <div class="bg-antique-bronze/10 px-6 py-4 border-b border-antique-bronze/20">
               <h3 class="font-medieval font-bold text-iron-black flex items-center gap-2">
                 <i class="fas fa-table text-antique-bronze"></i>
-                Détails par lieu
+                {{ t('admin.reservation_stats.details_by_location') }}
               </h3>
             </div>
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-antique-bronze/10">
                 <thead class="bg-antique-bronze/5">
                   <tr>
-                    <th class="px-6 py-3 text-left text-xs font-bold uppercase">Lieu</th>
-                    <th class="px-6 py-3 text-center text-xs font-bold uppercase">Réservations</th>
-                    <th class="px-6 py-3 text-center text-xs font-bold uppercase">Revenus</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold uppercase">{{ t('admin.reservation_stats.location') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-bold uppercase">{{ t('admin.reservation_stats.reservations') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-bold uppercase">{{ t('admin.reservation_stats.table_revenue') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-antique-bronze/10">
@@ -159,11 +159,13 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useI18n } from 'vue-i18n'
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue'
 import { reservationStatisticService } from '@/services/reservationStatisticService'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const { t } = useI18n()
 const user = computed(() => authStore.user)
 
 const isLoading = ref(true)
