@@ -19,7 +19,6 @@ import { getHealth } from '../controllers/health.controller.js';
 import healthRoutes from './healthRoutes.js';
 import roleRoutes from './roleRoutes.js';
 import authRoutes from './authRoutes.js';
-import translationRoutes from './translationRoutes.js';
 import blogRoutes from './blogRoutes.js';
 import locationRoutes from './locationRoutes.js';
 import productRoutes from './productRoutes.js';
@@ -54,9 +53,6 @@ apiRouter.use('/', roleRoutes);
 
 // Ajout des routes d'authentification
 apiRouter.use('/auth', authRoutes);
-
-// Ajout des routes de traduction
-apiRouter.use('/', translationRoutes);
 
 // Ajout des routes de blog
 apiRouter.use('/blogs', blogRoutes);
