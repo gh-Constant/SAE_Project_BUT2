@@ -217,7 +217,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
       'A cozy stall, perfect for selling handmade goods and local crafts.',
     price: 115,
     purchased: true,
-    id_prestataire: 5,
+    id_prestataire: 4, 
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2386, 3379],
     icon_name: 'prestataire',
@@ -231,7 +231,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
       'Known for its vibrant atmosphere and diverse range of products.',
     price: 125,
     purchased: true,
-    id_prestataire: 6,
+    id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2236, 2491],
     icon_name: 'prestataire',
@@ -602,36 +602,41 @@ const LOCATION_SEEDS: LocationSeed[] = [
 export async function seedLocations() {
   console.log(' Seeding locations...');
 
-  for (const location of LOCATION_SEEDS) {
-    await prisma.location.upsert({
-      where: { id_location: location.id_location },
-      update: {
-        name: location.name,
-        description: location.description,
-        static_code: location.static_code,
-        price: location.price,
-        purchased: location.purchased,
-        position: location.position,
-        icon_name: location.icon_name,
-        banner_name: location.banner_name,
-        id_location_type: location.id_location_type,
-        id_prestataire: location.id_prestataire,
-      },
-      create: {
-        id_location: location.id_location,
-        name: location.name,
-        description: location.description,
-        static_code: location.static_code,
-        price: location.price,
-        purchased: location.purchased,
-        position: location.position,
-        icon_name: location.icon_name,
-        banner_name: location.banner_name,
-        maximum_capacity: 0, // TODO: location.maximum_capacity,
-        id_location_type: location.id_location_type,
-        id_prestataire: location.id_prestataire,
-      },
-    });
+  try {
+    for (const location of LOCATION_SEEDS) {
+      await prisma.location.upsert({
+        where: { id_location: location.id_location },
+        update: {
+          name: location.name,
+          description: location.description,
+          static_code: location.static_code,
+          price: location.price,
+          purchased: location.purchased,
+          position: location.position,
+          icon_name: location.icon_name,
+          banner_name: location.banner_name,
+          id_location_type: location.id_location_type,
+          id_prestataire: location.id_prestataire,
+        },
+        create: {
+          id_location: location.id_location,
+          name: location.name,
+          description: location.description,
+          static_code: location.static_code,
+          price: location.price,
+          purchased: location.purchased,
+          position: location.position,
+          icon_name: location.icon_name,
+          banner_name: location.banner_name,
+          maximum_capacity: 0, // TODO: location.maximum_capacity,
+          id_location_type: location.id_location_type,
+          id_prestataire: location.id_prestataire,
+        },
+      });
+    }
+  } catch (error) {
+    console.error('❌ Error seeding locations:', error);
+    throw error;
   }
 
   console.log('✅ Locations seeded');

@@ -122,7 +122,7 @@ export const LOCATIONS: LocationMock[] = [
     banner_image: 'images/locations/training_camp.jpg'
   },
   {
-    id: 6,
+    id: 7,
     static_code: 'ARCHERY_RANGE',
     name: 'The Archery range',
     description:
@@ -137,7 +137,7 @@ export const LOCATIONS: LocationMock[] = [
     banner_image: 'images/locations/training_camp.jpg'
   },
   {
-    id: 7,
+    id: 8,
     static_code: 'VILLAGE_FOOL',
     name: 'The Village Fool',
     description:
@@ -152,7 +152,7 @@ export const LOCATIONS: LocationMock[] = [
     banner_image: 'images/locations/training_camp.jpg'
   },
   {
-    id: 8,
+    id: 9,
     static_code: 'CHILD',
     name: 'The Child',
     description:
@@ -167,7 +167,7 @@ export const LOCATIONS: LocationMock[] = [
     banner_image: 'images/medieval_image.jpg'
   },
   {
-    id: 9,
+    id: 10,
     static_code: 'FARMER',
     name: 'The Farmer',
     description:
@@ -182,7 +182,7 @@ export const LOCATIONS: LocationMock[] = [
     banner_image: 'images/medieval_image.jpg'
   },
   {
-    id: 10,
+    id: 11,
     static_code: 'LUMBERJACK',
     name: 'The Lumberjack',
     description:
@@ -250,9 +250,9 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A cozy stall, perfect for selling handmade goods and local crafts.',
     price: 115,
-    purchased: false,
-    status: 'AVAILABLE',
-    id_prestataire: undefined,
+    purchased: true,
+    status: 'APPROVED',
+    id_prestataire: PRESTATAIRE_USER_ID_2,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2386, 3379],
     icon_name: 'prestataire',
@@ -265,9 +265,9 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'Known for its vibrant atmosphere and diverse range of products.',
     price: 125,
-    purchased: false,
-    status: 'AVAILABLE',
-    id_prestataire: undefined,
+    purchased: true,
+    status: 'APPROVED',
+    id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2236, 2491],
     icon_name: 'prestataire',
@@ -280,9 +280,9 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'A prime spot for attracting both locals and tourists alike.',
     price: 135,
-    purchased: true,
-    status: 'PENDING',
-    id_prestataire: 1,
+    purchased: false,
+    status: 'AVAILABLE',
+    id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2346, 2271],
     icon_name: 'prestataire',
@@ -295,9 +295,9 @@ export const LOCATIONS: LocationMock[] = [
     description:
       'Located at a busy intersection, ensuring a steady stream of potential customers.',
     price: 145,
-    purchased: true,
-    status: 'PENDING',
-    id_prestataire: PRESTATAIRE_USER_ID_2,
+    purchased: false,
+    status: 'AVAILABLE',
+    id_prestataire: undefined,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2142, 2949],
     icon_name: 'prestataire',

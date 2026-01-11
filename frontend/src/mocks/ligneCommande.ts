@@ -90,7 +90,35 @@ const DEMO_LIGNES_COMMANDE: LigneCommandeMock[] = [
   { id_commande: 17, id_product: 10, quantite: 1, price: 15.00 },
 
   // Commande 18: Jambon = 18.90€
-  { id_commande: 18, id_product: 3, quantite: 1, price: 18.90 }
+  { id_commande: 18, id_product: 3, quantite: 1, price: 18.90 },
+
+  // Order 19: Flèches x2 = 30.00
+  { id_commande: 19, id_product: 10, quantite: 2, price: 15.00 },
+
+  // Order 20: Arc = 55.00
+  { id_commande: 20, id_product: 9, quantite: 1, price: 55.00 },
+
+  // Order 21: Chandelle = 8.50
+  { id_commande: 21, id_product: 7, quantite: 1, price: 8.50 },
+
+  // Order 22: Arc + Flèches = 70.00
+  { id_commande: 22, id_product: 9, quantite: 1, price: 55.00 },
+  { id_commande: 22, id_product: 10, quantite: 1, price: 15.00 },
+
+  // Order 23: Bouclier = 35.00
+  { id_commande: 23, id_product: 5, quantite: 1, price: 35.00 },
+
+  // Order 24: Potion = 25.50
+  { id_commande: 24, id_product: 1, quantite: 1, price: 25.50 },
+
+  // Order 25: Tunique = 45.00
+  { id_commande: 25, id_product: 8, quantite: 1, price: 45.00 },
+
+  // Order 26: Potion x2 = 51.00
+  { id_commande: 26, id_product: 1, quantite: 2, price: 25.50 },
+
+  // Order 27: Hydromel = 22.00
+  { id_commande: 27, id_product: 6, quantite: 1, price: 22.00 }
 ];
 
 // Initialize from localStorage or fallback to demo data

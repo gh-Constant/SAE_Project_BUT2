@@ -40,5 +40,29 @@ export const BLOGS: Blog[] = [
     created_at: '2024-01-04T10:00:00Z',
     updated_at: '2024-01-04T10:00:00Z',
     id_location: 14
+  },
+  {
+    id_blog: 5,
+    title: 'Découvrez notre nouvel Hydromel !',
+    content: '<p>Notre taverne est fière de vous présenter sa nouvelle cuvée d\'hydromel. Vieillie en fût de chêne, elle ravira vos papilles. Venez la goûter dès ce soir !</p>',
+    created_at: '2026-06-18T10:00:00Z',
+    updated_at: '2026-06-18T10:00:00Z',
+    id_location: 14
+  },
+  {
+    id_blog: 6,
+    title: 'Apprenez à tirer à l\'arc comme un pro',
+    content: '<p>Vous avez toujours rêvé de viser dans le mille ? Inscrivez-vous à nos cours de tir à l\'arc. Débutants acceptés. Matériel fourni sur place.</p>',
+    created_at: '2026-06-19T09:00:00Z',
+    updated_at: '2026-06-19T09:00:00Z',
+    id_location: 16
+  },
+  {
+    id_blog: 7,
+    title: 'Concours de costume : Inscriptions ouvertes',
+    content: '<p>Préparez vos plus beaux atours ! Le grand concours de costume annuel aura lieu bientôt. De nombreux prix à gagner pour les plus créatifs d\'entre vous.</p>',
+    created_at: '2026-06-25T14:00:00Z',
+    updated_at: '2026-06-25T14:00:00Z',
+    id_location: 16
   }
 ];
