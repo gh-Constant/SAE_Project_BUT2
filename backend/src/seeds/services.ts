@@ -43,6 +43,30 @@ const SERVICE_SEEDS: ServiceSeed[] = [
     id_service_type: ServiceType.RESERVATION_SERVICE_TYPE_ID,
     id_location: 15,
   },
+  {
+    id_service: 4,
+    name: "Boutique de Marie",
+    description: "Vente de produits artisanaux et d'équipements pour aventuriers.",
+    id_prestataire: 4,
+    id_service_type: ServiceType.SHOP_SERVICE_TYPE_ID,
+    id_location: 16,
+  },
+  {
+    id_service: 5,
+    name: "Ateliers de Marie",
+    description: "Inscrivez-vous à nos ateliers de fabrication et de tir à l'arc.",
+    id_prestataire: 4,
+    id_service_type: ServiceType.RESERVATION_SERVICE_TYPE_ID,
+    id_location: 16,
+  },
+  {
+    id_service: 6,
+    name: "Échoppe d'Herboriste",
+    description: "Herbes médicinales et potions rares.",
+    id_prestataire: 4,
+    id_service_type: ServiceType.SHOP_SERVICE_TYPE_ID,
+    id_location: 17,
+  },
 ];
 
 export async function seedServices() {

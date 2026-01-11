@@ -31,6 +31,7 @@ import { seedUserQuests } from './seeds/userQuests.js';
 import { seedQuizzes } from './seeds/quizzes.js';
 import { seedQuizAttempts } from './seeds/quizAttempts.js';
 import { seedOrders } from './seeds/orders.js';
+import { seedReservations } from './seeds/reservations.js';
 
 /**
  * Fonction principale pour démarrer le serveur.
@@ -48,13 +49,13 @@ const startServer = async (): Promise<void> => {
     await seedServices();
     await seedProducts();
     await seedEvents();
-    await seedEvents();
     await seedBlogs();
     await seedQuests();
     await seedUserQuests();
     await seedQuizzes();
     await seedQuizAttempts();
     await seedOrders();
+    await seedReservations();
 
 
     // Création de l'application Express

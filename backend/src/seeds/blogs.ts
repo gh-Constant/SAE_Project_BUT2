@@ -39,6 +39,28 @@ const BLOG_SEEDS: BlogSeed[] = [
     id_location: 14, // Gérard (Merchant Stall #5)
     is_sellable: false,
   },
+  {
+    id_blog: 5,
+    title: "Nouvelle collection d'automne",
+    content: '<p>Venez découvrir nos nouvelles tuniques en laine, parfaites pour les soirées fraîches ! Disponibles en plusieurs coloris.</p>',
+    id_location: 16, // Marie
+    is_sellable: false,
+  },
+  {
+    id_blog: 6,
+    title: "Les secrets de l'herboristerie",
+    content: '<p>Saviez-vous que la racine de mandragore peut soigner les maux de tête si elle est préparée correctement ? Passez à mon échoppe pour en savoir plus.</p>',
+    id_location: 17, // Marie
+    is_sellable: true,
+    price: 5.00, // Consultation or booklet?
+  },
+  {
+    id_blog: 7,
+    title: "Retour sur le cours de tir à l'arc",
+    content: '<p>Bravo à tous les participants du dernier cours ! Vous avez fait d\'énormes progrès. Le prochain cours aura lieu dans deux jours.</p>',
+    id_location: 16, // Marie
+    is_sellable: false,
+  },
 ];
 
 export async function seedBlogs() {

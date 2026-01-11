@@ -17,10 +17,11 @@ export interface CommandeMock {
     qrToken?: string; // Token QR code pour les commandes payées
 }
 
-// Helper pour créer des dates passées
-const daysAgo = (days: number): Date => {
-    const date = new Date();
-    date.setDate(date.getDate() - days);
+// Helper pour créer des dates pendant le festival (20/06/2026 - 05/07/2026)
+const daysAgo = (dayOffset: number): Date => {
+    const festivalStart = new Date('2026-06-20T10:00:00');
+    const date = new Date(festivalStart);
+    date.setDate(festivalStart.getDate() + dayOffset);
     return date;
 };
 
@@ -203,6 +204,95 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
+        etat_commande: EtatCommande.WAITING
+    },
+
+    // === Commandes New Adventurers ===
+    {
+        id: 19,
+        date_commande: daysAgo(1),
+        total_price: 30.00,
+        id_user: 11, // Lucas
+        id_prestataire: 1, // Gérard (Flèches are sold there?) or Marie. Assuming Gérard based on products.
+        id_location: 14,
+        etat_commande: EtatCommande.PAID,
+        qrToken: 'QR-019-PAID'
+    },
+    {
+        id: 20,
+        date_commande: daysAgo(0),
+        total_price: 55.00,
+        id_user: 11, // Lucas
+        id_prestataire: 1, 
+        id_location: 15,
+        etat_commande: EtatCommande.WAITING
+    },
+    {
+        id: 21,
+        date_commande: daysAgo(2),
+        date_collect: daysAgo(1),
+        total_price: 8.50,
+        id_user: 12, // Sophie
+        id_prestataire: 1,
+        id_location: 14,
+        etat_commande: EtatCommande.COLLECTED
+    },
+    {
+        id: 22,
+        date_commande: daysAgo(5),
+        total_price: 70.00,
+        id_user: 13, // Antoine
+        id_prestataire: 1,
+        id_location: 15,
+        etat_commande: EtatCommande.PAID,
+        qrToken: 'QR-022-PAID'
+    },
+    {
+        id: 23,
+        date_commande: daysAgo(0),
+        total_price: 35.00,
+        id_user: 13, // Antoine
+        id_prestataire: 1,
+        id_location: 14,
+        etat_commande: EtatCommande.WAITING
+    },
+    {
+        id: 24,
+        date_commande: daysAgo(3),
+        total_price: 25.50,
+        id_user: 13, // Antoine
+        id_prestataire: 1,
+        id_location: 15,
+        etat_commande: EtatCommande.PAID,
+        qrToken: 'QR-024-PAID'
+    },
+    {
+        id: 25,
+        date_commande: daysAgo(4),
+        date_collect: daysAgo(2),
+        total_price: 45.00,
+        id_user: 14, // Clara
+        id_prestataire: 1,
+        id_location: 15,
+        etat_commande: EtatCommande.COLLECTED
+    },
+    {
+        id: 26,
+        date_commande: daysAgo(1),
+        total_price: 51.00,
+        id_user: 15, // Marc
+        id_prestataire: 1,
+        id_location: 14,
+        etat_commande: EtatCommande.PAID,
+        qrToken: 'QR-026-PAID'
+    },
+    {
+        id: 27,
+        date_commande: daysAgo(0),
+        total_price: 22.00,
+        id_user: 15, // Marc
+        id_prestataire: 1,
+        id_location: 15,
         etat_commande: EtatCommande.WAITING
     }
 ];
