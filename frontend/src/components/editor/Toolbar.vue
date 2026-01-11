@@ -1,14 +1,12 @@
 <!--
   @file Toolbar.vue
   @description
-  Barre d’outils de l’éditeur TipTap.
+  Barre d'outils de l'éditeur TipTap.
   Fournit des boutons pour formater le texte, insérer des éléments, aligner, changer la couleur, la police, etc.
-  Intègre également un bouton pour traduire le texte sélectionné via le service de traduction.
 
   @utilité
-  - Interface principale d’interaction avec l’éditeur.
+  - Interface principale d'interaction avec l'éditeur.
   - Simplifie la gestion des styles et de la structure du contenu.
-  - Permet l’intégration avec d’autres services comme la traduction.
 -->
 
 <template>
@@ -225,13 +223,7 @@
         32px
       </option>
     </select>
-    <button
-      :disabled="isTranslating"
-      class="toolbar-button translate-button"
-      @click="translateSelectedText"
-    >
-      {{ isTranslating ? 'Translating...' : 'Translate' }}
-    </button>
+
     <button
       class="toolbar-button clear-format-button"
       title="Clear formatting"
@@ -243,53 +235,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import type { Editor } from '@tiptap/vue-3';
-import { translationService } from '@/services/translationService';
 
 interface Props {
   editor: Editor | null;
 }
 
-const props = defineProps<Props>();
-const isTranslating = ref(false);
-
-/**
- * Fonction de traduction du texte sélectionné.
- * Utilise translationService pour obtenir le texte traduit,
- * puis remplace la sélection dans TipTap par le résultat.
- */
-
-// TODO : Gérer les erreurs
-// TODO: Gérer le formatage du texte traduit (gras, italique, etc.) - Actuellement, le texte inséré est brut.
-const translateSelectedText = async () => {
-  if (!props.editor) return;
-
-  const { from, to } = props.editor.state.selection;
-  const selectedText = props.editor.state.doc.textBetween(from, to);
-
-  if (!selectedText.trim()) {
-    alert('Veuillez sélectionner du texte à traduire.');
-    return;
-  }
-
-  isTranslating.value = true;
-
-  try {
-    const response = await translationService.translate({ text: selectedText });
-    props.editor
-      .chain()
-      .focus()
-      .deleteSelection()
-      .insertContent(response.translatedText)
-      .run();
-  } catch (error) {
-    console.error('Erreur de traduction :', error);
-    alert('La traduction a échoué. Réessayez.');
-  } finally {
-    isTranslating.value = false;
-  }
-};
+defineProps<Props>();
 </script>
 
 <style scoped>
@@ -335,15 +287,5 @@ const translateSelectedText = async () => {
   @apply bg-red-100 border-red-400;
 }
 
-.translate-button {
-  @apply bg-green-50 border-green-300 text-green-600;
-}
 
-.translate-button:hover:not(:disabled) {
-  @apply bg-green-100 border-green-400;
-}
-
-.translate-button:disabled {
-  @apply bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed;
-}
 </style>
