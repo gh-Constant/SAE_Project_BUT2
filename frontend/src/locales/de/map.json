@@ -1,5 +1,6 @@
 {
   "title": "Interaktiver Karten-Explorer",
   "instructions": "️ Klicken Sie auf die Karte, um Marker hinzuzufügen • ️ Klicken Sie auf Marker, um sie zu entfernen",
-  "popup": "Standort bei {lat}, {lng}"
+  "popup": "Standort bei {lat}, {lng}",
+  "toilet_popup": "Das ist eine Toilette"
 }

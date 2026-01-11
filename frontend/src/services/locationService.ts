@@ -3,6 +3,7 @@ import { LocationMock } from '@/mocks/locations';
 import L from 'leaflet';
 import { getIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
+import i18n from '@/i18n';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
@@ -70,6 +71,7 @@ const locationServiceImpl = {
       // Other users see validated (APPROVED) locations
       locations = locations.filter(location =>
         location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID ||
+        location.id_location_type === LocationType.OTHER_LOCATION_TYPE_ID ||
         (location.purchased && location.id_prestataire && location.id_prestataire > 0)
       );
     }
@@ -94,7 +96,9 @@ const locationServiceImpl = {
 
       const marker = L.marker(location.position as [number, number], { icon });
 
-      if (onMarkerClick) {
+      if (iconName === 'toilet') {
+        marker.bindPopup(i18n.global.t('map.toilet_popup'));
+      } else if (onMarkerClick) {
         marker.on('click', () => {
           onMarkerClick(location);
         });
