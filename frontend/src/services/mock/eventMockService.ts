@@ -1,7 +1,7 @@
 import { EVENTS, EventMock, EventInput, EventUpdateInput } from '@/mocks/events';
 import { RESERVATIONS, ReservationMock } from '@/mocks/reservations';
 import { LOCATIONS } from '@/mocks/locations';
-import { USERS } from '@/mocks/users';
+import { USERS, UserMock } from '@/mocks/users';
 
 // Helper to get current user ID from localStorage
 const getCurrentUserId = (): number => {
@@ -152,7 +152,7 @@ export const eventMockService = {
     });
   },
 
-  getEventReservations: async (eventId: number): Promise<any[]> => {
+  getEventReservations: async (eventId: number): Promise<(ReservationMock & { user?: UserMock })[]> => {
     return new Promise((resolve) => {
       const eventReservations = RESERVATIONS.filter(r => r.id_event === eventId).map(r => ({
         ...r,
@@ -162,7 +162,7 @@ export const eventMockService = {
     });
   },
 
-  getProviderReservations: async (): Promise<any[]> => {
+  getProviderReservations: async (): Promise<(ReservationMock & { user?: UserMock })[]> => {
     return new Promise((resolve) => {
       const userId = getCurrentUserId();
       const providerLocationIds = LOCATIONS.filter(l => l.id_prestataire === userId).map(l => l.id);

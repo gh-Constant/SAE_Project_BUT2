@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth';
+import { locationsMock } from '@/mocks/locations';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL + '/api/v1';
 
@@ -81,22 +82,20 @@ class MessagingServiceImpl {
     }
 }
 
-// Mock implementation using LocalStorage
 class MockMessagingService {
     async getConversations(includeDeleted = false): Promise<Conversation[]> {
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 500));
         const stored = localStorage.getItem('mock_conversations');
         let conversations = stored ? JSON.parse(stored) : [];
 
-        // Fix broken data
         conversations = conversations.map((c: Conversation) => {
             if (!c.user) {
                 c.user = { id_user: 0, firstname: 'Anonymous', lastname: 'Adventurer' };
             }
-            // Fix generic location names
-            if (c.location.name && c.location.name.startsWith('Location ')) {
-                const locationNames = ['Auberge du Dragon Vert', 'Taverne des Trois Rois', 'Relais du Silence', 'Le Chaudron Baveux', 'Citadelle de l\'Ombre'];
-                c.location.name = locationNames[c.location.id_location % 5] || `Lieu ${c.location.id_location}`;
+
+            if (c.location.name && (c.location.name.startsWith('Location ') || c.location.name.startsWith('Lieu '))) {
+                const realLoc = locationsMock.find(l => l.id === c.location.id_location);
+                c.location.name = realLoc ? realLoc.name : `Lieu ${c.location.id_location}`;
             }
             return c;
         });
@@ -117,7 +116,6 @@ class MockMessagingService {
     async sendMessage(conversationId: number, content: string): Promise<Message> {
         await new Promise(resolve => setTimeout(resolve, 300));
 
-        // Get current user from storage (mock)
         const userStr = localStorage.getItem('currentUser');
         const user = userStr ? JSON.parse(userStr) : { id: 1, firstname: 'Mock', lastname: 'User' };
 
@@ -133,18 +131,16 @@ class MockMessagingService {
             id_conversation: conversationId
         };
 
-        // Save message
         const key = `mock_messages_${conversationId}`;
         const messages = await this.getMessages(conversationId);
         messages.push(newMessage);
         localStorage.setItem(key, JSON.stringify(messages));
 
-        // Update conversation updated_at and preview
         const conversations = await this.getConversations();
         const convIndex = conversations.findIndex((c: Conversation) => c.id_conversation === conversationId);
         if (convIndex !== -1) {
             conversations[convIndex].updated_at = new Date().toISOString();
-            conversations[convIndex].messages = [newMessage]; // Update preview
+            conversations[convIndex].messages = [newMessage];
             localStorage.setItem('mock_conversations', JSON.stringify(conversations));
         }
 
@@ -156,7 +152,6 @@ class MockMessagingService {
 
         const conversations = await this.getConversations();
 
-        // Check if exists
         const existing = conversations.find((c: Conversation) => c.location.id_location === locationId);
         if (existing) return existing;
 
@@ -169,12 +164,12 @@ class MockMessagingService {
             updated_at: new Date().toISOString(),
             location: {
                 id_location: locationId,
-                name: ['Auberge du Dragon Vert', 'Taverne des Trois Rois', 'Relais du Silence', 'Le Chaudron Baveux', 'Citadelle de l\'Ombre'][locationId % 5] || `Lieu ${locationId}`,
+                name: locationsMock.find(l => l.id === locationId)?.name || `Lieu ${locationId}`,
                 id_prestataire: 999,
                 prestataire: {
                     id_user: 999,
-                    firstname: 'Jean',
-                    lastname: 'Prestataire',
+                    firstname: 'Gérard',
+                    lastname: 'Le Prestataire',
                     avatar_url: undefined
                 }
             },
@@ -198,7 +193,7 @@ class MockMessagingService {
         const conversations = await this.getConversations(true);
         const index = conversations.findIndex((c: Conversation) => c.id_conversation === conversationId);
         if (index !== -1) {
-            conversations.splice(index, 1); // Hard delete
+            conversations.splice(index, 1);
             localStorage.setItem('mock_conversations', JSON.stringify(conversations));
         }
     }

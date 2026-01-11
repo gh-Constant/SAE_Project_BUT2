@@ -1,7 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-8 h-[calc(100vh-80px)]">
     <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full flex border border-antique-bronze/20">
-      
       <!-- Conversations List (Left Side) -->
       <div class="w-1/3 border-r border-gray-200 flex flex-col bg-gray-50">
         <div class="p-4 bg-antique-bronze/10 border-b border-antique-bronze/20">
@@ -26,9 +25,14 @@
               :class="selectedConversation?.id_conversation === conv.id_conversation ? 'bg-white border-l-antique-bronze shadow-sm' : 'border-l-transparent bg-transparent'"
             >
               <div class="flex justify-between items-start mb-1">
-                <h3 class="font-bold text-gray-800 text-sm truncate pr-2">
-                   {{ conv.location.name }}
-                </h3>
+                <div class="flex flex-col overflow-hidden pr-2 flex-1">
+                  <h3 class="font-bold text-gray-800 text-sm truncate">
+                    {{ conv.location.name }}
+                  </h3>
+                  <p v-if="conv.location.prestataire" class="text-gray-600 text-xs truncate text-right">
+                    {{ conv.location.prestataire.firstname }} {{ conv.location.prestataire.lastname }}
+                  </p>
+                </div>
                 <div class="flex flex-col items-end">
                   <button 
                     @click.stop="deleteConversation(conv.id_conversation)"
