@@ -200,7 +200,7 @@
             </div>
           </div>
 
-          <!-- Événements Category -->
+          <!-- Événements et Réservations Category -->
           <div
             class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
           >

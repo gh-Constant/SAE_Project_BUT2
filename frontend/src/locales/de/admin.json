@@ -10,17 +10,71 @@
             "subtitle": "aktive Orte",
             "action": "Orte verwalten"
         },
-        "events": {
-            "title": "Veranstaltungen",
-            "subtitle": "Verwaltung & Planung",
-            "manage": "Veranstaltungen verwalten",
-            "stats": "Statistiken"
-        },
         "system": {
             "title": "System",
             "status": "Aktiv",
             "subtitle": "Systemstatistiken",
             "action": "Statistiken anzeigen"
+        },
+        "stats": {
+            "users": "Benutzer",
+            "paying_users": "Zahlende Kunden",
+            "revenue": "Einnahmen"
+        },
+        "charts": {
+            "users_growth": "Benutzerwachstum (letzte 6 Monate)",
+            "revenue_trend": "Umsatzentwicklung (letzte 6 Monate)"
+        },
+        "quizzes": {
+            "title": "Quiz",
+            "subtitle": "MCQ & Bewertungen"
+        },
+        "festival": {
+            "title": "Festival vom",
+            "to": "bis",
+            "from_label": "Vom",
+            "to_label": "Bis",
+            "edit": "Daten bearbeiten",
+            "validate": "Bestätigen"
+        },
+        "categories": {
+            "quests": {
+                "title": "Quests",
+                "subtitle": "Verwaltung & Statistiken",
+                "manage": "Quests verwalten",
+                "stats": "Statistiken"
+            },
+            "shop": {
+                "title": "Shop",
+                "subtitle": "Produkte & Verkauf",
+                "manage": "Shop verwalten",
+                "stats": "Statistiken"
+            },
+            "users": {
+                "title": "Benutzer",
+                "subtitle": "Konten & Aktivität",
+                "manage": "Benutzer verwalten",
+                "stats": "Statistiken"
+            },
+            "events": {
+                "title": "Veranstaltungen & Reservierungen",
+                "subtitle": "Verwaltung & Planung",
+                "manage": "Veranstaltungen verwalten",
+                "stats": "Statistiken"
+            },
+            "reservations": {
+                "title": "Reservierungen",
+                "subtitle": "Statistiken",
+                "manage": "Reservierungen verwalten",
+                "stats": "Statistiken"
+            },
+            "locations": {
+                "title": "Orte",
+                "subtitle": "Interessante Punkte",
+                "manage": "Orte verwalten",
+                "stats": "Statistiken"
+            },
+            "soon": "Bald"
         }
     },
     "quick_actions": {
@@ -29,7 +83,17 @@
         "add_location": "Ort hinzufügen",
         "manage_roles": "Rollen verwalten",
         "view_logs": "Logs anzeigen",
-        "manage_products": "Artikel verwalten"
+        "manage_products": "Artikel verwalten",
+        "quests_section": "Quest-Verwaltung",
+        "manage_quests": "Quests verwalten",
+        "manage_quests_desc": "Quests erstellen, bearbeiten und löschen",
+        "quest_stats": "Quest-Statistiken",
+        "quest_stats_desc": "Statistiken und Rangliste anzeigen",
+        "quizzes_section": "Quiz-Verwaltung",
+        "manage_quizzes": "Quiz verwalten",
+        "manage_quizzes_desc": "Quiz erstellen, bearbeiten und löschen",
+        "quiz_stats": "Quiz-Statistiken",
+        "quiz_stats_desc": "Statistiken und Rangliste anzeigen"
     },
     "recent_activity": {
         "title": "Kürzliche Aktivitäten",
@@ -102,6 +166,196 @@
             }
         }
     },
+    "system": {
+        "creator": "System",
+        "unknown": "Unbekannt"
+    },
+    "quests": {
+        "title": "Quest-Verwaltung",
+        "subtitle": "Übersicht und Verwaltung aller System-Quests",
+        "view_stats": "Statistiken",
+        "search": {
+            "label": "Quest suchen",
+            "placeholder": "Suche nach Titel oder Beschreibung..."
+        },
+        "filter": {
+            "location": "Nach Ort filtern",
+            "all_locations": "Alle Orte",
+            "only_with_quests": "Nur Orte mit Quests anzeigen"
+        },
+        "stats": {
+            "locations": "Orte",
+            "quests": "Quests"
+        },
+        "view_more": "Zeige {remaining} weitere Ort(e)",
+        "location": {
+            "quest_count": "{n} Quest | {n} Quests",
+            "create_quest": "Quest erstellen"
+        },
+        "add_form": {
+            "title": "Neue Quest schreiben",
+            "quest_title_label": "Quest-Titel",
+            "quest_title_placeholder": "Bsp: Ein Paket zum Schloss liefern",
+            "reward_label": "Belohnung (XP)",
+            "description_label": "Detaillierte Beschreibung",
+            "description_placeholder": "Beschreiben Sie die Quest-Ziele...",
+            "cancel": "Abbrechen",
+            "submit": "Quest veröffentlichen",
+            "submitting": "Veröffentlichung..."
+        },
+        "table": {
+            "headers": {
+                "title": "Titel",
+                "description": "Beschreibung",
+                "reward": "Belohnung",
+                "actions": "Aktionen"
+            },
+            "empty": {
+                "title": "Keine Quests registriert",
+                "subtitle": "Erstellen Sie Ihre erste Quest für diesen Ort"
+            },
+            "actions": {
+                "edit": "Bearbeiten",
+                "delete": "Löschen",
+                "save": "Speichern",
+                "cancel": "Abbrechen"
+            }
+        },
+        "no_results": {
+            "title": "Keine Ergebnisse gefunden",
+            "subtitle": "Versuchen Sie, Ihre Suchfilter zu ändern",
+            "reset": "Filter zurücksetzen"
+        }
+    },
+    "quest_stats": {
+        "title": "Quest-Statistiken",
+        "subtitle": "Analyse-Dashboard für Quests und Leistung",
+        "hero": {
+            "total_quests": "Gesamt Quests",
+            "across_locations": "Über {count} Orte",
+            "total_xp": "Verfügbare XP",
+            "avg_reward": "Durchschn. Belohnung",
+            "xp_range": "XP Bereich",
+            "xp_range_label": "Min - Max Belohnungen"
+        },
+        "secondary": {
+            "locations": "Orte",
+            "avg_xp": "Durchschn. XP",
+            "min_xp": "Min XP",
+            "max_xp": "Max XP"
+        },
+        "popular": {
+            "title": "Top Quests",
+            "empty": "Noch keine Quests"
+        },
+        "locations": {
+            "title": "Verteilung nach Ort",
+            "quests": "Quests",
+            "empty": "Keine Daten verfügbar"
+        },
+        "xp_distribution": {
+            "title": "XP Belohnungsverteilung"
+        },
+        "detailed": {
+            "title": "Detaillierte Statistiken",
+            "manage_link": "Quests verwalten",
+            "location": "Ort",
+            "quests": "Quests",
+            "total_xp": "Gesamt XP",
+            "avg_xp": "Durchschn. XP",
+            "distribution": "Verteilung"
+        },
+        "leaderboard": {
+            "title": "Abenteurer Rangliste",
+            "level": "Level",
+            "completed": "Abgeschlossen",
+            "in_progress": "in Bearbeitung",
+            "empty": "Noch keine Teilnehmer"
+        }
+    },
+    "quizzes": {
+        "title": "Quiz-Verwaltung",
+        "subtitle": "Übersicht und Verwaltung aller System-Quiz",
+        "view_stats": "Statistiken",
+        "search": {
+            "label": "Quiz suchen",
+            "placeholder": "Suche nach Titel oder Beschreibung..."
+        },
+        "filter": {
+            "creator": "Nach Ersteller filtern",
+            "all_creators": "Alle Ersteller",
+            "location": "Nach Ort filtern",
+            "all_locations": "Alle Orte"
+        },
+        "stats": {
+            "active": "aktive Quiz",
+            "total": "Gesamt Quiz"
+        },
+        "table": {
+            "headers": {
+                "title": "Titel",
+                "location": "Ort",
+                "creator": "Ersteller",
+                "questions": "Fragen",
+                "status": "Status",
+                "actions": "Aktionen"
+            },
+            "empty": {
+                "title": "Kein Quiz registriert",
+                "subtitle": "Erstellen Sie Ihr erstes Quiz, um mit der Verwaltung zu beginnen"
+            },
+            "actions": {
+                "edit": "Bearbeiten",
+                "delete": "Löschen",
+                "test": "Testen"
+            },
+            "unknown_location": "Unbekannter Ort",
+            "system_creator": "System",
+            "delete_confirm": "Sind Sie sicher, dass Sie das Quiz \"{title}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+            "delete_error": "Fehler beim Löschen des Quiz"
+        }
+    },
+    "quiz_stats": {
+        "title": "Quiz-Statistiken",
+        "subtitle": "Analyse-Dashboard für Quiz und Leistung",
+        "cards": {
+            "total_quizzes": "Gesamt Quiz",
+            "total_attempts": "Gesamt Versuche",
+            "avg_score": "Durchschn. Punktzahl",
+            "locations": "beteiligte Orte",
+            "avg_attempts": "im Durchschn. pro Quiz",
+            "total_questions": "Gesamt Fragen"
+        },
+        "charts": {
+            "popular": "Beliebteste Quiz",
+            "locations": "Verteilung nach Ort",
+            "creators": "Top Ersteller",
+            "adventurers": "Top Abenteurer",
+            "details": "Details nach Quiz",
+            "empty": {
+                "quizzes": "Keine Quiz verfügbar",
+                "locations": "Keine Orte mit Quiz",
+                "creators": "Keine Ersteller",
+                "adventurers": "Keine Abenteurer"
+            }
+        },
+        "secondary": {
+            "creators": "Ersteller",
+            "questions_per_quiz": "Fragen / Quiz"
+        },
+        "detailed": {
+            "manage_link": "Quiz verwalten",
+            "headers": {
+                "quiz": "Quiz",
+                "creator": "Ersteller",
+                "questions": "Fragen",
+                "participants": "Teilnehmer",
+                "attempts": "Versuche",
+                "avg_score": "Durchschn. Punktzahl"
+            }
+        },
+        "empty": "Keine Daten verfügbar"
+    },
     "reservation_stats": {
         "title": "Reservierungsstatistiken",
         "subtitle": "Analyse der Reservierungen und Einnahmen",
@@ -113,7 +367,15 @@
         "details_by_location": "Details nach Ort",
         "location": "Ort",
         "reservations": "Reservierungen",
-        "table_revenue": "Einnahmen"
+        "table_revenue": "Einnahmen",
+        "events_title": "Veranstaltungsübersicht",
+        "total_events": "Gesamtveranstaltungen",
+        "active_events": "Aktive Veranstaltungen",
+        "sold_tickets": "Verkaufte Tickets",
+        "attendance_rate": "Auslastungsquote",
+        "top_events": "Top-Veranstaltungen",
+        "occupancy": "Belegung",
+        "revenue": "Einnahmen"
     },
     "events": {
         "title": "Veranstaltungsmanagement",
@@ -128,11 +390,17 @@
             "all_locations": "Alle Orte",
             "reset": "Zurücksetzen"
         },
+        "sort": {
+            "date_asc": "Datum (Aufsteigend)",
+            "date_desc": "Datum (Absteigend)"
+        },
         "table": {
             "headers": {
                 "image": "Bild",
                 "title": "Titel",
-                "date": "Datum",
+                "start_date": "Startdatum",
+                "end_date": "Enddatum",
+                "organizer": "Veranstalter",
                 "location": "Ort",
                 "price": "Preis",
                 "capacity": "Kapazität",

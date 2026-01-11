@@ -55,16 +55,16 @@
                 "stats": "Statistiques"
             },
             "events": {
-                "title": "Événements",
+                "title": "Événement et réservation",
                 "subtitle": "Gestion & Planning",
                 "manage": "Gestion des Événements",
                 "stats": "Statistiques"
             },
             "reservations": {
-                "title": "Réservation",
+                "title": "Réservations",
                 "subtitle": "Statistiques",
                 "manage": "Gestion des Réservations",
-                "stats": "Statistiques des Réservations"
+                "stats": "Statistiques"
             },
             "users": {
                 "title": "Utilisateurs",
@@ -170,6 +170,10 @@
                 "sold_out": "Épuisé"
             }
         }
+    },
+    "system": {
+        "creator": "Système",
+        "unknown": "Inconnu"
     },
     "quests": {
         "title": "Gestion des Quêtes",
@@ -277,7 +281,7 @@
     "quizzes": {
         "title": "Gestion des Quiz",
         "subtitle": "Vue d'ensemble et gestion de tous les quiz du royaume",
-        "view_stats": "Voir les statistiques",
+        "view_stats": "Statistiques",
         "search": {
             "label": "Rechercher un quiz",
             "placeholder": "Rechercher par titre ou description..."
@@ -368,7 +372,15 @@
         "details_by_location": "Détails par lieu",
         "location": "Lieu",
         "reservations": "Réservations",
-        "table_revenue": "Revenus"
+        "table_revenue": "Revenus",
+        "events_title": "Aperçu des Événements",
+        "total_events": "Total Événements",
+        "active_events": "Événements Actifs",
+        "sold_tickets": "Billets Vendus",
+        "attendance_rate": "Taux de Remplissage",
+        "top_events": "Top Événements (Ventes)",
+        "occupancy": "Remplissage",
+        "revenue": "Revenus"
     },
     "events": {
         "title": "Gestion des Événements",
@@ -383,11 +395,17 @@
             "all_locations": "Tous les lieux",
             "reset": "Réinitialiser"
         },
+        "sort": {
+            "date_asc": "Date (Croissant)",
+            "date_desc": "Date (Décroissant)"
+        },
         "table": {
             "headers": {
                 "image": "Image",
                 "title": "Titre",
-                "date": "Date",
+                "start_date": "Date de début",
+                "end_date": "Date de fin",
+                "organizer": "Organisateur",
                 "location": "Lieu",
                 "price": "Prix",
                 "capacity": "Capacité",

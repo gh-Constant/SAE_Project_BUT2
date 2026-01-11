@@ -57,7 +57,7 @@
                 "stats": "Statistics"
             },
             "events": {
-                "title": "Events",
+                "title": "Events & Reservations",
                 "subtitle": "Management & Schedule",
                 "manage": "Manage Events",
                 "stats": "Statistics"
@@ -66,7 +66,13 @@
                 "title": "Reservation",
                 "subtitle": "Statistics",
                 "manage": "Manage Reservations",
-                "stats": "Reservation Statistics"
+                "stats": "Statistics"
+            },
+            "locations": {
+                "title": "Locations",
+                "subtitle": "Points of interest",
+                "manage": "Manage Locations",
+                "stats": "Statistics"
             },
             "soon": "Soon"
         }
@@ -159,6 +165,10 @@
                 "sold_out": "Sold Out"
             }
         }
+    },
+    "system": {
+        "creator": "System",
+        "unknown": "Unknown"
     },
     "quests": {
         "title": "Quest Management",
@@ -266,7 +276,7 @@
     "quizzes": {
         "title": "Quiz Management",
         "subtitle": "Overview and management of all system quizzes",
-        "view_stats": "View Statistics",
+        "view_stats": "Statistics",
         "search": {
             "label": "Search quiz",
             "placeholder": "Search by title or description..."
@@ -357,7 +367,15 @@
         "details_by_location": "Details by Location",
         "location": "Location",
         "reservations": "Reservations",
-        "table_revenue": "Revenue"
+        "table_revenue": "Revenue",
+        "events_title": "Events Overview",
+        "total_events": "Total Events",
+        "active_events": "Active Events",
+        "sold_tickets": "Tickets Sold",
+        "attendance_rate": "Attendance Rate",
+        "top_events": "Top Events by Sales",
+        "occupancy": "Occupancy",
+        "revenue": "Revenue"
     },
     "events": {
         "title": "Event Management",
@@ -372,11 +390,17 @@
             "all_locations": "All locations",
             "reset": "Reset"
         },
+        "sort": {
+            "date_asc": "Date (Earliest)",
+            "date_desc": "Date (Latest)"
+        },
         "table": {
             "headers": {
                 "image": "Image",
                 "title": "Title",
-                "date": "Date",
+                "start_date": "Start Date",
+                "end_date": "End Date",
+                "organizer": "Organizer",
                 "location": "Location",
                 "price": "Price",
                 "capacity": "Capacity",

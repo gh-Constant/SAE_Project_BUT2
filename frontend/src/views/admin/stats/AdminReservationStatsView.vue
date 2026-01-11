@@ -69,6 +69,58 @@
             </div>
           </div>
 
+          <!-- Event Statistics -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-3">
+              <i class="fas fa-calendar-alt text-antique-bronze"></i>
+              {{ t('admin.reservation_stats.events_title') }}
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              <!-- Total Events -->
+              <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-antique-bronze/10 rounded-bl-full"></div>
+                <div class="relative p-6 text-center">
+                  <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-calendar-day text-2xl text-white"></i>
+                  </div>
+                  <h3 class="text-sm uppercase tracking-widest font-bold">{{ t('admin.reservation_stats.total_events') }}</h3>
+                  <p class="text-5xl font-medieval font-bold text-iron-black">
+                    {{ stats.totalEvents }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Active Events -->
+              <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-antique-bronze/10 rounded-bl-full"></div>
+                <div class="relative p-6 text-center">
+                  <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-check-circle text-2xl text-white"></i>
+                  </div>
+                  <h3 class="text-sm uppercase tracking-widest font-bold">{{ t('admin.reservation_stats.active_events') }}</h3>
+                  <p class="text-5xl font-medieval font-bold text-iron-black">
+                    {{ stats.activeEvents }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Sold Tickets -->
+              <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-antique-bronze/10 rounded-bl-full"></div>
+                <div class="relative p-6 text-center">
+                  <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-ticket-alt text-2xl text-white"></i>
+                  </div>
+                  <h3 class="text-sm uppercase tracking-widest font-bold">{{ t('admin.reservation_stats.sold_tickets') }}</h3>
+                  <p class="text-5xl font-medieval font-bold text-iron-black">
+                    {{ stats.soldTickets }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Status distribution -->
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg">

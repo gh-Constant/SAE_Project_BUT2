@@ -1,5 +1,6 @@
 import { RESERVATIONS } from '@/mocks/reservations'
 import { LOCATIONS } from '@/mocks/locations'
+import { EVENTS } from '@/mocks/events'
 
 // ================= Interfaces =================
 
@@ -9,6 +10,19 @@ export interface ReservationStatistics {
   averageReservationValue: number
   confirmedCount: number
   cancelledCount: number
+  totalEvents: number
+  activeEvents: number
+  soldTickets: number
+  averageAttendance: number
+}
+
+export interface TopEvent {
+  id: number
+  title: string
+  sold: number
+  revenue: number
+  capacity: number
+  occupancy: number
 }
 
 export interface StatusDistribution {
@@ -30,6 +44,7 @@ export interface ReservationStatisticsData {
   stats: ReservationStatistics
   statusDistribution: StatusDistribution[]
   locationStats: LocationStat[]
+  topEvents: TopEvent[]
 }
 
 // ================= Helpers =================
@@ -63,6 +78,25 @@ export const reservationStatisticMockService = {
     const cancelledCount = RESERVATIONS.filter(
       r => r.status === 'CANCELLED'
     ).length
+
+    // ===== Event Stats =====
+    const totalEvents = EVENTS.length
+    const activeEvents = EVENTS.filter(e => e.published).length
+    const soldTickets = EVENTS.reduce((sum, e) => sum + (e.sold || 0), 0)
+    const totalCapacity = EVENTS.reduce((sum, e) => sum + (e.capacity || 0), 0)
+    const averageAttendance = totalCapacity > 0 ? Math.round((soldTickets / totalCapacity) * 100) : 0
+
+    // ===== Top Events =====
+    const topEvents: TopEvent[] = EVENTS.map(e => ({
+      id: e.id_event,
+      title: e.title,
+      sold: e.sold || 0,
+      revenue: (e.sold || 0) * (e.price || 0),
+      capacity: e.capacity || 100,
+      occupancy: Math.round(((e.sold || 0) / (e.capacity || 100)) * 100)
+    }))
+      .sort((a, b) => b.sold - a.sold)
+      .slice(0, 5)
 
     // ===== Status distribution =====
 
@@ -114,9 +148,14 @@ export const reservationStatisticMockService = {
         averageReservationValue,
         confirmedCount,
         cancelledCount,
+        totalEvents,
+        activeEvents,
+        soldTickets,
+        averageAttendance
       },
       statusDistribution,
       locationStats: Array.from(locationMap.values()),
+      topEvents
     }
   },
 }
