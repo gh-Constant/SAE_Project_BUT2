@@ -10,8 +10,8 @@ export const USER_QUESTS = [
   { id_user: 2, id_quest: 9, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-18T15:00:00Z'), updated_at: new Date('2024-01-18T17:30:00Z'), quest: QUESTS[8] },
   { id_user: 2, id_quest: 12, status: UserQuestStatus.ACCEPTED, created_at: new Date('2024-01-19T08:00:00Z'), updated_at: new Date('2024-01-19T08:00:00Z'), quest: QUESTS[11] },
   { id_user: 2, id_quest: 15, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-20T10:00:00Z'), updated_at: new Date('2024-01-20T12:00:00Z'), quest: QUESTS[14] },
-  { id_user: 2, id_quest: 18, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-21T09:00:00Z'), updated_at: new Date('2024-01-21T11:30:00Z'), quest: QUESTS[17] },
-  { id_user: 2, id_quest: 20, status: UserQuestStatus.ACCEPTED, created_at: new Date('2024-01-22T06:00:00Z'), updated_at: new Date('2024-01-22T06:00:00Z'), quest: QUESTS[19] },
+  { id_user: 2, id_quest: 18, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-21T09:00:00Z'), updated_at: new Date('2024-01-21T11:30:00Z'), quest: QUESTS[12] },
+  { id_user: 2, id_quest: 20, status: UserQuestStatus.ACCEPTED, created_at: new Date('2024-01-22T06:00:00Z'), updated_at: new Date('2024-01-22T06:00:00Z'), quest: QUESTS[13] },
 
   // NOTE: User 1 (Gérard) and User 4 (Marie) are prestataires - they cannot accept quests, only create them
 
@@ -19,7 +19,7 @@ export const USER_QUESTS = [
   { id_user: 3, id_quest: 4, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-13T07:00:00Z'), updated_at: new Date('2024-01-13T12:00:00Z'), quest: QUESTS[3] },
   { id_user: 3, id_quest: 7, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-14T19:00:00Z'), updated_at: new Date('2024-01-14T20:30:00Z'), quest: QUESTS[6] },
   { id_user: 3, id_quest: 10, status: UserQuestStatus.ACCEPTED, created_at: new Date('2024-01-15T14:00:00Z'), updated_at: new Date('2024-01-15T14:00:00Z'), quest: QUESTS[9] },
-  { id_user: 3, id_quest: 16, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-16T11:00:00Z'), updated_at: new Date('2024-01-16T13:00:00Z'), quest: QUESTS[15] },
+  { id_user: 3, id_quest: 16, status: UserQuestStatus.COMPLETED, created_at: new Date('2024-01-16T11:00:00Z'), updated_at: new Date('2024-01-16T13:00:00Z'), quest: QUESTS[11] },
 
   // User 5 (Pierre Le Paysan) - Beginner quest
   { id_user: 5, id_quest: 1, status: UserQuestStatus.ACCEPTED, created_at: new Date('2024-01-22T08:00:00Z'), updated_at: new Date('2024-01-22T08:00:00Z'), quest: QUESTS[0] },
