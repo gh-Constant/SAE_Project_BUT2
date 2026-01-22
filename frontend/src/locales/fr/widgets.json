@@ -66,7 +66,8 @@
         "view_all": "Voir tout",
         "loading": "Chargement...",
         "empty": "Aucun événement prévu pour le moment.",
-        "view_calendar": "Voir le calendrier complet"
+        "view_calendar": "Voir le calendrier complet",
+        "manage": "Gérer"
     },
     "quests": {
         "title": "Quêtes Disponibles",

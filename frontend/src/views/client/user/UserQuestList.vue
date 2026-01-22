@@ -330,8 +330,8 @@ let stream: MediaStream | null = null;
 let animationFrame: number | null = null;
 
 // Separate quests by status
-const inProgressQuests = computed(() => quests.value.filter(q => q.status === 'accepted'));
-const completedQuests = computed(() => quests.value.filter(q => q.status === 'completed'));
+const inProgressQuests = computed(() => quests.value.filter(q => q.status === 'accepted' && q.quest));
+const completedQuests = computed(() => quests.value.filter(q => q.status === 'completed' && q.quest));
 
 const loadQuests = async () => {
   try {

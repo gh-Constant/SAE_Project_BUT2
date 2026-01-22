@@ -66,7 +66,8 @@
         "view_all": "View All",
         "loading": "Loading...",
         "empty": "No events scheduled for now.",
-        "view_calendar": "View Full Calendar"
+        "view_calendar": "View Full Calendar",
+        "manage": "Manage"
     },
     "quests": {
         "title": "Available Quests",

@@ -496,7 +496,7 @@ const fetchQuizzes = async () => {
 };
 
 const playQuiz = (quizId: number) => {
-  router.push(`/quiz/${quizId}/play`);
+  router.push({ name: 'quiz-play', params: { id: quizId } });
 };
 
 const addQuiz = () => {
