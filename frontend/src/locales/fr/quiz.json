@@ -13,6 +13,7 @@
         "questions_count": "{count} questions",
         "creator": "Par {name}",
         "create_button": "Créer",
+        "add_button": "Ajouter un quiz",
         "retry_button": "Réessayer",
         "error_load": "Impossible de charger les quiz",
         "sort": {

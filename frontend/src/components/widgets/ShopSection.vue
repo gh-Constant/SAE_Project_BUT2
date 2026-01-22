@@ -12,15 +12,13 @@
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-xl font-bold text-gray-800">{{ t('widgets.shop.title') }}</h3>
       <div class="flex gap-2">
-        <MedievalButton 
+        <button 
           v-if="isOwner"
           @click="addProduct"
-          variant="success"
-          small
-          class="!shadow-[0_2px_0_#1B5E20] !active:translate-y-[2px]"
+          class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
         >
           <i class="fas fa-plus mr-2"></i> {{ t('widgets.shop.add_product') }}
-        </MedievalButton>
+        </button>
         <MedievalButton 
           @click="goToShop" 
           small

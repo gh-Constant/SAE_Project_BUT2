@@ -84,6 +84,12 @@
                   <i class="fas fa-store group-hover:scale-110 transition-transform"></i>
                   Gérer la boutique
                 </button>
+
+                <button @click="addQuiz(location.id)"
+                  class="w-full bg-green-600 hover:bg-green-700 text-white font-medieval font-bold py-2.5 px-4 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2 group">
+                  <i class="fas fa-scroll group-hover:scale-110 transition-transform"></i>
+                  Ajouter un quiz
+                </button>
               </div>
 
               <!-- Locked State -->
@@ -138,5 +144,12 @@ function manageEvents(locationId: number) {
 
 function manageShop(locationId: number) {
   router.push(`/prestataire/products?locationId=${locationId}`)
+}
+
+function addQuiz(locationId: number) {
+  router.push({
+    path: '/quiz/create',
+    query: { locationId: locationId }
+  })
 }
 </script>
