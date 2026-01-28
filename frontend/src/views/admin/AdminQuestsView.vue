@@ -120,84 +120,10 @@
               </p>
             </div>
             
-            <button 
-              v-if="addingQuestLocationId !== location.id"
-              @click="startAddQuest(location.id)"
-              class="group bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-2 px-5 rounded-md transition-all duration-200 shadow-md flex items-center gap-2"
-            >
-              <i class="fas fa-plus transition-transform group-hover:rotate-90"></i>
-              {{ t('admin.quests.location.create_quest') }}
-            </button>
+
           </div>
 
-          <!-- Add Quest Form -->
-          <div v-if="addingQuestLocationId === location.id" class="bg-parchment-light border-x border-b border-antique-bronze/20 p-8 shadow-inner relative">
-            <div class="absolute top-0 left-0 right-0 h-px bg-antique-bronze/10"></div>
-            
-            <h3 class="text-xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-2">
-              <i class="fas fa-feather-alt text-antique-bronze"></i>
-              {{ t('admin.quests.add_form.title') }}
-            </h3>
 
-            <form @submit.prevent="createQuest(location.id)">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('admin.quests.add_form.quest_title_label') }}</label>
-                  <input 
-                    v-model="newQuest.title" 
-                    type="text" 
-                    required 
-                    class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze transition-all font-body"
-                    :placeholder="t('admin.quests.add_form.quest_title_placeholder')"
-                  >
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('admin.quests.add_form.reward_label') }}</label>
-                  <div class="relative">
-                    <input 
-                      v-model.number="newQuest.xp_reward" 
-                      type="number" 
-                      required 
-                      min="1"
-                      class="w-full bg-white/50 border border-antique-bronze/30 rounded-md pl-4 pr-12 py-2 text-iron-black focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                      placeholder="10"
-                    >
-                    <span class="absolute right-4 top-2 text-antique-bronze font-medieval font-bold">XP</span>
-                  </div>
-                </div>
-
-                <div class="md:col-span-2">
-                  <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('admin.quests.add_form.description_label') }}</label>
-                  <textarea 
-                    v-model="newQuest.description" 
-                    rows="3" 
-                    required
-                    class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                    :placeholder="t('admin.quests.add_form.description_placeholder')"
-                  ></textarea>
-                </div>
-              </div>
-
-              <div class="mt-8 flex justify-end gap-3 border-t border-antique-bronze/10 pt-6">
-                <button 
-                  type="button"
-                  @click="cancelAddQuest" 
-                  class="px-6 py-2.5 rounded-md font-body font-semibold text-stone-grey hover:bg-stone-grey/10 transition-colors"
-                >
-                  {{ t('admin.quests.add_form.cancel') }}
-                </button>
-                <button 
-                  type="submit" 
-                  :disabled="isSubmitting"
-                  class="bg-antique-bronze hover:brightness-110 text-white font-body font-semibold py-2.5 px-6 rounded-md shadow-md transition-all duration-200 flex items-center gap-2 disabled:opacity-50"
-                >
-                  <i class="fas fa-check"></i>
-                  {{ isSubmitting ? t('admin.quests.add_form.submitting') : t('admin.quests.add_form.submit') }}
-                </button>
-              </div>
-            </form>
-          </div>
 
           <!-- Quests Table -->
           <div class="bg-white/60 backdrop-blur-sm border-x border-b border-antique-bronze/20 rounded-b-lg overflow-hidden shadow-sm">
@@ -354,15 +280,7 @@ const selectedLocationId = ref<number | null>(null)
 const showOnlyWithQuests = ref(false)
 const showAllLocations = ref(false)
 const LOCATIONS_LIMIT = 10
-const addingQuestLocationId = ref<number | null>(null)
-const isSubmitting = ref(false)
 const editingQuestId = ref<number | null>(null)
-
-const newQuest = ref({
-  title: '',
-  description: '',
-  xp_reward: 10
-})
 
 const editQuest = ref({
   title: '',
@@ -467,34 +385,7 @@ function clearFilters() {
   showAllLocations.value = false
 }
 
-function startAddQuest(locationId: number) {
-  addingQuestLocationId.value = locationId
-  newQuest.value = { title: '', description: '', xp_reward: 10 }
-}
 
-function cancelAddQuest() {
-  addingQuestLocationId.value = null
-  newQuest.value = { title: '', description: '', xp_reward: 10 }
-}
-
-async function createQuest(locationId: number) {
-  if (!newQuest.value.title || !newQuest.value.description) return
-  
-  try {
-    isSubmitting.value = true
-    await questService.createQuest({
-      ...newQuest.value,
-      id_location: locationId
-    })
-    cancelAddQuest()
-    await loadAllQuests()
-  } catch (error) {
-    console.error('Failed to create quest:', error)
-    alert('Erreur lors de la création de la quête')
-  } finally {
-    isSubmitting.value = false
-  }
-}
 
 function startEditQuest(quest: Quest) {
   editingQuestId.value = quest.id_quest

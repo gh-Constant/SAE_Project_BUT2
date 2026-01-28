@@ -87,6 +87,50 @@ export const checkBlogLocationOwnership = async (req: AuthenticatedRequest, res:
 };
 
 /**
+ * Middleware to check if the authenticated user owns the location associated with the quest specified in route params.
+ * Assumes quest ID is in req.params.questId.
+ */
+export const checkQuestLocationOwnership = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    const questId = parseInt(req.params.questId);
+
+    if (!userId) {
+      res.status(401).json({ error: 'User not authenticated' });
+      return;
+    }
+
+    if (isNaN(questId)) {
+      res.status(400).json({ error: 'Invalid quest ID' });
+      return;
+    }
+
+    const quest = await prisma.quest.findUnique({
+      where: { id_quest: questId },
+    });
+
+    if (!quest) {
+      res.status(404).json({ error: 'Quest not found' });
+      return;
+    }
+
+    const location = await prisma.location.findUnique({
+      where: { id_location: quest.id_location },
+    });
+
+    if ((!location || location.id_prestataire !== userId) && req.user?.role !== 'admin') {
+      res.status(403).json({ error: 'You do not own the location for this quest' });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.error('Quest location ownership check error:', error);
+    res.status(500).json({ error: 'Internal server error during quest location ownership check' });
+  }
+};
+
+/**
  * Middleware to check if a location is available for purchase.
  * Checks if location exists and is not already purchased.
  * Location ID is in req.params.id.

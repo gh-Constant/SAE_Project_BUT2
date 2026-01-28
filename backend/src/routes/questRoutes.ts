@@ -16,17 +16,17 @@ router.get('/locations/:locationId', questController.getQuestsByLocation);
 router.get('/my-quests', authenticateToken, questController.getUserQuests);
 
 // Create quest - Needs to be prestataire of the location
-import { checkLocationOwnership } from '../middleware/location.middleware.js';
+import { checkLocationOwnership, checkQuestLocationOwnership } from '../middleware/location.middleware.js';
 
-router.post('/', authenticateToken, checkLocationOwnership, questController.createQuest); 
+router.post('/', authenticateToken, checkLocationOwnership, questController.createQuest);
 
 // Accept/Complete/Cancel
 router.post('/:questId/accept', authenticateToken, questController.acceptQuest);
 router.post('/:questId/complete', authenticateToken, questController.completeQuest);
 router.post('/:questId/cancel', authenticateToken, questController.cancelQuest);
 
-// Admin update/delete (requires auth, ideally admin role check)
-router.put('/:questId', authenticateToken, questController.updateQuest);
-router.delete('/:questId', authenticateToken, questController.deleteQuest);
+// Prestataire update/delete (requires ownership of location)
+router.put('/:questId', authenticateToken, checkQuestLocationOwnership, questController.updateQuest);
+router.delete('/:questId', authenticateToken, checkQuestLocationOwnership, questController.deleteQuest);
 
 export default router;

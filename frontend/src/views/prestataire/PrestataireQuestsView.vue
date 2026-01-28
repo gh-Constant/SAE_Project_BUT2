@@ -123,24 +123,68 @@
                 <tbody class="divide-y divide-antique-bronze/10 font-body">
                   <tr v-for="quest in questsByLocation(location.id)" :key="quest.id_quest" class="hover:bg-antique-bronze/5 transition-colors">
                     <td class="px-6 py-4">
-                      <div class="text-sm font-bold text-iron-black">{{ quest.title }}</div>
+                      <div v-if="editingQuestId !== quest.id_quest" class="text-sm font-bold text-iron-black">{{ quest.title }}</div>
+                      <input 
+                        v-else 
+                        v-model="editQuest.title" 
+                        class="w-full text-sm border border-antique-bronze/30 rounded px-2 py-1 focus:ring-1 focus:ring-antique-bronze"
+                      >
                     </td>
                     <td class="px-6 py-4">
-                      <div class="text-sm text-stone-grey line-clamp-2">{{ quest.description }}</div>
+                      <div v-if="editingQuestId !== quest.id_quest" class="text-sm text-stone-grey line-clamp-2">{{ quest.description }}</div>
+                      <textarea 
+                        v-else 
+                        v-model="editQuest.description" 
+                        rows="2"
+                        class="w-full text-sm border border-antique-bronze/30 rounded px-2 py-1 focus:ring-1 focus:ring-antique-bronze"
+                      ></textarea>
                     </td>
                     <td class="px-6 py-4 text-center whitespace-nowrap">
-                      <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-yellow-100/80 text-yellow-900 border-yellow-200">
+                      <span v-if="editingQuestId !== quest.id_quest" class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-yellow-100/80 text-yellow-900 border-yellow-200">
                         {{ quest.xp_reward }} XP
                       </span>
+                      <input 
+                        v-else 
+                        v-model.number="editQuest.xp_reward" 
+                        type="number" 
+                        class="w-20 text-sm border border-antique-bronze/30 rounded px-2 py-1 text-center focus:ring-1 focus:ring-antique-bronze"
+                      >
                     </td>
                     <td class="px-6 py-4 text-center whitespace-nowrap">
-                      <button 
-                        @click="deleteQuest(quest.id_quest)" 
-                        class="text-stone-grey hover:text-red-700 transition-colors p-1"
-                        :title="t('prestataire.quests.table.actions.delete')"
-                      >
-                        <i class="fas fa-trash"></i>
-                      </button>
+                      <div class="flex items-center justify-center gap-2">
+                        <template v-if="editingQuestId !== quest.id_quest">
+                          <button 
+                            @click="startEditQuest(quest)" 
+                            class="text-stone-grey hover:text-antique-bronze transition-colors p-1"
+                            :title="t('prestataire.quests.table.actions.edit')"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button 
+                            @click="deleteQuest(quest.id_quest)" 
+                            class="text-stone-grey hover:text-red-700 transition-colors p-1"
+                            :title="t('prestataire.quests.table.actions.delete')"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </template>
+                        <template v-else>
+                          <button 
+                            @click="saveEditQuest()" 
+                            class="text-green-700 hover:text-green-800 transition-colors p-1"
+                            :title="t('prestataire.quests.table.actions.save')"
+                          >
+                            <i class="fas fa-check"></i>
+                          </button>
+                          <button 
+                            @click="cancelEditQuest()" 
+                            class="text-red-700 hover:text-red-800 transition-colors p-1"
+                            :title="t('prestataire.quests.table.actions.cancel')"
+                          >
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </template>
+                      </div>
                     </td>
                   </tr>
                   
@@ -203,6 +247,13 @@ const newQuest = ref({
   xp_reward: 10
 })
 
+const editingQuestId = ref<number | null>(null)
+const editQuest = ref({
+  title: '',
+  description: '',
+  xp_reward: 10
+})
+
 onMounted(async () => {
   try {
     allLocations.value = await locationService.getAllLocations()
@@ -258,6 +309,32 @@ async function createQuest(locationId: number) {
     alert('Erreur lors de la création de la quête')
   } finally {
     isSubmitting.value = false
+  }
+}
+
+function startEditQuest(quest: Quest) {
+  editingQuestId.value = quest.id_quest
+  editQuest.value = {
+    title: quest.title,
+    description: quest.description,
+    xp_reward: quest.xp_reward
+  }
+}
+
+function cancelEditQuest() {
+  editingQuestId.value = null
+}
+
+async function saveEditQuest() {
+  if (!editingQuestId.value) return
+  
+  try {
+    await questService.updateQuest(editingQuestId.value, editQuest.value)
+    await loadAllQuests()
+    editingQuestId.value = null
+  } catch (error) {
+    console.error('Failed to update quest:', error)
+    alert('Erreur lors de la modification de la quête')
   }
 }
 
