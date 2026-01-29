@@ -52,5 +52,43 @@ export const userController = {
       console.error('Error deleting user:', error);
       res.status(500).json({ error: 'Failed to delete user' });
     }
+  },
+
+  /**
+   * Récupère le classement global
+   */
+  /**
+   * Récupère le classement global
+   */
+  getLeaderboard: async (req: Request, res: Response) => {
+    try {
+      // Pagination information attached by validatePagination middleware
+      const { page, limit } = (req as any).pagination || { page: 1, limit: 10 };
+
+      const result = await userService.getLeaderboard(page, limit);
+      res.json(result);
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+      res.status(500).json({ error: 'Failed to fetch leaderboard' });
+    }
+  },
+
+  /**
+   * Récupère le rang d'un utilisateur
+   */
+  getUserRank: async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.id);
+      if (isNaN(userId)) {
+        res.status(400).json({ error: 'Invalid user ID' });
+        return;
+      }
+
+      const rank = await userService.getUserRank(userId);
+      res.json({ rank });
+    } catch (error) {
+      console.error('Error fetching user rank:', error);
+      res.status(500).json({ error: 'Failed to fetch user rank' });
+    }
   }
 };
