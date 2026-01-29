@@ -59,7 +59,8 @@
         "empty": "Aucun produit disponible.",
         "empty_sub": "Revenez plus tard pour de nouveaux articles !",
         "in_stock": "{count} en stock",
-        "out_of_stock": "Rupture de stock"
+        "out_of_stock": "Rupture de stock",
+        "manage_button": "Gérer"
     },
     "events": {
         "title": "Événements à venir",

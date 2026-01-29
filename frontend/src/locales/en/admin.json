@@ -416,5 +416,57 @@
                 "cancel": "Cancel"
             }
         }
+    },
+    "shop_stats": {
+        "title": "Shop Statistics",
+        "subtitle": "Analyze your shop's sales performance",
+        "cards": {
+            "total_orders": "Total Orders",
+            "active_locations": "active locations",
+            "revenue": "Revenue",
+            "total_revenue": "Total Revenue",
+            "avg_cart": "Average Basket",
+            "products_sold": "products sold"
+        },
+        "secondary": {
+            "paid": "Paid",
+            "collected": "Collected",
+            "waiting": "Waiting",
+            "sold_items": "Items Sold"
+        },
+        "charts": {
+            "order_status": "Order Status",
+            "sales_by_location": "Sales by Location",
+            "revenue_distribution": "Revenue Distribution"
+        },
+        "top_products": {
+            "title": "Top Products",
+            "empty": "No products sold",
+            "sold_suffix": "sold"
+        },
+        "location_details": {
+            "title": "Details by Location",
+            "location": "Location",
+            "orders": "Orders",
+            "products": "Products",
+            "revenue": "Revenue"
+        },
+        "inventory": {
+            "title": "Product & Inventory Statistics",
+            "stock_value": "Stock Value",
+            "references": "References",
+            "products_suffix": "products",
+            "low_stock": "Low Stock",
+            "alerts_suffix": "alerts",
+            "detailed_title": "Detailed Inventory",
+            "manage_link": "Manage Products",
+            "table": {
+                "product": "Product",
+                "price": "Price",
+                "stock": "Stock",
+                "value": "Value"
+            }
+        },
+        "empty": "No data available"
     }
 }

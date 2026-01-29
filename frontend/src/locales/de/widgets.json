@@ -55,7 +55,8 @@
         "empty": "Noch keine Produkte verfügbar.",
         "empty_sub": "Schauen Sie später wieder vorbei!",
         "in_stock": "{count} auf Lager",
-        "out_of_stock": "Ausverkauft"
+        "out_of_stock": "Ausverkauft",
+        "manage_button": "Verwalten"
     },
     "events": {
         "title": "Kommende Veranstaltungen",

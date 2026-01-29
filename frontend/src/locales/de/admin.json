@@ -416,5 +416,57 @@
                 "cancel": "Abbrechen"
             }
         }
+    },
+    "shop_stats": {
+        "title": "Shop-Statistiken",
+        "subtitle": "Analysieren Sie die Verkaufsleistung Ihres Shops",
+        "cards": {
+            "total_orders": "Gesamtbestellungen",
+            "active_locations": "aktive Orte",
+            "revenue": "Einnahmen",
+            "total_revenue": "Gesamteinnahmen",
+            "avg_cart": "Durchschn. Warenkorb",
+            "products_sold": "verkaufte Produkte"
+        },
+        "secondary": {
+            "paid": "Bezahlt",
+            "collected": "Abgeholt",
+            "waiting": "Wartend",
+            "sold_items": "Verkaufte Artikel"
+        },
+        "charts": {
+            "order_status": "Bestellstatus",
+            "sales_by_location": "Verkäufe nach Ort",
+            "revenue_distribution": "Umsatzverteilung"
+        },
+        "top_products": {
+            "title": "Meistverkaufte Produkte",
+            "empty": "Keine Produkte verkauft",
+            "sold_suffix": "verkauft"
+        },
+        "location_details": {
+            "title": "Details nach Ort",
+            "location": "Ort",
+            "orders": "Bestellungen",
+            "products": "Produkte",
+            "revenue": "Einnahmen"
+        },
+        "inventory": {
+            "title": "Produkt- & Inventarstatistiken",
+            "stock_value": "Lagerwert",
+            "references": "Referenzen",
+            "products_suffix": "Produkte",
+            "low_stock": "Geringer Bestand",
+            "alerts_suffix": "Warnungen",
+            "detailed_title": "Detailliertes Inventar",
+            "manage_link": "Produkte verwalten",
+            "table": {
+                "product": "Produkt",
+                "price": "Preis",
+                "stock": "Bestand",
+                "value": "Wert"
+            }
+        },
+        "empty": "Keine Daten verfügbar"
     }
 }

@@ -55,7 +55,8 @@
         "empty": "No hay productos disponibles todavía.",
         "empty_sub": "¡Vuelve más tarde para ver nuevos artículos!",
         "in_stock": "{count} en stock",
-        "out_of_stock": "Agotado"
+        "out_of_stock": "Agotado",
+        "manage_button": "Gestionar"
     },
     "events": {
         "title": "Próximos Eventos",

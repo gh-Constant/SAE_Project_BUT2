@@ -59,7 +59,8 @@
         "empty": "No products available yet.",
         "empty_sub": "Check back later for new items!",
         "in_stock": "{count} in stock",
-        "out_of_stock": "Out of stock"
+        "out_of_stock": "Out of stock",
+        "manage_button": "Manage"
     },
     "events": {
         "title": "Upcoming Events",
