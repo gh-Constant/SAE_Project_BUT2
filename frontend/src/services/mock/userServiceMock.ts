@@ -53,7 +53,7 @@ export const userServiceMock = {
     return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
   },
 
-  getUsersRanking: async (page = 1, limit = 10): Promise<Response> => {
+  getLeaderboard: async (page = 1, limit = 10): Promise<Response> => {
     const sortedUsers = [...mockUsers].sort((a, b) => {
       if (b.level !== a.level) {
         return b.level - a.level;

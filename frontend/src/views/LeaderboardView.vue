@@ -13,7 +13,7 @@ import { userService } from '@/services/userService';
 import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
 
 const auth = useAuthStore();
-const ranking = ref<any[]>([]);
+const leaderboard = ref<any[]>([]);
 const totalUsers = ref(0);
 const currentPage = ref(1);
 const limit = 10;
@@ -26,18 +26,18 @@ const headers = [
     { key: 'xp', label: 'XP Total' },
 ];
 
-const loadRanking = async (page: number) => {
+const loadLeaderboard = async (page: number) => {
     loading.value = true;
     try {
-        const response = await userService.getUsersRanking(page, limit);
+        const response = await userService.getLeaderboard(page, limit);
         if (response) { // Check if response exists (mock returns Response object, but service might return undefined if error handled poorly)
             const data = await response.json();
-            ranking.value = data.users;
+            leaderboard.value = data.users;
             totalUsers.value = data.total;
             currentPage.value = data.page;
         }
     } catch (error) {
-        console.error('Failed to load ranking:', error);
+        console.error('Failed to load leaderboard:', error);
     } finally {
         loading.value = false;
     }
@@ -47,14 +47,14 @@ const totalPages = computed(() => Math.ceil(totalUsers.value / limit));
 
 const changePage = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages.value) {
-        loadRanking(newPage);
+        loadLeaderboard(newPage);
     }
 };
 
 // Check if current user is in the visible list
 const isCurrentUserVisible = computed(() => {
     if (!auth.user) return false;
-    return ranking.value.some(u => u.id === auth.user?.id);
+    return leaderboard.value.some(u => u.id === auth.user?.id);
 });
 
 // Get user rank (cached in store or could be fetched)
@@ -62,7 +62,7 @@ const isCurrentUserVisible = computed(() => {
 const userRank = computed(() => auth.user?.rank || '-');
 
 onMounted(() => {
-    loadRanking(1);
+    loadLeaderboard(1);
 });
 </script>
 
@@ -108,7 +108,7 @@ onMounted(() => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-antique-bronze/20 font-body">
-                        <tr v-for="user in ranking" :key="user.id"
+                        <tr v-for="user in leaderboard" :key="user.id"
                             class="hover:bg-antique-bronze/5 transition-colors group"
                             :class="{ 'bg-gold/10': auth.user && user.id === auth.user.id }">
                             <td class="p-4 text-center font-bold text-dark-wood">
@@ -164,7 +164,7 @@ onMounted(() => {
                 </table>
 
                 <!-- Empty State -->
-                <div v-if="!loading && ranking.length === 0"
+                <div v-if="!loading && leaderboard.length === 0"
                     class="p-16 text-center text-stone-grey italic font-medieval text-lg">
                     <i class="fas fa-scroll text-4xl mb-4 text-antique-bronze/40"></i>
                     <p>Aucun aventurier n'a encore bravé ces terres.</p>
