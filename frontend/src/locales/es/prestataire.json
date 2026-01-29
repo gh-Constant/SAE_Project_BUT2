@@ -1,6 +1,8 @@
 {
   "details": {
-    "back": "Volver"
+    "back": "Volver",
+    "back_to_map": "Volver al Mapa",
+    "view_on_map": "Ver en el Mapa"
   },
   "dashboard": {
     "title": "Tablero de Mando",
@@ -246,6 +248,40 @@
       },
       "actions": {
         "manage": "Gestionar / Editar"
+      }
+    }
+  },
+  "manager": {
+    "create_button": "Crear evento",
+    "empty_search": {
+      "title": "No se encontraron eventos",
+      "description": "Aún no has creado eventos para este lugar o tu búsqueda no arrojó resultados."
+    },
+    "stats": {
+      "sold": "Vendidos",
+      "revenue": "Ingresos"
+    },
+    "form": {
+      "title_label": "Título del evento",
+      "description_label": "Descripción",
+      "date_label": "Elegir fecha y hora",
+      "start": "Inicio",
+      "end": "Fin",
+      "price_label": "Precio (Oro)",
+      "capacity_label": "Capacidad",
+      "submit_create": "Publicar",
+      "submit_update": "Actualizar",
+      "cancel": "Cancelar"
+    },
+    "reservations": {
+      "modal_title": "Reservas",
+      "empty": "No hay reservas para este evento.",
+      "close": "Cerrar",
+      "headers": {
+        "adventurer": "Aventurero",
+        "places": "Plazas",
+        "total": "Total (Oro)",
+        "date": "Fecha"
       }
     }
   }

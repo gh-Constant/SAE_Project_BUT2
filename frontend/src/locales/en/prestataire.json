@@ -4,7 +4,9 @@
     "profile": "Profile"
   },
   "details": {
-    "back": "Back"
+    "back": "Back",
+    "back_to_map": "Back to Map",
+    "view_on_map": "View on Map"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -280,7 +282,44 @@
         "subtitle": "You have no events scheduled."
       },
       "actions": {
-        "manage": "Manage / Edit"
+        "manage": "Manage / Edit",
+        "edit": "Edit",
+        "delete": "Delete",
+        "view_reservations": "View Reservations"
+      }
+    },
+    "manager": {
+      "create_button": "Create Event",
+      "empty_search": {
+        "title": "No events found",
+        "description": "You haven't created any events for this location yet or your search yields no results."
+      },
+      "stats": {
+        "sold": "Sold",
+        "revenue": "Revenue"
+      },
+      "form": {
+        "title_label": "Event Title",
+        "description_label": "Description",
+        "date_label": "Choose Date and Time",
+        "start": "Start",
+        "end": "End",
+        "price_label": "Price (Gold)",
+        "capacity_label": "Capacity",
+        "submit_create": "Publish",
+        "submit_update": "Update",
+        "cancel": "Cancel"
+      },
+      "reservations": {
+        "modal_title": "Reservations",
+        "empty": "No reservations for this event.",
+        "close": "Close",
+        "headers": {
+          "adventurer": "Adventurer",
+          "places": "Seats",
+          "total": "Total (Gold)",
+          "date": "Date"
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-parchment py-16">
+  <div class="min-h-screen bg-parchment pt-32 pb-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-12 text-center">
         <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">

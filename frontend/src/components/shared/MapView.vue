@@ -64,6 +64,7 @@
  */
 
 import { onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -76,6 +77,7 @@ import Widget from '@/components/widgets/Widget.vue';
 import { LocationMock } from '@/mocks/locations';
 
 const { t } = useI18n();
+const route = useRoute();
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 
@@ -191,7 +193,6 @@ function closeWidget() {
  */
 async function handleLocationPurchased(location: LocationMock) {
   console.log('Location purchased:', location);
-  // Refresh the map to show updated locations
   await addFilteredLocationsToMap();
 }
 
@@ -216,7 +217,17 @@ onMounted(async () => {
   initializeMap();
   await addFilteredLocationsToMap();
 
-  await addFilteredLocationsToMap();
+  const locationId = Number(route.query.locationId);
+  if (locationId) {
+    try {
+      const location = await locationService.getLocationById(locationId);
+      if (location) {
+        selectedLocation.value = location;
+      }
+    } catch (e) {
+      console.error('Failed to load deep-linked location', e);
+    }
+  }
 });
 
 watch(isClickDebugActive, (newValue) => {
