@@ -23,6 +23,14 @@ const userServiceImpl = {
       method: 'DELETE',
     });
   },
+
+  getUserRank: async (userId: number): Promise<Response> => {
+    return fetch(`${API_URL}/users/${userId}/rank`);
+  },
+
+  getUsersRanking: async (): Promise<Response> => {
+    return fetch(`${API_URL}/users/ranking`);
+  },
 };
 
 export const userService = isMockEnabled ? userServiceMock : userServiceImpl;

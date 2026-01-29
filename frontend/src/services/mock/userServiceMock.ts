@@ -1,6 +1,19 @@
 
 import { mockUsers } from "./sharedMockData";
 
+
+// Helper to calculate rank based on current mockUsers state
+// Moved here because Rank calculation is a User domain logic
+export const calculateUserRank = (userId: number): number => {
+  const sortedUsers = [...mockUsers].sort((a, b) => {
+    if (b.level !== a.level) {
+      return b.level - a.level;
+    }
+    return b.xp - a.xp;
+  });
+  return sortedUsers.findIndex(u => u.id === userId) + 1;
+};
+
 export const userServiceMock = {
   getUsers: async (): Promise<Response> => {
     return new Response(JSON.stringify(mockUsers), { status: 200, headers: { 'Content-Type': 'application/json' } });
@@ -27,5 +40,22 @@ export const userServiceMock = {
     }
     
     return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+  },
+
+  getUserRank: async (userId: number): Promise<Response> => {
+    const userIndex = mockUsers.findIndex(u => u.id === userId);
+    
+    if (userIndex !== -1) {
+      const rank = calculateUserRank(userId);
+      return new Response(JSON.stringify({ rank }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+    
+    return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+  },
+
+  getUsersRanking: async (): Promise<Response> => {
+    const sortedUsers = [...mockUsers].sort((a, b) => b.level - a.level || b.xp - a.xp);
+    const rankedUsers = sortedUsers.map((user, index) => ({ ...user, rank: index + 1 }));
+    return new Response(JSON.stringify(rankedUsers), { status: 200, headers: { 'Content-Type': 'application/json' } });
   },
 };

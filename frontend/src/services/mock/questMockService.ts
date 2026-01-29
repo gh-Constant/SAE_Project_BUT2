@@ -4,6 +4,8 @@ import { USER_QUESTS } from '@/mocks/userQuests';
 import { LOCATIONS } from '@/mocks/locations';
 import { calculateLevelFromXP } from '@/utils/levelCalculator';
 import { useAuthStore } from '@/stores/auth';
+import { mockUsers } from './sharedMockData';
+import { calculateUserRank } from './userServiceMock';
 
 const mockQuests = [...QUESTS];
 
@@ -127,17 +129,21 @@ export const questMockService = {
     const newXP = user.xp + xpReward;
     const newLevel = calculateLevelFromXP(newXP);
 
-    // Mettre à jour le store auth (l'or reste inchangé)
-    authStore.user = {
-      ...user,
-      xp: newXP,
-      level: newLevel
-    };
-
-    // Mettre à jour localStorage en mode mock
-    if (import.meta.env.VITE_NO_BACKEND === 'true') {
-      localStorage.setItem('currentUser', JSON.stringify(authStore.user));
+    // Mettre à jour mockUsers pour que les autres services (classement, etc.) voient le changement
+    const mockUser = mockUsers.find(u => u.id === userId);
+    if (mockUser) {
+      mockUser.xp = newXP;
+      mockUser.level = newLevel;
     }
+
+    const newRank = calculateUserRank(userId);
+
+    // Mettre à jour le store auth via l'action dédiée qui gère aussi la persistance
+    authStore.updateUserStats({
+      xp: newXP,
+      level: newLevel,
+      rank: newRank
+    });
 
     // Persist quest state
     saveUserQuests();
@@ -225,15 +231,21 @@ export const questMockService = {
     const newXP = user.xp + xpReward;
     const newLevel = calculateLevelFromXP(newXP);
 
-    authStore.user = {
-      ...user,
-      xp: newXP,
-      level: newLevel
-    };
-
-    if (import.meta.env.VITE_NO_BACKEND === 'true') {
-      localStorage.setItem('currentUser', JSON.stringify(authStore.user));
+    // Mettre à jour mockUsers pour que les autres services (classement, etc.) voient le changement
+    const mockUser = mockUsers.find(u => u.id === userId);
+    if (mockUser) {
+      mockUser.xp = newXP;
+      mockUser.level = newLevel;
     }
+
+    const newRank = calculateUserRank(userId);
+
+    // Mettre à jour le store auth via l'action dédiée qui gère aussi la persistance
+    authStore.updateUserStats({
+      xp: newXP,
+      level: newLevel,
+      rank: newRank
+    });
 
     // Persist quest state
     saveUserQuests();

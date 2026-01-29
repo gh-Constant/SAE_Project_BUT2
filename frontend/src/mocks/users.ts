@@ -34,6 +34,7 @@ export interface UserMock {
 
   role: Role;
   id_prestataire_type?: number;
+  rank?: number;
 }
 
 export const PRESTATAIRE_USER_ID = 1;
