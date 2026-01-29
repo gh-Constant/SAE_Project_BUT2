@@ -183,12 +183,12 @@
               <div class="p-6">
                 <div v-for="(product, index) in topProducts" :key="product.id" class="flex items-center gap-4 py-3" :class="{ 'border-t border-antique-bronze/10': index > 0 }">
                   <div class="w-8 h-8 rounded-full flex items-center justify-center font-medieval font-bold text-sm shadow-sm"
-                    :class="{
-                      'bg-gradient-to-br from-yellow-400 to-yellow-500 text-yellow-900': index === 0,
-                      'bg-gradient-to-br from-stone-300 to-stone-400 text-stone-700': index === 1,
-                      'bg-gradient-to-br from-antique-bronze to-[#a88558] text-white': index === 2,
-                      'bg-antique-bronze/10 text-antique-bronze': index > 2
-                    }"
+                       :class="{
+                         'bg-gradient-to-br from-yellow-400 to-yellow-500 text-yellow-900': index === 0,
+                         'bg-gradient-to-br from-stone-300 to-stone-400 text-stone-700': index === 1,
+                         'bg-gradient-to-br from-antique-bronze to-[#a88558] text-white': index === 2,
+                         'bg-antique-bronze/10 text-antique-bronze': index > 2
+                       }"
                   >
                     {{ index + 1 }}
                   </div>
@@ -258,7 +258,7 @@
               <div class="flex items-end justify-around h-48 gap-2">
                 <div v-for="(bucket, index) in revenueBuckets" :key="index" class="flex-1 flex flex-col items-center">
                   <div class="w-full max-w-12 rounded-t-lg bg-gradient-to-t from-amber-600 to-amber-400 transition-all duration-500 hover:from-amber-500 hover:to-amber-300 shadow-sm"
-                    :style="{ height: `${bucket.percentage}%`, minHeight: bucket.count > 0 ? '8px' : '0' }"
+                       :style="{ height: `${bucket.percentage}%`, minHeight: bucket.count > 0 ? '8px' : '0' }"
                   ></div>
                   <div class="mt-2 text-center">
                     <p class="text-xs font-bold text-iron-black">{{ bucket.count }}</p>
@@ -279,10 +279,6 @@
                 </div>
                 Détails par Lieu
               </h3>
-              <router-link to="/admin/products" class="text-sm text-antique-bronze hover:underline flex items-center gap-1">
-                Gérer les produits
-                <i class="fas fa-arrow-right text-xs"></i>
-              </router-link>
             </div>
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-antique-bronze/10">
@@ -292,7 +288,6 @@
                     <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Commandes</th>
                     <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Produits</th>
                     <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Revenus</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Part</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-antique-bronze/10">
@@ -301,19 +296,11 @@
                       <span class="font-bold text-iron-black">{{ loc.name }}</span>
                     </td>
                     <td class="px-6 py-4 text-center">
-                      <span class="px-2 py-1 bg-antique-bronze/10 text-antique-bronze border border-antique-bronze/20 rounded-full text-xs font-bold shadow-sm">{{ loc.orderCount }}</span>
+                      <span class="text-stone-grey">{{ loc.orderCount }}</span>
                     </td>
                     <td class="px-6 py-4 text-center text-stone-grey">{{ loc.productsSold }}</td>
                     <td class="px-6 py-4 text-center">
                       <span class="font-medieval font-bold text-amber-700">{{ formatCurrency(loc.revenue) }}</span>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <div class="flex items-center justify-center gap-2">
-                        <div class="w-16 h-2 bg-stone-200 rounded-full overflow-hidden">
-                          <div class="h-full bg-amber-500 rounded-full" :style="{ width: `${loc.percentage}%` }"></div>
-                        </div>
-                        <span class="text-xs text-stone-grey">{{ loc.percentage }}%</span>
-                      </div>
                     </td>
                   </tr>
                   <tr v-if="locationStats.length === 0">
@@ -323,6 +310,113 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          <!-- Product Statistics Section -->
+          <div v-if="productStats" class="mt-12 mb-12">
+            <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
+              <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
+              Statistiques Produits & Inventaire
+            </h2>
+
+            <!-- Product Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <!-- Inventory Value -->
+              <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg p-6">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-amber-600 to-amber-700 rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-coins text-white"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">Valeur du Stock</h3>
+                    <p class="text-2xl font-medieval font-bold text-iron-black">{{ formatCurrency(productStats.totalStockValue) }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total References -->
+              <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg p-6">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-tags text-white"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">Références</h3>
+                    <p class="text-2xl font-medieval font-bold text-iron-black">{{ productStats.totalReferences }} produits</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Low Stock -->
+              <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg p-6">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-colors"
+                       :class="productStats.lowStockCount > 0 ? 'bg-gradient-to-br from-red-600 to-red-700' : 'bg-gradient-to-br from-emerald-600 to-emerald-700'"
+                  >
+                    <i class="fas fa-exclamation-triangle text-white" v-if="productStats.lowStockCount > 0"></i>
+                    <i class="fas fa-check text-white" v-else></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">Stock Faible</h3>
+                    <p class="text-2xl font-medieval font-bold text-iron-black" :class="{ 'text-red-700': productStats.lowStockCount > 0 }">
+                      {{ productStats.lowStockCount }} alertes
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Inventory Table -->
+            <div class="group relative bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 overflow-hidden shadow-lg">
+              <div class="bg-antique-bronze/10 px-6 py-4 border-b border-antique-bronze/20">
+                <h3 class="font-medieval font-bold text-iron-black flex items-center gap-2">
+                  <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
+                    <i class="fas fa-boxes text-white text-sm"></i>
+                  </div>
+                  Inventaire Détaillé
+
+                  <router-link to="/admin/products" class="text-sm text-iron-black hover:underline flex items-center gap-1 ml-auto">
+                    Gérer les produits
+                    <i class="fas fa-arrow-right text-xs"></i>
+                  </router-link>
+                </h3>
+              </div>
+              <div class="overflow-x-auto max-h-96">
+                <table class="min-w-full divide-y divide-antique-bronze/10">
+                  <thead class="bg-antique-bronze/5 sticky top-0 z-10 backdrop-blur-sm">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">Produit</th>
+                      <th class="px-6 py-3 text-right text-xs font-medieval font-bold text-iron-black uppercase">Prix</th>
+                      <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Stock</th>
+                      <th class="px-6 py-3 text-right text-xs font-medieval font-bold text-iron-black uppercase">Valeur</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-antique-bronze/10">
+                    <tr v-for="product in productStats.products" :key="product.id" class="hover:bg-antique-bronze/5 transition-colors">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <img :src="product.image" :alt="product.name" class="w-10 h-10 rounded-md object-cover border border-antique-bronze/20 shadow-sm" />
+                          <span class="font-bold text-iron-black">{{ product.name }}</span>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 text-right font-medium text-amber-700">
+                        {{ formatCurrency(product.price) }}
+                      </td>
+                      <td class="px-6 py-4 text-center">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                              :class="product.stock < 5 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
+                        >
+                          {{ product.stock }}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 text-right text-stone-grey">
+                        {{ formatCurrency(product.price * product.stock) }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </template>
@@ -344,7 +438,8 @@ import {
   ShopStatistics, 
   TopProduct, 
   LocationStat, 
-  RevenueBucket 
+  RevenueBucket,
+  ProductInventoryStats
 } from '@/services/shopStatisticService'
 
 const router = useRouter()
@@ -366,6 +461,7 @@ const stats = ref<ShopStatistics>({
 const topProducts = ref<TopProduct[]>([])
 const locationStats = ref<LocationStat[]>([])
 const revenueBuckets = ref<RevenueBucket[]>([])
+const productStats = ref<ProductInventoryStats | null>(null)
 
 // Chart data for PieChart component
 const orderStatusChartData = ref<Array<{ label: string; count: number; color: string }>>([])
@@ -380,6 +476,7 @@ onMounted(async () => {
     topProducts.value = data.topProducts
     locationStats.value = data.locationStats
     revenueBuckets.value = data.revenueBuckets
+    productStats.value = data.productStats
 
     // Transform data for PieChart
     orderStatusChartData.value = data.orderStatusDistribution.map(s => ({

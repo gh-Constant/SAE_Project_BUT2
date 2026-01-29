@@ -1,5 +1,8 @@
 
 import axios from 'axios';
+import { COMMANDES } from '@/mocks/commande';
+import { LOCATIONS } from '@/mocks/locations';
+import { USERS, Role, PRESTATAIRE_USER_ID } from '@/mocks/users';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL + '/api/v1';
 
@@ -54,11 +57,17 @@ class StatsServiceImpl {
 // Mock implementation
 class MockStatsService {
     async getAdminGlobalStats(): Promise<AdminStats> {
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 500)); 
+
+        const totalUserCount = USERS.length;
+        const payingUserCount = USERS.filter(u => u.role === Role.AVENTURIER_ROLE_ID).length;
+
+        const totalRevenue = COMMANDES.reduce((sum, order) => sum + order.total_price, 0);
+
         return {
-            userCount: 1543,
-            payingUserCount: 890,
-            totalRevenue: 45200,
+            userCount: totalUserCount,
+            payingUserCount: payingUserCount,
+            totalRevenue: totalRevenue,
             recentActivity: [
                 {
                     type: 'USER_CREATED',
@@ -88,11 +97,20 @@ class MockStatsService {
     }
 
     async getProviderGlobalStats(): Promise<ProviderStats> {
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        const providerId = PRESTATAIRE_USER_ID;
+        const locationsCount = LOCATIONS.filter(l => l.id_prestataire === providerId).length;
+
+        const providerOrders = COMMANDES.filter(o => o.id_prestataire === providerId);
+        const monthlyRevenue = providerOrders.reduce((sum, o) => sum + o.total_price, 0);
+
+        const orderCount = providerOrders.length;
+
         return {
-            locationsCount: 2, // Matches PrestataireView hardcoded
-            monthlyRevenue: 1250, // Matches PrestataireView hardcoded
-            orderCount: 42 // New metric requested
+            locationsCount,
+            monthlyRevenue,
+            orderCount
         };
     }
 }

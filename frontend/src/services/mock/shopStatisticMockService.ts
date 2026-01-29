@@ -2,6 +2,7 @@ import { COMMANDES, EtatCommande } from '@/mocks/commande';
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande';
 import { PRODUCTS, ProductMock } from '@/mocks/products';
 import { LOCATIONS } from '@/mocks/locations';
+import { productService, ProductStoreMock } from '@/services/productService';
 
 // ========== Interfaces ==========
 
@@ -59,8 +60,17 @@ export interface RevenueBucket {
     percentage: number;
 }
 
+export interface ProductInventoryStats {
+    totalReferences: number;
+    totalStockValue: number;
+    lowStockCount: number;
+    averagePrice: number;
+    products: ProductMock[];
+}
+
 export interface ShopStatisticsData {
     stats: ShopStatistics;
+    productStats: ProductInventoryStats;
     orderStatusDistribution: OrderStatusDistribution[];
     locationSalesDistribution: LocationSalesDistribution[];
     topProducts: TopProduct[];
@@ -83,12 +93,31 @@ function getProductById(productId: number): ProductMock | undefined {
 
 export const shopStatisticMockService = {
     getStatistics: async (): Promise<ShopStatisticsData> => {
-        await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         const orders = COMMANDES;
         const orderLines = LIGNES_COMMANDE;
+        const storeProducts = await productService.getProducts();
 
-        // Calculate hero stats
+        const products: ProductMock[] = storeProducts.map((p: ProductStoreMock) => ({
+            id: p.id,
+            name: p.name,
+            description: p.description,
+            price: p.price,
+            stock: p.stock,
+            image: p.imageUrl,
+            id_prestataire: p.id_prestataire || 0,
+            locationId: p.locationId
+        }));
+
+        // --- Product Inventory Stats ---
+        const totalReferences = products.length;
+        const totalStockValue = products.reduce((sum, p) => sum + (p.price * p.stock), 0);
+        const lowStockCount = products.filter(p => p.stock < 5).length;
+        const averagePrice = totalReferences > 0
+            ? products.reduce((sum, p) => sum + p.price, 0) / totalReferences
+            : 0;
+
         const totalOrders = orders.length;
         const totalRevenue = orders.reduce((sum, o) => sum + o.total_price, 0);
         const averageOrderValue = totalOrders > 0 ? Math.round((totalRevenue / totalOrders) * 100) / 100 : 0;
@@ -253,7 +282,7 @@ export const shopStatisticMockService = {
 
         const maxBucketCount = Math.max(...buckets.map(b => b.count), 1);
         buckets.forEach(b => {
-            b.percentage = Math.round((b.count / maxBucketCount) * 100);
+            b.percentage = maxBucketCount > 0 ? Math.round((b.count / maxBucketCount) * 100) : 0;
         });
 
         return {
@@ -266,6 +295,13 @@ export const shopStatisticMockService = {
                 collectedOrdersCount,
                 waitingOrdersCount,
                 locationsWithSales,
+            },
+            productStats: {
+                totalReferences,
+                totalStockValue,
+                lowStockCount,
+                averagePrice,
+                products
             },
             orderStatusDistribution,
             locationSalesDistribution,
