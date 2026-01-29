@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <div class="py-16">
+    <div class="pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="mb-12 text-center">

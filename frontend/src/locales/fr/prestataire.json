@@ -4,7 +4,9 @@
     "profile": "Profil"
   },
   "details": {
-    "back": "Retour"
+    "back": "Retour",
+    "back_to_map": "Retour à la carte",
+    "view_on_map": "Voir sur la carte"
   },
   "dashboard": {
     "title": "Tableau de Bord",
@@ -280,7 +282,44 @@
         "subtitle": "Vous n'avez aucun événement planifié."
       },
       "actions": {
-        "manage": "Gérer / Modifier"
+        "manage": "Gérer / Modifier",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "view_reservations": "Voir les réservations"
+      }
+    },
+    "manager": {
+      "create_button": "Créer un événement",
+      "empty_search": {
+        "title": "Aucun événement trouvé",
+        "description": "Vous n'avez pas encore créé d'événements pour ce lieu ou votre recherche ne donne aucun résultat."
+      },
+      "stats": {
+        "sold": "Vendus",
+        "revenue": "Revenus"
+      },
+      "form": {
+        "title_label": "Titre de l'événement",
+        "description_label": "Description",
+        "date_label": "Choisir la date et l'heure",
+        "start": "Début",
+        "end": "Fin",
+        "price_label": "Prix (Gold)",
+        "capacity_label": "Capacité",
+        "submit_create": "Publier",
+        "submit_update": "Mettre à jour",
+        "cancel": "Annuler"
+      },
+      "reservations": {
+        "modal_title": "Réservations",
+        "empty": "Aucune réservation pour cet événement.",
+        "close": "Fermer",
+        "headers": {
+          "adventurer": "Aventurier",
+          "places": "Places",
+          "total": "Total (Or)",
+          "date": "Date"
+        }
       }
     }
   },

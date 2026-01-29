@@ -421,5 +421,57 @@
                 "cancel": "Annuler"
             }
         }
+    },
+    "shop_stats": {
+        "title": "Statistiques Boutique",
+        "subtitle": "Analysez les performances de vente de votre boutique",
+        "cards": {
+            "total_orders": "Total Commandes",
+            "active_locations": "lieux actifs",
+            "revenue": "Chiffre d'Affaires",
+            "total_revenue": "Revenus totaux",
+            "avg_cart": "Panier Moyen",
+            "products_sold": "produits vendus"
+        },
+        "secondary": {
+            "paid": "Payées",
+            "collected": "Collectées",
+            "waiting": "En attente",
+            "sold_items": "Produits vendus"
+        },
+        "charts": {
+            "order_status": "Statuts des Commandes",
+            "sales_by_location": "Ventes par Lieu",
+            "revenue_distribution": "Répartition des Montants"
+        },
+        "top_products": {
+            "title": "Produits les Plus Vendus",
+            "empty": "Aucun produit vendu",
+            "sold_suffix": "vendus"
+        },
+        "location_details": {
+            "title": "Détails par Lieu",
+            "location": "Lieu",
+            "orders": "Commandes",
+            "products": "Produits",
+            "revenue": "Revenus"
+        },
+        "inventory": {
+            "title": "Statistiques Produits & Inventaire",
+            "stock_value": "Valeur du Stock",
+            "references": "Références",
+            "products_suffix": "produits",
+            "low_stock": "Stock Faible",
+            "alerts_suffix": "alertes",
+            "detailed_title": "Inventaire Détaillé",
+            "manage_link": "Gérer les produits",
+            "table": {
+                "product": "Produit",
+                "price": "Prix",
+                "stock": "Stock",
+                "value": "Valeur"
+            }
+        },
+        "empty": "Aucune donnée disponible"
     }
 }

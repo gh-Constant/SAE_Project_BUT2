@@ -10,7 +10,7 @@
   - Utilise ProductCard pour afficher chaque produit
 -->
 <template>
-  <div class="min-h-screen bg-parchment py-8 font-body text-stone-grey">
+  <div class="min-h-screen bg-parchment pt-32 pb-8 font-body text-stone-grey">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Vue Liste des Boutiques (si pas de locationId) -->
       <div v-if="!locationIdFromRoute">
@@ -54,7 +54,7 @@
               <div class="flex items-center justify-between pt-4 border-t border-antique-bronze/20">
                 <span class="text-sm text-stone-grey flex items-center font-bold">
                   <i class="fas fa-boxes mr-2 text-antique-bronze"></i>
-                  <span class="font-medieval text-lg mr-1">{{ getProductCountForLocation(location.id) }}</span>
+
                   {{ t('shop.products_count', { count: getProductCountForLocation(location.id) }) }}
                 </span>
                 <span

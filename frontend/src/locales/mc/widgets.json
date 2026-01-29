@@ -12,5 +12,9 @@
         "sending_button": "ᛋᛖᚾᛞᛁᚾᚷ...",
         "send_button": "ᛋᛖᚾᛞ ᛗᛖᛋᛋᚪᚷᛖ",
         "error_message": "ᚠᚪᛁᛚᛖᛞ ᛏᛟ ᛋᛖᚾᛞ ᛗᛖᛋᛋᚪᚷᛖ. ᛈᛚᛖᚪᛋᛖ ᛏᚱᚣ ᚪᚷᚪᛁᚾ."
+    },
+    "shop": {
+        "manage_button": "ᛗᚪᚾᚪᚷᛖ"
     }
+}
 }

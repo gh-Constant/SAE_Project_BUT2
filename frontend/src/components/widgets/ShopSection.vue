@@ -19,6 +19,13 @@
         >
           <i class="fas fa-plus mr-2"></i> {{ t('widgets.shop.add_product') }}
         </button>
+        <button 
+          v-if="isOwner"
+          @click="manageShop"
+          class="px-4 py-2 bg-antique-bronze hover:brightness-110 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
+        >
+          <i class="fas fa-cog mr-2"></i> {{ t('widgets.shop.manage_button') }}
+        </button>
         <MedievalButton 
           @click="goToShop" 
           small
@@ -116,11 +123,14 @@ const addProduct = () => {
   });
 };
 
+const manageShop = () => {
+  router.push({ 
+    name: 'prestataire-products',
+    query: { locationId: props.locationId }
+  });
+};
+
 onMounted(() => {
   fetchProducts();
 });
 </script>
-
-<style scoped>
-@reference "tailwindcss";
-</style>

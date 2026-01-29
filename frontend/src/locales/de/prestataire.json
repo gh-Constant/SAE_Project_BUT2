@@ -1,6 +1,8 @@
 {
   "details": {
-    "back": "Zurück"
+    "back": "Zurück",
+    "back_to_map": "Zurück zur Karte",
+    "view_on_map": "Auf der Karte anzeigen"
   },
   "dashboard": {
     "title": "Instrumententafel",
@@ -245,7 +247,44 @@
         "subtitle": "Sie haben keine Veranstaltungen geplant."
       },
       "actions": {
-        "manage": "Verwalten / Bearbeiten"
+        "manage": "Verwalten / Bearbeiten",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "view_reservations": "Reservierungen ansehen"
+      }
+    },
+    "manager": {
+      "create_button": "Veranstaltung erstellen",
+      "empty_search": {
+        "title": "Keine Veranstaltungen gefunden",
+        "description": "Sie haben noch keine Veranstaltungen für diesen Ort erstellt oder Ihre Suche liefert keine Ergebnisse."
+      },
+      "stats": {
+        "sold": "Verkauft",
+        "revenue": "Einnahmen"
+      },
+      "form": {
+        "title_label": "Veranstaltungstitel",
+        "description_label": "Beschreibung",
+        "date_label": "Datum und Uhrzeit wählen",
+        "start": "Start",
+        "end": "Ende",
+        "price_label": "Preis (Gold)",
+        "capacity_label": "Kapazität",
+        "submit_create": "Veröffentlichen",
+        "submit_update": "Aktualisieren",
+        "cancel": "Abbrechen"
+      },
+      "reservations": {
+        "modal_title": "Reservierungen",
+        "empty": "Keine Reservierungen für diese Veranstaltung.",
+        "close": "Schließen",
+        "headers": {
+          "adventurer": "Abenteurer",
+          "places": "Plätze",
+          "total": "Gesamt (Gold)",
+          "date": "Datum"
+        }
       }
     }
   }

@@ -9,10 +9,10 @@
         <div class="mb-12 text-center">
           <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center justify-center gap-3">
             <i class="fas fa-chart-line text-antique-bronze"></i>
-            Statistiques Boutique
+            {{ t('admin.shop_stats.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
-          <p class="text-base font-body text-stone-grey">Analysez les performances de vente de votre boutique</p>
+          <p class="text-base font-body text-stone-grey">{{ t('admin.shop_stats.subtitle') }}</p>
         </div>
 
         <!-- Loading State -->
@@ -33,11 +33,11 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Total Commandes</h3>
+                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.shop_stats.cards.total_orders') }}</h3>
                   <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ stats.totalOrders }}</p>
                   <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                     <i class="fas fa-map-marker-alt text-antique-bronze"></i>
-                    {{ stats.locationsWithSales }} lieux actifs
+                    {{ stats.locationsWithSales }} {{ t('admin.shop_stats.cards.active_locations') }}
                   </p>
                 </div>
               </div>
@@ -53,11 +53,11 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Chiffre d'Affaires</h3>
+                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.shop_stats.cards.revenue') }}</h3>
                   <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ formatCurrency(stats.totalRevenue) }}</p>
                   <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                     <i class="fas fa-chart-line text-antique-bronze"></i>
-                    Revenus totaux
+                    {{ t('admin.shop_stats.cards.total_revenue') }}
                   </p>
                 </div>
               </div>
@@ -73,11 +73,11 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">Panier Moyen</h3>
+                  <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest mb-2">{{ t('admin.shop_stats.cards.avg_cart') }}</h3>
                   <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ formatCurrency(stats.averageOrderValue) }}</p>
                   <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                     <i class="fas fa-box text-antique-bronze"></i>
-                    {{ stats.totalProductsSold }} produits vendus
+                    {{ stats.totalProductsSold }} {{ t('admin.shop_stats.cards.products_sold') }}
                   </p>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                 <i class="fas fa-check-circle text-white"></i>
               </div>
               <p class="text-3xl font-medieval font-bold text-iron-black">{{ stats.paidOrdersCount }}</p>
-              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">Payées</p>
+              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">{{ t('admin.shop_stats.secondary.paid') }}</p>
             </div>
             
             <div class="group bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg p-5 border-2 border-antique-bronze/20 text-center hover:shadow-lg transition-all relative overflow-hidden">
@@ -101,7 +101,7 @@
                 <i class="fas fa-box-open text-white"></i>
               </div>
               <p class="text-3xl font-medieval font-bold text-iron-black">{{ stats.collectedOrdersCount }}</p>
-              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">Collectées</p>
+              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">{{ t('admin.shop_stats.secondary.collected') }}</p>
             </div>
             
             <div class="group bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg p-5 border-2 border-antique-bronze/20 text-center hover:shadow-lg transition-all relative overflow-hidden">
@@ -110,7 +110,7 @@
                 <i class="fas fa-clock text-white"></i>
               </div>
               <p class="text-3xl font-medieval font-bold text-iron-black">{{ stats.waitingOrdersCount }}</p>
-              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">En attente</p>
+              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">{{ t('admin.shop_stats.secondary.waiting') }}</p>
             </div>
             
             <div class="group bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg p-5 border-2 border-antique-bronze/20 text-center hover:shadow-lg transition-all relative overflow-hidden">
@@ -119,7 +119,7 @@
                 <i class="fas fa-box text-white"></i>
               </div>
               <p class="text-3xl font-medieval font-bold text-iron-black">{{ stats.totalProductsSold }}</p>
-              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">Produits vendus</p>
+              <p class="text-xs text-stone-grey mt-1 uppercase tracking-wide">{{ t('admin.shop_stats.secondary.sold_items') }}</p>
             </div>
           </div>
 
@@ -134,14 +134,14 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm">
                     <i class="fas fa-chart-pie text-white text-sm"></i>
                   </div>
-                  Statuts des Commandes
+                  {{ t('admin.shop_stats.charts.order_status') }}
                 </h3>
               </div>
               <div class="p-6 flex justify-center">
                 <PieChart v-if="orderStatusChartData.length > 0" :data="orderStatusChartData" :size="240" :stroke-width="30" />
                 <div v-else class="text-center py-8 text-stone-grey">
                   <i class="fas fa-chart-pie text-4xl opacity-30 mb-2"></i>
-                  <p>Aucune donnée disponible</p>
+                  <p>{{ t('admin.shop_stats.empty') }}</p>
                 </div>
               </div>
             </div>
@@ -154,14 +154,14 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-sm">
                     <i class="fas fa-map-marked-alt text-white text-sm"></i>
                   </div>
-                  Ventes par Lieu
+                  {{ t('admin.shop_stats.charts.sales_by_location') }}
                 </h3>
               </div>
               <div class="p-6 flex justify-center">
                 <PieChart v-if="locationChartData.length > 0" :data="locationChartData" :size="240" :stroke-width="25" />
                 <div v-else class="text-center py-8 text-stone-grey">
                   <i class="fas fa-map text-4xl opacity-30 mb-2"></i>
-                  <p>Aucune donnée disponible</p>
+                  <p>{{ t('admin.shop_stats.empty') }}</p>
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                     <i class="fas fa-fire-alt text-white text-sm"></i>
                   </div>
-                  Produits les Plus Vendus
+                  {{ t('admin.shop_stats.top_products.title') }}
                 </h3>
               </div>
               <div class="p-6">
@@ -201,12 +201,12 @@
                       <i class="fas fa-coins text-antique-bronze text-[10px]"></i>
                       {{ formatCurrency(product.revenue) }}
                     </span>
-                    <p class="text-xs text-stone-grey mt-1">{{ product.quantitySold }} vendus</p>
+                    <p class="text-xs text-stone-grey mt-1">{{ product.quantitySold }} {{ t('admin.shop_stats.top_products.sold_suffix') }}</p>
                   </div>
                 </div>
                 <div v-if="topProducts.length === 0" class="text-center py-8 text-stone-grey">
                   <i class="fas fa-box text-4xl opacity-30 mb-2"></i>
-                  <p>Aucun produit vendu</p>
+                  <p>{{ t('admin.shop_stats.top_products.empty') }}</p>
                 </div>
               </div>
             </div>
@@ -219,7 +219,7 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                     <i class="fas fa-list-ol text-white text-sm"></i>
                   </div>
-                  Ventes par Lieu
+                  {{ t('admin.shop_stats.charts.sales_by_location') }}
                 </h3>
               </div>
               <div class="p-6 space-y-4">
@@ -237,7 +237,7 @@
                 </div>
                 <div v-if="locationStats.length === 0" class="text-center py-8 text-stone-grey">
                   <i class="fas fa-map text-4xl opacity-30 mb-2"></i>
-                  <p>Aucune donnée disponible</p>
+                  <p>{{ t('admin.shop_stats.empty') }}</p>
                 </div>
               </div>
             </div>
@@ -251,7 +251,7 @@
                 <div class="w-8 h-8 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center shadow-sm">
                   <i class="fas fa-gem text-white text-sm"></i>
                 </div>
-                Répartition des Montants
+                {{ t('admin.shop_stats.charts.revenue_distribution') }}
               </h3>
             </div>
             <div class="p-6">
@@ -277,17 +277,17 @@
                 <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                   <i class="fas fa-table text-white text-sm"></i>
                 </div>
-                Détails par Lieu
+                {{ t('admin.shop_stats.location_details.title') }}
               </h3>
             </div>
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-antique-bronze/10">
                 <thead class="bg-antique-bronze/5">
                   <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">Lieu</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Commandes</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Produits</th>
-                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Revenus</th>
+                    <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.location_details.location') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.location_details.orders') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.location_details.products') }}</th>
+                    <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.location_details.revenue') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-antique-bronze/10">
@@ -305,7 +305,7 @@
                   </tr>
                   <tr v-if="locationStats.length === 0">
                     <td colspan="5" class="px-6 py-8 text-center text-stone-grey">
-                      Aucune donnée disponible
+                      {{ t('admin.shop_stats.empty') }}
                     </td>
                   </tr>
                 </tbody>
@@ -317,7 +317,7 @@
           <div v-if="productStats" class="mt-12 mb-12">
             <h2 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center">
               <span class="w-8 h-1 bg-antique-bronze rounded-full mr-4"></span>
-              Statistiques Produits & Inventaire
+              {{ t('admin.shop_stats.inventory.title') }}
             </h2>
 
             <!-- Product Stats Grid -->
@@ -329,7 +329,7 @@
                     <i class="fas fa-coins text-white"></i>
                   </div>
                   <div>
-                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">Valeur du Stock</h3>
+                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">{{ t('admin.shop_stats.inventory.stock_value') }}</h3>
                     <p class="text-2xl font-medieval font-bold text-iron-black">{{ formatCurrency(productStats.totalStockValue) }}</p>
                   </div>
                 </div>
@@ -342,8 +342,8 @@
                     <i class="fas fa-tags text-white"></i>
                   </div>
                   <div>
-                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">Références</h3>
-                    <p class="text-2xl font-medieval font-bold text-iron-black">{{ productStats.totalReferences }} produits</p>
+                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">{{ t('admin.shop_stats.inventory.references') }}</h3>
+                    <p class="text-2xl font-medieval font-bold text-iron-black">{{ productStats.totalReferences }} {{ t('admin.shop_stats.inventory.products_suffix') }}</p>
                   </div>
                 </div>
               </div>
@@ -358,9 +358,9 @@
                     <i class="fas fa-check text-white" v-else></i>
                   </div>
                   <div>
-                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">Stock Faible</h3>
+                    <h3 class="text-sm font-bold text-stone-grey uppercase tracking-widest">{{ t('admin.shop_stats.inventory.low_stock') }}</h3>
                     <p class="text-2xl font-medieval font-bold text-iron-black" :class="{ 'text-red-700': productStats.lowStockCount > 0 }">
-                      {{ productStats.lowStockCount }} alertes
+                      {{ productStats.lowStockCount }} {{ t('admin.shop_stats.inventory.alerts_suffix') }}
                     </p>
                   </div>
                 </div>
@@ -374,10 +374,10 @@
                   <div class="w-8 h-8 bg-gradient-to-br from-antique-bronze to-[#a88558] rounded-full flex items-center justify-center">
                     <i class="fas fa-boxes text-white text-sm"></i>
                   </div>
-                  Inventaire Détaillé
+                  {{ t('admin.shop_stats.inventory.detailed_title') }}
 
                   <router-link to="/admin/products" class="text-sm text-iron-black hover:underline flex items-center gap-1 ml-auto">
-                    Gérer les produits
+                    {{ t('admin.shop_stats.inventory.manage_link') }}
                     <i class="fas fa-arrow-right text-xs"></i>
                   </router-link>
                 </h3>
@@ -386,10 +386,10 @@
                 <table class="min-w-full divide-y divide-antique-bronze/10">
                   <thead class="bg-antique-bronze/5 sticky top-0 z-10 backdrop-blur-sm">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">Produit</th>
-                      <th class="px-6 py-3 text-right text-xs font-medieval font-bold text-iron-black uppercase">Prix</th>
-                      <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">Stock</th>
-                      <th class="px-6 py-3 text-right text-xs font-medieval font-bold text-iron-black uppercase">Valeur</th>
+                      <th class="px-6 py-3 text-left text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.inventory.table.product') }}</th>
+                      <th class="px-6 py-3 text-right text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.inventory.table.price') }}</th>
+                      <th class="px-6 py-3 text-center text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.inventory.table.stock') }}</th>
+                      <th class="px-6 py-3 text-right text-xs font-medieval font-bold text-iron-black uppercase">{{ t('admin.shop_stats.inventory.table.value') }}</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-antique-bronze/10">
@@ -429,6 +429,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue'
 import PieChart from '@/components/charts/PieChart.vue'
@@ -443,6 +444,7 @@ import {
 } from '@/services/shopStatisticService'
 
 const router = useRouter()
+const { t } = useI18n()
 const authStore = useAuthStore()
 const user = computed(() => authStore.user)
 

@@ -8,7 +8,7 @@
          It seems to be a full page.
          I will assume it effectively replaces the dashboard view when navigated to.
     -->
-    <div class="py-16">
+    <div class="pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8">
