@@ -307,6 +307,12 @@ export const routes = [
     component: () => import('../views/general/ConversationsView.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: () => import('../views/LeaderboardView.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

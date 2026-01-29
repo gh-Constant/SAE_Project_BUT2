@@ -28,8 +28,8 @@ const userServiceImpl = {
     return fetch(`${API_URL}/users/${userId}/rank`);
   },
 
-  getUsersRanking: async (): Promise<Response> => {
-    return fetch(`${API_URL}/users/ranking`);
+  getUsersRanking: async (page = 1, limit = 10): Promise<Response> => {
+    return fetch(`${API_URL}/users/ranking?page=${page}&limit=${limit}`);
   },
 };
 

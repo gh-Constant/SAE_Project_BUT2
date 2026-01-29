@@ -53,9 +53,26 @@ export const userServiceMock = {
     return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
   },
 
-  getUsersRanking: async (): Promise<Response> => {
-    const sortedUsers = [...mockUsers].sort((a, b) => b.level - a.level || b.xp - a.xp);
-    const rankedUsers = sortedUsers.map((user, index) => ({ ...user, rank: index + 1 }));
-    return new Response(JSON.stringify(rankedUsers), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  getUsersRanking: async (page = 1, limit = 10): Promise<Response> => {
+    const sortedUsers = [...mockUsers].sort((a, b) => {
+      if (b.level !== a.level) {
+        return b.level - a.level;
+      }
+      return b.xp - a.xp;
+    });
+
+    const start = (page - 1) * limit;
+    const end = start + limit;
+    const paginatedUsers = sortedUsers.slice(start, end).map((user, index) => ({
+      ...user,
+      rank: start + index + 1
+    }));
+
+    return new Response(JSON.stringify({
+      users: paginatedUsers,
+      total: sortedUsers.length,
+      page,
+      limit
+    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   },
 };
