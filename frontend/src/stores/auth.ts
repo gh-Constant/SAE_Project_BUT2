@@ -184,7 +184,25 @@ export const useAuthStore = defineStore('auth', {
       if (isMockEnabled) {
         localStorage.setItem('currentUser', JSON.stringify(updatedUser))
       }
-      return updatedUser
+    },
+    saveUserToStorage() {
+      if (isMockEnabled && this.user) {
+        localStorage.setItem('currentUser', JSON.stringify(this.user))
+      }
+    },
+
+    updateUserRank(rank: number) {
+      if (this.user) {
+        this.user.rank = rank
+        this.saveUserToStorage()
+      }
+    },
+
+    updateUserStats(stats: Partial<UserMock>) {
+      if (this.user) {
+        this.user = { ...this.user, ...stats }
+        this.saveUserToStorage()
+      }
     }
   }
 })

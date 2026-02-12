@@ -10,7 +10,15 @@ const router = Router();
  * Toutes les routes nécessitent d'être authentifié et d'être ADMIN
  */
 
-// GET /users - Liste tous les utilisateurs
+import { validatePagination } from '../middleware/pagination.middleware.js';
+
+// GET /users/leaderboard - Récupère le classement global (accessible aux authentifiés)
+router.get('/leaderboard', authenticateToken, validatePagination, userController.getLeaderboard);
+
+// GET /users/:id/rank - Récupère le rang d'un utilisateur (accessible aux authentifiés)
+router.get('/:id/rank', authenticateToken, userController.getUserRank);
+
+// GET /users - Liste tous les utilisateurs (Admin seulement)
 router.get('/', authenticateToken, requireAdmin, userController.getAllUsers);
 
 // POST /users/:id/verify - Vérifie un utilisateur

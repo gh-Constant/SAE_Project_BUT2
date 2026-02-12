@@ -14,6 +14,7 @@ import type {
     UserQuizAnswer,
 } from '@/types/quiz';
 import { mockQuizzes, mockQuestions, mockUserAttempts, mockUserAnswers, getQuizWithQuestions } from '@/mocks/quizzes';
+import { useAuthStore } from '@/stores/auth';
 
 import type { QuizzesResponse, TopAdventurer } from '@/services/quizService';
 
@@ -308,13 +309,16 @@ export const quizMockService = {
             }
         }
 
+        const authStore = useAuthStore();
+        const userId = authStore.user?.id || 2; // Fallback to 2 only if not logged in (shield for testing)
+
         const attempt: UserQuizAttempt = {
             id_attempt: nextAttemptId++,
             score,
             total_questions: totalQuestions,
             completed_at: new Date().toISOString(),
             created_at: new Date().toISOString(),
-            id_user: 2,
+            id_user: userId,
             id_quiz,
             quiz: {
                 id_quiz: quiz.id_quiz,

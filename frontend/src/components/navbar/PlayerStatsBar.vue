@@ -6,8 +6,9 @@
  * Designed to be placed inside the profile dropdown menu.
  */
 
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import { userService } from '@/services/userService';
 
 const auth = useAuthStore();
 
@@ -36,7 +37,7 @@ const currentLevelXp = computed(() => {
 // Level badge color based on level tier
 const levelBadgeClasses = computed(() => {
   const level = auth.user?.level || 1;
-  
+
   if (level >= 50) {
     // Legendary - Purple/Diamond
     return 'from-purple-400 via-pink-400 to-purple-600 border-purple-300';
@@ -58,13 +59,38 @@ const levelBadgeClasses = computed(() => {
 // Level tier name
 const levelTierName = computed(() => {
   const level = auth.user?.level || 1;
-  
+
   if (level >= 50) return 'Légendaire';
   if (level >= 30) return 'Épique';
   if (level >= 20) return 'Rare';
   if (level >= 10) return 'Aventurier';
   return 'Novice';
 });
+
+const xp = computed(() => auth.user?.xp);
+
+watch(xp, () => {
+  fetchUserRank();
+});
+
+const fetchUserRank = async () => {
+  if (auth.user?.id) {
+    try {
+      const response = await userService.getUserRank(auth.user.id);
+      if (response.ok) {
+        const data = await response.json();
+        auth.updateUserRank(data.rank);
+      }
+    } catch (error) {
+      console.error('Failed to fetch user rank:', error);
+    }
+  }
+};
+
+onMounted(() => {
+  fetchUserRank();
+});
+
 
 // User's gold amount
 const gold = computed(() => auth.user?.gold || 0);
@@ -96,28 +122,33 @@ const handleAddGold = () => {
     <div class="flex items-center gap-3 mb-3">
       <!-- Level Badge with dynamic color -->
       <div class="level-badge shrink-0">
-        <div 
+        <div
           class="w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center border-2 shadow-lg relative overflow-hidden"
-          :class="levelBadgeClasses"
-        >
+          :class="levelBadgeClasses">
           <!-- Inner ring decoration -->
           <div class="absolute inset-1 rounded-full border border-white/20"></div>
-          <span class="text-lg font-medieval font-bold text-white drop-shadow-md z-10">{{ auth.user?.level || 1 }}</span>
+          <span class="text-lg font-medieval font-bold text-white drop-shadow-md z-10">
+            {{ auth.user?.level || 1 }}
+          </span>
         </div>
       </div>
 
       <!-- Level Info & Progress -->
       <div class="flex-1 min-w-0">
         <div class="flex items-baseline justify-between mb-1">
-          <span class="text-xs font-medieval font-bold text-dark-wood tracking-wide">{{ levelTierName }}</span>
+          <div class="flex flex-col">
+            <span class="text-xs font-medieval font-bold text-dark-wood tracking-wide leading-none">{{ levelTierName }}</span>
+            <span v-if="auth.user?.rank" class="text-[10px] text-stone-grey font-bold uppercase tracking-tighter mt-0.5">
+              Rang #{{ auth.user.rank }}
+            </span>
+          </div>
           <span class="text-[10px] font-body text-stone-grey">{{ currentLevelXp }} / {{ xpForNextLevel }} XP</span>
         </div>
         <!-- XP Progress Bar -->
         <div class="w-full h-2 bg-dark-wood/20 rounded-full overflow-hidden border border-antique-bronze/30">
-          <div 
+          <div
             class="h-full bg-gradient-to-r from-antique-bronze to-amber-500 rounded-full transition-all duration-500 ease-out"
-            :style="{ width: `${xpProgress}%` }"
-          ></div>
+            :style="{ width: `${xpProgress}%` }"></div>
         </div>
       </div>
     </div>
@@ -126,7 +157,8 @@ const handleAddGold = () => {
     <div class="flex items-center gap-3">
       <!-- Gold Coin Badge (same size as level) -->
       <div class="shrink-0">
-        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 via-amber-400 to-yellow-500 flex items-center justify-center border-2 border-yellow-300 shadow-md relative overflow-hidden">
+        <div
+          class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 via-amber-400 to-yellow-500 flex items-center justify-center border-2 border-yellow-300 shadow-md relative overflow-hidden">
           <div class="absolute inset-1 rounded-full border border-yellow-200/30"></div>
           <i class="fas fa-coins text-yellow-800 z-10"></i>
         </div>
@@ -142,11 +174,9 @@ const handleAddGold = () => {
 
       <!-- Add Button (same size as level badge) -->
       <div class="shrink-0">
-        <button
-          @click.stop="handleAddGold"
+        <button @click.stop="handleAddGold"
           class="w-12 h-12 rounded-full bg-gradient-to-br from-antique-bronze to-dark-wood flex items-center justify-center border-2 border-antique-bronze shadow-md hover:from-antique-bronze/80 hover:to-antique-bronze transition-all duration-200 relative overflow-hidden"
-          title="Acheter de l'or"
-        >
+          title="Acheter de l'or">
           <div class="absolute inset-1 rounded-full border border-white/10"></div>
           <i class="fas fa-plus text-parchment z-10"></i>
         </button>
