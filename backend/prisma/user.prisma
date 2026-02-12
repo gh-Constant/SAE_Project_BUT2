@@ -19,6 +19,10 @@ model User {
   phone String? @db.Char(20)
   email String  @unique @db.VarChar(255)
 
+  // Password Reset Fields
+  reset_token        String?   @unique @db.VarChar(255)
+  reset_token_expiry DateTime?
+
   role        Role
   avatar_url  String     @db.VarChar(255)
   avatar_type AvatarType @default(gallery)

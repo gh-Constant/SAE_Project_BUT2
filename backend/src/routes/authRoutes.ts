@@ -67,4 +67,18 @@ router.put('/profile', authenticateToken, authController.updateMe);
  */
 router.put('/change-password', authenticateToken, authController.changePassword);
 
+/**
+ * POST /auth/forgot-password
+ * Initie le processus de réinitialisation de mot de passe.
+ * Route publique - génère un token et envoie un email.
+ */
+router.post('/forgot-password', authController.forgotPassword);
+
+/**
+ * POST /auth/reset-password
+ * Réinitialise le mot de passe avec le token reçu par email.
+ * Route publique - vérifie le token et met à jour le mot de passe.
+ */
+router.post('/reset-password', authController.resetPassword);
+
 export default router;

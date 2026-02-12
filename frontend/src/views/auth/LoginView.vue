@@ -108,11 +108,11 @@
                 {{ t('auth.login.remember_me') }}
               </label>
             </div>
-            <button type="button"
-              class="text-sm text-antique-bronze hover:text-iron-black transition-colors font-medium underline decoration-antique-bronze/30 underline-offset-2">
-              {{ t('auth.login.forgot_password') }}
-            </button>
-          </div>
+          <router-link to="/forgot-password"
+            class="text-sm text-antique-bronze hover:text-iron-black transition-colors font-medium underline decoration-antique-bronze/30 underline-offset-2">
+            {{ t('auth.login.forgot_password') }}
+          </router-link>
+        </div>
 
           <!-- Sign In Button -->
           <button type="submit" :disabled="isLoading"

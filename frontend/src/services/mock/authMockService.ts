@@ -222,7 +222,7 @@ export const authMockService = {
       try {
         const currentUser = JSON.parse(currentUserStr);
         // In mock mode, we just check if current password matches what we have in memory/storage
-        
+
 
         const user = mockUsers.find(u => u.id === currentUser.id);
         if (!user) {
@@ -248,6 +248,69 @@ export const authMockService = {
       } catch (e) {
         reject(new Error('Failed to change password'));
       }
+    });
+  },
+
+  forgotPassword: async (email: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const user = mockUsers.find(u => u.email === email);
+
+      if (!user) {
+        resolve();
+        return;
+      }
+      const mockToken = 'mock-reset-token-' + Math.random().toString(36).substring(7);
+      console.log('================================================');
+      console.log('📧 MOCK PASSWORD RESET');
+      console.log(`Email: ${email}`);
+      console.log(`Reset Link: http://localhost:5173/reset-password/${mockToken}`);
+      console.log('================================================');
+
+      const resetTokens = JSON.parse(localStorage.getItem('mock_resetTokens') || '{}');
+      resetTokens[mockToken] = {
+        userId: user.id,
+        expiry: Date.now() + 3600000
+      };
+      localStorage.setItem('mock_resetTokens', JSON.stringify(resetTokens));
+
+      resolve();
+    });
+  },
+
+  resetPassword: async (token: string, newPassword: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const resetTokens = JSON.parse(localStorage.getItem('mock_resetTokens') || '{}');
+      const tokenData = resetTokens[token];
+
+      if (!tokenData) {
+        reject(new Error('Invalid or expired reset token'));
+        return;
+      }
+
+      if (Date.now() > tokenData.expiry) {
+        reject(new Error('Reset token has expired'));
+        return;
+      }
+
+      const user = mockUsers.find(u => u.id === tokenData.userId);
+      if (!user) {
+        reject(new Error('User not found'));
+        return;
+      }
+
+      // Update password
+      user.password_hashed = newPassword;
+
+      // Persist change
+      const modifiedUsers = JSON.parse(localStorage.getItem('modifiedUsers') || '{}');
+      modifiedUsers[user.id] = { ...user, password_hashed: newPassword };
+      localStorage.setItem('modifiedUsers', JSON.stringify(modifiedUsers));
+
+      // Remove used token
+      delete resetTokens[token];
+      localStorage.setItem('mock_resetTokens', JSON.stringify(resetTokens));
+
+      resolve();
     });
   },
 

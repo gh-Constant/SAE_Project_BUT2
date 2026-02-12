@@ -165,6 +165,36 @@ const authServiceImpl = {
     }
   },
 
+  forgotPassword: async (email: string): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/auth/forgot-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to send reset email');
+    }
+  },
+
+  resetPassword: async (token: string, newPassword: string): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/auth/reset-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, newPassword }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to reset password');
+    }
+  },
+
   /**
   getMyRole: async (): Promise<any> => {
     const token = localStorage.getItem('authToken');

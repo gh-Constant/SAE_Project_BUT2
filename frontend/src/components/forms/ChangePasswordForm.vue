@@ -38,7 +38,7 @@
           v-model="newPassword"
           :type="showNewPassword ? 'text' : 'password'"
           required
-          minlength="8"
+          minlength="6"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
         />
         <button
@@ -130,7 +130,7 @@ const passwordMismatch = computed(() => {
 
 const isFormValid = computed(() => {
   return currentPassword.value && newPassword.value && confirmPassword.value && 
-         newPassword.value.length >= 8 && !passwordMismatch.value
+         newPassword.value.length >= 6 && !passwordMismatch.value
 })
 
 const handleSubmit = async () => {
