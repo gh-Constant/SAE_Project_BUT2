@@ -128,3 +128,31 @@ export async function getUserFromToken(token: string) {
   }
 }
 
+export async function changePassword(userId: number, currentPassword: string, newPassword: string) {
+  // Récupérer l'utilisateur
+  const user = await prisma.user.findUnique({
+    where: { id_user: userId }
+  });
+
+  if (!user) {
+    throw new Error("Utilisateur non trouvé");
+  }
+
+  // Vérifier l'ancien mot de passe
+  const validPassword = await bcrypt.compare(currentPassword, user.password_hashed);
+  if (!validPassword) {
+    throw new Error("Mot de passe actuel incorrect");
+  }
+
+  // Hasher le nouveau mot de passe
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  // Mettre à jour le mot de passe
+  await prisma.user.update({
+    where: { id_user: userId },
+    data: { password_hashed: hashedPassword }
+  });
+
+  return { message: "Mot de passe mis à jour avec succès" };
+}
+

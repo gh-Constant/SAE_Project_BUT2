@@ -23,7 +23,7 @@
  */
 
 import { Request, Response } from 'express';
-import { login, register } from '../services/authService.js';
+import { login, register, changePassword as changePasswordService } from '../services/authService.js';
 import prisma from '../prisma.js';
 
 // Interface pour les requêtes authentifiées avec les infos utilisateur
@@ -223,6 +223,29 @@ export const authController = {
         return;
       }
       res.status(500).json({ error: prismaError.message || 'Failed to update profile' });
+    }
+  }
+  ,
+
+  async changePassword(req: Request, res: Response): Promise<void> {
+    try {
+      const userId = (req as AuthenticatedRequest).user.id;
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        res.status(400).json({ error: 'Both current and new passwords are required' });
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        res.status(400).json({ error: 'New password must be at least 6 characters long' });
+        return;
+      }
+
+      await changePasswordService(userId, currentPassword, newPassword);
+      res.json({ message: 'Password updated successfully' });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 };

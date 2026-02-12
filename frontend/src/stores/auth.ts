@@ -37,11 +37,11 @@ export const useAuthStore = defineStore('auth', {
       this.user = user
       this.isAuthenticated = true
       this.authReady = true
-      
+
       // Charger le panier de cet utilisateur
       const cartStore = useCartStore()
       cartStore.loadCartForUser(user.id)
-      
+
       // Only store currentUser in mock mode for compatibility
       if (isMockEnabled) {
         localStorage.setItem('currentUser', JSON.stringify(user))
@@ -63,6 +63,10 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('currentUser', JSON.stringify(user))
         localStorage.setItem('authToken', 'mock-token-' + Date.now()) // Ajouter un token mock
       }
+    },
+
+    async changePassword(currentPassword: string, newPassword: string) {
+      await (authService as any).changePassword(currentPassword, newPassword);
     },
     async validateAndRefreshUser() {
       if (isMockEnabled) {
@@ -142,7 +146,7 @@ export const useAuthStore = defineStore('auth', {
           // Pas de données, s'assurer que l'état est propre
           this.user = null
           this.isAuthenticated = false
-          
+
           // Vider le panier si pas d'utilisateur
           const cartStore = useCartStore()
           cartStore.items = []

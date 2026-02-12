@@ -60,4 +60,11 @@ router.get('/role', authenticateToken, authController.getMyRole);
  */
 router.put('/profile', authenticateToken, authController.updateMe);
 
+/**
+ * PUT /auth/change-password
+ * Change le mot de passe de l'utilisateur connecté.
+ * Route protégée par le middleware `authenticateToken`.
+ */
+router.put('/change-password', authenticateToken, authController.changePassword);
+
 export default router;

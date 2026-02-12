@@ -210,6 +210,47 @@ export const authMockService = {
     });
   },
 
+  changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // Find current user
+      const currentUserStr = localStorage.getItem('currentUser');
+      if (!currentUserStr) {
+        reject(new Error('Not authenticated'));
+        return;
+      }
+
+      try {
+        const currentUser = JSON.parse(currentUserStr);
+        // In mock mode, we just check if current password matches what we have in memory/storage
+        
+
+        const user = mockUsers.find(u => u.id === currentUser.id);
+        if (!user) {
+          reject(new Error('User not found'));
+          return;
+        }
+
+        // Verify password (simple string comparison for mock)
+        if (user.password_hashed !== currentPassword) {
+          reject(new Error('Mot de passe actuel incorrect'));
+          return;
+        }
+
+        // Update password in mockUsers
+        user.password_hashed = newPassword;
+
+        // logic similar to updateProfile for persistence...
+        const modifiedUsers = JSON.parse(localStorage.getItem('modifiedUsers') || '{}');
+        modifiedUsers[user.id] = { ...user, password_hashed: newPassword }; // Store with new password
+        localStorage.setItem('modifiedUsers', JSON.stringify(modifiedUsers));
+
+        resolve();
+      } catch (e) {
+        reject(new Error('Failed to change password'));
+      }
+    });
+  },
+
   // Get current user from localStorage
   getCurrentUser(): Promise<UserMock | null> {
     return new Promise((resolve) => {

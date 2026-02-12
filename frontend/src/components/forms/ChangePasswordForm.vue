@@ -141,18 +141,20 @@ const handleSubmit = async () => {
   errorMessage.value = ''
 
   try {
-    // Simulate API call for now or use authStore/userService if available
-    // await userService.updatePassword(currentPassword.value, newPassword.value)
-    
-    // For MOCK/Demo purposes since backend might not be fully ready for this specific call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await authStore.changePassword(currentPassword.value, newPassword.value)
     
     successMessage.value = t('profile.security.passwordUpdated')
     currentPassword.value = ''
     newPassword.value = ''
     confirmPassword.value = ''
+    
+    // Reset validation state if needed (ref values are reactive so computed properties update automatically)
   } catch (error) {
-    errorMessage.value = t('profile.security.error')
+    if (error instanceof Error) {
+      errorMessage.value = error.message
+    } else {
+      errorMessage.value = t('profile.security.error')
+    }
     console.error(error)
   } finally {
     isLoading.value = false
