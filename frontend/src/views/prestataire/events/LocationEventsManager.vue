@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
+    <BackToMapButton />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
       <!-- En-tête -->
@@ -400,6 +401,7 @@ import { locationService } from '@/services/locationService';
 import { LocationMock } from '@/mocks/locations';
 import { useSettingsStore } from '@/stores/settings';
 import { useI18n } from 'vue-i18n';
+import BackToMapButton from '@/components/shared/BackToMapButton.vue';
 
 const { t } = useI18n();
 

@@ -232,6 +232,7 @@ import { Role } from '@/mocks/users';
 
 import { uploadService } from '@/services/uploadService';
 import { useI18n } from 'vue-i18n';
+import BackToMapButton from '@/components/shared/BackToMapButton.vue';
 
 const route = useRoute();
 const router = useRouter();

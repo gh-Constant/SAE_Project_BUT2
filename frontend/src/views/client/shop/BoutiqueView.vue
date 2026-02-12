@@ -11,6 +11,7 @@
 -->
 <template>
   <div class="min-h-screen bg-parchment pt-32 pb-8 font-body text-stone-grey">
+    <BackToMapButton />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Vue Liste des Boutiques (si pas de locationId) -->
       <div v-if="!locationIdFromRoute">
@@ -290,6 +291,7 @@ import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
 import ProductCard from '@/components/shop/ProductCard.vue'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 
 const route = useRoute()

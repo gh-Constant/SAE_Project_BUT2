@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey pt-24 pb-12">
+    <BackToMapButton />
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center min-h-screen">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-antique-bronze"></div>
@@ -142,6 +143,7 @@ import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { quizService, type Quiz, type QuizQuestion as QuizQuestionType } from '@/services/quizService';
 import QuizQuestion from '@/components/quiz/QuizQuestion.vue';
+import BackToMapButton from '@/components/shared/BackToMapButton.vue';
 
 const route = useRoute();
 const router = useRouter();

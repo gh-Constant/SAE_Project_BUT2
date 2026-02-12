@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment py-16">
+    <BackToMapButton />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8">
         <button @click="router.back()" class="flex items-center text-stone-grey hover:text-antique-bronze transition-colors mb-4">
@@ -58,6 +59,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore } from '@/stores/event'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

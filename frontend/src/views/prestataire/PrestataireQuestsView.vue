@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
+    <BackToMapButton />
     <div class="pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -232,6 +233,7 @@ import { locationService } from '@/services/locationService'
 import { questService, Quest } from '@/services/questService'
 import { useI18n } from 'vue-i18n'
 import { LocationMock } from '@/mocks/locations'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 const { t } = useI18n()
 

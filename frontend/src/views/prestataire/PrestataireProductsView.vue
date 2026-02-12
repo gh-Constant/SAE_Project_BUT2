@@ -3,13 +3,9 @@
     <div class="pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-8 flex justify-between items-center relative">
-          <div v-if="route.query.locationId" class="absolute left-0 top-1/2 -translate-y-1/2">
-            <router-link :to="{ path: '/map', query: { locationId: route.query.locationId } }" 
-                         class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group bg-white/50 px-3 py-1.5 rounded-sm border border-antique-bronze/20 shadow-sm">
-              <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-              {{ t('details.back_to_map') }}
-            </router-link>
-          </div>
+        <div class="mb-8 flex justify-between items-center relative">
+          <BackToMapButton />
+        </div>
         </div>
 
         <div class="mb-12 text-center">
@@ -449,6 +445,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
 import { useI18n } from 'vue-i18n'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 const { t } = useI18n()
 
