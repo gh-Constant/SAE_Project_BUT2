@@ -93,5 +93,24 @@
         "save": "Enregistrer les modifications",
         "cancel": "Annuler"
     },
-    "backToHome": "Retour à l'accueil"
+    "backToHome": "Retour à l'accueil",
+    "menu": {
+        "profile": "Mon Profil",
+        "security": "Sécurité",
+        "orders": "Mes Commandes",
+        "reservations": "Mes Réservations",
+        "quests": "Mes Quêtes",
+        "logout": "Déconnexion"
+    },
+    "security": {
+        "title": "Sécurité",
+        "changePassword": "Changer le mot de passe",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "passwordUpdated": "Mot de passe mis à jour avec succès",
+        "error": "Erreur lors de la mise à jour du mot de passe",
+        "passwordMismatch": "Les nouveaux mots de passe ne correspondent pas",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères"
+    }
 }

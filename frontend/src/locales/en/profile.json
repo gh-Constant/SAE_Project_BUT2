@@ -93,5 +93,24 @@
         "save": "Save changes",
         "cancel": "Cancel"
     },
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "menu": {
+        "profile": "My Profile",
+        "security": "Security",
+        "orders": "My Orders",
+        "reservations": "My Reservations",
+        "quests": "My Quests",
+        "logout": "Logout"
+    },
+    "security": {
+        "title": "Security",
+        "changePassword": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "passwordUpdated": "Password updated successfully",
+        "error": "Error updating password",
+        "passwordMismatch": "New passwords do not match",
+        "passwordMinLength": "Password must be at least 8 characters long"
+    }
 }

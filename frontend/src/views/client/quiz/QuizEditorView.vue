@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey pt-20 pb-12">
+    <BackToMapButton />
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
       <div class="mb-8 text-center">
