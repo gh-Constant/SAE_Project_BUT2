@@ -50,7 +50,7 @@ export const emailService = {
             <p>Vous avez demandé la réinitialisation de votre mot de passe pour votre compte Les Terres du Lion.</p>
             <p>Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :</p>
             <div style="text-align: center;">
-                <a href="${resetLink}" class="button">Réinitialiser mon mot de passe</a>
+                <a href="${resetLink}" class="button" style="color: white;">Réinitialiser mon mot de passe</a>
             </div>
             <p>Ou copiez ce lien dans votre navigateur :</p>
             <p style="word-break: break-all; background: #fff; padding: 10px; border-left: 3px solid #8B4513;">
