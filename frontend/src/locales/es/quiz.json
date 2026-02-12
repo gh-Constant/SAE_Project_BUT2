@@ -111,5 +111,9 @@
         "average_score": "Puntuación Media",
         "participants": "Participantes",
         "questions": "Preguntas"
+    },
+    "widget": {
+        "title": "Cuestionarios",
+        "play": "Jugar"
     }
 }

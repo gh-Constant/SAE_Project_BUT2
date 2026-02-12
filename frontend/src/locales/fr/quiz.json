@@ -116,5 +116,9 @@
         "average_score": "Score Moyen",
         "participants": "Participants",
         "questions": "Questions"
+    },
+    "widget": {
+        "title": "Quiz",
+        "play": "Jouer"
     }
 }

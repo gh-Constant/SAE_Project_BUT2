@@ -184,7 +184,7 @@
       <div v-if="quizzes.length > 0 || isOwner" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-xl font-bold text-iron-black flex items-center font-medieval">
-            <span class="ml-2">Quiz</span>
+            <span class="ml-2">{{ t('quiz.widget.title') }}</span>
           </h3>
           <button
             v-if="isOwner" @click="addQuiz"
@@ -209,7 +209,7 @@
               @click="playQuiz(quiz.id_quiz)"
               class="ml-4 bg-stone-grey hover:bg-iron-black text-white px-4 py-2 rounded font-medieval font-bold shadow-sm transition-colors border border-stone-grey/50 whitespace-nowrap text-sm"
             >
-              Jouer
+              {{ t('quiz.widget.play') }}
             </button>
           </div>
         </div>

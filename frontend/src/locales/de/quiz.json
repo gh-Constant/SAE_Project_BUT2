@@ -111,5 +111,9 @@
         "average_score": "Durchschnittsergebnis",
         "participants": "Teilnehmer",
         "questions": "Fragen"
+    },
+    "widget": {
+        "title": "Quizze",
+        "play": "Spielen"
     }
 }

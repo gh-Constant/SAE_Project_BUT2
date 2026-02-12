@@ -14,7 +14,7 @@
         </div>
 
         <!-- Location Sections -->
-        <div v-for="location in prestataireLocations" :key="location.id" class="mb-12">
+        <div v-for="location in prestataireLocations" :key="location.id" :id="`location-${location.id}`" class="mb-12">
           
           <!-- Location Header -->
           <div class="bg-white/60 backdrop-blur-sm border border-antique-bronze/20 rounded-t-lg p-6 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm relative overflow-hidden">
@@ -234,8 +234,10 @@ import { questService, Quest } from '@/services/questService'
 import { useI18n } from 'vue-i18n'
 import { LocationMock } from '@/mocks/locations'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
+const route = useRoute()
 
 const authStore = useAuthStore()
 const addingQuestLocationId = ref<number | null>(null)
@@ -260,6 +262,19 @@ onMounted(async () => {
   try {
     allLocations.value = await locationService.getAllLocations()
     await loadAllQuests()
+
+    const routeLocationId = Number(route.query.locationId)
+    const action = route.query.action
+
+    if (action === 'add' && routeLocationId) {
+      setTimeout(() => {
+        startAddQuest(routeLocationId)
+        const element = document.getElementById(`location-${routeLocationId}`)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 500)
+    }
   } catch (error) {
     console.error('Failed to fetch locations:', error)
   }

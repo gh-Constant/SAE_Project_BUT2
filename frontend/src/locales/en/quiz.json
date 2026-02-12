@@ -115,5 +115,9 @@
         "average_score": "Average Score",
         "participants": "Participants",
         "questions": "Questions"
+    },
+    "widget": {
+        "title": "Quizzes",
+        "play": "Play"
     }
 }
