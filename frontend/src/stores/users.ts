@@ -24,8 +24,7 @@ export const useUsersStore = defineStore('users', () => {
     const allUsers = ref<MappedUser[]>([]);
 
     const fetchUsers = async () => {
-        const response = await userService.getUsers();
-        const data = await response.json();
+        const data = await userService.getUsers();
 
         // Mapping des données brutes (snake_case) vers le format attendu par la vue (camelCase)
         const mappedUsers = data.map((user: any) => ({
@@ -40,16 +39,20 @@ export const useUsersStore = defineStore('users', () => {
     };
 
     const verifyUser = async (userId: number) => {
-        const response = await userService.verifyUser(userId);
-        if (response.ok) {
+        try {
+            await userService.verifyUser(userId);
             fetchUsers();
+        } catch (e) {
+            console.error(e);
         }
     };
 
     const deleteUser = async (userId: number) => {
-        const response = await userService.deleteUser(userId);
-        if (response.ok) {
+        try {
+            await userService.deleteUser(userId);
             fetchUsers();
+        } catch (e) {
+            console.error(e);
         }
     };
 
