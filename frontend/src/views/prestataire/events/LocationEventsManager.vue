@@ -194,8 +194,7 @@
               <div>
                 <label class="block text-sm font-bold text-iron-black mb-1">{{
                   t('prestataire.events.manager.form.description_label') }}</label>
-                <textarea v-model="form.description" rows="3"
-                  class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white"></textarea>
+                <Editor v-model="form.description" />
               </div>
 
               <!-- Type Selector -->
@@ -526,6 +525,7 @@ import { LocationMock } from '@/mocks/locations';
 import { useSettingsStore } from '@/stores/settings';
 import { useI18n } from 'vue-i18n';
 import BackToMapButton from '@/components/shared/BackToMapButton.vue';
+import Editor from '@/components/editor/Editor.vue';
 
 const { t } = useI18n();
 

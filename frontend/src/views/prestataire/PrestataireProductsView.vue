@@ -226,9 +226,7 @@
                 <div class="md:col-span-2">
                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{
                     t('prestataire.products.add_form.description_label') }}</label>
-                  <textarea v-model="store.newProduct.description" rows="3"
-                            class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                            :placeholder="t('prestataire.products.add_form.description_placeholder')"></textarea>
+                  <Editor v-model="store.newProduct.description" />
                 </div>
               </div>
 
@@ -321,8 +319,7 @@
                         {{
                           product.description }}
                       </div>
-                      <textarea v-else v-model="store.editProduct.description" rows="2"
-                                class="w-full text-sm border border-antique-bronze/30 rounded px-2 py-1 focus:ring-1 focus:ring-antique-bronze"></textarea>
+                      <Editor v-else v-model="store.editProduct.description" />
                     </td>
 
                     <td class="px-6 py-4 text-center whitespace-nowrap">
@@ -446,6 +443,7 @@ import { useProductStore } from '@/stores/product'
 import { locationsMock } from '@/mocks/locations'
 import { useI18n } from 'vue-i18n'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
+import Editor from '@/components/editor/Editor.vue'
 
 const { t } = useI18n()
 
