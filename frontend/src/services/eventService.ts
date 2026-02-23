@@ -1,74 +1,52 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 import { eventMockService } from './mock/eventMockService';
 import { EventMock, EventInput, EventUpdateInput } from '@/mocks/events';
 import { ReservationMock } from '@/mocks/reservations';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1';
 
 const eventServiceImpl = {
   getEvents: async (filters?: { id_location?: number; published?: boolean }): Promise<EventMock[]> => {
-    const response = await axios.get(`${API_URL}/events`, { params: filters });
+    const response = await apiClient.get('/events', { params: filters });
     return response.data;
   },
 
   getEventById: async (id: number): Promise<EventMock | null> => {
-    const response = await axios.get(`${API_URL}/events/${id}`);
+    const response = await apiClient.get(`/events/${id}`);
     return response.data;
   },
 
   createEvent: async (eventData: EventInput): Promise<EventMock> => {
-    const token = localStorage.getItem('token');
-    const response = await axios.post(`${API_URL}/events`, eventData, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await apiClient.post('/events', eventData);
     return response.data;
   },
 
   updateEvent: async (id: number, eventData: EventUpdateInput): Promise<EventMock> => {
-    const token = localStorage.getItem('token');
-    const response = await axios.put(`${API_URL}/events/${id}`, eventData, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await apiClient.put(`/events/${id}`, eventData);
     return response.data;
   },
 
   deleteEvent: async (id: number): Promise<void> => {
-    const token = localStorage.getItem('token');
-    await axios.delete(`${API_URL}/events/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    await apiClient.delete(`/events/${id}`);
   },
 
   bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock> => {
-    const token = localStorage.getItem('token');
-    const response = await axios.post(`${API_URL}/events/book`, { id_event: eventId, quantity, id_schedule: scheduleId }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await apiClient.post('/events/book', { id_event: eventId, quantity, id_schedule: scheduleId });
     return response.data;
   },
 
   getUserReservations: async (): Promise<ReservationMock[]> => {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_URL}/events/user/reservations`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await apiClient.get('/events/user/reservations');
     return response.data;
   },
 
   getEventReservations: async (eventId: number): Promise<any[]> => {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_URL}/events/${eventId}/reservations`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await apiClient.get(`/events/${eventId}/reservations`);
     return response.data;
   },
 
   getProviderReservations: async (): Promise<any[]> => {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_URL}/events/provider/reservations`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await apiClient.get('/events/provider/reservations');
     return response.data;
   }
 };

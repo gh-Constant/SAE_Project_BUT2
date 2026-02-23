@@ -1,17 +1,16 @@
 import { shopStatisticMockService, ShopStatisticsData } from './mock/shopStatisticMockService';
+import apiClient from './apiClient';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const shopStatisticServiceImpl = {
     getStatistics: async (): Promise<ShopStatisticsData> => {
-        const response = await fetch(`${API_BASE_URL}/api/v1/shop/statistics`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            }
-        });
-        if (!response.ok) throw new Error('Failed to fetch shop statistics');
-        return await response.json();
+        try {
+            const response = await apiClient.get('/shop/statistics');
+            return response.data;
+        } catch {
+            throw new Error('Failed to fetch shop statistics');
+        }
     }
 };
 

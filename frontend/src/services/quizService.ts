@@ -4,6 +4,7 @@
  */
 
 import { quizMockService } from './mock/quizMockService';
+import apiClient from './apiClient';
 import type {
     Quiz,
     UserQuizAttempt,
@@ -15,35 +16,28 @@ import type {
 } from '@/types/quiz';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 // Helper for API requests
 async function apiRequest<T>(
     endpoint: string,
     options: RequestInit = {}
 ): Promise<T> {
-    const token = localStorage.getItem('authToken');
-
-    const response = await fetch(`${API_BASE_URL}/api/v1${endpoint}`, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }),
-            ...options.headers,
-        },
-    });
-
-    if (!response.ok) {
-        const error = await response.json().catch(() => ({ message: 'Request failed' }));
-        throw new Error(error.message || error.error || 'Request failed');
+    try {
+        const config: any = {
+            method: options.method || 'GET',
+            url: endpoint,
+        };
+        if (options.body) {
+            config.data = typeof options.body === 'string' ? JSON.parse(options.body) : options.body;
+        }
+        const response = await apiClient(config);
+        return response.data;
+    } catch (error: any) {
+        if (error.response?.status === 204) {
+             return {} as T;
+        }
+        throw new Error(error.response?.data?.error || error.response?.data?.message || 'Request failed');
     }
-
-    // Handle 204 No Content
-    if (response.status === 204) {
-        return {} as T;
-    }
-
-    return response.json();
 }
 
 

@@ -1,10 +1,7 @@
-
-import axios from 'axios';
+import apiClient from './apiClient';
 import { COMMANDES } from '@/mocks/commande';
 import { LOCATIONS } from '@/mocks/locations';
 import { USERS, Role, PRESTATAIRE_USER_ID } from '@/mocks/users';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL + '/api/v1';
 
 export interface RecentActivityItem {
     type: 'USER_CREATED' | 'LOCATION_ADDED';
@@ -34,22 +31,13 @@ export interface ProviderStats {
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 
 class StatsServiceImpl {
-    private getHeaders() {
-        const token = localStorage.getItem('authToken');
-        return {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        };
-    }
-
     async getAdminGlobalStats(): Promise<AdminStats> {
-        const response = await axios.get(`${API_URL}/stats/admin/global`, this.getHeaders());
+        const response = await apiClient.get('/stats/admin/global');
         return response.data;
     }
 
     async getProviderGlobalStats(): Promise<ProviderStats> {
-        const response = await axios.get(`${API_URL}/stats/provider/global`, this.getHeaders());
+        const response = await apiClient.get('/stats/provider/global');
         return response.data;
     }
 }

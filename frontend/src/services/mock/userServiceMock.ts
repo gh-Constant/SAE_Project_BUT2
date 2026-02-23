@@ -15,45 +15,41 @@ export const calculateUserRank = (userId: number): number => {
 };
 
 export const userServiceMock = {
-  getUsers: async (): Promise<Response> => {
-    return new Response(JSON.stringify(mockUsers), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  getUsers: async (): Promise<any> => {
+    return mockUsers;
   },
 
-  verifyUser: async (userId: number): Promise<Response> => {
+  verifyUser: async (userId: number): Promise<any> => {
     const userIndex = mockUsers.findIndex(u => u.id === userId);
     
     if (userIndex !== -1) {
-      // Simuler la mise à jour
       mockUsers[userIndex].is_verified = true;
-      return new Response(JSON.stringify({ message: `User ${userId} verified successfully.` }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      return { message: `User ${userId} verified successfully.` };
     }
-    
-    return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    throw new Error(`User ${userId} not found.`);
   },
 
-  deleteUser: async (userId: number): Promise<Response> => {
+  deleteUser: async (userId: number): Promise<any> => {
     const userIndex = mockUsers.findIndex(u => u.id === userId);
     
     if (userIndex !== -1) {
        mockUsers.splice(userIndex, 1);
-       return new Response(JSON.stringify({ message: `User ${userId} deleted successfully.` }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+       return { message: `User ${userId} deleted successfully.` };
     }
-    
-    return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    throw new Error(`User ${userId} not found.`);
   },
 
-  getUserRank: async (userId: number): Promise<Response> => {
+  getUserRank: async (userId: number): Promise<any> => {
     const userIndex = mockUsers.findIndex(u => u.id === userId);
     
     if (userIndex !== -1) {
       const rank = calculateUserRank(userId);
-      return new Response(JSON.stringify({ rank }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      return { rank };
     }
-    
-    return new Response(JSON.stringify({ message: `User ${userId} not found.` }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    throw new Error(`User ${userId} not found.`);
   },
 
-  getLeaderboard: async (page = 1, limit = 10): Promise<Response> => {
+  getLeaderboard: async (page = 1, limit = 10): Promise<any> => {
     const sortedUsers = [...mockUsers].sort((a, b) => {
       if (b.level !== a.level) {
         return b.level - a.level;
@@ -68,11 +64,11 @@ export const userServiceMock = {
       rank: start + index + 1
     }));
 
-    return new Response(JSON.stringify({
+    return {
       users: paginatedUsers,
       total: sortedUsers.length,
       page,
       limit
-    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    };
   },
 };

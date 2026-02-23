@@ -23,53 +23,36 @@
 
 import { UserMock } from '@/mocks/users'
 import { authMockService } from './mock/authMockService'
+import apiClient from './apiClient'
 
 // Vérifier si on est en mode mock ou réel selon la variable d'environnement
 // VITE_NO_BACKEND=true signifie qu'on n'a pas de backend disponible
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-
 // Implémentation du service réel
 const authServiceImpl = {
   login: async (email: string, password: string): Promise<UserMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await apiClient.post('/auth/login', { email, password });
+      const data = response.data;
+      // Store only token for security
+      localStorage.setItem('authToken', data.token);
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Login failed');
+      // Normalize backend id_user to id
+      const user = { ...data.user, id: data.user.id_user || data.user.id };
+      return user;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Login failed');
     }
-
-    const data = await response.json();
-    // Store only token for security
-    localStorage.setItem('authToken', data.token);
-
-    // Normalize backend id_user to id
-    const user = { ...data.user, id: data.user.id_user || data.user.id };
-    return user;
   },
   register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string): Promise<UserMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ firstName, lastName, email, password, role, avatarUrl, avatarType }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Registration failed');
+    try {
+      const response = await apiClient.post('/auth/register', { firstName, lastName, email, password, role, avatarUrl, avatarType });
+      const user = response.data;
+      return { ...user, id: user.id_user || user.id };
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Registration failed');
     }
-
-    const user = await response.json();
-    return { ...user, id: user.id_user || user.id };
   },
 
   // Validation du token et récupération des informations utilisateur
@@ -79,14 +62,8 @@ const authServiceImpl = {
 
     try {
       // Appeler /me pour valider le token (le middleware backend vérifie automatiquement)
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}` // Envoyer le token dans l'en-tête
-        },
-      });
-
-      return response.ok; // Si la réponse est OK, le token est valide
+      await apiClient.get('/auth/me');
+      return true; // Si aucune erreur, le token est valide
     } catch {
       return false; // Erreur réseau = token invalide
     }
@@ -97,18 +74,8 @@ const authServiceImpl = {
     if (!token) return null;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-      });
-
-      if (!response.ok) {
-        return null;
-      }
-
-      const user = await response.json();
+      const response = await apiClient.get('/auth/me');
+      const user = response.data;
       return { ...user, id: user.id_user || user.id };
     } catch {
       return null;
@@ -126,22 +93,13 @@ const authServiceImpl = {
       throw new Error('Not authenticated');
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/profile`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(profileData),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to update profile');
+    try {
+      const response = await apiClient.put('/auth/profile', profileData);
+      const user = response.data;
+      return { ...user, id: user.id_user || user.id };
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to update profile');
     }
-
-    const user = await response.json();
-    return { ...user, id: user.id_user || user.id };
   },
 
   changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
@@ -150,48 +108,26 @@ const authServiceImpl = {
       throw new Error('Not authenticated');
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/change-password`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ currentPassword, newPassword }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to change password');
+    try {
+      await apiClient.put('/auth/change-password', { currentPassword, newPassword });
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to change password');
     }
   },
 
   forgotPassword: async (email: string): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/forgot-password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to send reset email');
+    try {
+      await apiClient.post('/auth/forgot-password', { email });
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to send reset email');
     }
   },
 
   resetPassword: async (token: string, newPassword: string): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/reset-password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token, newPassword }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to reset password');
+    try {
+      await apiClient.post('/auth/reset-password', { token, newPassword });
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to reset password');
     }
   },
 
