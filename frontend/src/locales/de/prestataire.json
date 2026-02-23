@@ -147,6 +147,28 @@
       "explore_button": "Karte erkunden"
     }
   },
+  "order_scan": {
+    "title": "Eine Bestellung scannen",
+    "description": "Scannen Sie den QR-Code des Kunden, um seine Bestelldetails anzuzeigen",
+    "request_camera": "Kamerazugriff anfordern",
+    "camera_error": "Kamerazugriff verweigert",
+    "camera_error_hint": "Bitte erlauben Sie den Kamerazugriff in Ihren Browsereinstellungen",
+    "retry": "Erneut versuchen",
+    "scanning_hint": "Platzieren Sie den QR-Code innerhalb des Rahmens",
+    "invalid_code": "Ungültiger Code",
+    "order_not_found": "Keine Bestellung mit diesem QR-Code gefunden",
+    "order_number": "Bestellung #{id}",
+    "customer": "Kunde",
+    "products": "Bestellte Artikel",
+    "total": "Gesamt",
+    "status_paid": "Bezahlt",
+    "status_collected": "Abgeholt",
+    "validate_collection": "Abholung bestätigen",
+    "processing": "Verarbeitung...",
+    "already_collected": "Bereits abgeholt",
+    "scan_again": "Weitere Bestellung scannen",
+    "back_to_dashboard": "Zurück zum Dashboard"
+  },
   "profile": {
     "title": "Mein Prestataire-Profil",
     "fields": {

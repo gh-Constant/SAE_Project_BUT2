@@ -1,66 +1,106 @@
 <template>
-  <div class="qr-scan-view">
-    <div class="scan-container">
-      <h1 class="title">{{ $t('qrcode.scan.title') }}</h1>
-      <p class="description">{{ $t('qrcode.scan.description') }}</p>
+  <div class="min-h-screen bg-parchment pt-32 pb-16">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2">
+          {{ $t('qrcode.scan.title') }}
+        </h1>
+        <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-4"></div>
+        <p class="text-base font-body text-stone-grey">{{ $t('qrcode.scan.description') }}</p>
+      </div>
 
       <!-- Camera Permission Error -->
-      <div v-if="cameraError" class="error-message">
-        <span class="error-icon"></span>
-        <p>{{ $t('qrcode.scan.cameraError') }}</p>
-        <button class="btn-retry" @click="initCamera">
+      <div v-if="cameraError && !scanResult" class="bg-white/60 backdrop-blur-sm rounded-lg border border-red-300 p-8 text-center shadow-sm">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+        <p class="text-lg font-medieval text-iron-black mb-2">{{ $t('qrcode.scan.cameraError') }}</p>
+        <button
+          @click="initCamera"
+          class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-body font-semibold rounded-md shadow-md transition-all mt-4"
+        >
           {{ $t('qrcode.scan.retry') }}
         </button>
       </div>
 
       <!-- Scanner -->
-      <div v-else-if="!scanResult" class="scanner-wrapper">
-        <div class="scanner-frame">
-          <video ref="videoElement" class="scanner-video" autoplay playsinline></video>
-          <div class="scanner-overlay">
-            <div class="scanner-corners"></div>
+      <div v-else-if="!scanResult" class="space-y-6">
+        <!-- Video Scanner -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 shadow-sm">
+          <div class="relative w-full max-w-sm mx-auto aspect-square rounded-lg overflow-hidden bg-iron-black/10">
+            <div v-if="!cameraRequested" class="absolute inset-0 flex flex-col items-center justify-center bg-iron-black/80 z-10 w-full h-full">
+              <button
+                @click="requestCamera"
+                class="px-6 py-3 bg-antique-bronze hover:brightness-110 text-white font-body font-semibold rounded-md shadow-md transition-all flex flex-col items-center gap-2"
+              >
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {{ $t('qrcode.scan.requestCamera') }}
+              </button>
+            </div>
+            <video v-else ref="videoElement" class="w-full h-full object-cover" autoplay playsinline></video>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div class="w-3/4 h-3/4 border-2 border-antique-bronze rounded-lg relative">
+                <div class="absolute -top-0.5 -left-0.5 w-6 h-6 border-t-4 border-l-4 border-antique-bronze rounded-tl-lg"></div>
+                <div class="absolute -top-0.5 -right-0.5 w-6 h-6 border-t-4 border-r-4 border-antique-bronze rounded-tr-lg"></div>
+                <div class="absolute -bottom-0.5 -left-0.5 w-6 h-6 border-b-4 border-l-4 border-antique-bronze rounded-bl-lg"></div>
+                <div class="absolute -bottom-0.5 -right-0.5 w-6 h-6 border-b-4 border-r-4 border-antique-bronze rounded-br-lg"></div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <p class="scanning-hint">{{ $t('qrcode.scan.hint') }}</p>
-
-        <!-- Manual Input -->
-        <div class="manual-input">
-          <p class="or-text">{{ $t('qrcode.scan.or') }}</p>
-          <div class="input-group">
-            <input
-              v-model="manualToken"
-              type="text"
-              :placeholder="$t('qrcode.scan.enterToken')"
-              class="token-input"
-              @keyup.enter="validateManualToken"
-            />
-            <button class="btn-validate" @click="validateManualToken" :disabled="!manualToken">
-              {{ $t('qrcode.scan.validate') }}
-            </button>
-          </div>
+          <p v-if="cameraRequested" class="text-center text-sm text-stone-grey mt-4">{{ $t('qrcode.scan.hint') }}</p>
         </div>
       </div>
 
       <!-- Scan Result -->
-      <div v-else class="scan-result">
-        <div v-if="scanResult.success" class="result-success">
-          <h2>{{ $t('qrcode.scan.success') }}</h2>
-          
-          <div v-if="scanResult.data" class="result-data">
-            <h3>{{ $t('qrcode.scan.receivedData') }}</h3>
-            <pre class="data-display">{{ JSON.stringify(scanResult.data, null, 2) }}</pre>
+      <div v-else class="space-y-6">
+        <div v-if="scanResult.success" class="bg-white/60 backdrop-blur-sm rounded-lg border border-green-300 p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
           </div>
+          <h2 class="text-xl font-medieval font-bold text-iron-black mb-2">{{ $t('qrcode.scan.success') }}</h2>
+          
+          <div v-if="scanResult.data" class="mt-4 text-left p-4 bg-white/40 rounded-md border border-antique-bronze/20 overflow-x-auto">
+            <h3 class="text-sm font-bold text-stone-grey uppercase tracking-wide mb-2">{{ $t('qrcode.scan.receivedData') }}</h3>
+            <pre class="text-sm font-body text-iron-black">{{ JSON.stringify(scanResult.data, null, 2) }}</pre>
+          </div>
+          <button
+            @click="resetScanner"
+            class="mt-6 px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-body font-semibold rounded-md shadow-md transition-all flex items-center justify-center gap-2 mx-auto"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+            </svg>
+            {{ $t('qrcode.scan.scanAgain') }}
+          </button>
         </div>
 
-        <div v-else class="result-error">
-          <h2>{{ $t('qrcode.scan.failed') }}</h2>
-          <p class="error-detail">{{ scanResult.error }}</p>
+        <div v-else class="bg-white/60 backdrop-blur-sm rounded-lg border border-red-300 p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h2 class="text-lg font-medieval text-iron-black mb-2">{{ $t('qrcode.scan.failed') }}</h2>
+          <p class="text-sm text-stone-grey mb-6">{{ scanResult.error }}</p>
+          <button
+            @click="resetScanner"
+            class="px-6 py-2 bg-antique-bronze hover:brightness-110 text-white font-body font-semibold rounded-md shadow-md transition-all flex items-center justify-center gap-2 mx-auto"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+            </svg>
+            {{ $t('qrcode.scan.scanAgain') }}
+          </button>
         </div>
-
-        <button class="btn-scan-again" @click="resetScanner">
-          {{ $t('qrcode.scan.scanAgain') }}
-        </button>
       </div>
     </div>
   </div>
@@ -72,11 +112,16 @@ import { qrcodeService, type ValidateQRResult } from '@/services/qrcodeService'
 import jsQR from 'jsqr'
 
 const videoElement = ref<HTMLVideoElement | null>(null)
+const cameraRequested = ref(false)
 const cameraError = ref(false)
 const scanResult = ref<ValidateQRResult | null>(null)
-const manualToken = ref('')
 let stream: MediaStream | null = null
 let animationFrame: number | null = null
+
+function requestCamera() {
+  cameraRequested.value = true
+  initCamera()
+}
 
 async function initCamera() {
   cameraError.value = false
@@ -142,19 +187,6 @@ async function handleQRDetected(token: string) {
   }
 }
 
-async function validateManualToken() {
-  if (!manualToken.value.trim()) return
-
-  stopCamera()
-
-  try {
-    scanResult.value = await qrcodeService.validate({ token: manualToken.value.trim() })
-  } catch (error) {
-    console.error('Validation error:', error)
-    scanResult.value = { success: false, error: 'Validation failed' }
-  }
-}
-
 function stopCamera() {
   if (animationFrame) {
     cancelAnimationFrame(animationFrame)
@@ -169,283 +201,14 @@ function stopCamera() {
 
 function resetScanner() {
   scanResult.value = null
-  manualToken.value = ''
   initCamera()
 }
 
 onMounted(() => {
-  initCamera()
+  // Wait for user to explicitly request camera
 })
 
 onUnmounted(() => {
   stopCamera()
 })
 </script>
-
-<style scoped>
-.qr-scan-view {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-}
-
-.scan-container {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  padding: 2rem;
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.5rem;
-}
-
-.description {
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 1.5rem;
-}
-
-.error-message {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.error-icon {
-  font-size: 3rem;
-}
-
-.error-message p {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.btn-retry {
-  background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-  color: white;
-  border: none;
-  padding: 0.75rem 2rem;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.btn-retry:hover {
-  transform: translateY(-2px);
-}
-
-.scanner-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.scanner-frame {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-  aspect-ratio: 1;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-}
-
-.scanner-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.scanner-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.scanner-corners {
-  width: 70%;
-  height: 70%;
-  border: 3px solid transparent;
-  position: relative;
-}
-
-.scanner-corners::before,
-.scanner-corners::after {
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border-color: #e94560;
-  border-style: solid;
-}
-
-.scanner-corners::before {
-  top: 0;
-  left: 0;
-  border-width: 3px 0 0 3px;
-}
-
-.scanner-corners::after {
-  top: 0;
-  right: 0;
-  border-width: 3px 3px 0 0;
-}
-
-.scanning-hint {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.875rem;
-}
-
-.manual-input {
-  width: 100%;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.or-text {
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-}
-
-.input-group {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.token-input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
-  font-size: 0.875rem;
-}
-
-.token-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.token-input:focus {
-  outline: none;
-  border-color: #e94560;
-}
-
-.btn-validate {
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-validate:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.scan-result {
-  padding: 2rem 0;
-}
-
-.result-success,
-.result-error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.success-icon {
-  font-size: 4rem;
-  animation: pop 0.3s ease-out;
-}
-
-.error-icon-large {
-  font-size: 4rem;
-}
-
-@keyframes pop {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.result-success h2 {
-  color: #4caf50;
-}
-
-.result-error h2 {
-  color: #f44336;
-}
-
-.error-detail {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.result-data {
-  width: 100%;
-  margin-top: 1rem;
-  text-align: left;
-}
-
-.result-data h3 {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-}
-
-.data-display {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-  border-radius: 12px;
-  color: #4caf50;
-  font-size: 0.8rem;
-  overflow-x: auto;
-  max-height: 200px;
-}
-
-.btn-scan-again {
-  margin-top: 1.5rem;
-  padding: 0.75rem 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-scan-again:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-</style>

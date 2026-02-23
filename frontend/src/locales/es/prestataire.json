@@ -147,6 +147,28 @@
       "explore_button": "Explorar el mapa"
     }
   },
+  "order_scan": {
+    "title": "Escanear un pedido",
+    "description": "Escanea el código QR del cliente para mostrar los detalles de su pedido",
+    "request_camera": "Solicitar acceso a la cámara",
+    "camera_error": "Acceso a la cámara denegado",
+    "camera_error_hint": "Por favor, permite el acceso a la cámara en la configuración de tu navegador",
+    "retry": "Reintentar",
+    "scanning_hint": "Coloca el código QR dentro del marco",
+    "invalid_code": "Código inválido",
+    "order_not_found": "No se encontró ningún pedido con este código QR",
+    "order_number": "Pedido #{id}",
+    "customer": "Cliente",
+    "products": "Artículos pedidos",
+    "total": "Total",
+    "status_paid": "Pagado",
+    "status_collected": "Recogido",
+    "validate_collection": "Validar recogida",
+    "processing": "Procesando...",
+    "already_collected": "Ya recogido",
+    "scan_again": "Escanear otro pedido",
+    "back_to_dashboard": "Volver al tablero"
+  },
   "profile": {
     "title": "Mi Perfil de Prestataire",
     "fields": {

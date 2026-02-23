@@ -10,12 +10,10 @@
     "scan": {
         "title": "Escanear código QR",
         "description": "Apunta tu cámara a un código QR",
+        "requestCamera": "Solicitar acceso a la cámara",
         "cameraError": "No se puede acceder a la cámara. Por favor, permite el acceso.",
         "retry": "Reintentar",
         "hint": "Posiciona el código QR en el marco",
-        "or": "o",
-        "enterToken": "Ingresa el token manualmente",
-        "validate": "Validar",
         "success": "¡Código QR validado!",
         "failed": "Validación fallida",
         "receivedData": "Datos recibidos",

@@ -161,6 +161,7 @@
   "order_scan": {
     "title": "Scanner une Commande",
     "description": "Scannez le QR code du client pour afficher les détails de sa commande",
+    "request_camera": "Demander l'accès à la caméra",
     "camera_error": "Accès à la caméra refusé",
     "camera_error_hint": "Veuillez autoriser l'accès à la caméra dans les paramètres de votre navigateur",
     "retry": "Réessayer",
