@@ -47,7 +47,7 @@ const removeItem = (id: number) => {
 
 <template>
   <div
-    class="absolute left-0 mt-2 w-[450px] bg-parchment border-2 border-antique-bronze shadow-[0_4px_8px_rgba(0,0,0,0.4)] rounded-sm py-4 z-50 transform origin-top-left transition-all duration-200">
+    class="absolute right-0 mt-2 w-[320px] lg:w-[400px] bg-parchment border-2 border-antique-bronze shadow-xl rounded-sm py-4 z-50 transform origin-top-right transition-all duration-200">
     <!-- Decorative Corner (optional, keeping it simple for now) -->
 
     <!-- Header -->
@@ -59,7 +59,7 @@ const removeItem = (id: number) => {
     </div>
 
     <!-- Items List -->
-    <div class="max-h-80 overflow-y-auto custom-scrollbar">
+    <div class="max-h-[50vh] overflow-y-auto custom-scrollbar">
       <div v-if="items.length === 0" class="px-6 py-10 text-center">
         <div
           class="w-16 h-16 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-antique-bronze/20">

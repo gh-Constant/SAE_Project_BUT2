@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useCartStore } from '@/stores/cart';
 import { isAdmin, isPrestataire, isAventurier } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 import CartDropdown from './CartDropdown.vue';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
@@ -17,6 +18,19 @@ const showCartDropdown = ref(false);
 const isScrolled = ref(false);
 
 // Check if we're on the home page
+const route = useRoute();
+
+const isSolidNavbar = computed(() => {
+  // Routes where the navbar should be a transparent overlay
+  const transparentRoutes = ['/', '/map', '/events', '/leaderboard'];
+  // Return true if the current path does not exactly match the transparent routes
+  // For deep routes (e.g. /events/123), checking exactly might fail if we want it transparent too.
+  // The user said "carte events and leaderboards... visitor pages". So /events stays transparent.
+  // Let's assume exact match for root `/`, and `startsWith` for the rest, except maybe not.
+  // "is not homepage carte events and leaderboards"
+  return !transparentRoutes.some(tr => route.path === tr || (tr !== '/' && route.path.startsWith(`${tr}/`)));
+});
+
 const isMobileMenuOpen = ref(false);
 
 const toggleMobileMenu = () => {
@@ -129,40 +143,45 @@ const profileRoute = computed(() => {
 </script>
 
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-[1100] bg-transparent">
+  <nav :class="[
+    'z-[1100] transition-all duration-300',
+    isSolidNavbar 
+      ? 'absolute top-0 left-0 right-0 bg-parchment border-b-4 border-antique-bronze/50 shadow-md' 
+      : 'fixed top-0 left-0 right-0 bg-transparent'
+  ]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         <!-- Desktop Navigation Links -->
-        <div class="hidden md:flex items-center space-x-4">
-          <MedievalButton to="/" class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+        <div class="hidden md:flex items-center space-x-2">
+          <MedievalButton to="/" compact class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             active-class="!bg-[#8B6B43] !border-[#5D4037]">
-            <i class="fas fa-home text-lg"></i>
-            <span class="ml-2">{{ $t('navbar.home') }}</span>
+            <i class="fas fa-home text-sm"></i>
+            <span class="ml-1.5">{{ $t('navbar.home') }}</span>
           </MedievalButton>
-          <MedievalButton v-if="isLoggedIn" to="/map" class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+          <MedievalButton v-if="isLoggedIn" to="/map" compact class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             active-class="!bg-[#8B6B43] !border-[#5D4037]">
-            <i class="fas fa-map text-lg"></i>
-            <span class="ml-2">{{ $t('navbar.map') }}</span>
+            <i class="fas fa-map text-sm"></i>
+            <span class="ml-1.5">{{ $t('navbar.map') }}</span>
           </MedievalButton>
-          <MedievalButton v-if="isLoggedIn && isAventurier(auth.user)" to="/events"
+          <MedievalButton v-if="isLoggedIn && isAventurier(auth.user)" to="/events" compact
             class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]" active-class="!bg-[#8B6B43] !border-[#5D4037]">
-            <i class="fas fa-calendar-alt text-lg"></i>
-            <span class="ml-2">{{ $t('navbar.events') }}</span>
+            <i class="fas fa-calendar-alt text-sm"></i>
+            <span class="ml-1.5">{{ $t('navbar.events') }}</span>
           </MedievalButton>
-          <MedievalButton v-if="isLoggedIn && isAventurier(auth.user)" to="/leaderboard"
+          <MedievalButton v-if="isLoggedIn && isAventurier(auth.user)" to="/leaderboard" compact
             class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]" active-class="!bg-[#8B6B43] !border-[#5D4037]">
-            <i class="fas fa-trophy text-lg"></i>
-            <span class="ml-2">Classement</span>
+            <i class="fas fa-trophy text-sm"></i>
+            <span class="ml-1.5">Classement</span>
           </MedievalButton>
         </div>
 
-        <div class="flex items-center space-x-4 ml-auto">
+        <div class="flex items-center space-x-2 ml-auto">
           <!-- Icône panier (visible uniquement si connecté, caché sur mobile) -->
           <div v-if="isLoggedIn && isAventurier(auth.user)" class="relative cart-dropdown-container hidden md:block">
-            <MedievalButton @click="toggleCartDropdown" small
+            <MedievalButton @click="toggleCartDropdown" compact
               class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]" title="Mon panier">
-              <i class="fas fa-shopping-cart text-lg"></i>
-              <span class="ml-2">{{ $t('navbar.cart') }}</span>
+              <i class="fas fa-shopping-cart text-sm"></i>
+              <span class="ml-1.5">{{ $t('navbar.cart') }}</span>
               <span v-if="cartStore.itemCount > 0"
                 class="bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm ml-2">
                 {{ cartStore.itemCount > 9 ? '9+' : cartStore.itemCount }}
@@ -178,23 +197,23 @@ const profileRoute = computed(() => {
 
           <!-- Login/Register buttons (hidden on mobile) -->
           <template v-if="!isLoggedIn">
-            <MedievalButton to="/login" class="hidden md:flex !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]">
-              <i class="fas fa-sign-in-alt text-lg"></i>
-              <span class="ml-2">{{ $t('navbar.signin') }}</span>
+            <MedievalButton to="/login" compact class="hidden md:flex !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]">
+              <i class="fas fa-sign-in-alt text-sm"></i>
+              <span class="ml-1.5">{{ $t('navbar.signin') }}</span>
             </MedievalButton>
-            <MedievalButton to="/register"
+            <MedievalButton to="/register" compact
               class="hidden md:flex !bg-[#8B6B43] hover:!bg-[#a88558] !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]">
-              <i class="fas fa-user-plus text-lg"></i>
-              <span class="ml-2">{{ $t('navbar.register') }}</span>
+              <i class="fas fa-user-plus text-sm"></i>
+              <span class="ml-1.5">{{ $t('navbar.register') }}</span>
             </MedievalButton>
           </template>
 
           <!-- Profile dropdown (hidden on mobile) -->
           <div v-if="isLoggedIn" class="relative dropdown-container hidden md:block">
-            <MedievalButton class="flex items-center gap-2 !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
-              @click="toggleDropdown" small>
+            <MedievalButton class="flex items-center gap-1.5 !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
+              @click="toggleDropdown" compact>
               <div
-                class="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center overflow-hidden border border-white/30 shadow-md">
+                class="w-6 h-6 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center overflow-hidden border border-white/30 shadow-md">
                 <img v-if="auth.user?.avatar_url" :src="auth.user.avatar_url" :alt="auth.user.firstname"
                   class="w-full h-full object-cover">
                 <i v-else class="fas fa-user text-white text-xs" />

@@ -1,75 +1,80 @@
 <template>
-  <div class="min-h-screen bg-parchment pt-20 pb-12">
+  <div class="min-h-screen bg-parchment pt-28 pb-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col lg:flex-row gap-8">
+      <div class="flex flex-col lg:flex-row gap-8 relative items-start">
         <!-- Sidebar Navigation -->
-        <aside class="w-full lg:w-64 flex-shrink-0">
-          <div class="bg-white/60 backdrop-blur-sm rounded-xl shadow-lg border border-antique-bronze/20 overflow-hidden sticky top-24">
+        <aside class="w-full lg:w-64 flex-shrink-0 sticky top-28 self-start z-10">
+          <div class="bg-white rounded-lg shadow-sm border border-antique-bronze/20 overflow-y-auto custom-scrollbar max-h-[calc(100vh-8rem)]">
             <!-- User Summary (Mobile only, or header) -->
-            <div class="p-6 bg-antique-bronze/10 border-b border-antique-bronze/20 text-center lg:text-left">
-              <h2 class="text-xl font-medieval font-bold text-iron-black truncate">
-                {{ user?.firstname }} {{ user?.lastname }}
-              </h2>
-              <p class="text-sm text-stone-grey truncate">{{ user?.email }}</p>
+            <div class="p-6 border-b border-antique-bronze/10 flex items-center gap-4 bg-parchment/30">
+              <div class="w-12 h-12 bg-antique-bronze rounded-full flex items-center justify-center text-white text-xl shadow-inner font-medieval">
+                {{ user?.firstname?.charAt(0) }}{{ user?.lastname?.charAt(0) }}
+              </div>
+              <div class="overflow-hidden">
+                <h2 class="text-lg font-bold text-iron-black truncate">
+                  {{ user?.firstname }} {{ user?.lastname }}
+                </h2>
+                <p class="text-sm text-stone-grey truncate">{{ user?.email }}</p>
+              </div>
             </div>
 
             <!-- Navigation Links -->
-            <nav class="p-2 space-y-1">
+            <nav class="py-2 flex flex-col">
               <router-link
                 to="/profile"
-                class="flex items-center px-4 py-3 rounded-lg transition-colors group"
-                :class="isActive('/profile') && !isSecurityTab ? 'bg-antique-bronze text-white shadow-md' : 'text-stone-grey hover:bg-antique-bronze/10 hover:text-iron-black'"
+                class="flex items-center px-6 py-3 transition-colors group border-l-4"
+                :class="isActive('/profile') && !isSecurityTab ? 'bg-antique-bronze/5 border-antique-bronze text-iron-black font-semibold' : 'border-transparent text-stone-grey hover:bg-gray-50 hover:text-iron-black'"
               >
-                <i class="fas fa-user w-6 text-center" :class="isActive('/profile') && !isSecurityTab ? 'text-white' : 'text-antique-bronze group-hover:text-iron-black'"></i>
-                <span class="font-medium">{{ t('profile.menu.profile') }}</span>
+                <i class="fas fa-user w-6 text-center" :class="isActive('/profile') && !isSecurityTab ? 'text-antique-bronze' : 'group-hover:text-iron-black'"></i>
+                <span class="ml-2">{{ t('profile.menu.profile') }}</span>
               </router-link>
 
               <router-link
                 to="/profile?tab=security"
-                class="flex items-center px-4 py-3 rounded-lg transition-colors group"
-                :class="isSecurityTab ? 'bg-antique-bronze text-white shadow-md' : 'text-stone-grey hover:bg-antique-bronze/10 hover:text-iron-black'"
+                class="flex items-center px-6 py-3 transition-colors group border-l-4"
+                :class="isSecurityTab ? 'bg-antique-bronze/5 border-antique-bronze text-iron-black font-semibold' : 'border-transparent text-stone-grey hover:bg-gray-50 hover:text-iron-black'"
               >
-                <i class="fas fa-shield-alt w-6 text-center" :class="isSecurityTab ? 'text-white' : 'text-antique-bronze group-hover:text-iron-black'"></i>
-                <span class="font-medium">{{ t('profile.menu.security') }}</span>
+                <i class="fas fa-shield-alt w-6 text-center" :class="isSecurityTab ? 'text-antique-bronze' : 'group-hover:text-iron-black'"></i>
+                <span class="ml-2">{{ t('profile.menu.security') }}</span>
               </router-link>
 
-              <div class="my-2 border-t border-antique-bronze/10"></div>
+              <div class="my-2 border-t border-antique-bronze/10 mx-4"></div>
 
               <router-link
                 to="/commandes"
-                class="flex items-center px-4 py-3 rounded-lg transition-colors group"
-                :class="isActive('/commandes') ? 'bg-antique-bronze text-white shadow-md' : 'text-stone-grey hover:bg-antique-bronze/10 hover:text-iron-black'"
+                class="flex items-center px-6 py-3 transition-colors group border-l-4"
+                :class="isActive('/commandes') ? 'bg-antique-bronze/5 border-antique-bronze text-iron-black font-semibold' : 'border-transparent text-stone-grey hover:bg-gray-50 hover:text-iron-black'"
               >
-                <i class="fas fa-shopping-bag w-6 text-center" :class="isActive('/commandes') ? 'text-white' : 'text-antique-bronze group-hover:text-iron-black'"></i>
-                <span class="font-medium">{{ t('profile.menu.orders') }}</span>
+                <i class="fas fa-shopping-bag w-6 text-center" :class="isActive('/commandes') ? 'text-antique-bronze' : 'group-hover:text-iron-black'"></i>
+                <span class="ml-2">{{ t('profile.menu.orders') }}</span>
               </router-link>
 
               <router-link
                 to="/my-reservations"
-                class="flex items-center px-4 py-3 rounded-lg transition-colors group"
-                :class="isActive('/my-reservations') ? 'bg-antique-bronze text-white shadow-md' : 'text-stone-grey hover:bg-antique-bronze/10 hover:text-iron-black'"
+                class="flex items-center px-6 py-3 transition-colors group border-l-4"
+                :class="isActive('/my-reservations') ? 'bg-antique-bronze/5 border-antique-bronze text-iron-black font-semibold' : 'border-transparent text-stone-grey hover:bg-gray-50 hover:text-iron-black'"
               >
-                <i class="fas fa-ticket-alt w-6 text-center" :class="isActive('/my-reservations') ? 'text-white' : 'text-antique-bronze group-hover:text-iron-black'"></i>
-                <span class="font-medium">{{ t('profile.menu.reservations') }}</span>
+                <i class="fas fa-ticket-alt w-6 text-center" :class="isActive('/my-reservations') ? 'text-antique-bronze' : 'group-hover:text-iron-black'"></i>
+                <span class="ml-2">{{ t('profile.menu.reservations') }}</span>
               </router-link>
 
               <router-link
                 to="/my-quests"
-                class="flex items-center px-4 py-3 rounded-lg transition-colors group"
-                :class="isActive('/my-quests') ? 'bg-antique-bronze text-white shadow-md' : 'text-stone-grey hover:bg-antique-bronze/10 hover:text-iron-black'"
+                class="flex items-center px-6 py-3 transition-colors group border-l-4"
+                :class="isActive('/my-quests') ? 'bg-antique-bronze/5 border-antique-bronze text-iron-black font-semibold' : 'border-transparent text-stone-grey hover:bg-gray-50 hover:text-iron-black'"
               >
-                <i class="fas fa-scroll w-6 text-center" :class="isActive('/my-quests') ? 'text-white' : 'text-antique-bronze group-hover:text-iron-black'"></i>
-                <span class="font-medium">{{ t('profile.menu.quests') }}</span>
+                <i class="fas fa-scroll w-6 text-center" :class="isActive('/my-quests') ? 'text-antique-bronze' : 'group-hover:text-iron-black'"></i>
+                <span class="ml-2">{{ t('profile.menu.quests') }}</span>
               </router-link>
 
-              <div class="my-2 border-t border-antique-bronze/10"></div>
+              <div class="my-2 border-t border-antique-bronze/10 mx-4"></div>
 
               <button
                 @click="handleLogout"
-                class="w-full flex items-center px-4 py-3 rounded-lg transition-colors text-red-600 hover:bg-red-50 text-left"
+                class="w-full flex items-center px-6 py-3 transition-colors text-red-600 hover:bg-red-50 text-left border-l-4 border-transparent group"
               >
-                <i class="fas fa-sign-out-alt w-6 text-center mr-0"></i>
-                <span class="font-medium">{{ t('profile.menu.logout') }}</span>
+                <i class="fas fa-sign-out-alt w-6 text-center group-hover:scale-110 transition-transform"></i>
+                <span class="ml-2 font-medium">{{ t('profile.menu.logout') }}</span>
               </button>
             </nav>
           </div>
