@@ -308,7 +308,17 @@
         "capacity_label": "Capacité",
         "submit_create": "Publier",
         "submit_update": "Mettre à jour",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "type_label": "Type d'événement",
+        "type_event": "Événement unique",
+        "type_activity": "Activité (créneaux multiples)",
+        "schedules_title": "Créneaux horaires",
+        "add_schedule": "Ajouter un créneau",
+        "remove_schedule": "Supprimer",
+        "schedule_start": "Début",
+        "schedule_end": "Fin",
+        "schedule_capacity": "Capacité (opt)",
+        "schedule_price": "Prix (opt)"
       },
       "reservations": {
         "modal_title": "Réservations",

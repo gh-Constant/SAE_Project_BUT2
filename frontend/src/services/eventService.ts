@@ -40,9 +40,9 @@ const eventServiceImpl = {
     });
   },
 
-  bookEvent: async (eventId: number, quantity: number): Promise<ReservationMock> => {
+  bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock> => {
     const token = localStorage.getItem('token');
-    const response = await axios.post(`${API_URL}/events/book`, { eventId, quantity }, {
+    const response = await axios.post(`${API_URL}/events/book`, { id_event: eventId, quantity, id_schedule: scheduleId }, {
       headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;

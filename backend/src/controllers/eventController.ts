@@ -58,7 +58,7 @@ export const eventController = {
 
   async bookEvent(req: Request, res: Response): Promise<void> {
     try {
-      const { id_event, quantity } = req.body;
+      const { id_event, quantity, id_schedule } = req.body;
       const userId = (req as AuthenticatedRequest).user?.id;
 
       if (!userId) {
@@ -66,7 +66,7 @@ export const eventController = {
         return;
       }
 
-      const reservation = await eventService.bookEvent(userId, Number(id_event), Number(quantity));
+      const reservation = await eventService.bookEvent(userId, Number(id_event), Number(quantity), id_schedule ? Number(id_schedule) : undefined);
       res.status(201).json(reservation);
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
@@ -82,6 +82,36 @@ export const eventController = {
       }
       const reservations = await eventService.getUserReservations(userId);
       res.json(reservations);
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  },
+
+  async addSchedule(req: Request, res: Response): Promise<void> {
+    try {
+      const eventId = Number(req.params.id);
+      const schedule = await eventService.addSchedule(eventId, req.body);
+      res.status(201).json(schedule);
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  },
+
+  async updateSchedule(req: Request, res: Response): Promise<void> {
+    try {
+      const scheduleId = Number(req.params.id);
+      const schedule = await eventService.updateSchedule(scheduleId, req.body);
+      res.json(schedule);
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  },
+
+  async deleteSchedule(req: Request, res: Response): Promise<void> {
+    try {
+      const scheduleId = Number(req.params.id);
+      await eventService.deleteSchedule(scheduleId);
+      res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }

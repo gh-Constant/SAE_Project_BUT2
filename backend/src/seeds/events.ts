@@ -1,15 +1,18 @@
 import prisma from '../prisma.js';
+import { EventType } from '@prisma/client';
 
 interface EventSeed {
   id_event: number;
   title: string;
   description: string;
-  start_time: Date;
-  end_time: Date;
+  start_time?: Date;
+  end_time?: Date;
   price: number;
   capacity: number;
   sold: number;
   id_location: number;
+  type: EventType;
+  schedules?: { start_time: Date; end_time: Date; capacity?: number; price?: number }[];
 }
 
 // Festival Dates: 20/06/2026 - 05/07/2026
@@ -25,6 +28,7 @@ function getEventSeeds(): EventSeed[] {
       capacity: 1000,
       sold: 450,
       id_location: 1,
+      type: EventType.EVENT,
     },
     {
       id_event: 2,
@@ -36,6 +40,7 @@ function getEventSeeds(): EventSeed[] {
       capacity: 200,
       sold: 180,
       id_location: 2,
+      type: EventType.EVENT,
     },
     {
       id_event: 3,
@@ -47,28 +52,37 @@ function getEventSeeds(): EventSeed[] {
       capacity: 5000,
       sold: 120,
       id_location: 1,
+      type: EventType.EVENT,
     },
     {
       id_event: 4,
       title: "Dégustation d'Hydromel",
       description: "Venez goûter nos meilleures cuvées d'hydromel artisanal. Ambiance conviviale garantie !",
-      start_time: new Date('2026-06-20T16:00:00'),
-      end_time: new Date('2026-06-20T19:00:00'),
       price: 5,
       capacity: 50,
-      sold: 45,
+      sold: 0,
       id_location: 14, // Gérard
+      type: EventType.ACTIVITY,
+      schedules: [
+        { start_time: new Date('2026-06-20T16:00:00'), end_time: new Date('2026-06-20T17:00:00') },
+        { start_time: new Date('2026-06-20T17:00:00'), end_time: new Date('2026-06-20T18:00:00') },
+        { start_time: new Date('2026-06-20T18:00:00'), end_time: new Date('2026-06-20T19:00:00') }
+      ]
     },
     {
       id_event: 5,
       title: "Cours de Tir à l'Arc",
       description: "Marie vous apprend les bases du tir à l'arc. Matériel fourni.",
-      start_time: new Date('2026-06-22T10:00:00'),
-      end_time: new Date('2026-06-22T12:00:00'),
       price: 15,
       capacity: 10,
-      sold: 8,
+      sold: 0,
       id_location: 16, // Marie
+      type: EventType.ACTIVITY,
+      schedules: [
+        { start_time: new Date('2026-06-22T10:00:00'), end_time: new Date('2026-06-22T12:00:00') },
+        { start_time: new Date('2026-06-22T14:00:00'), end_time: new Date('2026-06-22T16:00:00') },
+        { start_time: new Date('2026-06-23T10:00:00'), end_time: new Date('2026-06-23T12:00:00') }
+      ]
     },
     {
       id_event: 6,
@@ -80,6 +94,7 @@ function getEventSeeds(): EventSeed[] {
       capacity: 100,
       sold: 60,
       id_location: 16, // Marie
+      type: EventType.EVENT,
     },
   ];
 }
@@ -95,25 +110,47 @@ export async function seedEvents() {
       update: {
         title: event.title,
         description: event.description,
-        start_time: event.start_time,
-        end_time: event.end_time,
+        start_time: event.start_time || null,
+        end_time: event.end_time || null,
         price: event.price,
         capacity: event.capacity,
         sold: event.sold,
         id_location: event.id_location,
+        type: event.type,
       },
       create: {
         id_event: event.id_event,
         title: event.title,
         description: event.description,
-        start_time: event.start_time,
-        end_time: event.end_time,
+        start_time: event.start_time || null,
+        end_time: event.end_time || null,
         price: event.price,
         capacity: event.capacity,
         sold: event.sold,
         id_location: event.id_location,
+        type: event.type,
+        schedules: event.schedules ? {
+          create: event.schedules
+        } : undefined
       },
     });
+
+    // If activity, ensure schedules are created if not present (simple approach)
+    if (event.type === EventType.ACTIVITY && event.schedules) {
+        // Check if schedules exist
+        const count = await prisma.eventSchedule.count({ where: { id_event: event.id_event }});
+        if (count === 0) {
+            await prisma.eventSchedule.createMany({
+                data: event.schedules.map(s => ({
+                    id_event: event.id_event,
+                    start_time: s.start_time,
+                    end_time: s.end_time,
+                    capacity: s.capacity,
+                    price: s.price
+                }))
+            });
+        }
+    }
   }
 
   console.log('✅ Events seeded');

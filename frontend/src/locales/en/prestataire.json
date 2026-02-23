@@ -308,7 +308,17 @@
         "capacity_label": "Capacity",
         "submit_create": "Publish",
         "submit_update": "Update",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "type_label": "Event Type",
+        "type_event": "Single Event",
+        "type_activity": "Activity (Multiple Slots)",
+        "schedules_title": "Time Slots",
+        "add_schedule": "Add Time Slot",
+        "remove_schedule": "Remove",
+        "schedule_start": "Start",
+        "schedule_end": "End",
+        "schedule_capacity": "Capacity (opt)",
+        "schedule_price": "Price (opt)"
       },
       "reservations": {
         "modal_title": "Reservations",

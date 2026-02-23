@@ -4,6 +4,15 @@ import { eventService } from '@/services/eventService'
 import type { LocationMock } from '@/mocks/locations'
 import type { EventInput, EventUpdateInput } from '@/mocks/events'
 
+export interface EventSchedule {
+  id_schedule?: number
+  start_time: string
+  end_time: string
+  capacity?: number
+  price?: number
+  sold?: number
+}
+
 export interface EventCategory {
   id_event_category?: number
   name: string
@@ -16,8 +25,9 @@ export interface Event {
   id_event: number
   title: string
   description?: string
-  start_time: string
-  end_time: string
+  type?: 'EVENT' | 'ACTIVITY'
+  start_time?: string
+  end_time?: string
   published: boolean
   id_location: number
   categories: EventCategory[]
@@ -25,12 +35,14 @@ export interface Event {
   sold?: number
   capacity?: number
   price?: number
+  schedules?: EventSchedule[]
 }
 
 export interface EventReservation {
   id_reservation: number
   id_user: number
   id_event: number
+  id_schedule?: number
   quantity: number
   total_price: number
   status: string
@@ -123,10 +135,10 @@ export const useEventStore = defineStore('event', {
       }
     },
 
-    async bookEvent(eventId: number, quantity: number) {
+    async bookEvent(eventId: number, quantity: number, scheduleId?: number) {
       this.loading = true
       try {
-        const result = await eventService.bookEvent(eventId, quantity)
+        const result = await eventService.bookEvent(eventId, quantity, scheduleId)
         this.loading = false
         return result
       } catch (err: unknown) {
