@@ -40,7 +40,8 @@
             <div class="flex justify-between items-center mt-auto pt-4 border-t border-antique-bronze/10">
               <span class="font-medieval font-bold text-lg text-iron-black">{{ t('events.list.from_price', {
                 price:
-                getMinPrice(event) }) }}</span>
+                  getMinPrice(event)
+              }) }}</span>
               <span
                 class="text-antique-bronze font-bold text-sm group-hover:translate-x-1 transition-transform flex items-center gap-1">
                 {{ t('events.list.view_details') }}
@@ -52,13 +53,11 @@
           </div>
         </div>
       </div>
-      
+
       <!-- CTA Button to view my reservations -->
       <div v-if="events.length > 0" class="mt-12 text-center">
-        <MedievalButton 
-          to="/my-reservations" 
-          class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px] !text-lg !px-8 !py-4"
-        >
+        <MedievalButton to="/my-reservations"
+          class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px] !text-lg !px-8 !py-4">
           <i class="fas fa-ticket-alt mr-2"></i>
           Déjà réservé ? Consultez vos billets
           <i class="fas fa-arrow-right ml-2"></i>
@@ -92,7 +91,8 @@ onMounted(async () => {
 
 const events = computed(() => eventStore.events)
 
-function formatDate(dateStr: string) {
+function formatDate(dateStr?: string) {
+  if (!dateStr) return '';
   return new Date(dateStr).toLocaleDateString(undefined, {
     weekday: 'long',
     year: 'numeric',

@@ -83,7 +83,8 @@ onMounted(async () => {
 const events = computed(() => eventStore.events.filter(e => e.id_location === props.locationId))
 const previewEvents = computed(() => events.value.slice(0, 3))
 
-function formatDate(dateStr: string) {
+function formatDate(dateStr?: string) {
+  if (!dateStr) return '';
   return new Date(dateStr).toLocaleDateString()
 }
 

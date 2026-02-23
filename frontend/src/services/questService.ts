@@ -21,129 +21,95 @@ export interface UserQuest {
   completed_at?: string;
 }
 
+import apiClient from './apiClient';
+
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const questServiceImpl = {
   getQuestsByLocation: async (locationId: number): Promise<Quest[]> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/locations/${locationId}`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    if (!response.ok) throw new Error('Failed to fetch quests');
-    return await response.json();
+    try {
+      const response = await apiClient.get(`/quests/locations/${locationId}`);
+      return response.data;
+    } catch {
+      throw new Error('Failed to fetch quests');
+    }
   },
 
   getUserQuests: async (): Promise<UserQuest[]> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/my-quests`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    if (!response.ok) throw new Error('Failed to fetch user quests');
-    return await response.json();
+    try {
+      const response = await apiClient.get(`/quests/my-quests`);
+      return response.data;
+    } catch {
+      throw new Error('Failed to fetch user quests');
+    }
   },
 
   createQuest: async (quest: Omit<Quest, 'id_quest'>): Promise<Quest> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      },
-      body: JSON.stringify(quest)
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to create quest');
+    try {
+      const response = await apiClient.post(`/quests`, quest);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to create quest');
     }
-    return await response.json();
   },
 
   acceptQuest: async (questId: number): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}/accept`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-
-    if (!response.ok) throw new Error('Failed to accept quest');
+    try {
+      await apiClient.post(`/quests/${questId}/accept`);
+    } catch {
+      throw new Error('Failed to accept quest');
+    }
   },
 
   completeQuest: async (questId: number): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}/complete`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-
-    if (!response.ok) throw new Error('Failed to complete quest');
+    try {
+      await apiClient.post(`/quests/${questId}/complete`);
+    } catch {
+      throw new Error('Failed to complete quest');
+    }
   },
 
   cancelQuest: async (questId: number): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}/cancel`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-
-    if (!response.ok) throw new Error('Failed to cancel quest');
+    try {
+      await apiClient.post(`/quests/${questId}/cancel`);
+    } catch {
+      throw new Error('Failed to cancel quest');
+    }
   },
 
   getAllQuests: async (): Promise<Quest[]> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    if (!response.ok) throw new Error('Failed to fetch all quests');
-    return await response.json();
+    try {
+      const response = await apiClient.get(`/quests`);
+      return response.data;
+    } catch {
+      throw new Error('Failed to fetch all quests');
+    }
   },
 
   updateQuest: async (questId: number, data: Partial<Quest>): Promise<Quest> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      },
-      body: JSON.stringify(data)
-    });
-    if (!response.ok) throw new Error('Failed to update quest');
-    return await response.json();
+    try {
+      const response = await apiClient.put(`/quests/${questId}`, data);
+      return response.data;
+    } catch {
+      throw new Error('Failed to update quest');
+    }
   },
 
   deleteQuest: async (questId: number): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    if (!response.ok) throw new Error('Failed to delete quest');
+    try {
+      await apiClient.delete(`/quests/${questId}`);
+    } catch {
+      throw new Error('Failed to delete quest');
+    }
   },
 
   validateQuestByQR: async (questId: number, scannedCode: string): Promise<{ success: boolean; message?: string; error?: string }> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/quests/${questId}/validate-qr`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      },
-      body: JSON.stringify({ scannedCode })
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      return { success: false, error: error.error || 'Validation failed' };
+    try {
+      const response = await apiClient.post(`/quests/${questId}/validate-qr`, { scannedCode });
+      return response.data;
+    } catch (error: any) {
+      return { success: false, error: error.response?.data?.error || 'Validation failed' };
     }
-    
-    return await response.json();
   }
 };
 

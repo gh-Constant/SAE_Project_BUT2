@@ -1,7 +1,7 @@
 import { qrSessionsMock, generateMockToken, type QRSessionMock, type QRCodeStatus } from '@/mocks/qrcode'
+import apiClient from './apiClient'
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true'
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
 
 export interface QRSession {
     id: string
@@ -140,55 +140,40 @@ const qrcodeMockService = {
 
 const qrcodeApiService = {
     async generate(input: GenerateQRInput): Promise<QRSession> {
-        const response = await fetch(`${API_BASE_URL}/api/v1/qrcode/generate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(input),
-        })
-
-        if (!response.ok) {
+        try {
+            const response = await apiClient.post(`/qrcode/generate`, input)
+            return response.data
+        } catch {
             throw new Error('Failed to generate QR code')
         }
-
-        return response.json()
     },
 
     async validate(input: ValidateQRInput): Promise<ValidateQRResult> {
-        const response = await fetch(`${API_BASE_URL}/api/v1/qrcode/validate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(input),
-        })
-
-        if (!response.ok) {
-            const error = await response.json()
-            return { success: false, error: error.error || 'Validation failed' }
+        try {
+            const response = await apiClient.post(`/qrcode/validate`, input)
+            return response.data
+        } catch (error: any) {
+            return { success: false, error: error.response?.data?.error || 'Validation failed' }
         }
-
-        return response.json()
     },
 
     async getStatus(id: string): Promise<QRSession | null> {
-        const response = await fetch(`${API_BASE_URL}/api/v1/qrcode/status/${id}`)
-
-        if (!response.ok) {
-            if (response.status === 404) return null
+        try {
+            const response = await apiClient.get(`/qrcode/status/${id}`)
+            return response.data
+        } catch (error: any) {
+            if (error.response?.status === 404) return null
             throw new Error('Failed to fetch QR status')
         }
-
-        return response.json()
     },
 
     async markAsUsed(id: string): Promise<QRSession | null> {
-        const response = await fetch(`${API_BASE_URL}/api/v1/qrcode/${id}/use`, {
-            method: 'POST',
-        })
-
-        if (!response.ok) {
+        try {
+            const response = await apiClient.post(`/qrcode/${id}/use`)
+            return response.data
+        } catch {
             throw new Error('Failed to mark QR as used')
         }
-
-        return response.json()
     },
 }
 
