@@ -363,6 +363,14 @@ export function createAppRouter() {
   const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL), // Utilisation des URLs HTML5 sans hashtag
     routes,
+    scrollBehavior(to, from, savedPosition) {
+      // Si on utilise les boutons précédent/suivant du navigateur
+      if (savedPosition) {
+        return savedPosition;
+      }
+      // Sinon on remonte toujours en haut
+      return { top: 0 };
+    }
   });
 
   // Intercepteur vue-router exécuté avant chaque navigation
