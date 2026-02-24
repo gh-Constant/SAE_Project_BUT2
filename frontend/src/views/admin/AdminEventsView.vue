@@ -23,19 +23,12 @@
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-search text-antique-bronze/50"></i>
                   </div>
-                  <input
-                    id="search"
-                    v-model="searchQuery"
-                    type="text"
+                  <input id="search" v-model="searchQuery" type="text"
                     :placeholder="t('admin.events.search.placeholder')"
-                    class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body"
-                  />
-                  <button
-                    v-if="searchQuery"
-                    @click="searchQuery = ''"
+                    class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body" />
+                  <button v-if="searchQuery" @click="searchQuery = ''"
                     class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-antique-bronze transition-colors"
-                    :title="t('admin.events.search.clear')"
-                  >
+                    :title="t('admin.events.search.clear')">
                     <i class="fas fa-times text-stone-grey/50"></i>
                   </button>
                 </div>
@@ -48,11 +41,8 @@
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-map-marker-alt text-antique-bronze/50"></i>
                   </div>
-                  <select
-                    id="locationFilter"
-                    v-model="selectedLocationId"
-                    class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body"
-                  >
+                  <select id="locationFilter" v-model="selectedLocationId"
+                    class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey appearance-none cursor-pointer font-body">
                     <option :value="null">{{ t('admin.events.filter.all_locations') }}</option>
                     <option v-for="loc in locationsMock" :key="loc.id" :value="loc.id">
                       {{ loc.name }}
@@ -68,10 +58,8 @@
 
           <!-- Reset Button -->
           <div class="flex justify-end" v-if="searchQuery || selectedLocationId">
-            <button
-              @click="clearFilters"
-              class="inline-flex items-center px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded-sm transition-colors font-medieval font-bold text-sm"
-            >
+            <button @click="clearFilters"
+              class="inline-flex items-center px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded-sm transition-colors font-medieval font-bold text-sm">
               <i class="fas fa-undo mr-2"></i>
               {{ t('admin.events.filter.reset') }}
             </button>
@@ -84,32 +72,51 @@
             <table class="min-w-full divide-y divide-antique-bronze/10">
               <thead class="bg-antique-bronze/10">
                 <tr>
-                  <th scope="col" class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.title') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.start_date') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.end_date') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.organizer') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.location') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.price') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.capacity') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.sold') }}</th>
-                  <th scope="col" class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">{{ t('admin.events.table.headers.actions') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-left text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.title') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.start_date') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.end_date') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.organizer') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.location') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.price') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.capacity') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.sold') }}</th>
+                  <th scope="col"
+                    class="px-6 py-4 text-center text-xs font-medieval font-bold text-iron-black uppercase tracking-wider">
+                    {{ t('admin.events.table.headers.actions') }}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-antique-bronze/10 font-body">
-                <tr v-for="event in filteredEvents" :key="event.id_event" class="hover:bg-antique-bronze/5 transition-colors">
+                <tr v-for="event in filteredEvents" :key="event.id_event"
+                  class="hover:bg-antique-bronze/5 transition-colors">
                   <td class="px-6 py-4">
                     <div class="text-sm font-bold text-iron-black">{{ event.title }}</div>
                     <div class="text-xs text-stone-grey">{{ event.description?.substring(0, 50) }}...</div>
                   </td>
                   <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-stone-600">
-                    {{ new Date(event.start_time).toLocaleDateString() }}
+                    {{ formatDate(event.start_time) }}
                     <br>
-                    <span class="text-xs">{{ new Date(event.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                    <span class="text-xs">{{ formatTime(event.start_time) }}</span>
                   </td>
                   <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-stone-600">
-                    {{ new Date(event.end_time).toLocaleDateString() }}
+                    {{ formatDate(event.end_time) }}
                     <br>
-                    <span class="text-xs">{{ new Date(event.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                    <span class="text-xs">{{ formatTime(event.end_time) }}</span>
                   </td>
                   <td class="px-6 py-4 text-center text-sm text-stone-600">
                     {{ getOrganizerName(event.id_location) }}
@@ -123,16 +130,15 @@
                   <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-stone-600">
                     {{ event.capacity }}
                   </td>
-                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-bold" :class="event.sold === event.capacity ? 'text-red-600' : 'text-green-600'">
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-bold"
+                    :class="event.sold === event.capacity ? 'text-red-600' : 'text-green-600'">
                     {{ event.sold || 0 }}
                   </td>
 
                   <td class="px-6 py-4 text-center whitespace-nowrap">
-                    <button
-                      @click="deleteEvent(event.id_event)"
+                    <button @click="deleteEvent(event.id_event)"
                       class="text-stone-grey hover:text-red-700 transition-colors p-1"
-                      :title="t('admin.events.table.actions.delete')"
-                    >
+                      :title="t('admin.events.table.actions.delete')">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </td>
@@ -172,6 +178,16 @@ const router = useRouter()
 const authStore = useAuthStore()
 const eventStore = useEventStore()
 
+function formatDate(dateStr?: string) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString();
+}
+
+function formatTime(dateStr?: string) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 const user = computed(() => authStore.user)
 
 const searchQuery = ref('')
@@ -198,9 +214,9 @@ const filteredEvents = computed(() => {
   events.sort((a, b) => {
     switch (sortOption.value) {
       case 'date_asc':
-        return new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
+        return new Date(a.start_time || '').getTime() - new Date(b.start_time || '').getTime()
       case 'date_desc':
-        return new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
+        return new Date(b.start_time || '').getTime() - new Date(a.start_time || '').getTime()
       case 'title_asc':
         return a.title.localeCompare(b.title)
       case 'title_desc':
@@ -242,7 +258,7 @@ function getLocationName(locationId: number) {
 function getOrganizerName(locationId: number) {
   const loc = locationsMock.find(l => l.id === locationId)
   if (!loc) return t('admin.system.unknown')
-  
+
   // If it's a story location or has no prestataire, return "Système" or check specific logic
   if (!loc.id_prestataire) return t('admin.system.creator')
 
@@ -252,7 +268,7 @@ function getOrganizerName(locationId: number) {
 
 async function deleteEvent(id: number) {
   if (confirm(t('admin.products.table.actions.delete') + '?')) { // Reusing product delete confirm or use generic
-     await eventStore.deleteEvent(id)
+    await eventStore.deleteEvent(id)
   }
 }
 </script>

@@ -79,13 +79,7 @@
 
                 <div class="md:col-span-2">
                   <label class="block text-sm font-medieval font-bold text-iron-black mb-2">{{ t('prestataire.quests.add_form.description_label') }}</label>
-                  <textarea 
-                    v-model="newQuest.description" 
-                    rows="3" 
-                    required
-                    class="w-full bg-white/50 border border-antique-bronze/30 rounded-md px-4 py-2 text-iron-black placeholder-stone-grey/50 focus:ring-2 focus:ring-antique-bronze focus:border-antique-bronze font-body"
-                    :placeholder="t('prestataire.quests.add_form.description_placeholder')"
-                  ></textarea>
+                  <Editor v-model="newQuest.description" />
                 </div>
               </div>
 
@@ -133,12 +127,7 @@
                     </td>
                     <td class="px-6 py-4">
                       <div v-if="editingQuestId !== quest.id_quest" class="text-sm text-stone-grey line-clamp-2">{{ quest.description }}</div>
-                      <textarea 
-                        v-else 
-                        v-model="editQuest.description" 
-                        rows="2"
-                        class="w-full text-sm border border-antique-bronze/30 rounded px-2 py-1 focus:ring-1 focus:ring-antique-bronze"
-                      ></textarea>
+                      <Editor v-else v-model="editQuest.description" />
                     </td>
                     <td class="px-6 py-4 text-center whitespace-nowrap">
                       <span v-if="editingQuestId !== quest.id_quest" class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-yellow-100/80 text-yellow-900 border-yellow-200">
@@ -234,6 +223,7 @@ import { questService, Quest } from '@/services/questService'
 import { useI18n } from 'vue-i18n'
 import { LocationMock } from '@/mocks/locations'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
+import Editor from '@/components/editor/Editor.vue'
 import { useRoute } from 'vue-router'
 
 const { t } = useI18n()

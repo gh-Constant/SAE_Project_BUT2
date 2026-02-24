@@ -1,8 +1,6 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
 import { locationsMock } from '@/mocks/locations';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL + '/api/v1';
 
 export interface Message {
     id_message: number;
@@ -44,41 +42,32 @@ export interface Conversation {
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 
 class MessagingServiceImpl {
-    private getHeaders() {
-        const token = localStorage.getItem('authToken');
-        return {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        };
-    }
-
     async getConversations(): Promise<Conversation[]> {
-        const response = await axios.get(`${API_URL}/conversations`, this.getHeaders());
+        const response = await apiClient.get('/conversations');
         return response.data;
     }
 
     async getMessages(conversationId: number): Promise<Message[]> {
-        const response = await axios.get(`${API_URL}/conversations/${conversationId}/messages`, this.getHeaders());
+        const response = await apiClient.get(`/conversations/${conversationId}/messages`);
         return response.data;
     }
 
     async sendMessage(conversationId: number, content: string): Promise<Message> {
-        const response = await axios.post(`${API_URL}/messages`, {
+        const response = await apiClient.post('/messages', {
             conversationId,
             content
-        }, this.getHeaders());
+        });
         return response.data;
     }
 
     async createConversation(locationId: number): Promise<Conversation> {
-        const response = await axios.post(`${API_URL}/conversations`, {
+        const response = await apiClient.post('/conversations', {
             id_location: locationId
-        }, this.getHeaders());
+        });
         return response.data;
     }
     async deleteConversation(conversationId: number): Promise<void> {
-        await axios.delete(`${API_URL}/conversations/${conversationId}`, this.getHeaders());
+        await apiClient.delete(`/conversations/${conversationId}`);
     }
 }
 

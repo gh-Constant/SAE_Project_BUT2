@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+import apiClient from './apiClient';
+
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
 
 export interface ContactMessage {
@@ -12,34 +13,21 @@ export interface ContactMessage {
 
 const contactServiceImpl = {
     sendMessage: async (message: ContactMessage): Promise<ContactMessage> => {
-        const response = await fetch(`${API_BASE_URL}/api/v1/contact`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message),
-        });
-
-        if (!response.ok) {
+        try {
+            const response = await apiClient.post(`/contact`, message);
+            return response.data;
+        } catch {
             throw new Error('Failed to send message');
         }
-
-        return await response.json();
     },
 
     getMessages: async (locationId: number): Promise<ContactMessage[]> => {
-        const token = localStorage.getItem('authToken');
-        const response = await fetch(`${API_BASE_URL}/api/v1/contact/location/${locationId}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
+        try {
+            const response = await apiClient.get(`/contact/location/${locationId}`);
+            return response.data;
+        } catch {
             throw new Error('Failed to fetch messages');
         }
-
-        return await response.json();
     }
 };
 

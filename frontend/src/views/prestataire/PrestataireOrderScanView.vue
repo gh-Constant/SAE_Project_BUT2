@@ -33,7 +33,19 @@
         <!-- Video Scanner -->
         <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 shadow-sm">
           <div class="relative w-full max-w-sm mx-auto aspect-square rounded-lg overflow-hidden bg-iron-black/10">
-            <video ref="videoElement" class="w-full h-full object-cover" autoplay playsinline></video>
+            <div v-if="!cameraRequested" class="absolute inset-0 flex flex-col items-center justify-center bg-iron-black/80 z-10 w-full h-full">
+              <button
+                @click="requestCamera"
+                class="px-6 py-3 bg-antique-bronze hover:brightness-110 text-white font-body font-semibold rounded-md shadow-md transition-all flex flex-col items-center gap-2"
+              >
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {{ t('prestataire.order_scan.request_camera') }}
+              </button>
+            </div>
+            <video v-else ref="videoElement" class="w-full h-full object-cover" autoplay playsinline></video>
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div class="w-3/4 h-3/4 border-2 border-antique-bronze rounded-lg relative">
                 <div class="absolute -top-0.5 -left-0.5 w-6 h-6 border-t-4 border-l-4 border-antique-bronze rounded-tl-lg"></div>
@@ -43,33 +55,7 @@
               </div>
             </div>
           </div>
-          <p class="text-center text-sm text-stone-grey mt-4">{{ t('prestataire.order_scan.scanning_hint') }}</p>
-        </div>
-
-        <!-- Manual Input -->
-        <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 shadow-sm">
-          <p class="text-sm text-stone-grey text-center mb-4">{{ t('prestataire.order_scan.or_manual') }}</p>
-          <div class="flex gap-3">
-            <input
-              v-model="manualToken"
-              type="text"
-              :placeholder="t('prestataire.order_scan.enter_token')"
-              class="flex-1 px-4 py-2 border border-antique-bronze/30 rounded-md bg-white/50 text-iron-black font-body focus:outline-none focus:ring-2 focus:ring-antique-bronze/50"
-              @keyup.enter="validateManualToken"
-            />
-            <button
-              @click="validateManualToken"
-              :disabled="!manualToken.trim()"
-              :class="[
-                'px-6 py-2 rounded-md font-body font-semibold shadow-md transition-all',
-                manualToken.trim()
-                  ? 'bg-antique-bronze hover:brightness-110 text-white'
-                  : 'bg-stone-grey/20 text-stone-grey cursor-not-allowed'
-              ]"
-            >
-              {{ t('prestataire.order_scan.validate') }}
-            </button>
-          </div>
+          <p v-if="cameraRequested" class="text-center text-sm text-stone-grey mt-4">{{ t('prestataire.order_scan.scanning_hint') }}</p>
         </div>
       </div>
 
@@ -237,14 +223,19 @@ import jsQR from 'jsqr'
 const { t } = useI18n()
 
 const videoElement = ref<HTMLVideoElement | null>(null)
+const cameraRequested = ref(false)
 const cameraError = ref(false)
 const scanResult = ref<{ success: boolean; error?: string } | null>(null)
-const manualToken = ref('')
 const orderDetails = ref<CommandeMock | null>(null)
 const isProcessing = ref(false)
 
 let stream: MediaStream | null = null
 let animationFrame: number | null = null
+
+function requestCamera() {
+  cameraRequested.value = true
+  initCamera()
+}
 
 // Get customer name
 const customerName = computed(() => {
@@ -338,13 +329,6 @@ function handleQRDetected(token: string) {
   findOrderByToken(token)
 }
 
-// Validate manual token input
-function validateManualToken() {
-  if (!manualToken.value.trim()) return
-  stopCamera()
-  findOrderByToken(manualToken.value.trim())
-}
-
 // Find order by QR token
 function findOrderByToken(token: string) {
   const order = COMMANDES.find((cmd) => cmd.qrToken === token)
@@ -395,12 +379,11 @@ function stopCamera() {
 function resetScanner() {
   scanResult.value = null
   orderDetails.value = null
-  manualToken.value = ''
   initCamera()
 }
 
 onMounted(() => {
-  initCamera()
+  // Wait for user to explicitly request camera
 })
 
 onUnmounted(() => {

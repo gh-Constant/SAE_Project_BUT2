@@ -1,5 +1,6 @@
 import { locationsMock } from '@/mocks'
 import { ProductMock, PRODUCTS } from '@/mocks/products'
+import apiClient from './apiClient';
 
 // Interface pour les produits dans le store (avec locationId et imageUrl)
 export interface ProductStoreMock {
@@ -57,7 +58,6 @@ for (const product of PRODUCTS) {
 }
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const productMockService = {
   async getProducts(filters?: ProductFilterParams) {
@@ -264,21 +264,22 @@ const productServiceImpl = {
       if (filters.prestataireId) queryParams.append('prestataireId', filters.prestataireId.toString());
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/products?${queryParams.toString()}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch products');
-    }
-    return await response.json();
+    const response = await apiClient.get('/products', {
+      params: queryParams
+    });
+    return response.data;
   },
 
   async deleteProduct(id: number) {
     const confirmation = confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');
     if (!confirmation) return false;
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/products/${id}`, {
-      method: 'DELETE'
-    });
-    return response.ok;
+    try {
+      await apiClient.delete(`/products/${id}`);
+      return true;
+    } catch {
+      return false;
+    }
   },
 
   async createProductForLocation(locationId: number, productData: {
@@ -288,32 +289,22 @@ const productServiceImpl = {
     imageUrl: string,
     price: number
   }, id_prestataire?: number) {
-    const response = await fetch(`${API_BASE_URL}/api/v1/products`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: productData.name,
-        description: productData.description,
-        price: productData.price,
-        image: productData.imageUrl,
-        id_prestataire: id_prestataire,
-        locationId: locationId,
-        stock: productData.stock
-      })
+    const response = await apiClient.post('/products', {
+      name: productData.name,
+      description: productData.description,
+      price: productData.price,
+      image: productData.imageUrl,
+      id_prestataire: id_prestataire,
+      locationId: locationId,
+      stock: productData.stock
     });
-    if (!response.ok) throw new Error('Failed to create product');
-    return await response.json();
+    return response.data;
   },
 
 
   async createOrder(orderData: OrderData) {
-    const response = await fetch(`${API_BASE_URL}/api/v1/orders`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-    });
-    if (!response.ok) throw new Error('Failed to create order');
-    return await response.json();
+    const response = await apiClient.post('/orders', orderData);
+    return response.data;
   },
 
   async getProductsByLocation(locationId: number) {

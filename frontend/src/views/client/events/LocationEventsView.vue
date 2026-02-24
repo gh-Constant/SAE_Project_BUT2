@@ -25,9 +25,9 @@
           class="bg-white/60 backdrop-blur-sm border border-antique-bronze/20 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row"
         >
           <div class="md:w-1/3 bg-antique-bronze/5 p-6 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-antique-bronze/10">
-            <span class="text-3xl font-medieval font-bold text-antique-bronze">{{ getDay(event.start_time) }}</span>
-            <span class="text-lg font-medieval text-iron-black">{{ getMonth(event.start_time) }}</span>
-            <span class="text-sm text-stone-grey mt-2">{{ getTime(event.start_time) }}</span>
+            <span class="text-3xl font-medieval font-bold text-antique-bronze">{{ event.type === 'ACTIVITY' ? '∞' : getDay(event.start_time) }}</span>
+            <span class="text-lg font-medieval text-iron-black">{{ event.type === 'ACTIVITY' ? t('events.list.dates_multiples') : getMonth(event.start_time) }}</span>
+            <span v-if="event.type !== 'ACTIVITY'" class="text-sm text-stone-grey mt-2">{{ getTime(event.start_time) }}</span>
           </div>
           
           <div class="p-6 flex-1 flex flex-col justify-between">
@@ -39,7 +39,9 @@
             <div class="flex justify-between items-center mt-4 pt-4 border-t border-antique-bronze/10">
               <div>
                 <span class="block text-xs text-stone-grey uppercase tracking-wider">{{ t('events.details.price_label') }}</span>
-                <span class="font-medieval font-bold text-lg text-iron-black">{{ event.price }} G</span>
+                <span class="font-medieval font-bold text-lg text-iron-black">
+                  {{ event.type === 'ACTIVITY' ? t('events.list.from_price', { price: event.price }) : event.price + ' G' }}
+                </span>
               </div>
               <button 
                 @click="viewEvent(event.id_event)"
@@ -78,15 +80,18 @@ onMounted(async () => {
 
 const events = computed(() => eventStore.events.filter(e => e.id_location === locationId))
 
-function getDay(dateStr: string) {
+function getDay(dateStr?: string) {
+  if (!dateStr) return ''
   return new Date(dateStr).getDate()
 }
 
-function getMonth(dateStr: string) {
+function getMonth(dateStr?: string) {
+  if (!dateStr) return ''
   return new Date(dateStr).toLocaleDateString(undefined, { month: 'long' })
 }
 
-function getTime(dateStr: string) {
+function getTime(dateStr?: string) {
+  if (!dateStr) return ''
   return new Date(dateStr).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
 }
 

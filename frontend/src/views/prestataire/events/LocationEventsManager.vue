@@ -7,13 +7,13 @@
       <div class="mb-8">
         <div class="flex gap-4 mb-6">
           <button @click="router.back()"
-                  class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
+            class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
             <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
             {{ t('details.back') }}
           </button>
-          
-          <router-link :to="{ path: '/map', query: { locationId: locationId } }" 
-                       class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group border-l border-antique-bronze/30 pl-4">
+
+          <router-link :to="{ path: '/map', query: { locationId: locationId } }"
+            class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group border-l border-antique-bronze/30 pl-4">
             <i class="fas fa-map-marked-alt mr-2"></i>
             {{ t('details.view_on_map') }}
             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform text-xs"></i>
@@ -26,9 +26,11 @@
             class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-antique-bronze to-transparent opacity-50">
           </div>
 
-          <h3 class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-2 border-b border-antique-bronze/10 pb-4">
+          <h3
+            class="text-2xl font-medieval font-bold text-iron-black mb-6 flex items-center gap-2 border-b border-antique-bronze/10 pb-4">
             <i class="fas fa-calendar-plus text-antique-bronze"></i>
-            {{ isEditing ? t('events.manager.form.submit_update') : t('events.manager.form.submit_create') }}
+            {{ isEditing ? t('prestataire.events.manager.form.submit_update') :
+              t('prestataire.events.manager.form.submit_create') }}
           </h3>
           <p class="text-stone-grey font-bold flex items-center justify-center mt-2">
             <i class="fas fa-map-marker-alt mr-2 text-antique-bronze"></i>
@@ -41,12 +43,14 @@
           <!-- Stats Row -->
           <div class="flex flex-wrap justify-center gap-6 mt-6 pt-6 border-t border-antique-bronze/10">
             <div class="text-center px-4">
-              <div class="text-xs font-bold text-stone-grey uppercase tracking-widest mb-1">Billets Vendus</div>
+              <div class="text-xs font-bold text-stone-grey uppercase tracking-widest mb-1">{{
+                t('prestataire.events.manager.stats.sold') }}</div>
               <div class="text-2xl font-medieval font-bold text-antique-bronze">{{ totalSold }}</div>
             </div>
             <div class="w-px bg-antique-bronze/20 h-10 hidden sm:block"></div>
             <div class="text-center px-4">
-              <div class="text-xs font-bold text-stone-grey uppercase tracking-widest mb-1">Revenus Est.</div>
+              <div class="text-xs font-bold text-stone-grey uppercase tracking-widest mb-1">{{
+                t('prestataire.events.manager.stats.revenue') }}</div>
               <div class="text-2xl font-medieval font-bold text-green-700">{{ totalRevenue }} G</div>
             </div>
           </div>
@@ -62,19 +66,19 @@
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <i class="fas fa-search text-antique-bronze/50"></i>
           </div>
-          <input v-model="searchQuery" type="text" :placeholder="t('events.search.placeholder')"
-                 class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body" />
+          <input v-model="searchQuery" type="text" :placeholder="t('prestataire.events.search.placeholder')"
+            class="block w-full pl-10 pr-10 py-2.5 bg-white/80 border border-antique-bronze/30 rounded-sm focus:ring-antique-bronze focus:border-antique-bronze text-stone-grey placeholder-stone-grey/50 font-body" />
           <button v-if="searchQuery" @click="searchQuery = ''"
-                  class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-antique-bronze transition-colors">
+            class="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-antique-bronze transition-colors">
             <i class="fas fa-times text-stone-grey/50"></i>
           </button>
         </div>
 
         <!-- Bouton Créer -->
         <button @click="openCreateModal"
-                class="w-full md:w-auto bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2.5 px-6 rounded-sm shadow-md transition-all flex items-center justify-center gap-2">
+          class="w-full md:w-auto bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2.5 px-6 rounded-sm shadow-md transition-all flex items-center justify-center gap-2">
           <i class="fas fa-plus-circle"></i>
-          {{ t('events.manager.create_button') }}
+          {{ t('prestataire.events.manager.create_button') }}
         </button>
       </div>
 
@@ -85,13 +89,13 @@
 
       <!-- Empty State -->
       <div v-else-if="filteredEvents.length === 0"
-           class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
+        class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
         <i class="fas fa-calendar-times text-6xl text-antique-bronze/30 mb-4"></i>
         <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
-          {{ t('events.manager.empty_search.title') }}
+          {{ t('prestataire.events.manager.empty_search.title') }}
         </h3>
         <p class="text-stone-grey mb-6">
-          {{ t('events.manager.empty_search.description') }}
+          {{ t('prestataire.events.manager.empty_search.description') }}
         </p>
         <button @click="openCreateModal" class="inline-flex items-center text-antique-bronze font-bold hover:underline">
           Créer un événement maintenant
@@ -101,7 +105,7 @@
       <!-- Grid of Events -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="event in filteredEvents" :key="event.id_event"
-             class="bg-white/60 rounded-sm shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-antique-bronze/20 hover:border-antique-bronze/60 flex flex-col group">
+          class="bg-white/60 rounded-sm shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-antique-bronze/20 hover:border-antique-bronze/60 flex flex-col group">
           <!-- Header / Date -->
           <div class="bg-antique-bronze/10 p-4 border-b border-antique-bronze/10 flex justify-between items-center">
             <div class="flex items-center gap-2 text-antique-bronze font-bold">
@@ -131,25 +135,25 @@
               </div>
               <div class="w-full bg-stone-200 rounded-full h-2 overflow-hidden">
                 <div class="bg-antique-bronze h-full rounded-full transition-all duration-500"
-                     :style="{ width: getProgress(event) + '%' }"></div>
+                  :style="{ width: getProgress(event) + '%' }"></div>
               </div>
             </div>
 
             <!-- Actions -->
             <div class="flex gap-2 mt-auto pt-4 border-t border-antique-bronze/10">
               <button @click="viewReservations(event)"
-                      class="bg-white hover:bg-stone-50 text-emerald-700 border border-emerald-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2"
-                      :title="t('events.actions.view_reservations')">
+                class="bg-white hover:bg-stone-50 text-emerald-700 border border-emerald-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2"
+                :title="t('prestataire.events.table.actions.view_reservations')">
                 <i class="fas fa-ticket-alt"></i>
                 <span class="hidden xl:inline">{{ event.sold || 0 }}</span>
               </button>
               <button @click="editEvent(event)"
-                      class="flex-1 bg-white hover:bg-stone-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2">
-                <i class="fas fa-edit"></i> {{ t('events.actions.edit') }}
+                class="flex-1 bg-white hover:bg-stone-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-edit"></i> {{ t('prestataire.events.table.actions.edit') }}
               </button>
               <button @click="deleteEvent(event.id_event)"
-                      class="bg-white hover:bg-stone-50 text-red-700 border border-red-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2"
-                      :title="t('events.actions.delete')">
+                class="bg-white hover:bg-stone-50 text-red-700 border border-red-200 font-bold py-2 px-3 rounded-sm text-sm transition-colors flex items-center justify-center gap-2"
+                :title="t('prestataire.events.table.actions.delete')">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </div>
@@ -161,10 +165,10 @@
 
     <!-- Create/Edit Modal (Styled) -->
     <div v-if="showModal" class="fixed inset-0 z-[2000] overflow-y-auto" aria-labelledby="modal-title" role="dialog"
-         aria-modal="true">
+      aria-modal="true">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" aria-hidden="true"
-             @click="closeModal"></div>
+          @click="closeModal"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div
@@ -182,44 +186,76 @@
 
             <div class="space-y-4 font-body">
               <div>
-                <label class="block text-sm font-bold text-iron-black mb-1">{{ t('events.manager.form.title_label') }}</label>
+                <label class="block text-sm font-bold text-iron-black mb-1">{{
+                  t('prestataire.events.manager.form.title_label') }}</label>
                 <input v-model="form.title" type="text"
-                       class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white">
+                  class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white">
               </div>
               <div>
-                <label class="block text-sm font-bold text-iron-black mb-1">{{ t('events.manager.form.description_label') }}</label>
-                <textarea v-model="form.description" rows="3"
-                          class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white"></textarea>
+                <label class="block text-sm font-bold text-iron-black mb-1">{{
+                  t('prestataire.events.manager.form.description_label') }}</label>
+                <Editor v-model="form.description" />
               </div>
-              <div class="mb-4">
-                <label class="block text-sm font-bold text-iron-black mb-2">{{ t('events.manager.form.date_label') }}</label>
+
+              <!-- Type Selector -->
+              <div class="bg-antique-bronze/5 p-3 rounded-sm border border-antique-bronze/10">
+                <span class="block text-sm font-bold text-iron-black mb-2">{{
+                  t('prestataire.events.manager.form.type_label') }}</span>
+                <div class="flex gap-6">
+                  <label class="flex items-center gap-2 cursor-pointer group">
+                    <div class="relative flex items-center justify-center w-5 h-5">
+                      <input type="radio" v-model="form.type" value="EVENT"
+                        class="peer appearance-none w-5 h-5 border-2 border-antique-bronze rounded-full checked:bg-antique-bronze transition-colors">
+                      <i class="fas fa-check text-white text-xs absolute opacity-0 peer-checked:opacity-100"></i>
+                    </div>
+                    <span class="font-bold text-stone-700 group-hover:text-antique-bronze transition-colors">{{
+                      t('prestataire.events.manager.form.type_event') }}</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer group">
+                    <div class="relative flex items-center justify-center w-5 h-5">
+                      <input type="radio" v-model="form.type" value="ACTIVITY"
+                        class="peer appearance-none w-5 h-5 border-2 border-antique-bronze rounded-full checked:bg-antique-bronze transition-colors">
+                      <i class="fas fa-check text-white text-xs absolute opacity-0 peer-checked:opacity-100"></i>
+                    </div>
+                    <span class="font-bold text-stone-700 group-hover:text-antique-bronze transition-colors">{{
+                      t('prestataire.events.manager.form.type_activity') }}</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- DATE PICKER (Unified for EVENT and ACTIVITY) -->
+              <div class="mb-4" v-if="form.type === 'EVENT' || showSchedulePicker">
+                <label class="block text-sm font-bold text-iron-black mb-2">
+                  {{ form.type === 'ACTIVITY' ? t('prestataire.events.manager.form.schedules_title') :
+                    t('prestataire.events.manager.form.date_label') }}
+                </label>
 
                 <!-- Date Navigation -->
                 <div
                   class="flex items-center justify-between mb-2 bg-antique-bronze/10 p-2 rounded-sm border border-antique-bronze/20">
                   <button type="button" @click="changeDate(-1)"
-                          class="text-antique-bronze hover:text-iron-black font-bold px-2">
+                    class="text-antique-bronze hover:text-iron-black font-bold px-2">
                     <i class="fas fa-chevron-left"></i>
                   </button>
                   <div class="flex items-center gap-2">
                     <input type="date" v-model="selectedDate" :min="settingsStore.festival_start_date || undefined"
-                           :max="settingsStore.festival_end_date || undefined"
-                           class="bg-transparent border-none font-medieval font-bold text-lg text-center focus:ring-0 cursor-pointer text-iron-black">
+                      :max="settingsStore.festival_end_date || undefined"
+                      class="bg-transparent border-none font-medieval font-bold text-lg text-center focus:ring-0 cursor-pointer text-iron-black">
                   </div>
                   <button type="button" @click="changeDate(1)"
-                          class="text-antique-bronze hover:text-iron-black font-bold px-2">
+                    class="text-antique-bronze hover:text-iron-black font-bold px-2">
                     <i class="fas fa-chevron-right"></i>
                   </button>
                 </div>
 
                 <!-- Time Grid -->
                 <div
-                  class="border-2 border-antique-bronze/30 rounded-sm bg-parchment h-64 overflow-y-auto relative custom-scrollbar">
+                  class="border-2 border-antique-bronze/30 rounded-sm bg-parchment h-56 overflow-y-auto relative custom-scrollbar">
                   <div class="grid grid-cols-1 divide-y divide-antique-bronze/10">
                     <div v-for="hour in 24" :key="hour - 1" @mousedown="startDrag(hour - 1)"
-                         @mouseenter="onMouseEnter(hour - 1)"
-                         class="flex h-10 hover:bg-antique-bronze/5 cursor-pointer transition-colors relative group"
-                         :class="getTimeSlotClass(hour - 1)">
+                      @mouseenter="onMouseEnter(hour - 1)"
+                      class="flex h-10 hover:bg-antique-bronze/5 cursor-pointer transition-colors relative group"
+                      :class="getTimeSlotClass(hour - 1)">
                       <div
                         class="w-16 flex-shrink-0 flex items-center justify-end pr-3 border-r border-antique-bronze/20 text-xs font-bold text-stone-500 select-none">
                         {{ formatHour(hour - 1) }}
@@ -227,45 +263,131 @@
                       <div class="flex-grow relative">
                         <!-- Selection Indicator -->
                         <div v-if="isHourSelected(hour - 1)"
-                             class="absolute inset-0 bg-antique-bronze/20 border-l-4 border-antique-bronze flex items-center px-2 gap-2">
-                          <span class="text-xs font-bold text-antique-bronze" v-if="isStartHour(hour - 1)">{{ t('events.manager.form.start') }}</span>
-                          <span class="text-xs font-bold text-antique-bronze" v-if="isEndHour(hour - 1)">{{ t('events.manager.form.end') }}</span>
+                          class="absolute inset-0 bg-antique-bronze/20 border-l-4 border-antique-bronze flex items-center px-2 gap-2">
+                          <span class="text-xs font-bold text-antique-bronze" v-if="isStartHour(hour - 1)">{{
+                            t('prestataire.events.manager.form.start') }}</span>
+                          <span class="text-xs font-bold text-antique-bronze" v-if="isEndHour(hour - 1)">{{
+                            t('prestataire.events.manager.form.end') }}</span>
                         </div>
                         <!-- Hover Hint -->
                         <div
                           class="hidden group-hover:flex absolute inset-0 items-center pl-2 text-xs text-stone-400 italic pointer-events-none">
-                          {{ form.start_time && !form.end_time ? 'Définir fin' : 'Définir début' }}
+                          {{ isDraggingSelectionStarted ? 'Définir fin' : 'Définir début' }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="mt-2 text-sm text-center font-bold text-antique-bronze"
-                     v-if="form.start_time && form.end_time">
-                  {{ formatDateTime(form.start_time) }} - {{ formatResultTime(form.end_time) }}
+                <!-- Selected Time Display -->
+                <div class="mt-2 text-sm text-center font-bold text-antique-bronze">
+                  <span v-if="currentSelection.start && currentSelection.end">
+                    {{ formatDateTime(currentSelection.start) }} - {{ formatResultTime(currentSelection.end) }}
+                  </span>
+                  <span v-else class="text-stone-400 italic">Sélectionnez une plage horaire</span>
                 </div>
-              </div>
-              <div>
-                <div class="grid grid-cols-2 gap-4">
+
+                <!-- Manual Inputs (Precision) -->
+                <div
+                  class="grid grid-cols-2 gap-4 mt-4 border-t border-antique-bronze/10 pt-4 bg-antique-bronze/5 rounded-sm p-3">
                   <div>
-                    <label class="block text-sm font-bold text-iron-black mb-1">{{ t('events.manager.form.price_label') }}</label>
-                    <div class="relative">
-                      <input v-model.number="form.price" type="number" min="0"
-                             class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white pl-8">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-coins text-antique-bronze/50 text-xs"></i>
-                      </div>
-                    </div>
+                    <label class="block text-xs font-bold text-stone-500 mb-1">Heure de début</label>
+                    <input type="time" v-model="selectionStartTime" @change="updateFromTimeInput"
+                      class="block w-full border-antique-bronze/30 rounded-sm text-sm focus:ring-antique-bronze bg-white">
                   </div>
                   <div>
-                    <label class="block text-sm font-bold text-iron-black mb-1">{{ t('events.manager.form.capacity_label') }}</label>
-                    <div class="relative">
-                      <input v-model.number="form.capacity" type="number" min="1"
-                             class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white pl-8">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-users text-antique-bronze/50 text-xs"></i>
-                      </div>
+                    <label class="block text-xs font-bold text-stone-500 mb-1">Heure de fin</label>
+                    <input type="time" v-model="selectionEndTime" @change="updateFromTimeInput"
+                      class="block w-full border-antique-bronze/30 rounded-sm text-sm focus:ring-antique-bronze bg-white">
+                  </div>
+                </div>
+
+                <!-- Confirmation Buttons for ACTIVITY -->
+                <div v-if="form.type === 'ACTIVITY'"
+                  class="flex gap-3 mt-4 justify-end border-t border-antique-bronze/10 pt-4">
+                  <button type="button" @click="cancelSchedulePicker"
+                    class="text-stone-500 hover:text-stone-700 font-bold text-sm px-3 py-2">
+                    Annuler
+                  </button>
+                  <button type="button" @click="confirmSchedule"
+                    :disabled="!currentSelection.start || !currentSelection.end"
+                    class="bg-antique-bronze text-white font-bold py-2 px-4 rounded-sm text-sm hover:brightness-110 disabled:opacity-50 transition-all shadow-sm">
+                    <i class="fas fa-check mr-2"></i> Valider ce créneau
+                  </button>
+                </div>
+              </div>
+
+              <!-- ACTIVITY SPECIFIC: Add Schedule Button & List -->
+              <div v-if="form.type === 'ACTIVITY'" class="mb-4">
+                <button v-if="!showSchedulePicker" type="button" @click="openSchedulePicker"
+                  class="w-full bg-antique-bronze text-white font-bold py-2.5 rounded-sm text-sm hover:brightness-110 shadow-sm border border-antique-bronze mb-4 flex items-center justify-center gap-2 transition-all">
+                  <i class="fas fa-calendar-plus"></i> {{ t('prestataire.events.manager.form.add_schedule') }}
+                </button>
+
+                <!-- List of added schedules -->
+                <div v-if="form.schedules.length > 0"
+                  class="border border-antique-bronze/20 rounded-sm overflow-hidden">
+                  <table class="min-w-full divide-y divide-antique-bronze/10 text-sm">
+                    <thead class="bg-antique-bronze/10">
+                      <tr>
+                        <th class="px-3 py-2 text-left font-bold text-antique-bronze">Date</th>
+                        <th class="px-3 py-2 text-left font-bold text-antique-bronze">Heure</th>
+                        <th class="px-3 py-2 text-left font-bold text-antique-bronze">Cap.</th>
+                        <th class="px-3 py-2 text-left font-bold text-antique-bronze">Prix</th>
+                        <th class="px-3 py-2"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-antique-bronze/10 bg-white/50">
+                      <tr v-for="(sch, idx) in form.schedules" :key="idx">
+                        <td class="px-3 py-2">{{ new Date(sch.start_time!).toLocaleDateString() }}</td>
+                        <td class="px-3 py-2">
+                          {{ new Date(sch.start_time!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                          }} -
+                          {{ new Date(sch.end_time!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
+                        </td>
+                        <td class="px-3 py-2">
+                          <input type="number" v-model="sch.capacity" placeholder="Défaut"
+                            class="w-16 text-xs border-stone-300 rounded-sm p-1">
+                        </td>
+                        <td class="px-3 py-2">
+                          <input type="number" v-model="sch.price" placeholder="Défaut"
+                            class="w-16 text-xs border-stone-300 rounded-sm p-1">
+                        </td>
+                        <td class="px-3 py-2 text-right">
+                          <button @click="removeSchedule(idx)" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-bold text-iron-black mb-1">
+                    {{ form.type === 'ACTIVITY' ? 'Prix par défaut' : t('prestataire.events.manager.form.price_label')
+                    }}
+                  </label>
+                  <div class="relative">
+                    <input v-model.number="form.price" type="number" min="0"
+                      class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white pl-8">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fas fa-coins text-antique-bronze/50 text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-iron-black mb-1">
+                    {{ form.type === 'ACTIVITY' ? 'Capacité par défaut' :
+                      t('prestataire.events.manager.form.capacity_label') }}
+                  </label>
+                  <div class="relative">
+                    <input v-model.number="form.capacity" type="number" min="1"
+                      class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white pl-8">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fas fa-users text-antique-bronze/50 text-xs"></i>
                     </div>
                   </div>
                 </div>
@@ -275,12 +397,13 @@
           <div
             class="bg-antique-bronze/5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-antique-bronze/10">
             <button @click="saveEvent" type="button"
-                    class="w-full inline-flex justify-center rounded-sm border border-transparent shadow-sm px-4 py-2 bg-antique-bronze text-base font-medium text-white hover:brightness-110 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm font-medieval">
-              {{ isEditing ? t('events.manager.form.submit_update') : t('events.manager.form.submit_create') }}
+              class="w-full inline-flex justify-center rounded-sm border border-transparent shadow-sm px-4 py-2 bg-antique-bronze text-base font-medium text-white hover:brightness-110 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm font-medieval">
+              {{ isEditing ? t('prestataire.events.manager.form.submit_update') :
+                t('prestataire.events.manager.form.submit_create') }}
             </button>
             <button @click="closeModal" type="button"
-                    class="mt-3 w-full inline-flex justify-center rounded-sm border border-stone-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-stone-700 hover:bg-stone-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm font-medieval">
-              {{ t('events.manager.form.cancel') }}
+              class="mt-3 w-full inline-flex justify-center rounded-sm border border-stone-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-stone-700 hover:bg-stone-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm font-medieval">
+              {{ t('prestataire.events.manager.form.cancel') }}
             </button>
           </div>
         </div>
@@ -289,10 +412,10 @@
 
     <!-- Reservations Modal -->
     <div v-if="showReservationsModal" class="fixed inset-0 z-[2000] overflow-y-auto" aria-labelledby="modal-title"
-         role="dialog" aria-modal="true">
+      role="dialog" aria-modal="true">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" aria-hidden="true"
-             @click="closeReservationsModal"></div>
+          @click="closeReservationsModal"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div
@@ -314,7 +437,7 @@
             </div>
 
             <div v-else-if="currentEventReservations.length === 0"
-                 class="text-center py-8 bg-white/40 rounded-sm border border-dashed border-antique-bronze/30">
+              class="text-center py-8 bg-white/40 rounded-sm border border-dashed border-antique-bronze/30">
               <i class="fas fa-scroll text-4xl text-antique-bronze/30 mb-3"></i>
               <p class="text-stone-grey">{{ t('events.manager.reservations.empty') }}</p>
             </div>
@@ -324,22 +447,22 @@
                 <thead class="bg-antique-bronze/10">
                   <tr>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
                       {{ t('events.manager.reservations.headers.adventurer') }}</th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
                       {{ t('events.manager.reservations.headers.places') }}</th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
                       {{ t('events.manager.reservations.headers.total') }}</th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
+                      class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
                       {{ t('events.manager.reservations.headers.date') }}</th>
                   </tr>
                 </thead>
                 <tbody class="bg-white/60 divide-y divide-antique-bronze/10">
                   <tr v-for="reservation in currentEventReservations" :key="reservation.id_reservation"
-                      class="hover:bg-antique-bronze/5 transition-colors">
+                    class="hover:bg-antique-bronze/5 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
                         <div
@@ -383,7 +506,7 @@
           <div
             class="bg-antique-bronze/5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-antique-bronze/10">
             <button @click="closeReservationsModal" type="button"
-                    class="w-full inline-flex justify-center rounded-sm border border-transparent shadow-sm px-4 py-2 bg-antique-bronze text-base font-medium text-white hover:brightness-110 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm font-medieval">
+              class="w-full inline-flex justify-center rounded-sm border border-transparent shadow-sm px-4 py-2 bg-antique-bronze text-base font-medium text-white hover:brightness-110 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm font-medieval">
               {{ t('events.manager.reservations.close') }}
             </button>
           </div>
@@ -396,12 +519,13 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useEventStore, Event } from '@/stores/event'
+import { useEventStore, Event, EventSchedule } from '@/stores/event'
 import { locationService } from '@/services/locationService';
 import { LocationMock } from '@/mocks/locations';
 import { useSettingsStore } from '@/stores/settings';
 import { useI18n } from 'vue-i18n';
 import BackToMapButton from '@/components/shared/BackToMapButton.vue';
+import Editor from '@/components/editor/Editor.vue';
 
 const { t } = useI18n();
 
@@ -420,10 +544,18 @@ const searchQuery = ref('')
 const form = reactive({
   title: '',
   description: '',
+  type: 'EVENT' as 'EVENT' | 'ACTIVITY',
   start_time: '',
   end_time: '',
   price: 0,
-  capacity: 0
+  capacity: 0,
+  schedules: [] as Partial<EventSchedule>[]
+})
+
+// Unified Selection State
+const currentSelection = reactive({
+  start: '',
+  end: ''
 })
 
 const location = ref<LocationMock | null>(null)
@@ -439,13 +571,34 @@ const currentReservationEvent = ref<Event | null>(null)
 const selectedDate = ref(new Date().toISOString().split('T')[0])
 const isDragging = ref(false)
 const dragStartHour = ref<number | null>(null)
+const isDraggingSelectionStarted = computed(() => dragStartHour.value !== null)
 
-// Initialize selectedDate when opening modal with existing data
+// Watchers to sync Event data with Selection
 watch(() => form.start_time, (newVal) => {
-  if (newVal) {
+  if (form.type === 'EVENT' && newVal && newVal !== currentSelection.start) {
+    currentSelection.start = newVal
     selectedDate.value = newVal.split('T')[0]
   }
-}, { immediate: true })
+})
+
+watch(() => form.end_time, (newVal) => {
+  if (form.type === 'EVENT' && newVal && newVal !== currentSelection.end) {
+    currentSelection.end = newVal
+  }
+})
+
+// Clear selection when switching types if needed, or keep for convenience
+watch(() => form.type, (newType) => {
+  if (newType === 'ACTIVITY') {
+    // Optional: clear selection or keep it as draft
+    currentSelection.start = ''
+    currentSelection.end = ''
+  } else {
+    // Switching back to EVENT: sync form to selection if exists?
+    if (currentSelection.start) form.start_time = currentSelection.start
+    if (currentSelection.end) form.end_time = currentSelection.end
+  }
+})
 
 function changeDate(days: number) {
   const date = new Date(selectedDate.value)
@@ -482,25 +635,20 @@ function getHourFromISO(isoString: string) {
 }
 
 function isHourSelected(h: number) {
-  if (!form.start_time) return false
-  const start = getHourFromISO(form.start_time)
+  if (!currentSelection.start) return false
+  const start = getHourFromISO(currentSelection.start)
   if (start === -1) return false
 
-  if (!form.end_time) return h === start
+  if (!currentSelection.end) return h === start
 
-  const end = getHourFromISO(form.end_time)
-  // If end day is different (next day), handle strictly less than 24 logic?
-  // For simplicity, handle single day events. 
-  // If end is -1 (different day), maybe we should show full selection?
-  // Let's assume strict single day for visual simplicity first.
+  const end = getHourFromISO(currentSelection.end)
 
   if (end !== -1) {
-    // Standard case: start and end on same day
     return h >= start && h < end
   }
 
   // If end date is > selected date, then all hours after start are selected
-  if (form.end_time.split('T')[0] > selectedDate.value) {
+  if (currentSelection.end.split('T')[0] > selectedDate.value) {
     return h >= start
   }
 
@@ -508,27 +656,18 @@ function isHourSelected(h: number) {
 }
 
 function isStartHour(h: number) {
-  return getHourFromISO(form.start_time) === h
+  return getHourFromISO(currentSelection.start) === h
 }
 
 function isEndHour(h: number) {
-  // End time is exclusive in logic (14:00 - 15:00 means 14:00 slot selected), 
-  // but visually we might want to mark the last slot.
-  // With the current logic: 14:00 start, 16:00 end -> 14, 15 selected. 16 is NOT selected.
-  // So "EndHour" visual marker should technically be the last SELECTED block?
-
-  if (!form.end_time) return false
-  const end = getHourFromISO(form.end_time)
-  const start = getHourFromISO(form.start_time)
-
-  // If end is 16, range is [14, 15]. Last selected is 15.
-  // So visual tag "Fin" should be on 15? Or do we want to show strict time?
-  // Let's put "Fin" on the last selected block.
+  if (!currentSelection.end) return false
+  const end = getHourFromISO(currentSelection.end)
+  const start = getHourFromISO(currentSelection.start)
 
   if (end !== -1) {
     return h === end - 1
   }
-  if (form.end_time.split('T')[0] > selectedDate.value && start !== -1) {
+  if (currentSelection.end.split('T')[0] > selectedDate.value && start !== -1) {
     return h === 23 // Show end on last slot if spanning
   }
   return false
@@ -569,16 +708,82 @@ function updateSelection(currentHour: number) {
   const startTime = `${selectedDate.value}T${start.toString().padStart(2, '0')}:00`
   const endTime = `${selectedDate.value}T${end.toString().padStart(2, '0')}:00`
 
-  form.start_time = startTime
-  // Note: endTime might overflow if end is 24.
+  currentSelection.start = startTime
+
   if (end === 24) {
-    // Handle next day overflow properly
     const nextDay = new Date(selectedDate.value)
     nextDay.setDate(nextDay.getDate() + 1)
-    form.end_time = `${nextDay.toISOString().split('T')[0]}T00:00`
+    currentSelection.end = `${nextDay.toISOString().split('T')[0]}T00:00`
   } else {
-    form.end_time = endTime
+    currentSelection.end = endTime
   }
+
+  // Sync to form if EVENT
+  if (form.type === 'EVENT') {
+    form.start_time = currentSelection.start
+    form.end_time = currentSelection.end
+  }
+}
+
+// Schedule Picker State
+const showSchedulePicker = ref(false)
+const selectionStartTime = ref('')
+const selectionEndTime = ref('')
+
+// Sync manual inputs with currentSelection (e.g. from drag)
+watch(() => currentSelection.start, (newVal) => {
+  if (newVal) selectionStartTime.value = newVal.split('T')[1].slice(0, 5)
+})
+watch(() => currentSelection.end, (newVal) => {
+  if (newVal) selectionEndTime.value = newVal.split('T')[1].slice(0, 5)
+})
+
+function updateFromTimeInput() {
+  if (selectionStartTime.value) {
+    currentSelection.start = `${selectedDate.value}T${selectionStartTime.value}:00`
+  }
+  if (selectionEndTime.value) {
+    currentSelection.end = `${selectedDate.value}T${selectionEndTime.value}:00`
+  }
+
+  // Sync to form if EVENT
+  if (form.type === 'EVENT') {
+    form.start_time = currentSelection.start
+    form.end_time = currentSelection.end
+  }
+}
+
+function openSchedulePicker() {
+  showSchedulePicker.value = true
+  currentSelection.start = ''
+  currentSelection.end = ''
+  selectionStartTime.value = ''
+  selectionEndTime.value = ''
+}
+
+function confirmSchedule() {
+  addScheduleFromSelection()
+  showSchedulePicker.value = false
+}
+
+function cancelSchedulePicker() {
+  showSchedulePicker.value = false
+}
+
+// Activity Schedule Logic
+function addScheduleFromSelection() {
+  if (!currentSelection.start || !currentSelection.end) return;
+
+  form.schedules.push({
+    start_time: currentSelection.start,
+    end_time: currentSelection.end,
+    capacity: form.capacity || undefined, // Use form defaults
+    price: form.price || undefined
+  });
+}
+
+function removeSchedule(index: number) {
+  form.schedules.splice(index, 1);
 }
 
 
@@ -607,12 +812,10 @@ onMounted(async () => {
   window.addEventListener('mouseup', stopDrag)
   loading.value = true
 
-  // Fetch location details first to check status
   try {
     const loc = await locationService.getLocationById(locationId);
     location.value = loc;
 
-    // Initialize date to global festival start_date if available and current date is out of range
     if (settingsStore.festival_start_date) {
       if (selectedDate.value < settingsStore.festival_start_date) {
         selectedDate.value = settingsStore.festival_start_date
@@ -648,9 +851,10 @@ const filteredEvents = computed(() => {
 })
 
 const totalSold = computed(() => events.value.reduce((acc, e) => acc + (e.sold || 0), 0))
-const totalRevenue = computed(() => events.value.reduce((acc, e) => acc + ((e.sold || 0) * (e.price || 0)), 0))
+const totalRevenue = computed(() => events.value.reduce((acc, e) => acc + ((e.sold || 0) * (e.price || 0)), 0)) // Simplification: uses base price
 
-function formatDate(dateStr: string) {
+function formatDate(dateStr?: string) {
+  if (!dateStr) return 'Dates multiples';
   return new Date(dateStr).toLocaleDateString(undefined, {
     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
   })
@@ -666,10 +870,12 @@ function openCreateModal() {
   editingId.value = null
   form.title = ''
   form.description = ''
+  form.type = 'EVENT'
   form.start_time = ''
   form.end_time = ''
   form.price = 0
   form.capacity = 0
+  form.schedules = []
   showModal.value = true
 }
 
@@ -678,10 +884,24 @@ function editEvent(event: Event) {
   editingId.value = event.id_event
   form.title = event.title
   form.description = event.description || ''
-  form.start_time = new Date(event.start_time).toISOString().slice(0, 16)
-  form.end_time = new Date(event.end_time).toISOString().slice(0, 16)
+  form.type = event.type || 'EVENT'
+
+  if (event.start_time) {
+    form.start_time = new Date(event.start_time).toISOString().slice(0, 16)
+  }
+  if (event.end_time) {
+    form.end_time = new Date(event.end_time).toISOString().slice(0, 16)
+  }
+
   form.price = event.price || 0
   form.capacity = event.capacity || 0
+
+  if (event.schedules) {
+    form.schedules = [...event.schedules]
+  } else {
+    form.schedules = []
+  }
+
   showModal.value = true
 }
 
@@ -696,11 +916,30 @@ function closeModal() {
 }
 
 async function saveEvent() {
-  const eventData = {
-    ...form,
+  const eventData: any = {
+    title: form.title,
+    description: form.description,
+    type: form.type,
+    price: form.price,
+    capacity: form.capacity,
     id_location: locationId,
     published: true,
     categories: []
+  }
+
+  if (form.type === 'EVENT') {
+    if (!form.start_time || !form.end_time) {
+      alert("Veuillez définir une date et une heure de début et fin.");
+      return;
+    }
+    eventData.start_time = new Date(form.start_time).toISOString();
+    eventData.end_time = new Date(form.end_time).toISOString();
+  } else {
+    if (!form.schedules || form.schedules.length === 0) {
+      alert("Veuillez ajouter au moins un créneau pour cette activité.");
+      return;
+    }
+    eventData.schedules = form.schedules;
   }
 
   try {

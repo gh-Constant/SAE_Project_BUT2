@@ -10,6 +10,7 @@
     "scan": {
         "title": "Scanner un QR Code",
         "description": "Pointez votre caméra vers un QR code",
+        "requestCamera": "Demander l'accès à la caméra",
         "cameraError": "Impossible d'accéder à la caméra. Veuillez autoriser l'accès.",
         "retry": "Réessayer",
         "hint": "Positionnez le QR code dans le cadre",

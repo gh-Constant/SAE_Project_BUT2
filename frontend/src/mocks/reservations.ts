@@ -5,6 +5,7 @@ export interface ReservationMock {
   id_reservation: number;
   id_user: number;
   id_event: number;
+  id_schedule?: number;
   quantity: number;
   total_price: number;
   status: 'CONFIRMED' | 'PENDING' | 'CANCELLED';

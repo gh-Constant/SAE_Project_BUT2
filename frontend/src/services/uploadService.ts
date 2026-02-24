@@ -1,6 +1,6 @@
+import apiClient from './apiClient';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 export interface UploadResponse {
     url: string;
@@ -31,36 +31,18 @@ const apiUploadService = {
         const formData = new FormData();
         formData.append('file', file);
 
-        const token = localStorage.getItem('authToken');
-        const headers: HeadersInit = {};
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
-
-        const response = await fetch(`${API_BASE_URL}/api/v1/upload`, {
-            method: 'POST',
-            headers, // Content-Type is set automatically for FormData
-            body: formData
-        });
-
-        if (!response.ok) {
-            let errorMsg = 'Failed to upload image';
-            try {
-                const errorData = await response.json();
-                if (typeof errorData.error === 'string') {
-                    errorMsg = errorData.error;
-                } else {
-                    errorMsg = JSON.stringify(errorData);
+        try {
+            const response = await apiClient.post('/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            } catch (e) {
-                const text = await response.text();
-                errorMsg = text || response.statusText;
-            }
-            console.error(`Upload error (${response.status}):`, errorMsg);
-            throw new Error(`Upload failed (${response.status}): ${errorMsg}`);
+            });
+            return response.data;
+        } catch (error: any) {
+            const errorMsg = error.response?.data?.error || error.response?.data || error.message || 'Upload failed';
+            console.error(`Upload error:`, errorMsg);
+            throw new Error(`Upload failed: ${errorMsg}`);
         }
-
-        return await response.json();
     }
 };
 

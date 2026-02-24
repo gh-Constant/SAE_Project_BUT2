@@ -5,7 +5,8 @@
         "empty": "Le calme règne sur le royaume pour le moment.",
         "unknown_location": "Lieu inconnu",
         "from_price": "À partir de {price} G",
-        "view_details": "Voir détails"
+        "view_details": "Voir détails",
+        "dates_multiples": "Dates multiples"
     },
     "details": {
         "back": "Retour",
@@ -22,6 +23,9 @@
         "sold_out": "Complet",
         "confirm_booking": "Confirmer la réservation",
         "success": "Réservation confirmée avec succès !",
-        "error_default": "Une erreur est survenue lors de la réservation."
+        "error_default": "Une erreur est survenue lors de la réservation.",
+        "choose_date": "Choisir une date",
+        "select_slot": "Sélectionnez un créneau",
+        "remaining_slot": "Reste: {count}"
     }
 }

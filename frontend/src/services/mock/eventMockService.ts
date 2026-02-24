@@ -98,7 +98,7 @@ export const eventMockService = {
     });
   },
 
-  bookEvent: async (eventId: number, quantity: number): Promise<ReservationMock> => {
+  bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock> => {
     return new Promise((resolve, reject) => {
       const event = EVENTS.find(e => e.id_event === eventId);
       if (!event) {
@@ -106,19 +106,51 @@ export const eventMockService = {
         return;
       }
 
-      if ((event.sold + quantity) > event.capacity) {
-        reject(new Error('Not enough capacity'));
-        return;
-      }
+      let price = event.price;
 
-      event.sold += quantity;
+      if (scheduleId) {
+        if (!event.schedules) {
+          reject(new Error('Event has no schedules'));
+          return;
+        }
+        const schedule = event.schedules.find(s => s.id_schedule === scheduleId);
+        if (!schedule) {
+          reject(new Error('Schedule not found'));
+          return;
+        }
+
+        const capacity = schedule.capacity ?? event.capacity;
+        const sold = schedule.sold ?? 0;
+        
+        if (sold + quantity > capacity) {
+          reject(new Error('Not enough capacity in schedule'));
+          return;
+        }
+
+        schedule.sold = sold + quantity;
+        if (schedule.price !== undefined) {
+          price = schedule.price;
+        }
+      } else {
+        if (event.type === 'ACTIVITY') {
+            reject(new Error('Activity requires a schedule selection'));
+            return;
+        }
+
+        if ((event.sold + quantity) > event.capacity) {
+            reject(new Error('Not enough capacity'));
+            return;
+        }
+        event.sold += quantity;
+      }
 
       const newReservation: ReservationMock = {
         id_reservation: Math.max(...RESERVATIONS.map(r => r.id_reservation), 0) + 1,
         id_user: getCurrentUserId(), // Use actual logged-in user ID
         id_event: eventId,
+        id_schedule: scheduleId,
         quantity,
-        total_price: event.price * quantity,
+        total_price: price * quantity,
         status: 'CONFIRMED',
         created_at: new Date().toISOString(),
         event: {

@@ -7,7 +7,7 @@
  * L'utilisateur connecté reste toujours visible (soit dans la liste, soit en sticky footer).
  */
 
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { userService } from '@/services/userService';
 import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
@@ -18,13 +18,6 @@ const totalUsers = ref(0);
 const currentPage = ref(1);
 const limit = 10;
 const loading = ref(false);
-
-const headers = [
-	{ key: 'rank', label: 'Rang' },
-	{ key: 'name', label: 'Aventurier' },
-	{ key: 'level', label: 'Niveau' },
-	{ key: 'xp', label: 'XP Total' },
-];
 
 const loadLeaderboard = async (page: number) => {
 	loading.value = true;
@@ -115,14 +108,15 @@ onMounted(() => {
 						</tr>
 					</thead>
 					<tbody class="divide-y divide-antique-bronze/20 font-body">
-						<tr v-for="user in leaderboard" :key="user.id" class="hover:bg-antique-bronze/5 transition-colors group"
-							:class="{
+						<tr v-for="user in leaderboard" :key="user.id"
+							class="hover:bg-antique-bronze/5 transition-colors group" :class="{
 								'bg-amber-100/60 border-y-2 shadow-sm relative z-10 font-bold':
 									auth.user && user.id === auth.user.id,
 							}">
 							<td class="p-4 text-center font-bold text-dark-wood">
 								<div v-if="user.rank <= 3"
-									class="flex items-center justify-center w-10 h-10 mx-auto rounded-full shadow-sm" :class="user.rank === 1
+									class="flex items-center justify-center w-10 h-10 mx-auto rounded-full shadow-sm"
+									:class="user.rank === 1
 										? 'bg-yellow-100 text-yellow-700 ring-2 ring-yellow-400'
 										: user.rank === 2
 											? 'bg-gray-100 text-gray-700 ring-2 ring-gray-400'
@@ -140,8 +134,8 @@ onMounted(() => {
 									<!-- Avatar small -->
 									<div
 										class="w-10 h-10 rounded-full border border-antique-bronze/50 overflow-hidden bg-warm-sand shadow-sm">
-										<img v-if="user.avatar_url" :src="user.avatar_url" class="w-full h-full object-cover"
-											alt="Avatar" />
+										<img v-if="user.avatar_url" :src="user.avatar_url"
+											class="w-full h-full object-cover" alt="Avatar" />
 										<div v-else
 											class="w-full h-full flex items-center justify-center bg-antique-bronze/20 text-antique-bronze">
 											<i class="fas fa-user"></i>
@@ -211,8 +205,8 @@ onMounted(() => {
 			<!-- Sticky User Stats (if not visible) -->
 			<transition enter-active-class="transform transition ease-out duration-300"
 				enter-from-class="translate-y-full opacity-0" enter-to-class="translate-y-0 opacity-100"
-				leave-active-class="transform transition ease-in duration-200" leave-from-class="translate-y-0 opacity-100"
-				leave-to-class="translate-y-full opacity-0">
+				leave-active-class="transform transition ease-in duration-200"
+				leave-from-class="translate-y-0 opacity-100" leave-to-class="translate-y-full opacity-0">
 				<div v-if="auth.user && !isCurrentUserVisible && !loading"
 					class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-3xl bg-dark-wood text-parchment rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] border-2 border-gold/50 p-4 flex items-center justify-between z-50 overflow-hidden ring-4 ring-black/20">
 					<!-- Background decoration -->
@@ -243,7 +237,8 @@ onMounted(() => {
 								class="text-[10px] uppercase text-stone-400 font-bold tracking-widest mb-0.5 group-hover:text-gold transition-colors">
 								Niveau
 							</div>
-							<div class="font-medieval text-2xl text-parchment group-hover:scale-110 transition-transform">
+							<div
+								class="font-medieval text-2xl text-parchment group-hover:scale-110 transition-transform">
 								{{ auth.user.level }}
 							</div>
 						</div>
@@ -253,7 +248,8 @@ onMounted(() => {
 								class="text-[10px] uppercase text-stone-400 font-bold tracking-widest mb-0.5 group-hover:text-gold transition-colors">
 								XP Total
 							</div>
-							<div class="font-medieval text-2xl text-parchment group-hover:scale-110 transition-transform">
+							<div
+								class="font-medieval text-2xl text-parchment group-hover:scale-110 transition-transform">
 								{{ auth.user.xp.toLocaleString() }}
 							</div>
 						</div>

@@ -13,4 +13,8 @@ router.put('/:id', authenticateToken, eventController.updateEvent);
 router.delete('/:id', authenticateToken, eventController.deleteEvent);
 router.post('/book', authenticateToken, validateBookingData, eventController.bookEvent);
 
+router.post('/:id/schedules', authenticateToken, eventController.addSchedule);
+router.put('/schedules/:id', authenticateToken, eventController.updateSchedule);
+router.delete('/schedules/:id', authenticateToken, eventController.deleteSchedule);
+
 export default router;

@@ -4,29 +4,27 @@ import L from 'leaflet';
 import { getIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
 import i18n from '@/i18n';
+import apiClient from './apiClient';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const locationServiceImpl = {
   getAllLocations: async (): Promise<LocationMock[]> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations`, {
-      credentials: 'include'
-    });
-    if (!response.ok) {
+    try {
+      const response = await apiClient.get('/locations');
+      return response.data;
+    } catch {
       throw new Error('Failed to fetch locations');
     }
-    return await response.json();
   },
 
   getLocationById: async (id: number): Promise<LocationMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${id}`, {
-      credentials: 'include'
-    });
-    if (!response.ok) {
+    try {
+      const response = await apiClient.get(`/locations/${id}`);
+      return response.data;
+    } catch {
       throw new Error('Failed to fetch location');
     }
-    return await response.json();
   },
 
   getLocationsByProviderId: async (providerId: number): Promise<LocationMock[]> => {
@@ -37,26 +35,15 @@ const locationServiceImpl = {
   },
 
   purchaseLocation: async (locationId: number, userId: number): Promise<LocationMock> => {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      throw new Error('Not authenticated');
+    try {
+      const response = await apiClient.patch(`/locations/${locationId}`, {
+        purchased: true,
+        id_prestataire: userId
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to purchase location');
     }
-
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/purchase`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ userId })
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || 'Failed to purchase location');
-    }
-
-    return await response.json();
   },
 
   addLocationsToMap: async (map: L.Map, markers: L.Marker[], userRole?: string, onMarkerClick?: (location: LocationMock) => void): Promise<void> => {
@@ -114,68 +101,40 @@ const locationServiceImpl = {
   },
 
   updateLocation: async (location: LocationMock): Promise<LocationMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${location.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify(location)
-    });
-    if (!response.ok) throw new Error('Failed to update location');
-    return await response.json();
+    try {
+      const response = await apiClient.put(`/locations/${location.id}`, location);
+      return response.data;
+    } catch {
+      throw new Error('Failed to update location');
+    }
   },
 
   deleteLocation: async (locationId: number): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-    if (!response.ok) throw new Error('Failed to delete location');
+    try {
+      await apiClient.delete(`/locations/${locationId}`);
+    } catch {
+      throw new Error('Failed to delete location');
+    }
   },
 
   validatePurchase: async (locationId: number): Promise<LocationMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/validate`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    return response.json();
+    const response = await apiClient.post(`/locations/${locationId}/validate`);
+    return response.data;
   },
 
   rejectPurchase: async (locationId: number): Promise<LocationMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/reject`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    return response.json();
+    const response = await apiClient.post(`/locations/${locationId}/reject`);
+    return response.data;
   },
 
   removeOwner: async (locationId: number): Promise<LocationMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      }
-    });
-    return response.json();
+    const response = await apiClient.delete(`/locations/${locationId}/owner`);
+    return response.data;
   },
 
   updateOwner: async (locationId: number, userId: number): Promise<LocationMock> => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/owner`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      },
-      body: JSON.stringify({ userId })
-    });
-    return response.json();
+    const response = await apiClient.put(`/locations/${locationId}/owner`, { userId });
+    return response.data;
   }
 };
 

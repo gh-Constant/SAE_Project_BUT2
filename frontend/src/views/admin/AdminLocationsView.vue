@@ -183,8 +183,7 @@
                 <!-- Description -->
                 <div>
                     <label class="block text-sm font-bold text-iron-black mb-1">Description</label>
-                    <textarea v-model="editedLocation.description" rows="3"
-                        class="w-full p-2 bg-white/50 border border-antique-bronze/30 rounded focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black"></textarea>
+                    <Editor v-model="editedLocation.description" />
                 </div>
 
                 <!-- Type Row -->
@@ -239,6 +238,7 @@ import { locationService } from '@/services/locationService';
 import { LocationMock } from '@/mocks/locations';
 import { LocationType } from '@/mocks/locationTypes';
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue';
+import Editor from '@/components/editor/Editor.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();

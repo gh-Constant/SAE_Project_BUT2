@@ -116,9 +116,12 @@
                     <div class="text-xs text-stone-grey">{{ event.description?.substring(0, 50) }}...</div>
                   </td>
                   <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-stone-600">
-                     {{ new Date(event.start_time).toLocaleDateString() }}
-                     <br>
-                     <span class="text-xs">{{ new Date(event.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                    <span v-if="event.type === 'ACTIVITY'">{{ t('events.list.dates_multiples') }}</span>
+                    <div v-else-if="event.start_time">
+                      {{ new Date(event.start_time).toLocaleDateString() }}
+                      <br>
+                      <span class="text-xs">{{ new Date(event.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                    </div>
                   </td>
                   <td class="px-6 py-4 text-center text-sm text-stone-600">
                     {{ getLocationName(event.id_location) }}

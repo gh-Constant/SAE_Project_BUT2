@@ -43,13 +43,13 @@ model Location {
   id_location_type Int
   id_prestataire   Int?
 
-  location_type LocationType @relation(fields: [id_location_type], references: [id_location_type])
-  prestataire   User?        @relation(fields: [id_prestataire], references: [id_user])
-  services      Service[]
-  events        Event[]
-  quests        Quest[]
-  blogs         Blog[]
-  quizzes       Quiz[]
+  location_type   LocationType     @relation(fields: [id_location_type], references: [id_location_type])
+  prestataire     User?            @relation(fields: [id_prestataire], references: [id_user])
+  services        Service[]
+  events          Event[]
+  quests          Quest[]
+  blogs           Blog[]
+  quizzes         Quiz[]
   contactMessages ContactMessage[]
   conversations   Conversation[]
 
@@ -58,17 +58,17 @@ model Location {
 }
 
 model Conversation {
-  id_conversation Int @id @default(autoincrement())
+  id_conversation Int      @id @default(autoincrement())
   created_at      DateTime @default(now()) @db.DateTime(0)
   updated_at      DateTime @updatedAt @db.DateTime(0)
 
-  id_user     Int
-  user        User     @relation(fields: [id_user], references: [id_user])
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id_user])
 
   id_location Int
   location    Location @relation(fields: [id_location], references: [id_location])
 
-  messages    Message[]
+  messages Message[]
 
   @@index([id_user])
   @@index([id_location])
@@ -97,8 +97,8 @@ model Blog {
   title   String @db.VarChar(255)
   content String @db.LongText
 
-  price      Decimal? @db.Decimal(15, 2)
-  is_sellable Boolean @default(false)
+  price       Decimal? @db.Decimal(15, 2)
+  is_sellable Boolean  @default(false)
 
   created_at DateTime? @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt @db.DateTime(0)
@@ -111,12 +111,19 @@ model Blog {
   @@map("blogs")
 }
 
+enum EventType {
+  EVENT
+  ACTIVITY
+}
+
 model Event {
-  id_event    Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String?  @db.Text
-  start_time  DateTime @db.DateTime(0)
-  end_time    DateTime @db.DateTime(0)
+  id_event    Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  type        EventType @default(EVENT)
+
+  start_time DateTime? @db.DateTime(0)
+  end_time   DateTime? @db.DateTime(0)
 
   price    Decimal @db.Decimal(15, 2)
   capacity Int
@@ -129,9 +136,28 @@ model Event {
 
   location     Location           @relation(fields: [id_location], references: [id_location])
   reservations EventReservation[]
+  schedules    EventSchedule[]
 
   @@index([id_location])
   @@map("events")
+}
+
+model EventSchedule {
+  id_schedule Int @id @default(autoincrement())
+
+  start_time DateTime @db.DateTime(0)
+  end_time   DateTime @db.DateTime(0)
+
+  capacity Int?
+  price    Decimal? @db.Decimal(15, 2)
+  sold     Int      @default(0)
+
+  id_event     Int
+  event        Event              @relation(fields: [id_event], references: [id_event], onDelete: Cascade)
+  reservations EventReservation[]
+
+  @@index([id_event])
+  @@map("event_schedules")
 }
 
 enum ReservationStatus {
@@ -155,8 +181,12 @@ model EventReservation {
   id_event Int
   event    Event @relation(fields: [id_event], references: [id_event])
 
+  id_schedule Int?
+  schedule    EventSchedule? @relation(fields: [id_schedule], references: [id_schedule])
+
   @@index([id_user])
   @@index([id_event])
+  @@index([id_schedule])
   @@map("event_reservations")
 }
 
@@ -184,15 +214,15 @@ model Service {
 }
 
 model ContactMessage {
-  id_contact  Int      @id @default(autoincrement())
-  name        String   @db.VarChar(255)
-  email       String   @db.VarChar(255)
-  message     String   @db.Text
-  
-  read        Boolean  @default(false)
-  
-  created_at  DateTime @default(now()) @db.DateTime(0)
-  
+  id_contact Int    @id @default(autoincrement())
+  name       String @db.VarChar(255)
+  email      String @db.VarChar(255)
+  message    String @db.Text
+
+  read Boolean @default(false)
+
+  created_at DateTime @default(now()) @db.DateTime(0)
+
   id_location Int
   location    Location @relation(fields: [id_location], references: [id_location])
 
