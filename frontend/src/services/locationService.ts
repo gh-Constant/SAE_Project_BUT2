@@ -42,16 +42,13 @@ const locationServiceImpl = {
       throw new Error('Not authenticated');
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}`, {
-      method: 'PATCH',
+    const response = await fetch(`${API_BASE_URL}/api/v1/locations/${locationId}/purchase`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({
-        purchased: true,
-        id_prestataire: userId
-      })
+      body: JSON.stringify({ userId })
     });
 
     if (!response.ok) {

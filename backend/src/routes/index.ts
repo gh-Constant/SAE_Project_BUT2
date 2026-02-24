@@ -97,6 +97,10 @@ apiRouter.use('/', messagingRoutes);
 import statsRoutes from './statsRoutes.js';
 apiRouter.use('/stats', statsRoutes);
 
+// Ajout des routes gold
+import goldRoutes from './gold.router.js';
+apiRouter.use('/gold', goldRoutes);
+
 // Montage des routes API avec le préfixe défini dans la configuration et la version de l'api
 router.use(`${apiConfig.prefix}/${apiConfig.version}`, apiRouter);
 

@@ -181,3 +181,78 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
     res.status(500).json({ error: 'Failed to update location' });
   }
 };
+
+export const purchaseLocation = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  if (!userId) {
+    res.status(400).json({ error: 'User ID is required' });
+    return;
+  }
+
+  try {
+    // Check if location exists and is available
+    const location = await prisma.location.findUnique({
+      where: { id_location: Number(id) }
+    });
+
+    if (!location) {
+      res.status(404).json({ error: 'Location not found' });
+      return;
+    }
+
+    if (location.purchased) {
+      res.status(400).json({ error: 'Location already purchased' });
+      return;
+    }
+
+    // Check if user has enough gold
+    const user = await prisma.user.findUnique({
+      where: { id_user: Number(userId) },
+      select: { gold: true, role: true }
+    });
+
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    if (user.role !== 'prestataire') {
+      res.status(403).json({ error: 'Only prestataires can purchase locations' });
+      return;
+    }
+
+    if (user.gold < Number(location.price)) {
+      res.status(400).json({ error: 'Not enough gold' });
+      return;
+    }
+
+    // Perform purchase in transaction
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id_user: Number(userId) },
+        data: { gold: user.gold - Number(location.price) }
+      });
+
+      const updatedLocation = await tx.location.update({
+        where: { id_location: Number(id) },
+        data: { purchased: true, id_prestataire: Number(userId) },
+        include: {
+          location_type: true,
+          prestataire: {
+            select: { id_user: true, firstname: true, lastname: true, avatar_url: true, avatar_type: true }
+          }
+        }
+      });
+
+      return updatedLocation;
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error('Error purchasing location:', error);
+    res.status(500).json({ error: 'Failed to purchase location' });
+  }
+};
+

@@ -240,7 +240,7 @@ const profileRoute = computed(() => {
               </div>
 
               <!-- Player Stats (Level & Gold) -->
-              <PlayerStatsBar v-if="isAventurier(auth.user)" />
+              <PlayerStatsBar v-if="isAventurier(auth.user) || isPrestataire(auth.user)" @addGold="$router.push('/buy-gold'); closeDropdown()" />
 
               <!-- Menu Items -->
               <router-link v-if="isAdmin(auth.user)" to="/admin"
@@ -421,9 +421,9 @@ const profileRoute = computed(() => {
             </div>
 
             <!-- Player Stats (Level & Gold) - Mobile -->
-            <div v-if="isAventurier(auth.user)"
+            <div v-if="isAventurier(auth.user) || isPrestataire(auth.user)"
               class="mx-2 mb-2 bg-parchment/50 rounded-md border border-antique-bronze/20">
-              <PlayerStatsBar />
+              <PlayerStatsBar @addGold="$router.push('/buy-gold'); isMobileMenuOpen = false" />
             </div>
 
             <MedievalButton v-if="isAventurier(auth.user)" to="/commandes" full-width

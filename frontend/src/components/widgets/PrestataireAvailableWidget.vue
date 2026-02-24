@@ -130,6 +130,7 @@ import { ref } from 'vue';
 import { LocationMock } from '@/mocks/locations';
 import { locationService } from '@/services/locationService';
 import { authService } from '@/services/authService';
+import { useAuthStore } from '@/stores/auth';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -169,6 +170,13 @@ async function acheterEmplacement() {
     const userId = (user as any).id_user || user.id;
     const updatedLocation = await locationService.purchaseLocation(props.location.id, userId);
     
+    // Update authStore gold
+    const authStore = useAuthStore();
+    if (authStore.user) {
+      authStore.user.gold -= (props.location.price || 0);
+      authStore.saveUserToStorage();
+    }
+
     // Update local state
     isPurchased.value = true;
     successMessage.value = 'Location purchased successfully!';

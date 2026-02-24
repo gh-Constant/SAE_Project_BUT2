@@ -323,6 +323,24 @@ export const routes = [
     component: () => import('../views/LeaderboardView.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/buy-gold',
+    name: 'buy-gold',
+    component: () => import('../views/client/gold/BuyGoldView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/client/gold-success',
+    name: 'gold-success',
+    component: () => import('../views/client/gold/GoldSuccessView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/client/gold-cancel',
+    name: 'gold-cancel',
+    component: () => import('../views/client/gold/GoldCancelView.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 // Fonction guard qui redirige vers /login SI l'utilisateur n'est pas connecté ET que la route nécessite une authentification

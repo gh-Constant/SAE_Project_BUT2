@@ -226,10 +226,14 @@ const decreaseStockForOrder = async (orderId: number) => {
   }
 }
 
-// Payer une commande
 const payOrder = async (orderId: number) => {
   const order = COMMANDES.find((cmd) => cmd.id === orderId)
   if (!order || order.etat_commande !== EtatCommande.WAITING) return
+
+  if (authStore.user!.gold < order.total_price) {
+    alert("Vous n'avez pas assez d'or pour payer cette commande.");
+    return;
+  }
 
   isPaying.value[orderId] = true
 
@@ -239,6 +243,10 @@ const payOrder = async (orderId: number) => {
 
     // Décrémenter le stock
     await decreaseStockForOrder(orderId)
+
+    // Deduct gold
+    authStore.user!.gold -= order.total_price;
+    authStore.saveUserToStorage(); // Assumes this function exists or just saving naturally in pinia if linked or local storage logic.
 
     // Changer l'état de la commande
     order.etat_commande = EtatCommande.PAID

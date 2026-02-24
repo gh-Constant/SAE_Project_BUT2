@@ -84,6 +84,22 @@ const payOrder = async (orderId: number, userId: number) => {
             throw new Error('Order already processed');
         }
 
+        // Fetch user's gold balance to ensure they have enough
+        const user = await tx.user.findUnique({
+            where: { id_user: userId },
+            select: { gold: true }
+        });
+
+        if (!user || user.gold < Number(commande.total_price)) {
+            throw new Error('Not enough gold');
+        }
+
+        // Update user's gold
+        await tx.user.update({
+            where: { id_user: userId },
+            data: { gold: user.gold - Number(commande.total_price) }
+        });
+
         // Update order status to payed
         const updated = await tx.commande.update({
             where: { id_commande: orderId },

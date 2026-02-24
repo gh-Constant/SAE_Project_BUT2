@@ -84,6 +84,28 @@ export const locationMockService = {
         return;
       }
 
+      if ((user.gold || 0) < (location.price || 0)) {
+        reject(new Error('Not enough gold'));
+        return;
+      }
+
+      // Deduct gold
+      user.gold -= (location.price || 0);
+      
+      // En mode mock, on devrait idéalement mettre à jour localStorage pour "currentUser" et "users"
+      // mais on peut le faire si on a accès ou simplement par ref. (Ici on mute la réf locale)
+      const usersStr = localStorage.getItem('users');
+      if (usersStr) {
+        try {
+          const parsedUsers = JSON.parse(usersStr);
+          const uIdx = parsedUsers.findIndex((u: any) => u.id_user === userId || u.id === userId);
+          if (uIdx !== -1) {
+            parsedUsers[uIdx].gold = user.gold;
+            localStorage.setItem('users', JSON.stringify(parsedUsers));
+          }
+        } catch (e) {}
+      }
+
       // Update location with purchase info
       location.purchased = true;
       location.status = 'PENDING';
