@@ -8,7 +8,7 @@ import LanguageSwitcher from '@/components/navbar/LanguageSwitcher.vue';
       <div class="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
         <!-- Logo and copyright -->
         <div class="flex flex-col sm:flex-row items-center text-center sm:text-left">
-          <img src="/images/transparent_logo.png" alt="MedievalEvent Logo"
+          <img src="/images/transparent_logo.png" alt="Les Terres Du Lion Logo"
             class="h-10 md:h-12 w-auto mb-2 sm:mb-0 sm:mr-3">
           <span class="text-white/70 text-xs md:text-sm">
             {{ $t('footer.copyright') }}

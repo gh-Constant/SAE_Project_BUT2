@@ -19,10 +19,10 @@ export const emailService = {
      */
     async sendPasswordResetEmail(to: string, token: string): Promise<void> {
         const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${token}`;
-        const fromEmail = process.env.SMTP_FROM || process.env.SMTP_USER || 'noreply@medievalevent.com';
+        const fromEmail = process.env.SMTP_FROM || process.env.SMTP_USER || 'noreply@lesterresdulion.com';
 
         const mailOptions = {
-            from: `"MedievalEvent Support" <${fromEmail}>`,
+            from: `"Les Terres du Lion Support" <${fromEmail}>`,
             to,
             subject: '🔐 Réinitialisation de votre mot de passe - Les Terres du Lion',
             html: `

@@ -15,7 +15,7 @@
       <div class="w-full max-w-md mx-auto relative z-10">
         <!-- Logo -->
         <div class="mb-8 text-center">
-          <img src="/images/transparent_logo.png" alt="MedievalEvent Logo"
+          <img src="/images/transparent_logo.png" alt="Terres du Lion Logo"
             class="h-40 w-auto mx-auto mb-6 drop-shadow-md">
         </div>
 
