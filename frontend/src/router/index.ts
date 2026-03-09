@@ -105,6 +105,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/locations/stats',
+    name: 'admin-locations-stats',
+    component: () => import('../views/admin/stats/AdminLocationStatsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/admin/quizzes',
     name: 'admin-quizzes',
     component: () => import('../views/admin/AdminQuizzesView.vue'),

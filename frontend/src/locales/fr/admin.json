@@ -361,6 +361,42 @@
         },
         "empty": "Aucune donnée disponible"
     },
+    "location_stats": {
+        "title": "Statistiques des Lieux",
+        "subtitle": "Vue analytique des lieux, de leur activité et de leur occupation",
+        "cards": {
+            "total_locations": "Total Lieux",
+            "story_locations": "lieux narratifs",
+            "purchased": "Lieux Occupés",
+            "active_providers": "prestataires actifs",
+            "average_price": "Prix Moyen",
+            "potential_revenue": "Revenu potentiel"
+        },
+        "secondary": {
+            "available": "Disponibles",
+            "buyable": "Achetables",
+            "total_activity": "Activité Totale",
+            "top_locations": "Top Lieux"
+        },
+        "charts": {
+            "by_type": "Répartition par Type",
+            "ownership": "Répartition de Propriété",
+            "price_distribution": "Distribution des Prix"
+        },
+        "top": {
+            "title": "Lieux les plus actifs"
+        },
+        "table": {
+            "title": "Détails par Lieu",
+            "manage_link": "Gérer les lieux",
+            "location": "Lieu",
+            "type": "Type",
+            "owner": "Propriétaire",
+            "price": "Prix",
+            "activity": "Activité"
+        },
+        "empty": "Aucune donnée disponible"
+    },
     "reservation_stats": {
         "title": "Statistiques des Réservations",
         "subtitle": "Analyse des réservations et des revenus",

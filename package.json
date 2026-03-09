@@ -104,6 +104,7 @@
     "sequelize-auto": "^0.8.8",
     "sequelize-cli": "^6.6.3",
     "sqlite3": "^5.1.7",
+    "stripe": "^20.4.0",
     "swagger-ui-express": "^5.0.1",
     "umzug": "^3.8.2",
     "vue": "^3.5.13",

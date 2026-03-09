@@ -356,6 +356,42 @@
         },
         "empty": "No data available"
     },
+    "location_stats": {
+        "title": "Location Statistics",
+        "subtitle": "Analytical overview of locations, activity, and ownership",
+        "cards": {
+            "total_locations": "Total Locations",
+            "story_locations": "story locations",
+            "purchased": "Occupied Locations",
+            "active_providers": "active providers",
+            "average_price": "Average Price",
+            "potential_revenue": "Potential revenue"
+        },
+        "secondary": {
+            "available": "Available",
+            "buyable": "Buyable",
+            "total_activity": "Total Activity",
+            "top_locations": "Top Locations"
+        },
+        "charts": {
+            "by_type": "Distribution by Type",
+            "ownership": "Ownership Distribution",
+            "price_distribution": "Price Distribution"
+        },
+        "top": {
+            "title": "Most Active Locations"
+        },
+        "table": {
+            "title": "Details by Location",
+            "manage_link": "Manage locations",
+            "location": "Location",
+            "type": "Type",
+            "owner": "Owner",
+            "price": "Price",
+            "activity": "Activity"
+        },
+        "empty": "No data available"
+    },
     "reservation_stats": {
         "title": "Reservation Statistics",
         "subtitle": "Analysis of reservations and revenue",

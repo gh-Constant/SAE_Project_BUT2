@@ -175,3 +175,175 @@ export const getProviderGlobalStats = async (req: AuthenticatedRequest, res: Res
         return res.status(500).json({ error: 'Failed to fetch provider stats' });
     }
 };
+
+/**
+ * Get location statistics for Admin dashboard
+ */
+export const getAdminLocationStats = async (req: Request, res: Response) => {
+    try {
+        const locations = await prisma.location.findMany({
+            include: {
+                location_type: {
+                    select: {
+                        id_location_type: true,
+                        name: true
+                    }
+                },
+                prestataire: {
+                    select: {
+                        id_user: true,
+                        firstname: true,
+                        lastname: true
+                    }
+                },
+                _count: {
+                    select: {
+                        quests: true,
+                        quizzes: true,
+                        events: true,
+                        blogs: true,
+                        services: true
+                    }
+                }
+            }
+        });
+
+        const totalLocations = locations.length;
+        const purchasedLocations = locations.filter(loc => loc.purchased).length;
+        const availableLocations = totalLocations - purchasedLocations;
+        const storyLocations = locations.filter(loc => loc.location_type?.name === 'story').length;
+        const buyableLocations = totalLocations - storyLocations;
+
+        const totalPrice = locations.reduce((sum, loc) => sum + Number(loc.price), 0);
+        const averagePrice = totalLocations > 0 ? totalPrice / totalLocations : 0;
+
+        const totalPotentialRevenue = locations
+            .filter(loc => !loc.purchased)
+            .reduce((sum, loc) => sum + Number(loc.price), 0);
+
+        const activePrestataires = new Set(
+            locations
+                .map(loc => loc.id_prestataire)
+                .filter((id): id is number => typeof id === 'number' && id > 0)
+        ).size;
+
+        const locationRows = locations.map(loc => {
+            const activityScore =
+                loc._count.quests +
+                loc._count.quizzes +
+                loc._count.events +
+                loc._count.blogs +
+                loc._count.services;
+
+            const ownerName = loc.id_prestataire && loc.prestataire
+                ? `${loc.prestataire.firstname} ${loc.prestataire.lastname}`
+                : loc.id_prestataire === 0
+                    ? 'System'
+                    : 'Unassigned';
+
+            return {
+                id: loc.id_location,
+                name: loc.name,
+                typeName: loc.location_type?.name || 'unknown',
+                ownerName,
+                purchased: loc.purchased,
+                price: Number(loc.price),
+                quests: loc._count.quests,
+                quizzes: loc._count.quizzes,
+                events: loc._count.events,
+                blogs: loc._count.blogs,
+                services: loc._count.services,
+                activityScore
+            };
+        });
+
+        const totalActivity = locationRows.reduce((sum, row) => sum + row.activityScore, 0);
+        const maxActivity = Math.max(...locationRows.map(row => row.activityScore), 1);
+
+        const sortedLocationRows = [...locationRows].sort((a, b) => b.activityScore - a.activityScore);
+
+        const topLocations = sortedLocationRows.slice(0, 6);
+
+        const locationStats = sortedLocationRows.map(row => ({
+            ...row,
+            percentage: maxActivity > 0 ? Math.round((row.activityScore / maxActivity) * 100) : 0
+        }));
+
+        const typeCounts = new Map<string, number>();
+        locationRows.forEach(loc => {
+            typeCounts.set(loc.typeName, (typeCounts.get(loc.typeName) || 0) + 1);
+        });
+
+        const typeColors = ['#d97706', '#b45309', '#92400e', '#3b82f6', '#10b981'];
+        const typeDistribution = Array.from(typeCounts.entries()).map(([typeName, count], index) => ({
+            label: typeName,
+            count,
+            percentage: totalLocations > 0 ? Math.round((count / totalLocations) * 100) : 0,
+            color: typeColors[index % typeColors.length]
+        }));
+
+        const ownershipRaw = [
+            {
+                label: 'Owned by providers',
+                count: locationRows.filter(loc => loc.purchased && loc.ownerName !== 'System').length,
+                color: '#10b981'
+            },
+            {
+                label: 'System',
+                count: locationRows.filter(loc => loc.ownerName === 'System').length,
+                color: '#3b82f6'
+            },
+            {
+                label: 'Available',
+                count: availableLocations,
+                color: '#f59e0b'
+            }
+        ];
+
+        const ownershipDistribution = ownershipRaw
+            .filter(item => item.count > 0)
+            .map(item => ({
+                ...item,
+                percentage: totalLocations > 0 ? Math.round((item.count / totalLocations) * 100) : 0
+            }));
+
+        const priceBucketsRaw = [
+            { range: '0-49', min: 0, max: 49 },
+            { range: '50-99', min: 50, max: 99 },
+            { range: '100-149', min: 100, max: 149 },
+            { range: '150-199', min: 150, max: 199 },
+            { range: '200+', min: 200, max: Number.POSITIVE_INFINITY }
+        ];
+
+        const priceBuckets = priceBucketsRaw.map(bucket => {
+            const count = locationRows.filter(loc => loc.price >= bucket.min && loc.price <= bucket.max).length;
+            return {
+                range: bucket.range,
+                count,
+                percentage: totalLocations > 0 ? Math.round((count / totalLocations) * 100) : 0
+            };
+        });
+
+        return res.json({
+            stats: {
+                totalLocations,
+                purchasedLocations,
+                availableLocations,
+                activePrestataires,
+                storyLocations,
+                buyableLocations,
+                averagePrice,
+                totalPotentialRevenue,
+                totalActivity
+            },
+            typeDistribution,
+            ownershipDistribution,
+            topLocations,
+            locationStats,
+            priceBuckets
+        });
+    } catch (error) {
+        console.error('Error fetching admin location stats:', error);
+        return res.status(500).json({ error: 'Failed to fetch admin location stats' });
+    }
+};

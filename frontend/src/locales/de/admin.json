@@ -356,6 +356,42 @@
         },
         "empty": "Keine Daten verfügbar"
     },
+    "location_stats": {
+        "title": "Standortstatistiken",
+        "subtitle": "Analytischer Überblick über Standorte, Aktivität und Besitz",
+        "cards": {
+            "total_locations": "Standorte gesamt",
+            "story_locations": "Story-Standorte",
+            "purchased": "Belegte Standorte",
+            "active_providers": "aktive Anbieter",
+            "average_price": "Durchschnittspreis",
+            "potential_revenue": "Potentieller Umsatz"
+        },
+        "secondary": {
+            "available": "Verfügbar",
+            "buyable": "Kaufbar",
+            "total_activity": "Gesamtaktivität",
+            "top_locations": "Top-Standorte"
+        },
+        "charts": {
+            "by_type": "Verteilung nach Typ",
+            "ownership": "Besitzverteilung",
+            "price_distribution": "Preisverteilung"
+        },
+        "top": {
+            "title": "Aktivste Standorte"
+        },
+        "table": {
+            "title": "Details nach Standort",
+            "manage_link": "Standorte verwalten",
+            "location": "Standort",
+            "type": "Typ",
+            "owner": "Besitzer",
+            "price": "Preis",
+            "activity": "Aktivität"
+        },
+        "empty": "Keine Daten verfügbar"
+    },
     "reservation_stats": {
         "title": "Reservierungsstatistiken",
         "subtitle": "Analyse der Reservierungen und Einnahmen",
