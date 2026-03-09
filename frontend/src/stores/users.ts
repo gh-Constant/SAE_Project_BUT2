@@ -32,7 +32,8 @@ export const useUsersStore = defineStore('users', () => {
             id: user.id || user.id_user,
             name: `${user.firstname} ${user.lastname}`,
             isVerified: user.is_verified,
-        }));
+        }))
+            .filter((user: MappedUser) => user.role !== 'admin');
 
         allUsers.value = mappedUsers;
         unverifiedUsers.value = mappedUsers.filter((user: MappedUser) => !user.isVerified);

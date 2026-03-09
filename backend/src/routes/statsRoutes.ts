@@ -1,6 +1,6 @@
 
 import { Router } from 'express';
-import { getAdminGlobalStats, getProviderGlobalStats, getAdminLocationStats } from '../controllers/stats.controller.js';
+import { getAdminGlobalStats, getProviderGlobalStats, getAdminLocationStats, getAdminUserStats } from '../controllers/stats.controller.js';
 import { authenticateToken as authenticate, authorize } from '../middleware/auth.middleware.js';
 
 const router = Router();
@@ -13,5 +13,8 @@ router.get('/provider/global', authenticate, authorize(['prestataire', 'admin'])
 
 // Admin location stats
 router.get('/admin/locations', authenticate, authorize(['admin']), getAdminLocationStats);
+
+// Admin user stats
+router.get('/admin/users', authenticate, authorize(['admin']), getAdminUserStats);
 
 export default router;

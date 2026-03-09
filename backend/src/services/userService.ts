@@ -9,6 +9,11 @@ export const userService = {
    */
   getAllUsers: async () => {
     return await prisma.user.findMany({
+      where: {
+        role: {
+          not: 'admin'
+        }
+      },
       select: {
         id_user: true,
         firstname: true,

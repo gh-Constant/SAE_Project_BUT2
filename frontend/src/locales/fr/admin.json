@@ -397,6 +397,53 @@
         },
         "empty": "Aucune donnée disponible"
     },
+    "user_stats": {
+        "title": "Statistiques des Utilisateurs",
+        "subtitle": "Analyse des profils, de l'engagement et de la progression",
+        "cards": {
+            "total_users": "Total Utilisateurs",
+            "new_this_month": "nouveaux ce mois",
+            "paying_users": "Utilisateurs Acheteurs",
+            "orders": "commandes",
+            "avg_level": "Niveau Moyen"
+        },
+        "secondary": {
+            "verified": "Vérifiés",
+            "active": "Actifs",
+            "total_gold": "Or Total",
+            "top_users": "Top Utilisateurs"
+        },
+        "charts": {
+            "roles": "Répartition des Rôles",
+            "verification": "Vérification des Comptes",
+            "level_distribution": "Distribution des Niveaux",
+            "registrations": "Inscriptions (6 derniers mois)"
+        },
+        "top": {
+            "title": "Utilisateurs les plus actifs"
+        },
+        "table": {
+            "title": "Détails par Utilisateur",
+            "manage_link": "Gérer les utilisateurs",
+            "user": "Utilisateur",
+            "role": "Rôle",
+            "level_xp": "Niveau / XP",
+            "engagement": "Engagement",
+            "value": "Valeur"
+        },
+        "roles": {
+            "admin": "Administrateur",
+            "prestataire": "Prestataire",
+            "aventurier": "Aventurier"
+        },
+        "labels": {
+            "verified": "Vérifié",
+            "unverified": "Non vérifié",
+            "completed_quests": "quêtes terminées",
+            "spent": "dépensés"
+        },
+        "empty": "Aucune donnée disponible"
+    },
     "reservation_stats": {
         "title": "Statistiques des Réservations",
         "subtitle": "Analyse des réservations et des revenus",

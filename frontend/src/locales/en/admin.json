@@ -392,6 +392,53 @@
         },
         "empty": "No data available"
     },
+    "user_stats": {
+        "title": "User Statistics",
+        "subtitle": "Analysis of profiles, engagement, and progression",
+        "cards": {
+            "total_users": "Total Users",
+            "new_this_month": "new this month",
+            "paying_users": "Paying Users",
+            "orders": "orders",
+            "avg_level": "Average Level"
+        },
+        "secondary": {
+            "verified": "Verified",
+            "active": "Active",
+            "total_gold": "Total Gold",
+            "top_users": "Top Users"
+        },
+        "charts": {
+            "roles": "Role Distribution",
+            "verification": "Account Verification",
+            "level_distribution": "Level Distribution",
+            "registrations": "Registrations (Last 6 Months)"
+        },
+        "top": {
+            "title": "Most Active Users"
+        },
+        "table": {
+            "title": "Details by User",
+            "manage_link": "Manage users",
+            "user": "User",
+            "role": "Role",
+            "level_xp": "Level / XP",
+            "engagement": "Engagement",
+            "value": "Value"
+        },
+        "roles": {
+            "admin": "Administrator",
+            "prestataire": "Provider",
+            "aventurier": "Adventurer"
+        },
+        "labels": {
+            "verified": "Verified",
+            "unverified": "Unverified",
+            "completed_quests": "completed quests",
+            "spent": "spent"
+        },
+        "empty": "No data available"
+    },
     "reservation_stats": {
         "title": "Reservation Statistics",
         "subtitle": "Analysis of reservations and revenue",
