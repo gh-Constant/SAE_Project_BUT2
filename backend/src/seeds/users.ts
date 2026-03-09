@@ -21,8 +21,7 @@ export async function seedUsers() {
             gold: 750,
             birth_date: new Date('1990-01-01'),
             bio: 'Je suis un prestataire',
-            phone: '06 01 02 03 04',
-            id_prestataire_type: 1
+            phone: '06 01 02 03 04'
         },
         {
             id_user: 2,
@@ -65,7 +64,6 @@ export async function seedUsers() {
             email: 'prestataire2@medieval.com',
             password_hashed: commonPassword,
             role: 'prestataire' as Role,
-            id_prestataire_type: 1,
             avatar_url: '/images/Avatar-images/con23.png',
             avatar_type: AvatarType.gallery,
             is_verified: false,
@@ -266,12 +264,6 @@ export async function seedUsers() {
     console.log('Seeding users...');
 
     for (const user of users) {
-        // Determine default id_prestataire_type if needed for non-prestataires to avoid constraint errors
-        // Assuming schema allows it to be arbitrary if not relationally enforced for non-prestataires, 
-        // or we set it to 1 (default) if required.
-        // Based on previous simple seed, we defaulted it to 1.
-        const prestataireTypeId = user.id_prestataire_type || 1;
-
         await prisma.user.upsert({
             where: { email: user.email },
             update: {
@@ -286,7 +278,6 @@ export async function seedUsers() {
                 birth_date: user.birth_date,
                 bio: user.bio,
                 phone: user.phone,
-                id_prestataire_type: prestataireTypeId,
                 password_hashed: commonPassword, // Ensure password matches mocks
             },
             create: {
@@ -304,7 +295,6 @@ export async function seedUsers() {
                 birth_date: user.birth_date,
                 bio: user.bio,
                 phone: user.phone,
-                id_prestataire_type: prestataireTypeId,
             },
         });
     }

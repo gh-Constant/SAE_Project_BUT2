@@ -20,11 +20,15 @@ export const getAllLocations = async (req: Request, res: Response) => {
         location_type: true,
         prestataire: {
           select: {
-            id_user: true,
-            firstname: true,
-            lastname: true,
-            avatar_url: true,
-            avatar_type: true,
+            user: {
+              select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                avatar_url: true,
+                avatar_type: true,
+              }
+            }
           }
         }
       }
@@ -44,12 +48,12 @@ export const getAllLocations = async (req: Request, res: Response) => {
       banner_image: loc.banner_name, // Note: DB has banner_name, frontend expects banner_image
       id_prestataire: loc.id_prestataire,
       id_location_type: loc.id_location_type,
-      prestataire: loc.prestataire ? {
-        id_user: loc.prestataire.id_user,
-        firstname: loc.prestataire.firstname,
-        lastname: loc.prestataire.lastname,
-        avatar_url: loc.prestataire.avatar_url,
-        avatar_type: loc.prestataire.avatar_type,
+      prestataire: loc.prestataire?.user ? {
+        id_user: loc.prestataire.user.id_user,
+        firstname: loc.prestataire.user.firstname,
+        lastname: loc.prestataire.user.lastname,
+        avatar_url: loc.prestataire.user.avatar_url,
+        avatar_type: loc.prestataire.user.avatar_type,
       } : null
     }));
 
@@ -69,11 +73,15 @@ export const getLocationById = async (req: Request, res: Response) => {
         location_type: true,
         prestataire: {
           select: {
-            id_user: true,
-            firstname: true,
-            lastname: true,
-            avatar_url: true,
-            avatar_type: true,
+            user: {
+              select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                avatar_url: true,
+                avatar_type: true,
+              }
+            }
           }
         }
       }
@@ -96,12 +104,12 @@ export const getLocationById = async (req: Request, res: Response) => {
       banner_image: location.banner_name,
       id_prestataire: location.id_prestataire,
       id_location_type: location.id_location_type,
-      prestataire: location.prestataire ? {
-        id_user: location.prestataire.id_user,
-        firstname: location.prestataire.firstname,
-        lastname: location.prestataire.lastname,
-        avatar_url: location.prestataire.avatar_url,
-        avatar_type: location.prestataire.avatar_type,
+      prestataire: location.prestataire?.user ? {
+        id_user: location.prestataire.user.id_user,
+        firstname: location.prestataire.user.firstname,
+        lastname: location.prestataire.user.lastname,
+        avatar_url: location.prestataire.user.avatar_url,
+        avatar_type: location.prestataire.user.avatar_type,
       } : null
     };
 
@@ -143,11 +151,15 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
         location_type: true,
         prestataire: {
           select: {
-            id_user: true,
-            firstname: true,
-            lastname: true,
-            avatar_url: true,
-            avatar_type: true,
+            user: {
+              select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                avatar_url: true,
+                avatar_type: true,
+              }
+            }
           }
         }
       }
@@ -166,12 +178,12 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
       banner_image: updatedLocation.banner_name,
       id_prestataire: updatedLocation.id_prestataire,
       id_location_type: updatedLocation.id_location_type,
-      prestataire: updatedLocation.prestataire ? {
-        id_user: updatedLocation.prestataire.id_user,
-        firstname: updatedLocation.prestataire.firstname,
-        lastname: updatedLocation.prestataire.lastname,
-        avatar_url: updatedLocation.prestataire.avatar_url,
-        avatar_type: updatedLocation.prestataire.avatar_type,
+      prestataire: updatedLocation.prestataire?.user ? {
+        id_user: updatedLocation.prestataire.user.id_user,
+        firstname: updatedLocation.prestataire.user.firstname,
+        lastname: updatedLocation.prestataire.user.lastname,
+        avatar_url: updatedLocation.prestataire.user.avatar_url,
+        avatar_type: updatedLocation.prestataire.user.avatar_type,
       } : null
     };
 
@@ -241,7 +253,11 @@ export const purchaseLocation = async (req: Request, res: Response): Promise<voi
         include: {
           location_type: true,
           prestataire: {
-            select: { id_user: true, firstname: true, lastname: true, avatar_url: true, avatar_type: true }
+            select: {
+              user: {
+                select: { id_user: true, firstname: true, lastname: true, avatar_url: true, avatar_type: true }
+              }
+            }
           }
         }
       });
@@ -249,7 +265,10 @@ export const purchaseLocation = async (req: Request, res: Response): Promise<voi
       return updatedLocation;
     });
 
-    res.json(result);
+    res.json({
+      ...result,
+      prestataire: result.prestataire?.user ?? null
+    });
   } catch (error) {
     console.error('Error purchasing location:', error);
     res.status(500).json({ error: 'Failed to purchase location' });

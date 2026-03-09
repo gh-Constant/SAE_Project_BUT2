@@ -21,6 +21,7 @@ import { seedPrestataireTypes } from './seeds/prestataireTypes.js';
 import { seedLocationTypes } from './seeds/LocationTypes.js';
 import { seedLocations } from './seeds/locations.js';
 import { seedUsers } from './seeds/users.js';
+import { seedPrestataires } from './seeds/prestataires.js';
 import { seedServiceTypes } from './seeds/serviceTypes.js';
 import { seedServices } from './seeds/services.js';
 import { seedProducts } from './seeds/products.js';
@@ -42,6 +43,7 @@ const startServer = async (): Promise<void> => {
     await seedPrestataireTypes();
     await seedLocationTypes();
     await seedUsers(); // Users must be seeded BEFORE locations (FK constraint)
+    await seedPrestataires();
     await seedLocations();
 
     // New seeders

@@ -85,10 +85,14 @@ export const getConversations = async (req: AuthenticatedRequest, res: Response)
                     include: {
                         prestataire: {
                             select: {
-                                id_user: true,
-                                firstname: true,
-                                lastname: true,
-                                avatar_url: true
+                                user: {
+                                    select: {
+                                        id_user: true,
+                                        firstname: true,
+                                        lastname: true,
+                                        avatar_url: true
+                                    }
+                                }
                             }
                         }
                     }
@@ -113,7 +117,15 @@ export const getConversations = async (req: AuthenticatedRequest, res: Response)
             }
         });
 
-        res.json(conversations);
+        const mappedConversations = conversations.map((conversation: any) => ({
+            ...conversation,
+            location: {
+                ...conversation.location,
+                prestataire: conversation.location?.prestataire?.user ?? null
+            }
+        }));
+
+        res.json(mappedConversations);
     } catch (error) {
         console.error('Error fetching conversations:', error);
         res.status(500).json({ message: 'Error fetching conversations' });

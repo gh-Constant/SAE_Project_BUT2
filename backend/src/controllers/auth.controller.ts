@@ -71,7 +71,12 @@ export const authController = {
           avatar_type: true,
           birth_date: true,
           phone: true,
-          bio: true
+          bio: true,
+          prestataire: {
+            select: {
+              id_prestataire_type: true
+            }
+          }
         }
       });
 
@@ -80,7 +85,10 @@ export const authController = {
         return;
       }
 
-      res.json(user);
+      res.json({
+        ...user,
+        id_prestataire_type: user.prestataire?.id_prestataire_type ?? null
+      });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
@@ -111,7 +119,10 @@ export const authController = {
       const { firstname, lastname, email, avatarUrl, avatarType, prestataireTypeId, birthDate, phone, bio } = req.body;
 
       const existingUser = await prisma.user.findUnique({
-        where: { id_user: userId }
+        where: { id_user: userId },
+        include: {
+          prestataire: true
+        }
       });
 
       if (!existingUser) {
@@ -170,17 +181,14 @@ export const authController = {
       if (phone !== undefined) updateData.phone = phone || null;
       if (bio !== undefined) updateData.bio = bio || null;
 
-      if (prestataireTypeId !== undefined) {
-        if (prestataireTypeId !== null) {
-          const prestataireType = await prisma.prestataireType.findUnique({
-            where: { id_prestataire_type: prestataireTypeId }
-          });
-          if (!prestataireType) {
-            res.status(400).json({ error: 'Invalid prestataire type' });
-            return;
-          }
+      if (prestataireTypeId !== undefined && prestataireTypeId !== null) {
+        const prestataireType = await prisma.prestataireType.findUnique({
+          where: { id_prestataire_type: prestataireTypeId }
+        });
+        if (!prestataireType) {
+          res.status(400).json({ error: 'Invalid prestataire type' });
+          return;
         }
-        updateData.id_prestataire_type = prestataireTypeId;
       }
 
       if (updateData.firstname !== undefined && !(updateData.firstname as string).trim()) {
@@ -193,29 +201,85 @@ export const authController = {
         return;
       }
 
-      const updatedUser = await prisma.user.update({
-        where: { id_user: userId },
-        data: updateData,
-        select: {
-          id_user: true,
-          firstname: true,
-          lastname: true,
-          email: true,
-          role: true,
-          id_prestataire_type: true,
-          avatar_url: true,
-          avatar_type: true,
-          birth_date: true,
-          phone: true,
-          bio: true,
-          xp: true,
-          level: true,
-          created_at: true,
-          updated_at: true
+      const updatedUser = await prisma.$transaction(async (tx) => {
+        await tx.user.update({
+          where: { id_user: userId },
+          data: updateData,
+          select: {
+            id_user: true,
+            firstname: true,
+            lastname: true,
+            email: true,
+            role: true,
+            avatar_url: true,
+            avatar_type: true,
+            birth_date: true,
+            phone: true,
+            bio: true,
+            xp: true,
+            level: true,
+            created_at: true,
+            updated_at: true,
+            prestataire: {
+              select: {
+                id_prestataire_type: true
+              }
+            }
+          }
+        });
+
+        if (prestataireTypeId !== undefined) {
+          if (prestataireTypeId === null) {
+            await tx.prestataire.deleteMany({ where: { id_user: userId } });
+          } else {
+            await tx.prestataire.upsert({
+              where: { id_user: userId },
+              create: {
+                id_user: userId,
+                id_prestataire_type: prestataireTypeId
+              },
+              update: {
+                id_prestataire_type: prestataireTypeId
+              }
+            });
+          }
         }
+
+        return tx.user.findUnique({
+          where: { id_user: userId },
+          select: {
+            id_user: true,
+            firstname: true,
+            lastname: true,
+            email: true,
+            role: true,
+            avatar_url: true,
+            avatar_type: true,
+            birth_date: true,
+            phone: true,
+            bio: true,
+            xp: true,
+            level: true,
+            created_at: true,
+            updated_at: true,
+            prestataire: {
+              select: {
+                id_prestataire_type: true
+              }
+            }
+          }
+        });
       });
 
-      res.json(updatedUser);
+      if (!updatedUser) {
+        res.status(404).json({ error: 'User not found' });
+        return;
+      }
+
+      res.json({
+        ...updatedUser,
+        id_prestataire_type: updatedUser.prestataire?.id_prestataire_type ?? null
+      });
     } catch (error) {
       const prismaError = error as { code?: string; message?: string };
       if (prismaError.code === 'P2002') {

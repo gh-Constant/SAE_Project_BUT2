@@ -186,10 +186,14 @@ const productService = {
                 },
                 prestataire: {
                     select: {
-                        id_user: true,
-                        firstname: true,
-                        lastname: true,
-                        email: true
+                        user: {
+                            select: {
+                                id_user: true,
+                                firstname: true,
+                                lastname: true,
+                                email: true
+                            }
+                        }
                     }
                 }
             }
@@ -202,6 +206,7 @@ const productService = {
 
         return {
             ...product,
+            prestataire: product.prestataire?.user ?? null,
             price: Number(product.price),
             stock: totalStock
         };

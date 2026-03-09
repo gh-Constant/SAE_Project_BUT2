@@ -191,9 +191,13 @@ export const getAdminLocationStats = async (req: Request, res: Response) => {
                 },
                 prestataire: {
                     select: {
-                        id_user: true,
-                        firstname: true,
-                        lastname: true
+                        user: {
+                            select: {
+                                id_user: true,
+                                firstname: true,
+                                lastname: true
+                            }
+                        }
                     }
                 },
                 _count: {
@@ -235,8 +239,8 @@ export const getAdminLocationStats = async (req: Request, res: Response) => {
                 loc._count.blogs +
                 loc._count.services;
 
-            const ownerName = loc.id_prestataire && loc.prestataire
-                ? `${loc.prestataire.firstname} ${loc.prestataire.lastname}`
+            const ownerName = loc.id_prestataire && loc.prestataire?.user
+                ? `${loc.prestataire.user.firstname} ${loc.prestataire.user.lastname}`
                 : loc.id_prestataire === 0
                     ? 'System'
                     : 'Unassigned';

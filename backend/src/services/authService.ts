@@ -70,21 +70,33 @@ export async function register(
   // Hash le mot de passe avec bcrypt (coût 10)
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Crée le nouvel utilisateur dans la base de données
-  return prisma.user.create({
-    data: {
-      firstname: firstName,
-      lastname: lastName,
-      email,
-      password_hashed: hashedPassword,
-      role,
-      level: 0,
-      xp: 0,
-      is_verified: false,
-      avatar_url: avatarUrl || 'default',
-      avatar_type: avatarType || Prisma.AvatarType.gallery,
-      id_prestataire_type: 1, // Default prestataire type - should be updated based on role
+  // Crée le nouvel utilisateur puis le profil prestataire si nécessaire
+  return prisma.$transaction(async (tx) => {
+    const createdUser = await tx.user.create({
+      data: {
+        firstname: firstName,
+        lastname: lastName,
+        email,
+        password_hashed: hashedPassword,
+        role,
+        level: 0,
+        xp: 0,
+        is_verified: false,
+        avatar_url: avatarUrl || 'default',
+        avatar_type: avatarType || Prisma.AvatarType.gallery,
+      }
+    });
+
+    if (role === Prisma.Role.prestataire) {
+      await tx.prestataire.create({
+        data: {
+          id_user: createdUser.id_user,
+          id_prestataire_type: 1,
+        }
+      });
     }
+
+    return createdUser;
   });
 }
 
