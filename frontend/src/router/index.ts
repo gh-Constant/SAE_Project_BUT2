@@ -279,6 +279,12 @@ export const routes = [
     meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
   },
   {
+    path: '/admin/users/stats',
+    name: 'admin-users-stats',
+    component: () => import('../views/admin/stats/AdminUserStatsView.vue'),
+    meta: { requiresAuth: true, requiredRole: Role.ADMIN_ROLE_ID },
+  },
+  {
     path: '/qr/generate',
     name: 'qr-generate',
     component: () => import('../views/client/qrcode/QRGenerateView.vue'),

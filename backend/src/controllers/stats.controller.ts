@@ -351,3 +351,211 @@ export const getAdminLocationStats = async (req: Request, res: Response) => {
         return res.status(500).json({ error: 'Failed to fetch admin location stats' });
     }
 };
+
+/**
+ * Get user statistics for Admin dashboard
+ */
+export const getAdminUserStats = async (req: Request, res: Response) => {
+    try {
+        const users = await prisma.user.findMany({
+            where: {
+                role: {
+                    not: 'admin'
+                }
+            },
+            select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                role: true,
+                level: true,
+                xp: true,
+                gold: true,
+                is_verified: true,
+                created_at: true
+            }
+        });
+
+        const paidOrdersRaw = await prisma.$queryRaw<{ idUser: number; orderCount: bigint; totalSpent: number | null }[]>`
+            SELECT
+                id_user as idUser,
+                COUNT(*) as orderCount,
+                SUM(total_price) as totalSpent
+            FROM commande
+            WHERE etat_commande = 'payed' OR etat_commande = 'collected'
+            GROUP BY id_user
+        `;
+
+        const completedQuestsRaw = await prisma.$queryRaw<{ idUser: number; completedCount: bigint }[]>`
+            SELECT
+                id_user as idUser,
+                COUNT(*) as completedCount
+            FROM userQuests
+            WHERE status = 'completed'
+            GROUP BY id_user
+        `;
+
+        const paidOrdersByUser = new Map<number, { orderCount: number; totalSpent: number }>();
+        paidOrdersRaw.forEach(row => {
+            paidOrdersByUser.set(row.idUser, {
+                orderCount: Number(row.orderCount) || 0,
+                totalSpent: Number(row.totalSpent) || 0
+            });
+        });
+
+        const completedQuestsByUser = new Map<number, number>();
+        completedQuestsRaw.forEach(row => {
+            completedQuestsByUser.set(row.idUser, Number(row.completedCount) || 0);
+        });
+
+        const rows = users.map(user => {
+            const orderInfo = paidOrdersByUser.get(user.id_user) || { orderCount: 0, totalSpent: 0 };
+            const completedQuests = completedQuestsByUser.get(user.id_user) || 0;
+
+            const activityScore =
+                orderInfo.orderCount * 2 +
+                completedQuests * 3 +
+                user.level +
+                user.xp / 100 +
+                orderInfo.totalSpent / 50;
+
+            return {
+                id: user.id_user,
+                name: `${user.firstname} ${user.lastname}`,
+                role: user.role,
+                level: user.level,
+                xp: Number(user.xp),
+                gold: user.gold,
+                isVerified: user.is_verified,
+                totalOrders: orderInfo.orderCount,
+                completedQuests,
+                totalSpent: Number(orderInfo.totalSpent.toFixed(2)),
+                activityScore: Number(activityScore.toFixed(2)),
+                createdAt: user.created_at
+            };
+        });
+
+        const totalUsers = rows.length;
+        const payingUsers = rows.filter(r => r.totalOrders > 0).length;
+        const verifiedUsers = rows.filter(r => r.isVerified).length;
+        const activeUsers = rows.filter(r => r.totalOrders > 0 || r.completedQuests > 0).length;
+        const totalOrders = rows.reduce((sum, r) => sum + r.totalOrders, 0);
+        const totalXP = rows.reduce((sum, r) => sum + r.xp, 0);
+        const totalGold = rows.reduce((sum, r) => sum + r.gold, 0);
+        const avgLevel = totalUsers > 0 ? Number((rows.reduce((sum, r) => sum + r.level, 0) / totalUsers).toFixed(1)) : 0;
+
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const newUsersThisMonth = rows.filter(r => r.createdAt && new Date(r.createdAt) >= startOfMonth).length;
+
+        const maxActivity = Math.max(...rows.map(r => r.activityScore), 1);
+        const sortedRows = [...rows].sort((a, b) => b.activityScore - a.activityScore);
+        const userStats = sortedRows.map(row => ({
+            ...row,
+            percentage: Math.round((row.activityScore / maxActivity) * 100)
+        }));
+        const topUsers = userStats.slice(0, 8);
+
+        const roleColors: Record<string, string> = {
+            aventurier: '#d97706',
+            prestataire: '#3b82f6',
+            admin: '#10b981'
+        };
+        const roleOrder = ['aventurier', 'prestataire', 'admin'];
+        const roleDistribution = roleOrder
+            .map(role => {
+                const count = rows.filter(r => r.role === role).length;
+                return {
+                    label: role,
+                    count,
+                    percentage: totalUsers > 0 ? Math.round((count / totalUsers) * 100) : 0,
+                    color: roleColors[role]
+                };
+            })
+            .filter(item => item.count > 0);
+
+        const verificationDistribution = [
+            {
+                label: 'verified',
+                count: verifiedUsers,
+                percentage: totalUsers > 0 ? Math.round((verifiedUsers / totalUsers) * 100) : 0,
+                color: '#10b981'
+            },
+            {
+                label: 'unverified',
+                count: totalUsers - verifiedUsers,
+                percentage: totalUsers > 0 ? Math.round(((totalUsers - verifiedUsers) / totalUsers) * 100) : 0,
+                color: '#f59e0b'
+            }
+        ].filter(item => item.count > 0);
+
+        const levelBucketsRaw = [
+            { range: '1-5', min: 1, max: 5 },
+            { range: '6-10', min: 6, max: 10 },
+            { range: '11-20', min: 11, max: 20 },
+            { range: '21-50', min: 21, max: 50 },
+            { range: '51+', min: 51, max: Number.POSITIVE_INFINITY }
+        ];
+
+        const levelBuckets = levelBucketsRaw.map(bucket => {
+            const count = rows.filter(r => r.level >= bucket.min && r.level <= bucket.max).length;
+            return {
+                range: bucket.range,
+                count,
+                percentage: totalUsers > 0 ? Math.round((count / totalUsers) * 100) : 0
+            };
+        });
+
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+        sixMonthsAgo.setDate(1);
+        sixMonthsAgo.setHours(0, 0, 0, 0);
+
+        const registrationBuckets = new Array(6).fill(0).map((_, index) => {
+            const monthDate = new Date(sixMonthsAgo);
+            monthDate.setMonth(monthDate.getMonth() + index);
+            return {
+                month: monthDate.toLocaleString('default', { month: 'short' }),
+                count: 0
+            };
+        });
+
+        rows.forEach(row => {
+            if (!row.createdAt) {
+                return;
+            }
+
+            const createdAt = new Date(row.createdAt);
+            const monthIndex =
+                (createdAt.getFullYear() - sixMonthsAgo.getFullYear()) * 12 +
+                (createdAt.getMonth() - sixMonthsAgo.getMonth());
+
+            if (monthIndex >= 0 && monthIndex < registrationBuckets.length) {
+                registrationBuckets[monthIndex].count += 1;
+            }
+        });
+
+        return res.json({
+            stats: {
+                totalUsers,
+                payingUsers,
+                verifiedUsers,
+                activeUsers,
+                totalOrders,
+                avgLevel,
+                totalXP,
+                totalGold,
+                newUsersThisMonth
+            },
+            roleDistribution,
+            verificationDistribution,
+            topUsers,
+            userStats,
+            levelBuckets,
+            registrationBuckets
+        });
+    } catch (error) {
+        console.error('Error fetching admin user stats:', error);
+        return res.status(500).json({ error: 'Failed to fetch admin user stats' });
+    }
+};

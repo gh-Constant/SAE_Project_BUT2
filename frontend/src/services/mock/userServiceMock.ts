@@ -16,7 +16,7 @@ export const calculateUserRank = (userId: number): number => {
 
 export const userServiceMock = {
   getUsers: async (): Promise<any> => {
-    return mockUsers;
+    return mockUsers.filter(user => user.role !== 'admin');
   },
 
   verifyUser: async (userId: number): Promise<any> => {
