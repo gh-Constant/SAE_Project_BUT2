@@ -8,9 +8,11 @@ const router = Router();
 router.post('/', authenticateToken, validateEventData, eventController.createEvent);
 router.get('/', eventController.getEvents);
 router.get('/user/reservations', authenticateToken, eventController.getUserReservations); // Specific route before :id
+router.get('/provider/reservations', authenticateToken, eventController.getProviderReservations);
 router.get('/:id', eventController.getEventById);
 router.put('/:id', authenticateToken, eventController.updateEvent);
 router.delete('/:id', authenticateToken, eventController.deleteEvent);
+router.get('/:id/reservations', authenticateToken, eventController.getEventReservations);
 router.post('/book', authenticateToken, validateBookingData, eventController.bookEvent);
 
 router.post('/:id/schedules', authenticateToken, eventController.addSchedule);

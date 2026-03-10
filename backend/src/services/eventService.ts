@@ -164,6 +164,16 @@ export const bookEvent = async (userId: number, eventId: number, quantity: numbe
           },
         },
       });
+
+      // Also update the global event sold count
+      await tx.event.update({
+        where: { id_event: eventId },
+        data: {
+          sold: {
+            increment: quantity,
+          },
+        },
+      });
       
     } else {
       // Booking the event directly (only valid for EVENT type, strict check?)
@@ -263,3 +273,48 @@ export const getUserReservations = async (userId: number) => {
   });
 };
 
+export const getEventReservations = async (eventId: number) => {
+  return await prisma.eventReservation.findMany({
+    where: { id_event: eventId },
+    include: {
+      user: true,
+      schedule: true,
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+  });
+};
+
+export const getProviderReservations = async (providerId: number) => {
+  // Find all locations owned by this provider
+  const locations = await prisma.location.findMany({
+    where: { id_prestataire: providerId },
+    select: { id_location: true }
+  });
+  const locationIds = locations.map(l => l.id_location);
+
+  // Find all events in these locations
+  const events = await prisma.event.findMany({
+    where: { id_location: { in: locationIds } },
+    select: { id_event: true }
+  });
+  const eventIds = events.map(e => e.id_event);
+
+  // Return reservations for these events
+  return await prisma.eventReservation.findMany({
+    where: { id_event: { in: eventIds } },
+    include: {
+      user: true,
+      event: {
+        include: {
+          location: true,
+        }
+      },
+      schedule: true,
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+  });
+};
