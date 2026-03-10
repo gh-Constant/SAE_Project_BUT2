@@ -43,13 +43,13 @@ model Location {
   id_location_type Int
   id_prestataire   Int?
 
-  location_type   LocationType     @relation(fields: [id_location_type], references: [id_location_type])
-  prestataire     Prestataire?     @relation(fields: [id_prestataire], references: [id_user])
-  services        Service[]
-  events          Event[]
-  quests          Quest[]
-  blogs           Blog[]
-  quizzes         Quiz[]
+  location_type LocationType @relation(fields: [id_location_type], references: [id_location_type])
+  prestataire   Prestataire? @relation(fields: [id_prestataire], references: [id_user])
+  services      Service[]
+  events        Event[]
+  quests        Quest[]
+  blogs         Blog[]
+  quizzes       Quiz[]
   contactMessages ContactMessage[]
   conversations   Conversation[]
 

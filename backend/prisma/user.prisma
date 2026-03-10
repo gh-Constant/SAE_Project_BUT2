@@ -10,33 +10,34 @@ enum AvatarType {
 }
 
 model User {
-  id_user    Int       @id @default(autoincrement())
-  firstname  String    @db.VarChar(255)
-  lastname   String    @db.VarChar(255)
-  birth_date DateTime?
-  bio        String?   @db.Text
+  id_user         Int       @id @default(autoincrement())
+  firstname       String    @db.VarChar(255)
+  lastname        String    @db.VarChar(255)
+  birth_date      DateTime?  
+  bio             String?   @db.Text
 
-  phone String? @db.Char(20)
-  email String  @unique @db.VarChar(255)
+  phone           String?   @db.Char(20)
+  email           String    @db.VarChar(255) @unique
 
   // Password Reset Fields
   reset_token        String?   @unique @db.VarChar(255)
   reset_token_expiry DateTime?
 
-  role        Role
-  avatar_url  String     @db.VarChar(255)
-  avatar_type AvatarType @default(gallery)
-  level       Int
-  xp          Float      @db.Double
-  gold        Int        @default(0)
+  role            Role
+  avatar_url      String    @db.VarChar(255)
+  avatar_type     AvatarType @default(gallery)
+  level           Int
+  xp              Float     @db.Double
+  gold            Int       @default(0)
 
   is_verified     Boolean
-  password_hashed String  @db.Text
+  password_hashed String   @db.Text
 
   created_at DateTime? @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt @db.DateTime(0)
 
   prestataire Prestataire?
+
 
   userQuests        UserQuest[]
   commandes         Commande[]
@@ -54,6 +55,7 @@ model User {
   // Messaging relations
   conversations     Conversation[]
   messagesSent      Message[]         @relation("MessageSender")
+
 
   @@map("users")
 }
