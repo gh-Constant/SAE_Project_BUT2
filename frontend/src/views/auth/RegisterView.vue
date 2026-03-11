@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -14,6 +15,7 @@ const confirmPassword = ref('')
 const firstName = ref('')
 const lastName = ref('')
 const selectedRole = ref<'aventurier' | 'prestataire'>('aventurier')
+const selectedPrestataireType = ref<number | null>(null)
 const selectedAvatar = ref<string>('')
 const showAvatarModal = ref(false)
 const showPassword = ref(false)
@@ -38,7 +40,11 @@ const toggleConfirmPasswordVisibility = () => {
 }
 
 const canProceedToStep2 = () => {
-  return firstName.value.trim() !== '' && lastName.value.trim() !== '' && selectedAvatar.value !== ''
+  const baseOk = firstName.value.trim() !== '' && lastName.value.trim() !== '' && selectedAvatar.value !== ''
+  if (selectedRole.value === 'prestataire') {
+    return baseOk && selectedPrestataireType.value !== null
+  }
+  return baseOk
 }
 
 // Générer la liste des avatars disponibles
@@ -163,7 +169,8 @@ const handleRegister = async () => {
       }
     }
 
-    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value, avatarUrl, avatarType)
+    const prestataireTypeId = selectedRole.value === 'prestataire' ? selectedPrestataireType.value ?? undefined : undefined
+    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value, avatarUrl, avatarType, prestataireTypeId)
     console.log('Registration successful:', authStore.user)
     await router.push('/')
   } catch (error) {
@@ -261,7 +268,7 @@ const handleRegister = async () => {
             <!-- Aventurier Role -->
             <button type="button" class="relative p-4 rounded-lg border-2 transition-all cursor-pointer group"
               :class="selectedRole === 'aventurier' ? 'border-antique-bronze bg-antique-bronze/10' : 'border-stone-grey/30 bg-white/50 hover:border-antique-bronze/50'"
-              @click="selectedRole = 'aventurier'">
+              @click="selectedRole = 'aventurier'; selectedPrestataireType = null">
               <div class="flex flex-col items-center space-y-2">
                 <div class="p-2 rounded-full transition-colors"
                   :class="selectedRole === 'aventurier' ? 'bg-antique-bronze text-white' : 'bg-stone-grey/10 text-stone-grey group-hover:text-antique-bronze'">
@@ -283,7 +290,7 @@ const handleRegister = async () => {
             <!-- prestataire Role -->
             <button type="button" class="relative p-4 rounded-lg border-2 transition-all cursor-pointer group"
               :class="selectedRole === 'prestataire' ? 'border-antique-bronze bg-antique-bronze/10' : 'border-stone-grey/30 bg-white/50 hover:border-antique-bronze/50'"
-              @click="selectedRole = 'prestataire'">
+              @click="selectedRole = 'prestataire'; selectedPrestataireType = null">
               <div class="flex flex-col items-center space-y-2">
                 <div class="p-2 rounded-full transition-colors"
                   :class="selectedRole === 'prestataire' ? 'bg-antique-bronze text-white' : 'bg-stone-grey/10 text-stone-grey group-hover:text-antique-bronze'">
@@ -299,6 +306,31 @@ const handleRegister = async () => {
                   class="w-6 h-6 bg-antique-bronze rounded-full flex items-center justify-center shadow-sm border-2 border-parchment">
                   <i class="fas fa-check text-white text-xs"></i>
                 </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Prestataire Type Selection (Only when prestataire role) -->
+        <div v-if="!showStep2 && selectedRole === 'prestataire'" class="mb-6">
+          <p class="text-stone-grey text-base mb-3 font-medieval font-bold">
+            {{ t('auth.register.prestataire_type_title') }}
+          </p>
+          <div class="grid grid-cols-3 gap-3">
+            <button
+              v-for="type in PRESTATAIRE_TYPES"
+              :key="type.id"
+              type="button"
+              class="p-3 rounded-lg border-2 transition-all cursor-pointer text-center"
+              :class="selectedPrestataireType === type.id ? 'border-antique-bronze bg-antique-bronze/10' : 'border-stone-grey/30 bg-white/50 hover:border-antique-bronze/50'"
+              @click="selectedPrestataireType = type.id"
+            >
+              <span class="font-medieval font-bold text-sm block capitalize"
+                :class="selectedPrestataireType === type.id ? 'text-antique-bronze' : 'text-stone-grey'">
+                {{ t(`auth.register.prestataire_types.${type.name}`) }}
+              </span>
+              <div v-if="selectedPrestataireType === type.id" class="mt-1">
+                <i class="fas fa-check text-antique-bronze text-xs"></i>
               </div>
             </button>
           </div>
@@ -411,7 +443,11 @@ const handleRegister = async () => {
                     {{ t('auth.register.identity') }}
                   </p>
                   <p class="text-base font-bold text-iron-black capitalize">
-                    <span class="text-antique-bronze">{{ selectedRole }}</span> {{ firstName }} {{ lastName }}
+                    <span class="text-antique-bronze">{{ selectedRole }}</span>
+                    <span v-if="selectedRole === 'prestataire' && selectedPrestataireType">
+                      ({{ PRESTATAIRE_TYPES.find(pt => pt.id === selectedPrestataireType)?.name ?? '' }})
+                    </span>
+                    {{ firstName }} {{ lastName }}
                   </p>
                 </div>
               </div>

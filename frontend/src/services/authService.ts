@@ -45,9 +45,13 @@ const authServiceImpl = {
       throw new Error(error.response?.data?.error || 'Login failed');
     }
   },
-  register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string): Promise<UserMock> => {
+  register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number): Promise<UserMock> => {
     try {
-      const response = await apiClient.post('/auth/register', { firstName, lastName, email, password, role, avatarUrl, avatarType });
+      const payload: Record<string, unknown> = { firstName, lastName, email, password, role, avatarUrl, avatarType };
+      if (role === 'prestataire' && prestataireTypeId) {
+        payload.prestataireTypeId = prestataireTypeId;
+      }
+      const response = await apiClient.post('/auth/register', payload);
       const user = response.data;
       return { ...user, id: user.id_user || user.id };
     } catch (error: any) {
