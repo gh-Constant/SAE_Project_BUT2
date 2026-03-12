@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <BackToMapButton />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
-      <!-- En-tête -->
+      <!-- En-tÃªte -->
       <div class="mb-8">
         <div class="flex gap-4 mb-6">
           <button @click="router.back()"
@@ -37,7 +37,7 @@
             Lieu #{{ locationId }}
             <span class="mx-3 text-antique-bronze/40">|</span>
             <i class="fas fa-ticket-alt mr-2 text-antique-bronze"></i>
-            {{ events.length }} événement(s)
+            {{ events.length }} Ã©vÃ©nement(s)
           </p>
 
           <!-- Stats Row -->
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <!-- Barre d'outils (Recherche, Filtres, Création) -->
+      <!-- Barre d'outils (Recherche, Filtres, CrÃ©ation) -->
       <div
         class="mb-8 bg-white/60 rounded-sm shadow-sm p-4 border border-antique-bronze/20 flex flex-col md:flex-row gap-4 justify-between items-center">
 
@@ -74,7 +74,7 @@
           </button>
         </div>
 
-        <!-- Bouton Créer -->
+        <!-- Bouton CrÃ©er -->
         <button @click="openCreateModal"
           class="w-full md:w-auto bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2.5 px-6 rounded-sm shadow-md transition-all flex items-center justify-center gap-2">
           <i class="fas fa-plus-circle"></i>
@@ -98,7 +98,7 @@
           {{ t('prestataire.events.manager.empty_search.description') }}
         </p>
         <button @click="openCreateModal" class="inline-flex items-center text-antique-bronze font-bold hover:underline">
-          Créer un événement maintenant
+          CrÃ©er un Ã©vÃ©nement maintenant
         </button>
       </div>
 
@@ -172,33 +172,33 @@
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div
-          class="inline-block align-bottom bg-parchment rounded-lg text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border-2 border-antique-bronze relative z-10"
+          class="inline-block align-bottom bg-parchment rounded-lg text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full border-2 border-antique-bronze relative z-10"
           @click.stop>
           <div class="bg-parchment px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex items-center justify-between mb-6 border-b border-antique-bronze/20 pb-4">
               <h3 class="text-2xl leading-6 font-medieval font-bold text-iron-black" id="modal-title">
-                {{ isEditing ? 'Modifier le Décret' : 'Nouveau Décret' }}
+                {{ isEditing ? 'Modifier le DÃ©cret' : 'Nouveau DÃ©cret' }}
               </h3>
               <button @click="closeModal" class="text-stone-grey hover:text-antique-bronze">
                 <i class="fas fa-times text-xl"></i>
               </button>
             </div>
 
-            <div class="space-y-4 font-body">
-              <div>
+            <div class="font-body grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-[72vh] overflow-y-auto pr-1">
+              <div class="lg:col-start-2">
                 <label class="block text-sm font-bold text-iron-black mb-1">{{
                   t('prestataire.events.manager.form.title_label') }}</label>
                 <input v-model="form.title" type="text"
                   class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white">
               </div>
-              <div>
+              <div class="lg:col-start-2">
                 <label class="block text-sm font-bold text-iron-black mb-1">{{
                   t('prestataire.events.manager.form.description_label') }}</label>
                 <Editor v-model="form.description" />
               </div>
 
               <!-- Type Selector -->
-              <div class="bg-antique-bronze/5 p-3 rounded-sm border border-antique-bronze/10">
+              <div class="bg-antique-bronze/5 p-3 rounded-sm border border-antique-bronze/10 lg:col-start-2">
                 <span class="block text-sm font-bold text-iron-black mb-2">{{
                   t('prestataire.events.manager.form.type_label') }}</span>
                 <div class="flex gap-6">
@@ -224,11 +224,20 @@
               </div>
 
               <!-- DATE PICKER (Unified for EVENT and ACTIVITY) -->
-              <div class="mb-4" v-if="form.type === 'EVENT' || showSchedulePicker">
+              <div class="mb-4 lg:col-start-1 lg:row-start-1 lg:row-span-6" v-if="form.type === 'EVENT' || showSchedulePicker">
                 <label class="block text-sm font-bold text-iron-black mb-2">
                   {{ form.type === 'ACTIVITY' ? t('prestataire.events.manager.form.schedules_title') :
                     t('prestataire.events.manager.form.date_label') }}
                 </label>
+
+                <div class="mb-3 bg-antique-bronze/5 rounded-sm border border-antique-bronze/10 p-3" v-if="form.type === 'ACTIVITY'">
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Durée d'un créneau (min)</label>
+                  <input v-model.number="form.globalDuration" type="number" min="1" step="1" @blur="normalizeGlobalDuration"
+                    class="block w-full border-antique-bronze/30 rounded-sm text-sm focus:ring-antique-bronze bg-white">
+                  <p class="mt-1 text-[11px] text-stone-500">
+                    Précision calendrier: {{ formatPrecisionLabel(slotMinutes) }} (Ctrl + molette)
+                  </p>
+                </div>
 
                 <!-- Date Navigation -->
                 <div
@@ -250,48 +259,53 @@
 
                 <!-- Time Grid -->
                 <div
-                  class="border-2 border-antique-bronze/30 rounded-sm bg-parchment h-56 overflow-y-auto relative custom-scrollbar">
+                  ref="timeGridRef"
+                  @wheel="onTimeGridWheel"
+                  class="border-2 border-antique-bronze/30 rounded-sm bg-parchment h-[26rem] overflow-y-auto relative custom-scrollbar">
                   <div class="grid grid-cols-1 divide-y divide-antique-bronze/10">
-                    <div v-for="hour in 24" :key="hour - 1" @mousedown="startDrag(hour - 1)"
-                      @mouseenter="onMouseEnter(hour - 1)"
-                      class="flex h-10 hover:bg-antique-bronze/5 cursor-pointer transition-colors relative group"
-                      :class="getTimeSlotClass(hour - 1)">
+                    <div v-for="slot in displaySlots" :key="slot.slotIndex" @mousedown="startDrag(slot.slotIndex)"
+                      @mouseenter="onMouseEnter(slot.slotIndex)"
+                      class="flex h-8 hover:bg-antique-bronze/5 cursor-pointer transition-colors relative group"
+                      :class="getTimeSlotClass(slot.slotIndex)">
                       <div
                         class="w-16 flex-shrink-0 flex items-center justify-end pr-3 border-r border-antique-bronze/20 text-xs font-bold text-stone-500 select-none">
-                        {{ formatHour(hour - 1) }}
+                        {{ slot.label }}
                       </div>
                       <div class="flex-grow relative">
                         <!-- Selection Indicator -->
-                        <div v-if="isHourSelected(hour - 1)"
+                        <div v-if="isSlotSelected(slot.slotIndex)"
                           class="absolute inset-0 bg-antique-bronze/20 border-l-4 border-antique-bronze flex items-center px-2 gap-2">
-                          <span class="text-xs font-bold text-antique-bronze" v-if="isStartHour(hour - 1)">{{
+                          <span class="text-xs font-bold text-antique-bronze" v-if="isStartSlot(slot.slotIndex)">{{
                             t('prestataire.events.manager.form.start') }}</span>
-                          <span class="text-xs font-bold text-antique-bronze" v-if="isEndHour(hour - 1)">{{
+                          <span class="text-xs font-bold text-antique-bronze" v-if="isEndSlot(slot.slotIndex)">{{
                             t('prestataire.events.manager.form.end') }}</span>
                         </div>
                         <!-- Hover Hint -->
                         <div
                           class="hidden group-hover:flex absolute inset-0 items-center pl-2 text-xs text-stone-400 italic pointer-events-none">
-                          {{ isDraggingSelectionStarted ? 'Définir fin' : 'Définir début' }}
+                          {{ isDraggingSelectionStarted ? 'DÃ©finir fin' : 'DÃ©finir dÃ©but' }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
+                <div class="space-y-3">
                 <!-- Selected Time Display -->
-                <div class="mt-2 text-sm text-center font-bold text-antique-bronze">
+                <div class="mt-2 text-sm text-center font-bold text-antique-bronze"
+                  :class="form.type === 'ACTIVITY' ? 'mt-0 bg-white/60 rounded-sm border border-antique-bronze/20 p-3' : ''">
                   <span v-if="currentSelection.start && currentSelection.end">
                     {{ formatDateTime(currentSelection.start) }} - {{ formatResultTime(currentSelection.end) }}
                   </span>
-                  <span v-else class="text-stone-400 italic">Sélectionnez une plage horaire</span>
+                  <span v-else class="text-stone-400 italic">SÃ©lectionnez une plage horaire</span>
                 </div>
 
                 <!-- Manual Inputs (Precision) -->
                 <div
+                  :class="form.type === 'ACTIVITY' ? 'mt-0' : ''"
                   class="grid grid-cols-2 gap-4 mt-4 border-t border-antique-bronze/10 pt-4 bg-antique-bronze/5 rounded-sm p-3">
                   <div>
-                    <label class="block text-xs font-bold text-stone-500 mb-1">Heure de début</label>
+                    <label class="block text-xs font-bold text-stone-500 mb-1">Heure de dÃ©but</label>
                     <input type="time" v-model="selectionStartTime" @change="updateFromTimeInput"
                       class="block w-full border-antique-bronze/30 rounded-sm text-sm focus:ring-antique-bronze bg-white">
                   </div>
@@ -302,23 +316,25 @@
                   </div>
                 </div>
 
-                <!-- Confirmation Buttons for ACTIVITY -->
                 <div v-if="form.type === 'ACTIVITY'"
-                  class="flex gap-3 mt-4 justify-end border-t border-antique-bronze/10 pt-4">
-                  <button type="button" @click="cancelSchedulePicker"
-                    class="text-stone-500 hover:text-stone-700 font-bold text-sm px-3 py-2">
-                    Annuler
-                  </button>
-                  <button type="button" @click="confirmSchedule"
-                    :disabled="!currentSelection.start || !currentSelection.end"
-                    class="bg-antique-bronze text-white font-bold py-2 px-4 rounded-sm text-sm hover:brightness-110 disabled:opacity-50 transition-all shadow-sm">
-                    <i class="fas fa-check mr-2"></i> Valider ce créneau
-                  </button>
+                  class="text-xs font-bold text-stone-500 border-t border-antique-bronze/10 pt-3 flex items-center justify-between gap-2">
+                  <span>Sélectionnez les horaires, puis validez l'ajout avec le bouton.</span>
+                  <div class="flex items-center gap-2">
+                    <button type="button" @click="addSelectedSchedules" :disabled="!hasValidSelection()"
+                      class="bg-antique-bronze text-white px-3 py-1.5 rounded-sm text-xs font-bold border border-antique-bronze disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all">
+                      Ajouter la sélection
+                    </button>
+                    <button type="button" @click="showSchedulePicker = false"
+                      class="text-antique-bronze hover:text-iron-black font-bold text-xs whitespace-nowrap">
+                      Terminer
+                    </button>
+                  </div>
+                </div>
                 </div>
               </div>
 
               <!-- ACTIVITY SPECIFIC: Add Schedule Button & List -->
-              <div v-if="form.type === 'ACTIVITY'" class="mb-4">
+              <div v-if="form.type === 'ACTIVITY'" class="mb-4 lg:col-start-2">
                 <button v-if="!showSchedulePicker" type="button" @click="openSchedulePicker"
                   class="w-full bg-antique-bronze text-white font-bold py-2.5 rounded-sm text-sm hover:brightness-110 shadow-sm border border-antique-bronze mb-4 flex items-center justify-center gap-2 transition-all">
                   <i class="fas fa-calendar-plus"></i> {{ t('prestataire.events.manager.form.add_schedule') }}
@@ -346,12 +362,16 @@
                           {{ new Date(sch.end_time!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
                         </td>
                         <td class="px-3 py-2">
-                          <input type="number" v-model="sch.capacity" placeholder="Défaut"
-                            class="w-16 text-xs border-stone-300 rounded-sm p-1">
+                          <input type="number" :value="getScheduleCapacityDisplay(sch)"
+                            :placeholder="`Défaut (${form.capacity})`"
+                            @input="onScheduleCapacityInput(sch, $event)"
+                            class="w-20 text-xs border-stone-300 rounded-sm p-1">
                         </td>
                         <td class="px-3 py-2">
-                          <input type="number" v-model="sch.price" placeholder="Défaut"
-                            class="w-16 text-xs border-stone-300 rounded-sm p-1">
+                          <input type="number" :value="getSchedulePriceDisplay(sch)"
+                            :placeholder="`Défaut (${form.price})`"
+                            @input="onSchedulePriceInput(sch, $event)"
+                            class="w-20 text-xs border-stone-300 rounded-sm p-1">
                         </td>
                         <td class="px-3 py-2 text-right">
                           <button @click="removeSchedule(idx)" class="text-red-500 hover:text-red-700">
@@ -364,10 +384,10 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-2 gap-4 lg:col-start-2">
                 <div>
                   <label class="block text-sm font-bold text-iron-black mb-1">
-                    {{ form.type === 'ACTIVITY' ? 'Prix par défaut' : t('prestataire.events.manager.form.price_label')
+                    {{ form.type === 'ACTIVITY' ? 'Prix par dÃ©faut' : t('prestataire.events.manager.form.price_label')
                     }}
                   </label>
                   <div class="relative">
@@ -380,7 +400,7 @@
                 </div>
                 <div>
                   <label class="block text-sm font-bold text-iron-black mb-1">
-                    {{ form.type === 'ACTIVITY' ? 'Capacité par défaut' :
+                    {{ form.type === 'ACTIVITY' ? 'CapacitÃ© par dÃ©faut' :
                       t('prestataire.events.manager.form.capacity_label') }}
                   </label>
                   <div class="relative">
@@ -424,7 +444,7 @@
           <div class="bg-parchment px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex items-center justify-between mb-6 border-b border-antique-bronze/20 pb-4">
               <h3 class="text-2xl leading-6 font-medieval font-bold text-iron-black">
-                Réservations : {{ currentReservationEvent?.title }}
+                RÃ©servations : {{ currentReservationEvent?.title }}
               </h3>
               <button @click="closeReservationsModal" class="text-stone-grey hover:text-antique-bronze">
                 <i class="fas fa-times text-xl"></i>
@@ -433,7 +453,7 @@
 
             <div v-if="loadingReservations" class="text-center py-8">
               <p class="text-lg font-medieval animate-pulse text-antique-bronze">Recherche des parchemins de
-                réservation...</p>
+                rÃ©servation...</p>
             </div>
 
             <div v-else-if="currentEventReservations.length === 0"
@@ -492,7 +512,7 @@
 
             <div class="mt-6 flex justify-end pt-4 border-t border-antique-bronze/10">
               <div class="text-sm text-stone-grey mr-4 flex items-center">
-                <span class="font-bold mr-2">Total Réservé:</span>
+                <span class="font-bold mr-2">Total RÃ©servÃ©:</span>
                 {{currentEventReservations.reduce((acc, r) => acc + r.quantity, 0)}} places
               </div>
               <div class="text-sm text-stone-grey flex items-center">
@@ -517,7 +537,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed, reactive, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore, Event, EventSchedule } from '@/stores/event'
 import { locationService } from '@/services/locationService';
@@ -541,6 +561,11 @@ const isEditing = ref(false)
 const editingId = ref<number | null>(null)
 const searchQuery = ref('')
 
+type LocalSchedule = Partial<EventSchedule> & {
+  _capacityInherit?: boolean
+  _priceInherit?: boolean
+}
+
 const form = reactive({
   title: '',
   description: '',
@@ -549,7 +574,8 @@ const form = reactive({
   end_time: '',
   price: 0,
   capacity: 0,
-  schedules: [] as Partial<EventSchedule>[]
+  schedules: [] as LocalSchedule[],
+  globalDuration: 60
 })
 
 // Unified Selection State
@@ -568,10 +594,21 @@ const currentReservationEvent = ref<Event | null>(null)
 
 
 // Calendar Logic
-const selectedDate = ref(new Date().toISOString().split('T')[0])
+const selectedDate = ref(formatDateInputValue(new Date()))
 const isDragging = ref(false)
-const dragStartHour = ref<number | null>(null)
-const isDraggingSelectionStarted = computed(() => dragStartHour.value !== null)
+const dragStartSlot = ref<number | null>(null)
+const dragCurrentSlot = ref<number | null>(null)
+const isDraggingSelectionStarted = computed(() => dragStartSlot.value !== null)
+const precisionLevels = [240, 120, 60, 30, 15, 10, 5] as const
+const slotMinutes = ref<(typeof precisionLevels)[number]>(15)
+const timeGridRef = ref<HTMLElement | null>(null)
+const slotsPerDay = computed(() => (24 * 60) / slotMinutes.value)
+const displaySlots = computed(() =>
+  Array.from({ length: slotsPerDay.value }, (_, slotIndex) => ({
+    slotIndex,
+    label: formatSlotTime(slotIndex)
+  }))
+)
 
 // Watchers to sync Event data with Selection
 watch(() => form.start_time, (newVal) => {
@@ -600,10 +637,25 @@ watch(() => form.type, (newType) => {
   }
 })
 
+watch(showModal, (isOpen) => {
+  if (isOpen) {
+    nextTick(() => scrollTimeGridToWorkingHours())
+  }
+})
+
+function normalizeGlobalDuration() {
+  const normalizedValue = Number(form.globalDuration)
+  if (!Number.isFinite(normalizedValue) || normalizedValue <= 0) {
+    form.globalDuration = 60
+    return
+  }
+  form.globalDuration = Math.round(normalizedValue)
+}
+
 function changeDate(days: number) {
   const date = new Date(selectedDate.value)
   date.setDate(date.getDate() + days)
-  const newDateStr = date.toISOString().split('T')[0]
+  const newDateStr = formatDateInputValue(date)
 
   // Check constraints using Global Settings
   if (settingsStore.festival_start_date && newDateStr < settingsStore.festival_start_date) return
@@ -612,8 +664,53 @@ function changeDate(days: number) {
   selectedDate.value = newDateStr
 }
 
-function formatHour(h: number) {
-  return `${h.toString().padStart(2, '0')}:00`
+function formatSlotTime(slotIndex: number) {
+  const h = Math.floor((slotIndex * slotMinutes.value) / 60)
+  const m = (slotIndex * slotMinutes.value) % 60
+  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
+}
+
+function formatPrecisionLabel(minutes: number) {
+  if (minutes >= 60) {
+    return `${minutes / 60}h`
+  }
+  return `${minutes} min`
+}
+
+function scrollTimeGridToWorkingHours() {
+  const timeGrid = timeGridRef.value
+  if (!timeGrid) return
+  const targetSlotIndex = Math.floor((8 * 60) / slotMinutes.value)
+  const rowHeightPx = 32
+  timeGrid.scrollTop = targetSlotIndex * rowHeightPx
+}
+
+function onTimeGridWheel(event: WheelEvent) {
+  if (!event.ctrlKey) return
+  event.preventDefault()
+
+  const currentIndex = precisionLevels.indexOf(slotMinutes.value)
+  if (currentIndex === -1) return
+
+  const nextIndex = event.deltaY < 0
+    ? Math.min(currentIndex + 1, precisionLevels.length - 1)
+    : Math.max(currentIndex - 1, 0)
+
+  if (nextIndex !== currentIndex) {
+    slotMinutes.value = precisionLevels[nextIndex]
+    nextTick(() => scrollTimeGridToWorkingHours())
+  }
+}
+
+function formatDateInputValue(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function toLocalDateTimeInputValue(date: Date) {
+  return `${formatDateInputValue(date)}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 }
 
 function formatResultTime(isoString: string) {
@@ -627,98 +724,141 @@ function formatDateTime(isoString: string) {
   return new Date(isoString).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
 }
 
-function getHourFromISO(isoString: string) {
+function getSlotFromISO(isoString: string) {
   if (!isoString) return -1
-  // Ensure we compare dates properly, ignoring time for date check, but checking same day
   if (isoString.split('T')[0] !== selectedDate.value) return -1
-  return new Date(isoString).getHours()
+  const date = new Date(isoString)
+  return Math.floor((date.getHours() * 60 + date.getMinutes()) / slotMinutes.value)
 }
 
-function isHourSelected(h: number) {
+function isSlotSelected(slotIndex: number) {
   if (!currentSelection.start) return false
-  const start = getHourFromISO(currentSelection.start)
+  const start = getSlotFromISO(currentSelection.start)
   if (start === -1) return false
 
-  if (!currentSelection.end) return h === start
+  if (!currentSelection.end) return slotIndex === start
 
-  const end = getHourFromISO(currentSelection.end)
+  const end = getSlotFromISO(currentSelection.end)
 
   if (end !== -1) {
-    return h >= start && h < end
+    return slotIndex >= start && slotIndex < end
   }
 
-  // If end date is > selected date, then all hours after start are selected
   if (currentSelection.end.split('T')[0] > selectedDate.value) {
-    return h >= start
+    return slotIndex >= start
   }
 
-  return h === start
+  return slotIndex === start
 }
 
-function isStartHour(h: number) {
-  return getHourFromISO(currentSelection.start) === h
+function isStartSlot(slotIndex: number) {
+  return getSlotFromISO(currentSelection.start) === slotIndex
 }
 
-function isEndHour(h: number) {
+function isEndSlot(slotIndex: number) {
   if (!currentSelection.end) return false
-  const end = getHourFromISO(currentSelection.end)
-  const start = getHourFromISO(currentSelection.start)
+  const end = getSlotFromISO(currentSelection.end)
+  const start = getSlotFromISO(currentSelection.start)
 
   if (end !== -1) {
-    return h === end - 1
+    return slotIndex === end - 1
   }
   if (currentSelection.end.split('T')[0] > selectedDate.value && start !== -1) {
-    return h === 23 // Show end on last slot if spanning
+    return slotIndex === slotsPerDay.value - 1
   }
   return false
 }
 
-function getTimeSlotClass(h: number) {
-  if (isHourSelected(h)) {
+function getTimeSlotClass(slotIndex: number) {
+  if (isSlotSelected(slotIndex)) {
     return 'bg-emerald-100/50'
   }
   return ''
 }
 
-function startDrag(h: number) {
+function startDrag(slotIndex: number) {
   isDragging.value = true
-  dragStartHour.value = h
-  updateSelection(h)
+  dragStartSlot.value = slotIndex
+  dragCurrentSlot.value = slotIndex
+  updateSelection(slotIndex)
 }
 
-function onMouseEnter(h: number) {
-  if (isDragging.value && dragStartHour.value !== null) {
-    updateSelection(h)
+function onMouseEnter(slotIndex: number) {
+  if (isDragging.value && dragStartSlot.value !== null) {
+    dragCurrentSlot.value = slotIndex
+    updateSelection(slotIndex)
   }
 }
 
 function stopDrag() {
   if (isDragging.value) {
+    const isClickSelection = dragStartSlot.value !== null && dragCurrentSlot.value !== null && dragStartSlot.value === dragCurrentSlot.value
+    if (isClickSelection && currentSelection.start) {
+      const startSlot = getSlotFromISO(currentSelection.start)
+      if (startSlot >= 0) {
+        setSelectionFromStartAndDuration(startSlot, form.globalDuration)
+      }
+    }
+
     isDragging.value = false
-    dragStartHour.value = null
+    dragStartSlot.value = null
+    dragCurrentSlot.value = null
+
   }
 }
 
-function updateSelection(currentHour: number) {
-  if (dragStartHour.value === null) return
+function updateSelection(currentSlot: number) {
+  if (dragStartSlot.value === null) return
 
-  const start = Math.min(dragStartHour.value, currentHour)
-  const end = Math.max(dragStartHour.value, currentHour) + 1 // +1 because end time is exclusive
+  const start = Math.min(dragStartSlot.value, currentSlot)
+  const end = Math.max(dragStartSlot.value, currentSlot) + 1
+  currentSelection.start = `${selectedDate.value}T${formatSlotTime(start)}`
 
-  const startTime = `${selectedDate.value}T${start.toString().padStart(2, '0')}:00`
-  const endTime = `${selectedDate.value}T${end.toString().padStart(2, '0')}:00`
-
-  currentSelection.start = startTime
-
-  if (end === 24) {
+  if (end >= slotsPerDay.value) {
     const nextDay = new Date(selectedDate.value)
     nextDay.setDate(nextDay.getDate() + 1)
-    currentSelection.end = `${nextDay.toISOString().split('T')[0]}T00:00`
+    currentSelection.end = `${formatDateInputValue(nextDay)}T00:00`
   } else {
-    currentSelection.end = endTime
+    currentSelection.end = `${selectedDate.value}T${formatSlotTime(end)}`
   }
 
   // Sync to form if EVENT
+  if (form.type === 'EVENT') {
+    form.start_time = currentSelection.start
+    form.end_time = currentSelection.end
+  }
+}
+
+function setSelectionFromSlots(startSlot: number, endSlotExclusive: number) {
+  const normalizedStart = Math.max(0, Math.min(startSlot, slotsPerDay.value - 1))
+  const normalizedEnd = Math.max(normalizedStart + 1, endSlotExclusive)
+  currentSelection.start = `${selectedDate.value}T${formatSlotTime(normalizedStart)}`
+  if (normalizedEnd >= slotsPerDay.value) {
+    const nextDay = new Date(selectedDate.value)
+    nextDay.setDate(nextDay.getDate() + 1)
+    currentSelection.end = `${formatDateInputValue(nextDay)}T00:00`
+  } else {
+    currentSelection.end = `${selectedDate.value}T${formatSlotTime(normalizedEnd)}`
+  }
+
+  if (form.type === 'EVENT') {
+    form.start_time = currentSelection.start
+    form.end_time = currentSelection.end
+  }
+}
+
+function setSelectionFromStartAndDuration(startSlot: number, durationMinutesRaw: number) {
+  const durationMinutes = Math.max(1, Math.round(Number(durationMinutesRaw) || 0))
+  const [year, month, day] = selectedDate.value.split('-').map(Number)
+  const startMinutesOfDay = startSlot * slotMinutes.value
+  const startHour = Math.floor(startMinutesOfDay / 60)
+  const startMinute = startMinutesOfDay % 60
+  const startDate = new Date(year, (month || 1) - 1, day || 1, startHour, startMinute, 0, 0)
+  const endDate = new Date(startDate.getTime() + durationMinutes * 60_000)
+
+  currentSelection.start = toLocalDateTimeInputValue(startDate)
+  currentSelection.end = toLocalDateTimeInputValue(endDate)
+
   if (form.type === 'EVENT') {
     form.start_time = currentSelection.start
     form.end_time = currentSelection.end
@@ -739,11 +879,26 @@ watch(() => currentSelection.end, (newVal) => {
 })
 
 function updateFromTimeInput() {
+  const parseTimeToSlot = (timeValue: string) => {
+    const [hoursRaw, minutesRaw] = timeValue.split(':')
+    const hours = Number(hoursRaw || 0)
+    const minutes = Number(minutesRaw || 0)
+    return Math.floor((hours * 60 + minutes) / slotMinutes.value)
+  }
+
+  let startSlot = -1
+  let endSlot = -1
   if (selectionStartTime.value) {
-    currentSelection.start = `${selectedDate.value}T${selectionStartTime.value}:00`
+    startSlot = parseTimeToSlot(selectionStartTime.value)
+    currentSelection.start = `${selectedDate.value}T${formatSlotTime(startSlot)}`
   }
   if (selectionEndTime.value) {
-    currentSelection.end = `${selectedDate.value}T${selectionEndTime.value}:00`
+    endSlot = parseTimeToSlot(selectionEndTime.value)
+    currentSelection.end = `${selectedDate.value}T${formatSlotTime(endSlot)}`
+  }
+
+  if (startSlot >= 0 && endSlot >= 0 && endSlot <= startSlot) {
+    setSelectionFromStartAndDuration(startSlot, form.globalDuration)
   }
 
   // Sync to form if EVENT
@@ -755,35 +910,147 @@ function updateFromTimeInput() {
 
 function openSchedulePicker() {
   showSchedulePicker.value = true
+  const schedulesSorted = [...form.schedules]
+    .filter(s => s.start_time && s.end_time)
+    .sort((a, b) => new Date(a.start_time!).getTime() - new Date(b.start_time!).getTime())
+
+  if (schedulesSorted.length > 0) {
+    const lastSchedule = schedulesSorted[schedulesSorted.length - 1]
+    if (lastSchedule.end_time) {
+      const startDate = new Date(lastSchedule.end_time)
+      if (!Number.isNaN(startDate.getTime())) {
+        selectedDate.value = formatDateInputValue(startDate)
+        currentSelection.start = toLocalDateTimeInputValue(startDate)
+        const endDate = new Date(startDate.getTime() + (form.globalDuration * 60_000))
+        currentSelection.end = toLocalDateTimeInputValue(endDate)
+        return
+      }
+    }
+  }
+
   currentSelection.start = ''
   currentSelection.end = ''
   selectionStartTime.value = ''
   selectionEndTime.value = ''
-}
-
-function confirmSchedule() {
-  addScheduleFromSelection()
-  showSchedulePicker.value = false
-}
-
-function cancelSchedulePicker() {
-  showSchedulePicker.value = false
+  nextTick(() => scrollTimeGridToWorkingHours())
 }
 
 // Activity Schedule Logic
 function addScheduleFromSelection() {
-  if (!currentSelection.start || !currentSelection.end) return;
+  normalizeGlobalDuration()
 
-  form.schedules.push({
-    start_time: currentSelection.start,
-    end_time: currentSelection.end,
-    capacity: form.capacity || undefined, // Use form defaults
-    price: form.price || undefined
-  });
+  if (!currentSelection.start || !currentSelection.end) return
+
+  const startDate = new Date(currentSelection.start)
+  const endDate = new Date(currentSelection.end)
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) || startDate >= endDate) return
+
+  const chunkDurationMs = form.globalDuration * 60_000
+  let cursorMs = startDate.getTime()
+  const endMs = endDate.getTime()
+
+  while (cursorMs < endMs) {
+    const nextMs = Math.min(cursorMs + chunkDurationMs, endMs)
+    const nextSchedule = {
+      start_time: toLocalDateTimeInputValue(new Date(cursorMs)),
+      end_time: toLocalDateTimeInputValue(new Date(nextMs)),
+      capacity: undefined,
+      price: undefined,
+      _capacityInherit: true,
+      _priceInherit: true
+    } as LocalSchedule
+
+    const duplicateExists = form.schedules.some(existing =>
+      existing.start_time === nextSchedule.start_time &&
+      existing.end_time === nextSchedule.end_time
+    )
+
+    if (!duplicateExists) {
+      form.schedules.push(nextSchedule)
+    }
+
+    cursorMs = nextMs
+  }
+
+  form.schedules.sort((a, b) => {
+    const aTime = a.start_time ? new Date(a.start_time).getTime() : 0
+    const bTime = b.start_time ? new Date(b.start_time).getTime() : 0
+    return aTime - bTime
+  })
+
+  const nextStart = new Date(endMs)
+  const nextEnd = new Date(endMs + chunkDurationMs)
+  currentSelection.start = toLocalDateTimeInputValue(nextStart)
+  currentSelection.end = toLocalDateTimeInputValue(nextEnd)
+}
+
+function hasValidSelection() {
+  if (!currentSelection.start || !currentSelection.end) return false
+  const startDate = new Date(currentSelection.start)
+  const endDate = new Date(currentSelection.end)
+  if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) return false
+  return startDate < endDate
+}
+
+function addSelectedSchedules() {
+  if (!hasValidSelection()) return
+  addScheduleFromSelection()
+}
+
+function isInheritCapacity(schedule: LocalSchedule) {
+  return schedule._capacityInherit !== false
+}
+
+function isInheritPrice(schedule: LocalSchedule) {
+  return schedule._priceInherit !== false
+}
+
+function getScheduleCapacityDisplay(schedule: LocalSchedule) {
+  return isInheritCapacity(schedule) ? '' : (schedule.capacity ?? '')
+}
+
+function getSchedulePriceDisplay(schedule: LocalSchedule) {
+  return isInheritPrice(schedule) ? '' : (schedule.price ?? '')
+}
+
+function onScheduleCapacityInput(schedule: LocalSchedule, eventObj: globalThis.Event) {
+  const rawValue = (eventObj.target as HTMLInputElement)?.value ?? ''
+  if (rawValue === '') {
+    schedule.capacity = undefined
+    schedule._capacityInherit = true
+    return
+  }
+  const parsed = Number(rawValue)
+  if (!Number.isFinite(parsed) || parsed <= 0) return
+  schedule.capacity = parsed
+  schedule._capacityInherit = false
+}
+
+function onSchedulePriceInput(schedule: LocalSchedule, eventObj: globalThis.Event) {
+  const rawValue = (eventObj.target as HTMLInputElement)?.value ?? ''
+  if (rawValue === '') {
+    schedule.price = undefined
+    schedule._priceInherit = true
+    return
+  }
+  const parsed = Number(rawValue)
+  if (!Number.isFinite(parsed) || parsed < 0) return
+  schedule.price = parsed
+  schedule._priceInherit = false
+}
+
+function toSchedulePayload(schedule: LocalSchedule): Partial<EventSchedule> {
+  return {
+    id_schedule: schedule.id_schedule,
+    start_time: schedule.start_time,
+    end_time: schedule.end_time,
+    capacity: isInheritCapacity(schedule) ? undefined : schedule.capacity,
+    price: isInheritPrice(schedule) ? undefined : schedule.price
+  }
 }
 
 function removeSchedule(index: number) {
-  form.schedules.splice(index, 1);
+  form.schedules.splice(index, 1)
 }
 
 
@@ -796,7 +1063,7 @@ async function viewReservations(event: Event) {
     currentEventReservations.value = await eventStore.fetchEventReservations(event.id_event)
   } catch (e) {
     console.error("Failed to load reservations", e)
-    alert("Impossible de charger les réservations.")
+    alert("Impossible de charger les rÃ©servations.")
   } finally {
     loadingReservations.value = false
   }
@@ -823,7 +1090,7 @@ onMounted(async () => {
     }
 
     if (loc.status === 'PENDING') {
-      alert("Ce lieu est en attente de validation. Vous ne pouvez pas encore gérer ses événements.");
+      alert("Ce lieu est en attente de validation. Vous ne pouvez pas encore gÃ©rer ses Ã©vÃ©nements.");
       router.back();
       return;
     }
@@ -833,6 +1100,7 @@ onMounted(async () => {
 
   await eventStore.fetchEvents({ id_location: locationId })
   loading.value = false
+  nextTick(() => scrollTimeGridToWorkingHours())
 })
 
 onUnmounted(() => {
@@ -876,6 +1144,7 @@ function openCreateModal() {
   form.price = 0
   form.capacity = 0
   form.schedules = []
+  form.globalDuration = 60
   showModal.value = true
 }
 
@@ -887,17 +1156,30 @@ function editEvent(event: Event) {
   form.type = event.type || 'EVENT'
 
   if (event.start_time) {
-    form.start_time = new Date(event.start_time).toISOString().slice(0, 16)
+    form.start_time = toLocalDateTimeInputValue(new Date(event.start_time))
   }
   if (event.end_time) {
-    form.end_time = new Date(event.end_time).toISOString().slice(0, 16)
+    form.end_time = toLocalDateTimeInputValue(new Date(event.end_time))
   }
 
   form.price = event.price || 0
   form.capacity = event.capacity || 0
 
   if (event.schedules) {
-    form.schedules = [...event.schedules]
+    form.schedules = event.schedules.map((schedule) => {
+      const numericCapacity = schedule.capacity === undefined ? undefined : Number(schedule.capacity)
+      const numericPrice = schedule.price === undefined ? undefined : Number(schedule.price)
+      const capacityInherit = numericCapacity === undefined || numericCapacity === form.capacity
+      const priceInherit = numericPrice === undefined || numericPrice === form.price
+
+      return {
+        ...schedule,
+        capacity: capacityInherit ? undefined : numericCapacity,
+        price: priceInherit ? undefined : numericPrice,
+        _capacityInherit: capacityInherit,
+        _priceInherit: priceInherit
+      }
+    })
   } else {
     form.schedules = []
   }
@@ -906,7 +1188,7 @@ function editEvent(event: Event) {
 }
 
 async function deleteEvent(id: number) {
-  if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
+  if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©vÃ©nement ?')) {
     await eventStore.deleteEvent(id)
   }
 }
@@ -929,17 +1211,17 @@ async function saveEvent() {
 
   if (form.type === 'EVENT') {
     if (!form.start_time || !form.end_time) {
-      alert("Veuillez définir une date et une heure de début et fin.");
+      alert("Veuillez dÃ©finir une date et une heure de dÃ©but et fin.");
       return;
     }
     eventData.start_time = new Date(form.start_time).toISOString();
     eventData.end_time = new Date(form.end_time).toISOString();
   } else {
     if (!form.schedules || form.schedules.length === 0) {
-      alert("Veuillez ajouter au moins un créneau pour cette activité.");
+      alert("Veuillez ajouter au moins un crÃ©neau pour cette activitÃ©.");
       return;
     }
-    eventData.schedules = form.schedules;
+    eventData.schedules = form.schedules.map(toSchedulePayload);
   }
 
   try {
@@ -955,3 +1237,5 @@ async function saveEvent() {
   }
 }
 </script>
+
+

@@ -61,9 +61,9 @@
               <!-- Activity Schedule Selector -->
               <div v-if="event.type === 'ACTIVITY'" class="w-full">
                 <label class="block text-sm font-bold text-stone-grey mb-2">{{ t('events.details.choose_date') }}</label>
-                <select v-model="selectedSchedule" class="w-full border-stone-300 rounded bg-white p-2 text-stone-700 focus:ring-antique-bronze focus:border-antique-bronze">
-                  <option :value="null" disabled>{{ t('events.details.select_slot') }}</option>
-                  <option v-for="schedule in event.schedules" :key="schedule.id_schedule" :value="schedule">
+                <select v-model="selectedScheduleId" class="w-full border-stone-300 rounded bg-white p-2 text-stone-700 focus:ring-antique-bronze focus:border-antique-bronze">
+                  <option value="" disabled>{{ t('events.details.select_slot') }}</option>
+                  <option v-for="schedule in event.schedules" :key="schedule.id_schedule" :value="String(schedule.id_schedule)">
                     {{ formatScheduleDate(schedule.start_time) }} - {{ formatScheduleTime(schedule.start_time) }} 
                     ({{ t('events.details.remaining_slot', { count: (schedule.capacity || event?.capacity || 0) - (schedule.sold || 0) }) }})
                   </option>
@@ -130,7 +130,7 @@ const bookingSuccess = ref(false)
 const quantity = ref(1)
 
 const eventId = Number(route.params.id)
-const selectedSchedule = ref<EventSchedule | null>(null)
+const selectedScheduleId = ref('')
 
 onMounted(async () => {
   loading.value = true
@@ -140,11 +140,22 @@ onMounted(async () => {
 
 const event = computed(() => eventStore.currentEvent)
 const isAuthenticated = computed(() => authStore.isAuthenticated)
+const selectedSchedule = computed<EventSchedule | null>(() => {
+  const id = Number(selectedScheduleId.value)
+  if (!event.value?.schedules || !Number.isFinite(id) || id <= 0) return null
+  return event.value.schedules.find(schedule => schedule.id_schedule === id) || null
+})
 
-// Auto-select first schedule if available and not selected
 watch(event, (newVal) => {
-  if (newVal?.type === 'ACTIVITY' && newVal.schedules && newVal.schedules.length > 0 && !selectedSchedule.value) {
-    selectedSchedule.value = newVal.schedules[0]
+  if (newVal?.type !== 'ACTIVITY') {
+    selectedScheduleId.value = ''
+    return
+  }
+  if (!selectedScheduleId.value) return
+  const selectedId = Number(selectedScheduleId.value)
+  const stillExists = newVal.schedules?.some(schedule => schedule.id_schedule === selectedId)
+  if (!stillExists) {
+    selectedScheduleId.value = ''
   }
 })
 
@@ -170,7 +181,9 @@ const currentPrice = computed(() => {
   if (!event.value) return 0
   if (event.value.type === 'ACTIVITY') {
     if (!selectedSchedule.value) return Number(event.value.price)
-    return selectedSchedule.value.price ? Number(selectedSchedule.value.price) : Number(event.value.price)
+    return selectedSchedule.value.price !== undefined
+      ? Number(selectedSchedule.value.price)
+      : Number(event.value.price)
   }
   return Number(event.value.price)
 })
@@ -205,12 +218,6 @@ async function handleBooking() {
     bookingSuccess.value = true
     // Refresh event data to update capacity
     await eventStore.fetchEventById(eventId)
-    // Refresh selected schedule ref from new data
-    if (selectedSchedule.value) {
-      const updatedSchedule = eventStore.currentEvent?.schedules?.find(s => s.id_schedule === selectedSchedule.value?.id_schedule)
-      if (updatedSchedule) selectedSchedule.value = updatedSchedule
-    }
-    
     setTimeout(() => {
       router.push('/my-reservations')
     }, 1500)

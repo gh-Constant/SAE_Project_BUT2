@@ -56,18 +56,34 @@ export const eventMockService = {
 
   createEvent: async (eventData: EventInput): Promise<EventMock> => {
     return new Promise((resolve) => {
+      const maxScheduleId = Math.max(
+        0,
+        ...EVENTS.flatMap(event => event.schedules?.map(schedule => schedule.id_schedule || 0) || [])
+      );
+
       const newEvent: EventMock = {
         id_event: Math.max(...EVENTS.map(e => e.id_event), 0) + 1,
         title: eventData.title,
         description: eventData.description,
-        start_time: eventData.start_time,
-        end_time: eventData.end_time,
+        type: eventData.type || 'EVENT',
+        start_time: eventData.type === 'ACTIVITY' ? undefined : eventData.start_time,
+        end_time: eventData.type === 'ACTIVITY' ? undefined : eventData.end_time,
         price: eventData.price,
         capacity: eventData.capacity,
         id_location: eventData.id_location,
         published: eventData.published,
         sold: 0,
-        categories: []
+        categories: [],
+        schedules: eventData.type === 'ACTIVITY'
+          ? (eventData.schedules || []).map((schedule, index) => ({
+            id_schedule: maxScheduleId + index + 1,
+            start_time: new Date(schedule.start_time).toISOString(),
+            end_time: new Date(schedule.end_time).toISOString(),
+            capacity: schedule.capacity,
+            price: schedule.price,
+            sold: 0
+          }))
+          : undefined
       };
       EVENTS.push(newEvent);
       resolve(newEvent);

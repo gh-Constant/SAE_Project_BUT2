@@ -2,6 +2,7 @@ import prisma from '../prisma.js';
 import { ReservationStatus, Prisma } from '@prisma/client';
 
 interface EventScheduleData {
+  id_schedule?: number;
   start_time: Date | string;
   end_time: Date | string;
   capacity?: number;
@@ -87,6 +88,7 @@ export const updateEvent = async (id: number, data: Partial<EventData>) => {
   const updateData: Partial<{
     title: string;
     description: string | undefined;
+    type: 'EVENT' | 'ACTIVITY';
     start_time: Date | null;
     end_time: Date | null;
     price: number;
@@ -96,15 +98,72 @@ export const updateEvent = async (id: number, data: Partial<EventData>) => {
 
   if (data.title) updateData.title = data.title;
   if (data.description !== undefined) updateData.description = data.description;
+  if (data.type !== undefined) updateData.type = data.type;
   if (data.start_time !== undefined) updateData.start_time = data.start_time ? new Date(data.start_time) : null;
   if (data.end_time !== undefined) updateData.end_time = data.end_time ? new Date(data.end_time) : null;
   if (data.price !== undefined) updateData.price = data.price;
   if (data.capacity !== undefined) updateData.capacity = data.capacity;
   if (data.id_location !== undefined) updateData.id_location = data.id_location;
 
-  return await prisma.event.update({
-    where: { id_event: id },
-    data: updateData,
+  return await prisma.$transaction(async (tx) => {
+    await tx.event.update({
+      where: { id_event: id },
+      data: updateData,
+    });
+
+    if (Array.isArray(data.schedules)) {
+      const existingSchedules = await tx.eventSchedule.findMany({
+        where: { id_event: id },
+        select: { id_schedule: true }
+      });
+
+      const existingIds = new Set(existingSchedules.map(schedule => schedule.id_schedule));
+      const incomingIds = data.schedules
+        .map(schedule => schedule.id_schedule)
+        .filter((scheduleId): scheduleId is number => typeof scheduleId === 'number' && scheduleId > 0);
+
+      const scheduleIdsToDelete = [...existingIds].filter(existingId => !incomingIds.includes(existingId));
+      if (scheduleIdsToDelete.length > 0) {
+        await tx.eventSchedule.deleteMany({
+          where: {
+            id_event: id,
+            id_schedule: { in: scheduleIdsToDelete }
+          }
+        });
+      }
+
+      for (const schedule of data.schedules) {
+        const schedulePayload = {
+          start_time: new Date(schedule.start_time),
+          end_time: new Date(schedule.end_time),
+          capacity: schedule.capacity ?? null,
+          price: schedule.price !== undefined ? new Prisma.Decimal(schedule.price) : null
+        };
+
+        if (schedule.id_schedule && existingIds.has(schedule.id_schedule)) {
+          await tx.eventSchedule.update({
+            where: { id_schedule: schedule.id_schedule },
+            data: schedulePayload
+          });
+        } else {
+          await tx.eventSchedule.create({
+            data: {
+              id_event: id,
+              ...schedulePayload,
+              sold: 0
+            }
+          });
+        }
+      }
+    }
+
+    return await tx.event.findUnique({
+      where: { id_event: id },
+      include: {
+        schedules: true,
+        location: true
+      }
+    });
   });
 };
 
@@ -147,7 +206,7 @@ export const bookEvent = async (userId: number, eventId: number, quantity: numbe
       // Use schedule overrides or fallbacks
       targetCapacity = schedule.capacity ?? event.capacity;
       targetSold = schedule.sold;
-      if (schedule.price) {
+      if (schedule.price !== null && schedule.price !== undefined) {
         targetPrice = Number(schedule.price);
       }
       
