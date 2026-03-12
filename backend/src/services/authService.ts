@@ -59,6 +59,7 @@ export async function register(
   role: Prisma.Role,
   avatarUrl?: string,
   avatarType?: Prisma.AvatarType,
+  prestataireTypeId?: number,
 ) {
   // Vérifie si l'utilisateur existe déjà
   const exists = await prisma.user.findUnique({ where: { email } });
@@ -66,6 +67,17 @@ export async function register(
 
   // Mappe le rôle string vers l'ID numérique
   if (!role) throw new Error("Rôle invalide");
+
+  // Si prestataire, valider le type (défaut: 1 = restaurateur)
+  const prestataireType = role === Prisma.Role.prestataire ? (prestataireTypeId ?? 1) : undefined;
+  if (role === Prisma.Role.prestataire && prestataireType) {
+    const validType = await prisma.prestataireType.findUnique({
+      where: { id_prestataire_type: prestataireType }
+    });
+    if (!validType) {
+      throw new Error("Type de prestataire invalide");
+    }
+  }
 
   // Hash le mot de passe avec bcrypt (coût 10)
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -87,11 +99,11 @@ export async function register(
       }
     });
 
-    if (role === Prisma.Role.prestataire) {
+    if (role === Prisma.Role.prestataire && prestataireType) {
       await tx.prestataire.create({
         data: {
           id_user: createdUser.id_user,
-          id_prestataire_type: 1,
+          id_prestataire_type: prestataireType,
         }
       });
     }

@@ -48,8 +48,8 @@ export const authController = {
 
   async register(req: Request, res: Response) {
     try {
-      const { firstName, lastName, email, password, role, avatarUrl, avatarType } = req.body;
-      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType);
+      const { firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId } = req.body;
+      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId);
       res.status(201).json(user);
     } catch (error) {
       res.status(400).json({ error: (error as Error).message });

@@ -65,7 +65,7 @@ export const authMockService = {
 
   // Fonction register en mode mock
 
-  register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string) {
+  register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number) {
     return new Promise<UserMock>((resolve, reject) => {
       // Vérifie si l'email existe déjà dans mockUsers
       const existingUser = mockUsers.find(u => u.email === email);
@@ -93,6 +93,7 @@ export const authMockService = {
         role: role === 'aventurier' ? Role.AVENTURIER_ROLE_ID : Role.PRESTATAIRE_ROLE_ID,
         avatar_url: avatarUrl || undefined, // Ajout de l'avatar
         avatar_type: avatarType === 'gallery' ? AvatarType.GALLERY : AvatarType.UPLOAD || undefined, // Ajout du type d'avatar
+        id_prestataire_type: role === 'prestataire' ? (prestataireTypeId ?? PrestataireTypes.RESTAURATEUR_TYPE_ID) : undefined,
         is_verified: false,
         xp: 0,
         level: 1,
