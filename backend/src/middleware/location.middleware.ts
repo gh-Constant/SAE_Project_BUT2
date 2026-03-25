@@ -132,7 +132,7 @@ export const checkQuestLocationOwnership = async (req: AuthenticatedRequest, res
 
 /**
  * Middleware to check if a location is available for purchase.
- * Checks if location exists and is not already purchased.
+ * Checks if location exists and has no owner yet.
  * Location ID is in req.params.id.
  */
 export const checkLocationAvailable = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -153,9 +153,9 @@ export const checkLocationAvailable = async (req: AuthenticatedRequest, res: Res
       return;
     }
 
-    // Check if location is already purchased
-    if (location.purchased) {
-      res.status(400).json({ error: 'Location is already purchased' });
+    // If location already has an owner, it is no longer available (even when pending validation)
+    if (location.id_prestataire) {
+      res.status(400).json({ error: 'Location is already requested or purchased' });
       return;
     }
 

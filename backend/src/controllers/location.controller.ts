@@ -1,8 +1,7 @@
 
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../prisma.js';
+import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
 // Interface pour les données de mise à jour d'une location
 interface LocationUpdateData {
@@ -11,7 +10,50 @@ interface LocationUpdateData {
   price?: number;
   purchased?: boolean;
   id_prestataire?: number | null;
+  id_location_type?: number;
 }
+
+type LocationStatus = 'AVAILABLE' | 'PENDING' | 'APPROVED';
+
+const PRESTATAIRE_LOCATION_TYPE_ID = 1;
+
+const getLocationStatus = (loc: {
+  id_location_type: number;
+  id_prestataire: number | null;
+  purchased: boolean;
+}): LocationStatus => {
+  if (loc.id_location_type !== PRESTATAIRE_LOCATION_TYPE_ID) {
+    return 'APPROVED';
+  }
+  if (!loc.id_prestataire) {
+    return 'AVAILABLE';
+  }
+  return loc.purchased ? 'APPROVED' : 'PENDING';
+};
+
+const mapLocationForFrontend = (loc: any) => ({
+  id: loc.id_location,
+  name: loc.name,
+  description: loc.description,
+  static_code: loc.static_code,
+  price: Number(loc.price),
+  purchased: loc.purchased,
+  status: getLocationStatus(loc),
+  position: loc.position,
+  icon_name: loc.icon_name,
+  banner_image: loc.banner_name,
+  id_prestataire: loc.id_prestataire,
+  id_location_type: loc.id_location_type,
+  prestataire: loc.prestataire?.user
+    ? {
+      id_user: loc.prestataire.user.id_user,
+      firstname: loc.prestataire.user.firstname,
+      lastname: loc.prestataire.user.lastname,
+      avatar_url: loc.prestataire.user.avatar_url,
+      avatar_type: loc.prestataire.user.avatar_type,
+    }
+    : null
+});
 
 export const getAllLocations = async (req: Request, res: Response) => {
   try {
@@ -34,28 +76,7 @@ export const getAllLocations = async (req: Request, res: Response) => {
       }
     });
 
-    // Transform data to match frontend expectations if needed
-    // Frontend expects: id, name, description, static_code, price, purchased, position, icon_name, banner_image, id_prestataire, id_location_type, prestataire
-    const mappedLocations = locations.map((loc: any) => ({
-      id: loc.id_location,
-      name: loc.name,
-      description: loc.description,
-      static_code: loc.static_code,
-      price: Number(loc.price),
-      purchased: loc.purchased,
-      position: loc.position, // Assuming it's stored as [lat, lng] or similar JSON
-      icon_name: loc.icon_name,
-      banner_image: loc.banner_name, // Note: DB has banner_name, frontend expects banner_image
-      id_prestataire: loc.id_prestataire,
-      id_location_type: loc.id_location_type,
-      prestataire: loc.prestataire?.user ? {
-        id_user: loc.prestataire.user.id_user,
-        firstname: loc.prestataire.user.firstname,
-        lastname: loc.prestataire.user.lastname,
-        avatar_url: loc.prestataire.user.avatar_url,
-        avatar_type: loc.prestataire.user.avatar_type,
-      } : null
-    }));
+    const mappedLocations = locations.map((loc) => mapLocationForFrontend(loc));
 
     res.json(mappedLocations);
   } catch (error) {
@@ -92,28 +113,7 @@ export const getLocationById = async (req: Request, res: Response) => {
       return;
     }
 
-    const mappedLocation = {
-      id: location.id_location,
-      name: location.name,
-      description: location.description,
-      static_code: location.static_code,
-      price: Number(location.price),
-      purchased: location.purchased,
-      position: location.position,
-      icon_name: location.icon_name,
-      banner_image: location.banner_name,
-      id_prestataire: location.id_prestataire,
-      id_location_type: location.id_location_type,
-      prestataire: location.prestataire?.user ? {
-        id_user: location.prestataire.user.id_user,
-        firstname: location.prestataire.user.firstname,
-        lastname: location.prestataire.user.lastname,
-        avatar_url: location.prestataire.user.avatar_url,
-        avatar_type: location.prestataire.user.avatar_type,
-      } : null
-    };
-
-    res.json(mappedLocation);
+    res.json(mapLocationForFrontend(location));
   } catch (error) {
     console.error('Error fetching location:', error);
     res.status(500).json({ error: 'Failed to fetch location' });
@@ -122,7 +122,7 @@ export const getLocationById = async (req: Request, res: Response) => {
 
 export const updateLocation = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const { name, description, price, purchased, id_prestataire } = req.body;
+  const { name, description, price, purchased, id_prestataire, id_location_type } = req.body;
 
   try {
     // Check if location exists
@@ -142,6 +142,18 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
     if (price !== undefined) updateData.price = price;
     if (purchased !== undefined) updateData.purchased = purchased;
     if (id_prestataire !== undefined) updateData.id_prestataire = id_prestataire;
+    if (id_location_type !== undefined) updateData.id_location_type = id_location_type;
+
+    // Keep status logic coherent for provider locations:
+    // owner with purchased=false => pending, owner with purchased=true => approved, no owner => available
+    if (id_prestataire !== undefined && Number(id_location_type ?? existingLocation.id_location_type) === PRESTATAIRE_LOCATION_TYPE_ID) {
+      if (!id_prestataire) {
+        updateData.id_prestataire = null;
+        updateData.purchased = false;
+      } else if (purchased === undefined) {
+        updateData.purchased = true;
+      }
+    }
 
     // Update the location
     const updatedLocation = await prisma.location.update({
@@ -165,41 +177,19 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
       }
     });
 
-    // Map to frontend format
-    const mappedLocation = {
-      id: updatedLocation.id_location,
-      name: updatedLocation.name,
-      description: updatedLocation.description,
-      static_code: updatedLocation.static_code,
-      price: Number(updatedLocation.price),
-      purchased: updatedLocation.purchased,
-      position: updatedLocation.position,
-      icon_name: updatedLocation.icon_name,
-      banner_image: updatedLocation.banner_name,
-      id_prestataire: updatedLocation.id_prestataire,
-      id_location_type: updatedLocation.id_location_type,
-      prestataire: updatedLocation.prestataire?.user ? {
-        id_user: updatedLocation.prestataire.user.id_user,
-        firstname: updatedLocation.prestataire.user.firstname,
-        lastname: updatedLocation.prestataire.user.lastname,
-        avatar_url: updatedLocation.prestataire.user.avatar_url,
-        avatar_type: updatedLocation.prestataire.user.avatar_type,
-      } : null
-    };
-
-    res.json(mappedLocation);
+    res.json(mapLocationForFrontend(updatedLocation));
   } catch (error) {
     console.error('Error updating location:', error);
     res.status(500).json({ error: 'Failed to update location' });
   }
 };
 
-export const purchaseLocation = async (req: Request, res: Response): Promise<void> => {
+export const purchaseLocation = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const { id } = req.params;
-  const { userId } = req.body;
+  const userId = req.user?.id ?? Number(req.body.userId);
 
   if (!userId) {
-    res.status(400).json({ error: 'User ID is required' });
+    res.status(401).json({ error: 'Authentication required' });
     return;
   }
 
@@ -214,8 +204,13 @@ export const purchaseLocation = async (req: Request, res: Response): Promise<voi
       return;
     }
 
-    if (location.purchased) {
-      res.status(400).json({ error: 'Location already purchased' });
+    if (location.id_location_type !== PRESTATAIRE_LOCATION_TYPE_ID) {
+      res.status(400).json({ error: 'This location is not purchasable by providers' });
+      return;
+    }
+
+    if (location.id_prestataire) {
+      res.status(400).json({ error: 'Location already requested or purchased' });
       return;
     }
 
@@ -249,7 +244,7 @@ export const purchaseLocation = async (req: Request, res: Response): Promise<voi
 
       const updatedLocation = await tx.location.update({
         where: { id_location: Number(id) },
-        data: { purchased: true, id_prestataire: Number(userId) },
+        data: { purchased: false, id_prestataire: Number(userId) },
         include: {
           location_type: true,
           prestataire: {
@@ -265,13 +260,205 @@ export const purchaseLocation = async (req: Request, res: Response): Promise<voi
       return updatedLocation;
     });
 
-    res.json({
-      ...result,
-      prestataire: result.prestataire?.user ?? null
-    });
+    res.json(mapLocationForFrontend(result));
   } catch (error) {
     console.error('Error purchasing location:', error);
     res.status(500).json({ error: 'Failed to purchase location' });
+  }
+};
+
+export const validatePurchase = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  const locationId = Number(req.params.id);
+  if (Number.isNaN(locationId)) {
+    res.status(400).json({ error: 'Invalid location ID' });
+    return;
+  }
+
+  try {
+    const location = await prisma.location.findUnique({
+      where: { id_location: locationId }
+    });
+
+    if (!location) {
+      res.status(404).json({ error: 'Location not found' });
+      return;
+    }
+
+    if (!location.id_prestataire) {
+      res.status(400).json({ error: 'No pending purchase for this location' });
+      return;
+    }
+
+    const updated = await prisma.location.update({
+      where: { id_location: locationId },
+      data: { purchased: true },
+      include: {
+        location_type: true,
+        prestataire: {
+          select: {
+            user: {
+              select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                avatar_url: true,
+                avatar_type: true,
+              }
+            }
+          }
+        }
+      }
+    });
+
+    res.json(mapLocationForFrontend(updated));
+  } catch (error) {
+    console.error('Error validating purchase:', error);
+    res.status(500).json({ error: 'Failed to validate purchase' });
+  }
+};
+
+export const rejectPurchase = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  const locationId = Number(req.params.id);
+  if (Number.isNaN(locationId)) {
+    res.status(400).json({ error: 'Invalid location ID' });
+    return;
+  }
+
+  try {
+    const location = await prisma.location.findUnique({
+      where: { id_location: locationId }
+    });
+
+    if (!location) {
+      res.status(404).json({ error: 'Location not found' });
+      return;
+    }
+
+    if (!location.id_prestataire) {
+      res.status(400).json({ error: 'No pending purchase for this location' });
+      return;
+    }
+
+    const updated = await prisma.location.update({
+      where: { id_location: locationId },
+      data: {
+        purchased: false,
+        id_prestataire: null
+      },
+      include: {
+        location_type: true,
+        prestataire: {
+          select: {
+            user: {
+              select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                avatar_url: true,
+                avatar_type: true,
+              }
+            }
+          }
+        }
+      }
+    });
+
+    res.json(mapLocationForFrontend(updated));
+  } catch (error) {
+    console.error('Error rejecting purchase:', error);
+    res.status(500).json({ error: 'Failed to reject purchase' });
+  }
+};
+
+export const removeOwner = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  return rejectPurchase(req, res);
+};
+
+export const updateOwner = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  const locationId = Number(req.params.id);
+  const userId = Number(req.body.userId);
+
+  if (Number.isNaN(locationId) || Number.isNaN(userId)) {
+    res.status(400).json({ error: 'Invalid location ID or user ID' });
+    return;
+  }
+
+  try {
+    const [location, user] = await Promise.all([
+      prisma.location.findUnique({ where: { id_location: locationId } }),
+      prisma.user.findUnique({ where: { id_user: userId }, select: { id_user: true, role: true } })
+    ]);
+
+    if (!location) {
+      res.status(404).json({ error: 'Location not found' });
+      return;
+    }
+
+    if (!user || user.role !== 'prestataire') {
+      res.status(400).json({ error: 'Owner must be an existing prestataire' });
+      return;
+    }
+
+    const updated = await prisma.location.update({
+      where: { id_location: locationId },
+      data: {
+        id_prestataire: userId,
+        purchased: true
+      },
+      include: {
+        location_type: true,
+        prestataire: {
+          select: {
+            user: {
+              select: {
+                id_user: true,
+                firstname: true,
+                lastname: true,
+                avatar_url: true,
+                avatar_type: true,
+              }
+            }
+          }
+        }
+      }
+    });
+
+    res.json(mapLocationForFrontend(updated));
+  } catch (error) {
+    console.error('Error updating location owner:', error);
+    res.status(500).json({ error: 'Failed to update owner' });
+  }
+};
+
+export const deleteLocation = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  const locationId = Number(req.params.id);
+  if (Number.isNaN(locationId)) {
+    res.status(400).json({ error: 'Invalid location ID' });
+    return;
+  }
+
+  try {
+    const location = await prisma.location.findUnique({
+      where: { id_location: locationId }
+    });
+
+    if (!location) {
+      res.status(404).json({ error: 'Location not found' });
+      return;
+    }
+
+    await prisma.location.update({
+      where: { id_location: locationId },
+      data: {
+        purchased: false,
+        id_prestataire: null
+      }
+    });
+
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error deleting location owner assignment:', error);
+    res.status(500).json({ error: 'Failed to delete location' });
   }
 };
 

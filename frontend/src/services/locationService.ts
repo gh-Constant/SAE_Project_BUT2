@@ -36,10 +36,7 @@ const locationServiceImpl = {
 
   purchaseLocation: async (locationId: number, userId: number): Promise<LocationMock> => {
     try {
-      const response = await apiClient.patch(`/locations/${locationId}`, {
-        purchased: true,
-        id_prestataire: userId
-      });
+      const response = await apiClient.post(`/locations/${locationId}/purchase`, { userId });
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.error || 'Failed to purchase location');
@@ -52,11 +49,11 @@ const locationServiceImpl = {
     if (userRole === 'prestataire' || userRole === 'admin') {
       // Prestataire and Admin see all locations
     } else {
-      // Other users see validated (APPROVED) locations
+      // Other users only see validated provider locations (and all story/other locations)
       locations = locations.filter(location =>
         location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID ||
         location.id_location_type === LocationType.OTHER_LOCATION_TYPE_ID ||
-        (location.purchased && location.id_prestataire && location.id_prestataire > 0)
+        (location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.status === 'APPROVED')
       );
     }
 
@@ -64,10 +61,9 @@ const locationServiceImpl = {
       const iconName = location.icon_name || 'default';
 
       let status: 'AVAILABLE' | 'PENDING' | 'APPROVED' = 'APPROVED';
-
-      if (userRole === 'admin' && location.status === 'PENDING') {
+      if (location.status === 'PENDING' && (userRole === 'admin' || userRole === 'prestataire')) {
         status = 'PENDING';
-      } else if (!location.purchased && location.id_location_type !== LocationType.STORY_LOCATION_TYPE_ID) {
+      } else if (location.status === 'AVAILABLE' && location.id_location_type !== LocationType.STORY_LOCATION_TYPE_ID) {
         status = 'AVAILABLE';
       }
 
@@ -102,7 +98,7 @@ const locationServiceImpl = {
 
   updateLocation: async (location: LocationMock): Promise<LocationMock> => {
     try {
-      const response = await apiClient.put(`/locations/${location.id}`, location);
+      const response = await apiClient.patch(`/locations/${location.id}`, location);
       return response.data;
     } catch {
       throw new Error('Failed to update location');
