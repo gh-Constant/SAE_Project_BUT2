@@ -4,6 +4,7 @@ export interface Blog {
   author?: string;
   avatar?: string;
   is_sellable?: boolean;
+  is_purchased?: boolean;
   price?: number;
   title: string;
   content: string;

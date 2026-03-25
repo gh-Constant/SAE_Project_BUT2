@@ -39,5 +39,32 @@ export const blogMockService = {
   deleteBlog: async (id: number): Promise<void> => {
     await new Promise(resolve => setTimeout(resolve, 500));
     mockBlogs = mockBlogs.filter(b => b.id_blog !== id);
+  },
+
+  purchaseBlog: async (id: number): Promise<{ success: boolean; id_blog: number; remainingGold: number }> => {
+    await new Promise(resolve => setTimeout(resolve, 300));
+    const blog = mockBlogs.find(b => b.id_blog === id);
+    if (!blog) {
+      throw new Error('Blog not found');
+    }
+    if (!blog.is_sellable || !blog.price) {
+      throw new Error('This blog is not purchasable');
+    }
+    blog.is_purchased = true;
+
+    const raw = localStorage.getItem('currentUser');
+    let remainingGold = 0;
+    if (raw) {
+      try {
+        const user = JSON.parse(raw);
+        remainingGold = Math.max(0, (user.gold || 0) - (blog.price || 0));
+        user.gold = remainingGold;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      } catch {
+        remainingGold = 0;
+      }
+    }
+
+    return { success: true, id_blog: id, remainingGold };
   }
 };

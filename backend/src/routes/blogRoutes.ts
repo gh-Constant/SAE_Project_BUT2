@@ -75,4 +75,15 @@ router.delete(
   blogController.deleteBlog
 );
 
+/**
+ * POST /blogs/:id/purchase
+ * Purchase a paid blog directly from location popup.
+ * Protected route - requires authentication.
+ */
+router.post(
+  '/:id/purchase',
+  authenticateToken,
+  blogController.purchaseBlog
+);
+
 export default router;

@@ -65,6 +65,13 @@
           <div>
             <h4 class="text-lg font-bold text-gray-900 leading-tight">{{ blog.title }}</h4>
             <p class="text-xs text-gray-500 mt-1">{{ formatDate(blog.created_at) }}</p>
+            <div v-if="blog.is_sellable" class="mt-1">
+              <span class="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full border"
+                :class="blog.is_purchased ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'">
+                <i class="fas" :class="blog.is_purchased ? 'fa-unlock' : 'fa-lock'"></i>
+                {{ blog.is_purchased ? 'Acheté' : `Premium - ${blog.price || 0} Gold` }}
+              </span>
+            </div>
           </div>
           
           <!-- Owner Actions -->
@@ -79,9 +86,24 @@
         </div>
 
         <!-- Blog Content -->
-        <div class="p-5">
+        <div class="p-5 relative" :class="{ 'pb-20': canPurchaseBlog(blog) }">
           <!-- Reusing the same typography classes as the editor for consistent rendering -->
           <div class="tiptap prose prose-sm sm:prose lg:prose lg:prose-lg xl:prose-2xl max-w-none focus:outline-none" v-html="blog.content"></div>
+
+          <div v-if="canPurchaseBlog(blog)" class="absolute bottom-4 right-4">
+            <button
+              class="px-4 py-2 bg-antique-bronze hover:brightness-110 text-white font-bold rounded-lg shadow transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              :disabled="buyingBlogId === blog.id_blog"
+              @click="buyBlog(blog)"
+            >
+              <span v-if="buyingBlogId === blog.id_blog">
+                <i class="fas fa-spinner fa-spin mr-1"></i> Achat...
+              </span>
+              <span v-else>
+                Acheter
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -93,6 +115,7 @@ import { ref, onMounted } from 'vue';
 import Editor from '@/components/editor/Editor.vue';
 import { blogService, Blog } from '@/services/blogService';
 import { useI18n } from 'vue-i18n';
+import { useAuthStore } from '@/stores/auth';
 
 const { t } = useI18n();
 
@@ -102,8 +125,10 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const authStore = useAuthStore();
 
 const blogs = ref<Blog[]>([]);
+const buyingBlogId = ref<number | null>(null);
 const showEditor = ref(false);
 const currentBlog = ref<Blog>({
   title: '',
@@ -128,6 +153,32 @@ const fetchBlogs = async () => {
     blogs.value = await blogService.getBlogsByLocationId(props.locationId);
   } catch (error) {
     console.error('Failed to fetch blogs:', error);
+  }
+};
+
+const canPurchaseBlog = (blog: Blog): boolean => {
+  return !props.isOwner && !!blog.id_blog && !!blog.is_sellable && !blog.is_purchased;
+};
+
+const buyBlog = async (blog: Blog) => {
+  if (!blog.id_blog) return;
+  const confirmed = confirm(`Confirmer l'achat de cet article pour ${blog.price || 0} Gold ?`);
+  if (!confirmed) return;
+  try {
+    buyingBlogId.value = blog.id_blog;
+    const result = await blogService.purchaseBlog(blog.id_blog);
+
+    if (authStore.user) {
+      authStore.user.gold = result.remainingGold;
+      authStore.saveUserToStorage();
+    }
+
+    await fetchBlogs();
+  } catch (error) {
+    console.error('Failed to purchase blog:', error);
+    alert(error instanceof Error ? error.message : 'Erreur lors de l\'achat du blog');
+  } finally {
+    buyingBlogId.value = null;
   }
 };
 

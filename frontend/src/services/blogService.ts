@@ -36,6 +36,15 @@ const blogServiceImpl = {
     } catch (error: any) {
       throw new Error(error.response?.data?.error || 'Failed to delete blog');
     }
+  },
+
+  purchaseBlog: async (id: number): Promise<{ success: boolean; id_blog: number; remainingGold: number }> => {
+    try {
+      const response = await apiClient.post(`/blogs/${id}/purchase`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to purchase blog');
+    }
   }
 };
 
