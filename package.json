@@ -13,7 +13,8 @@
     "frontend:preview": "nx preview frontend",
     "backend:dev": "nx serve backend",
     "backend:build": "nx build backend",
-    "backend:serve": "nx serve backend"
+    "backend:serve": "nx serve backend",
+    "backend:seed": "npx tsc -p backend/tsconfig.app.json --composite false --emitDeclarationOnly false --declaration false --declarationMap false && node backend/dist/seeds/runSeeds.js"
   },
   "private": true,
   "devDependencies": {

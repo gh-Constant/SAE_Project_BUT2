@@ -1,47 +1,43 @@
 # SAEProjectBUT2
 
-## Prérequis
+## Prerequis
 
-Avant de commencer, installez toutes les dépendances du projet :
-\`npm install\` (dans le répertoire racine)
+- Installer les dependances a la racine:
+`npm install`
 
-## 1. Démarrer le projet (Frontend uniquement)
+## 1. Lancer seulement le frontend
 
-### Mode Mock (Sans Backend)
-C'est la méthode la plus simple pour voir le frontend et développer sans avoir besoin de base de données ou de backend.
-- Commande : \`npm run frontend:dev:mock\`
+### Mode mock (sans backend)
+`npm run frontend:dev:mock`
 
----
+## 2. Lancer le projet complet (backend + frontend)
 
-## 2. Démarrer le projet complet (Backend + Frontend)
+### Etape A: Base de donnees
 
-Pour faire fonctionner le site normalement avec la base de données.
+Option Docker (recommande):
+`docker-compose up -d`
 
-### Étape A : Configurer la Base de Données
+Option MySQL local:
+- Configurer `backend/.env` avec les bons acces MySQL.
 
-Vous avez deux options :
+### Etape B: Initialiser Prisma
 
-**Option 1 : Via Docker (Recommandé)**
-Si vous avez Docker installé, lancez simplement :
-\`docker-compose up -d\`
+1. Generer le client:
+`npx prisma generate`
 
-**Option 2 : Via MySQL Local**
-Si vous n'utilisez pas Docker, vous devez avoir un serveur MySQL qui tourne sur votre machine.
-- Configurez le fichier \`.env\` avec vos informations de connexion MySQL.
+2. Appliquer le schema:
+`npx prisma db push`
 
-### Étape B : Initialiser Prisma
-Une fois la base de données (Docker ou Locale) prête, lancez ces commandes pour créer les tables et générer le client :
+### Etape C: Seeder la base (manuel)
 
-1. Générer le client Prisma :
-   \`npx prisma generate\`
+Le backend ne seed plus automatiquement au demarrage.
+Lancer les seeds explicitement avec:
+`npm run backend:seed`
 
-2. Pousser le schéma vers la base de données :
-   \`npx prisma db push\` (ou \`npx prisma migrate dev\` pour un environnement de dév strict)
+### Etape D: Demarrer les serveurs
 
-### Étape C : Lancer les serveurs
+1. Backend:
+`npm run backend:dev`
 
-1. **Démarrer le Backend :**
-   \`npm run backend:dev\`
-
-2. **Démarrer le Frontend (Mode Normal) :**
-   \`npm run frontend:dev\`
+2. Frontend:
+`npm run frontend:dev`
