@@ -15,6 +15,7 @@
 import { Request, Response } from 'express';
 import * as blogService from '../services/blogService.js';
 import prisma from '../prisma.js';
+import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
 export const blogController = {
   /**
@@ -22,7 +23,7 @@ export const blogController = {
    */
   async createBlog(req: Request, res: Response): Promise<void> {
     try {
-      const { title, content, id_location } = req.body;
+      const { title, content, id_location, is_sellable, price } = req.body;
 
       // Validate required fields
       if (!title || !content || !id_location) {
@@ -36,6 +37,8 @@ export const blogController = {
         title,
         content,
         id_location,
+        is_sellable,
+        price,
       });
 
       res.status(201).json(blog);
@@ -66,7 +69,30 @@ export const blogController = {
         return;
       }
 
-      const blogs = await blogService.getBlogsByLocation(locationId);
+      let blogs = await blogService.getBlogsByLocation(locationId);
+
+      const userId = (req as AuthenticatedRequest).user?.id;
+      let purchasedBlogIds: number[] = [];
+      if (userId) {
+        const userBlogs = await prisma.userBlog.findMany({
+          where: { id_user: userId },
+          select: { id_blog: true }
+        });
+        purchasedBlogIds = userBlogs.map((ub: any) => ub.id_blog);
+      }
+
+      blogs = blogs.map((blog: any) => {
+        if (blog.is_sellable && !purchasedBlogIds.includes(blog.id_blog)) {
+          // Si le blog est payant et non acheté (et que l'utilisateur n'est pas le proprio, optionnel)
+          // On peut simplifier en vérifiant juste l'achat. (Le proprio de la location pourrait voir ses blogs via un autre endpoint, ou on vérifie le rôle prestataire ici)
+          return {
+            ...blog,
+            content: blog.content.substring(0, 150) + '... <br/><em>(Contenu premium. Achetez cette page dans la boutique pour lire la suite.)</em>'
+          };
+        }
+        return blog;
+      });
+
       res.json(blogs);
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
@@ -92,6 +118,20 @@ export const blogController = {
         return;
       }
 
+      const userId = (req as any).user?.id;
+      if (blog.is_sellable) {
+        let hasPurchased = false;
+        if (userId) {
+          const ub = await prisma.userBlog.findUnique({
+             where: { id_user_id_blog: { id_user: userId, id_blog: blog.id_blog } }
+          });
+          if (ub) hasPurchased = true;
+        }
+        if (!hasPurchased) {
+           blog.content = blog.content.substring(0, 150) + '... <br/><em>(Contenu premium. Achetez cette page dans la boutique pour lire la suite.)</em>';
+        }
+      }
+
       res.json(blog);
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
@@ -104,7 +144,7 @@ export const blogController = {
   async updateBlog(req: Request, res: Response): Promise<void> {
     try {
       const blogId = parseInt(req.params.id);
-      const { title, content } = req.body;
+      const { title, content, is_sellable, price } = req.body;
 
       if (isNaN(blogId)) {
         res.status(400).json({ error: 'Invalid blog ID' });
@@ -116,6 +156,8 @@ export const blogController = {
       const updatedBlog = await blogService.updateBlog(blogId, {
         title,
         content,
+        is_sellable,
+        price,
       });
 
       res.json(updatedBlog);

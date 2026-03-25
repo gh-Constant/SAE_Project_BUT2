@@ -24,9 +24,15 @@
     <div v-if="product.image" class="w-full h-48 mb-4 rounded-sm overflow-hidden bg-antique-bronze/10 relative border border-antique-bronze/10">
       <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
       <img :src="product.image" :alt="product.name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      <div v-if="product.is_blog" class="absolute top-2 right-2 z-20 bg-blue-600/90 text-white text-xs font-bold px-2 py-1 rounded shadow border border-blue-400">
+        <i class="fas fa-file-alt mr-1"></i> Page de Blog
+      </div>
     </div>
-    <div v-else class="w-full h-48 mb-4 rounded-sm bg-antique-bronze/5 flex items-center justify-center border border-antique-bronze/10">
+    <div v-else class="w-full h-48 mb-4 rounded-sm bg-antique-bronze/5 flex items-center justify-center border border-antique-bronze/10 relative">
       <i class="fas fa-box-open text-antique-bronze/30 text-4xl"></i>
+      <div v-if="product.is_blog" class="absolute top-2 right-2 z-20 bg-blue-600/90 text-white text-xs font-bold px-2 py-1 rounded shadow border border-blue-400">
+        <i class="fas fa-file-alt mr-1"></i> Page de Blog
+      </div>
     </div>
 
     <!-- Informations du produit -->

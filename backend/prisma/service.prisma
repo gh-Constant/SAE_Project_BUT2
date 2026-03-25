@@ -106,9 +106,22 @@ model Blog {
   id_location Int
 
   location Location @relation(fields: [id_location], references: [id_location])
+  purchasedBy UserBlog[]
 
   @@index([id_location])
   @@map("blogs")
+}
+
+model UserBlog {
+  id_user    Int
+  id_blog    Int
+  created_at DateTime @default(now())
+  
+  user User @relation(fields: [id_user], references: [id_user])
+  blog Blog @relation(fields: [id_blog], references: [id_blog])
+
+  @@id([id_user, id_blog])
+  @@map("user_blogs")
 }
 
 enum EventType {

@@ -1,6 +1,10 @@
 
 export interface Blog {
   id_blog?: number;
+  author?: string;
+  avatar?: string;
+  is_sellable?: boolean;
+  price?: number;
   title: string;
   content: string;
   created_at?: string;

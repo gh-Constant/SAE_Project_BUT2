@@ -4,7 +4,9 @@ export interface ProductMock {
   description?: string;
   price: number;
   stock: number;
-  image: string;
+  image?: string;
+  is_blog?: boolean;
+  id_blog?: number;
   id_prestataire: number;
   locationId?: number;
 }

@@ -1,5 +1,5 @@
 import prisma from '../prisma.js';
-import { Prisma, LigneCommande } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import qrcodeService from './qrcodeService.js';
 
 interface CreateOrderItemDTO {
@@ -113,13 +113,38 @@ const payOrder = async (orderId: number, userId: number) => {
                 orderId: commande.id_commande,
                 userId: commande.id_user,
                 totalPrice: Number(commande.total_price),
-                items: commande.lignesCommande.map((l: LigneCommande) => ({
+                items: commande.lignesCommande.map((l: any) => ({
                     productId: l.id_product,
                     quantity: l.quantite,
                     price: Number(l.price)
                 }))
             }
         });
+
+        // Grant access to purchased blogs
+        const blogProducts = await tx.product.findMany({
+            where: {
+                id_product: { in: commande.lignesCommande.map((l: any) => l.id_product) },
+                is_blog: true
+            }
+        });
+
+        for (const product of blogProducts) {
+            if (product.id_blog) {
+                // Ignore unique constraint error if user already has this blog somehow
+                const exists = await tx.userBlog.findUnique({
+                    where: { id_user_id_blog: { id_user: userId, id_blog: product.id_blog } }
+                });
+                if (!exists) {
+                    await tx.userBlog.create({
+                        data: {
+                            id_user: userId,
+                            id_blog: product.id_blog
+                        }
+                    });
+                }
+            }
+        }
 
         return { order: updated, qrToken: qrSession.token };
     });

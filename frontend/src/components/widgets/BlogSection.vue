@@ -31,6 +31,16 @@
         :placeholder="t('widgets.blog.title_placeholder')"
         class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg"
       />
+      <div class="flex items-center gap-4 mb-3">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" v-model="currentBlog.is_sellable" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+          <span class="text-sm font-medium text-gray-700">En vente dans la boutique ?</span>
+        </label>
+        <div v-if="currentBlog.is_sellable" class="flex items-center gap-2">
+          <input type="number" v-model="currentBlog.price" min="0" step="1" placeholder="Prix (Gold)" class="w-24 px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <span class="text-sm text-gray-700">Gold</span>
+        </div>
+      </div>
       <Editor ref="editorRef" :initialContent="currentBlog.content" />
       <div class="flex gap-2 mt-4 justify-end">
         <button @click="cancelEdit" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors">
@@ -98,7 +108,9 @@ const showEditor = ref(false);
 const currentBlog = ref<Blog>({
   title: '',
   content: '',
-  id_location: props.locationId
+  id_location: props.locationId,
+  is_sellable: false,
+  price: 0
 });
 const editorRef = ref<InstanceType<typeof Editor> | null>(null);
 
@@ -123,7 +135,9 @@ const createNewBlog = () => {
   currentBlog.value = {
     title: '',
     content: '<p>Start writing your update...</p>',
-    id_location: props.locationId
+    id_location: props.locationId,
+    is_sellable: false,
+    price: 0
   };
   showEditor.value = true;
 };
@@ -136,6 +150,11 @@ const editBlog = (blog: Blog) => {
 const saveBlog = async () => {
   if (!currentBlog.value.title.trim()) {
     alert(t('widgets.blog.alert_title'));
+    return;
+  }
+
+  if (currentBlog.value.is_sellable && (!currentBlog.value.price || currentBlog.value.price <= 0)) {
+    alert("Veuillez définir un prix valide pour ce blog.");
     return;
   }
 
@@ -178,7 +197,9 @@ const cancelEdit = () => {
   currentBlog.value = {
     title: '',
     content: '',
-    id_location: props.locationId
+    id_location: props.locationId,
+    is_sellable: false,
+    price: 0
   };
 };
 
