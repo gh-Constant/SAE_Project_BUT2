@@ -17,6 +17,7 @@ const lastName = ref('')
 const selectedRole = ref<'aventurier' | 'prestataire'>('aventurier')
 const selectedPrestataireType = ref<number | null>(null)
 const selectedAvatar = ref<string>('')
+const avatarFile = ref<File | undefined>(undefined)
 const showAvatarModal = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
@@ -52,6 +53,7 @@ const availableAvatars = Array.from({ length: 42 }, (_, i) => `con${i + 1}.png`)
 
 const selectAvatar = (avatar: string) => {
   selectedAvatar.value = avatar
+  avatarFile.value = undefined
   showAvatarModal.value = false
 }
 
@@ -76,6 +78,7 @@ const handleFileUpload = (event: Event) => {
     // Créer une URL pour l'image téléchargée
     const imageUrl = URL.createObjectURL(file)
     selectedAvatar.value = imageUrl
+    avatarFile.value = file
     showAvatarModal.value = false
   }
 }
@@ -158,9 +161,7 @@ const handleRegister = async () => {
 
     if (selectedAvatar.value) {
       if (selectedAvatar.value.startsWith('blob:')) {
-        // Image uploadée - pour l'instant on ne peut pas l'envoyer au backend
-        // TODO: Implémenter l'upload vers le serveur
-        avatarUrl = selectedAvatar.value
+        avatarUrl = undefined
         avatarType = 'upload'
       } else {
         // Image de la galerie
@@ -170,7 +171,7 @@ const handleRegister = async () => {
     }
 
     const prestataireTypeId = selectedRole.value === 'prestataire' ? selectedPrestataireType.value ?? undefined : undefined
-    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value, avatarUrl, avatarType, prestataireTypeId)
+    await authStore.register(firstName.value, lastName.value, email.value, password.value, selectedRole.value, avatarUrl, avatarType, prestataireTypeId, avatarFile.value)
     console.log('Registration successful:', authStore.user)
     await router.push('/')
   } catch (error) {

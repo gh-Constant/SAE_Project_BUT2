@@ -45,13 +45,31 @@ const authServiceImpl = {
       throw new Error(error.response?.data?.error || 'Login failed');
     }
   },
-  register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number): Promise<UserMock> => {
+  register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number, avatarFile?: File): Promise<UserMock> => {
     try {
-      const payload: Record<string, unknown> = { firstName, lastName, email, password, role, avatarUrl, avatarType };
-      if (role === 'prestataire' && prestataireTypeId) {
-        payload.prestataireTypeId = prestataireTypeId;
+      let payload: any;
+      let headers: Record<string, string> = {};
+
+      if (avatarFile) {
+        payload = new FormData();
+        payload.append('firstName', firstName);
+        payload.append('lastName', lastName);
+        payload.append('email', email);
+        payload.append('password', password);
+        payload.append('role', role);
+        if (avatarType) payload.append('avatarType', avatarType);
+        if (role === 'prestataire' && prestataireTypeId) {
+          payload.append('prestataireTypeId', prestataireTypeId.toString());
+        }
+        payload.append('avatarFile', avatarFile);
+        headers['Content-Type'] = 'multipart/form-data';
+      } else {
+        payload = { firstName, lastName, email, password, role, avatarUrl, avatarType };
+        if (role === 'prestataire' && prestataireTypeId) {
+          payload.prestataireTypeId = prestataireTypeId;
+        }
       }
-      const response = await apiClient.post('/auth/register', payload);
+      const response = await apiClient.post('/auth/register', payload, { headers });
       const user = response.data;
       return { ...user, id: user.id_user || user.id };
     } catch (error: any) {
@@ -91,14 +109,30 @@ const authServiceImpl = {
     localStorage.removeItem('currentUser'); // Remove for security
   },
 
-  updateProfile: async (profileData: UserMock): Promise<UserMock> => {
+  updateProfile: async (profileData: any /* UserMock part */, avatarFile?: File): Promise<UserMock> => {
     const token = localStorage.getItem('authToken');
     if (!token) {
       throw new Error('Not authenticated');
     }
 
     try {
-      const response = await apiClient.put('/auth/profile', profileData);
+      let payload: any;
+      let headers: Record<string, string> = {};
+
+      if (avatarFile) {
+        payload = new FormData();
+        Object.keys(profileData).forEach(key => {
+          if (profileData[key] !== undefined && profileData[key] !== null) {
+            payload.append(key, profileData[key]);
+          }
+        });
+        payload.append('avatarFile', avatarFile);
+        headers['Content-Type'] = 'multipart/form-data';
+      } else {
+        payload = profileData;
+      }
+
+      const response = await apiClient.put('/auth/profile', payload, { headers });
       const user = response.data;
       return { ...user, id: user.id_user || user.id };
     } catch (error: any) {

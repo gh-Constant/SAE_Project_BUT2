@@ -25,6 +25,7 @@
 import { Request, Response } from 'express';
 import { login, register, changePassword as changePasswordService } from '../services/authService.js';
 import prisma from '../prisma.js';
+import { buildPublicUploadUrl } from './upload.controller.js';
 
 // Interface pour les requêtes authentifiées avec les infos utilisateur
 interface AuthenticatedRequest extends Request {
@@ -48,8 +49,15 @@ export const authController = {
 
   async register(req: Request, res: Response) {
     try {
-      const { firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId } = req.body;
-      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId);
+      const { firstName, lastName, email, password, role, prestataireTypeId } = req.body;
+      let { avatarUrl, avatarType } = req.body;
+      
+      if (req.file) {
+        avatarUrl = buildPublicUploadUrl(req, req.file.filename);
+        avatarType = 'upload';
+      }
+
+      const user = await register(firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId ? parseInt(prestataireTypeId.toString(), 10) : undefined);
       res.status(201).json(user);
     } catch (error) {
       res.status(400).json({ error: (error as Error).message });
@@ -116,7 +124,16 @@ export const authController = {
   async updateMe(req: Request, res: Response): Promise<void> {
     try {
       const userId = (req as AuthenticatedRequest).user.id;
-      const { firstname, lastname, email, avatarUrl, avatarType, prestataireTypeId, birthDate, phone, bio } = req.body;
+      const { firstname, lastname, email, prestataireTypeId, birthDate, phone, bio } = req.body;
+      let { avatarUrl, avatarType } = req.body;
+
+      if (req.file) {
+        avatarUrl = buildPublicUploadUrl(req, req.file.filename);
+        avatarType = 'upload';
+      }
+      
+      // Parse prestataireTypeId safely if it's coming from FormData as a string
+      const parsedPrestataireTypeId = prestataireTypeId ? parseInt(prestataireTypeId.toString(), 10) : undefined;
 
       const existingUser = await prisma.user.findUnique({
         where: { id_user: userId },
@@ -181,9 +198,9 @@ export const authController = {
       if (phone !== undefined) updateData.phone = phone || null;
       if (bio !== undefined) updateData.bio = bio || null;
 
-      if (prestataireTypeId !== undefined && prestataireTypeId !== null) {
+      if (parsedPrestataireTypeId !== undefined && parsedPrestataireTypeId !== null) {
         const prestataireType = await prisma.prestataireType.findUnique({
-          where: { id_prestataire_type: prestataireTypeId }
+          where: { id_prestataire_type: parsedPrestataireTypeId }
         });
         if (!prestataireType) {
           res.status(400).json({ error: 'Invalid prestataire type' });
@@ -228,18 +245,18 @@ export const authController = {
           }
         });
 
-        if (prestataireTypeId !== undefined) {
-          if (prestataireTypeId === null) {
+        if (parsedPrestataireTypeId !== undefined) {
+          if (parsedPrestataireTypeId === null) {
             await tx.prestataire.deleteMany({ where: { id_user: userId } });
           } else {
             await tx.prestataire.upsert({
               where: { id_user: userId },
               create: {
                 id_user: userId,
-                id_prestataire_type: prestataireTypeId
+                id_prestataire_type: parsedPrestataireTypeId
               },
               update: {
-                id_prestataire_type: prestataireTypeId
+                id_prestataire_type: parsedPrestataireTypeId
               }
             });
           }

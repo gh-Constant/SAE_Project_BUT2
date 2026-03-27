@@ -48,8 +48,8 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('authToken', 'mock-token-' + Date.now()) // Ajouter un token mock
       }
     },
-    async register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number) {
-      const user = await authService.register(firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId)
+    async register(firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number, avatarFile?: File) {
+      const user = await authService.register(firstName, lastName, email, password, role, avatarUrl, avatarType, prestataireTypeId, avatarFile)
       this.user = user as UserMock
       this.isAuthenticated = true
       this.authReady = true
@@ -181,8 +181,8 @@ export const useAuthStore = defineStore('auth', {
       birthDate?: string | null;
       phone?: string | null;
       bio?: string | null;
-    }) {
-      const updatedUser = await (authService as any).updateProfile(profileData)
+    }, avatarFile?: File) {
+      const updatedUser = await (authService as any).updateProfile(profileData, avatarFile)
       this.user = updatedUser as UserMock
       // Mettre à jour localStorage en mode mock pour compatibilité
       if (isMockEnabled) {

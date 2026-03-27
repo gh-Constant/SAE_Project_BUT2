@@ -21,6 +21,7 @@
 import { Router } from 'express';
 import { authController } from '../controllers/auth.controller.js';
 import { authenticateToken } from '../middleware/auth.middleware.js';
+import { handleSingleUpload } from '../controllers/upload.controller.js';
 
 const router = Router()
 
@@ -35,8 +36,9 @@ router.post('/login', authController.login);
  * POST /auth/register
  * Enregistre un nouvel utilisateur.
  * Route publique, pas de middleware d'authentification requis.
+ * Accepte un fichier 'avatarFile' pour l'image de profil.
  */
-router.post('/register', authController.register);
+router.post('/register', handleSingleUpload('avatarFile'), authController.register);
 
 /**
  * GET /auth/me
@@ -57,8 +59,9 @@ router.get('/role', authenticateToken, authController.getMyRole);
  * Met à jour le profil de l'utilisateur connecté.
  * Route protégée par le middleware `authenticateToken`.
  * Permet de modifier : firstname, lastname, email, avatarUrl, avatarType, prestataireTypeId
+ * Accepte un fichier 'avatarFile' pour l'image de profil.
  */
-router.put('/profile', authenticateToken, authController.updateMe);
+router.put('/profile', authenticateToken, handleSingleUpload('avatarFile'), authController.updateMe);
 
 /**
  * PUT /auth/change-password
