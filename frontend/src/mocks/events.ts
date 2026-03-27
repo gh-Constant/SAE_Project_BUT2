@@ -45,14 +45,25 @@ export type EventUpdateInput = {
   [K in keyof EventInput]?: EventInput[K];
 };
 
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+const baseDate = new Date();
+baseDate.setHours(0, 0, 0, 0);
+
+function atDayOffset(daysFromNow: number, hour: number, minute = 0): string {
+  const date = new Date(baseDate.getTime() + daysFromNow * ONE_DAY_MS);
+  date.setHours(hour, minute, 0, 0);
+  return date.toISOString();
+}
+
 export const EVENTS: EventMock[] = [
   {
     id_event: 1,
     title: "Grand Tournoi de Chevalerie",
     description: "Assistez aux joutes les plus spectaculaires du royaume. Chevaliers et écuyers s'affrontent pour la gloire et l'honneur.",
     type: 'EVENT',
-    start_time: new Date('2026-06-21T14:00:00').toISOString(),
-    end_time: new Date('2026-06-21T18:00:00').toISOString(),
+    start_time: atDayOffset(5, 14, 0),
+    end_time: atDayOffset(5, 18, 0),
     price: 50,
     capacity: 1000,
     sold: 450,
@@ -65,8 +76,8 @@ export const EVENTS: EventMock[] = [
     title: "Banquet Royal",
     description: "Un festin digne des rois avec musiciens, jongleurs et mets exquis.",
     type: 'EVENT',
-    start_time: new Date('2026-06-25T19:00:00').toISOString(),
-    end_time: new Date('2026-06-25T23:00:00').toISOString(),
+    start_time: atDayOffset(9, 19, 0),
+    end_time: atDayOffset(9, 23, 0),
     price: 120,
     capacity: 200,
     sold: 180,
@@ -79,8 +90,8 @@ export const EVENTS: EventMock[] = [
     title: "Marché Nocturne",
     description: "Découvrez les merveilles des artisans locaux sous la lueur des torches.",
     type: 'EVENT',
-    start_time: new Date('2026-06-30T20:00:00').toISOString(),
-    end_time: new Date('2026-06-30T23:59:00').toISOString(),
+    start_time: atDayOffset(14, 20, 0),
+    end_time: atDayOffset(14, 23, 59),
     price: 0,
     capacity: 5000,
     sold: 120,
@@ -100,9 +111,9 @@ export const EVENTS: EventMock[] = [
     id_location: 14, // Gérard
     published: true,
     schedules: [
-      { id_schedule: 1, start_time: new Date('2026-06-20T16:00:00').toISOString(), end_time: new Date('2026-06-20T17:00:00').toISOString(), sold: 0 },
-      { id_schedule: 2, start_time: new Date('2026-06-20T17:00:00').toISOString(), end_time: new Date('2026-06-20T18:00:00').toISOString(), sold: 0 },
-      { id_schedule: 3, start_time: new Date('2026-06-20T18:00:00').toISOString(), end_time: new Date('2026-06-20T19:00:00').toISOString(), sold: 0 }
+      { id_schedule: 1, start_time: atDayOffset(4, 16, 0), end_time: atDayOffset(4, 17, 0), sold: 0 },
+      { id_schedule: 2, start_time: atDayOffset(4, 17, 0), end_time: atDayOffset(4, 18, 0), sold: 0 },
+      { id_schedule: 3, start_time: atDayOffset(4, 18, 0), end_time: atDayOffset(4, 19, 0), sold: 0 }
     ]
   },
   {
@@ -117,9 +128,9 @@ export const EVENTS: EventMock[] = [
     id_location: 16, // Marie
     published: true,
     schedules: [
-      { id_schedule: 4, start_time: new Date('2026-06-22T10:00:00').toISOString(), end_time: new Date('2026-06-22T12:00:00').toISOString(), sold: 0 },
-      { id_schedule: 5, start_time: new Date('2026-06-22T14:00:00').toISOString(), end_time: new Date('2026-06-22T16:00:00').toISOString(), sold: 0 },
-      { id_schedule: 6, start_time: new Date('2026-06-23T10:00:00').toISOString(), end_time: new Date('2026-06-23T12:00:00').toISOString(), sold: 0 }
+      { id_schedule: 4, start_time: atDayOffset(6, 10, 0), end_time: atDayOffset(6, 12, 0), sold: 0 },
+      { id_schedule: 5, start_time: atDayOffset(6, 14, 0), end_time: atDayOffset(6, 16, 0), sold: 0 },
+      { id_schedule: 6, start_time: atDayOffset(7, 10, 0), end_time: atDayOffset(7, 12, 0), sold: 0 }
     ]
   },
   {
@@ -127,8 +138,8 @@ export const EVENTS: EventMock[] = [
     title: "Concours de Costume",
     description: "Revêtez votre plus belle tenue médiévale et tentez de gagner un prix !",
     type: 'EVENT',
-    start_time: new Date('2026-07-04T15:00:00').toISOString(),
-    end_time: new Date('2026-07-04T18:00:00').toISOString(),
+    start_time: atDayOffset(18, 15, 0),
+    end_time: atDayOffset(18, 18, 0),
     price: 2,
     capacity: 100,
     sold: 60,

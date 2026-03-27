@@ -13,6 +13,30 @@ export interface ReservationMock {
   event?: EventMock & { location?: LocationMock };
 }
 
+function getEventAnchorDate(eventId: number): Date {
+  const event = EVENTS.find(e => e.id_event === eventId);
+  if (!event) return new Date();
+
+  if (event.start_time) {
+    return new Date(event.start_time);
+  }
+
+  const firstSchedule = event.schedules?.[0];
+  if (firstSchedule?.start_time) {
+    return new Date(firstSchedule.start_time);
+  }
+
+  return new Date();
+}
+
+function reservationDateFor(eventId: number, daysBefore = 1, hour = 10): string {
+  const anchor = getEventAnchorDate(eventId);
+  const createdAt = new Date(anchor);
+  createdAt.setDate(createdAt.getDate() - daysBefore);
+  createdAt.setHours(hour, 0, 0, 0);
+  return createdAt.toISOString();
+}
+
 export const RESERVATIONS: ReservationMock[] = [
   {
     id_reservation: 1,
@@ -21,7 +45,7 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 2,
     total_price: 100,
     status: 'CONFIRMED',
-    created_at: new Date('2026-06-19T10:00:00').toISOString(),
+    created_at: reservationDateFor(1, 2, 10),
     event: {
       ...EVENTS[0],
       location: LOCATIONS.find(l => l.id === EVENTS[0].id_location)
@@ -34,7 +58,11 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 2,
     total_price: 30,
     status: 'CONFIRMED',
-    created_at: new Date('2026-06-20T09:00:00').toISOString(),
+    created_at: reservationDateFor(5, 2, 9),
+    event: {
+      ...EVENTS.find(e => e.id_event === 5)!,
+      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 5)?.id_location)
+    }
   },
   {
     id_reservation: 3,
@@ -43,7 +71,11 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 1,
     total_price: 2,
     status: 'PENDING',
-    created_at: new Date('2026-06-20T11:00:00').toISOString(),
+    created_at: reservationDateFor(6, 3, 11),
+    event: {
+      ...EVENTS.find(e => e.id_event === 6)!,
+      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 6)?.id_location)
+    }
   },
   {
     id_reservation: 4,
@@ -52,7 +84,11 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 3,
     total_price: 15,
     status: 'CONFIRMED',
-    created_at: new Date('2026-06-19T15:00:00').toISOString(),
+    created_at: reservationDateFor(4, 1, 15),
+    event: {
+      ...EVENTS.find(e => e.id_event === 4)!,
+      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 4)?.id_location)
+    }
   },
   {
     id_reservation: 5,
@@ -61,7 +97,11 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 2,
     total_price: 4,
     status: 'CONFIRMED',
-    created_at: new Date('2026-06-21T10:00:00').toISOString(),
+    created_at: reservationDateFor(6, 1, 10),
+    event: {
+      ...EVENTS.find(e => e.id_event === 6)!,
+      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 6)?.id_location)
+    }
   },
   {
     id_reservation: 6,
@@ -70,7 +110,11 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 1,
     total_price: 5,
     status: 'CANCELLED',
-    created_at: new Date('2026-06-19T18:00:00').toISOString(),
+    created_at: reservationDateFor(4, 1, 18),
+    event: {
+      ...EVENTS.find(e => e.id_event === 4)!,
+      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 4)?.id_location)
+    }
   },
   {
     id_reservation: 7,
@@ -79,6 +123,10 @@ export const RESERVATIONS: ReservationMock[] = [
     quantity: 1,
     total_price: 120,
     status: 'CONFIRMED',
-    created_at: new Date('2026-06-23T09:00:00').toISOString(),
+    created_at: reservationDateFor(2, 2, 9),
+    event: {
+      ...EVENTS.find(e => e.id_event === 2)!,
+      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 2)?.id_location)
+    }
   }
 ];

@@ -54,6 +54,28 @@ function getLocationName(eventLocationId?: number): string {
   return location?.name || 'Lieu inconnu'
 }
 
+function isEventCurrentlyActive(event: typeof EVENTS[number], now = new Date()): boolean {
+  if (!event.published) {
+    return false
+  }
+
+  if (event.type === 'ACTIVITY' && event.schedules?.length) {
+    return event.schedules.some(schedule => {
+      const start = new Date(schedule.start_time)
+      const end = new Date(schedule.end_time)
+      return now >= start && now <= end
+    })
+  }
+
+  if (event.start_time && event.end_time) {
+    const start = new Date(event.start_time)
+    const end = new Date(event.end_time)
+    return now >= start && now <= end
+  }
+
+  return false
+}
+
 // ================= Mock Service =================
 
 export const reservationStatisticMockService = {
@@ -81,7 +103,7 @@ export const reservationStatisticMockService = {
 
     // ===== Event Stats =====
     const totalEvents = EVENTS.length
-    const activeEvents = EVENTS.filter(e => e.published).length
+    const activeEvents = EVENTS.filter(e => isEventCurrentlyActive(e)).length
     const soldTickets = EVENTS.reduce((sum, e) => sum + (e.sold || 0), 0)
     const totalCapacity = EVENTS.reduce((sum, e) => sum + (e.capacity || 0), 0)
     const averageAttendance = totalCapacity > 0 ? Math.round((soldTickets / totalCapacity) * 100) : 0
