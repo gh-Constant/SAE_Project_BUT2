@@ -151,10 +151,12 @@ import { COMMANDES, EtatCommande } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { productService } from '@/services/productService'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notifications'
 
 const router = useRouter()
 const { t } = useI18n()
 const authStore = useAuthStore()
+const notificationStore = useNotificationStore()
 const isPaying = ref<Record<number, boolean>>({})
 
 // Commandes en attente de paiement
@@ -231,7 +233,7 @@ const payOrder = async (orderId: number) => {
   if (!order || order.etat_commande !== EtatCommande.WAITING) return
 
   if (authStore.user!.gold < order.total_price) {
-    alert("Vous n'avez pas assez d'or pour payer cette commande.");
+    notificationStore.error('Paiement refusé', "Vous n'avez pas assez d'or pour payer cette commande.")
     return;
   }
 
@@ -251,6 +253,11 @@ const payOrder = async (orderId: number) => {
     // Changer l'état de la commande
     order.etat_commande = EtatCommande.PAID
 
+    notificationStore.success(
+      'Commande payée',
+      `La commande #${Math.floor(order.id)} a bien été réglée.`
+    )
+
     // Générer le token QR pour la collecte
     order.qrToken = `ORDER-${orderId}-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
 
@@ -266,7 +273,7 @@ const payOrder = async (orderId: number) => {
     }
   } catch (error) {
     console.error('Erreur lors du paiement:', error)
-    alert(t('checkout.order_card.error_paying'))
+    notificationStore.error('Paiement impossible', t('checkout.order_card.error_paying'))
   } finally {
     isPaying.value[orderId] = false
   }

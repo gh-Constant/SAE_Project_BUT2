@@ -112,6 +112,7 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore } from '@/stores/event'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notifications'
 import { useI18n } from 'vue-i18n'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import type { EventSchedule } from '@/stores/event'
@@ -122,6 +123,7 @@ const route = useRoute()
 const router = useRouter()
 const eventStore = useEventStore()
 const authStore = useAuthStore()
+const notificationStore = useNotificationStore()
 
 const loading = ref(false)
 const bookingLoading = ref(false)
@@ -202,6 +204,7 @@ async function handleBooking() {
   
   if (event.value.type === 'ACTIVITY' && !selectedSchedule.value) {
     bookingError.value = "Veuillez sélectionner un créneau horaire."
+    notificationStore.error('Réservation impossible', bookingError.value)
     return
   }
 
@@ -216,6 +219,10 @@ async function handleBooking() {
       selectedSchedule.value?.id_schedule
     )
     bookingSuccess.value = true
+    notificationStore.success(
+      t('events.details.success'),
+      `${quantity.value} place(s) réservée(s) pour ${event.value.title}.`
+    )
     // Refresh event data to update capacity
     await eventStore.fetchEventById(eventId)
     setTimeout(() => {
@@ -224,6 +231,7 @@ async function handleBooking() {
   } catch (err: any) {
     const error = err as { response?: { data?: { message?: string } }; message?: string }
     bookingError.value = error.response?.data?.message || error.message || t('events.details.error_default')
+    notificationStore.error('Réservation impossible', bookingError.value)
   } finally {
     bookingLoading.value = false
   }

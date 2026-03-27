@@ -31,5 +31,10 @@
         "finish": "[DEV]",
         "confirm_finish": "DEBUG: Möchten Sie diese Quest als abgeschlossen markieren?",
         "error_finish": "Fehler beim Abschließen der Quest."
+    },
+    "toast": {
+        "completed_title": "Quest abgeschlossen",
+        "completed_message": "{quest} wurde als abgeschlossen markiert.",
+        "error_title": "Aktion fehlgeschlagen"
     }
 }

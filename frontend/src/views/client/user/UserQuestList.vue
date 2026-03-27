@@ -310,9 +310,11 @@ import { useI18n } from 'vue-i18n';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
 import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
 import UserDashboardLayout from '@/components/layout/UserDashboardLayout.vue';
+import { useNotificationStore } from '@/stores/notifications';
 import jsQR from 'jsqr';
 
 const { t } = useI18n();
+const notificationStore = useNotificationStore();
 const quests = ref<any[]>([]);
 const loading = ref(true);
 const isDebug = import.meta.env.DEV;
@@ -345,13 +347,19 @@ const loadQuests = async () => {
 
 const completeQuest = async (questId: number) => {
   if (!confirm(t('quest.debug.confirm_finish'))) return;
+  const userQuest = quests.value.find(q => q.id_quest === questId);
+  const questTitle = userQuest?.quest?.title || t('quest.title');
   
   try {
     await questService.completeQuest(questId);
     await loadQuests();
+    notificationStore.success(
+      t('quest.toast.completed_title'),
+      t('quest.toast.completed_message', { quest: questTitle })
+    );
   } catch (error) {
     console.error('Failed to complete quest:', error);
-    alert(t('quest.debug.error_finish'));
+    notificationStore.error(t('quest.toast.error_title'), t('quest.debug.error_finish'));
   }
 };
 
@@ -464,10 +472,20 @@ async function validateQuestWithToken(token: string) {
     if (result.success) {
       // Recharger les quêtes après succès
       await loadQuests();
+      notificationStore.success(
+        t('quest.toast.completed_title'),
+        scanResult.value?.message || t('quest.scan.success')
+      );
+    } else {
+      notificationStore.error(
+        t('quest.toast.error_title'),
+        scanResult.value?.error || t('quest.scan.failed')
+      );
     }
   } catch (error) {
     console.error('QR validation error:', error);
     scanResult.value = { success: false, error: 'Erreur de validation du QR code' };
+    notificationStore.error(t('quest.toast.error_title'), scanResult.value.error);
   }
 }
 
