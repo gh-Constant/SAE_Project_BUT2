@@ -32,6 +32,11 @@
         "confirm_finish": "DEBUG : Voulez-vous marquer cette quête comme terminée ?",
         "error_finish": "Erreur lors de la complétion de la quête."
     },
+    "toast": {
+        "completed_title": "Quête réussie",
+        "completed_message": "{quest} a été marquée comme terminée.",
+        "error_title": "Action impossible"
+    },
     "scan": {
         "title": "Scanner le QR Code",
         "hint": "Pointez votre caméra vers le QR code de l'emplacement de la quête",

@@ -31,5 +31,10 @@
         "finish": "[DEV]",
         "confirm_finish": "DEBUG: ¿Quieres marcar esta misión como completada?",
         "error_finish": "Error al completar la misión."
+    },
+    "toast": {
+        "completed_title": "Misión completada",
+        "completed_message": "{quest} se marcó como completada.",
+        "error_title": "Error en la acción"
     }
 }

@@ -3,6 +3,51 @@ import { RESERVATIONS, ReservationMock } from '@/mocks/reservations';
 import { LOCATIONS } from '@/mocks/locations';
 import { USERS, UserMock } from '@/mocks/users';
 
+const MAX_EVENT_DURATION_MS = 31 * 24 * 60 * 60 * 1000;
+
+function validateDateRange(start: string, end: string, context: string): void {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+    throw new Error(`${context}: invalid date format`);
+  }
+
+  if (endDate.getTime() < startDate.getTime()) {
+    throw new Error(`${context}: end date must be after start date`);
+  }
+
+  if (endDate.getTime() - startDate.getTime() > MAX_EVENT_DURATION_MS) {
+    throw new Error(`${context}: duration cannot exceed one month`);
+  }
+}
+
+function validateEventDuration(eventData: EventInput | EventMock): void {
+  if (eventData.type === 'ACTIVITY') {
+    const schedules = eventData.schedules || [];
+    if (schedules.length === 0) {
+      return;
+    }
+
+    schedules.forEach((schedule, index) => {
+      validateDateRange(schedule.start_time, schedule.end_time, `Schedule ${index + 1}`);
+    });
+
+    const starts = schedules.map(s => new Date(s.start_time).getTime());
+    const ends = schedules.map(s => new Date(s.end_time).getTime());
+    const totalSpan = Math.max(...ends) - Math.min(...starts);
+
+    if (totalSpan > MAX_EVENT_DURATION_MS) {
+      throw new Error('Activity schedules cannot span more than one month');
+    }
+    return;
+  }
+
+  if (eventData.start_time && eventData.end_time) {
+    validateDateRange(eventData.start_time, eventData.end_time, 'Event');
+  }
+}
+
 // Helper to get current user ID from localStorage
 const getCurrentUserId = (): number => {
   const currentUserStr = localStorage.getItem('currentUser');
@@ -55,7 +100,14 @@ export const eventMockService = {
   },
 
   createEvent: async (eventData: EventInput): Promise<EventMock> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      try {
+        validateEventDuration(eventData);
+      } catch (error) {
+        reject(error);
+        return;
+      }
+
       const maxScheduleId = Math.max(
         0,
         ...EVENTS.flatMap(event => event.schedules?.map(schedule => schedule.id_schedule || 0) || [])
@@ -94,7 +146,16 @@ export const eventMockService = {
     return new Promise((resolve, reject) => {
       const index = EVENTS.findIndex(e => e.id_event === id);
       if (index !== -1) {
-        EVENTS[index] = { ...EVENTS[index], ...eventData };
+        const updatedEvent = { ...EVENTS[index], ...eventData };
+
+        try {
+          validateEventDuration(updatedEvent);
+        } catch (error) {
+          reject(error);
+          return;
+        }
+
+        EVENTS[index] = updatedEvent;
         resolve(EVENTS[index]);
       } else {
         reject(new Error('Event not found'));

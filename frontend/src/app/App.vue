@@ -3,6 +3,7 @@ import { RouterView, useRoute, useRouter } from 'vue-router'
 import Navbar from '@/components/navbar/Navbar.vue'
 import PrestataireNavbar from '@/components/navbar/PrestataireNavbar.vue'
 import Footer from '@/components/shared/Footer.vue'
+import ToastContainer from '@/components/shared/ToastContainer.vue'
 import { computed } from 'vue'
 import { useUIStore } from '@/stores/ui'
 import { useAuthStore } from '@/stores/auth'
@@ -38,6 +39,7 @@ const logout = () => {
       <RouterView />
     </main>
     <Footer />
+    <ToastContainer />
   </div>
 </template>
 

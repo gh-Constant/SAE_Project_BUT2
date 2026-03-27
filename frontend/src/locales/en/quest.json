@@ -32,6 +32,11 @@
         "confirm_finish": "DEBUG: Do you want to mark this quest as completed?",
         "error_finish": "Error completing the quest."
     },
+    "toast": {
+        "completed_title": "Quest completed",
+        "completed_message": "{quest} was marked as completed.",
+        "error_title": "Action failed"
+    },
     "scan": {
         "title": "Scan QR Code",
         "hint": "Point your camera at the QR code at the quest location",

@@ -92,6 +92,7 @@ import { ref, computed } from 'vue'
 import { ProductMock } from '@/mocks/products'
 import { USERS } from '@/mocks/users'
 import { useCartStore } from '@/stores/cart'
+import { useNotificationStore } from '@/stores/notifications'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 
 interface Props {
@@ -100,6 +101,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const cartStore = useCartStore()
+const notificationStore = useNotificationStore()
 const isAdding = ref(false)
 
 // Récupérer le nom du prestataire
@@ -118,9 +120,8 @@ const handleAddToCart = async () => {
   
   cartStore.addToCart(props.product, 1)
   isAdding.value = false
-  
-  // Optionnel : notification de succès (à implémenter plus tard)
-  // showNotification('Produit ajouté au panier')
+
+  notificationStore.success('Panier mis à jour', `${props.product.name} a été ajouté au panier.`)
 }
 </script>
 

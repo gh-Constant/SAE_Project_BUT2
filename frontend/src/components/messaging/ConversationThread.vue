@@ -61,10 +61,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { messagingService, type Conversation, type Message } from '@/services/messagingService';
+import { useNotificationStore } from '@/stores/notifications';
 
 const props = defineProps<{
   conversationId: number;
@@ -74,6 +75,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const authStore = useAuthStore();
+const notificationStore = useNotificationStore();
 
 const messages = ref<Message[]>([]);
 const conversation = ref<Conversation | undefined>(props.initialConversation);
@@ -81,6 +83,11 @@ const newMessage = ref('');
 const loadingMessages = ref(false);
 const sending = ref(false);
 const messagesContainer = ref<HTMLElement | null>(null);
+const latestSeenMessageId = ref<number | null>(null);
+const latestNotifiedIncomingMessageId = ref<number | null>(null);
+let pollTimer: number | null = null;
+
+const POLL_INTERVAL_MS = 4000;
 
 const isMyMessage = (msg: Message) => {
   return msg.sender.id_user === authStore.user?.id;
@@ -93,18 +100,71 @@ const scrollToBottom = async () => {
   }
 };
 
-const fetchMessages = async () => {
+const fetchMessages = async (silent = false) => {
   if (!props.conversationId) return;
 
-  loadingMessages.value = true;
+  if (!silent) {
+    loadingMessages.value = true;
+  }
+
+  const previousLatestId = messages.value.length > 0
+    ? messages.value[messages.value.length - 1].id_message
+    : null;
+
   try {
-    messages.value = await messagingService.getMessages(props.conversationId);
-    await scrollToBottom();
+    const fetchedMessages = await messagingService.getMessages(props.conversationId);
+    messages.value = fetchedMessages;
+
+    const newestMessage = fetchedMessages.length > 0
+      ? fetchedMessages[fetchedMessages.length - 1]
+      : null;
+
+    if (!silent) {
+      latestSeenMessageId.value = newestMessage?.id_message ?? null;
+      await scrollToBottom();
+    } else if (newestMessage?.id_message !== previousLatestId) {
+      const incomingMessages = fetchedMessages.filter((msg) => {
+        const isIncoming = !isMyMessage(msg);
+        const isNew = latestSeenMessageId.value === null || msg.id_message > latestSeenMessageId.value;
+        return isIncoming && isNew;
+      });
+
+      if (incomingMessages.length > 0) {
+        const lastIncoming = incomingMessages[incomingMessages.length - 1];
+        if (latestNotifiedIncomingMessageId.value !== lastIncoming.id_message) {
+          notificationStore.info(
+            'Nouveau message',
+            `${lastIncoming.sender.firstname} ${lastIncoming.sender.lastname}: ${lastIncoming.content}`,
+            4500
+          );
+          latestNotifiedIncomingMessageId.value = lastIncoming.id_message;
+        }
+        await scrollToBottom();
+      }
+
+      latestSeenMessageId.value = newestMessage?.id_message ?? latestSeenMessageId.value;
+    }
   } catch (error) {
     console.error('Error fetching messages:', error);
   } finally {
-    loadingMessages.value = false;
+    if (!silent) {
+      loadingMessages.value = false;
+    }
   }
+};
+
+const stopPolling = () => {
+  if (pollTimer !== null) {
+    window.clearInterval(pollTimer);
+    pollTimer = null;
+  }
+};
+
+const startPolling = () => {
+  stopPolling();
+  pollTimer = window.setInterval(() => {
+    fetchMessages(true);
+  }, POLL_INTERVAL_MS);
 };
 
 const sendMessage = async () => {
@@ -126,7 +186,12 @@ const sendMessage = async () => {
 // Fetch messages when conversationId changes
 watch(() => props.conversationId, (newId) => {
   if (newId) {
+    latestSeenMessageId.value = null;
+    latestNotifiedIncomingMessageId.value = null;
     fetchMessages();
+    startPolling();
+  } else {
+    stopPolling();
   }
 }, { immediate: true });
 
@@ -135,5 +200,9 @@ watch(() => props.initialConversation, (newConv) => {
   if (newConv) {
     conversation.value = newConv;
   }
+});
+
+onUnmounted(() => {
+  stopPolling();
 });
 </script>
