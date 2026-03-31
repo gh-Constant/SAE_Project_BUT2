@@ -8,6 +8,10 @@ interface LocationUpdateData {
   name?: string;
   description?: string;
   price?: number;
+  has_water_access?: boolean;
+  has_electricity?: boolean;
+  has_toilets?: boolean;
+  is_accessible_pmr?: boolean;
   purchased?: boolean;
   id_prestataire?: number | null;
   id_location_type?: number;
@@ -31,12 +35,43 @@ const getLocationStatus = (loc: {
   return loc.purchased ? 'APPROVED' : 'PENDING';
 };
 
-const mapLocationForFrontend = (loc: any) => ({
+type LocationWithRelations = {
+  id_location: number;
+  name: string;
+  description: string | null;
+  static_code: string | null;
+  price: unknown;
+  has_water_access?: boolean;
+  has_electricity?: boolean;
+  has_toilets?: boolean;
+  is_accessible_pmr?: boolean;
+  purchased: boolean;
+  position: unknown;
+  icon_name: string | null;
+  banner_name: string | null;
+  id_prestataire: number | null;
+  id_location_type: number;
+  prestataire?: {
+    user?: {
+      id_user: number;
+      firstname: string;
+      lastname: string;
+      avatar_url: string | null;
+      avatar_type: string | null;
+    } | null;
+  } | null;
+};
+
+const mapLocationForFrontend = (loc: LocationWithRelations) => ({
   id: loc.id_location,
   name: loc.name,
   description: loc.description,
   static_code: loc.static_code,
   price: Number(loc.price),
+  has_water_access: Boolean(loc.has_water_access),
+  has_electricity: Boolean(loc.has_electricity),
+  has_toilets: Boolean(loc.has_toilets),
+  is_accessible_pmr: Boolean(loc.is_accessible_pmr),
   purchased: loc.purchased,
   status: getLocationStatus(loc),
   position: loc.position,
@@ -122,7 +157,18 @@ export const getLocationById = async (req: Request, res: Response) => {
 
 export const updateLocation = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const { name, description, price, purchased, id_prestataire, id_location_type } = req.body;
+  const {
+    name,
+    description,
+    price,
+    has_water_access,
+    has_electricity,
+    has_toilets,
+    is_accessible_pmr,
+    purchased,
+    id_prestataire,
+    id_location_type,
+  } = req.body;
 
   try {
     // Check if location exists
@@ -140,6 +186,10 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
     if (name !== undefined) updateData.name = name;
     if (description !== undefined) updateData.description = description;
     if (price !== undefined) updateData.price = price;
+    if (has_water_access !== undefined) updateData.has_water_access = has_water_access;
+    if (has_electricity !== undefined) updateData.has_electricity = has_electricity;
+    if (has_toilets !== undefined) updateData.has_toilets = has_toilets;
+    if (is_accessible_pmr !== undefined) updateData.is_accessible_pmr = is_accessible_pmr;
     if (purchased !== undefined) updateData.purchased = purchased;
     if (id_prestataire !== undefined) updateData.id_prestataire = id_prestataire;
     if (id_location_type !== undefined) updateData.id_location_type = id_location_type;

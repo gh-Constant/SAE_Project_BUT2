@@ -9,6 +9,11 @@ export interface LocationMock {
   static_code?: string;
   price: number;
 
+  has_water_access?: boolean;
+  has_electricity?: boolean;
+  has_toilets?: boolean;
+  is_accessible_pmr?: boolean;
+
   id_location_type: number;
   purchased: boolean;
 

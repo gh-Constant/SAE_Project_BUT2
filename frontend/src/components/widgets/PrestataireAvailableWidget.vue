@@ -31,6 +31,19 @@
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
       <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
 
+      <div
+        v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr"
+        class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6"
+      >
+        <h3 class="text-lg font-medieval font-bold text-iron-black mb-3">Caractéristiques du lieu</h3>
+        <div class="flex flex-wrap gap-2">
+          <span v-if="location.has_water_access" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Accès à l'eau</span>
+          <span v-if="location.has_electricity" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Électricité</span>
+          <span v-if="location.has_toilets" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Toilettes</span>
+          <span v-if="location.is_accessible_pmr" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Accessible PMR</span>
+        </div>
+      </div>
+
       <div class="bg-antique-bronze/10 border border-antique-bronze/30 rounded-lg p-4 mb-6 flex items-center shadow-sm">
         <div class="w-12 h-12 bg-antique-bronze text-white rounded-full flex items-center justify-center mr-4 text-lg shadow-md">
           <i class="fas fa-store"></i>

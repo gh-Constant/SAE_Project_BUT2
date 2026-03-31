@@ -1,4 +1,5 @@
 import prisma from '../prisma.js';
+import type { Prisma } from '@prisma/client';
 
 export const LocationType = {
   PRESTATAIRE_LOCATION_TYPE_ID: 1,
@@ -12,6 +13,10 @@ interface LocationSeed {
   description?: string;
   static_code?: string;
   price: number;
+  has_water_access?: boolean;
+  has_electricity?: boolean;
+  has_toilets?: boolean;
+  is_accessible_pmr?: boolean;
   purchased: boolean;
   position: [number, number];
   icon_name?: string;
@@ -29,6 +34,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A quaint wooden building adorned with colorful banners. The ticket officer, a jovial man named Garin, sells tickets to adventurers eager to explore the realm.',
     price: 0,
+    has_water_access: true,
+    has_electricity: true,
+    has_toilets: true,
+    is_accessible_pmr: true,
     purchased: true,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [1747, 5072],
@@ -42,6 +51,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A mysterious dwelling shrouded in purple mist. The witch Morgana crafts powerful potions and enchantments for those brave enough to seek her services.',
     price: 0,
+    has_water_access: true,
+    has_electricity: false,
+    has_toilets: false,
+    is_accessible_pmr: false,
     purchased: true,
     id_location_type: LocationType.STORY_LOCATION_TYPE_ID,
     position: [910, 4330],
@@ -174,6 +187,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A popular location among travelers, known for its high foot traffic.',
     price: 140,
+    has_water_access: true,
+    has_electricity: true,
+    has_toilets: true,
+    is_accessible_pmr: true,
     purchased: true,
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -188,6 +205,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'Situated near the town square, this stall benefits from constant visibility.',
     price: 160,
+    has_water_access: true,
+    has_electricity: true,
+    has_toilets: false,
+    is_accessible_pmr: true,
     purchased: true,
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -244,6 +265,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A prime spot for attracting both locals and tourists alike.',
     price: 135,
+    has_water_access: true,
+    has_electricity: false,
+    has_toilets: false,
+    is_accessible_pmr: false,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -258,6 +283,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'Located at a busy intersection, ensuring a steady stream of potential customers.',
     price: 145,
+    has_water_access: true,
+    has_electricity: true,
+    has_toilets: false,
+    is_accessible_pmr: false,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -578,6 +607,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A toilet located near the marketplace for public convenience.',
     price: 0,
+    has_water_access: true,
+    has_electricity: false,
+    has_toilets: true,
+    is_accessible_pmr: true,
     purchased: true,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [2142, 1184],
@@ -591,6 +624,10 @@ const LOCATION_SEEDS: LocationSeed[] = [
     description:
       'A toilet located near the marketplace for public convenience.',
     price: 0,
+    has_water_access: true,
+    has_electricity: false,
+    has_toilets: true,
+    is_accessible_pmr: false,
     purchased: true,
     id_location_type: LocationType.OTHER_LOCATION_TYPE_ID,
     position: [1820, 3348],
@@ -599,39 +636,103 @@ const LOCATION_SEEDS: LocationSeed[] = [
   },
 ];
 
+function resolveLocationFeatures(location: LocationSeed) {
+  const explicitWater = location.has_water_access;
+  const explicitElectricity = location.has_electricity;
+  const explicitToilets = location.has_toilets;
+  const explicitPmr = location.is_accessible_pmr;
+
+  // Keep explicitly configured values first, otherwise derive deterministic defaults
+  // to guarantee broad and repeatable test coverage.
+  if (
+    explicitWater !== undefined
+    && explicitElectricity !== undefined
+    && explicitToilets !== undefined
+    && explicitPmr !== undefined
+  ) {
+    return {
+      has_water_access: explicitWater,
+      has_electricity: explicitElectricity,
+      has_toilets: explicitToilets,
+      is_accessible_pmr: explicitPmr,
+    };
+  }
+
+  const id = location.id_location;
+
+  if (location.id_location_type === LocationType.OTHER_LOCATION_TYPE_ID) {
+    return {
+      has_water_access: explicitWater ?? true,
+      has_electricity: explicitElectricity ?? (id % 2 === 0),
+      has_toilets: explicitToilets ?? true,
+      is_accessible_pmr: explicitPmr ?? (id % 3 === 0),
+    };
+  }
+
+  if (location.id_location_type === LocationType.STORY_LOCATION_TYPE_ID) {
+    return {
+      has_water_access: explicitWater ?? (id % 2 === 1),
+      has_electricity: explicitElectricity ?? (id % 3 !== 0),
+      has_toilets: explicitToilets ?? (id === 1 || id === 4 || id === 5 || id === 6),
+      is_accessible_pmr: explicitPmr ?? (id === 1 || id % 5 === 0),
+    };
+  }
+
+  // Prestataire locations: intentionally varied combinations for realistic scenarios.
+  return {
+    has_water_access: explicitWater ?? (id % 2 === 0),
+    has_electricity: explicitElectricity ?? (id % 3 !== 0),
+    has_toilets: explicitToilets ?? (id % 4 === 0 || id % 5 === 0),
+    is_accessible_pmr: explicitPmr ?? (id % 6 === 0 || id % 7 === 0),
+  };
+}
+
 export async function seedLocations() {
   console.log(' Seeding locations...');
 
   try {
     for (const location of LOCATION_SEEDS) {
+      const features = resolveLocationFeatures(location);
+      const updateData = {
+        name: location.name,
+        description: location.description,
+        static_code: location.static_code,
+        price: location.price,
+        has_water_access: features.has_water_access,
+        has_electricity: features.has_electricity,
+        has_toilets: features.has_toilets,
+        is_accessible_pmr: features.is_accessible_pmr,
+        purchased: location.purchased,
+        position: location.position,
+        icon_name: location.icon_name,
+        banner_name: location.banner_name,
+        id_location_type: location.id_location_type,
+        id_prestataire: location.id_prestataire,
+      };
+
+      const createData = {
+        id_location: location.id_location,
+        name: location.name,
+        description: location.description,
+        static_code: location.static_code,
+        price: location.price,
+        has_water_access: features.has_water_access,
+        has_electricity: features.has_electricity,
+        has_toilets: features.has_toilets,
+        is_accessible_pmr: features.is_accessible_pmr,
+        purchased: location.purchased,
+        position: location.position,
+        icon_name: location.icon_name,
+        banner_name: location.banner_name,
+        maximum_capacity: 0, // TODO: location.maximum_capacity,
+        id_location_type: location.id_location_type,
+        id_prestataire: location.id_prestataire,
+      };
+
       await prisma.location.upsert({
         where: { id_location: location.id_location },
-        update: {
-          name: location.name,
-          description: location.description,
-          static_code: location.static_code,
-          price: location.price,
-          purchased: location.purchased,
-          position: location.position,
-          icon_name: location.icon_name,
-          banner_name: location.banner_name,
-          id_location_type: location.id_location_type,
-          id_prestataire: location.id_prestataire,
-        },
-        create: {
-          id_location: location.id_location,
-          name: location.name,
-          description: location.description,
-          static_code: location.static_code,
-          price: location.price,
-          purchased: location.purchased,
-          position: location.position,
-          icon_name: location.icon_name,
-          banner_name: location.banner_name,
-          maximum_capacity: 0, // TODO: location.maximum_capacity,
-          id_location_type: location.id_location_type,
-          id_prestataire: location.id_prestataire,
-        },
+        update: updateData as unknown as Prisma.LocationUncheckedUpdateInput,
+        create: createData as unknown as Prisma.LocationUncheckedCreateInput,
       });
     }
   } catch (error) {

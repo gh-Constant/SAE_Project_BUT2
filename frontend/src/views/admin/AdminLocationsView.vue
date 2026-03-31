@@ -186,6 +186,28 @@
                     <Editor v-model="editedLocation.description" />
                 </div>
 
+                <div>
+                    <label class="block text-sm font-bold text-iron-black mb-2">Caractéristiques</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 text-sm text-stone-grey">
+                            <input v-model="editedLocation.has_water_access" type="checkbox">
+                            Accès à l'eau
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-stone-grey">
+                            <input v-model="editedLocation.has_electricity" type="checkbox">
+                            Électricité
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-stone-grey">
+                            <input v-model="editedLocation.has_toilets" type="checkbox">
+                            Toilettes
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-stone-grey sm:col-span-2">
+                            <input v-model="editedLocation.is_accessible_pmr" type="checkbox">
+                            Accessible PMR
+                        </label>
+                    </div>
+                </div>
+
                 <!-- Type Row -->
                 <div>
                     <label class="block text-sm font-bold text-iron-black mb-1">Type de lieu</label>
@@ -309,7 +331,13 @@ const onDelete = async (loc: LocationMock) => {
 const openEditModal = (loc: LocationMock, mode: 'ASSIGN' | 'UPDATE') => {
     modalMode.value = mode;
     // Clone location to avoid direct mutation
-    editedLocation.value = { ...loc };
+    editedLocation.value = {
+        ...loc,
+        has_water_access: Boolean(loc.has_water_access),
+        has_electricity: Boolean(loc.has_electricity),
+        has_toilets: Boolean(loc.has_toilets),
+        is_accessible_pmr: Boolean(loc.is_accessible_pmr),
+    };
     showModal.value = true;
 };
 

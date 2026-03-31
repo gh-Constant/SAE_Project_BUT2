@@ -29,6 +29,11 @@ model Location {
   static_code String? @db.VarChar(255)
   price       Decimal @db.Decimal(15, 2)
 
+  has_water_access   Boolean @default(false)
+  has_electricity    Boolean @default(false)
+  has_toilets        Boolean @default(false)
+  is_accessible_pmr  Boolean @default(false)
+
   purchased Boolean @default(false)
 
   position    Json    @db.Json
