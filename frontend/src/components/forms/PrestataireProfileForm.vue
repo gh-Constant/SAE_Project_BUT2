@@ -327,6 +327,7 @@ const errorMessage = ref('')
 const successMessage = ref('')
 const showAvatarModal = ref(false)
 const selectedAvatar = ref<string>('')
+const avatarFile = ref<File | undefined>(undefined)
 const changedFields = ref<string[]>([])
 const bioEditorRef = ref<InstanceType<typeof Editor> | null>(null)
 
@@ -544,6 +545,7 @@ const closeAvatarModal = () => {
 
 const selectAvatar = (avatar: string) => {
   selectedAvatar.value = avatar
+  avatarFile.value = undefined
   formData.value.avatarUrl = `/images/Avatar-images/${avatar}`
   formData.value.avatarType = 'gallery'
   showAvatarModal.value = false
@@ -565,6 +567,7 @@ const handleFileUpload = (event: Event) => {
     formData.value.avatarUrl = imageUrl
     formData.value.avatarType = 'upload'
     selectedAvatar.value = imageUrl
+    avatarFile.value = file
   }
 }
 
@@ -592,6 +595,7 @@ const resetForm = () => {
     } else {
       selectedAvatar.value = ''
     }
+    avatarFile.value = undefined
 
     errorMessage.value = ''
     successMessage.value = ''
@@ -687,7 +691,7 @@ const handleSubmit = async () => {
       return
     }
 
-    await authStore.updateProfile(profileData)
+    await authStore.updateProfile(profileData, avatarFile.value)
 
     successMessage.value = t('prestataire.profile.messages.success')
 

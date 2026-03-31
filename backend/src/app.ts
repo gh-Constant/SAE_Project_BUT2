@@ -28,6 +28,7 @@ import YAML from 'yamljs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { corsOptions, config } from './config/app.config.js';
+import { uploadRootDir } from './controllers/upload.controller.js';
 import { requestLogger, responseTimeLogger } from './middleware/logger.middleware.js';
 import { errorMiddleware, notFoundHandler } from './middleware/error.middleware.js';
 import routes from './routes/index.js';
@@ -63,11 +64,11 @@ export const createApp = (): Application => {
     app.use(requestLogger);
     app.use(responseTimeLogger);
   }
+  // Servir les fichiers statiques (uploads)
+  app.use('/uploads', express.static(uploadRootDir));
+
   // Routes principales de l'application
   app.use('/', routes);
-
-  // Servir les fichiers statiques (uploads)
-  app.use('/uploads', express.static('uploads'));
 
   // Middleware pour gérer les routes non trouvées (404)
   app.use(notFoundHandler);

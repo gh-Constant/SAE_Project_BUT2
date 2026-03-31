@@ -444,6 +444,7 @@ const errorMessage = ref('')
 const successMessage = ref('')
 const showAvatarModal = ref(false)
 const selectedAvatar = ref<string>('') // Pour le suivi de l'avatar sélectionné
+const avatarFile = ref<File | undefined>(undefined) // Fichier physique de l'avatar
 const changedFields = ref<string[]>([]) // Pour stocker les champs modifiés
 const bioEditorRef = ref<InstanceType<typeof Editor> | null>(null)
 
@@ -679,6 +680,7 @@ const closeAvatarModal = () => {
 
 const selectAvatar = (avatar: string) => {
   selectedAvatar.value = avatar
+  avatarFile.value = undefined
   formData.value.avatarUrl = `/images/Avatar-images/${avatar}`
   formData.value.avatarType = 'gallery'
   showAvatarModal.value = false
@@ -700,6 +702,7 @@ const handleFileUpload = (event: Event) => {
     formData.value.avatarUrl = imageUrl
     formData.value.avatarType = 'upload'
     selectedAvatar.value = imageUrl // Pour l'affichage
+    avatarFile.value = file
   }
 }
 
@@ -730,6 +733,7 @@ const resetForm = () => {
     } else {
       selectedAvatar.value = ''
     }
+    avatarFile.value = undefined
     
     // Réinitialiser les messages et erreurs
     errorMessage.value = ''
@@ -833,7 +837,7 @@ const handleSubmit = async () => {
     }
 
     // Envoyer la mise à jour
-    await authStore.updateProfile(profileData)
+    await authStore.updateProfile(profileData, avatarFile.value)
 
     successMessage.value = t('profile.messages.success')
     
