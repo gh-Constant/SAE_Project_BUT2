@@ -26,6 +26,8 @@ import { USERS } from '@/mocks/users';
 import { getIcon } from '@/utils/map/iconsMarkers';
 import { LocationType } from '@/mocks/locationTypes';
 
+const MAX_PROVIDER_LOCATIONS = 3;
+
 export const locationMockService = {
   /**
    * Récupère toutes les locations mock
@@ -86,6 +88,15 @@ export const locationMockService = {
 
       if ((user.gold || 0) < (location.price || 0)) {
         reject(new Error('Not enough gold'));
+        return;
+      }
+
+      const ownedLocationsCount = LOCATIONS.filter(
+        (loc) => loc.id_prestataire === userId && loc.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID
+      ).length;
+
+      if (ownedLocationsCount >= MAX_PROVIDER_LOCATIONS) {
+        reject(new Error(`You cannot own more than ${MAX_PROVIDER_LOCATIONS} locations`));
         return;
       }
 

@@ -20,6 +20,7 @@ interface LocationUpdateData {
 type LocationStatus = 'AVAILABLE' | 'PENDING' | 'APPROVED';
 
 const PRESTATAIRE_LOCATION_TYPE_ID = 1;
+const MAX_PROVIDER_LOCATIONS = 3;
 
 const getLocationStatus = (loc: {
   id_location_type: number;
@@ -277,6 +278,18 @@ export const purchaseLocation = async (req: AuthenticatedRequest, res: Response)
 
     if (user.role !== 'prestataire') {
       res.status(403).json({ error: 'Only prestataires can purchase locations' });
+      return;
+    }
+
+    const ownedLocationsCount = await prisma.location.count({
+      where: {
+        id_prestataire: Number(userId),
+        id_location_type: PRESTATAIRE_LOCATION_TYPE_ID
+      }
+    });
+
+    if (ownedLocationsCount >= MAX_PROVIDER_LOCATIONS) {
+      res.status(400).json({ error: `You cannot own more than ${MAX_PROVIDER_LOCATIONS} locations` });
       return;
     }
 
