@@ -139,6 +139,7 @@ model Event {
   title       String    @db.VarChar(255)
   description String?   @db.Text
   type        EventType @default(EVENT)
+  event_category String? @db.VarChar(100)
 
   start_time DateTime? @db.DateTime(0)
   end_time   DateTime? @db.DateTime(0)

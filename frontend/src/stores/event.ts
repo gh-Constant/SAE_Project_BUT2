@@ -26,6 +26,7 @@ export interface Event {
   title: string
   description?: string
   type?: 'EVENT' | 'ACTIVITY'
+  event_category?: string
   start_time?: string
   end_time?: string
   published: boolean

@@ -6,6 +6,7 @@ interface EventData {
   title: string;
   description?: string;
   type?: 'EVENT' | 'ACTIVITY';
+  event_category?: string;
   start_time?: Date | string;
   end_time?: Date | string;
   price: number;
@@ -18,6 +19,7 @@ export const validateEventData = (req: Request<any, any, EventData>, res: Respon
   const {
     title,
     type,
+    event_category,
     start_time,
     end_time,
     price,
@@ -28,6 +30,12 @@ export const validateEventData = (req: Request<any, any, EventData>, res: Respon
 
   if (!title || price === undefined || capacity === undefined || id_location === undefined) {
     return res.status(400).json({ message: 'Missing required event fields.' });
+  }
+
+  if (event_category !== undefined) {
+    if (typeof event_category !== 'string' || event_category.trim() === '' || event_category.length > 100) {
+      return res.status(400).json({ message: 'event_category must be a non-empty string (max 100 chars).' });
+    }
   }
 
   // EVENT type validation
