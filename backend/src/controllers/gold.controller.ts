@@ -1,17 +1,32 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import Stripe from 'stripe';
+import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
 const prisma = new PrismaClient();
 const stripeParams = { apiVersion: "2024-12-18.acacia" as any };
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', stripeParams);
+const GOLD_PACKAGES = new Map([
+  [100, 100],
+  [500, 450],
+  [1500, 1200],
+]);
 
 export const createCheckoutSession = async (req: Request, res: Response) => {
   try {
-    const { userId, amountGold, priceInCents } = req.body;
+    const authenticatedUserId = (req as AuthenticatedRequest).user?.id;
+    const { amountGold, priceInCents } = req.body;
 
-    if (!userId || !amountGold || !priceInCents) {
+    if (!authenticatedUserId || !amountGold || !priceInCents) {
       return res.status(400).json({ error: 'Missing required parameters' });
+    }
+
+    const normalizedAmountGold = Number(amountGold);
+    const normalizedPriceInCents = Number(priceInCents);
+    const expectedPrice = GOLD_PACKAGES.get(normalizedAmountGold);
+
+    if (!expectedPrice || expectedPrice !== normalizedPriceInCents) {
+      return res.status(400).json({ error: 'Invalid gold package' });
     }
 
     // In a real app, you would pass `client_reference_id` or `metadata` to fulfill the order via Webhooks.
@@ -32,9 +47,10 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
         },
       ],
       metadata: {
-        userId: userId.toString(),
-        amountGold: amountGold.toString(),
+        userId: authenticatedUserId.toString(),
+        amountGold: normalizedAmountGold.toString(),
       },
+      client_reference_id: authenticatedUserId.toString(),
       mode: 'payment',
       success_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/client/gold-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/client/gold-cancel`,
@@ -49,9 +65,10 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 
 export const fulfillPurchase = async (req: Request, res: Response) => {
   try {
+    const authenticatedUserId = (req as AuthenticatedRequest).user?.id;
     const { sessionId } = req.body;
 
-    if (!sessionId) {
+    if (!authenticatedUserId || !sessionId) {
       return res.status(400).json({ error: 'Session ID is required' });
     }
 
@@ -63,12 +80,14 @@ export const fulfillPurchase = async (req: Request, res: Response) => {
       const userId = Number(session.metadata?.userId);
       const amountGold = Number(session.metadata?.amountGold);
 
-      if (isNaN(userId) || isNaN(amountGold)) {
+      if (isNaN(userId) || isNaN(amountGold) || userId !== authenticatedUserId) {
         return res.status(400).json({ error: 'Invalid session metadata' });
       }
 
-      // We might want to protect against fulfilling the same session twice,
-      // but keeping it simple for now.
+      const expectedPrice = GOLD_PACKAGES.get(amountGold);
+      if (!expectedPrice || session.amount_total !== expectedPrice) {
+        return res.status(400).json({ error: 'Invalid checkout session amount' });
+      }
       
       const updatedUser = await prisma.user.update({
         where: { id_user: userId },
@@ -88,10 +107,15 @@ export const fulfillPurchase = async (req: Request, res: Response) => {
 
 export const getBalance = async (req: Request, res: Response): Promise<Response> => {
   try {
+    const authenticatedUserId = (req as AuthenticatedRequest).user?.id;
     const userId = Number(req.params.userId);
 
-    if (isNaN(userId)) {
+    if (!authenticatedUserId || isNaN(userId)) {
       return res.status(400).json({ error: 'Invalid user ID' });
+    }
+
+    if (authenticatedUserId !== userId) {
+      return res.status(403).json({ error: 'Forbidden' });
     }
 
     const user = await prisma.user.findUnique({

@@ -149,6 +149,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { COMMANDES, EtatCommande } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
+import { orderService, type Order } from '@/services/orderService'
 import { productService } from '@/services/productService'
 import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notifications'
@@ -158,13 +159,18 @@ const { t } = useI18n()
 const authStore = useAuthStore()
 const notificationStore = useNotificationStore()
 const isPaying = ref<Record<number, boolean>>({})
+const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true'
+const realOrders = ref<Order[]>([])
 
 // Commandes en attente de paiement
 const pendingOrders = computed(() => {
   if (!authStore.user) return []
-  return COMMANDES.filter(
-    (cmd) => cmd.id_user === authStore.user!.id && cmd.etat_commande === EtatCommande.WAITING
-  )
+  if (isMockEnabled) {
+    return COMMANDES.filter(
+      (cmd) => cmd.id_user === authStore.user!.id && cmd.etat_commande === EtatCommande.WAITING
+    )
+  }
+  return realOrders.value.filter((cmd) => cmd.etat_commande === EtatCommande.WAITING)
 })
 
 // Total à payer
@@ -175,16 +181,19 @@ const totalToPay = computed(() => {
 // Toutes les commandes de l'utilisateur
 const totalOrdersCount = computed(() => {
   if (!authStore.user) return 0
-  return COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id).length
+  return isMockEnabled
+    ? COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id).length
+    : realOrders.value.length
 })
 
 // Commandes payées
 const paidOrdersCount = computed(() => {
   if (!authStore.user) return 0
-  return COMMANDES.filter(
-    (cmd) =>
-      cmd.id_user === authStore.user!.id &&
-      (cmd.etat_commande === EtatCommande.PAID || cmd.etat_commande === EtatCommande.COLLECTED) // Note: Fixed enum PAIED -> PAID to match logic usually
+  const orders = isMockEnabled
+    ? COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id)
+    : realOrders.value
+  return orders.filter(
+    (cmd) => cmd.etat_commande === EtatCommande.PAID || cmd.etat_commande === EtatCommande.COLLECTED
   ).length
 })
 
@@ -201,6 +210,16 @@ const getLocationName = (locationId: number): string => {
 
 // Récupérer les items d'une commande
 const getOrderItems = (orderId: number) => {
+  if (!isMockEnabled) {
+    const order = realOrders.value.find((entry) => entry.id === orderId)
+    return (order?.lignesCommande ?? []).map((ligne) => ({
+      id_product: ligne.id_product,
+      productName: ligne.productName || t('checkout.order_card.unknown_product'),
+      quantite: ligne.quantite,
+      price: ligne.price,
+    }))
+  }
+
   const lignes = LIGNES_COMMANDE.filter((ligne) => ligne.id_commande === orderId)
   const allProducts = productService.getProductsForBoutique()
   return lignes.map((ligne) => {
@@ -229,7 +248,9 @@ const decreaseStockForOrder = async (orderId: number) => {
 }
 
 const payOrder = async (orderId: number) => {
-  const order = COMMANDES.find((cmd) => cmd.id === orderId)
+  const order = isMockEnabled
+    ? COMMANDES.find((cmd) => cmd.id === orderId)
+    : realOrders.value.find((cmd) => cmd.id === orderId)
   if (!order || order.etat_commande !== EtatCommande.WAITING) return
 
   if (authStore.user!.gold < order.total_price) {
@@ -240,8 +261,30 @@ const payOrder = async (orderId: number) => {
   isPaying.value[orderId] = true
 
   try {
+    if (!isMockEnabled) {
+      const result = await orderService.payOrder(orderId)
+      order.etat_commande = EtatCommande.PAID
+      order.qrToken = result.qrToken
+      if (authStore.user) {
+        authStore.user.gold -= order.total_price
+      }
+
+      notificationStore.success(
+        'Commande payée',
+        `La commande #${Math.floor(order.id)} a bien été réglée.`
+      )
+
+      const allPaid = realOrders.value.every((cmd) => cmd.etat_commande !== EtatCommande.WAITING)
+      if (allPaid) {
+        setTimeout(() => {
+          router.push({ name: 'commandes', query: { allPaid: 'true' } })
+        }, 500)
+      }
+      return
+    }
     // Simuler un délai de paiement
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    if (isMockEnabled) {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Décrémenter le stock
     await decreaseStockForOrder(orderId)
@@ -271,6 +314,7 @@ const payOrder = async (orderId: number) => {
         router.push({ name: 'commandes', query: { allPaid: 'true' } })
       }, 500)
     }
+    }
   } catch (error) {
     console.error('Erreur lors du paiement:', error)
     notificationStore.error('Paiement impossible', t('checkout.order_card.error_paying'))
@@ -282,6 +326,17 @@ const payOrder = async (orderId: number) => {
 onMounted(() => {
   if (!authStore.isAuthenticated) {
     router.push('/login')
+    return
+  }
+
+  if (!isMockEnabled) {
+    orderService.getMyOrders()
+      .then((orders) => {
+        realOrders.value = orders
+      })
+      .catch((error) => {
+        console.error('Erreur lors du chargement des commandes:', error)
+      })
   }
 })
 </script>

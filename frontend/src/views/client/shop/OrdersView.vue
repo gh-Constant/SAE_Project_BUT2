@@ -207,6 +207,7 @@ import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { COMMANDES, EtatCommande } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
+import { orderService, type Order } from '@/services/orderService'
 import { productService } from '@/services/productService'
 
 import { useAuthStore } from '@/stores/auth'
@@ -219,6 +220,8 @@ const route = useRoute()
 const authStore = useAuthStore()
 const { t } = useI18n()
 const filter = ref<'all' | EtatCommande>(route.query.allPaid === 'true' ? EtatCommande.PAID : 'all')
+const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true'
+const realOrders = ref<Order[]>([])
 
 // QR Code canvas refs
 const qrCanvasRefs = ref<Map<number, HTMLCanvasElement>>(new Map())
@@ -255,7 +258,9 @@ async function renderQRCodes() {
 // Commandes filtrées
 const filteredOrders = computed(() => {
   if (!authStore.user) return []
-  let orders = COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id)
+  let orders = isMockEnabled
+    ? COMMANDES.filter((cmd) => cmd.id_user === authStore.user!.id)
+    : [...realOrders.value]
 
   if (filter.value !== 'all') {
     orders = orders.filter((cmd) => cmd.etat_commande === filter.value)
@@ -276,6 +281,16 @@ const getLocationName = (locationId: number): string => {
 
 // Récupérer les items d'une commande
 const getOrderItems = (orderId: number) => {
+  if (!isMockEnabled) {
+    const order = realOrders.value.find((entry) => entry.id === orderId)
+    return (order?.lignesCommande ?? []).map((ligne) => ({
+      id_product: ligne.id_product,
+      productName: ligne.productName || t('orders.item.unknown_product'),
+      quantite: ligne.quantite,
+      price: ligne.price,
+    }))
+  }
+
   const lignes = LIGNES_COMMANDE.filter((ligne) => ligne.id_commande === orderId)
   const allProducts = productService.getProductsForBoutique()
   return lignes.map((ligne) => {
@@ -354,6 +369,13 @@ onMounted(async () => {
   if (!authStore.isAuthenticated) {
     router.push('/login')
     return
+  }
+  if (!isMockEnabled) {
+    try {
+      realOrders.value = await orderService.getMyOrders()
+    } catch (error) {
+      console.error('Failed to load orders', error)
+    }
   }
   // Render QR codes after component is mounted
   await renderQRCodes()
