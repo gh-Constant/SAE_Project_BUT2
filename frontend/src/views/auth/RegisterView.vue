@@ -197,11 +197,19 @@ const handleRegister = async () => {
     <div class="flex-1 md:w-1/2 bg-parchment flex flex-col justify-center p-8 relative">
       <div class="absolute inset-0 opacity-20 pointer-events-none"></div>
 
+      <!-- Back Button -->
+      <router-link to="/" class="absolute top-6 left-6 text-antique-bronze hover:text-iron-black text-sm md:text-base font-medieval font-bold transition-colors z-20 flex items-center gap-2">
+        <i class="fas fa-arrow-left"></i>
+        <span>{{ t('navbar.home') }}</span>
+      </router-link>
+
       <div class="w-full max-w-md mx-auto relative z-10">
         <!-- Logo -->
         <div class="mb-8 text-center">
-          <img src="/images/transparent_logo.png" alt="Terres du Lion Logo"
-            class="h-40 w-auto mx-auto mb-6 drop-shadow-md">
+          <router-link to="/" class="inline-block transition-transform hover:scale-105 cursor-pointer">
+            <img src="/images/transparent_logo.png" alt="Terres du Lion Logo"
+              class="h-40 w-auto mx-auto mb-6 drop-shadow-md">
+          </router-link>
         </div>
 
         <!-- Title -->
