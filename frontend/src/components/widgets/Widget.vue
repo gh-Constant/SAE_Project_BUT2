@@ -58,7 +58,7 @@
 
         <!-- Prestataire Location Widgets -->
         <PrestatairePurchasedWidget
-          v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && location.purchased"
+          v-else-if="location.id_location_type === LocationType.PRESTATAIRE_LOCATION_TYPE_ID && (location.purchased || location.status === 'PENDING')"
           :location="location"
           @close="closeWidget"
         />
