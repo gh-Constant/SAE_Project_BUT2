@@ -54,7 +54,22 @@
                 <i class="fas fa-user-tie mr-2 text-antique-bronze"></i>
                 {{ getPrestataireNameForLocation(location.id) }}
               </p>
-              <div class="text-sm text-stone-grey mb-5 line-clamp-2 min-h-[2.5rem] italic description-preview" v-html="location.description"></div>
+              <div class="text-sm text-stone-grey mb-4 line-clamp-2 min-h-[2.5rem] italic description-preview" v-html="location.description"></div>
+              <!-- Features icons -->
+              <div v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr" class="flex items-center gap-2 mb-4">
+                <span v-if="location.has_water_access" class="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center" title="Point d'eau">
+                  <i class="fas fa-tint text-blue-400 text-xs"></i>
+                </span>
+                <span v-if="location.has_electricity" class="w-7 h-7 rounded-full bg-yellow-50 flex items-center justify-center" title="Electricite">
+                  <i class="fas fa-bolt text-yellow-400 text-xs"></i>
+                </span>
+                <span v-if="location.has_toilets" class="w-7 h-7 rounded-full bg-emerald-50 flex items-center justify-center" title="Sanitaires">
+                  <i class="fas fa-restroom text-emerald-400 text-xs"></i>
+                </span>
+                <span v-if="location.is_accessible_pmr" class="w-7 h-7 rounded-full bg-purple-50 flex items-center justify-center" title="Accessible PMR">
+                  <i class="fas fa-wheelchair text-purple-400 text-xs"></i>
+                </span>
+              </div>
               <div class="flex items-center justify-between pt-4 border-t border-antique-bronze/20">
                 <span class="text-sm text-stone-grey flex items-center font-bold">
                   <i class="fas fa-boxes mr-2 text-antique-bronze"></i>
