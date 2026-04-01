@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <BackToMapButton />
+    <BackToMapButton to="/prestataire" />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
       <!-- En-tÃªte -->

@@ -84,12 +84,6 @@
       <div v-else>
         <!-- En-tête avec retour -->
         <div class="mb-8">
-          <button @click="goBackToBoutiques"
-            class="mb-6 inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
-            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-            {{ t('shop.back_to_shops') }}
-          </button>
-
           <div class="bg-white/60 p-6 rounded-sm border-2 border-antique-bronze/20 shadow-sm">
             <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center">
               <i class="fas fa-store mr-4 text-antique-bronze"></i>

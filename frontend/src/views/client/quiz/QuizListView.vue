@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey pt-24 pb-12">
+    <BackToMapButton to="/prestataire" />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête standardisé -->
       <div class="mb-12 text-center">
@@ -114,6 +115,7 @@ import { useAuthStore } from '@/stores/auth';
 import { quizService, type Quiz } from '@/services/quizService';
 import QuizCard from '@/components/quiz/QuizCard.vue';
 import { Role } from '@/mocks/users';
+import BackToMapButton from '@/components/shared/BackToMapButton.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();

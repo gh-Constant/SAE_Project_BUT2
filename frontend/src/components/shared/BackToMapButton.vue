@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   positionClass: {
@@ -22,7 +22,7 @@ const props = defineProps({
   },
   to: {
     type: String,
-    default: null
+    default: '/map'
   },
   title: {
     type: String,
@@ -31,23 +31,9 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const route = useRoute();
 
 const goBack = () => {
-  if (props.to) {
-    router.push(props.to);
-  } else if (window.history.state && window.history.state.back) {
-    router.back();
-  } else {
-    // Determine sensible fallback based on current route path
-    const path = route.path;
-    if (path.startsWith('/admin') && path !== '/admin') {
-      router.push('/admin');
-    } else if (path.startsWith('/prestataire') && path !== '/prestataire') {
-      router.push('/prestataire');
-    } else {
-      router.push('/map');
-    }
-  }
+  router.push(props.to);
 };
 </script>
+

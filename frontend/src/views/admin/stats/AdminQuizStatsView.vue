@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <AdminNavbar :user="user" @logout="logout" />
-    <BackToMapButton />
+    <BackToMapButton to="/admin" />
     
     <!-- Main Content -->
     <main class="w-full py-10">

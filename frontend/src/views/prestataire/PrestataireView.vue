@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <BackToMapButton />
+    <BackToMapButton to="/" title="Accueil" />
     <!-- Tabs Navigation -->
     <div class="bg-white/40 backdrop-blur-sm border-b border-antique-bronze/20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -230,10 +230,6 @@
                   {{ t('prestataire.dashboard.quick_actions.view_bookings') }}
                 </MedievalButton>
               </router-link>
-
-              <MedievalButton variant="primary" :fullWidth="true" @click="updateTab('profile')">
-                {{ t('prestataire.dashboard.quick_actions.edit_profile') }}
-              </MedievalButton>
             </div>
           </div>
         </div>

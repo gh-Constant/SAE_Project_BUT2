@@ -3,7 +3,7 @@
     <main class="w-full pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-8 flex justify-between items-center relative">
-          <BackToMapButton />
+          <BackToMapButton to="/prestataire" />
         </div>
 
         <!-- En-tête -->

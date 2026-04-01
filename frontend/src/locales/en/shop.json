@@ -8,7 +8,6 @@
         "title": "No shops open",
         "description": "Merchants are preparing their stalls. Come back soon!"
     },
-    "back_to_shops": "Back to Shops",
     "filters": {
         "search_label": "Search for a product",
         "search_placeholder": "Search for goods...",
