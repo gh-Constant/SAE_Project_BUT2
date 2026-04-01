@@ -172,12 +172,15 @@ const loadQuests = async () => {
     const locationQuests = await questService.getQuestsByLocation(props.locationId);
     quests.value = locationQuests;
     
-    // Try to load user's quests (may fail if not authenticated)
-    try {
-      const myQuests = await questService.getUserQuests();
-      userQuests.value = myQuests;
-    } catch {
-      // User not authenticated - that's OK, they just can't see their accepted quests
+    // Load user-specific quest status only when authenticated.
+    if (authStore.isAuthenticated && localStorage.getItem('authToken')) {
+      try {
+        const myQuests = await questService.getUserQuests();
+        userQuests.value = myQuests;
+      } catch {
+        userQuests.value = [];
+      }
+    } else {
       userQuests.value = [];
     }
   } catch (error) {

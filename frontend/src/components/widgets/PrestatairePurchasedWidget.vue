@@ -29,6 +29,20 @@
 
     <div class="p-6">
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
+
+      <div class="bg-white/60 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="rounded-md bg-antique-bronze/10 p-3 border border-antique-bronze/20">
+            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">Type de prestataire</p>
+            <p class="text-base font-bold text-iron-black">{{ prestataireTypeName }}</p>
+          </div>
+          <div class="rounded-md bg-antique-bronze/10 p-3 border border-antique-bronze/20">
+            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">Type de location</p>
+            <p class="text-base font-bold text-iron-black">{{ locationTypeName }}</p>
+          </div>
+        </div>
+      </div>
+
       <div class="text-base font-body leading-relaxed text-stone-grey mb-6 description-preview" v-html="location.description"></div>
 
       <div
@@ -338,6 +352,7 @@ import { computed, ref, onMounted, nextTick, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
+import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes';
 import { useAuthStore } from '@/stores/auth';
 import BlogSection from './BlogSection.vue';
 import ContactSection from './ContactSection.vue';
@@ -419,9 +434,36 @@ const prestataire = computed(() => {
 });
 
 const prestataireTypeName = computed(() => {
-  // For now, return a generic label since prestataire type is on user, not in the prestataire subset
-  // TODO: Fetch full user details if needed for type
-  return 'Prestataire';
+  const dynamicTypeId = Number((prestataire.value as any)?.id_prestataire_type ?? 0);
+  const fallbackTypeId = USERS.find(user => user.id === props.location.id_prestataire)?.id_prestataire_type ?? 0;
+  const resolvedTypeId = dynamicTypeId || fallbackTypeId;
+
+  if (!resolvedTypeId) {
+    return 'Prestataire';
+  }
+
+  const type = PRESTATAIRE_TYPES.find(item => item.id === resolvedTypeId);
+  if (!type) {
+    return 'Prestataire';
+  }
+
+  return t(`auth.register.prestataire_types.${type.name}`);
+});
+
+const locationTypeName = computed(() => {
+  const normalizedType = prestataireTypeName.value.toLowerCase();
+
+  if (normalizedType.includes('restaurant') || normalizedType.includes('restaurateur')) {
+    return 'Espace restauration';
+  }
+  if (normalizedType.includes('animateur') || normalizedType.includes('animation')) {
+    return 'Espace animation';
+  }
+  if (normalizedType.includes('artisan') || normalizedType.includes('artisanat')) {
+    return 'Espace artisanat';
+  }
+
+  return 'Espace prestataire';
 });
 
 // Check if current user is the owner
