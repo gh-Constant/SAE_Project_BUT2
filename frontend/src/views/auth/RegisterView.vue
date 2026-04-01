@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes'
 
 const { t } = useI18n()
@@ -198,10 +199,7 @@ const handleRegister = async () => {
       <div class="absolute inset-0 opacity-20 pointer-events-none"></div>
 
       <!-- Back Button -->
-      <router-link to="/" class="absolute top-6 left-6 text-antique-bronze hover:text-iron-black text-sm md:text-base font-medieval font-bold transition-colors z-20 flex items-center gap-2">
-        <i class="fas fa-arrow-left"></i>
-        <span>{{ t('navbar.home') }}</span>
-      </router-link>
+      <BackToMapButton positionClass="absolute top-6 left-6" to="/" title="Accueil" />
 
       <div class="w-full max-w-md mx-auto relative z-10">
         <!-- Logo -->

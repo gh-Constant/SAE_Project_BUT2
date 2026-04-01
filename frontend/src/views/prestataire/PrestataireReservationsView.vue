@@ -1,17 +1,10 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
+    <BackToMapButton />
     <div class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8">
-          <button
-            @click="router.push('/prestataire')"
-            class="mb-6 inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group"
-          >
-            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-            {{ t('prestataire.details.back') || 'Retour' }}
-          </button>
-          
           <div class="text-center">
             <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center justify-center gap-3">
               <i class="fas fa-scroll text-antique-bronze"></i>
@@ -123,6 +116,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import { useEventStore } from '@/stores/event'
 import { useI18n } from 'vue-i18n'
 

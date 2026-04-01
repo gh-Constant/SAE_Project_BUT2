@@ -1,23 +1,10 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <!-- Navbar (if needed, but PrestataireView usually manages layout, actually PrestataireView is a dashboard wrapper?) 
-         Wait, PrestataireView has tabs. If I add a NEW route /prestataire/events, it won't be inside PrestataireView tabs unless I make it a child or similar.
-         The Admin view is standalone. The Provider Products view is standalone (linked from dashboard).
-         So this view should be standalone with a Back button or Navbar.
-         PrestataireProductsView has no Navbar, just a back button? No, it has no back button in the code I read.
-         It seems to be a full page.
-         I will assume it effectively replaces the dashboard view when navigated to.
-    -->
+    <BackToMapButton />
     <div class="pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8">
-          <button @click="router.push('/prestataire')"
-            class="mb-6 inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
-            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-            {{ t('prestataire.details.back') || 'Retour au tableau de bord' }}
-          </button>
-          
           <div class="text-center">
             <h1 class="text-4xl font-medieval font-bold text-iron-black mb-2 flex items-center justify-center gap-3">
               <i class="fas fa-calendar-alt text-antique-bronze"></i>
@@ -169,6 +156,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useEventStore } from '@/stores/event'
 import { useI18n } from 'vue-i18n'

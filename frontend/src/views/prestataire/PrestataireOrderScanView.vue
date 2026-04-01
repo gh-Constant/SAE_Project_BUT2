@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment pt-32 pb-16">
+    <BackToMapButton />
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="mb-12 text-center">
@@ -195,18 +196,6 @@
         </div>
       </div>
 
-      <!-- Back Link -->
-      <div class="mt-8 text-center">
-        <router-link
-          to="/prestataire"
-          class="inline-flex items-center text-antique-bronze hover:text-iron-black font-body font-semibold transition-colors gap-2"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          {{ t('prestataire.order_scan.back_to_dashboard') }}
-        </router-link>
-      </div>
     </div>
   </div>
 </template>
@@ -219,6 +208,7 @@ import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
 import { productService } from '@/services/productService'
 import { USERS } from '@/mocks/users'
 import jsQR from 'jsqr'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 const { t } = useI18n()
 

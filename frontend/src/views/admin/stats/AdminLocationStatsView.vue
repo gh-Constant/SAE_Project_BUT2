@@ -1,6 +1,7 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <AdminNavbar :user="user" @logout="handleLogout" />
+    <BackToMapButton />
 
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -215,6 +216,7 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import AdminNavbar from '@/components/navbar/AdminNavbar.vue';
+import BackToMapButton from '@/components/shared/BackToMapButton.vue';
 import PieChart from '@/components/charts/PieChart.vue';
 import {
   locationStatisticService,

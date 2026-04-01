@@ -1,6 +1,7 @@
 <template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <AdminNavbar :user="user" @logout="logout" />
+    <BackToMapButton />
 
     <main class="w-full py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -183,6 +184,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import BackToMapButton from '@/components/shared/BackToMapButton.vue';
 import { useAuthStore } from '@/stores/auth';
 import { quizService, type Quiz } from '@/services/quizService';
 import { locationService } from '@/services/locationService';
