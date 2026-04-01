@@ -48,7 +48,7 @@ const authServiceImpl = {
   register: async (firstName: string, lastName: string, email: string, password: string, role: string, avatarUrl?: string, avatarType?: string, prestataireTypeId?: number, avatarFile?: File): Promise<UserMock> => {
     try {
       let payload: any;
-      let headers: Record<string, string> = {};
+      const headers: Record<string, string> = {};
 
       if (avatarFile) {
         payload = new FormData();
@@ -117,7 +117,7 @@ const authServiceImpl = {
 
     try {
       let payload: any;
-      let headers: Record<string, string> = {};
+      const headers: Record<string, string> = {};
 
       if (avatarFile) {
         payload = new FormData();

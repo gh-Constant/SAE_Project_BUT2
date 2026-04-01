@@ -22,7 +22,7 @@ const props = defineProps({
   },
   to: {
     type: String,
-    default: '/map'
+    default: '/'
   },
   title: {
     type: String,
