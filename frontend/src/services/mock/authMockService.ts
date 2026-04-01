@@ -17,6 +17,7 @@
  */
 
 import { Role, UserMock, AvatarType } from '@/mocks';
+import { PrestataireTypes } from '@/mocks/prestataireTypes';
 import { mockUsers } from './sharedMockData';
 
 export const authMockService = {
@@ -96,7 +97,7 @@ export const authMockService = {
         id_prestataire_type: role === 'prestataire' ? (prestataireTypeId ?? PrestataireTypes.RESTAURATEUR_TYPE_ID) : undefined,
         is_verified: false,
         xp: 0,
-        level: 1,
+        level: role === 'aventurier' ? 1 : 0,
         gold: 0, // Initialize gold to 0
       };
 

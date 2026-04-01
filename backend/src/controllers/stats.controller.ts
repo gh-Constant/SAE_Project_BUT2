@@ -368,11 +368,15 @@ export const getAdminUserStats = async (req: Request, res: Response) => {
                 firstname: true,
                 lastname: true,
                 role: true,
-                level: true,
-                xp: true,
                 gold: true,
                 is_verified: true,
-                created_at: true
+                created_at: true,
+                profile: {
+                    select: {
+                        level: true,
+                        xp: true
+                    }
+                }
             }
         });
 
@@ -411,20 +415,22 @@ export const getAdminUserStats = async (req: Request, res: Response) => {
         const rows = users.map(user => {
             const orderInfo = paidOrdersByUser.get(user.id_user) || { orderCount: 0, totalSpent: 0 };
             const completedQuests = completedQuestsByUser.get(user.id_user) || 0;
+            const userLevel = user.profile?.level ?? 0;
+            const userXp = Number(user.profile?.xp ?? 0);
 
             const activityScore =
                 orderInfo.orderCount * 2 +
                 completedQuests * 3 +
-                user.level +
-                user.xp / 100 +
+                userLevel +
+                userXp / 100 +
                 orderInfo.totalSpent / 50;
 
             return {
                 id: user.id_user,
                 name: `${user.firstname} ${user.lastname}`,
                 role: user.role,
-                level: user.level,
-                xp: Number(user.xp),
+                level: userLevel,
+                xp: userXp,
                 gold: user.gold,
                 isVerified: user.is_verified,
                 totalOrders: orderInfo.orderCount,
@@ -436,13 +442,16 @@ export const getAdminUserStats = async (req: Request, res: Response) => {
         });
 
         const totalUsers = rows.length;
+        const adventurerRows = rows.filter(r => r.role === 'aventurier');
         const payingUsers = rows.filter(r => r.totalOrders > 0).length;
         const verifiedUsers = rows.filter(r => r.isVerified).length;
         const activeUsers = rows.filter(r => r.totalOrders > 0 || r.completedQuests > 0).length;
         const totalOrders = rows.reduce((sum, r) => sum + r.totalOrders, 0);
-        const totalXP = rows.reduce((sum, r) => sum + r.xp, 0);
+        const totalXP = adventurerRows.reduce((sum, r) => sum + r.xp, 0);
         const totalGold = rows.reduce((sum, r) => sum + r.gold, 0);
-        const avgLevel = totalUsers > 0 ? Number((rows.reduce((sum, r) => sum + r.level, 0) / totalUsers).toFixed(1)) : 0;
+        const avgLevel = adventurerRows.length > 0
+            ? Number((adventurerRows.reduce((sum, r) => sum + r.level, 0) / adventurerRows.length).toFixed(1))
+            : 0;
 
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -498,11 +507,11 @@ export const getAdminUserStats = async (req: Request, res: Response) => {
         ];
 
         const levelBuckets = levelBucketsRaw.map(bucket => {
-            const count = rows.filter(r => r.level >= bucket.min && r.level <= bucket.max).length;
+            const count = adventurerRows.filter(r => r.level >= bucket.min && r.level <= bucket.max).length;
             return {
                 range: bucket.range,
                 count,
-                percentage: totalUsers > 0 ? Math.round((count / totalUsers) * 100) : 0
+                percentage: adventurerRows.length > 0 ? Math.round((count / adventurerRows.length) * 100) : 0
             };
         });
 

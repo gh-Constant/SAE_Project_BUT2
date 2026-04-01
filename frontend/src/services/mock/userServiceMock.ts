@@ -1,17 +1,29 @@
 
 import { mockUsers } from "./sharedMockData";
+import { Role } from "@/mocks/users";
+
+const getRankedUsers = () =>
+  mockUsers
+    .filter((user) => user.role === Role.AVENTURIER_ROLE_ID)
+    .sort((a, b) => {
+      if (b.level !== a.level) {
+        return b.level - a.level;
+      }
+      return b.xp - a.xp;
+    });
 
 
 // Helper to calculate rank based on current mockUsers state
 // Moved here because Rank calculation is a User domain logic
 export const calculateUserRank = (userId: number): number => {
-  const sortedUsers = [...mockUsers].sort((a, b) => {
-    if (b.level !== a.level) {
-      return b.level - a.level;
-    }
-    return b.xp - a.xp;
-  });
-  return sortedUsers.findIndex(u => u.id === userId) + 1;
+  const sortedUsers = getRankedUsers();
+  const rankIndex = sortedUsers.findIndex((u) => u.id === userId);
+
+  if (rankIndex === -1) {
+    throw new Error(`User ${userId} is not ranked.`);
+  }
+
+  return rankIndex + 1;
 };
 
 export const userServiceMock = {
@@ -40,9 +52,13 @@ export const userServiceMock = {
   },
 
   getUserRank: async (userId: number): Promise<any> => {
-    const userIndex = mockUsers.findIndex(u => u.id === userId);
+    const user = mockUsers.find((u) => u.id === userId);
     
-    if (userIndex !== -1) {
+    if (user) {
+      if (user.role !== Role.AVENTURIER_ROLE_ID) {
+        throw new Error('Only adventurers are ranked.');
+      }
+
       const rank = calculateUserRank(userId);
       return { rank };
     }
@@ -50,12 +66,7 @@ export const userServiceMock = {
   },
 
   getLeaderboard: async (page = 1, limit = 10): Promise<any> => {
-    const sortedUsers = [...mockUsers].sort((a, b) => {
-      if (b.level !== a.level) {
-        return b.level - a.level;
-      }
-      return b.xp - a.xp;
-    });
+    const sortedUsers = getRankedUsers();
 
     const start = (page - 1) * limit;
     const end = start + limit;
