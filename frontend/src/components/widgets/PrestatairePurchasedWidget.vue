@@ -135,40 +135,35 @@
         </button>
       </div>
 
-      <!-- Blogs Section -->
-      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <BlogSection :location-id="location.id" :is-owner="isOwner" />
-      </div>
-
-      <!-- Shop Section -->
-      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <ShopSection :location-id="location.id" :is-owner="isOwner" />
-      </div>
-
-      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+      <!-- Events Section -->
+      <div v-if="hasEvents" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <EventSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
+      <!-- Shop Section -->
+      <div v-if="hasProducts" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <ShopSection :location-id="location.id" :is-owner="isOwner" />
+      </div>
+
+      <!-- Blogs Section -->
+      <div v-if="hasBlogs" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <BlogSection :location-id="location.id" :is-owner="isOwner" />
+      </div>
+
       <!-- Quest Section -->
-      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+      <div v-if="hasQuests" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <QuestSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
       <!-- Quiz Section -->
-      <div v-if="quizzes.length > 0 || isOwner" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+      <div v-if="hasQuizzes" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-xl font-bold text-iron-black flex items-center font-medieval">
             <span class="ml-2">{{ t('quiz.widget.title') }}</span>
           </h3>
-          <button
-            v-if="isOwner" @click="addQuiz"
-            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm flex items-center"
-          >
-            <i class="fas fa-plus mr-2"></i> {{ t('quiz.list.add_button') }}
-          </button>
         </div>
         
-        <div v-if="quizzes.length > 0" class="grid gap-3">
+        <div class="grid gap-3">
           <div
             v-for="quiz in quizzes" :key="quiz.id_quiz"
             class="bg-white/60 p-4 rounded-lg border border-antique-bronze/10 hover:border-antique-bronze/30 transition-colors flex justify-between items-center group shadow-sm"
@@ -186,9 +181,6 @@
               {{ t('quiz.widget.play') }}
             </button>
           </div>
-        </div>
-        <div v-else class="text-center py-6 text-stone-grey italic">
-          {{ t('quiz.list.empty') }}
         </div>
       </div>
 
@@ -325,6 +317,10 @@ import { isAdmin as checkIsAdmin } from '@/services/roleService';
 import QRCode from 'qrcode';
 import { quizService } from '@/services/quizService';
 import type { Quiz } from '@/types/quiz';
+import { blogService } from '@/services/blogService';
+import { productService } from '@/services/productService';
+import { questService } from '@/services/questService';
+import { eventService } from '@/services/eventService';
 
 const { t } = useI18n();
 const router = useRouter(); // Initialize router
@@ -342,6 +338,11 @@ const emit = defineEmits<{
 const authStore = useAuthStore();
 const qrCanvasRef = ref<HTMLCanvasElement | null>(null);
 const quizzes = ref<Quiz[]>([]);
+const hasBlogs = ref(false);
+const hasProducts = ref(false);
+const hasEvents = ref(false);
+const hasQuests = ref(false);
+const hasQuizzes = computed(() => quizzes.value.length > 0);
 
 const prestataire = computed(() => {
   // Use prestataire data from location if available (from backend)
@@ -466,6 +467,29 @@ const fetchQuizzes = async () => {
     quizzes.value = response.quizzes;
   } catch (e) {
     console.error('Failed to fetch quizzes', e);
+    quizzes.value = [];
+  }
+};
+
+const fetchSectionAvailability = async () => {
+  try {
+    const [blogs, products, quests, events] = await Promise.all([
+      blogService.getBlogsByLocationId(props.location.id),
+      productService.getProductsByLocation(props.location.id),
+      questService.getQuestsByLocation(props.location.id),
+      eventService.getEvents({ id_location: props.location.id, published: true })
+    ]);
+
+    hasBlogs.value = blogs.length > 0;
+    hasProducts.value = products.length > 0;
+    hasQuests.value = quests.length > 0;
+    hasEvents.value = events.length > 0;
+  } catch (error) {
+    console.error('Failed to fetch section availability', error);
+    hasBlogs.value = false;
+    hasProducts.value = false;
+    hasQuests.value = false;
+    hasEvents.value = false;
   }
 };
 
@@ -473,17 +497,11 @@ const playQuiz = (quizId: number) => {
   router.push({ name: 'quiz-play', params: { id: quizId } });
 };
 
-const addQuiz = () => {
-  router.push({
-    path: '/quiz/create',
-    query: { locationId: props.location.id }
-  });
-};
-
 watch(() => props.location, () => {
   nextTick(() => {
     generateQRCode();
     fetchQuizzes();
+    fetchSectionAvailability();
   });
 }, { deep: true });
 
@@ -491,6 +509,7 @@ onMounted(() => {
   nextTick(() => {
     generateQRCode();
     fetchQuizzes();
+    fetchSectionAvailability();
   });
 });
 
