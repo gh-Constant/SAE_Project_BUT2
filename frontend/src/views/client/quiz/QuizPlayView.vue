@@ -149,6 +149,7 @@ const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const { t } = useI18n();
+const GUEST_QUIZ_RESULTS_KEY = 'guest_quiz_results';
 
 const quiz = ref<Quiz | null>(null);
 const loading = ref(true);
@@ -267,6 +268,37 @@ function nextQuestion() {
   }
 }
 
+function getGuestResultsStorageKey(quizId: number) {
+  return `${GUEST_QUIZ_RESULTS_KEY}_${quizId}`;
+}
+
+function calculateLocalQuizResult() {
+  if (!quiz.value?.questions) return null;
+
+  let score = 0;
+
+  quiz.value.questions.forEach((question) => {
+    const selectedIds = [...(userAnswers.value[question.id_question] || [])].sort((a, b) => a - b);
+    const correctIds = question.answers
+      .filter((answer) => answer.is_correct)
+      .map((answer) => answer.id_answer)
+      .sort((a, b) => a - b);
+
+    const isCorrect =
+      selectedIds.length === correctIds.length &&
+      selectedIds.every((id, index) => id === correctIds[index]);
+
+    if (isCorrect) {
+      score++;
+    }
+  });
+
+  const total = quiz.value.questions.length;
+  const percentage = total > 0 ? Math.round((score / total) * 100) : 0;
+
+  return { score, total, percentage };
+}
+
 async function submitQuiz() {
   if (!quiz.value || !quiz.value.questions) return;
 
@@ -294,6 +326,29 @@ async function submitQuiz() {
         });
       });
     });
+
+    if (!isAuthenticated.value) {
+      const localResult = calculateLocalQuizResult();
+
+      if (!localResult) {
+        throw new Error('Unable to calculate guest quiz result');
+      }
+
+      sessionStorage.setItem(
+        getGuestResultsStorageKey(quiz.value.id_quiz),
+        JSON.stringify(userAnswers.value)
+      );
+
+      router.push({
+        path: `/quiz/${quiz.value.id_quiz}/results`,
+        query: {
+          score: String(localResult.score),
+          total: String(localResult.total),
+          percentage: String(localResult.percentage),
+        },
+      });
+      return;
+    }
 
     const result = await quizService.submitQuiz(quiz.value.id_quiz, { answers });
 

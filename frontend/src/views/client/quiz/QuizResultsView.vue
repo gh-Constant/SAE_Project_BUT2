@@ -100,6 +100,7 @@ import { quizService, type Quiz, type QuizQuestion } from '@/services/quizServic
 import QuizResultCard from '@/components/quiz/QuizResultCard.vue';
 
 const route = useRoute();
+const GUEST_QUIZ_RESULTS_KEY = 'guest_quiz_results';
 
 const quizId = computed(() => Number(route.params.id));
 const score = computed(() => Number(route.query.score) || 0);
@@ -157,6 +158,11 @@ async function loadQuizDetails() {
     const quiz = await quizService.getQuizById(quizId.value);
     if (quiz) {
       quizDetails.value = quiz;
+    }
+
+    const guestAnswers = sessionStorage.getItem(`${GUEST_QUIZ_RESULTS_KEY}_${quizId.value}`);
+    if (guestAnswers) {
+      userAnswersFromAttempt.value = JSON.parse(guestAnswers) as Record<number, number[]>;
     }
 
   } catch (err) {
