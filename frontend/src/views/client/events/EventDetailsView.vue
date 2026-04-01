@@ -42,6 +42,27 @@
             <div class="tiptap text-stone-grey leading-relaxed" v-html="event.description"></div>
           </div>
 
+          <div
+            v-if="event.location?.has_water_access || event.location?.has_electricity || event.location?.has_toilets || event.location?.is_accessible_pmr"
+            class="mb-8"
+          >
+            <h3 class="font-medieval text-xl font-bold text-iron-black mb-3">Caractéristiques</h3>
+            <div class="flex flex-wrap gap-2">
+              <span v-if="event.location?.has_water_access" class="px-3 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200 text-sm">
+                <i class="fas fa-tint mr-1"></i> Accès à l'eau
+              </span>
+              <span v-if="event.location?.has_electricity" class="px-3 py-1 rounded-full bg-yellow-50 text-yellow-800 border border-yellow-200 text-sm">
+                <i class="fas fa-bolt mr-1"></i> Électricité
+              </span>
+              <span v-if="event.location?.has_toilets" class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-sm">
+                <i class="fas fa-restroom mr-1"></i> Sanitaires
+              </span>
+              <span v-if="event.location?.is_accessible_pmr" class="px-3 py-1 rounded-full bg-purple-50 text-purple-800 border border-purple-200 text-sm">
+                <i class="fas fa-wheelchair mr-1"></i> Accessible PMR
+              </span>
+            </div>
+          </div>
+
           <div class="bg-parchment p-6 rounded-lg border border-antique-bronze/30">
             <h3 class="font-medieval text-xl font-bold text-iron-black mb-4 flex items-center gap-2">
               <svg class="w-6 h-6 text-antique-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>

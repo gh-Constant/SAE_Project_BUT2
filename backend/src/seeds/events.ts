@@ -105,30 +105,24 @@ export async function seedEvents() {
   const events = getEventSeeds();
 
   for (const event of events) {
+    const basePayload: any = {
+      title: event.title,
+      description: event.description,
+      start_time: event.start_time || null,
+      end_time: event.end_time || null,
+      price: event.price,
+      capacity: event.capacity,
+      sold: event.sold,
+      id_location: event.id_location,
+      type: event.type,
+    };
+
     await prisma.event.upsert({
       where: { id_event: event.id_event },
-      update: {
-        title: event.title,
-        description: event.description,
-        start_time: event.start_time || null,
-        end_time: event.end_time || null,
-        price: event.price,
-        capacity: event.capacity,
-        sold: event.sold,
-        id_location: event.id_location,
-        type: event.type,
-      },
+      update: basePayload,
       create: {
         id_event: event.id_event,
-        title: event.title,
-        description: event.description,
-        start_time: event.start_time || null,
-        end_time: event.end_time || null,
-        price: event.price,
-        capacity: event.capacity,
-        sold: event.sold,
-        id_location: event.id_location,
-        type: event.type,
+        ...basePayload,
         schedules: event.schedules ? {
           create: event.schedules
         } : undefined

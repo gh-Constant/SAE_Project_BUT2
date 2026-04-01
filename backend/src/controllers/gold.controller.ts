@@ -8,9 +8,22 @@ const stripeParams = { apiVersion: "2024-12-18.acacia" as any };
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', stripeParams);
 const GOLD_PACKAGES = new Map([
   [100, 100],
-  [500, 450],
-  [1500, 1200],
+  [500, 500],
+  [1500, 1500],
 ]);
+const MIN_CUSTOM_GOLD = 100;
+const MAX_CUSTOM_GOLD = 100000;
+
+const getExpectedPriceInCents = (amountGold: number): number | null => {
+  if (!Number.isInteger(amountGold)) return null;
+
+  const packagePrice = GOLD_PACKAGES.get(amountGold);
+  if (packagePrice) return packagePrice;
+
+  if (amountGold < MIN_CUSTOM_GOLD || amountGold > MAX_CUSTOM_GOLD) return null;
+
+  return amountGold;
+};
 
 export const createCheckoutSession = async (req: Request, res: Response) => {
   try {
@@ -23,10 +36,10 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 
     const normalizedAmountGold = Number(amountGold);
     const normalizedPriceInCents = Number(priceInCents);
-    const expectedPrice = GOLD_PACKAGES.get(normalizedAmountGold);
+    const expectedPrice = getExpectedPriceInCents(normalizedAmountGold);
 
     if (!expectedPrice || expectedPrice !== normalizedPriceInCents) {
-      return res.status(400).json({ error: 'Invalid gold package' });
+      return res.status(400).json({ error: 'Invalid gold amount or price' });
     }
 
     // In a real app, you would pass `client_reference_id` or `metadata` to fulfill the order via Webhooks.
@@ -49,6 +62,7 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
       metadata: {
         userId: authenticatedUserId.toString(),
         amountGold: normalizedAmountGold.toString(),
+        priceInCents: normalizedPriceInCents.toString(),
       },
       client_reference_id: authenticatedUserId.toString(),
       mode: 'payment',
@@ -84,8 +98,14 @@ export const fulfillPurchase = async (req: Request, res: Response) => {
         return res.status(400).json({ error: 'Invalid session metadata' });
       }
 
-      const expectedPrice = GOLD_PACKAGES.get(amountGold);
-      if (!expectedPrice || session.amount_total !== expectedPrice) {
+      const expectedPrice = getExpectedPriceInCents(amountGold);
+      const priceInCentsFromSession = Number(session.metadata?.priceInCents);
+      if (
+        !expectedPrice
+        || isNaN(priceInCentsFromSession)
+        || priceInCentsFromSession !== expectedPrice
+        || session.amount_total !== expectedPrice
+      ) {
         return res.status(400).json({ error: 'Invalid checkout session amount' });
       }
       

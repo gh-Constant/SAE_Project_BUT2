@@ -15,7 +15,16 @@ interface EventData {
 }
 
 export const validateEventData = (req: Request<any, any, EventData>, res: Response, next: NextFunction) => {
-  const { title, type, start_time, end_time, price, capacity, id_location, schedules } = req.body;
+  const {
+    title,
+    type,
+    start_time,
+    end_time,
+    price,
+    capacity,
+    id_location,
+    schedules
+  } = req.body;
 
   if (!title || price === undefined || capacity === undefined || id_location === undefined) {
     return res.status(400).json({ message: 'Missing required event fields.' });

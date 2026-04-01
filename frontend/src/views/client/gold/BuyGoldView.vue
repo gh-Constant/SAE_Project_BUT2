@@ -76,6 +76,53 @@
           </div>
         </div>
       </div>
+
+      <!-- Achat personnalisé -->
+      <div class="mt-10">
+        <div class="bg-white/70 backdrop-blur-sm rounded-lg border-2 border-antique-bronze/20 p-6 md:p-8 shadow-md">
+          <div class="flex flex-col md:flex-row md:items-end gap-4 md:gap-6">
+            <div class="flex-1">
+              <h2 class="text-2xl font-medieval font-bold text-iron-black mb-2">
+                Montant personnalisé
+              </h2>
+              <p class="text-stone-grey text-sm mb-4">
+                Choisissez exactement le montant d'or souhaité (minimum 100, maximum 100 000).
+              </p>
+              <label for="custom-gold" class="block text-sm font-bold text-stone-grey mb-2">
+                Quantité d'or
+              </label>
+              <input
+                id="custom-gold"
+                v-model.number="customGoldAmount"
+                type="number"
+                min="100"
+                max="100000"
+                step="1"
+                class="w-full md:max-w-xs rounded-md border-2 border-antique-bronze/30 bg-white/80 px-4 py-3 text-iron-black focus:border-antique-bronze focus:outline-none"
+              >
+              <p v-if="customError" class="mt-2 text-sm text-red-700">
+                {{ customError }}
+              </p>
+            </div>
+
+            <div class="md:text-right">
+              <div class="text-stone-grey text-sm mb-1">Prix estimé</div>
+              <div class="text-3xl font-medieval font-bold text-iron-black mb-3">
+                {{ (customPriceInCents / 100).toFixed(2) }}€
+              </div>
+              <button
+                @click="purchaseCustom"
+                :disabled="loading"
+                class="w-full md:w-auto py-3 px-6 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold text-lg rounded shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                <i v-if="loading" class="fas fa-circle-notch fa-spin"></i>
+                <i v-else class="fas fa-coins"></i>
+                {{ loading ? 'Transaction...' : 'Acheter ce montant' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -136,7 +183,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { goldService } from '@/services/goldService';
 
@@ -144,6 +191,8 @@ const authStore = useAuthStore();
 const userGold = ref(0);
 const loading = ref(false);
 const showLoginModal = ref(false);
+const customGoldAmount = ref(1000);
+const customError = ref('');
 
 // Format large numbers with K suffix for display
 const formatGold = (amount: number): string => {
@@ -180,6 +229,12 @@ const packages = [
   }
 ];
 
+const customPriceInCents = computed(() => {
+  const value = Number(customGoldAmount.value);
+  if (!Number.isFinite(value) || value <= 0) return 0;
+  return Math.round(value);
+});
+
 onMounted(async () => {
   if (authStore.user) {
     try {
@@ -193,7 +248,7 @@ onMounted(async () => {
   }
 });
 
-const purchase = async (pkg: typeof packages[0]) => {
+const startCheckout = async (amountGold: number, priceInCents: number) => {
   if (!authStore.isAuthenticated) {
     showLoginModal.value = true
     return
@@ -203,7 +258,7 @@ const purchase = async (pkg: typeof packages[0]) => {
   
   loading.value = true;
   try {
-    const res = await goldService.createCheckoutSession(authStore.user.id, pkg.amount, pkg.priceInCents);
+    const res = await goldService.createCheckoutSession(authStore.user.id, amountGold, priceInCents);
     window.location.href = res.url;
   } catch (e) {
     console.error('Checkout error:', e);
@@ -211,5 +266,26 @@ const purchase = async (pkg: typeof packages[0]) => {
   } finally {
     loading.value = false;
   }
+};
+
+const purchase = async (pkg: typeof packages[0]) => {
+  await startCheckout(pkg.amount, pkg.priceInCents);
+};
+
+const purchaseCustom = async () => {
+  customError.value = '';
+  const amount = Number(customGoldAmount.value);
+
+  if (!Number.isInteger(amount)) {
+    customError.value = 'Veuillez saisir un nombre entier.';
+    return;
+  }
+
+  if (amount < 100 || amount > 100000) {
+    customError.value = 'Le montant doit être compris entre 100 et 100 000 gold.';
+    return;
+  }
+
+  await startCheckout(amount, customPriceInCents.value);
 };
 </script>
