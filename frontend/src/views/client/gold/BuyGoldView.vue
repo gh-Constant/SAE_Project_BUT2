@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment pt-32 pb-16 font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      
       <!-- En-tête -->
       <div class="mb-12 text-center">
         <h1 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">
@@ -32,9 +31,10 @@
 
       <!-- Grille des Packs -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div v-for="pkg in packages" :key="pkg.amount" 
-             class="group relative bg-white/70 backdrop-blur-sm rounded-lg border-2 border-antique-bronze/20 hover:border-antique-bronze/60 transition-all duration-300 overflow-hidden flex flex-col justify-between transform hover:-translate-y-2 hover:shadow-xl shadow-md">
-          
+        <div
+          v-for="pkg in packages" :key="pkg.amount" 
+          class="group relative bg-white/70 backdrop-blur-sm rounded-lg border-2 border-antique-bronze/20 hover:border-antique-bronze/60 transition-all duration-300 overflow-hidden flex flex-col justify-between transform hover:-translate-y-2 hover:shadow-xl shadow-md"
+        >
           <!-- Décoration d'angle -->
           <div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-antique-bronze/40 rounded-tl-lg pointer-events-none"></div>
           <div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-antique-bronze/40 rounded-tr-lg pointer-events-none"></div>
@@ -78,6 +78,61 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal connexion requise -->
+  <Teleport to="body">
+    <Transition name="fade">
+      <div v-if="showLoginModal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4" @click.self="showLoginModal = false">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="relative bg-parchment rounded-lg shadow-2xl border-2 border-antique-bronze/40 max-w-md w-full p-8 text-center transform transition-all">
+          <!-- Close button -->
+          <button @click="showLoginModal = false" class="absolute top-3 right-3 text-stone-grey/60 hover:text-iron-black transition-colors">
+            <i class="fas fa-times text-lg"></i>
+          </button>
+
+          <!-- Icon -->
+          <div class="w-20 h-20 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-5 border-2 border-antique-bronze/20">
+            <i class="fas fa-lock text-3xl text-antique-bronze"></i>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
+            Connexion requise
+          </h3>
+
+          <!-- Description -->
+          <p class="text-stone-grey font-body mb-6 leading-relaxed">
+            Vous devez être connecté pour acquérir de l'or. Rejoignez l'aventure !
+          </p>
+
+          <!-- Actions -->
+          <div class="flex flex-col gap-3">
+            <router-link
+              to="/login"
+              class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-3 px-6 rounded-md shadow-md transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-sign-in-alt"></i>
+              Se connecter
+            </router-link>
+            <router-link
+              to="/register"
+              class="w-full bg-white/80 hover:bg-white text-antique-bronze font-medieval font-bold py-3 px-6 rounded-md border-2 border-antique-bronze/30 hover:border-antique-bronze transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-user-plus"></i>
+              Créer un compte
+            </router-link>
+          </div>
+
+          <!-- Divider -->
+          <div class="mt-5 pt-4 border-t border-antique-bronze/15">
+            <button @click="showLoginModal = false" class="text-sm text-stone-grey hover:text-antique-bronze transition-colors font-body">
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -88,6 +143,7 @@ import { goldService } from '@/services/goldService';
 const authStore = useAuthStore();
 const userGold = ref(0);
 const loading = ref(false);
+const showLoginModal = ref(false);
 
 // Format large numbers with K suffix for display
 const formatGold = (amount: number): string => {
@@ -138,6 +194,11 @@ onMounted(async () => {
 });
 
 const purchase = async (pkg: typeof packages[0]) => {
+  if (!authStore.isAuthenticated) {
+    showLoginModal.value = true
+    return
+  }
+
   if (!authStore.user) return;
   
   loading.value = true;

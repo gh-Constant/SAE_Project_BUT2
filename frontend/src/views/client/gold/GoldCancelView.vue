@@ -1,7 +1,6 @@
 <template>
   <div class="cancel-page flex flex-col items-center justify-center min-h-screen bg-parchment font-body text-stone-grey p-8 selection:bg-antique-bronze selection:text-white">
     <div class="relative bg-white/70 backdrop-blur-sm p-10 rounded-lg border-2 border-amber-600/50 max-w-lg w-full text-center shadow-xl shadow-amber-900/10">
-      
       <!-- Décoration d'angle -->
       <div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-amber-600/40 rounded-tl-lg pointer-events-none"></div>
       <div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-amber-600/40 rounded-tr-lg pointer-events-none"></div>

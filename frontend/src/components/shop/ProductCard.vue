@@ -71,7 +71,6 @@
     </div>
 
     <!-- Bouton ajouter au panier -->
-    <!-- Bouton ajouter au panier -->
     <MedievalButton
       @click="handleAddToCart"
       :disabled="product.stock === 0 || isAdding"
@@ -84,6 +83,61 @@
       <i v-else class="fas fa-spinner fa-spin mr-2"></i>
       {{ product.stock === 0 ? 'Rupture de stock' : isAdding ? 'Ajout...' : 'Ajouter au panier' }}
     </MedievalButton>
+
+    <!-- Modal connexion requise -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="showLoginModal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4" @click.self="showLoginModal = false">
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+          <div class="relative bg-parchment rounded-lg shadow-2xl border-2 border-antique-bronze/40 max-w-md w-full p-8 text-center transform transition-all">
+            <!-- Close button -->
+            <button @click="showLoginModal = false" class="absolute top-3 right-3 text-stone-grey/60 hover:text-iron-black transition-colors">
+              <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <!-- Icon -->
+            <div class="w-20 h-20 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-5 border-2 border-antique-bronze/20">
+              <i class="fas fa-lock text-3xl text-antique-bronze"></i>
+            </div>
+
+            <!-- Title -->
+            <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
+              Connexion requise
+            </h3>
+
+            <!-- Description -->
+            <p class="text-stone-grey font-body mb-6 leading-relaxed">
+              Vous devez être connecté pour ajouter des articles à votre panier. Rejoignez l'aventure !
+            </p>
+
+            <!-- Actions -->
+            <div class="flex flex-col gap-3">
+              <router-link
+                to="/login"
+                class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-3 px-6 rounded-md shadow-md transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                <i class="fas fa-sign-in-alt"></i>
+                Se connecter
+              </router-link>
+              <router-link
+                to="/register"
+                class="w-full bg-white/80 hover:bg-white text-antique-bronze font-medieval font-bold py-3 px-6 rounded-md border-2 border-antique-bronze/30 hover:border-antique-bronze transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                <i class="fas fa-user-plus"></i>
+                Créer un compte
+              </router-link>
+            </div>
+
+            <!-- Divider -->
+            <div class="mt-5 pt-4 border-t border-antique-bronze/15">
+              <button @click="showLoginModal = false" class="text-sm text-stone-grey hover:text-antique-bronze transition-colors font-body">
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -92,6 +146,7 @@ import { ref, computed } from 'vue'
 import { ProductMock } from '@/mocks/products'
 import { USERS } from '@/mocks/users'
 import { useCartStore } from '@/stores/cart'
+import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notifications'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 
@@ -101,8 +156,10 @@ interface Props {
 
 const props = defineProps<Props>()
 const cartStore = useCartStore()
+const authStore = useAuthStore()
 const notificationStore = useNotificationStore()
 const isAdding = ref(false)
+const showLoginModal = ref(false)
 
 // Récupérer le nom du prestataire
 const prestataireName = computed(() => {
@@ -112,6 +169,12 @@ const prestataireName = computed(() => {
 
 const handleAddToCart = async () => {
   if (props.product.stock === 0) return
+
+  // Vérifier si l'utilisateur est connecté
+  if (!authStore.isAuthenticated) {
+    showLoginModal.value = true
+    return
+  }
 
   isAdding.value = true
   
