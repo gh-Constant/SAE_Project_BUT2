@@ -140,45 +140,6 @@
         <BlogSection :location-id="location.id" :is-owner="isOwner" />
       </div>
 
-      <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6 font-body">
-        <div class="flex justify-between mb-2">
-          <span class="font-bold text-iron-black">{{ t('widgets.purchased.location') }}</span>
-          <span class="text-stone-grey">{{ location.static_code }}</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span class="font-bold text-iron-black">{{ t('widgets.purchased.status_label') }}</span>
-          <span class="text-antique-bronze font-bold">{{ t('widgets.purchased.status_acquired') }}</span>
-        </div>
-        <div class="flex justify-between mb-4">
-          <span class="font-bold text-iron-black">{{ t('widgets.purchased.value') }}</span>
-          <span class="text-antique-bronze font-medieval font-bold">{{ location.price }} {{
-            t('widgets.available.currency') }}</span>
-        </div>
-
-        <!-- QR Code pour les quêtes -->
-        <div v-if="location.static_code" class="border-t border-antique-bronze/20 pt-4 mt-4">
-          <p class="text-sm font-bold text-iron-black mb-3 text-center">
-            <i class="fas fa-qrcode mr-2 text-antique-bronze"></i>
-            {{ t('widgets.purchased.qr_code_title') }}
-          </p>
-          <div class="flex flex-col items-center gap-3">
-            <div class="bg-white p-3 rounded-lg shadow-inner border border-antique-bronze/30">
-              <canvas ref="qrCanvasRef" class="qr-canvas"></canvas>
-            </div>
-            <p class="text-xs text-stone-grey text-center max-w-xs">
-              {{ t('widgets.purchased.qr_code_hint') }}
-            </p>
-            <p
-              class="text-xs font-mono text-antique-bronze bg-antique-bronze/10 px-3 py-1 rounded border border-antique-bronze/20"
-            >
-              {{ location.static_code }}
-            </p>
-          </div>
-        </div>
-      </div>
-
-
-
       <!-- Shop Section -->
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <ShopSection :location-id="location.id" :is-owner="isOwner" />
