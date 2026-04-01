@@ -52,7 +52,7 @@
               <i class="fas fa-bolt text-yellow-500 text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-bold text-iron-black">Electricite</p>
+              <p class="text-sm font-bold text-iron-black">Electricité</p>
               <p class="text-xs text-stone-grey">Prises secteur sur place</p>
             </div>
           </div>
@@ -62,7 +62,7 @@
             </div>
             <div>
               <p class="text-sm font-bold text-iron-black">Sanitaires</p>
-              <p class="text-xs text-stone-grey">Toilettes a proximite</p>
+              <p class="text-xs text-stone-grey">Toilettes à proximité</p>
             </div>
           </div>
           <div v-if="location.is_accessible_pmr" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
@@ -71,7 +71,7 @@
             </div>
             <div>
               <p class="text-sm font-bold text-iron-black">Accessible</p>
-              <p class="text-xs text-stone-grey">Acces personnes a mobilite reduite</p>
+              <p class="text-xs text-stone-grey">Accès personnes à mobilité réduite</p>
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 1,
     name: 'Potion de soin',
     description: 'Restaure 50 points de vie. Parfaite pour les aventuriers en quête.',
-    price: 25.50,
+    price: 2550,
     stock: 15,
     image: '/images/products/Potion de soin.png',
     id_prestataire: 1
@@ -25,7 +25,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 2,
     name: 'Pain médiéval',
     description: 'Pain artisanal cuit au four à bois, recette traditionnelle.',
-    price: 3.50,
+    price: 350,
     stock: 30,
     image: '/images/products/pain-medievale.png',
     id_prestataire: 1
@@ -34,7 +34,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 3,
     name: 'Jambon de sanglier',
     description: 'Jambon fumé de sanglier, spécialité de la région.',
-    price: 18.90,
+    price: 1890,
     stock: 8,
     image: '/images/products/jambon-sanglier.png',
     id_prestataire: 1
@@ -43,7 +43,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 4,
     name: 'Épée en bois',
     description: 'Réplique d\'épée médiévale en bois, parfaite pour les enfants.',
-    price: 12.00,
+    price: 1200,
     stock: 20,
     image: '/images/products/epaix-en-bois.png',
     id_prestataire: 1
@@ -52,7 +52,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 5,
     name: 'Bouclier décoratif',
     description: 'Bouclier médiéval décoratif, idéal pour la décoration.',
-    price: 35.00,
+    price: 3500,
     stock: 5,
     image: '/images/products/Bouclier décoratif.png',
     id_prestataire: 1
@@ -61,7 +61,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 6,
     name: 'Hydromel artisanal',
     description: 'Hydromel fait maison, saveur douce et fruitée.',
-    price: 22.00,
+    price: 2200,
     stock: 12,
     image: '/images/products/hydrolyme-artisanal.png',
     id_prestataire: 1
@@ -70,7 +70,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 7,
     name: 'Chandelle parfumée',
     description: 'Chandelle à la cire d\'abeille, parfum cire et miel.',
-    price: 8.50,
+    price: 850,
     stock: 25,
     image: '/images/products/chandelle-parfumee.png',
     id_prestataire: 1
@@ -79,7 +79,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 8,
     name: 'Tunique médiévale',
     description: 'Tunique en lin, confortable et authentique.',
-    price: 45.00,
+    price: 4500,
     stock: 10,
     image: '/images/products/tunique-medievale.png',
     id_prestataire: 1
@@ -88,7 +88,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 9,
     name: 'Arc en bois',
     description: 'Arc traditionnel en bois, parfait pour la chasse.',
-    price: 55.00,
+    price: 5500,
     stock: 7,
     image: '/images/products/arc-en-bois.png',
     id_prestataire: 4
@@ -97,7 +97,7 @@ export const PRODUCTS: ProductMock[] = [
     id: 10,
     name: 'Flèches en plumes',
     description: 'Paquet de 10 flèches avec plumes naturelles.',
-    price: 15.00,
+    price: 1500,
     stock: 20,
     image: '/images/products/fleche-en-plume.png',
     id_prestataire: 4

@@ -22,7 +22,7 @@ const BLOG_SEEDS: BlogSeed[] = [
     title: 'Élixir de Force : Nouvelle Potion',
     content: '<p>Notre alchimiste a enfin terminé sa dernière création. L\'Élixir de Force vous donnera une puissance inégalée pour vos prochaines quêtes. Disponible dès maintenant à la boutique !</p>',
     id_location: 16, // Marie (Merchant Stall #7)
-    price: 45.00,
+    price: 4500,
     is_sellable: true,
   },
   {
@@ -52,7 +52,7 @@ const BLOG_SEEDS: BlogSeed[] = [
     content: '<p>Saviez-vous que la racine de mandragore peut soigner les maux de tête si elle est préparée correctement ? Passez à mon échoppe pour en savoir plus.</p>',
     id_location: 17, // Marie
     is_sellable: true,
-    price: 5.00, // Consultation or booklet?
+    price: 500, // Consultation or booklet?
   },
   {
     id_blog: 7,

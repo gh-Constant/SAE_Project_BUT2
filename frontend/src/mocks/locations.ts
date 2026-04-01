@@ -209,7 +209,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Taverne du Lion d\'Or',
     description:
       'A popular location among travelers, known for its high foot traffic.',
-    price: 140,
+    price: 14000,
     purchased: true,
     status: 'APPROVED',
     id_prestataire: 1,
@@ -224,7 +224,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Échoppe de la Place',
     description:
       'Situated near the town square, this stall benefits from constant visibility.',
-    price: 160,
+    price: 16000,
     purchased: true,
     status: 'APPROVED',
     id_prestataire: 1,
@@ -239,7 +239,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Comptoir du Voyageur',
     description:
       'A strategic location for merchants, close to the main road.',
-    price: 110,
+    price: 11000,
     purchased: true,
     status: 'APPROVED',
     id_prestataire: PRESTATAIRE_USER_ID_2,
@@ -254,7 +254,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Artisan du Royaume',
     description:
       'A cozy stall, perfect for selling handmade goods and local crafts.',
-    price: 115,
+    price: 11500,
     purchased: true,
     status: 'APPROVED',
     id_prestataire: PRESTATAIRE_USER_ID_2,
@@ -269,7 +269,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Bazar Enchanté',
     description:
       'Known for its vibrant atmosphere and diverse range of products.',
-    price: 125,
+    price: 12500,
     purchased: true,
     status: 'APPROVED',
     id_prestataire: 1,
@@ -284,7 +284,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Marché des Merveilles',
     description:
       'A prime spot for attracting both locals and tourists alike.',
-    price: 135,
+    price: 13500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -299,7 +299,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Carrefour d\'Or',
     description:
       'Located at a busy intersection, ensuring a steady stream of potential customers.',
-    price: 145,
+    price: 14500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -314,7 +314,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Halle du Marché',
     description:
       'A bustling area known for its lively market scene and diverse offerings.',
-    price: 155,
+    price: 15500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -329,7 +329,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Auberge du Croissant',
     description:
       'Close to the tavern, this stall benefits from thirsty travelers looking for refreshments.',
-    price: 165,
+    price: 16500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -344,7 +344,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Écurie Royale',
     description:
       'A favored spot for its proximity to the stables and the smell of fresh hay.',
-    price: 175,
+    price: 17500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -359,7 +359,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Belvédère',
     description:
       'Known for its excellent view of the market square, ideal for attracting attention.',
-    price: 185,
+    price: 18500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -374,7 +374,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Fontaine d\'Argent',
     description:
       'A strategic location near the fountain, popular with both locals and tourists.',
-    price: 195,
+    price: 19500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -389,7 +389,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Porte du Marché',
     description:
       'Close to the entrance of the market, ensuring high visibility for your goods.',
-    price: 205,
+    price: 20500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -404,7 +404,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Vue sur le Château',
     description:
       'A charming stall with a great view of the castle, perfect for attracting tourists.',
-    price: 215,
+    price: 21500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -419,7 +419,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Scène du Troubadour',
     description:
       "Located near the bard's stage, enjoy the added benefit of musical entertainment.",
-    price: 225,
+    price: 22500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -434,7 +434,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Trésors d\'Orient',
     description:
       'A prime location for selling exotic goods from distant lands.',
-    price: 235,
+    price: 23500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -449,7 +449,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Épicerie Médiévale',
     description:
       'Known for its vibrant colors and the enticing smell of delicious food.',
-    price: 245,
+    price: 24500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -464,7 +464,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Bazar Sympathique',
     description:
       'A popular spot for its variety of goods and friendly merchants.',
-    price: 255,
+    price: 25500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -479,7 +479,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Arsenal du Guerrier',
     description:
       'Close to the blacksmith, attracting customers looking for weapons and armor.',
-    price: 265,
+    price: 26500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -493,7 +493,7 @@ export const LOCATIONS: LocationMock[] = [
     static_code: 'PRESTA_STALL_24',
     name: 'L\'Ombre du Puits',
     description: 'A favored location for its shade and the nearby well.',
-    price: 275,
+    price: 27500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -508,7 +508,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Poste de Garde',
     description:
       'Known for its strategic location near the guard post, ensuring safety and visibility.',
-    price: 285,
+    price: 28500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -523,7 +523,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Arcanes & Sortilèges',
     description:
       'A prime spot for selling magical artifacts and rare ingredients.',
-    price: 295,
+    price: 29500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -538,7 +538,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Boulangerie Dorée',
     description:
       'A cozy stall, ideal for selling baked goods and sweet treats.',
-    price: 315,
+    price: 31500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -553,7 +553,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'Le Panorama Royal',
     description:
       'Known for its excellent view of the market square, ideal for attracting attention.',
-    price: 325,
+    price: 32500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -568,7 +568,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'La Fontaine des Vœux',
     description:
       'A strategic location near the fountain, popular with both locals and tourists.',
-    price: 335,
+    price: 33500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,
@@ -583,7 +583,7 @@ export const LOCATIONS: LocationMock[] = [
     name: 'L\'Entrée du Marché',
     description:
       'Close to the entrance of the market, ensuring high visibility for your goods.',
-    price: 345,
+    price: 34500,
     purchased: false,
     status: 'AVAILABLE',
     id_prestataire: undefined,

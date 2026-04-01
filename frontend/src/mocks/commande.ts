@@ -31,7 +31,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 1,
         date_commande: daysAgo(1),
-        total_price: 47.00,
+        total_price: 4700,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -41,7 +41,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 2,
         date_commande: daysAgo(3),
-        total_price: 29.00,
+        total_price: 2900,
         id_user: 2,
         id_prestataire: 1,
         id_location: 15,
@@ -51,7 +51,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 3,
         date_commande: daysAgo(5),
-        total_price: 77.50,
+        total_price: 7750,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -61,7 +61,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 4,
         date_commande: daysAgo(7),
-        total_price: 12.00,
+        total_price: 1200,
         id_user: 2,
         id_prestataire: 4,
         id_location: 16,
@@ -71,7 +71,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 5,
         date_commande: daysAgo(10),
-        total_price: 95.00,
+        total_price: 9500,
         id_user: 2,
         id_prestataire: 1,
         id_location: 15,
@@ -81,7 +81,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 6,
         date_commande: daysAgo(12),
-        total_price: 22.00,
+        total_price: 2200,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -91,7 +91,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 7,
         date_commande: daysAgo(15),
-        total_price: 157.00,
+        total_price: 15700,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -104,7 +104,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 8,
         date_commande: daysAgo(2),
         date_collect: daysAgo(1),
-        total_price: 35.50,
+        total_price: 3550,
         id_user: 2,
         id_prestataire: 1,
         id_location: 15,
@@ -114,7 +114,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 9,
         date_commande: daysAgo(8),
         date_collect: daysAgo(7),
-        total_price: 68.90,
+        total_price: 6890,
         id_user: 2,
         id_prestataire: 4,
         id_location: 16,
@@ -124,7 +124,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 10,
         date_commande: daysAgo(14),
         date_collect: daysAgo(12),
-        total_price: 110.00,
+        total_price: 11000,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -134,7 +134,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 11,
         date_commande: daysAgo(20),
         date_collect: daysAgo(18),
-        total_price: 45.00,
+        total_price: 4500,
         id_user: 2,
         id_prestataire: 1,
         id_location: 15,
@@ -144,7 +144,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 12,
         date_commande: daysAgo(25),
         date_collect: daysAgo(23),
-        total_price: 8.50,
+        total_price: 850,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -155,7 +155,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 13,
         date_commande: daysAgo(0),
-        total_price: 25.50,
+        total_price: 2550,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -164,7 +164,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 14,
         date_commande: daysAgo(1),
-        total_price: 7.00,
+        total_price: 700,
         id_user: 2,
         id_prestataire: 1,
         id_location: 15,
@@ -173,7 +173,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 15,
         date_commande: daysAgo(2),
-        total_price: 37.80,
+        total_price: 3780,
         id_user: 2,
         id_prestataire: 4,
         id_location: 16,
@@ -182,7 +182,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 16,
         date_commande: daysAgo(4),
-        total_price: 55.00,
+        total_price: 5500,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -191,7 +191,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 17,
         date_commande: daysAgo(6),
-        total_price: 125.00,
+        total_price: 12500,
         id_user: 2,
         id_prestataire: 1,
         id_location: 15,
@@ -200,7 +200,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 18,
         date_commande: daysAgo(9),
-        total_price: 18.90,
+        total_price: 1890,
         id_user: 2,
         id_prestataire: 1,
         id_location: 14,
@@ -211,7 +211,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 19,
         date_commande: daysAgo(1),
-        total_price: 30.00,
+        total_price: 3000,
         id_user: 11, // Lucas
         id_prestataire: 1, // Gérard (Flèches are sold there?) or Marie. Assuming Gérard based on products.
         id_location: 14,
@@ -221,7 +221,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 20,
         date_commande: daysAgo(0),
-        total_price: 55.00,
+        total_price: 5500,
         id_user: 11, // Lucas
         id_prestataire: 1, 
         id_location: 15,
@@ -231,7 +231,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 21,
         date_commande: daysAgo(2),
         date_collect: daysAgo(1),
-        total_price: 8.50,
+        total_price: 850,
         id_user: 12, // Sophie
         id_prestataire: 1,
         id_location: 14,
@@ -240,7 +240,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 22,
         date_commande: daysAgo(5),
-        total_price: 70.00,
+        total_price: 7000,
         id_user: 13, // Antoine
         id_prestataire: 1,
         id_location: 15,
@@ -250,7 +250,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 23,
         date_commande: daysAgo(0),
-        total_price: 35.00,
+        total_price: 3500,
         id_user: 13, // Antoine
         id_prestataire: 1,
         id_location: 14,
@@ -259,7 +259,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 24,
         date_commande: daysAgo(3),
-        total_price: 25.50,
+        total_price: 2550,
         id_user: 13, // Antoine
         id_prestataire: 1,
         id_location: 15,
@@ -270,7 +270,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
         id: 25,
         date_commande: daysAgo(4),
         date_collect: daysAgo(2),
-        total_price: 45.00,
+        total_price: 4500,
         id_user: 14, // Clara
         id_prestataire: 1,
         id_location: 15,
@@ -279,7 +279,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 26,
         date_commande: daysAgo(1),
-        total_price: 51.00,
+        total_price: 5100,
         id_user: 15, // Marc
         id_prestataire: 1,
         id_location: 14,
@@ -289,7 +289,7 @@ const DEMO_COMMANDES: CommandeMock[] = [
     {
         id: 27,
         date_commande: daysAgo(0),
-        total_price: 22.00,
+        total_price: 2200,
         id_user: 15, // Marc
         id_prestataire: 1,
         id_location: 15,

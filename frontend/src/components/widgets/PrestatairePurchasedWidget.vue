@@ -52,7 +52,7 @@
               <i class="fas fa-bolt text-yellow-500 text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-bold text-iron-black">Electricite</p>
+              <p class="text-sm font-bold text-iron-black">Electricité</p>
               <p class="text-xs text-stone-grey">Prises secteur sur place</p>
             </div>
           </div>
@@ -62,7 +62,7 @@
             </div>
             <div>
               <p class="text-sm font-bold text-iron-black">Sanitaires</p>
-              <p class="text-xs text-stone-grey">Toilettes a proximite</p>
+              <p class="text-xs text-stone-grey">Toilettes à proximité</p>
             </div>
           </div>
           <div v-if="location.is_accessible_pmr" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
@@ -71,7 +71,7 @@
             </div>
             <div>
               <p class="text-sm font-bold text-iron-black">Accessible</p>
-              <p class="text-xs text-stone-grey">Acces personnes a mobilite reduite</p>
+              <p class="text-xs text-stone-grey">Accès personnes à mobilité réduite</p>
             </div>
           </div>
         </div>
@@ -170,22 +170,22 @@
 
       <!-- Events Section -->
       <div v-if="hasEvents" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <EventSection :location-id="location.id" :is-owner="isOwner" />
+        <EventSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Shop Section -->
       <div v-if="hasProducts" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <ShopSection :location-id="location.id" :is-owner="isOwner" />
+        <ShopSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Blogs Section -->
       <div v-if="hasBlogs" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <BlogSection :location-id="location.id" :is-owner="isOwner" />
+        <BlogSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Quest Section -->
       <div v-if="hasQuests" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <QuestSection :location-id="location.id" :is-owner="isOwner" />
+        <QuestSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Quiz Section -->
@@ -219,7 +219,7 @@
 
       <!-- Contact Section (Visible to non-owners) -->
       <div v-if="!isOwner" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <ContactSection :location-id="location.id" />
+        <ContactSection :location-id="resolvedLocationId" />
       </div>
 
       <div class="flex gap-3 justify-end">
@@ -376,6 +376,10 @@ const hasProducts = ref(false);
 const hasEvents = ref(false);
 const hasQuests = ref(false);
 const hasQuizzes = computed(() => quizzes.value.length > 0);
+const resolvedLocationId = computed(() => {
+  const id = Number((props.location as any).id ?? (props.location as any).id_location ?? 0);
+  return Number.isFinite(id) ? id : 0;
+});
 
 const prestataire = computed(() => {
   // Use prestataire data from location if available (from backend)
@@ -496,7 +500,7 @@ const generateQRCode = async () => {
 
 const fetchQuizzes = async () => {
   try {
-    const response = await quizService.getQuizzes({ id_location: props.location.id });
+    const response = await quizService.getQuizzes({ id_location: resolvedLocationId.value });
     quizzes.value = response.quizzes;
   } catch (e) {
     console.error('Failed to fetch quizzes', e);
@@ -505,24 +509,34 @@ const fetchQuizzes = async () => {
 };
 
 const fetchSectionAvailability = async () => {
-  try {
-    const [blogs, products, quests, events] = await Promise.all([
-      blogService.getBlogsByLocationId(props.location.id),
-      productService.getProductsByLocation(props.location.id),
-      questService.getQuestsByLocation(props.location.id),
-      eventService.getEvents({ id_location: props.location.id, published: true })
-    ]);
-
-    hasBlogs.value = blogs.length > 0;
-    hasProducts.value = products.length > 0;
-    hasQuests.value = quests.length > 0;
-    hasEvents.value = events.length > 0;
-  } catch (error) {
-    console.error('Failed to fetch section availability', error);
+  const locationId = resolvedLocationId.value;
+  if (!locationId) {
     hasBlogs.value = false;
     hasProducts.value = false;
     hasQuests.value = false;
     hasEvents.value = false;
+    return;
+  }
+
+  const [blogsResult, productsResult, questsResult, eventsResult] = await Promise.allSettled([
+    blogService.getBlogsByLocationId(locationId),
+    productService.getProductsByLocation(locationId),
+    questService.getQuestsByLocation(locationId),
+    eventService.getEvents({ id_location: locationId, published: true })
+  ]);
+
+  hasBlogs.value = blogsResult.status === 'fulfilled' && blogsResult.value.length > 0;
+  hasProducts.value = productsResult.status === 'fulfilled' && productsResult.value.length > 0;
+  hasQuests.value = questsResult.status === 'fulfilled' && questsResult.value.length > 0;
+  hasEvents.value = eventsResult.status === 'fulfilled' && eventsResult.value.length > 0;
+
+  if (blogsResult.status === 'rejected' || productsResult.status === 'rejected' || questsResult.status === 'rejected' || eventsResult.status === 'rejected') {
+    console.warn('One or more widget sections failed to load', {
+      blogs: blogsResult.status,
+      products: productsResult.status,
+      quests: questsResult.status,
+      events: eventsResult.status,
+    });
   }
 };
 

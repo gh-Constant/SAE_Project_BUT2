@@ -188,11 +188,11 @@ export const locationStatisticMockService = {
       }));
 
     const bucketDefs = [
-      { range: '0-49', min: 0, max: 49 },
-      { range: '50-99', min: 50, max: 99 },
-      { range: '100-149', min: 100, max: 149 },
-      { range: '150-199', min: 150, max: 199 },
-      { range: '200+', min: 200, max: Number.POSITIVE_INFINITY },
+      { range: '0-4 999', min: 0, max: 4999 },
+      { range: '5 000-9 999', min: 5000, max: 9999 },
+      { range: '10 000-14 999', min: 10000, max: 14999 },
+      { range: '15 000-19 999', min: 15000, max: 19999 },
+      { range: '20 000+', min: 20000, max: Number.POSITIVE_INFINITY },
     ];
 
     const priceBuckets: PriceBucket[] = bucketDefs.map(bucket => {

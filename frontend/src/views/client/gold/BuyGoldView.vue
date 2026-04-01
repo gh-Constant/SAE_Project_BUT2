@@ -167,14 +167,14 @@ const packages = [
   {
     name: 'Coffre de marchand',
     amount: 500,
-    priceInCents: 450, // 4.50 EUR
+    priceInCents: 500, // 5.00 EUR
     description: 'Un coffre bien rempli pour les voyageurs avertis.',
     icon: 'fa-box-open'
   },
   {
     name: 'Trésor du Roi',
     amount: 1500,
-    priceInCents: 1200, // 12.00 EUR
+    priceInCents: 1500, // 15.00 EUR
     description: 'La richesse nécessaire pour de grandes ambitions territoriales.',
     icon: 'fa-gem'
   }
