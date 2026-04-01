@@ -24,8 +24,18 @@
     </div>
 
     <!-- Quest List -->
-    <div v-if="loading" class="text-center py-4 text-stone-grey font-body">
-      {{ t('widgets.quests.loading') }}
+    <div v-if="loading" class="grid grid-cols-1 gap-4">
+      <div v-for="i in 3" :key="i" class="bg-white/60 rounded-sm p-4 border border-antique-bronze/20">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-full skeleton-shimmer flex-shrink-0" />
+          <div class="flex-1">
+            <div class="h-5 skeleton-shimmer rounded w-3/5 mb-2" />
+            <div class="h-3 skeleton-shimmer rounded w-full mb-1" />
+            <div class="h-3 skeleton-shimmer rounded w-4/5" />
+          </div>
+          <div class="h-6 skeleton-shimmer rounded w-16" />
+        </div>
+      </div>
     </div>
     <div v-else-if="quests.length === 0" class="text-center py-4 text-stone-grey font-body italic">
       {{ t('widgets.quests.empty') }}

@@ -5,8 +5,19 @@
       <div class="h-1 w-24 bg-antique-bronze rounded-full"></div>
     </div>
     
-    <div v-if="loading" class="text-center py-12">
-      <p class="text-xl font-medieval animate-pulse">{{ t('reservations.loading') }}</p>
+    <div v-if="loading" class="space-y-6">
+      <div v-for="i in 3" :key="i" class="bg-white/80 border border-antique-bronze/20 rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row">
+        <div class="md:w-1/3 bg-antique-bronze/5 p-6 flex flex-col justify-center items-center">
+          <div class="h-10 skeleton-shimmer rounded w-16 mb-2" />
+          <div class="h-5 skeleton-shimmer rounded w-20" />
+        </div>
+        <div class="flex-1 p-6">
+          <div class="h-6 skeleton-shimmer rounded w-2/5 mb-3" />
+          <div class="h-4 skeleton-shimmer rounded w-3/5 mb-2" />
+          <div class="h-4 skeleton-shimmer rounded w-1/3 mb-4" />
+          <div class="h-8 skeleton-shimmer rounded w-28" />
+        </div>
+      </div>
     </div>
     
     <div v-else-if="reservations.length === 0" class="text-center py-12 bg-white/60 border border-antique-bronze/20 rounded-lg">

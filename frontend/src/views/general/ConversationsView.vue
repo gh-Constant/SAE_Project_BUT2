@@ -8,8 +8,14 @@
         </div>
         
         <div class="flex-1 overflow-y-auto">
-          <div v-if="loadingConversations" class="p-4 text-center">
-            <i class="fas fa-spinner fa-spin text-antique-bronze"></i>
+          <div v-if="loadingConversations" class="p-4 space-y-3">
+            <div v-for="i in 4" :key="i" class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full skeleton-shimmer flex-shrink-0" />
+              <div class="flex-1">
+                <div class="h-4 skeleton-shimmer rounded w-3/5 mb-2" />
+                <div class="h-3 skeleton-shimmer rounded w-4/5" />
+              </div>
+            </div>
           </div>
           
           <div v-else-if="conversations.length === 0" class="p-6 text-center text-stone-grey">

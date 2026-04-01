@@ -11,6 +11,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { userService } from '@/services/userService';
 import MedievalSectionTitle from '@/components/ui/MedievalSectionTitle.vue';
+import SkeletonLeaderboardRow from '@/components/ui/SkeletonLeaderboardRow.vue';
 
 const auth = useAuthStore();
 const leaderboard = ref<any[]>([]);
@@ -107,16 +108,8 @@ onMounted(() => {
 					class="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-antique-bronze/40 rounded-br-lg pointer-events-none">
 				</div>
 
-				<!-- Loading State -->
-				<div v-if="loading" class="p-20 text-center">
-					<i class="fas fa-circle-notch fa-spin text-4xl text-antique-bronze mb-4"></i>
-					<div class="text-stone-grey font-medieval text-xl">
-						Consultation des archives royales...
-					</div>
-				</div>
-
 				<!-- Ranking Table -->
-				<table v-else class="w-full text-left">
+				<table class="w-full text-left">
 					<thead
 						class="bg-antique-bronze/10 text-dark-wood font-medieval uppercase text-sm tracking-wider border-b-2 border-antique-bronze/30">
 						<tr>
@@ -127,7 +120,11 @@ onMounted(() => {
 						</tr>
 					</thead>
 					<tbody class="divide-y divide-antique-bronze/20 font-body">
-						<tr v-for="user in leaderboard" :key="user.id"
+						<!-- Skeleton loading rows -->
+						<template v-if="loading">
+							<SkeletonLeaderboardRow v-for="i in limit" :key="'skel-' + i" />
+						</template>
+						<tr v-for="user in leaderboard" v-else :key="user.id"
 							class="hover:bg-antique-bronze/5 transition-colors group" :class="{
 								'bg-amber-100/60 border-y-2 shadow-sm relative z-10 font-bold':
 									auth.user && user.id === auth.user.id,

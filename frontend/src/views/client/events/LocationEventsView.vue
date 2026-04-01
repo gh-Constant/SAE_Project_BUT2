@@ -6,8 +6,22 @@
         <h1 class="text-4xl font-medieval font-bold text-iron-black text-center">{{ t('events.location.title') }}</h1>
       </div>
       
-      <div v-if="loading" class="text-center py-12">
-        <p class="text-xl font-medieval animate-pulse">{{ t('events.list.loading') }}</p>
+      <div v-if="loading" class="space-y-6 max-w-4xl mx-auto">
+        <div v-for="i in 4" :key="i" class="bg-white/60 border border-antique-bronze/20 rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row">
+          <div class="md:w-1/3 bg-antique-bronze/5 p-6 flex flex-col justify-center items-center">
+            <div class="h-10 skeleton-shimmer rounded w-16 mb-2" />
+            <div class="h-5 skeleton-shimmer rounded w-20" />
+          </div>
+          <div class="flex-1 p-6">
+            <div class="h-6 skeleton-shimmer rounded w-3/5 mb-3" />
+            <div class="h-3 skeleton-shimmer rounded w-full mb-2" />
+            <div class="h-3 skeleton-shimmer rounded w-4/5 mb-4" />
+            <div class="flex gap-4">
+              <div class="h-4 skeleton-shimmer rounded w-20" />
+              <div class="h-4 skeleton-shimmer rounded w-24" />
+            </div>
+          </div>
+        </div>
       </div>
       
       <div v-else-if="events.length === 0" class="text-center py-12">

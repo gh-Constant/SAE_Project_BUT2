@@ -29,4 +29,26 @@
     }
   }
   --animate-slide-in-left: slide-in-left 1s ease-out forwards;
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  --animate-shimmer: shimmer 1.8s ease-in-out infinite;
+}
+
+/* Skeleton shimmer effect */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(193, 155, 108, 0.06) 0%,
+    rgba(193, 155, 108, 0.15) 40%,
+    rgba(193, 155, 108, 0.06) 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
 }

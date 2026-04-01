@@ -74,8 +74,8 @@
         </div>
 
         <!-- Loading -->
-        <div v-if="loading" class="flex justify-center py-12">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-antique-bronze"></div>
+        <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SkeletonQuizCard v-for="i in 6" :key="i" />
         </div>
 
         <!-- Error -->
@@ -116,6 +116,7 @@ import { quizService, type Quiz } from '@/services/quizService';
 import QuizCard from '@/components/quiz/QuizCard.vue';
 import { Role } from '@/mocks/users';
 import BackToMapButton from '@/components/shared/BackToMapButton.vue';
+import SkeletonQuizCard from '@/components/ui/SkeletonQuizCard.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();

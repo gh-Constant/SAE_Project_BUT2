@@ -3,8 +3,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-4xl font-medieval font-bold text-iron-black mb-8 text-center">{{ t('events.list.title') }}</h1>
 
-      <div v-if="loading" class="text-center py-12">
-        <p class="text-xl font-medieval animate-pulse">{{ t('events.list.loading') }}</p>
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <SkeletonEventCard v-for="i in 6" :key="i" />
       </div>
 
       <div v-else-if="events.length === 0" class="text-center py-12">
@@ -76,6 +76,7 @@ import { useRouter } from 'vue-router'
 import { useEventStore, Event } from '@/stores/event'
 import { useI18n } from 'vue-i18n'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
+import SkeletonEventCard from '@/components/ui/SkeletonEventCard.vue'
 
 const { t } = useI18n()
 

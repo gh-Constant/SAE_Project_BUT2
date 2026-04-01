@@ -25,8 +25,13 @@
           <p class="text-lg text-stone-grey">{{ t('shop.subtitle') }}</p>
         </div>
 
+        <!-- Skeleton loading boutiques -->
+        <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SkeletonShopCard v-for="i in 6" :key="i" />
+        </div>
+
         <!-- Grille de boutiques -->
-        <div v-if="availableLocations.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-else-if="availableLocations.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="location in availableLocations" :key="location.id"
             class="bg-white/60 rounded-sm shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 border-2 border-antique-bronze/20 hover:border-antique-bronze/60"
             @click="goToLocation(location.id)">
@@ -231,8 +236,13 @@
           </div>
         </div>
 
+        <!-- Skeleton loading produits -->
+        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <SkeletonProductCard v-for="i in 8" :key="i" />
+        </div>
+
         <!-- Liste des produits -->
-        <div v-if="filteredProducts.length > 0">
+        <div v-else-if="filteredProducts.length > 0">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
           </div>
@@ -286,6 +296,8 @@ import { locationsMock } from '@/mocks/locations'
 import ProductCard from '@/components/shop/ProductCard.vue'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
+import SkeletonShopCard from '@/components/ui/SkeletonShopCard.vue'
+import SkeletonProductCard from '@/components/ui/SkeletonProductCard.vue'
 
 
 const route = useRoute()
@@ -320,6 +332,8 @@ const availableLocations = computed(() => {
     locationIdsWithProducts.has(loc.id)
   )
 })
+
+const loading = ref(false)
 
 // État de la recherche et filtres
 const searchQuery = ref('')
@@ -380,8 +394,9 @@ const hasActiveFilters = computed(() => {
 // const filteredProducts = computed(() => { ... }) // Replaced above
 
 // Fetch products on mount and when filters/route change
-const fetchProducts = () => {
-  store.fetchProducts({
+const fetchProducts = async () => {
+  loading.value = true
+  await store.fetchProducts({
     search: searchQuery.value,
     minPrice: priceMin.value || undefined,
     maxPrice: priceMax.value || undefined,
@@ -389,6 +404,7 @@ const fetchProducts = () => {
     sortBy: sortBy.value,
     locationId: locationIdFromRoute.value
   })
+  loading.value = false
 }
 
 onMounted(() => {
