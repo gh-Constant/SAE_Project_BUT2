@@ -44,9 +44,7 @@
         <div class="p-6">
           <h1 class="font-display text-2xl font-bold mb-2">{{ quiz.title }}</h1>
           
-          <p v-if="quiz.description" class="text-stone-grey/70 mb-4">
-            {{ quiz.description }}
-          </p>
+          <div v-if="quiz.description" class="text-stone-grey/70 mb-4 description-preview" v-html="quiz.description"></div>
 
           <div class="flex items-center gap-4 text-sm text-stone-grey/60 mb-6">
             <span class="flex items-center">

@@ -18,6 +18,7 @@
  */
 
 import './styles.css';
+import './components/editor/description-preview.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'highlight.js/styles/github.css';
 import { createAppRouter } from './router';

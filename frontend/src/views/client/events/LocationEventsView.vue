@@ -43,7 +43,7 @@
           <div class="p-6 flex-1 flex flex-col justify-between">
             <div>
               <h2 class="text-2xl font-medieval font-bold text-iron-black mb-2">{{ event.title }}</h2>
-              <p class="text-stone-grey mb-4 line-clamp-2">{{ event.description }}</p>
+              <div class="text-stone-grey mb-4 line-clamp-2 description-preview" v-html="event.description"></div>
             </div>
             
             <div class="flex justify-between items-center mt-4 pt-4 border-t border-antique-bronze/10">
@@ -69,6 +69,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore } from '@/stores/event'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'

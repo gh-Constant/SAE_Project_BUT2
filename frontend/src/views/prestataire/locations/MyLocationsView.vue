@@ -72,7 +72,7 @@
 
             <!-- Content Section -->
             <div class="p-6 flex-1 flex flex-col">
-              <p class="text-stone-grey mb-6 line-clamp-3 italic flex-1">{{ location.description }}</p>
+              <div class="text-stone-grey mb-6 line-clamp-3 italic flex-1 description-preview" v-html="location.description"></div>
 
               <div v-if="location.status === 'APPROVED'"
                 class="space-y-3 mt-auto pt-4 border-t border-antique-bronze/20">

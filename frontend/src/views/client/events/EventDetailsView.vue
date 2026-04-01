@@ -39,7 +39,7 @@
 
           <div class="prose prose-stone max-w-none mb-10">
             <h3 class="font-medieval text-xl font-bold text-iron-black mb-2">{{ t('events.details.about_title') }}</h3>
-            <p class="text-stone-grey leading-relaxed whitespace-pre-line">{{ event.description }}</p>
+            <div class="tiptap text-stone-grey leading-relaxed" v-html="event.description"></div>
           </div>
 
           <div class="bg-parchment p-6 rounded-lg border border-antique-bronze/30">

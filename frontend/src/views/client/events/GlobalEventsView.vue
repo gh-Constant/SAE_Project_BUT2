@@ -35,7 +35,7 @@
               {{ formatDate(event.start_time) }}
             </p>
 
-            <p class="text-stone-grey mb-6 line-clamp-3 font-body">{{ event.description }}</p>
+            <div class="text-stone-grey mb-6 line-clamp-3 font-body description-preview" v-html="event.description"></div>
 
             <div class="flex justify-between items-center mt-auto pt-4 border-t border-antique-bronze/10">
               <span class="font-medieval font-bold text-lg text-iron-black">{{ t('events.list.from_price', {
@@ -72,6 +72,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import { useRouter } from 'vue-router'
 import { useEventStore, Event } from '@/stores/event'
 import { useI18n } from 'vue-i18n'

@@ -117,9 +117,7 @@
               class="text-xl font-medieval font-bold text-iron-black mb-2 group-hover:text-antique-bronze transition-colors">
               {{ event.title }}
             </h3>
-            <p class="text-stone-grey text-sm mb-4 line-clamp-2 flex-1">
-              {{ event.description }}
-            </p>
+            <div class="text-stone-grey text-sm mb-4 line-clamp-2 flex-1 description-preview" v-html="event.description"></div>
 
             <!-- Progress Bar -->
             <div class="mb-4">
@@ -532,6 +530,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, reactive, watch, nextTick } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore, Event, EventSchedule } from '@/stores/event'
 import { locationService } from '@/services/locationService';

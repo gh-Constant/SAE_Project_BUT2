@@ -69,7 +69,7 @@
           <div class="flex justify-between items-start gap-3">
             <div class="flex-1 min-w-0">
               <h4 :class="[ 'font-medieval font-bold text-lg transition-colors duration-300', isQuestCompleted(quest.id_quest) ? 'text-stone-500' : 'text-iron-black group-hover:text-antique-bronze' ]">{{ quest.title }}</h4>
-              <p :class="[ 'text-sm font-body mt-1 line-clamp-2', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey' ]">{{ quest.description }}</p>
+              <div :class="[ 'tiptap text-sm font-body mt-1 line-clamp-2 overflow-hidden', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey' ]" v-html="quest.description"></div>
               <div :class="[ 'mt-3 text-xs font-bold flex items-center gap-1', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-antique-bronze' ]">
                 <i class="fas fa-star"></i>
                 {{ quest.xp_reward }} XP
@@ -124,6 +124,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
+import { stripHtml } from '@/utils/stripHtml';
 import { useRouter } from 'vue-router';
 import { questService, Quest, UserQuest } from '@/services/questService';
 import { useI18n } from 'vue-i18n';

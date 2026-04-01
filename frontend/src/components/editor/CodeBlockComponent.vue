@@ -73,28 +73,43 @@ const selectedLanguage = computed({
 </script>
 
 <style scoped>
-@reference "tailwindcss";
-
-/* Style général du bloc de code */
 .code-block {
-  @apply relative my-4;
+  position: relative;
+  margin: 16px 0;
 }
 
-/* Menu de sélection du langage */
 .language-selector {
-  @apply absolute top-2 right-2 bg-gray-100 border border-gray-300 rounded px-2 py-1 pr-6 text-xs cursor-pointer text-gray-700 z-10;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="Black" d="M7 10l5 5 5-5z"/></svg>');
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(243, 234, 214, 0.9);
+  border: 1px solid rgba(193, 155, 108, 0.3);
+  border-radius: 4px;
+  padding: 4px 24px 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #2C241B;
+  z-index: 10;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%232C241B" d="M7 10l5 5 5-5z"/></svg>');
   background-repeat: no-repeat;
-  background-position: right 0.25rem center;
-  background-size: 0.75rem;
+  background-position: right 4px center;
+  background-size: 12px;
 }
 
-/* Style du contenu code */
 .code-block pre {
-  @apply m-0 p-4 bg-gray-200 rounded-md overflow-x-auto text-left;
+  margin: 0;
+  padding: 16px;
+  background: #2C241B;
+  border-radius: 6px;
+  overflow-x: auto;
+  text-align: left;
 }
 
 .code-block code {
-  @apply text-gray-900 font-mono text-sm leading-relaxed text-left;
+  color: #F3EAD6;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
 }
 </style>

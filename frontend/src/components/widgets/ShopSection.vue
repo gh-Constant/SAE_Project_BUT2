@@ -64,7 +64,7 @@
           <!-- Product Info -->
           <div class="p-3">
             <h4 class="text-sm font-bold text-gray-900 mb-1 truncate">{{ product.name }}</h4>
-            <p class="text-xs text-gray-500 line-clamp-2 mb-2">{{ product.description }}</p>
+            <div class="text-xs text-gray-500 line-clamp-2 mb-2 description-preview" v-html="product.description"></div>
             <div class="flex justify-between items-center text-xs">
               <span :class="product.stock > 0 ? 'text-green-600' : 'text-red-600'" class="font-medium">
                 {{ product.stock > 0 ? t('widgets.shop.in_stock', { count: product.stock }) : t('widgets.shop.out_of_stock') }}
@@ -79,6 +79,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
+import { stripHtml } from '@/utils/stripHtml';
 import { useRouter } from 'vue-router';
 import { productService, ProductStoreMock } from '@/services/productService';
 import { useI18n } from 'vue-i18n';

@@ -315,10 +315,7 @@
                     </td>
 
                     <td class="px-6 py-4">
-                      <div v-if="store.editId !== product.id" class="text-sm text-stone-grey line-clamp-2">
-                        {{
-                          product.description }}
-                      </div>
+                      <div v-if="store.editId !== product.id" class="text-sm text-stone-grey line-clamp-2 description-preview" v-html="product.description"></div>
                       <Editor v-else v-model="store.editProduct.description" />
                     </td>
 
@@ -437,6 +434,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'

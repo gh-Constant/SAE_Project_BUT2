@@ -54,9 +54,7 @@
                 <i class="fas fa-user-tie mr-2 text-antique-bronze"></i>
                 {{ getPrestataireNameForLocation(location.id) }}
               </p>
-              <p class="text-sm text-stone-grey mb-5 line-clamp-2 min-h-[2.5rem] italic">
-                {{ location.description }}
-              </p>
+              <div class="text-sm text-stone-grey mb-5 line-clamp-2 min-h-[2.5rem] italic description-preview" v-html="location.description"></div>
               <div class="flex items-center justify-between pt-4 border-t border-antique-bronze/20">
                 <span class="text-sm text-stone-grey flex items-center font-bold">
                   <i class="fas fa-boxes mr-2 text-antique-bronze"></i>

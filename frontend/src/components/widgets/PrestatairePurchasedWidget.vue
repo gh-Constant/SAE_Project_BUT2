@@ -29,7 +29,7 @@
 
     <div class="p-6">
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
-      <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
+      <div class="text-base font-body leading-relaxed text-stone-grey mb-6 description-preview" v-html="location.description"></div>
 
       <div
         v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr"
@@ -172,7 +172,7 @@
               <h4 class="font-bold text-iron-black group-hover:text-antique-bronze transition-colors">
                 {{ quiz.title }}
               </h4>
-              <p class="text-sm text-stone-grey line-clamp-1">{{ quiz.description }}</p>
+              <div class="text-sm text-stone-grey line-clamp-1 description-preview" v-html="quiz.description"></div>
             </div>
             <button
               @click="playQuiz(quiz.id_quiz)"
