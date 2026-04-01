@@ -91,11 +91,17 @@ export async function register(
         email,
         password_hashed: hashedPassword,
         role,
-        level: 0,
-        xp: 0,
         is_verified: false,
         avatar_url: avatarUrl || 'default',
         avatar_type: avatarType || Prisma.AvatarType.gallery,
+        profile: role === Prisma.Role.aventurier
+          ? {
+              create: {
+                level: 0,
+                xp: 0
+              }
+            }
+          : undefined,
       }
     });
 

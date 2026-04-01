@@ -80,6 +80,12 @@ export const authController = {
           birth_date: true,
           phone: true,
           bio: true,
+          profile: {
+            select: {
+              xp: true,
+              level: true
+            }
+          },
           prestataire: {
             select: {
               id_prestataire_type: true
@@ -95,6 +101,8 @@ export const authController = {
 
       res.json({
         ...user,
+        xp: user.profile?.xp ?? null,
+        level: user.profile?.level ?? null,
         id_prestataire_type: user.prestataire?.id_prestataire_type ?? null
       });
     } catch (error) {
@@ -233,10 +241,14 @@ export const authController = {
             birth_date: true,
             phone: true,
             bio: true,
-            xp: true,
-            level: true,
             created_at: true,
             updated_at: true,
+            profile: {
+              select: {
+                xp: true,
+                level: true
+              }
+            },
             prestataire: {
               select: {
                 id_prestataire_type: true
@@ -275,10 +287,14 @@ export const authController = {
             birth_date: true,
             phone: true,
             bio: true,
-            xp: true,
-            level: true,
             created_at: true,
             updated_at: true,
+            profile: {
+              select: {
+                xp: true,
+                level: true
+              }
+            },
             prestataire: {
               select: {
                 id_prestataire_type: true
@@ -295,6 +311,8 @@ export const authController = {
 
       res.json({
         ...updatedUser,
+        xp: updatedUser.profile?.xp ?? null,
+        level: updatedUser.profile?.level ?? null,
         id_prestataire_type: updatedUser.prestataire?.id_prestataire_type ?? null
       });
     } catch (error) {

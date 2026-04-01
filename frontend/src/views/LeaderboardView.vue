@@ -22,13 +22,18 @@ const loading = ref(false);
 const loadLeaderboard = async (page: number) => {
 	loading.value = true;
 	try {
-		const response = await userService.getLeaderboard(page, limit);
-		if (response) {
-			// Check if response exists (mock returns Response object, but service might return undefined if error handled poorly)
-			const data = await response.json();
+		const data = await userService.getLeaderboard(page, limit);
+		if (data) {
 			leaderboard.value = data.users;
 			totalUsers.value = data.total;
 			currentPage.value = data.page;
+		}
+
+		if (auth.user?.id) {
+			const rankData = await userService.getUserRank(auth.user.id);
+			if (typeof rankData?.rank === 'number') {
+				auth.updateUserRank(rankData.rank);
+			}
 		}
 	} catch (error) {
 		console.error('Failed to load leaderboard:', error);
@@ -51,9 +56,23 @@ const isCurrentUserVisible = computed(() => {
 	return leaderboard.value.some((u) => u.id === auth.user?.id);
 });
 
-// Get user rank (cached in store or could be fetched)
-// Note: auth.user.rank should be up to date thanks to our previous optimizations
-const userRank = computed(() => auth.user?.rank || '-');
+const currentUserLeaderboardEntry = computed(() => {
+	if (!auth.user) return null;
+	return leaderboard.value.find((u) => u.id === auth.user?.id) ?? null;
+});
+
+const userRank = computed(() => currentUserLeaderboardEntry.value?.rank ?? auth.user?.rank ?? '-');
+const userLevel = computed(() => currentUserLeaderboardEntry.value?.level ?? auth.user?.level ?? '-');
+const userXp = computed(() => currentUserLeaderboardEntry.value?.xp ?? auth.user?.xp ?? 0);
+
+const formatXp = (xp: unknown) => {
+	if (typeof xp === 'number' && Number.isFinite(xp)) {
+		return xp.toLocaleString();
+	}
+
+	const parsed = Number(xp);
+	return Number.isFinite(parsed) ? parsed.toLocaleString() : '0';
+};
 
 onMounted(() => {
 	loadLeaderboard(1);
@@ -163,9 +182,7 @@ onMounted(() => {
 								</span>
 							</td>
 							<td class="p-4 text-right">
-								<span class="font-bold text-dark-wood/80">{{
-									user.xp.toLocaleString()
-								}}</span>
+								<span class="font-bold text-dark-wood/80">{{ formatXp(user.xp) }}</span>
 								<span class="text-xs text-stone-500 uppercase ml-1">xp</span>
 							</td>
 						</tr>
@@ -239,7 +256,7 @@ onMounted(() => {
 							</div>
 							<div
 								class="font-medieval text-2xl text-parchment group-hover:scale-110 transition-transform">
-								{{ auth.user.level }}
+								{{ userLevel }}
 							</div>
 						</div>
 						<div class="w-px h-10 bg-white/10"></div>
@@ -250,7 +267,7 @@ onMounted(() => {
 							</div>
 							<div
 								class="font-medieval text-2xl text-parchment group-hover:scale-110 transition-transform">
-								{{ auth.user.xp.toLocaleString() }}
+								{{ formatXp(userXp) }}
 							</div>
 						</div>
 					</div>

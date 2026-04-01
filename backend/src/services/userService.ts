@@ -54,11 +54,14 @@ export const userService = {
     
     // Récupérer les utilisateurs triés
     const users = await prisma.user.findMany({
+      where: {
+        role: 'aventurier'
+      },
       skip,
       take: limit,
       orderBy: [
-        { level: 'desc' },
-        { xp: 'desc' }
+        { profile: { level: 'desc' } },
+        { profile: { xp: 'desc' } }
       ],
       select: {
         id_user: true,
@@ -68,15 +71,23 @@ export const userService = {
         role: true,
         avatar_url: true,
         avatar_type: true,
-        xp: true,
-        level: true,
         bio: true,
-        gold: true
+        gold: true,
+        profile: {
+          select: {
+            xp: true,
+            level: true
+          }
+        }
       }
     });
 
     // Compter le nombre total d'utilisateurs pour la pagination
-    const total = await prisma.user.count();
+    const total = await prisma.user.count({
+      where: {
+        role: 'aventurier'
+      }
+    });
 
     // Calculer le rang pour chaque utilisateur retourné
     // Le rang d'un utilisateur est : (nombre de gens meilleurs qu'eux) + 1
@@ -85,6 +96,8 @@ export const userService = {
     // C'est une approximation valide si le tri est stable et consistent avec la pagination
     const usersWithRank = users.map((user, index) => ({
       ...user,
+      xp: user.profile?.xp ?? 0,
+      level: user.profile?.level ?? 0,
       id: user.id_user, // Frontend expects 'id'
       rank: skip + index + 1
     }));
@@ -103,25 +116,49 @@ export const userService = {
   getUserRank: async (userId: number) => {
     const user = await prisma.user.findUnique({
       where: { id_user: userId },
-      select: { level: true, xp: true }
+      select: {
+        role: true,
+        profile: {
+          select: {
+            level: true,
+            xp: true
+          }
+        }
+      }
     });
 
     if (!user) {
       throw new Error('User not found');
     }
 
+    if (user.role !== 'aventurier') {
+      throw new Error('Only adventurers are ranked');
+    }
+
+    if (!user.profile || user.profile.level === null || user.profile.xp === null) {
+      throw new Error('Adventurer progression data is missing');
+    }
+
+    const userLevel = user.profile.level;
+    const userXp = user.profile.xp;
+
     // Compter combien de personnes ont un meilleur score (Level > ou Level = mais XP >)
     const betterPlayersCount = await prisma.user.count({
       where: {
-        OR: [
-          { level: { gt: user.level } },
-          { 
-            AND: {
-               level: user.level,
-               xp: { gt: user.xp }
-            }
+        role: 'aventurier',
+        profile: {
+          is: {
+            OR: [
+              { level: { gt: userLevel } },
+              {
+                AND: [
+                  { level: userLevel },
+                  { xp: { gt: userXp } }
+                ]
+              }
+            ]
           }
-        ]
+        }
       }
     });
 

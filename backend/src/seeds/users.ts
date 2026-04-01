@@ -16,8 +16,8 @@ export async function seedUsers() {
             avatar_url: '/images/Avatar-images/con15.png',
             avatar_type: AvatarType.gallery,
             is_verified: false,
-            xp: 250,
-            level: 5,
+            xp: null,
+            level: null,
             gold: 750,
             birth_date: new Date('1990-01-01'),
             bio: 'Je suis un prestataire',
@@ -50,8 +50,8 @@ export async function seedUsers() {
             avatar_url: '/images/Avatar-images/con1.png',
             avatar_type: AvatarType.gallery,
             is_verified: false,
-            xp: 9999,
-            level: 99,
+            xp: null,
+            level: null,
             gold: 99999,
             birth_date: new Date('1980-01-01'),
             bio: 'Je suis le Sénéchal, responsable de la sécurité du royaume',
@@ -67,8 +67,8 @@ export async function seedUsers() {
             avatar_url: '/images/Avatar-images/con23.png',
             avatar_type: AvatarType.gallery,
             is_verified: false,
-            xp: 150,
-            level: 3,
+            xp: null,
+            level: null,
             gold: 500,
         },
         {
@@ -272,8 +272,6 @@ export async function seedUsers() {
                 role: user.role,
                 avatar_url: user.avatar_url,
                 avatar_type: user.avatar_type,
-                xp: user.xp,
-                level: user.level,
                 gold: user.gold,
                 birth_date: user.birth_date,
                 bio: user.bio,
@@ -288,14 +286,34 @@ export async function seedUsers() {
                 role: user.role,
                 avatar_url: user.avatar_url,
                 avatar_type: user.avatar_type,
-                level: user.level,
-                xp: user.xp,
                 gold: user.gold,
                 is_verified: user.is_verified,
                 birth_date: user.birth_date,
                 bio: user.bio,
                 phone: user.phone,
             },
+        });
+
+        const persistedUser = await prisma.user.findUnique({
+            where: { email: user.email },
+            select: { id_user: true }
+        });
+
+        if (!persistedUser) {
+            continue;
+        }
+
+        await prisma.userProfile.upsert({
+            where: { id_user: persistedUser.id_user },
+            update: {
+                level: user.role === Role.aventurier ? user.level : null,
+                xp: user.role === Role.aventurier ? user.xp : null,
+            },
+            create: {
+                id_user: persistedUser.id_user,
+                level: user.role === Role.aventurier ? user.level : null,
+                xp: user.role === Role.aventurier ? user.xp : null,
+            }
         });
     }
 
