@@ -59,7 +59,12 @@
         <p v-if="isOwner" class="text-sm text-gray-400 mt-1">{{ t('widgets.blog.empty_owner') }}</p>
       </div>
 
-      <div v-for="blog in blogs" :key="blog.id_blog" class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div
+        v-for="blog in blogs"
+        :key="blog.id_blog"
+        class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer"
+        @click="handleBlogClick(blog)"
+      >
         <!-- Blog Header -->
         <div class="bg-gray-50 px-5 py-3 border-b border-gray-100 flex justify-between items-start">
           <div>
@@ -76,10 +81,10 @@
           
           <!-- Owner Actions -->
           <div v-if="isOwner" class="flex gap-1 ml-4">
-            <button @click="editBlog(blog)" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded hover:bg-blue-100 transition-colors" title="Edit">
+            <button @click.stop="editBlog(blog)" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded hover:bg-blue-100 transition-colors" title="Edit">
               <i class="fas fa-edit"></i>
             </button>
-            <button @click="deleteBlog(blog.id_blog!)" class="p-1.5 text-red-600 hover:bg-red-50 rounded hover:bg-red-100 transition-colors" title="Delete">
+            <button @click.stop="deleteBlog(blog.id_blog!)" class="p-1.5 text-red-600 hover:bg-red-50 rounded hover:bg-red-100 transition-colors" title="Delete">
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
@@ -87,14 +92,23 @@
 
         <!-- Blog Content -->
         <div class="p-5 relative" :class="{ 'pb-20': canPurchaseBlog(blog) }">
-          <!-- Reusing the same typography classes as the editor for consistent rendering -->
-          <div class="tiptap prose prose-sm sm:prose lg:prose lg:prose-lg xl:prose-2xl max-w-none focus:outline-none" v-html="blog.content"></div>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            {{ getBlogPreview(blog.content) }}
+          </p>
+          <div class="mt-4 flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-antique-bronze">
+              {{ canPurchaseBlog(blog) ? 'Article verrouillé' : 'Lire l’article' }}
+            </span>
+            <span class="text-xs text-gray-500">
+              {{ canPurchaseBlog(blog) ? 'Cliquez pour voir les options' : 'Cliquez pour ouvrir' }}
+            </span>
+          </div>
 
           <div v-if="canPurchaseBlog(blog)" class="absolute bottom-4 right-4">
             <button
               class="px-4 py-2 bg-antique-bronze hover:brightness-110 text-white font-bold rounded-lg shadow transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               :disabled="buyingBlogId === blog.id_blog"
-              @click="buyBlog(blog)"
+              @click.stop="openPurchaseModal(blog)"
             >
               <span v-if="buyingBlogId === blog.id_blog">
                 <i class="fas fa-spinner fa-spin mr-1"></i> Achat...
@@ -107,6 +121,91 @@
         </div>
       </div>
     </div>
+
+    <Teleport to="body">
+      <div
+        v-if="selectedBlog"
+        class="fixed inset-0 z-[3000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+        @click.self="closeBlogModal"
+      >
+        <div class="bg-parchment rounded-lg shadow-2xl border-2 border-antique-bronze/40 w-full max-w-4xl max-h-[90vh] overflow-hidden">
+          <div class="flex items-start justify-between gap-4 px-6 py-5 border-b border-antique-bronze/15 bg-white/60">
+            <div>
+              <h4 class="text-2xl font-medieval font-bold text-iron-black">{{ selectedBlog.title }}</h4>
+              <p class="text-sm text-stone-grey mt-1">{{ formatDate(selectedBlog.created_at) }}</p>
+            </div>
+            <button @click="closeBlogModal" class="text-stone-grey hover:text-iron-black transition-colors">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <div class="overflow-y-auto max-h-[calc(90vh-88px)] px-6 py-5">
+            <div class="tiptap prose prose-sm sm:prose lg:prose lg:prose-lg xl:prose-2xl max-w-none focus:outline-none" v-html="selectedBlog.content"></div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
+    <Teleport to="body">
+      <div
+        v-if="purchaseCandidate"
+        class="fixed inset-0 z-[3000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+        @click.self="closePurchaseModal"
+      >
+        <div class="bg-parchment rounded-lg shadow-2xl border-2 border-antique-bronze/40 w-full max-w-md p-8 text-center">
+          <div class="w-20 h-20 bg-antique-bronze/10 rounded-full flex items-center justify-center mx-auto mb-5 border-2 border-antique-bronze/20">
+            <i class="fas fa-scroll text-3xl text-antique-bronze"></i>
+          </div>
+
+          <h4 class="text-2xl font-medieval font-bold text-iron-black mb-3">{{ purchaseCandidate.title }}</h4>
+          <p class="text-stone-grey font-body mb-2">Cet article est premium.</p>
+          <p class="text-iron-black font-semibold mb-6">
+            Voulez-vous l’acheter pour {{ purchaseCandidate.price || 0 }} Gold ?
+          </p>
+
+          <div v-if="authStore.isAuthenticated" class="flex flex-col gap-3">
+            <button
+              @click="buyBlog(purchaseCandidate)"
+              :disabled="buyingBlogId === purchaseCandidate.id_blog"
+              class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-3 px-6 rounded-md shadow-md transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span v-if="buyingBlogId === purchaseCandidate.id_blog">
+                <i class="fas fa-spinner fa-spin mr-2"></i> Achat...
+              </span>
+              <span v-else>Acheter l’article</span>
+            </button>
+            <button
+              @click="closePurchaseModal"
+              class="w-full bg-white/80 hover:bg-white text-antique-bronze font-medieval font-bold py-3 px-6 rounded-md border-2 border-antique-bronze/30 hover:border-antique-bronze transition-all duration-200"
+            >
+              Annuler
+            </button>
+          </div>
+
+          <div v-else class="flex flex-col gap-3">
+            <p class="text-sm text-stone-grey mb-1">
+              Connectez-vous pour acheter et lire cet article.
+            </p>
+            <router-link
+              to="/login"
+              class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-3 px-6 rounded-md shadow-md transition-all duration-200 flex items-center justify-center gap-2"
+              @click="closePurchaseModal"
+            >
+              <i class="fas fa-sign-in-alt"></i>
+              Se connecter
+            </router-link>
+            <router-link
+              to="/register"
+              class="w-full bg-white/80 hover:bg-white text-antique-bronze font-medieval font-bold py-3 px-6 rounded-md border-2 border-antique-bronze/30 hover:border-antique-bronze transition-all duration-200 flex items-center justify-center gap-2"
+              @click="closePurchaseModal"
+            >
+              <i class="fas fa-user-plus"></i>
+              Créer un compte
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -129,6 +228,8 @@ const authStore = useAuthStore();
 
 const blogs = ref<Blog[]>([]);
 const buyingBlogId = ref<number | null>(null);
+const selectedBlog = ref<Blog | null>(null);
+const purchaseCandidate = ref<Blog | null>(null);
 const showEditor = ref(false);
 const currentBlog = ref<Blog>({
   title: '',
@@ -148,6 +249,16 @@ const formatDate = (dateString: string | undefined): string => {
   });
 };
 
+const stripHtml = (html: string): string => {
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+};
+
+const getBlogPreview = (content: string): string => {
+  const plainText = stripHtml(content);
+  if (plainText.length <= 180) return plainText;
+  return `${plainText.slice(0, 180).trim()}...`;
+};
+
 const fetchBlogs = async () => {
   try {
     blogs.value = await blogService.getBlogsByLocationId(props.locationId);
@@ -160,10 +271,35 @@ const canPurchaseBlog = (blog: Blog): boolean => {
   return !props.isOwner && !!blog.id_blog && !!blog.is_sellable && !blog.is_purchased;
 };
 
+const canReadBlog = (blog: Blog): boolean => {
+  return props.isOwner || !blog.is_sellable || !!blog.is_purchased;
+};
+
+const closeBlogModal = () => {
+  selectedBlog.value = null;
+};
+
+const openPurchaseModal = (blog: Blog) => {
+  purchaseCandidate.value = blog;
+};
+
+const closePurchaseModal = () => {
+  purchaseCandidate.value = null;
+};
+
+const handleBlogClick = (blog: Blog) => {
+  if (canReadBlog(blog)) {
+    selectedBlog.value = blog;
+    return;
+  }
+
+  if (canPurchaseBlog(blog)) {
+    openPurchaseModal(blog);
+  }
+};
+
 const buyBlog = async (blog: Blog) => {
   if (!blog.id_blog) return;
-  const confirmed = confirm(`Confirmer l'achat de cet article pour ${blog.price || 0} Gold ?`);
-  if (!confirmed) return;
   try {
     buyingBlogId.value = blog.id_blog;
     const result = await blogService.purchaseBlog(blog.id_blog);
@@ -174,6 +310,8 @@ const buyBlog = async (blog: Blog) => {
     }
 
     await fetchBlogs();
+    closePurchaseModal();
+    selectedBlog.value = { ...blog, is_purchased: true };
   } catch (error) {
     console.error('Failed to purchase blog:', error);
     alert(error instanceof Error ? error.message : 'Erreur lors de l\'achat du blog');
