@@ -2,12 +2,19 @@ import { Request, Response } from 'express';
 import * as eventService from '../services/eventService.js';
 import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
+const getActor = (req: Request) => (req as AuthenticatedRequest).user;
+
 export const eventController = {
   async createEvent(req: Request, res: Response): Promise<void> {
     try {
-      const event = await eventService.createEvent(req.body);
+      const actor = getActor(req);
+      const event = await eventService.createEvent(req.body, actor?.id, actor?.role);
       res.status(201).json(event);
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   },
@@ -39,9 +46,14 @@ export const eventController = {
   async updateEvent(req: Request, res: Response): Promise<void> {
     try {
       const id = Number(req.params.id);
-      const event = await eventService.updateEvent(id, req.body);
+      const actor = getActor(req);
+      const event = await eventService.updateEvent(id, req.body, actor?.id, actor?.role);
       res.json(event);
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   },
@@ -49,9 +61,14 @@ export const eventController = {
   async deleteEvent(req: Request, res: Response): Promise<void> {
     try {
       const id = Number(req.params.id);
-      await eventService.deleteEvent(id);
+      const actor = getActor(req);
+      await eventService.deleteEvent(id, actor?.id, actor?.role);
       res.status(204).send();
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   },
@@ -90,9 +107,14 @@ export const eventController = {
   async getEventReservations(req: Request, res: Response): Promise<void> {
     try {
       const eventId = Number(req.params.id);
-      const reservations = await eventService.getEventReservations(eventId);
+      const actor = getActor(req);
+      const reservations = await eventService.getEventReservations(eventId, actor?.id, actor?.role);
       res.json(reservations);
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   },
@@ -114,9 +136,14 @@ export const eventController = {
   async addSchedule(req: Request, res: Response): Promise<void> {
     try {
       const eventId = Number(req.params.id);
-      const schedule = await eventService.addSchedule(eventId, req.body);
+      const actor = getActor(req);
+      const schedule = await eventService.addSchedule(eventId, req.body, actor?.id, actor?.role);
       res.status(201).json(schedule);
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   },
@@ -124,9 +151,14 @@ export const eventController = {
   async updateSchedule(req: Request, res: Response): Promise<void> {
     try {
       const scheduleId = Number(req.params.id);
-      const schedule = await eventService.updateSchedule(scheduleId, req.body);
+      const actor = getActor(req);
+      const schedule = await eventService.updateSchedule(scheduleId, req.body, actor?.id, actor?.role);
       res.json(schedule);
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   },
@@ -134,9 +166,14 @@ export const eventController = {
   async deleteSchedule(req: Request, res: Response): Promise<void> {
     try {
       const scheduleId = Number(req.params.id);
-      await eventService.deleteSchedule(scheduleId);
+      const actor = getActor(req);
+      await eventService.deleteSchedule(scheduleId, actor?.id, actor?.role);
       res.status(204).send();
     } catch (error) {
+      if ((error as Error).message === 'Unauthorized') {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
       res.status(500).json({ error: (error as Error).message });
     }
   }

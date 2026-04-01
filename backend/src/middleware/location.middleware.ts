@@ -174,6 +174,7 @@ export const checkProductOwnership = async (req: AuthenticatedRequest, res: Resp
   try {
     const userId = req.user?.id;
     const productId = parseInt(req.params.id);
+    const isAdmin = req.user?.role === 'admin';
 
     if (!userId) {
       res.status(401).json({ error: 'Utilisateur non authentifié' });
@@ -195,7 +196,7 @@ export const checkProductOwnership = async (req: AuthenticatedRequest, res: Resp
     }
 
     // Vérifier que le prestataire est propriétaire du produit
-    if (product.id_prestataire !== userId) {
+    if (!isAdmin && product.id_prestataire !== userId) {
       res.status(403).json({ error: 'Vous n\'êtes pas le propriétaire de ce produit' });
       return;
     }

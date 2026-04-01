@@ -2,10 +2,6 @@
   <div class="min-h-screen bg-parchment py-16">
     <BackToMapButton />
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <button @click="router.back()" class="flex items-center text-stone-grey hover:text-antique-bronze transition-colors mb-6">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-        {{ t('events.details.back') }}
-      </button>
 
       <div v-if="loading" class="text-center py-12">
         <p class="text-xl font-medieval animate-pulse">{{ t('events.details.loading') }}</p>

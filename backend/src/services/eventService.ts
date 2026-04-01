@@ -21,9 +21,49 @@ interface EventData {
   schedules?: EventScheduleData[];
 }
 
+const assertLocationOwnership = async (locationId: number, actorId?: number, actorRole?: string) => {
+  if (actorRole === 'admin') {
+    return;
+  }
 
-export const createEvent = async (data: EventData) => {
+  if (!actorId) {
+    throw new Error('Unauthorized');
+  }
+
+  const location = await prisma.location.findUnique({
+    where: { id_location: locationId },
+    select: { id_prestataire: true }
+  });
+
+  if (!location || location.id_prestataire !== actorId) {
+    throw new Error('Unauthorized');
+  }
+};
+
+const assertEventOwnership = async (eventId: number, actorId?: number, actorRole?: string) => {
+  if (actorRole === 'admin') {
+    return;
+  }
+
+  if (!actorId) {
+    throw new Error('Unauthorized');
+  }
+
+  const event = await prisma.event.findUnique({
+    where: { id_event: eventId },
+    select: { id_location: true }
+  });
+
+  if (!event) {
+    throw new Error('Event not found');
+  }
+
+  await assertLocationOwnership(event.id_location, actorId, actorRole);
+};
+
+export const createEvent = async (data: EventData, actorId?: number, actorRole?: string) => {
   const type = data.type || 'EVENT';
+  await assertLocationOwnership(data.id_location, actorId, actorRole);
   
   return await prisma.event.create({
     data: {
@@ -84,7 +124,13 @@ export const getEventById = async (id: number) => {
   });
 };
 
-export const updateEvent = async (id: number, data: Partial<EventData>) => {
+export const updateEvent = async (id: number, data: Partial<EventData>, actorId?: number, actorRole?: string) => {
+  await assertEventOwnership(id, actorId, actorRole);
+
+  if (data.id_location !== undefined) {
+    await assertLocationOwnership(data.id_location, actorId, actorRole);
+  }
+
   const updateData: Partial<{
     title: string;
     description: string | undefined;
@@ -167,7 +213,8 @@ export const updateEvent = async (id: number, data: Partial<EventData>) => {
   });
 };
 
-export const deleteEvent = async (id: number) => {
+export const deleteEvent = async (id: number, actorId?: number, actorRole?: string) => {
+  await assertEventOwnership(id, actorId, actorRole);
   return await prisma.event.delete({
     where: { id_event: id },
   });
@@ -283,7 +330,8 @@ export const bookEvent = async (userId: number, eventId: number, quantity: numbe
 };
 
 
-export const addSchedule = async (eventId: number, data: EventScheduleData) => {
+export const addSchedule = async (eventId: number, data: EventScheduleData, actorId?: number, actorRole?: string) => {
+  await assertEventOwnership(eventId, actorId, actorRole);
   return await prisma.eventSchedule.create({
     data: {
       id_event: eventId,
@@ -295,7 +343,18 @@ export const addSchedule = async (eventId: number, data: EventScheduleData) => {
   });
 };
 
-export const updateSchedule = async (scheduleId: number, data: Partial<EventScheduleData>) => {
+export const updateSchedule = async (scheduleId: number, data: Partial<EventScheduleData>, actorId?: number, actorRole?: string) => {
+  const schedule = await prisma.eventSchedule.findUnique({
+    where: { id_schedule: scheduleId },
+    select: { id_event: true }
+  });
+
+  if (!schedule) {
+    throw new Error('Schedule not found');
+  }
+
+  await assertEventOwnership(schedule.id_event, actorId, actorRole);
+
   const updateData: any = {};
   if (data.start_time) updateData.start_time = new Date(data.start_time);
   if (data.end_time) updateData.end_time = new Date(data.end_time);
@@ -308,7 +367,18 @@ export const updateSchedule = async (scheduleId: number, data: Partial<EventSche
   });
 };
 
-export const deleteSchedule = async (scheduleId: number) => {
+export const deleteSchedule = async (scheduleId: number, actorId?: number, actorRole?: string) => {
+  const schedule = await prisma.eventSchedule.findUnique({
+    where: { id_schedule: scheduleId },
+    select: { id_event: true }
+  });
+
+  if (!schedule) {
+    throw new Error('Schedule not found');
+  }
+
+  await assertEventOwnership(schedule.id_event, actorId, actorRole);
+
   return await prisma.eventSchedule.delete({
     where: { id_schedule: scheduleId }
   });
@@ -332,7 +402,8 @@ export const getUserReservations = async (userId: number) => {
   });
 };
 
-export const getEventReservations = async (eventId: number) => {
+export const getEventReservations = async (eventId: number, actorId?: number, actorRole?: string) => {
+  await assertEventOwnership(eventId, actorId, actorRole);
   return await prisma.eventReservation.findMany({
     where: { id_event: eventId },
     include: {

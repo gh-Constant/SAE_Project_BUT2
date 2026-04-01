@@ -16,7 +16,7 @@ const route = useRoute()
 const router = useRouter()
 
 const isLoginOrRegisterPage = computed(() => {
-  return route.path === '/login' || route.path === '/register' || route.path.startsWith('/prestataire') || route.path.startsWith('/admin')
+  return route.path === '/login' || route.path === '/register' || route.path === '/forgot-password' || route.path.startsWith('/reset-password') || route.path.startsWith('/prestataire') || route.path.startsWith('/admin')
 })
 
 const isPrestataireRoute = computed(() => {

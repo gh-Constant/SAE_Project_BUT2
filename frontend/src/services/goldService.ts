@@ -1,54 +1,22 @@
 import { goldMockService } from './mock/goldMockService';
+import apiClient from './apiClient';
 
 const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const goldServiceImpl = {
   createCheckoutSession: async (userId: number, amountGold: number, priceInCents: number) => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/gold/checkout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId, amountGold, priceInCents })
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to create checkout session');
-    }
-    
-    return await response.json();
+    const response = await apiClient.post('/gold/checkout', { userId, amountGold, priceInCents });
+    return response.data;
   },
 
   fulfillPurchase: async (sessionId: string) => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/gold/fulfill`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ sessionId })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fulfill purchase');
-    }
-
-    return await response.json();
+    const response = await apiClient.post('/gold/fulfill', { sessionId });
+    return response.data;
   },
 
   getBalance: async (userId: number) => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/gold/${userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch balance');
-    }
-
-    return await response.json();
+    const response = await apiClient.get(`/gold/${userId}`);
+    return response.data;
   }
 };
 

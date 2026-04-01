@@ -3,10 +3,6 @@
     <BackToMapButton />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8">
-        <button @click="router.back()" class="flex items-center text-stone-grey hover:text-antique-bronze transition-colors mb-4">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-          {{ t('events.details.back') }}
-        </button>
         <h1 class="text-4xl font-medieval font-bold text-iron-black text-center">{{ t('events.location.title') }}</h1>
       </div>
       

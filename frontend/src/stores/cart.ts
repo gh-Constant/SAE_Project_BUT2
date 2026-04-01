@@ -221,12 +221,14 @@ export const useCartStore = defineStore('cart', {
         // Si nous sommes en mode backend, appeler l'API
         if (!isMockEnabled) {
           try {
-            await productService.createOrder({
+            const createdOrder = await productService.createOrder({
               userId: authStore.user.id,
               locationId: locationId,
               id_prestataire: id_prestataire,
               items: items
             });
+            orders.push(createdOrder)
+            continue
             // Si succès, on ajoute à la liste locale seulement pour l'UI, ou on laisse le backend gérer
           } catch (e) {
             console.error('Failed to create order in backend', e);

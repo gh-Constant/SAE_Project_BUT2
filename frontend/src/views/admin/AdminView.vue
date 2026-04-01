@@ -2,6 +2,7 @@
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <!-- Custom Header -->
     <AdminNavbar :user="user" @logout="logout" />
+    <BackToMapButton />
 
     <!-- Main Content -->
     <main class="w-full py-10">

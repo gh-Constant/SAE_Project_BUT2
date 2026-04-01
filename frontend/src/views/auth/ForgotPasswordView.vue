@@ -11,6 +11,9 @@
     <!-- Right side - Forgot Password Form -->
     <div class="flex-1 md:w-1/2 bg-parchment flex flex-col justify-center p-8 relative">
       <div class="absolute inset-0 opacity-20 pointer-events-none"></div>
+      
+      <!-- Back Button -->
+      <BackToMapButton positionClass="absolute top-6 left-6" to="/" title="Accueil" />
 
       <div class="w-full max-w-md mx-auto relative z-10">
         <!-- Logo -->
@@ -100,6 +103,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { authService } from '@/services/authService'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 const { t } = useI18n()
 

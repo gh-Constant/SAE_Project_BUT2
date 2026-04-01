@@ -82,8 +82,8 @@ export const requireAdmin = async (req: AuthenticatedRequest, res: Response, nex
 
   try {
     // Import dynamique pour éviter les dépendances circulaires si nécessaire
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
+    const prismaModule = await import('../prisma.js');
+    const prisma = prismaModule.default;
 
     const user = await prisma.user.findUnique({
       where: { id_user: req.user.id }

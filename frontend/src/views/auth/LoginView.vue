@@ -12,11 +12,16 @@
     <div class="flex-1 md:w-1/2 bg-parchment flex flex-col justify-center p-8 relative">
       <div class="absolute inset-0 opacity-20 pointer-events-none"></div>
 
+      <!-- Back Button -->
+      <BackToMapButton positionClass="absolute top-6 left-6" to="/" title="Accueil" />
+
       <div class="w-full max-w-md mx-auto relative z-10">
         <!-- Logo -->
         <div class="mb-8 text-center">
-          <img src="/images/transparent_logo.png" alt="Terres du Lion Logo"
-            class="h-40 w-auto mx-auto mb-6 drop-shadow-md">
+          <router-link to="/" class="inline-block transition-transform hover:scale-105 cursor-pointer">
+            <img src="/images/transparent_logo.png" alt="Terres du Lion Logo"
+              class="h-40 w-auto mx-auto mb-6 drop-shadow-md">
+          </router-link>
         </div>
 
         <!-- Title -->
@@ -142,6 +147,9 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
+
+
 
 const { t } = useI18n()
 const router = useRouter()

@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { createOrder, payOrder } from '../controllers/order.controller.js';
+import { collectOrder, createOrder, getMyOrders, payOrder } from '../controllers/order.controller.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
+import { checkRole } from '../middleware/role.middleware.js';
+import { Role } from '../prisma.js';
 
 const router = Router();
 
-router.post('/', createOrder);
-router.put('/:id/pay', payOrder);
+router.get('/my', authenticateToken, getMyOrders);
+router.post('/', authenticateToken, createOrder);
+router.post('/collect', authenticateToken, checkRole([Role.prestataire, Role.admin]), collectOrder);
+router.put('/:id/pay', authenticateToken, payOrder);
 
 export default router;

@@ -1,19 +1,13 @@
-﻿<template>
+<template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
-    <BackToMapButton />
+    <BackToMapButton to="/prestataire" />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
       <!-- En-tÃªte -->
       <div class="mb-8">
         <div class="flex gap-4 mb-6">
-          <button @click="router.back()"
-            class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
-            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-            {{ t('details.back') }}
-          </button>
-
           <router-link :to="{ path: '/map', query: { locationId: locationId } }"
-            class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group border-l border-antique-bronze/30 pl-4">
+            class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
             <i class="fas fa-map-marked-alt mr-2"></i>
             {{ t('details.view_on_map') }}
             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform text-xs"></i>

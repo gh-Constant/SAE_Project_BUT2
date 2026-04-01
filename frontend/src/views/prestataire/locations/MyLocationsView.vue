@@ -2,6 +2,9 @@
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <main class="w-full pt-32 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 flex justify-between items-center relative">
+          <BackToMapButton to="/prestataire" />
+        </div>
 
         <!-- En-tête -->
         <div class="mb-8 text-center">
@@ -115,6 +118,7 @@ import { useAuthStore } from '@/stores/auth'
 import { locationService } from '@/services/locationService'
 import { LocationMock } from '@/mocks/locations'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()

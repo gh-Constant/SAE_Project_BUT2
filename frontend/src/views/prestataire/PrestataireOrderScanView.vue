@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-parchment pt-32 pb-16">
+    <BackToMapButton to="/prestataire" />
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="mb-12 text-center">
@@ -195,18 +196,6 @@
         </div>
       </div>
 
-      <!-- Back Link -->
-      <div class="mt-8 text-center">
-        <router-link
-          to="/prestataire"
-          class="inline-flex items-center text-antique-bronze hover:text-iron-black font-body font-semibold transition-colors gap-2"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          {{ t('prestataire.order_scan.back_to_dashboard') }}
-        </router-link>
-      </div>
     </div>
   </div>
 </template>
@@ -216,17 +205,20 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { COMMANDES, EtatCommande, type CommandeMock } from '@/mocks/commande'
 import { LIGNES_COMMANDE } from '@/mocks/ligneCommande'
+import { orderService, type Order } from '@/services/orderService'
 import { productService } from '@/services/productService'
 import { USERS } from '@/mocks/users'
 import jsQR from 'jsqr'
+import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 
 const { t } = useI18n()
+const isMockEnabled = import.meta.env.VITE_NO_BACKEND === 'true'
 
 const videoElement = ref<HTMLVideoElement | null>(null)
 const cameraRequested = ref(false)
 const cameraError = ref(false)
 const scanResult = ref<{ success: boolean; error?: string } | null>(null)
-const orderDetails = ref<CommandeMock | null>(null)
+const orderDetails = ref<(CommandeMock | Order) | null>(null)
 const isProcessing = ref(false)
 
 let stream: MediaStream | null = null
@@ -240,6 +232,9 @@ function requestCamera() {
 // Get customer name
 const customerName = computed(() => {
   if (!orderDetails.value) return ''
+  if (!isMockEnabled) {
+    return `Client #${orderDetails.value.id_user}`
+  }
   const user = USERS.find((u) => u.id === orderDetails.value!.id_user)
   return user ? `${user.firstname} ${user.lastname}` : `Client #${orderDetails.value.id_user}`
 })
@@ -247,6 +242,14 @@ const customerName = computed(() => {
 // Get order items with product names
 const orderItems = computed(() => {
   if (!orderDetails.value) return []
+  if (!isMockEnabled) {
+    return ((orderDetails.value as Order).lignesCommande ?? []).map((ligne) => ({
+      id_product: ligne.id_product,
+      productName: ligne.productName || `Produit #${ligne.id_product}`,
+      quantite: ligne.quantite,
+      price: ligne.price,
+    }))
+  }
   const lignes = LIGNES_COMMANDE.filter((l) => l.id_commande === orderDetails.value!.id)
   const allProducts = productService.getProductsForBoutique()
   return lignes.map((ligne) => {
@@ -331,6 +334,19 @@ function handleQRDetected(token: string) {
 
 // Find order by QR token
 function findOrderByToken(token: string) {
+  if (!isMockEnabled) {
+    orderService.collectOrder(token)
+      .then((order) => {
+        scanResult.value = { success: true }
+        orderDetails.value = order
+      })
+      .catch((error: any) => {
+        scanResult.value = { success: false, error: error?.response?.data?.error || error?.message || t('prestataire.order_scan.order_not_found') }
+        orderDetails.value = null
+      })
+    return
+  }
+
   const order = COMMANDES.find((cmd) => cmd.qrToken === token)
 
   if (order) {
@@ -349,6 +365,11 @@ async function markAsCollected() {
   isProcessing.value = true
 
   try {
+    if (!isMockEnabled) {
+      orderDetails.value.etat_commande = EtatCommande.COLLECTED
+      orderDetails.value.date_collect = new Date()
+      return
+    }
     // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 800))
 
