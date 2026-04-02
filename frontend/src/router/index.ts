@@ -334,6 +334,46 @@ export const routes = [
     component: () => import('../views/client/quiz/QuizResultsView.vue'),
   },
   {
+    path: '/privacy',
+    name: 'privacy',
+    component: () => import('../views/general/PrivacyPolicyView.vue'),
+  },
+  {
+    path: '/terms',
+    name: 'terms',
+    component: () => import('../views/general/TermsOfServiceView.vue'),
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('../views/general/ContactView.vue'),
+  },
+  {
+    path: '/legal',
+    name: 'legal',
+    component: () => import('../views/general/LegalNoticeView.vue'),
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/general/AboutView.vue'),
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: () => import('../views/general/FaqView.vue'),
+  },
+  {
+    path: '/accessibility',
+    name: 'accessibility',
+    component: () => import('../views/general/AccessibilityView.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('../views/general/NotFoundView.vue'),
+  },
+  {
     path: '/conversations',
     name: 'conversations',
     component: () => import('../views/general/ConversationsView.vue'),

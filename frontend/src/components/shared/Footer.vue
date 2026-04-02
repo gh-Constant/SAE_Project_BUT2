@@ -19,15 +19,29 @@ import LanguageSwitcher from '@/components/navbar/LanguageSwitcher.vue';
         <div class="flex flex-col items-center gap-4">
           <!-- Navigation links -->
           <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6">
-            <a href="#" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
-              {{ $t('footer.privacy') }}
-            </a>
-            <a href="#" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
-              {{ $t('footer.terms') }}
-            </a>
-            <a href="#" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
+            <router-link to="/about" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
+              {{ $t('footer.about') }}
+            </router-link>
+            <router-link to="/faq" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
+              {{ $t('footer.faq') }}
+            </router-link>
+            <router-link to="/contact" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
               {{ $t('footer.contact') }}
-            </a>
+            </router-link>
+            <router-link to="/accessibility" class="text-white/60 hover:text-white text-xs md:text-sm transition-colors">
+              {{ $t('footer.accessibility') }}
+            </router-link>
+          </div>
+          <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6">
+            <router-link to="/legal" class="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {{ $t('footer.legal') }}
+            </router-link>
+            <router-link to="/privacy" class="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {{ $t('footer.privacy') }}
+            </router-link>
+            <router-link to="/terms" class="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {{ $t('footer.terms') }}
+            </router-link>
           </div>
 
           <!-- Language switcher -->

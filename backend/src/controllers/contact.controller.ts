@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import prisma from '../prisma.js';
+import { emailService } from '../services/emailService.js';
 
 /**
- * Créer un nouveau message de contact
+ * Créer un nouveau message de contact (lié à une location)
  */
 export const createContactMessage = async (req: Request, res: Response) => {
     try {
@@ -24,6 +25,26 @@ export const createContactMessage = async (req: Request, res: Response) => {
         return res.status(201).json(contact);
     } catch (error) {
         console.error('Error creating contact message:', error);
+        return res.status(500).json({ error: 'Erreur lors de l\'envoi du message' });
+    }
+};
+
+/**
+ * Envoyer un message de contact général (page /contact)
+ */
+export const sendGeneralContact = async (req: Request, res: Response) => {
+    try {
+        const { name, email, subject, message } = req.body;
+
+        if (!name || !email || !subject || !message) {
+            return res.status(400).json({ error: 'Tous les champs sont requis' });
+        }
+
+        await emailService.sendContactEmail(name, email, subject, message);
+
+        return res.status(200).json({ message: 'Message envoyé avec succès' });
+    } catch (error) {
+        console.error('Error sending general contact:', error);
         return res.status(500).json({ error: 'Erreur lors de l\'envoi du message' });
     }
 };
