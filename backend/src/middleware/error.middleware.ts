@@ -50,9 +50,8 @@ export const errorMiddleware = (
   next: NextFunction
 ): void => {
   const statusCode = error.statusCode || 500;
-  const message = error.message || 'Internal Server Error';
 
-  // Log des erreurs détaillées en développement
+  // on log toujours côté serveur pour le debug, mais on n'envoie pas les détails au client en prod
   if (config.isDevelopment) {
     console.error('❌ Error:', {
       message: error.message,
@@ -61,14 +60,22 @@ export const errorMiddleware = (
       method: req.method,
       statusCode,
     });
+  } else {
+    // en prod on log quand même l'erreur côté serveur mais sans le stack
+    console.error(`[${req.method}] ${req.originalUrl} — ${statusCode}: ${error.message}`);
   }
 
-  // Réponse JSON standardisée pour les erreurs
+  // en prod on renvoie un message générique pour ne pas exposer les détails internes
+  // en dev on peut garder le message + stack pour faciliter le debug
+  const message = config.isDevelopment
+    ? error.message || 'Internal Server Error'
+    : 'Une erreur est survenue';
+
   res.status(statusCode).json({
     success: false,
     error: {
       message,
-      ...(config.isDevelopment && { stack: error.stack }), // stack seulement en dev
+      ...(config.isDevelopment && { stack: error.stack }),
     },
     timestamp: new Date().toISOString(),
     path: req.originalUrl,

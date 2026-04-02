@@ -23,6 +23,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
+// on récupère le secret JWT depuis le .env, plus de fallback hardcodé
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET manquant dans les variables d\'environnement');
+}
+const JWT_SECRET: string = process.env.JWT_SECRET;
+
 // Étendre l'interface Request d'Express pour inclure l'utilisateur
 export interface AuthenticatedRequest extends Request {
   user?: {
@@ -42,7 +48,7 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string; role: string }; // Vérifier et décoder le token
+    const decoded = jwt.verify(token, JWT_SECRET) as { id: number; email: string; role: string }; // Vérifier et décoder le token
     req.user = decoded; // Ajouter les infos utilisateur à la requête
     next(); // Passer au middleware suivant
   } catch (error) {
@@ -65,7 +71,7 @@ export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: Nex
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret_key_change_in_prod') as { id: number; email: string; role: string }; // Vérifier le token
+    const decoded = jwt.verify(token, JWT_SECRET) as { id: number; email: string; role: string }; // Vérifier le token
     req.user = decoded; // Ajouter les infos utilisateur si valide
     next(); // Continuer avec l'utilisateur authentifié
 
