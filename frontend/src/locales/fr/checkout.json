@@ -1,25 +1,80 @@
 {
-    "title": "Finaliser vos commandes",
-    "subtitle": "Procédez au paiement de vos commandes en attente",
-    "all_paid": {
-        "title": "Toutes vos commandes sont payées !",
-        "description": "Vous pouvez consulter l'état de vos achats dans l'historique.",
-        "button": "Voir mes commandes"
+  "title": "Finaliser vos commandes",
+  "subtitle": "Procédez au paiement de vos commandes en attente",
+  "all_paid": {
+    "title": "Toutes vos commandes sont payées !",
+    "description": "Vous pouvez consulter l'état de vos achats dans l'historique.",
+    "button": "Voir mes commandes"
+  },
+  "order_card": {
+    "title": "Commande #{id}",
+    "waiting": "En attente",
+    "unknown_product": "Produit inconnu",
+    "total_order": "Total commande",
+    "pay": "Payer",
+    "processing": "Traitement...",
+    "error_paying": "Une erreur est survenue lors du paiement."
+  },
+  "summary": {
+    "grand_total": "Total global",
+    "quote": "\"Une dette payée est une âme apaisée.\""
+  },
+  "gold": {
+    "buy": {
+      "title": "Tr?sorerie royale",
+      "subtitle": "Acqu?rez de l'or pour acheter des articles ou des propri?t?s exclusives dans le royaume.",
+      "current_total": "Votre tr?sor actuel",
+      "currency": "Or",
+      "processing": "Transaction...",
+      "buy_pack": "Acqu?rir ce pack",
+      "custom_title": "Montant personnalis?",
+      "custom_description": "Choisissez exactement le montant d'or souhait?, entre 100 et 100 000.",
+      "custom_label": "Quantit? d'or",
+      "estimated_price": "Prix estim?",
+      "buy_custom": "Acheter ce montant",
+      "login_required_title": "Connexion requise",
+      "login_required_description": "Vous devez ?tre connect? pour acqu?rir de l'or. Rejoignez l'aventure !",
+      "cancel": "Annuler",
+      "packages": {
+        "peasant": {
+          "name": "Bourse de manant",
+          "description": "Une petite bourse pour bien commencer votre aventure."
+        },
+        "merchant": {
+          "name": "Coffre de marchand",
+          "description": "Un coffre bien rempli pour les voyageurs avertis."
+        },
+        "king": {
+          "name": "Tr?sor du roi",
+          "description": "La richesse n?cessaire pour de grandes ambitions territoriales."
+        }
+      },
+      "errors": {
+        "session_creation": "Une erreur est survenue lors de la cr?ation de la session de paiement.",
+        "integer_required": "Veuillez saisir un nombre entier.",
+        "out_of_range": "Le montant doit ?tre compris entre 100 et 100 000 or."
+      }
     },
-    "order_card": {
-        "title": "Commande #{id}",
-        "waiting": "En attente",
-        "unknown_product": "Produit inconnu",
-        "total_order": "Total commande",
-        "pay": "Payer",
-        "processing": "Traitement...",
-        "error_paying": "Une erreur est survenue lors du paiement."
+    "success": {
+      "loading": "V?rification de l'arriv?e du convoi d'or...",
+      "title": "Acquisition r?ussie !",
+      "description": "Votre or a ?t? ajout? en toute s?ret? ? votre bourse. Le royaume vous remercie.",
+      "total_label": "Nouveau tr?sor total",
+      "back_to_offers": "Retour aux offres",
+      "back_to_map": "Retour ? la carte",
+      "error_title": "Convoi intercept?",
+      "retry": "R?essayer",
+      "errors": {
+        "missing_session": "ID de session manquant.",
+        "validation_failed": "Le paiement n'a pas pu ?tre valid? ou vos pi?ces n'ont pas pu ?tre ajout?es.",
+        "network": "Erreur lors de la communication avec le service marchand."
+      }
     },
-    "summary": {
-        "title": "Récapitulatif",
-        "waiting_count": "Commandes à payer",
-        "paid_count": "Commandes déjà payées",
-        "grand_total": "Total global",
-        "quote": "\"Une dette payée est une âme apaisée.\""
+    "cancel": {
+      "title": "?change annul?",
+      "description": "Vous avez rebrouss? chemin. Aucun pactole n'a ?t? pr?lev?, et votre bourse reste inchang?e.",
+      "back_to_offers": "R?examiner les offres",
+      "back_to_map": "Retourner explorer la carte"
     }
+  }
 }

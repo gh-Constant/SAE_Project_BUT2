@@ -1,9 +1,7 @@
 {
-  "title": "Explorateur de Carte",
   "home": "Accueil",
   "map": "Carte",
   "events": "Événements",
-  "quizzes": "Quiz",
   "cart": "Panier",
   "signin": "Connexion",
   "register": "Inscription",
@@ -14,7 +12,6 @@
   "my_quests": "Mes Quêtes",
   "profile": "Mon Profil",
   "logout": "Se déconnecter",
-  "products": "Produits",
   "welcome": "Bienvenue, {name}",
   "select_language": "Changer de langue",
   "dont_click": "Ne cliquez pas"

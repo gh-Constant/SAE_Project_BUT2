@@ -3,18 +3,7 @@
     "dashboard": "Tableau de bord",
     "profile": "Profil"
   },
-  "details": {
-    "back": "Retour",
-    "back_to_map": "Retour à la carte",
-    "view_on_map": "Voir sur la carte"
-  },
   "dashboard": {
-    "title": "Tableau de Bord",
-    "services": {
-      "title": "Mes Services",
-      "active_count_label": "services actifs",
-      "manage": "Gérer mes services"
-    },
     "locations": {
       "title": "Mes Lieux",
       "managed_count_label": "lieux gérés",
@@ -32,36 +21,22 @@
     },
     "quick_actions": {
       "title": "Actions Rapides",
-      "add_service": "Ajouter un service",
       "manage_shop": "Gérer ma boutique",
       "manage_events": "Gérer mes événements",
       "manage_quests": "Gérer mes quêtes",
       "manage_quizzes": "Gérer les Quiz",
       "scan_order": "Scanner une commande",
-      "create_location": "Créer un lieu",
-      "view_bookings": "Voir les réservations",
-      "edit_profile": "Modifier mon profil"
-    },
-    "recent_activity": {
-      "title": "Activité Récente",
-      "booking_received": "Nouvelle réservation reçue",
-      "status_confirmed": "Confirmée",
-      "payment_received": "Paiement reçu",
-      "status_success": "Réussi",
-      "time_now": "Il y a 2 heures",
-      "time_yesterday": "Hier"
+      "view_bookings": "Voir les réservations"
     }
   },
   "products": {
     "title": "Gestion de l'Échoppe",
     "subtitle": "Tenez vos registres et gérez votre inventaire",
     "search": {
-      "label": "Rechercher un produit",
       "placeholder": "Rechercher par nom ou description...",
       "clear": "Effacer la recherche"
     },
     "sort": {
-      "label": "Trier par",
       "name_asc": "Nom (A-Z)",
       "name_desc": "Nom (Z-A)",
       "price_asc": "Prix (Croissant)",
@@ -75,15 +50,13 @@
       "all": "Tous les produits",
       "in_stock": "En stock",
       "out_of_stock": "Rupture de stock",
-      "reset": "Réinitialiser les filtres",
-      "price_error": "Le prix minimum ne peut pas être supérieur au maximum."
+      "reset": "Réinitialiser les filtres"
     },
     "location": {
       "register_count": "Registre contenant {n} marchandise | Registre contenant {n} marchandises",
       "add_product": "Ajouter une marchandise"
     },
     "add_form": {
-      "title": "Inscrire une nouvelle marchandise",
       "name_label": "Dénomination",
       "name_placeholder": "Ex: Épée longue en acier",
       "image_label": "Représentation (Image)",
@@ -91,7 +64,6 @@
       "price_label": "Prix (Gold)",
       "stock_label": "Stock disponible",
       "description_label": "Description détaillée",
-      "description_placeholder": "Détails de la marchandise...",
       "cancel": "Abandonner",
       "submit": "Inscrire au registre"
     },
@@ -107,16 +79,16 @@
       "stock": {
         "sold_out": "Épuisé"
       },
-      "empty": {
-        "title": "Le registre est vide",
-        "subtitle": "Ajoutez votre première marchandise pour commencer le commerce"
-      },
       "actions": {
         "edit": "Modifier",
         "delete": "Jeter",
         "save": "Sceller",
         "cancel": "Annuler"
       }
+    },
+    "empty": {
+      "title": "Aucun produit enregistr?",
+      "subtitle": "Ajoutez votre premi?re marchandise pour commencer le commerce."
     }
   },
   "quests": {
@@ -132,7 +104,6 @@
       "quest_title_placeholder": "Ex: Livrer un colis au château",
       "reward_label": "Récompense (XP)",
       "description_label": "Description détaillée",
-      "description_placeholder": "Décrivez les objectifs de la quête...",
       "cancel": "Abandonner",
       "submit": "Publier la quête",
       "submitting": "Publication..."
@@ -145,7 +116,10 @@
         "actions": "Actions"
       },
       "actions": {
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
       },
       "empty": {
         "title": "Aucune quête créée",
@@ -166,9 +140,6 @@
     "camera_error_hint": "Veuillez autoriser l'accès à la caméra dans les paramètres de votre navigateur",
     "retry": "Réessayer",
     "scanning_hint": "Placez le QR code dans le cadre",
-    "or_manual": "Ou entrez le code manuellement",
-    "enter_token": "Entrer le code QR...",
-    "validate": "Valider",
     "invalid_code": "Code invalide",
     "order_not_found": "Aucune commande trouvée avec ce code QR",
     "order_number": "Commande #{id}",
@@ -180,8 +151,7 @@
     "validate_collection": "Valider la collecte",
     "processing": "Traitement...",
     "already_collected": "Déjà collectée",
-    "scan_again": "Scanner une autre commande",
-    "back_to_dashboard": "Retour au tableau de bord"
+    "scan_again": "Scanner une autre commande"
   },
   "profile": {
     "title": "Mon Profil Prestataire",
@@ -195,30 +165,15 @@
       "email": "Adresse email",
       "phone": "Téléphone",
       "birthDate": "Date de naissance",
-      "website": "Site web",
-      "socialMedia": "Réseaux sociaux",
-      "facebook": "Facebook",
-      "instagram": "Instagram",
-      "twitter": "Twitter",
-      "linkedin": "LinkedIn",
       "bio": "Biographie",
-      "bioPlaceholder": "Décrivez-vous en quelques mots...",
       "bioHint": "Maximum 500 caractères",
-      "specialties": "Spécialités",
-      "specialtiesPlaceholder": "Listez vos spécialités, compétences...",
-      "languages": "Langues parlées",
-      "experienceYears": "Années d'expérience",
       "chooseAvatar": "Choisir un avatar"
     },
     "sections": {
       "identity": "Identité",
-      "contact": "Contact",
-      "location": "Localisation",
-      "presentation": "Présentation",
-      "professional": "Informations professionnelles"
+      "presentation": "Présentation"
     },
     "status": {
-      "title": "Statut",
       "xp": "Points d'expérience",
       "level": "Niveau"
     },
@@ -248,8 +203,6 @@
       "phoneTooShort": "Le numéro de téléphone est trop court",
       "phoneTooLong": "Le numéro de téléphone est trop long",
       "bioMaxLength": "La biographie ne peut pas dépasser 500 caractères",
-      "websiteInvalid": "L'URL doit commencer par http:// ou https://",
-      "experienceYearsInvalid": "Le nombre d'années d'expérience doit être entre 0 et 100",
       "avatarInvalid": "Le fichier doit être une image",
       "avatarTooLarge": "L'image est trop volumineuse (maximum 5 Mo)",
       "formErrors": "Veuillez corriger les erreurs dans le formulaire"
@@ -314,16 +267,11 @@
         "type_event": "Événement unique",
         "type_activity": "Activité (créneaux multiples)",
         "schedules_title": "Créneaux horaires",
-        "add_schedule": "Ajouter un créneau",
-        "remove_schedule": "Supprimer",
-        "schedule_start": "Début",
-        "schedule_end": "Fin",
-        "schedule_capacity": "Capacité (opt)",
-        "schedule_price": "Prix (opt)"
+        "add_schedule": "Ajouter un créneau"
       },
       "reservations": {
-        "modal_title": "Réservations",
-        "empty": "Aucune réservation pour cet événement.",
+        "modal_title": "R?servations",
+        "empty": "Aucune r?servation pour cet ?v?nement.",
         "close": "Fermer",
         "headers": {
           "adventurer": "Aventurier",
@@ -355,5 +303,8 @@
         "subtitle": "Vos événements n'ont pas encore reçu d'inscriptions."
       }
     }
+  },
+  "details": {
+    "view_on_map": "Voir sur la carte"
   }
 }
