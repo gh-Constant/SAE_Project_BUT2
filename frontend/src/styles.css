@@ -41,6 +41,18 @@
   --animate-shimmer: shimmer 1.8s ease-in-out infinite;
 }
 
+/* Text content — justified paragraphs with left fallback on small screens */
+.text-content p,
+.text-content li {
+  text-align: justify;
+}
+@media (max-width: 480px) {
+  .text-content p,
+  .text-content li {
+    text-align: left;
+  }
+}
+
 /* Skeleton shimmer effect */
 .skeleton-shimmer {
   background: linear-gradient(
