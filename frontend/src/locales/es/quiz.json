@@ -37,7 +37,7 @@
     "cancel_button": "Abandonar Cuestionario",
     "question_progress": "Pregunta {current} / {total}",
     "login_required": "¡Inicia sesión para guardar tus resultados!",
-    "confirm_cancel": "¿Realmente quieres abandonar el cuestionario?",
+    "confirm_cancel": "?Realmente quieres abandonar el cuestionario?",
     "loading": "Cargando cuestionario...",
     "error_not_found": "Cuestionario no encontrado o inactivo",
     "unanswered_alert": "No has respondido {count} pregunta(s)",

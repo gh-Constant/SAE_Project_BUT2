@@ -136,7 +136,7 @@
     },
     "qr_modal": {
       "title": "QR code de validation",
-      "description": "Faites scanner ce QR code ? l'aventurier pour valider cette qu?te.",
+      "description": "Faites scanner ce QR code à l'aventurier pour valider cette quête.",
       "manual_code": "Code manuel",
       "close": "Fermer",
       "load_error": "Erreur lors du chargement du QR code"

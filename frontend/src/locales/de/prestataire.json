@@ -167,7 +167,7 @@
       "title": "QR-Code zur Validierung",
       "description": "Lassen Sie diesen QR-Code vom Abenteurer scannen, um diese Quest zu validieren.",
       "manual_code": "Manueller Code",
-      "close": "Schlie?en",
+      "close": "Schließen",
       "load_error": "QR-Code konnte nicht geladen werden"
     }
   },

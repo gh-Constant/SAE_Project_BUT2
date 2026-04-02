@@ -30,7 +30,7 @@
       "subtitle": "Erwerben Sie Gold, um exklusive Gegenstnde oder Grundstcke im Knigreich zu kaufen.",
       "current_total": "Ihr aktueller Schatz",
       "currency": "Gold",
-      "processing": "Transaktion luft...",
+      "processing": "Transaktion läuft...",
       "buy_pack": "Dieses Paket kaufen",
       "custom_title": "Individueller Betrag",
       "custom_description": "Whlen Sie genau die Goldmenge zwischen 100 und 100.000.",
@@ -47,11 +47,11 @@
         },
         "merchant": {
           "name": "Hndlertruhe",
-          "description": "Eine gut gefllte Truhe fr erfahrene Reisende."
+          "description": "Eine gut gefüllte Truhe für erfahrene Reisende."
         },
         "king": {
           "name": "Schatz des Knigs",
-          "description": "Der Reichtum, der fr groe territoriale Ambitionen ntig ist."
+          "description": "Der Reichtum, der für große territoriale Ambitionen nötig ist."
         }
       },
       "errors": {

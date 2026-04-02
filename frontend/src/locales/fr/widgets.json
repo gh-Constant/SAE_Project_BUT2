@@ -25,18 +25,18 @@
     "error_login": "Vous devez être connecté pour acheter un emplacement",
     "features": {
       "title": "Cet emplacement inclut",
-      "subtitle": "Des atouts pour dmarrer votre activit sereinement",
+      "subtitle": "Des atouts pour démarrer votre activité sereinement",
       "water_title": "Point d'eau",
       "water_description": "Eau courante disponible",
-      "power_title": "lectricit",
+      "power_title": "Électricité",
       "power_description": "Prises secteur sur place",
       "toilets_title": "Sanitaires",
-      "toilets_description": "Toilettes  proximit",
+      "toilets_description": "Toilettes  proximité",
       "accessible_title": "Accessible",
-      "accessible_description": "Accs personnes  mobilit rduite"
+      "accessible_description": "Accès personnes à mobilité réduite"
     },
-    "purchase_success_message": "Emplacement achet avec succs !",
-    "purchase_error": "Impossible d'acheter cet emplacement. Veuillez ressayer."
+    "purchase_success_message": "Emplacement acheté avec succès !",
+    "purchase_error": "Impossible d'acheter cet emplacement. Veuillez réessayer."
   },
   "purchased": {
     "owner_label": "Propriétaire",
@@ -77,11 +77,11 @@
     "sellable_label": "En vente dans la boutique ",
     "price_placeholder": "Prix (Gold)",
     "currency": "Gold",
-    "purchased": "Achet",
+    "purchased": "Acheté",
     "premium_price": "Premium - {price} Gold",
     "edit_action": "Modifier",
     "delete_action": "Supprimer",
-    "locked": "Article verrouill",
+    "locked": "Article verrouillé",
     "read": "Lire l'article",
     "click_options": "Cliquez pour voir les options",
     "click_open": "Cliquez pour ouvrir",
@@ -92,8 +92,8 @@
     "buy_article": "Acheter l'article",
     "login_to_buy": "Connectez-vous pour acheter et lire cet article.",
     "error_purchase": "Erreur lors de l'achat du blog",
-    "editor_placeholder": "Commencez  rdiger votre mise  jour...",
-    "error_invalid_price": "Veuillez dfinir un prix valide pour ce blog."
+    "editor_placeholder": "Commencez à rédiger votre mise à jour...",
+    "error_invalid_price": "Veuillez définir un prix valide pour ce blog."
   },
   "shop": {
     "title": "Aperçu de la Boutique",

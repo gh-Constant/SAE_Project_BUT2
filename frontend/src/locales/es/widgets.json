@@ -29,14 +29,14 @@
       "water_title": "Punto de agua",
       "water_description": "Agua corriente disponible",
       "power_title": "Electricidad",
-      "power_description": "Tomas elctricas en el lugar",
-      "toilets_title": "Baos",
-      "toilets_description": "Baos cercanos",
+      "power_description": "Tomas eléctricas en el lugar",
+      "toilets_title": "Baños",
+      "toilets_description": "Baños cercanos",
       "accessible_title": "Accesible",
       "accessible_description": "Acceso para personas con movilidad reducida"
     },
-    "purchase_success_message": "Lugar comprado con xito!",
-    "purchase_error": "No se puede comprar este lugar. Intntalo de nuevo."
+    "purchase_success_message": "Lugar comprado con ?xito!",
+    "purchase_error": "No se puede comprar este lugar. Inténtalo de nuevo."
   },
   "purchased": {
     "owner_label": "Propietario",
@@ -78,7 +78,7 @@
     "alert_title": "Por favor ingrese un título de blog",
     "error_save": "Error al guardar",
     "error_delete": "Error al eliminar",
-    "sellable_label": "Vender este artculo en la tienda",
+    "sellable_label": "Vender este artículo en la tienda",
     "price_placeholder": "Precio (oro)",
     "currency": "Gold",
     "purchased": "Comprado",
@@ -86,18 +86,18 @@
     "edit_action": "Editar",
     "delete_action": "Eliminar",
     "locked": "Artculo bloqueado",
-    "read": "Leer el artculo",
+    "read": "Leer el artículo",
     "click_options": "Haz clic para ver las opciones",
     "click_open": "Haz clic para abrir",
     "buy_loading": "Compra en curso...",
     "buy": "Comprar",
-    "premium_label": "Este artculo es premium.",
+    "premium_label": "Este artículo es premium.",
     "purchase_confirm": "Quieres comprarlo por {price} Gold",
-    "buy_article": "Comprar el artculo",
-    "login_to_buy": "Inicia sesin para comprar y leer este artculo.",
-    "error_purchase": "Error al comprar el artculo del blog",
-    "editor_placeholder": "Empieza a redactar tu actualizacin...",
-    "error_invalid_price": "Define un precio vlido para este artculo del blog."
+    "buy_article": "Comprar el artículo",
+    "login_to_buy": "Inicia sesión para comprar y leer este artículo.",
+    "error_purchase": "Error al comprar el artículo del blog",
+    "editor_placeholder": "Empieza a redactar tu actualización...",
+    "error_invalid_price": "Define un precio válido para este artículo del blog."
   },
   "shop": {
     "title": "Vista previa de la tienda",
@@ -128,7 +128,7 @@
     "success_accept": "¡Misión aceptada! Encuéntrala en tu perfil.",
     "error_accept": "No se pudo aceptar la misión (¿quizás ya aceptada)",
     "completed": "Completada",
-    "view_more": "Ver {count} misiones ms",
+    "view_more": "Ver {count} misiones más",
     "view_less": "Mostrar menos"
   },
   "contact": {

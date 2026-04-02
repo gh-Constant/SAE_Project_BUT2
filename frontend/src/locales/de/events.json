@@ -24,8 +24,8 @@
     "confirm_booking": "Buchung bestätigen",
     "success": "Buchung erfolgreich bestätigt!",
     "error_default": "Ein Fehler ist bei der Buchung aufgetreten.",
-    "choose_date": "Datum auswhlen",
-    "select_slot": "Zeitfenster auswhlen",
+    "choose_date": "Datum auswählen",
+    "select_slot": "Zeitfenster auswählen",
     "remaining_slot": "Verbleibend: {count}",
     "select_slot_required": "Bitte wählen Sie ein Zeitfenster für diese Aktivität aus.",
     "error_title": "Buchung fehlgeschlagen",
@@ -40,7 +40,7 @@
   },
   "location": {
     "title": "Veranstaltungen an diesem Ort",
-    "empty": "Fr diesen Ort sind keine Veranstaltungen verfgbar.",
+    "empty": "Für diesen Ort sind keine Veranstaltungen verfügbar.",
     "book_button": "Reservieren"
   }
 }

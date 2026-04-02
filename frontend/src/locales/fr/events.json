@@ -1,10 +1,10 @@
 {
   "list": {
-    "title": "Tous les Événements du Royaume",
+    "title": "Tous les événements du royaume",
     "empty": "Le calme règne sur le royaume pour le moment.",
     "unknown_location": "Lieu inconnu",
     "from_price": "À partir de {price} G",
-    "view_details": "Voir détails",
+    "view_details": "Voir les détails",
     "dates_multiples": "Dates multiples"
   },
   "details": {
@@ -29,16 +29,16 @@
     "error_title": "Réservation impossible",
     "success_message": "{count} place(s) réservée(s) pour {title}.",
     "features": {
-      "title": "?quipements du lieu",
+      "title": "Équipements du lieu",
       "water": "Eau",
-      "electricity": "?lectricit?",
+      "electricity": "Électricité",
       "toilets": "Toilettes",
       "accessible": "Accessible PMR"
     }
   },
   "location": {
-    "title": "vnements du lieu",
-    "empty": "Aucun vnement n'est disponible pour ce lieu.",
-    "book_button": "Rserver"
+    "title": "Événements du lieu",
+    "empty": "Aucun événement n'est disponible pour ce lieu.",
+    "book_button": "Réserver"
   }
 }

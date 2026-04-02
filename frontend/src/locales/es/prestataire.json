@@ -151,7 +151,7 @@
         "edit": "Editar",
         "save": "Guardar",
         "cancel": "Cancelar",
-        "show_qr": "Mostrar c?digo QR"
+        "show_qr": "Mostrar código QR"
       },
       "empty": {
         "title": "No hay misiones forjadas",
@@ -164,11 +164,11 @@
       "explore_button": "Explorar el mapa"
     },
     "qr_modal": {
-      "title": "C?digo QR de validaci?n",
-      "description": "Haz que el aventurero escanee este c?digo QR para validar esta misi?n.",
-      "manual_code": "C?digo manual",
+      "title": "Código QR de validación",
+      "description": "Haz que el aventurero escanee este código QR para validar esta misión.",
+      "manual_code": "Código manual",
       "close": "Cerrar",
-      "load_error": "No se pudo cargar el c?digo QR"
+      "load_error": "No se pudo cargar el código QR"
     }
   },
   "order_scan": {

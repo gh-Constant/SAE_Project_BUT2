@@ -27,7 +27,7 @@
   "gold": {
     "buy": {
       "title": "Tesoro real",
-      "subtitle": "Consigue oro para comprar artculos o propiedades exclusivas en el reino.",
+      "subtitle": "Consigue oro para comprar artículos o propiedades exclusivas en el reino.",
       "current_total": "Tu tesoro actual",
       "currency": "Oro",
       "processing": "Procesando transaccin...",
@@ -37,8 +37,8 @@
       "custom_label": "Cantidad de oro",
       "estimated_price": "Precio estimado",
       "buy_custom": "Comprar esta cantidad",
-      "login_required_title": "Inicio de sesin requerido",
-      "login_required_description": "Debes iniciar sesin para conseguir oro. nete a la aventura!",
+      "login_required_title": "Inicio de sesión requerido",
+      "login_required_description": "Debes iniciar sesión para conseguir oro. Únete a la aventura!",
       "cancel": "Cancelar",
       "packages": {
         "peasant": {
@@ -55,7 +55,7 @@
         }
       },
       "errors": {
-        "session_creation": "Se produjo un error al crear la sesin de pago.",
+        "session_creation": "Se produjo un error al crear la sesión de pago.",
         "integer_required": "Introduce un nmero entero.",
         "out_of_range": "La cantidad debe estar entre 100 y 100 000 de oro."
       }
@@ -70,7 +70,7 @@
       "error_title": "Convoy interceptado",
       "retry": "Reintentar",
       "errors": {
-        "missing_session": "Falta el ID de sesin.",
+        "missing_session": "Falta el ID de sesión.",
         "validation_failed": "No se pudo validar el pago o no se pudieron aadir tus monedas.",
         "network": "Error al comunicarse con el servicio del mercader."
       }
