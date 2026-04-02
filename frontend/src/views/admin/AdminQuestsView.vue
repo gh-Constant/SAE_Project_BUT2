@@ -149,7 +149,7 @@
                       >
                     </td>
                     <td class="px-6 py-4">
-                      <div v-if="editingQuestId !== quest.id_quest" class="text-sm text-stone-grey line-clamp-2">{{ quest.description }}</div>
+                      <div v-if="editingQuestId !== quest.id_quest" class="text-sm text-stone-grey line-clamp-2 description-preview" v-html="quest.description"></div>
                       <textarea 
                         v-else 
                         v-model="editQuest.description" 
@@ -259,6 +259,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'

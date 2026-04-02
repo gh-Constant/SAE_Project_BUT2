@@ -39,9 +39,7 @@
         {{ quiz.title }}
       </h3>
 
-      <p v-if="quiz.description" class="text-stone-grey/70 text-sm mb-3 line-clamp-2">
-        {{ quiz.description }}
-      </p>
+      <div v-if="quiz.description" class="text-stone-grey/70 text-sm mb-3 line-clamp-2 description-preview" v-html="quiz.description"></div>
 
       <!-- Location -->
       <div v-if="quiz.location" class="flex items-center text-xs text-stone-grey/60 mb-2">

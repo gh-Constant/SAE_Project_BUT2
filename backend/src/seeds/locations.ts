@@ -186,7 +186,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #5',
     description:
       'A popular location among travelers, known for its high foot traffic.',
-    price: 140,
+    price: 14000,
     has_water_access: true,
     has_electricity: true,
     has_toilets: true,
@@ -204,7 +204,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #6',
     description:
       'Situated near the town square, this stall benefits from constant visibility.',
-    price: 160,
+    price: 16000,
     has_water_access: true,
     has_electricity: true,
     has_toilets: false,
@@ -222,7 +222,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #7',
     description:
       'A strategic location for merchants, close to the main road.',
-    price: 110,
+    price: 11000,
     purchased: true,
     id_prestataire: 4,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -236,7 +236,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #8',
     description:
       'A cozy stall, perfect for selling handmade goods and local crafts.',
-    price: 115,
+    price: 11500,
     purchased: true,
     id_prestataire: 4, 
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -250,7 +250,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #9',
     description:
       'Known for its vibrant atmosphere and diverse range of products.',
-    price: 125,
+    price: 12500,
     purchased: true,
     id_prestataire: 1,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -264,7 +264,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #10',
     description:
       'A prime spot for attracting both locals and tourists alike.',
-    price: 135,
+    price: 13500,
     has_water_access: true,
     has_electricity: false,
     has_toilets: false,
@@ -282,7 +282,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #11',
     description:
       'Located at a busy intersection, ensuring a steady stream of potential customers.',
-    price: 145,
+    price: 14500,
     has_water_access: true,
     has_electricity: true,
     has_toilets: false,
@@ -300,7 +300,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #12',
     description:
       'A bustling area known for its lively market scene and diverse offerings.',
-    price: 155,
+    price: 15500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -314,7 +314,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #13',
     description:
       'Close to the tavern, this stall benefits from thirsty travelers looking for refreshments.',
-    price: 165,
+    price: 16500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -328,7 +328,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #14',
     description:
       'A favored spot for its proximity to the stables and the smell of fresh hay.',
-    price: 175,
+    price: 17500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -342,7 +342,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #15',
     description:
       'Known for its excellent view of the market square, ideal for attracting attention.',
-    price: 185,
+    price: 18500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -356,7 +356,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #16',
     description:
       'A strategic location near the fountain, popular with both locals and tourists.',
-    price: 195,
+    price: 19500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -370,7 +370,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #17',
     description:
       'Close to the entrance of the market, ensuring high visibility for your goods.',
-    price: 205,
+    price: 20500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -384,7 +384,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #18',
     description:
       'A charming stall with a great view of the castle, perfect for attracting tourists.',
-    price: 215,
+    price: 21500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -398,7 +398,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #19',
     description:
       "Located near the bard's stage, enjoy the added benefit of musical entertainment.",
-    price: 225,
+    price: 22500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -412,7 +412,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #20',
     description:
       'A prime location for selling exotic goods from distant lands.',
-    price: 235,
+    price: 23500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -426,7 +426,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #21',
     description:
       'Known for its vibrant colors and the enticing smell of delicious food.',
-    price: 245,
+    price: 24500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -440,7 +440,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #22',
     description:
       'A popular spot for its variety of goods and friendly merchants.',
-    price: 255,
+    price: 25500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -454,7 +454,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #23',
     description:
       'Close to the blacksmith, attracting customers looking for weapons and armor.',
-    price: 265,
+    price: 26500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -467,7 +467,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     static_code: 'PRESTA_STALL_24',
     name: 'Merchant Stall #24',
     description: 'A favored location for its shade and the nearby well.',
-    price: 275,
+    price: 27500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -481,7 +481,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #25',
     description:
       'Known for its strategic location near the guard post, ensuring safety and visibility.',
-    price: 285,
+    price: 28500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -495,7 +495,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #26',
     description:
       'A prime spot for selling magical artifacts and rare ingredients.',
-    price: 295,
+    price: 29500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -509,7 +509,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #28',
     description:
       'A cozy stall, ideal for selling baked goods and sweet treats.',
-    price: 315,
+    price: 31500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -523,7 +523,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #29',
     description:
       'Known for its excellent view of the market square, ideal for attracting attention.',
-    price: 325,
+    price: 32500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -537,7 +537,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #30',
     description:
       'A strategic location near the fountain, popular with both locals and tourists.',
-    price: 335,
+    price: 33500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
@@ -551,7 +551,7 @@ const LOCATION_SEEDS: LocationSeed[] = [
     name: 'Merchant Stall #31',
     description:
       'Close to the entrance of the market, ensuring high visibility for your goods.',
-    price: 345,
+    price: 34500,
     purchased: false,
     id_prestataire: null,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,

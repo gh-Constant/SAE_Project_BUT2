@@ -15,7 +15,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 1,
     quantity: 2,
-    total_price: 10.00,
+    total_price: 1000,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 2, // Alice
     id_event: 4,
@@ -23,7 +23,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 2,
     quantity: 5,
-    total_price: 25.00,
+    total_price: 2500,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 11, // Lucas
     id_event: 4,
@@ -31,7 +31,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 3,
     quantity: 1,
-    total_price: 5.00,
+    total_price: 500,
     status: 'PENDING' as ReservationStatus,
     id_user: 12, // Sophie
     id_event: 4,
@@ -41,7 +41,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 4,
     quantity: 1,
-    total_price: 15.00,
+    total_price: 1500,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 2, // Alice
     id_event: 5,
@@ -49,7 +49,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 5,
     quantity: 1,
-    total_price: 15.00,
+    total_price: 1500,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 13, // Antoine
     id_event: 5,
@@ -57,7 +57,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 6,
     quantity: 1,
-    total_price: 15.00,
+    total_price: 1500,
     status: 'CANCELLED' as ReservationStatus,
     id_user: 14, // Clara
     id_event: 5,
@@ -67,7 +67,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 7,
     quantity: 1,
-    total_price: 2.00,
+    total_price: 200,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 15, // Marc
     id_event: 6,
@@ -75,7 +75,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 8,
     quantity: 3,
-    total_price: 6.00,
+    total_price: 600,
     status: 'PENDING' as ReservationStatus,
     id_user: 5, // Pierre
     id_event: 6,
@@ -83,7 +83,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 9,
     quantity: 1,
-    total_price: 2.00,
+    total_price: 200,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 6, // Jacques
     id_event: 6,
@@ -93,7 +93,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 10,
     quantity: 2,
-    total_price: 100.00,
+    total_price: 10000,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 3, // Godefroy (Admin/Sénéchal attending?)
     id_event: 1,
@@ -101,7 +101,7 @@ const RESERVATION_SEEDS: ReservationSeed[] = [
   {
     id_reservation: 11,
     quantity: 4,
-    total_price: 200.00,
+    total_price: 20000,
     status: 'CONFIRMED' as ReservationStatus,
     id_user: 7, // Thomas
     id_event: 1,

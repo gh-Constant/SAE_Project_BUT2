@@ -119,6 +119,66 @@
 
     <BrokenPaperSeparator color="#D4C5A5" />
 
+    <!-- ENGAGEMENTS SECTION (Parchment) -->
+    <section class="bg-parchment py-20 md:py-28 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <MedievalSectionTitle>Nos Engagements Envers Vous</MedievalSectionTitle>
+          <p class="text-lg text-stone-grey font-body max-w-2xl mx-auto">
+            Chaque emplacement du festival est pense pour votre confort et votre securite
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Eau -->
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-blue-50 border-2 border-blue-200 flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+              <i class="fas fa-tint text-blue-500 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-medieval font-bold text-iron-black mb-2">Points d'Eau</h3>
+            <p class="text-sm text-stone-grey font-body leading-relaxed">
+              Des fontaines et points d'eau potable repartis dans tout le village pour vous rafraichir durant votre aventure.
+            </p>
+          </div>
+
+          <!-- Electricite -->
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-yellow-50 border-2 border-yellow-200 flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+              <i class="fas fa-bolt text-yellow-500 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-medieval font-bold text-iron-black mb-2">Emplacements Equipes</h3>
+            <p class="text-sm text-stone-grey font-body leading-relaxed">
+              Nos echoppes et ateliers disposent de l'electricite pour que chaque artisan puisse exercer son art dans les meilleures conditions.
+            </p>
+          </div>
+
+          <!-- Sanitaires -->
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+              <i class="fas fa-restroom text-emerald-500 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-medieval font-bold text-iron-black mb-2">Sanitaires Accessibles</h3>
+            <p class="text-sm text-stone-grey font-body leading-relaxed">
+              Des installations sanitaires propres et entretenues, accessibles a tous, reparties strategiquement dans le village.
+            </p>
+          </div>
+
+          <!-- PMR -->
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-purple-50 border-2 border-purple-200 flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+              <i class="fas fa-wheelchair text-purple-500 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-medieval font-bold text-iron-black mb-2">Accessible a Tous</h3>
+            <p class="text-sm text-stone-grey font-body leading-relaxed">
+              Le royaume accueille chaque aventurier. Nos chemins et emplacements sont adaptes aux personnes a mobilite reduite.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <BrokenPaperSeparator color="#F3EAD6" />
+
     <!-- 4. MAP SECTION (Parchment) -->
     <section id="map-section" class="bg-parchment py-20 md:py-32 relative">
       <div class="w-full max-w-[95%] mx-auto px-4">

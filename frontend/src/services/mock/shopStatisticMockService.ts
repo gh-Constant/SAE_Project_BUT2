@@ -268,11 +268,11 @@ export const shopStatisticMockService = {
 
         // Revenue Buckets
         const buckets: RevenueBucket[] = [
-            { range: '0-10€', min: 0, max: 10, count: 0, percentage: 0 },
-            { range: '10-25€', min: 10, max: 25, count: 0, percentage: 0 },
-            { range: '25-50€', min: 25, max: 50, count: 0, percentage: 0 },
-            { range: '50-100€', min: 50, max: 100, count: 0, percentage: 0 },
-            { range: '100€+', min: 100, max: Infinity, count: 0, percentage: 0 },
+            { range: '0-1 000 Gold', min: 0, max: 1000, count: 0, percentage: 0 },
+            { range: '1 000-2 500 Gold', min: 1000, max: 2500, count: 0, percentage: 0 },
+            { range: '2 500-5 000 Gold', min: 2500, max: 5000, count: 0, percentage: 0 },
+            { range: '5 000-10 000 Gold', min: 5000, max: 10000, count: 0, percentage: 0 },
+            { range: '10 000+ Gold', min: 10000, max: Infinity, count: 0, percentage: 0 },
         ];
 
         orders.forEach(order => {

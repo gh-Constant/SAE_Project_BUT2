@@ -29,21 +29,68 @@
 
     <div class="p-6">
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
-      <div
+
+      <div class="bg-white/60 border border-antique-bronze/20 rounded-lg p-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="rounded-md bg-antique-bronze/10 p-3 border border-antique-bronze/20">
+            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">Type de prestataire</p>
+            <p class="text-base font-bold text-iron-black">{{ prestataireTypeName }}</p>
+          </div>
+          <div class="rounded-md bg-antique-bronze/10 p-3 border border-antique-bronze/20">
+            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">Type de location</p>
+            <p class="text-base font-bold text-iron-black">{{ locationTypeName }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div 
         class="tiptap prose prose-sm sm:prose lg:prose-base max-w-none text-stone-grey mb-6"
         v-html="location.description || ''"
       ></div>
 
       <div
         v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr"
-        class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6"
+        class="bg-gradient-to-br from-white/50 to-antique-bronze/5 border border-antique-bronze/20 rounded-lg p-5 mb-6"
       >
-        <h3 class="text-lg font-medieval font-bold text-iron-black mb-3">Caractéristiques du lieu</h3>
-        <div class="flex flex-wrap gap-2">
-          <span v-if="location.has_water_access" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Accès à l'eau</span>
-          <span v-if="location.has_electricity" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Électricité</span>
-          <span v-if="location.has_toilets" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Toilettes</span>
-          <span v-if="location.is_accessible_pmr" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Accessible PMR</span>
+        <h3 class="text-lg font-medieval font-bold text-iron-black mb-1">Ce lieu vous offre</h3>
+        <p class="text-xs text-stone-grey mb-4 font-body">Tout le confort pour accueillir vos visiteurs</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div v-if="location.has_water_access" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-tint text-blue-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Point d'eau</p>
+              <p class="text-xs text-stone-grey">Eau courante disponible</p>
+            </div>
+          </div>
+          <div v-if="location.has_electricity" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-bolt text-yellow-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Electricité</p>
+              <p class="text-xs text-stone-grey">Prises secteur sur place</p>
+            </div>
+          </div>
+          <div v-if="location.has_toilets" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-restroom text-emerald-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Sanitaires</p>
+              <p class="text-xs text-stone-grey">Toilettes à proximité</p>
+            </div>
+          </div>
+          <div v-if="location.is_accessible_pmr" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-wheelchair text-purple-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Accessible</p>
+              <p class="text-xs text-stone-grey">Accès personnes à mobilité réduite</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -140,22 +187,22 @@
 
       <!-- Events Section -->
       <div v-if="hasEvents" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <EventSection :location-id="location.id" :is-owner="isOwner" />
+        <EventSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Shop Section -->
       <div v-if="hasProducts" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <ShopSection :location-id="location.id" :is-owner="isOwner" />
+        <ShopSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Blogs Section -->
       <div v-if="hasBlogs" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <BlogSection :location-id="location.id" :is-owner="isOwner" />
+        <BlogSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Quest Section -->
       <div v-if="hasQuests" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <QuestSection :location-id="location.id" :is-owner="isOwner" />
+        <QuestSection :location-id="resolvedLocationId" :is-owner="isOwner" />
       </div>
 
       <!-- Quiz Section -->
@@ -175,7 +222,7 @@
               <h4 class="font-bold text-iron-black group-hover:text-antique-bronze transition-colors">
                 {{ quiz.title }}
               </h4>
-              <p class="text-sm text-stone-grey line-clamp-1">{{ quiz.description }}</p>
+              <div class="text-sm text-stone-grey line-clamp-1 description-preview" v-html="quiz.description"></div>
             </div>
             <button
               @click="playQuiz(quiz.id_quiz)"
@@ -189,7 +236,7 @@
 
       <!-- Contact Section (Visible to non-owners) -->
       <div v-if="!isOwner" class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
-        <ContactSection :location-id="location.id" />
+        <ContactSection :location-id="resolvedLocationId" />
       </div>
 
       <div class="flex gap-3 justify-end">
@@ -308,6 +355,7 @@ import { computed, ref, onMounted, nextTick, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { LocationMock } from '@/mocks/locations';
 import { USERS } from '@/mocks/users';
+import { PRESTATAIRE_TYPES } from '@/mocks/prestataireTypes';
 import { useAuthStore } from '@/stores/auth';
 import BlogSection from './BlogSection.vue';
 import ContactSection from './ContactSection.vue';
@@ -346,6 +394,10 @@ const hasProducts = ref(false);
 const hasEvents = ref(false);
 const hasQuests = ref(false);
 const hasQuizzes = computed(() => quizzes.value.length > 0);
+const resolvedLocationId = computed(() => {
+  const id = Number((props.location as any).id ?? (props.location as any).id_location ?? 0);
+  return Number.isFinite(id) ? id : 0;
+});
 
 const prestataire = computed(() => {
   // Use prestataire data from location if available (from backend)
@@ -385,9 +437,36 @@ const prestataire = computed(() => {
 });
 
 const prestataireTypeName = computed(() => {
-  // For now, return a generic label since prestataire type is on user, not in the prestataire subset
-  // TODO: Fetch full user details if needed for type
-  return 'Prestataire';
+  const dynamicTypeId = Number((prestataire.value as any)?.id_prestataire_type ?? 0);
+  const fallbackTypeId = USERS.find(user => user.id === props.location.id_prestataire)?.id_prestataire_type ?? 0;
+  const resolvedTypeId = dynamicTypeId || fallbackTypeId;
+
+  if (!resolvedTypeId) {
+    return 'Prestataire';
+  }
+
+  const type = PRESTATAIRE_TYPES.find(item => item.id === resolvedTypeId);
+  if (!type) {
+    return 'Prestataire';
+  }
+
+  return t(`auth.register.prestataire_types.${type.name}`);
+});
+
+const locationTypeName = computed(() => {
+  const normalizedType = prestataireTypeName.value.toLowerCase();
+
+  if (normalizedType.includes('restaurant') || normalizedType.includes('restaurateur')) {
+    return 'Espace restauration';
+  }
+  if (normalizedType.includes('animateur') || normalizedType.includes('animation')) {
+    return 'Espace animation';
+  }
+  if (normalizedType.includes('artisan') || normalizedType.includes('artisanat')) {
+    return 'Espace artisanat';
+  }
+
+  return 'Espace prestataire';
 });
 
 // Check if current user is the owner
@@ -466,7 +545,7 @@ const generateQRCode = async () => {
 
 const fetchQuizzes = async () => {
   try {
-    const response = await quizService.getQuizzes({ id_location: props.location.id });
+    const response = await quizService.getQuizzes({ id_location: resolvedLocationId.value });
     quizzes.value = response.quizzes;
   } catch (e) {
     console.error('Failed to fetch quizzes', e);
@@ -475,24 +554,34 @@ const fetchQuizzes = async () => {
 };
 
 const fetchSectionAvailability = async () => {
-  try {
-    const [blogs, products, quests, events] = await Promise.all([
-      blogService.getBlogsByLocationId(props.location.id),
-      productService.getProductsByLocation(props.location.id),
-      questService.getQuestsByLocation(props.location.id),
-      eventService.getEvents({ id_location: props.location.id, published: true })
-    ]);
-
-    hasBlogs.value = blogs.length > 0;
-    hasProducts.value = products.length > 0;
-    hasQuests.value = quests.length > 0;
-    hasEvents.value = events.length > 0;
-  } catch (error) {
-    console.error('Failed to fetch section availability', error);
+  const locationId = resolvedLocationId.value;
+  if (!locationId) {
     hasBlogs.value = false;
     hasProducts.value = false;
     hasQuests.value = false;
     hasEvents.value = false;
+    return;
+  }
+
+  const [blogsResult, productsResult, questsResult, eventsResult] = await Promise.allSettled([
+    blogService.getBlogsByLocationId(locationId),
+    productService.getProductsByLocation(locationId),
+    questService.getQuestsByLocation(locationId),
+    eventService.getEvents({ id_location: locationId, published: true })
+  ]);
+
+  hasBlogs.value = blogsResult.status === 'fulfilled' && blogsResult.value.length > 0;
+  hasProducts.value = productsResult.status === 'fulfilled' && productsResult.value.length > 0;
+  hasQuests.value = questsResult.status === 'fulfilled' && questsResult.value.length > 0;
+  hasEvents.value = eventsResult.status === 'fulfilled' && eventsResult.value.length > 0;
+
+  if (blogsResult.status === 'rejected' || productsResult.status === 'rejected' || questsResult.status === 'rejected' || eventsResult.status === 'rejected') {
+    console.warn('One or more widget sections failed to load', {
+      blogs: blogsResult.status,
+      products: productsResult.status,
+      quests: questsResult.status,
+      events: eventsResult.status,
+    });
   }
 };
 

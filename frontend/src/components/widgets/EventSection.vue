@@ -27,8 +27,15 @@
       </div>
     </div>
 
-    <div v-if="loading" class="text-center py-4 text-stone-grey">
-      {{ t('widgets.events.loading') }}
+    <div v-if="loading" class="space-y-3">
+      <div v-for="i in 3" :key="i" class="bg-white/60 rounded-lg p-4 border border-antique-bronze/10">
+        <div class="flex justify-between items-start mb-2">
+          <div class="h-5 skeleton-shimmer rounded w-3/5" />
+          <div class="h-4 skeleton-shimmer rounded w-16" />
+        </div>
+        <div class="h-3 skeleton-shimmer rounded w-2/5 mb-2" />
+        <div class="h-3 skeleton-shimmer rounded w-full" />
+      </div>
     </div>
 
     <div v-else-if="events.length === 0"

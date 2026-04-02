@@ -69,9 +69,7 @@
               </h3>
 
               <!-- Description -->
-              <p class="text-stone-grey leading-relaxed font-body mb-5 line-clamp-3 flex-grow text-center">
-                {{ userQuest.quest.description }}
-              </p>
+              <div class="text-stone-grey leading-relaxed font-body mb-5 line-clamp-3 flex-grow text-center description-preview" v-html="userQuest.quest.description"></div>
 
               <!-- XP Reward -->
               <div class="flex justify-center mb-4">
@@ -169,9 +167,7 @@
               </h3>
 
               <!-- Description -->
-              <p class="text-stone-grey leading-relaxed font-body mb-5 line-clamp-3 flex-grow text-center">
-                {{ userQuest.quest.description }}
-              </p>
+              <div class="text-stone-grey leading-relaxed font-body mb-5 line-clamp-3 flex-grow text-center description-preview" v-html="userQuest.quest.description"></div>
 
               <!-- XP Reward -->
               <div class="flex justify-center mb-4">

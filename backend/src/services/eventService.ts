@@ -13,6 +13,7 @@ interface EventData {
   title: string;
   description?: string;
   type?: 'EVENT' | 'ACTIVITY';
+  event_category?: string;
   start_time?: Date | string; // Optional if ACTIVITY
   end_time?: Date | string;   // Optional if ACTIVITY
   price: number;
@@ -64,26 +65,32 @@ const assertEventOwnership = async (eventId: number, actorId?: number, actorRole
 export const createEvent = async (data: EventData, actorId?: number, actorRole?: string) => {
   const type = data.type || 'EVENT';
   await assertLocationOwnership(data.id_location, actorId, actorRole);
+
+  const createData: Prisma.EventUncheckedCreateInput = {
+    title: data.title,
+    description: data.description,
+    type,
+    start_time: data.start_time ? new Date(data.start_time) : null,
+    end_time: data.end_time ? new Date(data.end_time) : null,
+    price: data.price,
+    capacity: data.capacity,
+    id_location: data.id_location,
+    schedules: data.schedules && data.schedules.length > 0 ? {
+      create: data.schedules.map(s => ({
+        start_time: new Date(s.start_time),
+        end_time: new Date(s.end_time),
+        capacity: s.capacity,
+        price: s.price
+      }))
+    } : undefined
+  };
+
+  if (data.event_category !== undefined) {
+    (createData as Record<string, unknown>).event_category = data.event_category;
+  }
   
   return await prisma.event.create({
-    data: {
-      title: data.title,
-      description: data.description,
-      type: type,
-      start_time: data.start_time ? new Date(data.start_time) : null,
-      end_time: data.end_time ? new Date(data.end_time) : null,
-      price: data.price,
-      capacity: data.capacity,
-      id_location: data.id_location,
-      schedules: data.schedules && data.schedules.length > 0 ? {
-        create: data.schedules.map(s => ({
-          start_time: new Date(s.start_time),
-          end_time: new Date(s.end_time),
-          capacity: s.capacity,
-          price: s.price
-        }))
-      } : undefined
-    },
+    data: createData,
     include: {
       schedules: true
     }
@@ -135,6 +142,7 @@ export const updateEvent = async (id: number, data: Partial<EventData>, actorId?
     title: string;
     description: string | undefined;
     type: 'EVENT' | 'ACTIVITY';
+    event_category: string | undefined;
     start_time: Date | null;
     end_time: Date | null;
     price: number;
@@ -145,6 +153,7 @@ export const updateEvent = async (id: number, data: Partial<EventData>, actorId?
   if (data.title) updateData.title = data.title;
   if (data.description !== undefined) updateData.description = data.description;
   if (data.type !== undefined) updateData.type = data.type;
+  if (data.event_category !== undefined) updateData.event_category = data.event_category;
   if (data.start_time !== undefined) updateData.start_time = data.start_time ? new Date(data.start_time) : null;
   if (data.end_time !== undefined) updateData.end_time = data.end_time ? new Date(data.end_time) : null;
   if (data.price !== undefined) updateData.price = data.price;

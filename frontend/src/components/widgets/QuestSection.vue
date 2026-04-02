@@ -24,8 +24,18 @@
     </div>
 
     <!-- Quest List -->
-    <div v-if="loading" class="text-center py-4 text-stone-grey font-body">
-      {{ t('widgets.quests.loading') }}
+    <div v-if="loading" class="grid grid-cols-1 gap-4">
+      <div v-for="i in 3" :key="i" class="bg-white/60 rounded-sm p-4 border border-antique-bronze/20">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-full skeleton-shimmer flex-shrink-0" />
+          <div class="flex-1">
+            <div class="h-5 skeleton-shimmer rounded w-3/5 mb-2" />
+            <div class="h-3 skeleton-shimmer rounded w-full mb-1" />
+            <div class="h-3 skeleton-shimmer rounded w-4/5" />
+          </div>
+          <div class="h-6 skeleton-shimmer rounded w-16" />
+        </div>
+      </div>
     </div>
     <div v-else-if="quests.length === 0" class="text-center py-4 text-stone-grey font-body italic">
       {{ t('widgets.quests.empty') }}
@@ -59,7 +69,7 @@
           <div class="flex justify-between items-start gap-3">
             <div class="flex-1 min-w-0">
               <h4 :class="[ 'font-medieval font-bold text-lg transition-colors duration-300', isQuestCompleted(quest.id_quest) ? 'text-stone-500' : 'text-iron-black group-hover:text-antique-bronze' ]">{{ quest.title }}</h4>
-              <p :class="[ 'text-sm font-body mt-1 line-clamp-2', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey' ]">{{ quest.description }}</p>
+              <div :class="[ 'tiptap text-sm font-body mt-1 line-clamp-2 overflow-hidden', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-stone-grey' ]" v-html="quest.description"></div>
               <div :class="[ 'mt-3 text-xs font-bold flex items-center gap-1', isQuestCompleted(quest.id_quest) ? 'text-stone-400' : 'text-antique-bronze' ]">
                 <i class="fas fa-star"></i>
                 {{ quest.xp_reward }} XP
@@ -114,6 +124,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
+import { stripHtml } from '@/utils/stripHtml';
 import { useRouter } from 'vue-router';
 import { questService, Quest, UserQuest } from '@/services/questService';
 import { useI18n } from 'vue-i18n';
@@ -161,12 +172,15 @@ const loadQuests = async () => {
     const locationQuests = await questService.getQuestsByLocation(props.locationId);
     quests.value = locationQuests;
     
-    // Try to load user's quests (may fail if not authenticated)
-    try {
-      const myQuests = await questService.getUserQuests();
-      userQuests.value = myQuests;
-    } catch {
-      // User not authenticated - that's OK, they just can't see their accepted quests
+    // Load user-specific quest status only when authenticated.
+    if (authStore.isAuthenticated && localStorage.getItem('authToken')) {
+      try {
+        const myQuests = await questService.getUserQuests();
+        userQuests.value = myQuests;
+      } catch {
+        userQuests.value = [];
+      }
+    } else {
       userQuests.value = [];
     }
   } catch (error) {

@@ -201,17 +201,37 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-@reference "tailwindcss";
-
 .editor-container {
-  @apply border border-gray-300 rounded-lg p-4 bg-white;
+  border: 2px solid rgba(193, 155, 108, 0.3);
+  border-radius: 8px;
+  padding: 0;
+  background: #F3EAD6;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(44, 36, 27, 0.08);
 }
 
 .editor-content {
-  @apply min-h-80 p-3 border border-gray-200 rounded-md mt-2;
+  min-height: 320px;
+  padding: 20px 24px;
+  background: white;
+  margin: 0;
+  border-top: none;
 }
 
 .editor-content :deep(.ProseMirror) {
-  @apply outline-none min-h-64;
+  outline: none;
+  min-height: 280px;
+  font-family: 'Lato', sans-serif;
+  color: #2C241B;
+  line-height: 1.7;
+}
+
+.editor-content :deep(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  color: rgba(117, 112, 104, 0.5);
+  font-style: italic;
+  pointer-events: none;
+  float: left;
+  height: 0;
 }
 </style>

@@ -117,9 +117,7 @@
               class="text-xl font-medieval font-bold text-iron-black mb-2 group-hover:text-antique-bronze transition-colors">
               {{ event.title }}
             </h3>
-            <p class="text-stone-grey text-sm mb-4 line-clamp-2 flex-1">
-              {{ event.description }}
-            </p>
+            <div class="text-stone-grey text-sm mb-4 line-clamp-2 flex-1 description-preview" v-html="event.description"></div>
 
             <!-- Progress Bar -->
             <div class="mb-4">
@@ -215,6 +213,20 @@
                       t('prestataire.events.manager.form.type_activity') }}</span>
                   </label>
                 </div>
+              </div>
+
+              <div class="lg:col-start-2">
+                <label class="block text-sm font-bold text-iron-black mb-1">Type d'événement</label>
+                <select v-model="form.event_category"
+                  class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white">
+                  <option value="">Non spécifié</option>
+                  <option value="restauration">Restauration</option>
+                  <option value="atelier">Atelier</option>
+                  <option value="spectacle">Spectacle</option>
+                  <option value="marche">Marché</option>
+                  <option value="concours">Concours</option>
+                  <option value="autre">Autre</option>
+                </select>
               </div>
 
               <!-- DATE PICKER (Unified for EVENT and ACTIVITY) -->
@@ -532,6 +544,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, reactive, watch, nextTick } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventStore, Event, EventSchedule } from '@/stores/event'
 import { locationService } from '@/services/locationService';
@@ -564,6 +577,7 @@ const form = reactive({
   title: '',
   description: '',
   type: 'EVENT' as 'EVENT' | 'ACTIVITY',
+  event_category: '',
   start_time: '',
   end_time: '',
   price: 0,
@@ -1133,6 +1147,7 @@ function openCreateModal() {
   form.title = ''
   form.description = ''
   form.type = 'EVENT'
+  form.event_category = ''
   form.start_time = ''
   form.end_time = ''
   form.price = 0
@@ -1148,6 +1163,7 @@ function editEvent(event: Event) {
   form.title = event.title
   form.description = event.description || ''
   form.type = event.type || 'EVENT'
+  form.event_category = event.event_category || ''
 
   if (event.start_time) {
     form.start_time = toLocalDateTimeInputValue(new Date(event.start_time))
@@ -1196,6 +1212,7 @@ async function saveEvent() {
     title: form.title,
     description: form.description,
     type: form.type,
+    event_category: form.event_category || undefined,
     price: form.price,
     capacity: form.capacity,
     id_location: locationId,

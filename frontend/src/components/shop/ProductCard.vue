@@ -47,9 +47,7 @@
         {{ prestataireName }}
       </p>
       
-      <p v-if="product.description" class="text-sm text-stone-grey mb-4 line-clamp-2 italic font-body">
-        {{ product.description }}
-      </p>
+      <div v-if="product.description" class="text-sm text-stone-grey mb-4 line-clamp-2 italic font-body description-preview" v-html="product.description"></div>
 
       <!-- Prix et stock -->
       <div class="flex items-center justify-between mb-4 pt-3 border-t border-antique-bronze/10">
@@ -143,6 +141,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { stripHtml } from '@/utils/stripHtml'
 import { ProductMock } from '@/mocks/products'
 import { USERS } from '@/mocks/users'
 import { useCartStore } from '@/stores/cart'

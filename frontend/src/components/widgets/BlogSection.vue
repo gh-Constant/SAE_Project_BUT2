@@ -92,9 +92,7 @@
 
         <!-- Blog Content -->
         <div class="p-5 relative" :class="{ 'pb-20': canPurchaseBlog(blog) }">
-          <p class="text-sm text-gray-600 leading-relaxed">
-            {{ getBlogPreview(blog.content) }}
-          </p>
+          <div class="tiptap text-sm text-gray-600 leading-relaxed line-clamp-4 overflow-hidden" v-html="blog.content"></div>
           <div class="mt-4 flex items-center justify-between gap-3">
             <span class="text-sm font-semibold text-antique-bronze">
               {{ canPurchaseBlog(blog) ? 'Article verrouillé' : 'Lire l’article' }}

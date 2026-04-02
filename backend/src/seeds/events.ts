@@ -5,6 +5,7 @@ interface EventSeed {
   id_event: number;
   title: string;
   description: string;
+  event_category?: string;
   start_time?: Date;
   end_time?: Date;
   price: number;
@@ -22,9 +23,10 @@ function getEventSeeds(): EventSeed[] {
       id_event: 1,
       title: 'Grand Tournoi de Chevalerie',
       description: "Assistez aux joutes les plus spectaculaires du royaume. Chevaliers et écuyers s'affrontent pour la gloire et l'honneur.",
+      event_category: 'spectacle',
       start_time: new Date('2026-06-21T14:00:00'),
       end_time: new Date('2026-06-21T18:00:00'),
-      price: 50,
+      price: 5000,
       capacity: 1000,
       sold: 450,
       id_location: 1,
@@ -34,9 +36,10 @@ function getEventSeeds(): EventSeed[] {
       id_event: 2,
       title: 'Banquet Royal',
       description: 'Un festin digne des rois avec musiciens, jongleurs et mets exquis.',
+      event_category: 'restauration',
       start_time: new Date('2026-06-25T19:00:00'),
       end_time: new Date('2026-06-25T23:00:00'),
-      price: 120,
+      price: 12000,
       capacity: 200,
       sold: 180,
       id_location: 2,
@@ -46,6 +49,7 @@ function getEventSeeds(): EventSeed[] {
       id_event: 3,
       title: 'Marché Nocturne',
       description: 'Découvrez les merveilles des artisans locaux sous la lueur des torches.',
+      event_category: 'marche',
       start_time: new Date('2026-06-30T20:00:00'),
       end_time: new Date('2026-06-30T23:59:00'),
       price: 0,
@@ -58,7 +62,8 @@ function getEventSeeds(): EventSeed[] {
       id_event: 4,
       title: "Dégustation d'Hydromel",
       description: "Venez goûter nos meilleures cuvées d'hydromel artisanal. Ambiance conviviale garantie !",
-      price: 5,
+      event_category: 'restauration',
+      price: 500,
       capacity: 50,
       sold: 0,
       id_location: 14, // Gérard
@@ -73,7 +78,8 @@ function getEventSeeds(): EventSeed[] {
       id_event: 5,
       title: "Cours de Tir à l'Arc",
       description: "Marie vous apprend les bases du tir à l'arc. Matériel fourni.",
-      price: 15,
+      event_category: 'atelier',
+      price: 1500,
       capacity: 10,
       sold: 0,
       id_location: 16, // Marie
@@ -88,9 +94,10 @@ function getEventSeeds(): EventSeed[] {
       id_event: 6,
       title: "Concours de Costume",
       description: "Revêtez votre plus belle tenue médiévale et tentez de gagner un prix !",
+      event_category: 'concours',
       start_time: new Date('2026-07-04T15:00:00'),
       end_time: new Date('2026-07-04T18:00:00'),
-      price: 2,
+      price: 200,
       capacity: 100,
       sold: 60,
       id_location: 16, // Marie
@@ -105,30 +112,25 @@ export async function seedEvents() {
   const events = getEventSeeds();
 
   for (const event of events) {
+    const basePayload: any = {
+      title: event.title,
+      description: event.description,
+      event_category: event.event_category,
+      start_time: event.start_time || null,
+      end_time: event.end_time || null,
+      price: event.price,
+      capacity: event.capacity,
+      sold: event.sold,
+      id_location: event.id_location,
+      type: event.type,
+    };
+
     await prisma.event.upsert({
       where: { id_event: event.id_event },
-      update: {
-        title: event.title,
-        description: event.description,
-        start_time: event.start_time || null,
-        end_time: event.end_time || null,
-        price: event.price,
-        capacity: event.capacity,
-        sold: event.sold,
-        id_location: event.id_location,
-        type: event.type,
-      },
+      update: basePayload,
       create: {
         id_event: event.id_event,
-        title: event.title,
-        description: event.description,
-        start_time: event.start_time || null,
-        end_time: event.end_time || null,
-        price: event.price,
-        capacity: event.capacity,
-        sold: event.sold,
-        id_location: event.id_location,
-        type: event.type,
+        ...basePayload,
         schedules: event.schedules ? {
           create: event.schedules
         } : undefined

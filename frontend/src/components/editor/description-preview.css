@@ -1,0 +1,43 @@
+/* Description preview: keeps bold/italic/underline but resets headings and font sizes */
+.description-preview h1,
+.description-preview h2,
+.description-preview h3,
+.description-preview h4,
+.description-preview h5,
+.description-preview h6 {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  font-family: inherit !important;
+  margin: 0 !important;
+  display: inline !important;
+}
+
+.description-preview p {
+  margin: 0 !important;
+  display: inline !important;
+}
+
+.description-preview ul,
+.description-preview ol {
+  display: inline !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.description-preview li {
+  display: inline !important;
+}
+
+.description-preview blockquote {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.description-preview pre,
+.description-preview code {
+  font-size: inherit !important;
+  display: inline !important;
+}

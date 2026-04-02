@@ -5,18 +5,29 @@
 
   h1 {
     @apply text-3xl font-bold mt-8 mb-4 first:mt-0 last:mb-0 text-left;
+    font-family: 'Cinzel', serif;
+    color: #2C241B;
   }
 
   h2 {
     @apply text-2xl font-bold mt-6 mb-3 first:mt-0 last:mb-0 text-left;
+    font-family: 'Cinzel', serif;
+    color: #2C241B;
   }
 
   h3 {
     @apply text-xl font-semibold mt-4 mb-2 first:mt-0 last:mb-0 text-left;
+    font-family: 'Cinzel', serif;
+    color: #2C241B;
   }
 
   blockquote {
-    @apply border-l-4 border-gray-300 pl-4 py-2 my-4 italic text-gray-600 text-left;
+    @apply pl-4 py-2 my-4 italic text-left;
+    border-left: 4px solid #C19B6C;
+    color: #757068;
+    background: rgba(193, 155, 108, 0.06);
+    border-radius: 0 4px 4px 0;
+    padding-right: 16px;
   }
 
   ul {
@@ -32,7 +43,13 @@
   }
 
   a {
-    @apply text-blue-600 hover:text-blue-800 underline;
+    color: #C19B6C;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    color: #2C241B;
   }
 
   strong {
@@ -44,22 +61,36 @@
   }
 
   code {
-    @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono;
+    @apply px-1.5 py-0.5 rounded text-sm font-mono;
+    background: rgba(193, 155, 108, 0.1);
+    color: #2C241B;
   }
 
   pre {
-    @apply bg-gray-100 p-4 rounded overflow-x-auto my-4;
+    @apply p-4 rounded-md overflow-x-auto my-4;
+    background: #2C241B;
+    color: #F3EAD6;
   }
 
   pre code {
     @apply bg-transparent p-0;
+    color: inherit;
   }
 
   pre.hljs {
-    @apply bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto my-4;
+    @apply p-4 rounded-md overflow-x-auto my-4;
+    background: #2C241B;
+    color: #F3EAD6;
   }
 
   pre.hljs code {
-    @apply bg-transparent p-0 text-gray-100;
+    @apply bg-transparent p-0;
+    color: #F3EAD6;
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(193, 155, 108, 0.3);
+    margin: 24px 0;
   }
 }

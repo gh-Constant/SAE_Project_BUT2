@@ -2,10 +2,10 @@
   <div class="min-h-screen flex font-body">
     <!-- Left side - Map -->
     <div
-      class="hidden md:flex w-1/2 bg-aged-paper relative overflow-hidden items-center justify-center p-6 border-r-4 border-double border-antique-bronze/30">
+      class="hidden md:flex w-1/2 bg-aged-paper relative overflow-hidden">
       <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-      <img src="/images/login_image.png" alt="Login"
-        class="w-11/12 h-auto rounded-lg shadow-2xl transform scale-105 rotate-1 border-4 border-antique-bronze/20 sepia-[0.3]">
+      <img src="/images/realfake.png" alt="Login"
+        class="w-full h-full object-cover object-[45%_center] sepia-[0.3]">
     </div>
 
     <!-- Right side - Login Form -->

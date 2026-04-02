@@ -282,6 +282,22 @@ const productServiceImpl = {
     }
   },
 
+  async updateProduct(productToUpdate: ProductStoreMock) {
+    try {
+      const response = await apiClient.put(`/products/${productToUpdate.id}`, {
+        name: productToUpdate.name,
+        description: productToUpdate.description,
+        price: productToUpdate.price,
+        image: productToUpdate.imageUrl,
+        stock: productToUpdate.stock,
+      });
+      return response.data;
+    } catch (err) {
+      console.error('Error updating product:', err);
+      return null;
+    }
+  },
+
   async createProductForLocation(locationId: number, productData: {
     name: string,
     stock: number,

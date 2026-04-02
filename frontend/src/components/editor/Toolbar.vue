@@ -1,12 +1,8 @@
 <!--
   @file Toolbar.vue
   @description
-  Barre d'outils de l'éditeur TipTap.
+  Barre d'outils de l'éditeur TipTap — thème médiéval.
   Fournit des boutons pour formater le texte, insérer des éléments, aligner, changer la couleur, la police, etc.
-
-  @utilité
-  - Interface principale d'interaction avec l'éditeur.
-  - Simplifie la gestion des styles et de la structure du contenu.
 -->
 
 <template>
@@ -14,223 +10,244 @@
     v-if="editor"
     class="toolbar"
   >
-    <button
-      :class="{ 'is-active': editor.isActive('bold') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleBold().run()"
-    >
-      <strong>B</strong>
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('italic') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleItalic().run()"
-    >
-      <em>I</em>
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('strike') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleStrike().run()"
-    >
-      <s>S</s>
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('underline') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleUnderline().run()"
-    >
-      <u>U</u>
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('codeBlock') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleCodeBlock().run()"
-    >
-      Code Block
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('paragraph') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().setParagraph().run()"
-    >
-      ¶
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-    >
-      H1
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-    >
-      H2
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-    >
-      H3
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('bulletList') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleBulletList().run()"
-    >
-      •
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('orderedList') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleOrderedList().run()"
-    >
-      1.
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive('blockquote') }"
-      class="toolbar-button"
-      @click="editor.chain().focus().toggleBlockquote().run()"
-    >
-      "
-    </button>
-    <button
-      class="toolbar-button"
-      @click="editor.chain().focus().setHorizontalRule().run()"
-    >
-      ―
-    </button>
-    <button
-      :disabled="!editor.can().undo()"
-      class="toolbar-button"
-      @click="editor.chain().focus().undo().run()"
-    >
-      ↶
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
-      class="toolbar-button"
-      @click="editor.chain().focus().setTextAlign('left').run()"
-    >
-      Left
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
-      class="toolbar-button"
-      @click="editor.chain().focus().setTextAlign('center').run()"
-    >
-      Center
-    </button>
-    <button
-      :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
-      class="toolbar-button"
-      @click="editor.chain().focus().setTextAlign('right').run()"
-    >
-      Right
-    </button>
-    <button
-      :disabled="!editor.can().redo()"
-      class="toolbar-button"
-      @click="editor.chain().focus().redo().run()"
-    >
-      ↷
-    </button>
-    <input
-      type="color"
-      :value="editor.getAttributes('textStyle').color || '#000000'"
-      class="toolbar-button color-input"
-      @input="
-        editor
-          .chain()
-          .focus()
-          .setColor(($event.target as HTMLInputElement).value)
-          .run()
-      "
-    >
-    <select
-      :value="editor.getAttributes('textStyle').fontFamily || 'Arial'"
-      class="toolbar-button font-family-select"
-      @change="
-        editor
-          .chain()
-          .focus()
-          .setFontFamily(($event.target as HTMLSelectElement).value)
-          .run()
-      "
-    >
-      <option value="Arial">
-        Arial
-      </option>
-      <option value="Times New Roman">
-        Times New Roman
-      </option>
-      <option value="Courier New">
-        Courier New
-      </option>
-      <option value="Georgia">
-        Georgia
-      </option>
-      <option value="Verdana">
-        Verdana
-      </option>
-      <option value="Helvetica">
-        Helvetica
-      </option>
-      <option value="Comic Sans MS">
-        Comic Sans MS
-      </option>
-      <option value="Impact">
-        Impact
-      </option>
-    </select>
-    <select
-      :value="editor.getAttributes('textStyle').fontSize || '16px'"
-      class="toolbar-button font-size-select"
-      @change="
-        editor
-          .chain()
-          .focus()
-          .setFontSize(($event.target as HTMLSelectElement).value)
-          .run()
-      "
-    >
-      <option value="12px">
-        12px
-      </option>
-      <option value="14px">
-        14px
-      </option>
-      <option value="16px">
-        16px
-      </option>
-      <option value="18px">
-        18px
-      </option>
-      <option value="20px">
-        20px
-      </option>
-      <option value="24px">
-        24px
-      </option>
-      <option value="28px">
-        28px
-      </option>
-      <option value="32px">
-        32px
-      </option>
-    </select>
+    <!-- Groupe : Formatage texte -->
+    <div class="toolbar-group">
+      <button
+        :class="{ 'is-active': editor.isActive('bold') }"
+        class="toolbar-button"
+        title="Gras"
+        @click="editor.chain().focus().toggleBold().run()"
+      >
+        <i class="fas fa-bold"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('italic') }"
+        class="toolbar-button"
+        title="Italique"
+        @click="editor.chain().focus().toggleItalic().run()"
+      >
+        <i class="fas fa-italic"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('underline') }"
+        class="toolbar-button"
+        title="Souligné"
+        @click="editor.chain().focus().toggleUnderline().run()"
+      >
+        <i class="fas fa-underline"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('strike') }"
+        class="toolbar-button"
+        title="Barré"
+        @click="editor.chain().focus().toggleStrike().run()"
+      >
+        <i class="fas fa-strikethrough"></i>
+      </button>
+    </div>
 
-    <button
-      class="toolbar-button clear-format-button"
-      title="Clear formatting"
-      @click="editor.chain().focus().unsetAllMarks().run()"
-    >
-      Clear
-    </button>
+    <div class="toolbar-separator" />
+
+    <!-- Groupe : Titres -->
+    <div class="toolbar-group">
+      <button
+        :class="{ 'is-active': editor.isActive('paragraph') }"
+        class="toolbar-button"
+        title="Paragraphe"
+        @click="editor.chain().focus().setParagraph().run()"
+      >
+        <i class="fas fa-paragraph"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        class="toolbar-button toolbar-button-heading"
+        title="Titre 1"
+        @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+      >
+        H1
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        class="toolbar-button toolbar-button-heading"
+        title="Titre 2"
+        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+      >
+        H2
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+        class="toolbar-button toolbar-button-heading"
+        title="Titre 3"
+        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+      >
+        H3
+      </button>
+    </div>
+
+    <div class="toolbar-separator" />
+
+    <!-- Groupe : Listes & Blocs -->
+    <div class="toolbar-group">
+      <button
+        :class="{ 'is-active': editor.isActive('bulletList') }"
+        class="toolbar-button"
+        title="Liste à puces"
+        @click="editor.chain().focus().toggleBulletList().run()"
+      >
+        <i class="fas fa-list-ul"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('orderedList') }"
+        class="toolbar-button"
+        title="Liste numérotée"
+        @click="editor.chain().focus().toggleOrderedList().run()"
+      >
+        <i class="fas fa-list-ol"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('blockquote') }"
+        class="toolbar-button"
+        title="Citation"
+        @click="editor.chain().focus().toggleBlockquote().run()"
+      >
+        <i class="fas fa-quote-right"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('codeBlock') }"
+        class="toolbar-button"
+        title="Bloc de code"
+        @click="editor.chain().focus().toggleCodeBlock().run()"
+      >
+        <i class="fas fa-code"></i>
+      </button>
+      <button
+        class="toolbar-button"
+        title="Ligne horizontale"
+        @click="editor.chain().focus().setHorizontalRule().run()"
+      >
+        <i class="fas fa-minus"></i>
+      </button>
+    </div>
+
+    <div class="toolbar-separator" />
+
+    <!-- Groupe : Alignement -->
+    <div class="toolbar-group">
+      <button
+        :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
+        class="toolbar-button"
+        title="Aligner à gauche"
+        @click="editor.chain().focus().setTextAlign('left').run()"
+      >
+        <i class="fas fa-align-left"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
+        class="toolbar-button"
+        title="Centrer"
+        @click="editor.chain().focus().setTextAlign('center').run()"
+      >
+        <i class="fas fa-align-center"></i>
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+        class="toolbar-button"
+        title="Aligner à droite"
+        @click="editor.chain().focus().setTextAlign('right').run()"
+      >
+        <i class="fas fa-align-right"></i>
+      </button>
+    </div>
+
+    <div class="toolbar-separator" />
+
+    <!-- Groupe : Couleur & Polices -->
+    <div class="toolbar-group">
+      <div class="color-picker-wrapper" title="Couleur du texte">
+        <i class="fas fa-palette color-picker-icon"></i>
+        <input
+          type="color"
+          :value="editor.getAttributes('textStyle').color || '#000000'"
+          class="color-input"
+          @input="
+            editor
+              .chain()
+              .focus()
+              .setColor(($event.target as HTMLInputElement).value)
+              .run()
+          "
+        >
+      </div>
+      <select
+        :value="editor.getAttributes('textStyle').fontFamily || 'Arial'"
+        class="toolbar-select"
+        title="Police"
+        @change="
+          editor
+            .chain()
+            .focus()
+            .setFontFamily(($event.target as HTMLSelectElement).value)
+            .run()
+        "
+      >
+        <option value="Arial">Arial</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Helvetica">Helvetica</option>
+      </select>
+      <select
+        :value="editor.getAttributes('textStyle').fontSize || '16px'"
+        class="toolbar-select"
+        title="Taille"
+        @change="
+          editor
+            .chain()
+            .focus()
+            .setFontSize(($event.target as HTMLSelectElement).value)
+            .run()
+        "
+      >
+        <option value="12px">12</option>
+        <option value="14px">14</option>
+        <option value="16px">16</option>
+        <option value="18px">18</option>
+        <option value="20px">20</option>
+        <option value="24px">24</option>
+        <option value="28px">28</option>
+        <option value="32px">32</option>
+      </select>
+    </div>
+
+    <div class="toolbar-separator" />
+
+    <!-- Groupe : Undo / Redo / Clear -->
+    <div class="toolbar-group">
+      <button
+        :disabled="!editor.can().undo()"
+        class="toolbar-button"
+        title="Annuler"
+        @click="editor.chain().focus().undo().run()"
+      >
+        <i class="fas fa-undo"></i>
+      </button>
+      <button
+        :disabled="!editor.can().redo()"
+        class="toolbar-button"
+        title="Rétablir"
+        @click="editor.chain().focus().redo().run()"
+      >
+        <i class="fas fa-redo"></i>
+      </button>
+      <button
+        class="toolbar-button clear-format-button"
+        title="Effacer le formatage"
+        @click="editor.chain().focus().unsetAllMarks().run()"
+      >
+        <i class="fas fa-eraser"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -245,47 +262,138 @@ defineProps<Props>();
 </script>
 
 <style scoped>
-@reference "tailwindcss";
-
 .toolbar {
-  @apply flex flex-wrap gap-1 p-2 border-b border-gray-200 bg-gray-50 rounded-t-md;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(212, 197, 165, 0.6);
+  border-bottom: 2px solid rgba(193, 155, 108, 0.3);
+  border-radius: 6px 6px 0 0;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(193, 155, 108, 0.2);
+  margin: 0 6px;
 }
 
 .toolbar-button {
-  @apply px-2 py-1.5 border border-gray-300 rounded bg-white cursor-pointer text-sm transition-all duration-200;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(193, 155, 108, 0.2);
+  border-radius: 4px;
+  background: rgba(243, 234, 214, 0.8);
+  color: rgba(44, 36, 27, 0.7);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
 }
 
 .toolbar-button:hover {
-  @apply bg-gray-100 border-gray-400;
+  background: rgba(193, 155, 108, 0.15);
+  border-color: rgba(193, 155, 108, 0.4);
+  color: #2C241B;
 }
 
 .toolbar-button.is-active {
-  @apply bg-blue-100 border-blue-500 text-blue-700;
+  background: #C19B6C;
+  color: white;
+  border-color: #C19B6C;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .toolbar-button:disabled {
-  @apply opacity-50 cursor-not-allowed;
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.toolbar-button:disabled:hover {
+  background: rgba(243, 234, 214, 0.8);
+  border-color: rgba(193, 155, 108, 0.2);
+}
+
+.toolbar-button-heading {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.toolbar-select {
+  height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  border: 1px solid rgba(193, 155, 108, 0.2);
+  border-radius: 4px;
+  background: rgba(243, 234, 214, 0.8);
+  color: rgba(44, 36, 27, 0.8);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toolbar-select:hover {
+  border-color: rgba(193, 155, 108, 0.4);
+}
+
+.toolbar-select:focus {
+  outline: none;
+  border-color: #C19B6C;
+}
+
+.color-picker-wrapper {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(193, 155, 108, 0.2);
+  border-radius: 4px;
+  background: rgba(243, 234, 214, 0.8);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.color-picker-wrapper:hover {
+  background: rgba(193, 155, 108, 0.15);
+  border-color: rgba(193, 155, 108, 0.4);
+}
+
+.color-picker-icon {
+  font-size: 14px;
+  color: rgba(44, 36, 27, 0.7);
+  pointer-events: none;
 }
 
 .color-input {
-  @apply w-10 h-8 p-0 border border-gray-300 rounded bg-white cursor-pointer;
-}
-
-.font-family-select {
-  @apply px-1.5 py-1 border border-gray-300 rounded bg-white cursor-pointer text-sm min-w-30;
-}
-
-.font-size-select {
-  @apply px-1.5 py-1 border border-gray-300 rounded bg-white cursor-pointer text-sm;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .clear-format-button {
-  @apply bg-red-50 border-red-300 text-red-600;
+  background: rgba(254, 242, 242, 0.8);
+  border-color: rgba(252, 165, 165, 0.5);
+  color: rgba(239, 68, 68, 0.7);
 }
 
 .clear-format-button:hover {
-  @apply bg-red-100 border-red-400;
+  background: #fee2e2;
+  border-color: #f87171;
+  color: #dc2626;
 }
-
-
 </style>

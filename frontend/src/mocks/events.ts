@@ -22,6 +22,7 @@ export interface EventMock {
   title: string;
   description: string;
   type?: 'EVENT' | 'ACTIVITY';
+  event_category?: string;
   start_time?: string;
   end_time?: string;
   price: number;
@@ -62,9 +63,10 @@ export const EVENTS: EventMock[] = [
     title: "Grand Tournoi de Chevalerie",
     description: "Assistez aux joutes les plus spectaculaires du royaume. Chevaliers et écuyers s'affrontent pour la gloire et l'honneur.",
     type: 'EVENT',
+    event_category: 'spectacle',
     start_time: atDayOffset(5, 14, 0),
     end_time: atDayOffset(5, 18, 0),
-    price: 50,
+    price: 5000,
     capacity: 1000,
     sold: 450,
     categories: [],
@@ -76,9 +78,10 @@ export const EVENTS: EventMock[] = [
     title: "Banquet Royal",
     description: "Un festin digne des rois avec musiciens, jongleurs et mets exquis.",
     type: 'EVENT',
+    event_category: 'restauration',
     start_time: atDayOffset(9, 19, 0),
     end_time: atDayOffset(9, 23, 0),
-    price: 120,
+    price: 12000,
     capacity: 200,
     sold: 180,
     categories: [],
@@ -90,6 +93,7 @@ export const EVENTS: EventMock[] = [
     title: "Marché Nocturne",
     description: "Découvrez les merveilles des artisans locaux sous la lueur des torches.",
     type: 'EVENT',
+    event_category: 'marche',
     start_time: atDayOffset(14, 20, 0),
     end_time: atDayOffset(14, 23, 59),
     price: 0,
@@ -104,7 +108,8 @@ export const EVENTS: EventMock[] = [
     title: "Dégustation d'Hydromel",
     description: "Venez goûter nos meilleures cuvées d'hydromel artisanal. Ambiance conviviale garantie !",
     type: 'ACTIVITY',
-    price: 5,
+    event_category: 'restauration',
+    price: 500,
     capacity: 50,
     sold: 0,
     categories: [],
@@ -121,7 +126,8 @@ export const EVENTS: EventMock[] = [
     title: "Cours de Tir à l'Arc",
     description: "Marie vous apprend les bases du tir à l'arc. Matériel fourni.",
     type: 'ACTIVITY',
-    price: 15,
+    event_category: 'atelier',
+    price: 1500,
     capacity: 10,
     sold: 0,
     categories: [],
@@ -138,9 +144,10 @@ export const EVENTS: EventMock[] = [
     title: "Concours de Costume",
     description: "Revêtez votre plus belle tenue médiévale et tentez de gagner un prix !",
     type: 'EVENT',
+    event_category: 'concours',
     start_time: atDayOffset(18, 15, 0),
     end_time: atDayOffset(18, 18, 0),
-    price: 2,
+    price: 200,
     capacity: 100,
     sold: 60,
     categories: [],

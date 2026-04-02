@@ -14,8 +14,15 @@
           <p class="text-base font-body text-stone-grey">{{ t('admin.user_stats.subtitle') }}</p>
         </div>
 
-        <div v-if="isLoading" class="flex justify-center items-center py-20">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-antique-bronze"></div>
+        <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div v-for="i in 3" :key="i" class="bg-gradient-to-br from-aged-paper to-warm-sand rounded-lg border-2 border-antique-bronze/30 shadow-lg p-6">
+            <div class="flex justify-center mb-4">
+              <div class="w-16 h-16 skeleton-shimmer rounded-full" />
+            </div>
+            <div class="h-4 skeleton-shimmer rounded w-2/3 mx-auto mb-3" />
+            <div class="h-10 skeleton-shimmer rounded w-1/3 mx-auto mb-2" />
+            <div class="h-3 skeleton-shimmer rounded w-1/2 mx-auto" />
+          </div>
         </div>
 
         <template v-else>

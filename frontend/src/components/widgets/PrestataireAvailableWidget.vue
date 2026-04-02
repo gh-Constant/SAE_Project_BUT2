@@ -36,14 +36,47 @@
 
       <div
         v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr"
-        class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6"
+        class="bg-gradient-to-br from-white/50 to-antique-bronze/5 border border-antique-bronze/20 rounded-lg p-5 mb-6"
       >
-        <h3 class="text-lg font-medieval font-bold text-iron-black mb-3">Caractéristiques du lieu</h3>
-        <div class="flex flex-wrap gap-2">
-          <span v-if="location.has_water_access" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Accès à l'eau</span>
-          <span v-if="location.has_electricity" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Électricité</span>
-          <span v-if="location.has_toilets" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Toilettes</span>
-          <span v-if="location.is_accessible_pmr" class="px-2 py-1 rounded bg-antique-bronze/10 text-sm text-iron-black">Accessible PMR</span>
+        <h3 class="text-lg font-medieval font-bold text-iron-black mb-1">Cet emplacement inclut</h3>
+        <p class="text-xs text-stone-grey mb-4 font-body">Des atouts pour demarrer votre activite sereinement</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div v-if="location.has_water_access" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-tint text-blue-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Point d'eau</p>
+              <p class="text-xs text-stone-grey">Eau courante disponible</p>
+            </div>
+          </div>
+          <div v-if="location.has_electricity" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-bolt text-yellow-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Electricité</p>
+              <p class="text-xs text-stone-grey">Prises secteur sur place</p>
+            </div>
+          </div>
+          <div v-if="location.has_toilets" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-restroom text-emerald-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Sanitaires</p>
+              <p class="text-xs text-stone-grey">Toilettes à proximité</p>
+            </div>
+          </div>
+          <div v-if="location.is_accessible_pmr" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
+            <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-wheelchair text-purple-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-iron-black">Accessible</p>
+              <p class="text-xs text-stone-grey">Accès personnes à mobilité réduite</p>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -43,7 +43,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 2, // Client user
     id_event: 1,
     quantity: 2,
-    total_price: 100,
+    total_price: 10000,
     status: 'CONFIRMED',
     created_at: reservationDateFor(1, 2, 10),
     event: {
@@ -56,7 +56,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 11, // Lucas
     id_event: 5,
     quantity: 2,
-    total_price: 30,
+    total_price: 3000,
     status: 'CONFIRMED',
     created_at: reservationDateFor(5, 2, 9),
     event: {
@@ -69,7 +69,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 12, // Sophie
     id_event: 6,
     quantity: 1,
-    total_price: 2,
+    total_price: 200,
     status: 'PENDING',
     created_at: reservationDateFor(6, 3, 11),
     event: {
@@ -82,7 +82,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 13, // Antoine
     id_event: 4,
     quantity: 3,
-    total_price: 15,
+    total_price: 1500,
     status: 'CONFIRMED',
     created_at: reservationDateFor(4, 1, 15),
     event: {
@@ -95,7 +95,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 14, // Clara
     id_event: 6,
     quantity: 2,
-    total_price: 4,
+    total_price: 400,
     status: 'CONFIRMED',
     created_at: reservationDateFor(6, 1, 10),
     event: {
@@ -108,7 +108,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 15, // Marc
     id_event: 4,
     quantity: 1,
-    total_price: 5,
+    total_price: 500,
     status: 'CANCELLED',
     created_at: reservationDateFor(4, 1, 18),
     event: {
@@ -121,7 +121,7 @@ export const RESERVATIONS: ReservationMock[] = [
     id_user: 11, // Lucas
     id_event: 2,
     quantity: 1,
-    total_price: 120,
+    total_price: 12000,
     status: 'CONFIRMED',
     created_at: reservationDateFor(2, 2, 9),
     event: {

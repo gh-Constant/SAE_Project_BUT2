@@ -118,6 +118,7 @@ export const eventMockService = {
         title: eventData.title,
         description: eventData.description,
         type: eventData.type || 'EVENT',
+        event_category: eventData.event_category,
         start_time: eventData.type === 'ACTIVITY' ? undefined : eventData.start_time,
         end_time: eventData.type === 'ACTIVITY' ? undefined : eventData.end_time,
         price: eventData.price,
