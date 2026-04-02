@@ -1,25 +1,83 @@
 {
-    "title": "Finalize Your Orders",
-    "subtitle": "Proceed to payment for your pending orders",
-    "all_paid": {
-        "title": "All your orders are paid!",
-        "description": "You can check the status of your purchases in the history.",
-        "button": "View My Orders"
+  "title": "Finalize Your Orders",
+  "subtitle": "Proceed to payment for your pending orders",
+  "all_paid": {
+    "title": "All your orders are paid!",
+    "description": "You can check the status of your purchases in the history.",
+    "button": "View My Orders"
+  },
+  "order_card": {
+    "title": "Order #{id}",
+    "waiting": "Pending",
+    "unknown_product": "Unknown Product",
+    "total_order": "Order Total",
+    "pay": "Pay",
+    "processing": "Processing...",
+    "error_paying": "An error occurred during payment."
+  },
+  "summary": {
+    "title": "Summary",
+    "waiting_count": "Orders to Pay",
+    "paid_count": "Orders Already Paid",
+    "grand_total": "Grand Total",
+    "quote": "\"A paid debt is a soothed soul.\""
+  },
+  "gold": {
+    "buy": {
+      "title": "Royal Treasury",
+      "subtitle": "Acquire gold to buy exclusive items or properties across the kingdom.",
+      "current_total": "Your current treasure",
+      "currency": "Gold",
+      "processing": "Processing transaction...",
+      "buy_pack": "Get this pack",
+      "custom_title": "Custom amount",
+      "custom_description": "Choose the exact amount of gold you want, between 100 and 100,000.",
+      "custom_label": "Gold amount",
+      "estimated_price": "Estimated price",
+      "buy_custom": "Buy this amount",
+      "login_required_title": "Login required",
+      "login_required_description": "You must be logged in to acquire gold. Join the adventure!",
+      "cancel": "Cancel",
+      "packages": {
+        "peasant": {
+          "name": "Peasant pouch",
+          "description": "A small pouch to start your adventure right."
+        },
+        "merchant": {
+          "name": "Merchant chest",
+          "description": "A well-filled chest for seasoned travelers."
+        },
+        "king": {
+          "name": "King's treasure",
+          "description": "The wealth required for grand territorial ambitions."
+        }
+      },
+      "errors": {
+        "session_creation": "An error occurred while creating the checkout session.",
+        "integer_required": "Please enter a whole number.",
+        "out_of_range": "The amount must be between 100 and 100,000 gold."
+      }
     },
-    "order_card": {
-        "title": "Order #{id}",
-        "waiting": "Pending",
-        "unknown_product": "Unknown Product",
-        "total_order": "Order Total",
-        "pay": "Pay",
-        "processing": "Processing...",
-        "error_paying": "An error occurred during payment."
+    "success": {
+      "loading": "Verifying the arrival of your gold convoy...",
+      "title": "Purchase successful!",
+      "description": "Your gold has been safely added to your pouch. The kingdom thanks you.",
+      "total_label": "New total treasure",
+      "back_to_offers": "Back to offers",
+      "back_to_map": "Back to the map",
+      "error_title": "Convoy intercepted",
+      "retry": "Try again",
+      "errors": {
+        "missing_session": "Missing session ID.",
+        "validation_failed": "The payment could not be validated or your coins could not be added.",
+        "network": "Error while communicating with the merchant service."
+      }
     },
-    "summary": {
-        "title": "Summary",
-        "waiting_count": "Orders to Pay",
-        "paid_count": "Orders Already Paid",
-        "grand_total": "Grand Total",
-        "quote": "\"A paid debt is a soothed soul.\""
+    "cancel": {
+      "title": "Trade canceled",
+      "description": "You turned back. No fortune was taken, and your pouch remains unchanged.",
+      "back_to_offers": "Review offers",
+      "back_to_map": "Return to the map"
     }
+  }
 }

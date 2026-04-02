@@ -2,7 +2,9 @@
   "hero": {
     "title": "Embark on a Medieval Adventure",
     "subtitle": "Enter the Lands of the Lion, a medieval festival where every visitor becomes a hero and every step advances the adventure.",
-    "cta": "Begin Your Journey"
+    "cta": "Begin Your Journey",
+    "background_alt": "Kingdom background",
+    "logo_alt": "Les Terres du Lion logo"
   },
   "intro": {
     "title": "The Kingdom Awaits You",
@@ -37,5 +39,44 @@
     "title": "Begin Your Quest",
     "subtitle": "Register now and unlock the wonders of the medieval world",
     "button": "Join the Quest"
+  },
+  "commitments": {
+    "title": "Our commitments to you",
+    "subtitle": "Each festival location is designed for your comfort and safety.",
+    "water": {
+      "title": "Water points",
+      "description": "Fountains and drinking water points spread across the village to keep you refreshed during your adventure."
+    },
+    "power": {
+      "title": "Equipped locations",
+      "description": "Our stalls and workshops have electricity so every artisan can practice their craft in the best conditions."
+    },
+    "toilets": {
+      "title": "Accessible restrooms",
+      "description": "Clean, maintained restrooms accessible to everyone, placed strategically throughout the village."
+    },
+    "accessibility": {
+      "title": "Accessible to all",
+      "description": "The kingdom welcomes every adventurer. Our paths and locations are adapted for people with reduced mobility."
+    }
+  },
+  "leaderboard": {
+    "title": "The Great Adventurers' Grimoire",
+    "subtitle": "Who are the kingdom's bravest heroes?",
+    "columns": {
+      "rank": "Rank",
+      "adventurer": "Adventurer",
+      "level": "Level",
+      "xp": "XP"
+    },
+    "mysterious_adventurer": "Mysterious adventurer",
+    "level_short": "Lvl. {level}",
+    "empty": "No adventurer has braved these lands yet.",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "sticky_title": "Your position",
+    "sticky_subtitle": "Keep pushing, adventurer!",
+    "total_xp": "Total XP"
   }
 }

@@ -117,6 +117,10 @@
         "save": "Seal",
         "cancel": "Cancel"
       }
+    },
+    "empty": {
+      "title": "No product registered",
+      "subtitle": "Add your first item to start trading."
     }
   },
   "quests": {
@@ -145,7 +149,10 @@
         "actions": "Deeds"
       },
       "actions": {
-        "delete": "Expunge"
+        "delete": "Expunge",
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel"
       },
       "empty": {
         "title": "No quests forged",
@@ -328,6 +335,28 @@
           "total": "Total (Gold)",
           "date": "Date"
         }
+      }
+    }
+  },
+  "reservations": {
+    "title": "Reservation Management",
+    "subtitle": "Track registrations for your events",
+    "search": {
+      "label": "Search",
+      "placeholder": "Search by customer or event..."
+    },
+    "table": {
+      "headers": {
+        "event": "Event",
+        "customer": "Customer",
+        "date": "Date",
+        "quantity": "Qty",
+        "total": "Total",
+        "status": "Status"
+      },
+      "empty": {
+        "title": "No reservations",
+        "subtitle": "Your events have not received any registrations yet."
       }
     }
   }

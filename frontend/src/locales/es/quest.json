@@ -1,40 +1,54 @@
 {
-    "title": "Mis Misiones",
-    "subtitle": "Sigue tu progreso y completa misiones para ganar experiencia.",
-    "loading": "Cargando...",
-    "empty": {
-        "message": "Aún no has aceptado ninguna misión.",
-        "description": "¡Explora el mapa para descubrir nuevas misiones!",
-        "explore": "Explorar mapa"
-    },
-    "item": {
-        "unknown_location": "Ubicación desconocida",
-        "reward": "Recompensa: {xp} XP"
-    },
-    "status": {
-        "accepted": "En curso",
-        "completed": "Completada",
-        "failed": "Fallida"
-    },
-    "sections": {
-        "in_progress": "Misiones en curso",
-        "completed": "Misiones completadas"
-    },
-    "actions": {
-        "cancel": "Abandonar",
-        "confirm_cancel": "¿Estás seguro de que quieres abandonar esta misión?",
-        "error_cancel": "Error al abandonar la misión.",
-        "scan": "Escanear"
-    },
-    "completed_message": "¡Misión completada!",
-    "debug": {
-        "finish": "[DEV]",
-        "confirm_finish": "DEBUG: ¿Quieres marcar esta misión como completada?",
-        "error_finish": "Error al completar la misión."
-    },
-    "toast": {
-        "completed_title": "Misión completada",
-        "completed_message": "{quest} se marcó como completada.",
-        "error_title": "Error en la acción"
-    }
+  "title": "Mis Misiones",
+  "subtitle": "Sigue tu progreso y completa misiones para ganar experiencia.",
+  "loading": "Cargando...",
+  "empty": {
+    "message": "Aún no has aceptado ninguna misión.",
+    "description": "¡Explora el mapa para descubrir nuevas misiones!",
+    "explore": "Explorar mapa"
+  },
+  "item": {
+    "unknown_location": "Ubicación desconocida",
+    "reward": "Recompensa: {xp} XP"
+  },
+  "status": {
+    "accepted": "En curso",
+    "completed": "Completada",
+    "failed": "Fallida"
+  },
+  "sections": {
+    "in_progress": "Misiones en curso",
+    "completed": "Misiones completadas"
+  },
+  "actions": {
+    "cancel": "Abandonar",
+    "confirm_cancel": "¿Estás seguro de que quieres abandonar esta misión?",
+    "error_cancel": "Error al abandonar la misión.",
+    "scan": "Escanear"
+  },
+  "completed_message": "¡Misión completada!",
+  "debug": {
+    "finish": "[DEV]",
+    "confirm_finish": "DEBUG: ¿Quieres marcar esta misión como completada?",
+    "error_finish": "Error al completar la misión."
+  },
+  "toast": {
+    "completed_title": "Misión completada",
+    "completed_message": "{quest} se marcó como completada.",
+    "error_title": "Error en la acción"
+  },
+  "scan": {
+    "title": "Escanear el c?digo QR",
+    "hint": "Apunta con tu c?mara al c?digo QR del lugar de la misi?n",
+    "camera_error": "No se puede acceder a la c?mara",
+    "camera_error_hint": "Autoriza el acceso a la c?mara en la configuraci?n de tu navegador.",
+    "retry": "Reintentar",
+    "or_manual": "O introduce el c?digo manualmente",
+    "enter_code": "Introduce el c?digo del lugar",
+    "validate": "Validar",
+    "success": "?Misi?n validada!",
+    "failed": "Validaci?n fallida",
+    "try_again": "Volver a intentar",
+    "close": "Cerrar"
+  }
 }

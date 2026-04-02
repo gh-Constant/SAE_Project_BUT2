@@ -1,25 +1,83 @@
 {
-    "title": "Finalizar sus pedidos",
-    "subtitle": "Proceda al pago de sus pedidos pendientes",
-    "all_paid": {
-        "title": "¡Todos sus pedidos están pagados!",
-        "description": "Puede consultar el estado de sus compras en el historial.",
-        "button": "Ver mis pedidos"
+  "title": "Finalizar sus pedidos",
+  "subtitle": "Proceda al pago de sus pedidos pendientes",
+  "all_paid": {
+    "title": "¡Todos sus pedidos están pagados!",
+    "description": "Puede consultar el estado de sus compras en el historial.",
+    "button": "Ver mis pedidos"
+  },
+  "order_card": {
+    "title": "Pedido #{id}",
+    "waiting": "Pendiente",
+    "unknown_product": "Producto desconocido",
+    "total_order": "Total del pedido",
+    "pay": "Pagar",
+    "processing": "Procesando...",
+    "error_paying": "Ocurrió un error durante el pago."
+  },
+  "summary": {
+    "title": "Resumen",
+    "waiting_count": "Pedidos por pagar",
+    "paid_count": "Pedidos ya pagados",
+    "grand_total": "Gran Total",
+    "quote": "\"Una deuda pagada es un alma sosegada.\""
+  },
+  "gold": {
+    "buy": {
+      "title": "Tesoro real",
+      "subtitle": "Consigue oro para comprar art?culos o propiedades exclusivas en el reino.",
+      "current_total": "Tu tesoro actual",
+      "currency": "Oro",
+      "processing": "Procesando transacci?n...",
+      "buy_pack": "Comprar este pack",
+      "custom_title": "Cantidad personalizada",
+      "custom_description": "Elige exactamente la cantidad de oro que deseas, entre 100 y 100 000.",
+      "custom_label": "Cantidad de oro",
+      "estimated_price": "Precio estimado",
+      "buy_custom": "Comprar esta cantidad",
+      "login_required_title": "Inicio de sesi?n requerido",
+      "login_required_description": "Debes iniciar sesi?n para conseguir oro. ??nete a la aventura!",
+      "cancel": "Cancelar",
+      "packages": {
+        "peasant": {
+          "name": "Bolsa de campesino",
+          "description": "Una peque?a bolsa para comenzar bien tu aventura."
+        },
+        "merchant": {
+          "name": "Cofre de mercader",
+          "description": "Un cofre bien lleno para viajeros experimentados."
+        },
+        "king": {
+          "name": "Tesoro del rey",
+          "description": "La riqueza necesaria para grandes ambiciones territoriales."
+        }
+      },
+      "errors": {
+        "session_creation": "Se produjo un error al crear la sesi?n de pago.",
+        "integer_required": "Introduce un n?mero entero.",
+        "out_of_range": "La cantidad debe estar entre 100 y 100 000 de oro."
+      }
     },
-    "order_card": {
-        "title": "Pedido #{id}",
-        "waiting": "Pendiente",
-        "unknown_product": "Producto desconocido",
-        "total_order": "Total del pedido",
-        "pay": "Pagar",
-        "processing": "Procesando...",
-        "error_paying": "Ocurrió un error durante el pago."
+    "success": {
+      "loading": "Verificando la llegada de tu convoy de oro...",
+      "title": "?Compra completada!",
+      "description": "Tu oro se ha a?adido de forma segura a tu bolsa. El reino te lo agradece.",
+      "total_label": "Nuevo tesoro total",
+      "back_to_offers": "Volver a las ofertas",
+      "back_to_map": "Volver al mapa",
+      "error_title": "Convoy interceptado",
+      "retry": "Reintentar",
+      "errors": {
+        "missing_session": "Falta el ID de sesi?n.",
+        "validation_failed": "No se pudo validar el pago o no se pudieron a?adir tus monedas.",
+        "network": "Error al comunicarse con el servicio del mercader."
+      }
     },
-    "summary": {
-        "title": "Resumen",
-        "waiting_count": "Pedidos por pagar",
-        "paid_count": "Pedidos ya pagados",
-        "grand_total": "Gran Total",
-        "quote": "\"Una deuda pagada es un alma sosegada.\""
+    "cancel": {
+      "title": "Intercambio cancelado",
+      "description": "Has dado media vuelta. No se ha retirado ninguna fortuna y tu bolsa permanece igual.",
+      "back_to_offers": "Revisar ofertas",
+      "back_to_map": "Volver a explorar el mapa"
     }
+  }
 }

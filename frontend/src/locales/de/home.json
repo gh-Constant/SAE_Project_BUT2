@@ -2,7 +2,9 @@
   "hero": {
     "title": "Begeben Sie sich auf ein mittelalterliches Abenteuer",
     "subtitle": "Betreten Sie die Länder des Löwen, ein mittelalterliches Festival, auf dem jeder Besucher zum Helden wird und jeder Schritt das Abenteuer vorantreibt.",
-    "cta": "Beginnen Sie Ihre Reise"
+    "cta": "Beginnen Sie Ihre Reise",
+    "background_alt": "Hintergrund des K?nigreichs",
+    "logo_alt": "Logo von Les Terres du Lion"
   },
   "intro": {
     "title": "Das Königreich erwartet Sie",
@@ -37,5 +39,44 @@
     "title": "Beginnen Sie Ihre Quest",
     "subtitle": "Registrieren Sie sich jetzt und schalten Sie die Wunder der mittelalterlichen Welt frei",
     "button": "Treten Sie der Quest bei"
+  },
+  "commitments": {
+    "title": "Unsere Zusagen an Sie",
+    "subtitle": "Jeder Ort des Festivals ist f?r Ihren Komfort und Ihre Sicherheit ausgelegt.",
+    "water": {
+      "title": "Wasserstellen",
+      "description": "Trinkbrunnen und Wasserstellen im ganzen Dorf, damit Sie w?hrend Ihres Abenteuers erfrischt bleiben."
+    },
+    "power": {
+      "title": "Ausgestattete Standorte",
+      "description": "Unsere St?nde und Werkst?tten verf?gen ?ber Strom, damit jeder Handwerker unter besten Bedingungen arbeiten kann."
+    },
+    "toilets": {
+      "title": "Barrierefreie Sanit?ranlagen",
+      "description": "Saubere, gepflegte Sanit?ranlagen f?r alle, strategisch im Dorf verteilt."
+    },
+    "accessibility": {
+      "title": "F?r alle zug?nglich",
+      "description": "Das K?nigreich hei?t jeden Abenteurer willkommen. Unsere Wege und Orte sind f?r Menschen mit eingeschr?nkter Mobilit?t angepasst."
+    }
+  },
+  "leaderboard": {
+    "title": "Das gro?e Grimoire der Abenteurer",
+    "subtitle": "Wer sind die mutigsten Helden des K?nigreichs?",
+    "columns": {
+      "rank": "Rang",
+      "adventurer": "Abenteurer",
+      "level": "Stufe",
+      "xp": "XP"
+    },
+    "mysterious_adventurer": "Geheimnisvoller Abenteurer",
+    "level_short": "Lvl. {level}",
+    "empty": "Noch hat kein Abenteurer diese Lande betreten.",
+    "previous": "Zur?ck",
+    "next": "Weiter",
+    "page": "Seite",
+    "sticky_title": "Ihre Position",
+    "sticky_subtitle": "Machen Sie weiter, Abenteurer!",
+    "total_xp": "Gesamt-XP"
   }
 }

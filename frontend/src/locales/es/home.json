@@ -2,7 +2,9 @@
   "hero": {
     "title": "Embárcate en una Aventura Medieval",
     "subtitle": "Entra en Las Tierras del León, un festival medieval donde cada visitante se convierte en un héroe y cada paso hace avanzar la aventura.",
-    "cta": "Comienza Tu Viaje"
+    "cta": "Comienza Tu Viaje",
+    "background_alt": "Fondo del reino",
+    "logo_alt": "Logotipo de Les Terres du Lion"
   },
   "intro": {
     "title": "El Reino Te Espera",
@@ -37,5 +39,44 @@
     "title": "Comienza Tu Búsqueda",
     "subtitle": "Regístrate ahora y desbloquea las maravillas del mundo medieval",
     "button": "Únete a la Búsqueda"
+  },
+  "commitments": {
+    "title": "Nuestros compromisos contigo",
+    "subtitle": "Cada espacio del festival est? pensado para tu comodidad y seguridad.",
+    "water": {
+      "title": "Puntos de agua",
+      "description": "Fuentes y puntos de agua potable repartidos por todo el pueblo para refrescarte durante tu aventura."
+    },
+    "power": {
+      "title": "Espacios equipados",
+      "description": "Nuestros puestos y talleres disponen de electricidad para que cada artesano pueda trabajar en las mejores condiciones."
+    },
+    "toilets": {
+      "title": "Ba?os accesibles",
+      "description": "Instalaciones sanitarias limpias y cuidadas, accesibles para todos y distribuidas estrat?gicamente por el pueblo."
+    },
+    "accessibility": {
+      "title": "Accesible para todos",
+      "description": "El reino da la bienvenida a cada aventurero. Nuestros caminos y espacios est?n adaptados para personas con movilidad reducida."
+    }
+  },
+  "leaderboard": {
+    "title": "El gran grimorio de los aventureros",
+    "subtitle": "?Qui?nes son los h?roes m?s valientes del reino?",
+    "columns": {
+      "rank": "Rango",
+      "adventurer": "Aventurero",
+      "level": "Nivel",
+      "xp": "XP"
+    },
+    "mysterious_adventurer": "Aventurero misterioso",
+    "level_short": "Nv. {level}",
+    "empty": "Todav?a ning?n aventurero ha desafiado estas tierras.",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "P?gina",
+    "sticky_title": "Tu posici?n",
+    "sticky_subtitle": "?Sigue esforz?ndote, aventurero!",
+    "total_xp": "XP total"
   }
 }

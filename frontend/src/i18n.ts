@@ -87,6 +87,8 @@ import mcQuiz from './locales/mc/quiz.json';
 
 import enMessaging from './locales/en/messaging.json';
 import frMessaging from './locales/fr/messaging.json';
+import deMessaging from './locales/de/messaging.json';
+import esMessaging from './locales/es/messaging.json';
 
 
 const messages = {
@@ -151,7 +153,7 @@ const messages = {
     widgets: deWidgets,
     qrcode: deQrcode,
     quiz: deQuiz,
-    messaging: enMessaging
+    messaging: deMessaging
   },
   es: {
     map: esMap,
@@ -172,7 +174,7 @@ const messages = {
     widgets: esWidgets,
     qrcode: esQrcode,
     quiz: esQuiz,
-    messaging: enMessaging
+    messaging: esMessaging
   },
   mc: {
     map: mcMap,

@@ -29,7 +29,9 @@
       "manage_quests": "Gestionar misiones",
       "create_location": "Crear lugar",
       "view_bookings": "Ver reservas",
-      "edit_profile": "Editar crónica"
+      "edit_profile": "Editar crónica",
+      "manage_quizzes": "Gestionar quiz",
+      "scan_order": "Escanear un pedido"
     },
     "recent_activity": {
       "title": "Actividad Reciente",
@@ -39,6 +41,11 @@
       "status_success": "Éxito",
       "time_now": "Hace 2 horas",
       "time_yesterday": "Ayer"
+    },
+    "orders": {
+      "title": "Pedidos realizados",
+      "total_label": "Total de pedidos",
+      "scan": "Escanear un pedido"
     }
   },
   "products": {
@@ -106,6 +113,10 @@
         "save": "Sellar",
         "cancel": "Cancelar"
       }
+    },
+    "empty": {
+      "title": "No hay productos registrados",
+      "subtitle": "A?ade tu primera mercanc?a para empezar a comerciar."
     }
   },
   "quests": {
@@ -134,7 +145,10 @@
         "actions": "Acciones"
       },
       "actions": {
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "save": "Guardar",
+        "cancel": "Cancelar"
       },
       "empty": {
         "title": "No hay misiones forjadas",
@@ -269,7 +283,49 @@
         "subtitle": "No tienes eventos programados."
       },
       "actions": {
-        "manage": "Gestionar / Editar"
+        "manage": "Gestionar / Editar",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "view_reservations": "Ver reservas"
+      }
+    },
+    "manager": {
+      "create_button": "Crear un evento",
+      "empty_search": {
+        "title": "No se encontr? ning?n evento",
+        "description": "Todav?a no has creado eventos para este lugar o tu b?squeda no arroja resultados."
+      },
+      "stats": {
+        "sold": "Vendidos",
+        "revenue": "Ingresos"
+      },
+      "form": {
+        "title_label": "T?tulo del evento",
+        "description_label": "Descripci?n",
+        "date_label": "Elegir fecha y hora",
+        "start": "Inicio",
+        "end": "Fin",
+        "price_label": "Precio (oro)",
+        "capacity_label": "Capacidad",
+        "submit_create": "Publicar",
+        "submit_update": "Actualizar",
+        "cancel": "Cancelar",
+        "type_label": "Tipo de evento",
+        "type_event": "Evento ?nico",
+        "type_activity": "Actividad (m?ltiples franjas)",
+        "schedules_title": "Franjas horarias",
+        "add_schedule": "A?adir una franja"
+      },
+      "reservations": {
+        "modal_title": "Reservas",
+        "empty": "No hay reservas para este evento.",
+        "close": "Cerrar",
+        "headers": {
+          "adventurer": "Aventurero",
+          "places": "Plazas",
+          "total": "Total (oro)",
+          "date": "Fecha"
+        }
       }
     }
   },
@@ -304,6 +360,32 @@
         "places": "Plazas",
         "total": "Total (Oro)",
         "date": "Fecha"
+      }
+    }
+  },
+  "tabs": {
+    "dashboard": "Panel",
+    "profile": "Perfil"
+  },
+  "reservations": {
+    "title": "Gesti?n de reservas",
+    "subtitle": "Sigue las inscripciones a tus eventos",
+    "search": {
+      "label": "Buscar",
+      "placeholder": "Buscar por cliente o evento..."
+    },
+    "table": {
+      "headers": {
+        "event": "Evento",
+        "customer": "Cliente",
+        "date": "Fecha",
+        "quantity": "Cant.",
+        "total": "Total",
+        "status": "Estado"
+      },
+      "empty": {
+        "title": "No hay reservas",
+        "subtitle": "Tus eventos todav?a no han recibido inscripciones."
       }
     }
   }

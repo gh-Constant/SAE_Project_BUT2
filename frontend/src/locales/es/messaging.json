@@ -1,0 +1,10 @@
+{
+  "title": "Mensajes",
+  "conversations": "Conversaciones",
+  "no_conversations": "A?n no hay conversaciones.",
+  "select_conversation": "Selecciona una conversaci?n para empezar a chatear.",
+  "no_messages": "No hay mensajes. ?Empieza la conversaci?n!",
+  "type_placeholder": "Escribe tu mensaje...",
+  "confirm_delete": "?Seguro que quieres eliminar esta conversaci?n definitivamente?",
+  "delete": "Eliminar"
+}
