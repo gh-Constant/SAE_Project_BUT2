@@ -72,7 +72,18 @@
 
             <!-- Content Section -->
             <div class="p-6 flex-1 flex flex-col">
-              <p class="text-stone-grey mb-6 line-clamp-3 italic flex-1">{{ location.description }}</p>
+              <div
+                class="tiptap prose prose-sm max-w-none text-stone-grey mb-6 line-clamp-3 flex-1"
+                v-html="location.description || ''"
+              ></div>
+
+              <button
+                @click="openEditModal(location)"
+                class="w-full mb-3 bg-white/50 hover:bg-white text-antique-bronze border border-antique-bronze font-medieval font-bold py-2.5 px-4 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2 group"
+              >
+                <i class="fas fa-edit group-hover:scale-110 transition-transform"></i>
+                Modifier l’emplacement
+              </button>
 
               <div v-if="location.status === 'APPROVED'"
                 class="space-y-3 mt-auto pt-4 border-t border-antique-bronze/20">
@@ -108,6 +119,109 @@
 
       </div>
     </main>
+
+    <Teleport to="body">
+      <div
+        v-if="showEditModal"
+        class="fixed inset-0 z-[2500] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+        @click.self="closeEditModal"
+      >
+        <div class="bg-parchment rounded-lg shadow-2xl border-2 border-antique-bronze/40 w-full max-w-4xl max-h-[90vh] overflow-hidden">
+          <div class="flex items-center justify-between px-6 py-5 border-b border-antique-bronze/15 bg-white/60">
+            <div>
+              <h2 class="text-2xl font-medieval font-bold text-iron-black">Modifier l’emplacement</h2>
+              <p class="text-sm text-stone-grey mt-1">{{ editForm.name || 'Sans nom' }}</p>
+            </div>
+            <button @click="closeEditModal" class="text-stone-grey hover:text-iron-black transition-colors">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <div class="overflow-y-auto max-h-[calc(90vh-88px)] p-6">
+            <div v-if="editError" class="mb-4 bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+              {{ editError }}
+            </div>
+
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-bold text-iron-black mb-2">Nom</label>
+                <input
+                  v-model="editForm.name"
+                  type="text"
+                  class="w-full px-4 py-3 bg-white border border-antique-bronze/30 rounded-lg focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black"
+                  placeholder="Nom de votre emplacement"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-iron-black mb-2">Image</label>
+                <div class="bg-white/60 border border-antique-bronze/20 rounded-lg p-4">
+                  <div class="h-56 rounded-lg overflow-hidden bg-stone-200 mb-4 flex items-center justify-center">
+                    <img
+                      v-if="editForm.banner_image"
+                      :src="editForm.banner_image"
+                      :alt="editForm.name"
+                      class="w-full h-full object-cover"
+                    >
+                    <div v-else class="text-stone-grey flex flex-col items-center gap-2">
+                      <i class="fas fa-image text-4xl"></i>
+                      <span>Aucune image</span>
+                    </div>
+                  </div>
+
+                  <div class="flex flex-wrap gap-3">
+                    <label class="px-4 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded-md shadow-md transition-all cursor-pointer">
+                      <span v-if="uploadingImage">
+                        <i class="fas fa-spinner fa-spin mr-2"></i> Upload...
+                      </span>
+                      <span v-else>
+                        <i class="fas fa-upload mr-2"></i> Changer l’image
+                      </span>
+                      <input type="file" accept="image/*" class="hidden" :disabled="uploadingImage" @change="handleImageUpload">
+                    </label>
+
+                    <button
+                      v-if="editForm.banner_image"
+                      @click="editForm.banner_image = ''"
+                      type="button"
+                      class="px-4 py-2 bg-white hover:bg-stone-50 text-stone-grey border border-stone-300 rounded-md transition-colors"
+                    >
+                      Retirer l’image
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-iron-black mb-2">Description</label>
+                <Editor ref="editorRef" :initial-content="editForm.description" />
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-antique-bronze/15">
+              <button
+                @click="closeEditModal"
+                type="button"
+                class="px-5 py-2.5 bg-white hover:bg-stone-50 text-stone-grey border border-stone-300 rounded-md transition-colors"
+              >
+                Annuler
+              </button>
+              <button
+                @click="saveLocation"
+                type="button"
+                :disabled="savingEdit || uploadingImage"
+                class="px-5 py-2.5 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded-md shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <span v-if="savingEdit">
+                  <i class="fas fa-spinner fa-spin mr-2"></i> Enregistrement...
+                </span>
+                <span v-else>Enregistrer</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -119,11 +233,24 @@ import { locationService } from '@/services/locationService'
 import { LocationMock } from '@/mocks/locations'
 import MedievalButton from '@/components/ui/MedievalButton.vue'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
+import Editor from '@/components/editor/Editor.vue'
+import { uploadService } from '@/services/uploadService'
 
 const router = useRouter()
 const authStore = useAuthStore()
 const loading = ref(false)
 const allLocations = ref<LocationMock[]>([])
+const showEditModal = ref(false)
+const savingEdit = ref(false)
+const uploadingImage = ref(false)
+const editError = ref('')
+const editingLocationId = ref<number | null>(null)
+const editorRef = ref<InstanceType<typeof Editor> | null>(null)
+const editForm = ref({
+  name: '',
+  description: '',
+  banner_image: ''
+})
 
 onMounted(async () => {
   loading.value = true
@@ -155,5 +282,75 @@ function addQuiz(locationId: number) {
     path: '/quiz/create',
     query: { locationId: locationId }
   })
+}
+
+function openEditModal(location: LocationMock) {
+  editingLocationId.value = location.id
+  editForm.value = {
+    name: location.name || '',
+    description: location.description || '',
+    banner_image: location.banner_image || ''
+  }
+  editError.value = ''
+  showEditModal.value = true
+}
+
+function closeEditModal() {
+  showEditModal.value = false
+  editingLocationId.value = null
+  editError.value = ''
+}
+
+async function handleImageUpload(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+
+  if (!file) return
+
+  try {
+    uploadingImage.value = true
+    const response = await uploadService.uploadImage(file)
+    editForm.value.banner_image = response.url
+  } catch (error) {
+    editError.value = error instanceof Error ? error.message : 'Erreur lors de l’upload de l’image'
+  } finally {
+    uploadingImage.value = false
+    input.value = ''
+  }
+}
+
+async function saveLocation() {
+  if (!editingLocationId.value) return
+
+  const trimmedName = editForm.value.name.trim()
+  const description = editorRef.value?.getHTML() || editForm.value.description
+
+  if (!trimmedName) {
+    editError.value = 'Le nom de l’emplacement est requis'
+    return
+  }
+
+  try {
+    savingEdit.value = true
+    editError.value = ''
+
+    const updatedLocation = await locationService.updateLocation({
+      id: editingLocationId.value,
+      name: trimmedName,
+      description,
+      banner_image: editForm.value.banner_image,
+    })
+
+    const index = allLocations.value.findIndex((loc) => loc.id === updatedLocation.id)
+    if (index !== -1) {
+      allLocations.value[index] = { ...allLocations.value[index], ...updatedLocation }
+    }
+
+    closeEditModal()
+  } catch (error) {
+    editError.value = error instanceof Error ? error.message : 'Erreur lors de la mise à jour du lieu'
+  } finally {
+    savingEdit.value = false
+  }
 }
 </script>

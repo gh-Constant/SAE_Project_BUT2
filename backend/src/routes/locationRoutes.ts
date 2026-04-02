@@ -21,7 +21,7 @@ router.get('/', getAllLocations);
 router.get('/:id', getLocationById);
 
 // Protected routes
-router.patch('/:id', authenticateToken, authorize(['admin']), updateLocation);
+router.patch('/:id', authenticateToken, updateLocation);
 router.post('/:id/purchase', authenticateToken, checkLocationAvailable, purchaseLocation);
 router.post('/:id/validate', authenticateToken, authorize(['admin']), validatePurchase);
 router.post('/:id/reject', authenticateToken, authorize(['admin']), rejectPurchase);

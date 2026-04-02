@@ -188,7 +188,7 @@ export const locationMockService = {
     });
   },
 
-  updateLocation: (location: LocationMock): Promise<LocationMock> => {
+  updateLocation: (location: Partial<LocationMock> & { id: number }): Promise<LocationMock> => {
     // TODO: supprimer toutes les enven, produit, ... si changement de prestataire
 
     return new Promise((resolve, reject) => {

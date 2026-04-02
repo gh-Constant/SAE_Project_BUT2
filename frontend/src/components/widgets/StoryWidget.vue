@@ -26,7 +26,10 @@
 
     <div class="p-6">
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
-      <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
+      <div
+        class="tiptap prose prose-sm sm:prose lg:prose-base max-w-none text-stone-grey mb-6"
+        v-html="location.description || ''"
+      ></div>
 
       <div class="bg-white/40 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <div class="flex justify-between mb-2 font-body">

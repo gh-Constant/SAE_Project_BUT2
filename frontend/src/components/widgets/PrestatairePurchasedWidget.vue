@@ -29,7 +29,10 @@
 
     <div class="p-6">
       <h2 class="text-3xl font-medieval font-bold mb-4 text-iron-black">{{ location.name }}</h2>
-      <p class="text-base font-body leading-relaxed text-stone-grey mb-6">{{ location.description }}</p>
+      <div
+        class="tiptap prose prose-sm sm:prose lg:prose-base max-w-none text-stone-grey mb-6"
+        v-html="location.description || ''"
+      ></div>
 
       <div
         v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr"

@@ -7,6 +7,7 @@ import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 interface LocationUpdateData {
   name?: string;
   description?: string;
+  banner_name?: string | null;
   price?: number;
   has_water_access?: boolean;
   has_electricity?: boolean;
@@ -156,11 +157,12 @@ export const getLocationById = async (req: Request, res: Response) => {
   }
 };
 
-export const updateLocation = async (req: Request, res: Response): Promise<void> => {
+export const updateLocation = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const { id } = req.params;
   const {
     name,
     description,
+    banner_image,
     price,
     has_water_access,
     has_electricity,
@@ -172,6 +174,14 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
   } = req.body;
 
   try {
+    const userId = req.user?.id;
+    const userRole = req.user?.role;
+
+    if (!userId) {
+      res.status(401).json({ error: 'Authentication required' });
+      return;
+    }
+
     // Check if location exists
     const existingLocation = await prisma.location.findUnique({
       where: { id_location: Number(id) }
@@ -182,22 +192,34 @@ export const updateLocation = async (req: Request, res: Response): Promise<void>
       return;
     }
 
+    const isAdmin = userRole === 'admin';
+    const isOwner = existingLocation.id_prestataire === userId;
+
+    if (!isAdmin && !isOwner) {
+      res.status(403).json({ error: 'You do not own this location' });
+      return;
+    }
+
     // Build update data object (only include fields that are provided)
     const updateData: LocationUpdateData = {};
     if (name !== undefined) updateData.name = name;
     if (description !== undefined) updateData.description = description;
-    if (price !== undefined) updateData.price = price;
-    if (has_water_access !== undefined) updateData.has_water_access = has_water_access;
-    if (has_electricity !== undefined) updateData.has_electricity = has_electricity;
-    if (has_toilets !== undefined) updateData.has_toilets = has_toilets;
-    if (is_accessible_pmr !== undefined) updateData.is_accessible_pmr = is_accessible_pmr;
-    if (purchased !== undefined) updateData.purchased = purchased;
-    if (id_prestataire !== undefined) updateData.id_prestataire = id_prestataire;
-    if (id_location_type !== undefined) updateData.id_location_type = id_location_type;
+    if (banner_image !== undefined) updateData.banner_name = banner_image;
+
+    if (isAdmin) {
+      if (price !== undefined) updateData.price = price;
+      if (has_water_access !== undefined) updateData.has_water_access = has_water_access;
+      if (has_electricity !== undefined) updateData.has_electricity = has_electricity;
+      if (has_toilets !== undefined) updateData.has_toilets = has_toilets;
+      if (is_accessible_pmr !== undefined) updateData.is_accessible_pmr = is_accessible_pmr;
+      if (purchased !== undefined) updateData.purchased = purchased;
+      if (id_prestataire !== undefined) updateData.id_prestataire = id_prestataire;
+      if (id_location_type !== undefined) updateData.id_location_type = id_location_type;
+    }
 
     // Keep status logic coherent for provider locations:
     // owner with purchased=false => pending, owner with purchased=true => approved, no owner => available
-    if (id_prestataire !== undefined && Number(id_location_type ?? existingLocation.id_location_type) === PRESTATAIRE_LOCATION_TYPE_ID) {
+    if (isAdmin && id_prestataire !== undefined && Number(id_location_type ?? existingLocation.id_location_type) === PRESTATAIRE_LOCATION_TYPE_ID) {
       if (!id_prestataire) {
         updateData.id_prestataire = null;
         updateData.purchased = false;

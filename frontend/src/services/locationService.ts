@@ -96,12 +96,12 @@ const locationServiceImpl = {
     });
   },
 
-  updateLocation: async (location: LocationMock): Promise<LocationMock> => {
+  updateLocation: async (location: Partial<LocationMock> & { id: number }): Promise<LocationMock> => {
     try {
       const response = await apiClient.patch(`/locations/${location.id}`, location);
       return response.data;
-    } catch {
-      throw new Error('Failed to update location');
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to update location');
     }
   },
 
