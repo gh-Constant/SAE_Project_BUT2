@@ -1,4 +1,4 @@
-import prisma from '../prisma.js';
+﻿import prisma from '../prisma.js';
 import type { Prisma } from '@prisma/client';
 
 export const LocationType = {
@@ -183,9 +183,9 @@ const LOCATION_SEEDS: LocationSeed[] = [
   {
     id_location: 14,
     static_code: 'PRESTA_STALL_5',
-    name: 'Merchant Stall #5',
+    name: 'La Rotisserie du Lion',
     description:
-      'A popular location among travelers, known for its high foot traffic.',
+      'Stand de restauration chaude avec grande ardoise du jour et service en continu.',
     price: 14000,
     has_water_access: true,
     has_electricity: true,
@@ -201,9 +201,9 @@ const LOCATION_SEEDS: LocationSeed[] = [
   {
     id_location: 15,
     static_code: 'PRESTA_STALL_6',
-    name: 'Merchant Stall #6',
+    name: 'Le Cellier des Voyageurs',
     description:
-      'Situated near the town square, this stall benefits from constant visibility.',
+      'Comptoir de boissons, degustations et paniers gourmands a emporter.',
     price: 16000,
     has_water_access: true,
     has_electricity: true,
@@ -219,9 +219,9 @@ const LOCATION_SEEDS: LocationSeed[] = [
   {
     id_location: 16,
     static_code: 'PRESTA_STALL_7',
-    name: 'Merchant Stall #7',
+    name: 'L Atelier de l Arbaletriere',
     description:
-      'A strategic location for merchants, close to the main road.',
+      'Atelier vivant de cuir et d accessoires de tir avec demonstrations.',
     price: 11000,
     purchased: true,
     id_prestataire: 4,
@@ -233,9 +233,9 @@ const LOCATION_SEEDS: LocationSeed[] = [
   {
     id_location: 17,
     static_code: 'PRESTA_STALL_8',
-    name: 'Merchant Stall #8',
+    name: 'La Forge des Lanternes',
     description:
-      'A cozy stall, perfect for selling handmade goods and local crafts.',
+      'Forge decorative et espace de presentation des pieces artisanales.',
     price: 11500,
     purchased: true,
     id_prestataire: 4, 
@@ -247,12 +247,12 @@ const LOCATION_SEEDS: LocationSeed[] = [
   {
     id_location: 18,
     static_code: 'PRESTA_STALL_9',
-    name: 'Merchant Stall #9',
+    name: 'Le Scriptorium des Blasons',
     description:
-      'Known for its vibrant atmosphere and diverse range of products.',
+      'Petit pavillon dedie aux croquis, blasons et explications des symboles.',
     price: 12500,
     purchased: true,
-    id_prestataire: 1,
+    id_prestataire: 4,
     id_location_type: LocationType.PRESTATAIRE_LOCATION_TYPE_ID,
     position: [2236, 2491],
     icon_name: 'prestataire',
@@ -736,9 +736,10 @@ export async function seedLocations() {
       });
     }
   } catch (error) {
-    console.error('❌ Error seeding locations:', error);
+    console.error('âŒ Error seeding locations:', error);
     throw error;
   }
 
-  console.log('✅ Locations seeded');
+  console.log('âœ… Locations seeded');
 }
+

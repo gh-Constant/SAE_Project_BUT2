@@ -1,4 +1,4 @@
-import { PrestataireTypes } from "./prestataireTypes";
+﻿import { PrestataireTypes } from "./prestataireTypes";
 
 export enum Role {
   ADMIN_ROLE_ID = "admin",
@@ -47,8 +47,8 @@ export const ADMIN_USER_ID = 3;
 export const USERS: UserMock[] = [
   {
     id: 1,
-    firstname: 'Gérard',
-    lastname: 'Le prestataire',
+    firstname: 'Gerard',
+    lastname: 'Delatour',
     email: 'prestataire@medieval.com',
     password_hashed: 'password123',
     role: Role.PRESTATAIRE_ROLE_ID,
@@ -59,14 +59,14 @@ export const USERS: UserMock[] = [
     level: 5,
     gold: 75000,
     birth_date: new Date('1990-01-01'),
-    bio: 'Je suis un prestataire de service médieval',
+    bio: 'Restaurateur du festival, je sers plats chauds, banquet et degustations.',
     phone: '06 01 02 03 04',
     id_prestataire_type: PrestataireTypes.RESTAURATEUR_TYPE_ID
   },
   {
     id: 2,
     firstname: 'Alice',
-    lastname: 'L\'Aventurière',
+    lastname: 'L\'AventuriÃ¨re',
     email: 'aventurier@medieval.com',
     password_hashed: 'password123',
     role: Role.AVENTURIER_ROLE_ID,
@@ -77,13 +77,13 @@ export const USERS: UserMock[] = [
     level: 2,
     gold: 15000,
     birth_date: new Date('1992-01-01'),
-    bio: 'Je suis une aventurière de service médieval',
+    bio: 'Je suis une aventuriÃ¨re de service mÃ©dieval',
     phone: '06 02 03 04 05',
   },
   {
     id: 3,
     firstname: 'Godefroy',
-    lastname: 'Le Sénéchal',
+    lastname: 'Le SÃ©nÃ©chal',
     email: 'admin@medieval.com',
     password_hashed: 'password123',
     role: Role.ADMIN_ROLE_ID,
@@ -94,23 +94,26 @@ export const USERS: UserMock[] = [
     level: 99,
     gold: 9999900,
     birth_date: new Date('1980-01-01'),
-    bio: 'Je suis le Sénéchal, responsable de la sécurité du royaume',
+    bio: 'Je suis le SÃ©nÃ©chal, responsable de la sÃ©curitÃ© du royaume',
     phone: '06 03 04 05 06',
   },
   {
     id: PRESTATAIRE_USER_ID_2,
     firstname: 'Marie',
-    lastname: 'La marchande',
+    lastname: 'd Auberive',
     email: 'prestataire2@medieval.com',
     password_hashed: 'password123',
     role: Role.PRESTATAIRE_ROLE_ID,
-    id_prestataire_type: PrestataireTypes.RESTAURATEUR_TYPE_ID,
+    id_prestataire_type: PrestataireTypes.ARTISAN_TYPE_ID,
     avatar_url: '/images/Avatar-images/con23.png',
     avatar_type: AvatarType.GALLERY,
     is_verified: false,
     xp: 150,
     level: 3,
     gold: 50000,
+    birth_date: new Date('1988-04-12'),
+    bio: 'Artisane specialisee dans les accessoires de tir, le cuir et les demonstrations.',
+    phone: '06 04 05 06 07',
   },
   // Additional adventurers for quiz testing
   {
@@ -161,7 +164,7 @@ export const USERS: UserMock[] = [
     level: 8,
     gold: 120000,
     birth_date: new Date('1998-02-14'),
-    bio: 'Aventurier expérimenté en quête de gloire.',
+    bio: 'Aventurier expÃ©rimentÃ© en quÃªte de gloire.',
     phone: '06 07 08 09 10',
   },
   {
@@ -178,12 +181,12 @@ export const USERS: UserMock[] = [
     level: 6,
     gold: 80000,
     birth_date: new Date('1999-08-22'),
-    bio: 'Passionnée d\'histoire médiévale.',
+    bio: 'PassionnÃ©e d\'histoire mÃ©diÃ©vale.',
     phone: '06 08 09 10 11',
   },
   {
     id: 9,
-    firstname: 'Léon',
+    firstname: 'LÃ©on',
     lastname: 'Le Curieux',
     email: 'leon@medieval.com',
     password_hashed: 'password123',
@@ -195,7 +198,7 @@ export const USERS: UserMock[] = [
     level: 4,
     gold: 45000,
     birth_date: new Date('2001-11-05'),
-    bio: 'Toujours prêt à apprendre.',
+    bio: 'Toujours prÃªt Ã  apprendre.',
     phone: '06 09 10 11 12',
   },
   {
@@ -212,7 +215,7 @@ export const USERS: UserMock[] = [
     level: 9,
     gold: 150000,
     birth_date: new Date('1997-04-18'),
-    bio: 'Exploratrice des terres médiévales.',
+    bio: 'Exploratrice des terres mÃ©diÃ©vales.',
     phone: '06 10 11 12 13',
   },
   {
@@ -229,7 +232,7 @@ export const USERS: UserMock[] = [
     level: 3,
     gold: 30000,
     birth_date: new Date('2000-05-10'),
-    bio: 'Vif comme l\'éclair.',
+    bio: 'Vif comme l\'Ã©clair.',
     phone: '06 11 12 13 14',
   },
   {
@@ -263,7 +266,7 @@ export const USERS: UserMock[] = [
     level: 5,
     gold: 60000,
     birth_date: new Date('1996-03-30'),
-    bio: 'La force brute résout bien des problèmes.',
+    bio: 'La force brute rÃ©sout bien des problÃ¨mes.',
     phone: '06 13 14 15 16',
   },
   {
@@ -280,13 +283,13 @@ export const USERS: UserMock[] = [
     level: 4,
     gold: 40000,
     birth_date: new Date('2002-07-20'),
-    bio: 'Insaississable et précise.',
+    bio: 'Insaississable et prÃ©cise.',
     phone: '06 14 15 16 17',
   },
   {
     id: 15,
     firstname: 'Marc',
-    lastname: 'Le Stratège',
+    lastname: 'Le StratÃ¨ge',
     email: 'marc@medieval.com',
     password_hashed: 'password123',
     role: Role.AVENTURIER_ROLE_ID,
@@ -297,7 +300,9 @@ export const USERS: UserMock[] = [
     level: 6,
     gold: 75000,
     birth_date: new Date('1993-12-12'),
-    bio: 'Chaque pas est calculé.',
+    bio: 'Chaque pas est calculÃ©.',
     phone: '06 15 16 17 18',
   },
 ];
+
+

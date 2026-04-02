@@ -1,4 +1,4 @@
-import prisma from '../prisma.js';
+﻿import prisma from '../prisma.js';
 import bcrypt from 'bcrypt';
 import { Role, AvatarType } from '@prisma/client';
 
@@ -8,8 +8,8 @@ export async function seedUsers() {
     const users = [
         {
             id_user: 1,
-            firstname: 'Gérard',
-            lastname: 'Le prestataire',
+            firstname: 'Gerard',
+            lastname: 'Delatour',
             email: 'prestataire@medieval.com',
             password_hashed: commonPassword,
             role: 'prestataire' as Role,
@@ -20,13 +20,13 @@ export async function seedUsers() {
             level: null,
             gold: 75000,
             birth_date: new Date('1990-01-01'),
-            bio: 'Je suis un prestataire',
+            bio: 'Restaurateur du festival, je sers plats chauds, banquet et degustations.',
             phone: '06 01 02 03 04'
         },
         {
             id_user: 2,
             firstname: 'Alice',
-            lastname: "L'Aventurière",
+            lastname: "L'AventuriÃ¨re",
             email: 'aventurier@medieval.com',
             password_hashed: commonPassword,
             role: 'aventurier' as Role,
@@ -37,13 +37,13 @@ export async function seedUsers() {
             level: 2,
             gold: 15000,
             birth_date: new Date('1992-01-01'),
-            bio: 'Je suis une aventurière',
+            bio: 'Je suis une aventuriÃ¨re',
             phone: '06 02 03 04 05',
         },
         {
             id_user: 3,
             firstname: 'Godefroy',
-            lastname: 'Le Sénéchal',
+            lastname: 'Le SÃ©nÃ©chal',
             email: 'admin@medieval.com',
             password_hashed: commonPassword,
             role: 'admin' as Role,
@@ -54,13 +54,13 @@ export async function seedUsers() {
             level: null,
             gold: 9999900,
             birth_date: new Date('1980-01-01'),
-            bio: 'Je suis le Sénéchal, responsable de la sécurité du royaume',
+            bio: 'Je suis le SÃ©nÃ©chal, responsable de la sÃ©curitÃ© du royaume',
             phone: '06 03 04 05 06',
         },
         {
             id_user: 4,
             firstname: 'Marie',
-            lastname: 'La marchande',
+            lastname: 'd Auberive',
             email: 'prestataire2@medieval.com',
             password_hashed: commonPassword,
             role: 'prestataire' as Role,
@@ -70,6 +70,9 @@ export async function seedUsers() {
             xp: null,
             level: null,
             gold: 50000,
+            birth_date: new Date('1988-04-12'),
+            bio: 'Artisane specialisee dans les accessoires de tir, le cuir et les demonstrations.',
+            phone: '06 04 05 06 07',
         },
         {
             id_user: 5,
@@ -120,7 +123,7 @@ export async function seedUsers() {
             level: 8,
             gold: 120000,
             birth_date: new Date('1998-02-14'),
-            bio: 'Aventurier expérimenté en quête de gloire.',
+            bio: 'Aventurier expÃ©rimentÃ© en quÃªte de gloire.',
             phone: '06 07 08 09 10',
         },
         {
@@ -137,12 +140,12 @@ export async function seedUsers() {
             level: 6,
             gold: 80000,
             birth_date: new Date('1999-08-22'),
-            bio: 'Passionnée d\'histoire médiévale.',
+            bio: 'PassionnÃ©e d\'histoire mÃ©diÃ©vale.',
             phone: '06 08 09 10 11',
         },
         {
             id_user: 9,
-            firstname: 'Léon',
+            firstname: 'LÃ©on',
             lastname: 'Le Curieux',
             email: 'leon@medieval.com',
             password_hashed: commonPassword,
@@ -154,7 +157,7 @@ export async function seedUsers() {
             level: 4,
             gold: 45000,
             birth_date: new Date('2001-11-05'),
-            bio: 'Toujours prêt à apprendre.',
+            bio: 'Toujours prÃªt Ã  apprendre.',
             phone: '06 09 10 11 12',
         },
         {
@@ -171,7 +174,7 @@ export async function seedUsers() {
             level: 9,
             gold: 150000,
             birth_date: new Date('1997-04-18'),
-            bio: 'Exploratrice des terres médiévales.',
+            bio: 'Exploratrice des terres mÃ©diÃ©vales.',
             phone: '06 10 11 12 13',
         },
         {
@@ -188,7 +191,7 @@ export async function seedUsers() {
             level: 3,
             gold: 30000,
             birth_date: new Date('2000-05-10'),
-            bio: 'Vif comme l\'éclair.',
+            bio: 'Vif comme l\'Ã©clair.',
             phone: '06 11 12 13 14',
         },
         {
@@ -222,7 +225,7 @@ export async function seedUsers() {
             level: 5,
             gold: 60000,
             birth_date: new Date('1996-03-30'),
-            bio: 'La force brute résout bien des problèmes.',
+            bio: 'La force brute rÃ©sout bien des problÃ¨mes.',
             phone: '06 13 14 15 16',
         },
         {
@@ -239,13 +242,13 @@ export async function seedUsers() {
             level: 4,
             gold: 40000,
             birth_date: new Date('2002-07-20'),
-            bio: 'Insaississable et précise.',
+            bio: 'Insaississable et prÃ©cise.',
             phone: '06 14 15 16 17',
         },
         {
             id_user: 15,
             firstname: 'Marc',
-            lastname: 'Le Stratège',
+            lastname: 'Le StratÃ¨ge',
             email: 'marc@medieval.com',
             password_hashed: commonPassword,
             role: 'aventurier' as Role,
@@ -256,7 +259,7 @@ export async function seedUsers() {
             level: 6,
             gold: 75000,
             birth_date: new Date('1993-12-12'),
-            bio: 'Chaque pas est calculé.',
+            bio: 'Chaque pas est calculÃ©.',
             phone: '06 15 16 17 18',
         },
     ];
@@ -319,3 +322,5 @@ export async function seedUsers() {
 
     console.log('Users seeded');
 }
+
+

@@ -1,21 +1,16 @@
-import prisma from '../prisma.js';
+﻿import prisma from '../prisma.js';
 
 export async function seedPrestataires() {
-  const users = await prisma.user.findMany({
-    where: { role: 'prestataire' },
-    select: { id_user: true }
-  });
+  const mappings = [
+    { id_user: 1, id_prestataire_type: 1 },
+    { id_user: 4, id_prestataire_type: 3 },
+  ];
 
-  for (const user of users) {
+  for (const mapping of mappings) {
     await prisma.prestataire.upsert({
-      where: { id_user: user.id_user },
-      update: {
-        id_prestataire_type: 1
-      },
-      create: {
-        id_user: user.id_user,
-        id_prestataire_type: 1
-      }
+      where: { id_user: mapping.id_user },
+      update: { id_prestataire_type: mapping.id_prestataire_type },
+      create: mapping,
     });
   }
 

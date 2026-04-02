@@ -1,5 +1,4 @@
-
-export interface Blog {
+﻿export interface Blog {
   id_blog?: number;
   author?: string;
   avatar?: string;
@@ -14,60 +13,11 @@ export interface Blog {
 }
 
 export const BLOGS: Blog[] = [
-  {
-    id_blog: 1,
-    title: 'Le Tournoi des Chevaliers commence !',
-    content: '<p>Oyez, oyez ! Les plus grands guerriers du royaume se rassemblent demain à l\'arène principale. Venez admirer les joutes et encourager vos champions préférés !</p>',
-    created_at: '2024-01-07T08:00:00Z',
-    updated_at: '2024-01-07T08:00:00Z',
-    id_location: 14
-  },
-  {
-    id_blog: 2,
-    title: 'Élixir de Force : Nouvelle Potion',
-    content: '<p>Notre alchimiste a enfin terminé sa dernière création. L\'Élixir de Force vous donnera une puissance inégalée pour vos prochaines quêtes. Disponible dès maintenant à la boutique !</p>',
-    created_at: '2024-01-06T12:00:00Z',
-    updated_at: '2024-01-06T12:00:00Z',
-    id_location: 16
-  },
-  {
-    id_blog: 3,
-    title: 'Mystère dans la Forêt des Lions',
-    content: '<p>Plusieurs voyageurs rapportent des lueurs étranges venant de la forêt profonde. Les gardes recommandent la plus grande prudence à tous les aventuriers s\'aventurant au-delà des sentiers connus.</p>',
-    created_at: '2024-01-05T15:30:00Z',
-    updated_at: '2024-01-05T15:30:00Z',
-    id_location: 16
-  },
-  {
-    id_blog: 4,
-    title: 'Grand Banquet au Château',
-    content: '<p>Le Roi invite tous les citoyens à célébrer la fin des récoltes. Un banquet gargantuesque sera servi sur la place du marché. Ne manquez pas ce rendez-vous historique !</p>',
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-01-04T10:00:00Z',
-    id_location: 14
-  },
-  {
-    id_blog: 5,
-    title: 'Découvrez notre nouvel Hydromel !',
-    content: '<p>Notre taverne est fière de vous présenter sa nouvelle cuvée d\'hydromel. Vieillie en fût de chêne, elle ravira vos papilles. Venez la goûter dès ce soir !</p>',
-    created_at: '2026-06-18T10:00:00Z',
-    updated_at: '2026-06-18T10:00:00Z',
-    id_location: 14
-  },
-  {
-    id_blog: 6,
-    title: 'Apprenez à tirer à l\'arc comme un pro',
-    content: '<p>Vous avez toujours rêvé de viser dans le mille ? Inscrivez-vous à nos cours de tir à l\'arc. Débutants acceptés. Matériel fourni sur place.</p>',
-    created_at: '2026-06-19T09:00:00Z',
-    updated_at: '2026-06-19T09:00:00Z',
-    id_location: 16
-  },
-  {
-    id_blog: 7,
-    title: 'Concours de costume : Inscriptions ouvertes',
-    content: '<p>Préparez vos plus beaux atours ! Le grand concours de costume annuel aura lieu bientôt. De nombreux prix à gagner pour les plus créatifs d\'entre vous.</p>',
-    created_at: '2026-06-25T14:00:00Z',
-    updated_at: '2026-06-25T14:00:00Z',
-    id_location: 16
-  }
+  { id_blog: 1, title: 'Le menu des grandes faims est arrive', content: '<p>La Rotisserie du Lion sert des assiettes completes toute la journee. Viande rotie, legumes braises et galettes au miel sont pretes des l ouverture.</p>', created_at: '2026-06-18T08:00:00Z', updated_at: '2026-06-18T08:00:00Z', id_location: 14, is_sellable: false },
+  { id_blog: 2, title: 'Carnet de recettes a l hydromel', content: '<p>Un petit guide premium avec trois recettes testees pendant le festival: sauce a l hydromel, poires pochees et marinade de banquet.</p>', created_at: '2026-06-19T09:30:00Z', updated_at: '2026-06-19T09:30:00Z', id_location: 14, is_sellable: true, price: 250 },
+  { id_blog: 3, title: 'Comment choisir son accord mets et boisson', content: '<p>Au Cellier des Voyageurs, on vous explique comment associer tourtes, ragouts et hydromels selon vos gouts.</p>', created_at: '2026-06-20T10:15:00Z', updated_at: '2026-06-20T10:15:00Z', id_location: 15, is_sellable: false },
+  { id_blog: 4, title: 'Guide pratique pour entretenir son equipement de tir', content: '<p>Marie partage ses gestes de pro pour entretenir cuir, corde et pieces en bois apres une journee d animation.</p>', created_at: '2026-06-20T14:00:00Z', updated_at: '2026-06-20T14:00:00Z', id_location: 16, is_sellable: true, price: 700 },
+  { id_blog: 5, title: 'Dans la forge des lanternes, tout commence par un croquis', content: '<p>Avant de marteler le metal, chaque lanterne est pensee pour raconter une histoire. Voici comment naissent les pieces exposees sur le stand.</p>', created_at: '2026-06-21T09:00:00Z', updated_at: '2026-06-21T09:00:00Z', id_location: 17, is_sellable: false },
+  { id_blog: 6, title: 'Lire un blason sans se tromper', content: '<p>Ce carnet premium vous apprend a reconnaitre les formes, couleurs et symboles les plus frequents dans les blasons du festival.</p>', created_at: '2026-06-22T11:00:00Z', updated_at: '2026-06-22T11:00:00Z', id_location: 18, is_sellable: true, price: 500 },
+  { id_blog: 7, title: 'Trois objets a observer avant de quitter l atelier', content: '<p>Entre le carquois grave, la lanterne ajouree et le panneau heraldique, plusieurs pieces cachent de petits details a reperer sur place.</p>', created_at: '2026-06-23T08:30:00Z', updated_at: '2026-06-23T08:30:00Z', id_location: 17, is_sellable: false }
 ];

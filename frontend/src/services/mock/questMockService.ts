@@ -1,4 +1,4 @@
-import { Quest } from '../questService';
+﻿import { Quest } from '../questService';
 import { QUESTS } from '@/mocks/quests';
 import { USER_QUESTS } from '@/mocks/userQuests';
 import { LOCATIONS } from '@/mocks/locations';
@@ -135,30 +135,30 @@ export const questMockService = {
 
     const userId = user.id;
 
-    // Trouver la quête utilisateur
+    // Trouver la quÃªte utilisateur
     const uq = userQuests.find((q: any) => q.id_quest === questId && q.id_user === userId);
     if (!uq) {
       throw new Error('Quest not found or not accepted');
     }
 
-    // Trouver la quête pour obtenir l'XP reward
+    // Trouver la quÃªte pour obtenir l'XP reward
     const quest = mockQuests.find(q => q.id_quest === questId);
     if (!quest) {
       throw new Error('Quest not found');
     }
 
-    // Calculer les récompenses (seulement XP, pas d'or)
+    // Calculer les rÃ©compenses (seulement XP, pas d'or)
     const xpReward = quest.xp_reward || 0;
 
-    // Mettre à jour le statut de la quête
+    // Mettre Ã  jour le statut de la quÃªte
     uq.status = 'completed';
     uq.updated_at = new Date();
 
-    // Mettre à jour l'utilisateur dans le store (seulement XP et niveau)
+    // Mettre Ã  jour l'utilisateur dans le store (seulement XP et niveau)
     const newXP = user.xp + xpReward;
     const newLevel = calculateLevelFromXP(newXP);
 
-    // Mettre à jour mockUsers pour que les autres services (classement, etc.) voient le changement
+    // Mettre Ã  jour mockUsers pour que les autres services (classement, etc.) voient le changement
     const mockUser = mockUsers.find(u => u.id === userId);
     if (mockUser) {
       mockUser.xp = newXP;
@@ -167,7 +167,7 @@ export const questMockService = {
 
     const newRank = calculateUserRank(userId);
 
-    // Mettre à jour le store auth via l'action dédiée qui gère aussi la persistance
+    // Mettre Ã  jour le store auth via l'action dÃ©diÃ©e qui gÃ¨re aussi la persistance
     authStore.updateUserStats({
       xp: newXP,
       level: newLevel,
@@ -206,9 +206,9 @@ export const questMockService = {
   },
 
   /**
-   * Valider une quête en scannant le QR code de la location
-   * @param questId - ID de la quête à valider
-   * @param scannedCode - Code scanné (static_code de la location)
+   * Valider une quÃªte en scannant le QR code de la location
+   * @param questId - ID de la quÃªte Ã  valider
+   * @param scannedCode - Code scannÃ© (static_code de la location)
    * @returns Objet avec success et message/error
    */
   validateQuestByQR: async (questId: number, scannedCode: string): Promise<{ success: boolean; message?: string; error?: string }> => {
@@ -216,38 +216,38 @@ export const questMockService = {
     const user = authStore.user;
 
     if (!user) {
-      return { success: false, error: 'Utilisateur non connecté' };
+      return { success: false, error: 'Utilisateur non connectÃ©' };
     }
 
     const userId = user.id;
 
-    // Trouver la quête utilisateur
+    // Trouver la quÃªte utilisateur
     const uq = userQuests.find((q: any) => q.id_quest === questId && q.id_user === userId);
     if (!uq) {
-      return { success: false, error: 'Quête non trouvée ou non acceptée' };
+      return { success: false, error: 'QuÃªte non trouvÃ©e ou non acceptÃ©e' };
     }
 
     if (uq.status === 'completed') {
-      return { success: false, error: 'Cette quête est déjà terminée' };
+      return { success: false, error: 'Cette quÃªte est dÃ©jÃ  terminÃ©e' };
     }
 
-    // Trouver la quête
+    // Trouver la quÃªte
     const quest = mockQuests.find(q => q.id_quest === questId);
     if (!quest) {
-      return { success: false, error: 'Quête non trouvée' };
+      return { success: false, error: 'QuÃªte non trouvÃ©e' };
     }
 
-    // Trouver la location de la quête
+    // Trouver la location de la quÃªte
     const location = LOCATIONS.find(l => l.id === quest.id_location);
     if (!location) {
-      return { success: false, error: 'Location de la quête non trouvée' };
+      return { success: false, error: 'Location de la quÃªte non trouvÃ©e' };
     }
 
     const parsedCode = parseQuestValidationCode(scannedCode);
     const expectedStaticCode = location.static_code?.trim() || `LOCATION-${location.id}`;
     const storedNonce = (quest.validation_code || '').split(':').pop();
 
-    // Vérifier que le code scanné correspond à cette quête et à ce lieu
+    // VÃ©rifier que le code scannÃ© correspond Ã  cette quÃªte et Ã  ce lieu
     if (
       !parsedCode ||
       parsedCode.questId !== questId ||
@@ -258,11 +258,11 @@ export const questMockService = {
     ) {
       return {
         success: false,
-        error: `Mauvais emplacement ! Cette quête doit être validée à "${location.name}"`
+        error: `Mauvais emplacement ! Cette quÃªte doit Ãªtre validÃ©e Ã  "${location.name}"`
       };
     }
 
-    // Tout est bon, compléter la quête
+    // Tout est bon, complÃ©ter la quÃªte
     const xpReward = quest.xp_reward || 0;
 
     uq.status = 'completed';
@@ -271,7 +271,7 @@ export const questMockService = {
     const newXP = user.xp + xpReward;
     const newLevel = calculateLevelFromXP(newXP);
 
-    // Mettre à jour mockUsers pour que les autres services (classement, etc.) voient le changement
+    // Mettre Ã  jour mockUsers pour que les autres services (classement, etc.) voient le changement
     const mockUser = mockUsers.find(u => u.id === userId);
     if (mockUser) {
       mockUser.xp = newXP;
@@ -280,7 +280,7 @@ export const questMockService = {
 
     const newRank = calculateUserRank(userId);
 
-    // Mettre à jour le store auth via l'action dédiée qui gère aussi la persistance
+    // Mettre Ã  jour le store auth via l'action dÃ©diÃ©e qui gÃ¨re aussi la persistance
     authStore.updateUserStats({
       xp: newXP,
       level: newLevel,
@@ -292,7 +292,7 @@ export const questMockService = {
 
     return {
       success: true,
-      message: `Quête validée ! +${xpReward} XP gagné`
+      message: `QuÃªte validÃ©e ! +${xpReward} XP gagnÃ©`
     };
   },
 
@@ -337,3 +337,4 @@ export const questMockService = {
     console.log('Quest data reset to initial state');
   }
 };
+

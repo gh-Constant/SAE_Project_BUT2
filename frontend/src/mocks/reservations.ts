@@ -1,5 +1,5 @@
+﻿import { LOCATIONS, LocationMock } from './locations';
 import { EVENTS, EventMock } from './events';
-import { LOCATIONS, LocationMock } from './locations';
 
 export interface ReservationMock {
   id_reservation: number;
@@ -13,120 +13,21 @@ export interface ReservationMock {
   event?: EventMock & { location?: LocationMock };
 }
 
-function getEventAnchorDate(eventId: number): Date {
+function getLocationForEvent(eventId: number) {
   const event = EVENTS.find(e => e.id_event === eventId);
-  if (!event) return new Date();
-
-  if (event.start_time) {
-    return new Date(event.start_time);
-  }
-
-  const firstSchedule = event.schedules?.[0];
-  if (firstSchedule?.start_time) {
-    return new Date(firstSchedule.start_time);
-  }
-
-  return new Date();
-}
-
-function reservationDateFor(eventId: number, daysBefore = 1, hour = 10): string {
-  const anchor = getEventAnchorDate(eventId);
-  const createdAt = new Date(anchor);
-  createdAt.setDate(createdAt.getDate() - daysBefore);
-  createdAt.setHours(hour, 0, 0, 0);
-  return createdAt.toISOString();
+  return LOCATIONS.find(l => l.id === event?.id_location);
 }
 
 export const RESERVATIONS: ReservationMock[] = [
-  {
-    id_reservation: 1,
-    id_user: 2, // Client user
-    id_event: 1,
-    quantity: 2,
-    total_price: 10000,
-    status: 'CONFIRMED',
-    created_at: reservationDateFor(1, 2, 10),
-    event: {
-      ...EVENTS[0],
-      location: LOCATIONS.find(l => l.id === EVENTS[0].id_location)
-    }
-  },
-  {
-    id_reservation: 2,
-    id_user: 11, // Lucas
-    id_event: 5,
-    quantity: 2,
-    total_price: 3000,
-    status: 'CONFIRMED',
-    created_at: reservationDateFor(5, 2, 9),
-    event: {
-      ...EVENTS.find(e => e.id_event === 5)!,
-      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 5)?.id_location)
-    }
-  },
-  {
-    id_reservation: 3,
-    id_user: 12, // Sophie
-    id_event: 6,
-    quantity: 1,
-    total_price: 200,
-    status: 'PENDING',
-    created_at: reservationDateFor(6, 3, 11),
-    event: {
-      ...EVENTS.find(e => e.id_event === 6)!,
-      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 6)?.id_location)
-    }
-  },
-  {
-    id_reservation: 4,
-    id_user: 13, // Antoine
-    id_event: 4,
-    quantity: 3,
-    total_price: 1500,
-    status: 'CONFIRMED',
-    created_at: reservationDateFor(4, 1, 15),
-    event: {
-      ...EVENTS.find(e => e.id_event === 4)!,
-      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 4)?.id_location)
-    }
-  },
-  {
-    id_reservation: 5,
-    id_user: 14, // Clara
-    id_event: 6,
-    quantity: 2,
-    total_price: 400,
-    status: 'CONFIRMED',
-    created_at: reservationDateFor(6, 1, 10),
-    event: {
-      ...EVENTS.find(e => e.id_event === 6)!,
-      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 6)?.id_location)
-    }
-  },
-  {
-    id_reservation: 6,
-    id_user: 15, // Marc
-    id_event: 4,
-    quantity: 1,
-    total_price: 500,
-    status: 'CANCELLED',
-    created_at: reservationDateFor(4, 1, 18),
-    event: {
-      ...EVENTS.find(e => e.id_event === 4)!,
-      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 4)?.id_location)
-    }
-  },
-  {
-    id_reservation: 7,
-    id_user: 11, // Lucas
-    id_event: 2,
-    quantity: 1,
-    total_price: 12000,
-    status: 'CONFIRMED',
-    created_at: reservationDateFor(2, 2, 9),
-    event: {
-      ...EVENTS.find(e => e.id_event === 2)!,
-      location: LOCATIONS.find(l => l.id === EVENTS.find(e => e.id_event === 2)?.id_location)
-    }
-  }
+  { id_reservation: 1, id_user: 2, id_event: 1, quantity: 2, total_price: 24000, status: 'CONFIRMED', created_at: '2026-06-19T10:00:00.000Z', event: { ...EVENTS[0], location: getLocationForEvent(1) } },
+  { id_reservation: 2, id_user: 11, id_event: 2, id_schedule: 1, quantity: 1, total_price: 1500, status: 'CONFIRMED', created_at: '2026-06-20T09:00:00.000Z', event: { ...EVENTS[1], location: getLocationForEvent(2) } },
+  { id_reservation: 3, id_user: 12, id_event: 2, id_schedule: 2, quantity: 2, total_price: 3000, status: 'PENDING', created_at: '2026-06-20T11:00:00.000Z', event: { ...EVENTS[1], location: getLocationForEvent(2) } },
+  { id_reservation: 4, id_user: 2, id_event: 3, id_schedule: 4, quantity: 1, total_price: 1800, status: 'CONFIRMED', created_at: '2026-06-22T08:00:00.000Z', event: { ...EVENTS[2], location: getLocationForEvent(3) } },
+  { id_reservation: 5, id_user: 13, id_event: 3, id_schedule: 5, quantity: 1, total_price: 1800, status: 'CONFIRMED', created_at: '2026-06-22T12:00:00.000Z', event: { ...EVENTS[2], location: getLocationForEvent(3) } },
+  { id_reservation: 6, id_user: 14, id_event: 4, id_schedule: 7, quantity: 1, total_price: 900, status: 'CANCELLED', created_at: '2026-06-24T17:00:00.000Z', event: { ...EVENTS[3], location: getLocationForEvent(4) } },
+  { id_reservation: 7, id_user: 15, id_event: 5, quantity: 2, total_price: 1200, status: 'CONFIRMED', created_at: '2026-06-25T15:30:00.000Z', event: { ...EVENTS[4], location: getLocationForEvent(5) } },
+  { id_reservation: 8, id_user: 5, id_event: 6, quantity: 3, total_price: 900, status: 'PENDING', created_at: '2026-06-27T13:00:00.000Z', event: { ...EVENTS[5], location: getLocationForEvent(6) } },
+  { id_reservation: 9, id_user: 6, id_event: 4, id_schedule: 8, quantity: 1, total_price: 900, status: 'CONFIRMED', created_at: '2026-06-25T16:30:00.000Z', event: { ...EVENTS[3], location: getLocationForEvent(4) } },
+  { id_reservation: 10, id_user: 7, id_event: 6, quantity: 4, total_price: 1200, status: 'CONFIRMED', created_at: '2026-06-28T11:00:00.000Z', event: { ...EVENTS[5], location: getLocationForEvent(6) } },
+  { id_reservation: 11, id_user: 8, id_event: 5, quantity: 1, total_price: 600, status: 'CONFIRMED', created_at: '2026-06-27T18:00:00.000Z', event: { ...EVENTS[4], location: getLocationForEvent(5) } }
 ];
