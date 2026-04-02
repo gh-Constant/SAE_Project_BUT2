@@ -19,18 +19,30 @@
  */
 
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import { authController } from '../controllers/auth.controller.js';
 import { authenticateToken } from '../middleware/auth.middleware.js';
 import { handleSingleUpload } from '../controllers/upload.controller.js';
 
 const router = Router()
 
+// rate limiting strict sur le login pour éviter les attaques brute force
+// 5 tentatives max par heure par IP
+const loginLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 heure
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Trop de tentatives de connexion, réessayez dans 1 heure.' },
+  // TODO: peut-être augmenter le windowMs plus tard si les utilisateurs se plaignent
+});
+
 /**
  * POST /auth/login
  * Authentifie un utilisateur et retourne un token.
  * Route publique, pas de middleware d'authentification requis.
  */
-router.post('/login', authController.login);
+router.post('/login', loginLimiter, authController.login);
 
 /**
  * POST /auth/register

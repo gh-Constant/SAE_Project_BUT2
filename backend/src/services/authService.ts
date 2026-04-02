@@ -62,20 +62,28 @@ type OAuthProfileInput = {
   avatarUrl?: string | null
 }
 
+// le secret JWT doit venir du .env, plus de fallback en dur
+// si quelqu'un oublie de configurer le .env, Ã§a plante direct
 function getJwtSecret() {
-  return process.env.JWT_SECRET || 'dev_secret_key_change_in_prod'
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET manquant dans les variables d\'environnement')
+  }
+  return process.env.JWT_SECRET
 }
+
+// bcrypt avec 12 rounds au lieu de 10 (recommandation cours sÃ©cu R401)
+const BCRYPT_SALT_ROUNDS = 12
 
 function signToken(user: { id_user: number; email: string; role: string }) {
   return jwt.sign(
     { id: user.id_user, email: user.email, role: user.role },
     getJwtSecret(),
-    { expiresIn: '1h' }
+    { expiresIn: '2h' }
   )
 }
 
 function signOAuthEmailLinkToken(payload: OAuthEmailLinkTokenPayload) {
-  return jwt.sign(payload, getJwtSecret(), { expiresIn: '1h' })
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: '2h' })
 }
 
 function verifyOAuthEmailLinkToken(token: string) {
@@ -113,7 +121,7 @@ export async function login(email: string, password: string) {
   })
 
   if (!user) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   if (!user.password_hashed) {
@@ -127,7 +135,7 @@ export async function login(email: string, password: string) {
 
   const publicUser = await getUserById(user.id_user)
   if (!publicUser) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   const token = signToken(user)
@@ -146,11 +154,11 @@ export async function register(
 ) {
   const exists = await prisma.user.findUnique({ where: { email } })
   if (exists) {
-    throw new Error('Utilisateur déjà existant')
+    throw new Error('Utilisateur dï¿½jï¿½ existant')
   }
 
   if (!role) {
-    throw new Error('Rôle invalide')
+    throw new Error('Rï¿½le invalide')
   }
 
   const prestataireType = role === 'prestataire' ? (prestataireTypeId ?? 1) : undefined
@@ -163,7 +171,7 @@ export async function register(
     }
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
 
   const createdUser = await prisma.$transaction(async (tx) => {
     const user = await tx.user.create({
@@ -201,7 +209,7 @@ export async function register(
 
   const publicUser = await getUserById(createdUser.id_user)
   if (!publicUser) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   return publicUser
@@ -243,7 +251,7 @@ export async function upsertPassword(userId: number, newPassword: string, curren
   })
 
   if (!user) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   if (user.password_hashed) {
@@ -257,7 +265,7 @@ export async function upsertPassword(userId: number, newPassword: string, curren
     }
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10)
+  const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS)
 
   await prisma.user.update({
     where: { id_user: userId },
@@ -266,8 +274,8 @@ export async function upsertPassword(userId: number, newPassword: string, curren
 
   return {
     message: user.password_hashed
-      ? 'Mot de passe mis à jour avec succès'
-      : 'Mot de passe ajouté avec succès',
+      ? 'Mot de passe mis ï¿½ jour avec succï¿½s'
+      : 'Mot de passe ajoutï¿½ avec succï¿½s',
   }
 }
 
@@ -288,7 +296,7 @@ export async function getSecuritySettings(userId: number) {
   })
 
   if (!user) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   return {
@@ -321,7 +329,7 @@ export async function loginOrRegisterWithOAuth(
   if (existingAccount) {
     const publicUser = await getUserById(existingAccount.user.id_user)
     if (!publicUser) {
-      throw new Error('Utilisateur non trouvé')
+      throw new Error('Utilisateur non trouvï¿½')
     }
 
     return {
@@ -331,7 +339,7 @@ export async function loginOrRegisterWithOAuth(
   }
 
   if (!profile.email) {
-    throw new Error('Ce compte OAuth ne fournit pas d’adresse email')
+    throw new Error('Ce compte OAuth ne fournit pas dï¿½adresse email')
   }
 
   const existingUserByEmail = await prisma.user.findUnique({
@@ -390,7 +398,7 @@ export async function loginOrRegisterWithOAuth(
 
   const publicUser = await getUserById(user.id_user)
   if (!publicUser) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   return {
@@ -407,11 +415,11 @@ export async function confirmOAuthLinkFromEmail(token: string) {
   })
 
   if (!targetUser) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   if (targetUser.email !== payload.email) {
-    throw new Error('L’adresse email de ce compte a changé depuis la demande de liaison')
+    throw new Error('Lï¿½adresse email de ce compte a changï¿½ depuis la demande de liaison')
   }
 
   const existingForProvider = await prisma.oAuthAccount.findUnique({
@@ -424,7 +432,7 @@ export async function confirmOAuthLinkFromEmail(token: string) {
   })
 
   if (existingForProvider && existingForProvider.id_user !== targetUser.id_user) {
-    throw new Error('Ce compte externe est déjà lié à un autre utilisateur')
+    throw new Error('Ce compte externe est dï¿½jï¿½ liï¿½ ï¿½ un autre utilisateur')
   }
 
   await prisma.oAuthAccount.upsert({
@@ -448,7 +456,7 @@ export async function confirmOAuthLinkFromEmail(token: string) {
 
   const publicUser = await getUserById(targetUser.id_user)
   if (!publicUser) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   return {
@@ -469,7 +477,7 @@ export async function linkOAuthProvider(userId: number, provider: OAuthProvider,
   })
 
   if (existingForProvider && existingForProvider.id_user !== userId) {
-    throw new Error('Ce compte externe est déjà lié à un autre utilisateur')
+    throw new Error('Ce compte externe est dï¿½jï¿½ liï¿½ ï¿½ un autre utilisateur')
   }
 
   await prisma.oAuthAccount.upsert({
@@ -508,12 +516,12 @@ export async function unlinkOAuthProvider(userId: number, provider: OAuthProvide
   })
 
   if (!user) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   const isLinked = user.oauthAccounts.some((account) => account.provider === provider)
   if (!isLinked) {
-    throw new Error('Compte externe non lié')
+    throw new Error('Compte externe non liï¿½')
   }
 
   if (!user.password_hashed && user.oauthAccounts.length <= 1) {
@@ -542,7 +550,7 @@ export async function deleteOwnAccount(userId: number, currentPassword?: string)
   })
 
   if (!user) {
-    throw new Error('Utilisateur non trouvé')
+    throw new Error('Utilisateur non trouvï¿½')
   }
 
   if (user.password_hashed) {
@@ -560,5 +568,5 @@ export async function deleteOwnAccount(userId: number, currentPassword?: string)
     where: { id_user: userId },
   })
 
-  return { message: 'Compte supprimé avec succès' }
+  return { message: 'Compte supprimï¿½ avec succï¿½s' }
 }

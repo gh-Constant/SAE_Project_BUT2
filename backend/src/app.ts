@@ -24,6 +24,9 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import session from 'express-session';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import rateLimit from 'express-rate-limit';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
@@ -46,8 +49,17 @@ const __dirname = path.dirname(__filename);
 export const createApp = (): Application => {
   const app: Application = express();
 
-  // Configuration CORS plus permissive
+  // --- Sécurité : helmet ajoute plein de headers HTTP de sécurité d'un coup ---
+  // (X-Content-Type-Options, X-Frame-Options, etc.)
+  // on désactive la CSP pour ne pas bloquer Swagger UI qui utilise des scripts inline
+  app.use(helmet({
+    contentSecurityPolicy: false,
+  }));
+
+  // --- Sécurité : CORS avec origines restrictives (pas de wildcard '*') ---
   app.use(cors(corsOptions));
+
+  // --- Session pour OAuth (Google, Discord) ---
   app.use(session({
     secret: process.env.OAUTH_SESSION_SECRET || 'oauth_session_secret_change_me',
     resave: false,
@@ -60,6 +72,20 @@ export const createApp = (): Application => {
     },
   }));
   app.use(passport.initialize());
+
+  // --- Sécurité : hpp nettoie les paramètres query dupliqués (HTTP Parameter Pollution) ---
+  app.use(hpp());
+
+  // --- Sécurité : rate limiting général pour éviter le spam de requêtes ---
+  // 100 requêtes max par fenêtre de 15 minutes par IP
+  const globalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Trop de requêtes, réessayez dans quelques minutes.' },
+  });
+  app.use(globalLimiter);
 
   // Swagger UI Documentation
   const swaggerDocument = YAML.load(path.join(__dirname, '../docs/swagger.yaml'));
