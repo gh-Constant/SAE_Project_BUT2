@@ -144,6 +144,13 @@
                       <div class="flex items-center justify-center gap-2">
                         <template v-if="editingQuestId !== quest.id_quest">
                           <button 
+                            @click="showQuestQRCode(quest)"
+                            class="text-stone-grey hover:text-antique-bronze transition-colors p-1"
+                            :title="t('prestataire.quests.table.actions.show_qr')"
+                          >
+                            <i class="fas fa-qrcode"></i>
+                          </button>
+                          <button 
                             @click="startEditQuest(quest)" 
                             class="text-stone-grey hover:text-antique-bronze transition-colors p-1"
                             :title="t('prestataire.quests.table.actions.edit')"
@@ -213,19 +220,75 @@
       </div>
     </div>
   </div>
+
+  <Teleport to="body">
+    <div
+      v-if="qrModalOpen"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      @click.self="closeQuestQRCode"
+    >
+      <div class="bg-parchment rounded-lg shadow-2xl max-w-md w-full border-2 border-antique-bronze">
+        <div class="px-6 py-4 bg-antique-bronze/10 border-b border-antique-bronze/20 flex items-start justify-between gap-4">
+          <div>
+            <h3 class="text-xl font-medieval font-bold text-iron-black">
+              {{ t('prestataire.quests.qr_modal.title') }}
+            </h3>
+            <p class="text-sm text-stone-grey mt-1">
+              {{ selectedQuestQRCode?.questTitle }}
+            </p>
+          </div>
+          <button
+            @click="closeQuestQRCode"
+            class="text-stone-grey hover:text-iron-black transition-colors"
+            :aria-label="t('prestataire.quests.qr_modal.close')"
+          >
+            <i class="fas fa-times text-lg"></i>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-5">
+          <p class="text-sm text-stone-grey text-center">
+            {{ t('prestataire.quests.qr_modal.description') }}
+          </p>
+
+          <div class="bg-white rounded-lg border border-antique-bronze/20 p-4 flex justify-center">
+            <canvas ref="qrCanvasRef" class="max-w-full"></canvas>
+          </div>
+
+          <div class="bg-white/60 border border-antique-bronze/20 rounded-md p-4">
+            <div class="text-xs font-medieval font-bold uppercase tracking-wider text-stone-grey mb-2">
+              {{ t('prestataire.quests.qr_modal.manual_code') }}
+            </div>
+            <div class="text-sm break-all font-mono text-iron-black">
+              {{ selectedQuestQRCode?.manualCode }}
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button
+              @click="closeQuestQRCode"
+              class="px-5 py-2.5 rounded-md font-body font-semibold text-white bg-antique-bronze hover:brightness-110 transition-all"
+            >
+              {{ t('prestataire.quests.qr_modal.close') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
-import { stripHtml } from '@/utils/stripHtml'
+import { computed, ref, onMounted, nextTick } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { locationService } from '@/services/locationService'
-import { questService, Quest } from '@/services/questService'
+import { questService, Quest, QuestQRCodeData } from '@/services/questService'
 import { useI18n } from 'vue-i18n'
 import { LocationMock } from '@/mocks/locations'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import Editor from '@/components/editor/Editor.vue'
 import { useRoute } from 'vue-router'
+import QRCode from 'qrcode'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -248,6 +311,9 @@ const editQuest = ref({
   description: '',
   xp_reward: 10
 })
+const qrModalOpen = ref(false)
+const selectedQuestQRCode = ref<QuestQRCodeData | null>(null)
+const qrCanvasRef = ref<HTMLCanvasElement | null>(null)
 
 onMounted(async () => {
   try {
@@ -353,5 +419,35 @@ async function deleteQuest(questId: number) {
   } catch (error) {
     console.error('Failed to delete quest:', error);
   }
+}
+
+async function renderQuestQRCode() {
+  if (!qrCanvasRef.value || !selectedQuestQRCode.value) return
+
+  await QRCode.toCanvas(qrCanvasRef.value, selectedQuestQRCode.value.qrValue, {
+    width: 240,
+    margin: 2,
+    color: {
+      dark: '#1f2937',
+      light: '#ffffff'
+    }
+  })
+}
+
+async function showQuestQRCode(quest: Quest) {
+  try {
+    selectedQuestQRCode.value = await questService.getQuestQRCode(quest.id_quest)
+    qrModalOpen.value = true
+    await nextTick()
+    await renderQuestQRCode()
+  } catch (error) {
+    console.error('Failed to fetch quest QR code:', error)
+    alert(t('prestataire.quests.qr_modal.load_error'))
+  }
+}
+
+function closeQuestQRCode() {
+  qrModalOpen.value = false
+  selectedQuestQRCode.value = null
 }
 </script>

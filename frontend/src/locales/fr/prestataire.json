@@ -121,7 +121,8 @@
         "delete": "Supprimer",
         "edit": "Modifier",
         "save": "Enregistrer",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "show_qr": "Afficher le QR code"
       },
       "empty": {
         "title": "Aucune quête créée",
@@ -132,6 +133,13 @@
       "title": "Vous ne possédez aucun lieu",
       "subtitle": "Explorez la carte pour acquérir votre premier établissement.",
       "explore_button": "Explorer la carte"
+    },
+    "qr_modal": {
+      "title": "QR code de validation",
+      "description": "Faites scanner ce QR code ? l'aventurier pour valider cette qu?te.",
+      "manual_code": "Code manuel",
+      "close": "Fermer",
+      "load_error": "Erreur lors du chargement du QR code"
     }
   },
   "order_scan": {

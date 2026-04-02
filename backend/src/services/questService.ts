@@ -1,5 +1,6 @@
 import { Prisma, UserQuestStatus, Quest, UserQuest } from '@prisma/client';
 import prisma from '../prisma.js';
+import { randomUUID } from 'crypto';
 
 type QuestWithRelations = Prisma.QuestGetPayload<{
   include: { location: true; userQuests: true }
@@ -12,16 +13,81 @@ interface CreateQuestData {
   id_location: number;
 }
 
+const getQuestValidationCode = (
+  questId: number,
+  locationId: number,
+  staticCode?: string | null,
+  nonce?: string
+) => {
+  const normalizedStaticCode = staticCode?.trim() || `LOCATION-${locationId}`;
+  return `QUEST:${questId}:LOC:${locationId}:CODE:${normalizedStaticCode}:${nonce || randomUUID()}`;
+};
+
+const buildStoredQuestValidationCode = (
+  locationId: number,
+  staticCode?: string | null,
+  nonce?: string
+) => {
+  const normalizedStaticCode = staticCode?.trim() || `LOCATION-${locationId}`;
+  return `QUEST:NEW:LOC:${locationId}:CODE:${normalizedStaticCode}:${nonce || randomUUID()}`;
+};
+
+const parseQuestValidationCode = (value: string) => {
+  const parts = value.trim().split(':');
+  if (parts.length < 7) return null;
+  if (parts[0] !== 'QUEST' || parts[2] !== 'LOC' || parts[4] !== 'CODE') return null;
+
+  const questId = Number(parts[1]);
+  const locationId = Number(parts[3]);
+  const nonce = parts[parts.length - 1];
+  const code = parts.slice(5, parts.length - 1).join(':');
+
+  if (!Number.isInteger(questId) || !Number.isInteger(locationId) || !code || !nonce) {
+    return null;
+  }
+
+  return { questId, locationId, code, nonce };
+};
+
+const ensureQuestValidationCode = async (
+  questId: number,
+  locationId: number,
+  staticCode?: string | null,
+  currentValue?: string | null
+) => {
+  if (currentValue?.trim()) {
+    return currentValue;
+  }
+
+  const generatedCode = buildStoredQuestValidationCode(locationId, staticCode);
+  await (prisma.quest as any).update({
+    where: { id_quest: questId },
+    data: { validation_code: generatedCode }
+  });
+
+  return generatedCode;
+};
+
 /**
  * Create a new quest for a location
  */
 export const createQuest = async (data: CreateQuestData) => {
-  return await prisma.quest.create({
+  const location = await prisma.location.findUnique({
+    where: { id_location: data.id_location },
+    select: { id_location: true, static_code: true }
+  });
+
+  if (!location) {
+    throw new Error('Location not found');
+  }
+
+  return await (prisma.quest as any).create({
     data: {
       title: data.title,
       description: data.description,
       xp_reward: data.xp_reward,
       id_location: data.id_location,
+      validation_code: buildStoredQuestValidationCode(location.id_location, location.static_code),
     },
   });
 };
@@ -177,6 +243,118 @@ export const deleteQuest = async (questId: number) => {
       id_quest: questId
     }
   });
+};
+
+export const getQuestQRCodeData = async (questId: number) => {
+  const quest = await (prisma.quest as any).findUnique({
+    where: { id_quest: questId },
+    include: {
+      location: {
+        select: {
+          id_location: true,
+          name: true,
+          static_code: true
+        }
+      }
+    }
+  });
+
+  if (!quest || !quest.location) {
+    throw new Error('Quest not found');
+  }
+
+  const storedCode = await ensureQuestValidationCode(
+    quest.id_quest,
+    quest.location.id_location,
+    quest.location.static_code,
+    quest.validation_code
+  );
+
+  const code = getQuestValidationCode(
+    quest.id_quest,
+    quest.location.id_location,
+    quest.location.static_code,
+    storedCode.split(':').pop()
+  );
+
+  return {
+    questId: quest.id_quest,
+    questTitle: quest.title,
+    locationId: quest.location.id_location,
+    locationName: quest.location.name,
+    manualCode: code,
+    qrValue: code
+  };
+};
+
+export const validateQuestByQR = async (userId: number, questId: number, scannedCode: string) => {
+  const userQuest = await (prisma.userQuest as any).findUnique({
+    where: {
+      id_user_id_quest: {
+        id_user: userId,
+        id_quest: questId,
+      }
+    },
+    include: {
+      quest: {
+        include: {
+          location: {
+            select: {
+              id_location: true,
+              name: true,
+              static_code: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  if (!userQuest || !userQuest.quest?.location) {
+    return { success: false, error: 'Quest not found or not accepted' };
+  }
+
+  if (userQuest.status === UserQuestStatus.completed) {
+    return { success: false, error: 'Quest already completed' };
+  }
+
+  const parsedCode = parseQuestValidationCode(scannedCode);
+  const expectedStaticCode = userQuest.quest.location.static_code?.trim() || `LOCATION-${userQuest.quest.location.id_location}`;
+  const storedCode = await ensureQuestValidationCode(
+    userQuest.quest.id_quest,
+    userQuest.quest.location.id_location,
+    userQuest.quest.location.static_code,
+    userQuest.quest.validation_code
+  );
+  const storedNonce = storedCode.split(':').pop();
+
+  if (
+    !parsedCode
+    || parsedCode.questId !== userQuest.quest.id_quest
+    || parsedCode.locationId !== userQuest.quest.location.id_location
+    || parsedCode.code !== expectedStaticCode
+    || !storedNonce
+    || parsedCode.nonce !== storedNonce
+  ) {
+    return { success: false, error: 'Invalid QR code for this quest' };
+  }
+
+  await prisma.userQuest.update({
+    where: {
+      id_user_id_quest: {
+        id_user: userId,
+        id_quest: questId,
+      }
+    },
+    data: {
+      status: UserQuestStatus.completed,
+    }
+  });
+
+  return {
+    success: true,
+    message: `Quest validated at ${userQuest.quest.location.name}`
+  };
 };
 
 /**

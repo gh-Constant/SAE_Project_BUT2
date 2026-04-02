@@ -1,4 +1,5 @@
 import prisma from '../prisma.js';
+import { randomUUID } from 'crypto';
 
 const questSeeds = [
   // Merchant Stall #5 (location id: 14) - THÈME : Logistique & Aide manuelle
@@ -23,16 +24,25 @@ const questSeeds = [
   { title: "Souvenir Digital", description: "Prendre en photo le stand.", xp_reward: 25, id_location: 16 },
 ];
 
+const buildValidationCode = (locationId: number) =>
+  `QUEST:NEW:LOC:${locationId}:CODE:LOCATION-${locationId}:${randomUUID()}`;
+
 export async function seedQuests() {
   console.log(' Seeding quests...');
 
   for (const quest of questSeeds) {
-    await prisma.quest.upsert({
+    await (prisma.quest as any).upsert({
       where: {
         id_quest: questSeeds.indexOf(quest) + 1
       },
-      update: quest,
-      create: quest
+      update: {
+        ...quest,
+        validation_code: buildValidationCode(quest.id_location)
+      },
+      create: {
+        ...quest,
+        validation_code: buildValidationCode(quest.id_location)
+      }
     });
   }
 

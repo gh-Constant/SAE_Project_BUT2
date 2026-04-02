@@ -63,6 +63,34 @@ const getCurrentUserId = (): number => {
   return 2; // Default to Alice (aventurier)
 };
 
+const getQuestValidationCode = (questId: number, locationId: number, staticCode?: string | null) => {
+  const normalizedStaticCode = staticCode?.trim() || `LOCATION-${locationId}`;
+  return `QUEST:${questId}:LOC:${locationId}:CODE:${normalizedStaticCode}:${crypto.randomUUID()}`;
+};
+
+const getStoredQuestValidationCode = (quest: any, locationId: number, staticCode?: string | null) => {
+  if (quest.validation_code) return quest.validation_code;
+  const normalizedStaticCode = staticCode?.trim() || `LOCATION-${locationId}`;
+  return `QUEST:NEW:LOC:${locationId}:CODE:${normalizedStaticCode}:${crypto.randomUUID()}`;
+};
+
+const parseQuestValidationCode = (value: string) => {
+  const parts = value.trim().split(':');
+  if (parts.length < 7) return null;
+  if (parts[0] !== 'QUEST' || parts[2] !== 'LOC' || parts[4] !== 'CODE') return null;
+
+  const questId = Number(parts[1]);
+  const locationId = Number(parts[3]);
+  const nonce = parts[parts.length - 1];
+  const code = parts.slice(5, parts.length - 1).join(':');
+
+  if (!Number.isInteger(questId) || !Number.isInteger(locationId) || !code || !nonce) {
+    return null;
+  }
+
+  return { questId, locationId, code, nonce };
+};
+
 export const questMockService = {
   getQuestsByLocation: async (locationId: number): Promise<Quest[]> => {
     return mockQuests.filter(q => q.id_location === locationId);
@@ -75,7 +103,8 @@ export const questMockService = {
 
   createQuest: async (quest: Omit<Quest, 'id_quest'>): Promise<Quest> => {
     const location = LOCATIONS.find(l => l.id === quest.id_location);
-    const newQuest = { ...quest, id_quest: mockQuests.length + 1, location, created_at: new Date().toISOString() };
+    const validation_code = getStoredQuestValidationCode(quest, quest.id_location, location?.static_code);
+    const newQuest = { ...quest, id_quest: mockQuests.length + 1, validation_code, location, created_at: new Date().toISOString() };
     mockQuests.push(newQuest);
     return newQuest;
   },
@@ -214,8 +243,19 @@ export const questMockService = {
       return { success: false, error: 'Location de la quête non trouvée' };
     }
 
-    // Vérifier que le code scanné correspond au static_code de la location
-    if (location.static_code !== scannedCode) {
+    const parsedCode = parseQuestValidationCode(scannedCode);
+    const expectedStaticCode = location.static_code?.trim() || `LOCATION-${location.id}`;
+    const storedNonce = (quest.validation_code || '').split(':').pop();
+
+    // Vérifier que le code scanné correspond à cette quête et à ce lieu
+    if (
+      !parsedCode ||
+      parsedCode.questId !== questId ||
+      parsedCode.locationId !== location.id ||
+      parsedCode.code !== expectedStaticCode ||
+      !storedNonce ||
+      parsedCode.nonce !== storedNonce
+    ) {
       return {
         success: false,
         error: `Mauvais emplacement ! Cette quête doit être validée à "${location.name}"`
@@ -253,6 +293,38 @@ export const questMockService = {
     return {
       success: true,
       message: `Quête validée ! +${xpReward} XP gagné`
+    };
+  },
+
+  getQuestQRCode: async (questId: number) => {
+    const quest = mockQuests.find(q => q.id_quest === questId);
+    if (!quest) {
+      throw new Error('Quest not found');
+    }
+
+    const location = LOCATIONS.find(l => l.id === quest.id_location);
+    if (!location) {
+      throw new Error('Location not found');
+    }
+
+    if (!quest.validation_code) {
+      quest.validation_code = getStoredQuestValidationCode(quest, location.id, location.static_code);
+    }
+
+    const qrValue = getQuestValidationCode(
+      quest.id_quest,
+      location.id,
+      location.static_code,
+      quest.validation_code.split(':').pop()
+    );
+
+    return {
+      questId: quest.id_quest,
+      questTitle: quest.title,
+      locationId: location.id,
+      locationName: location.name,
+      manualCode: qrValue,
+      qrValue
     };
   },
 

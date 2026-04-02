@@ -154,7 +154,8 @@
         "delete": "Expunge",
         "edit": "Edit",
         "save": "Save",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "show_qr": "Show QR code"
       },
       "empty": {
         "title": "No quests forged",
@@ -165,6 +166,13 @@
       "title": "You possess no lands",
       "subtitle": "Explore the map to acquire your first establishment.",
       "explore_button": "Explore Map"
+    },
+    "qr_modal": {
+      "title": "Validation QR code",
+      "description": "Have the adventurer scan this QR code to validate this quest.",
+      "manual_code": "Manual code",
+      "close": "Close",
+      "load_error": "Failed to load the QR code"
     }
   },
   "order_scan": {

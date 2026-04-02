@@ -150,7 +150,8 @@
         "delete": "Eliminar",
         "edit": "Editar",
         "save": "Guardar",
-        "cancel": "Cancelar"
+        "cancel": "Cancelar",
+        "show_qr": "Mostrar c?digo QR"
       },
       "empty": {
         "title": "No hay misiones forjadas",
@@ -161,6 +162,13 @@
       "title": "No posee tierras",
       "subtitle": "Explore el mapa para adquirir su primer establecimiento.",
       "explore_button": "Explorar el mapa"
+    },
+    "qr_modal": {
+      "title": "C?digo QR de validaci?n",
+      "description": "Haz que el aventurero escanee este c?digo QR para validar esta misi?n.",
+      "manual_code": "C?digo manual",
+      "close": "Cerrar",
+      "load_error": "No se pudo cargar el c?digo QR"
     }
   },
   "order_scan": {

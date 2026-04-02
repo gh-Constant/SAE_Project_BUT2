@@ -129,3 +129,39 @@ export const deleteQuest = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Failed to delete quest' });
   }
 };
+
+export const getQuestQRCode = async (req: Request, res: Response) => {
+  try {
+    const questId = parseInt(req.params.questId);
+    const qrData = await questService.getQuestQRCodeData(questId);
+    return res.json(qrData);
+  } catch (error) {
+    return res.status(404).json({ error: 'Failed to generate quest QR code' });
+  }
+};
+
+export const validateQuestByQR = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const userId = req.user?.id;
+    const questId = parseInt(req.params.questId);
+    const { scannedCode } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!scannedCode || typeof scannedCode !== 'string') {
+      return res.status(400).json({ error: 'Scanned code is required' });
+    }
+
+    const result = await questService.validateQuestByQR(userId, questId, scannedCode);
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to validate quest QR code' });
+  }
+};

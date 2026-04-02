@@ -6,6 +6,7 @@ export interface Quest {
   description: string;
   xp_reward: number;
   id_location: number;
+  validation_code?: string;
   created_at?: string;
   updated_at?: string;
   status?: 'accepted' | 'completed' | 'failed'; // For UserQuest
@@ -19,6 +20,15 @@ export interface UserQuest {
   status: 'accepted' | 'completed' | 'failed';
   accepted_at?: string;
   completed_at?: string;
+}
+
+export interface QuestQRCodeData {
+  questId: number;
+  questTitle: string;
+  locationId: number;
+  locationName: string;
+  manualCode: string;
+  qrValue: string;
 }
 
 import apiClient from './apiClient';
@@ -109,6 +119,15 @@ const questServiceImpl = {
       return response.data;
     } catch (error: any) {
       return { success: false, error: error.response?.data?.error || 'Validation failed' };
+    }
+  },
+
+  getQuestQRCode: async (questId: number): Promise<QuestQRCodeData> => {
+    try {
+      const response = await apiClient.get(`/quests/${questId}/qr-code`);
+      return response.data;
+    } catch {
+      throw new Error('Failed to fetch quest QR code');
     }
   }
 };

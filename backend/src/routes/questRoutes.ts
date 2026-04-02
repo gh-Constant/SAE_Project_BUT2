@@ -24,8 +24,10 @@ router.post('/', authenticateToken, checkLocationOwnership, questController.crea
 router.post('/:questId/accept', authenticateToken, questController.acceptQuest);
 router.post('/:questId/complete', authenticateToken, questController.completeQuest);
 router.post('/:questId/cancel', authenticateToken, questController.cancelQuest);
+router.post('/:questId/validate-qr', authenticateToken, questController.validateQuestByQR);
 
 // Prestataire update/delete (requires ownership of location)
+router.get('/:questId/qr-code', authenticateToken, checkQuestLocationOwnership, questController.getQuestQRCode);
 router.put('/:questId', authenticateToken, checkQuestLocationOwnership, questController.updateQuest);
 router.delete('/:questId', authenticateToken, checkQuestLocationOwnership, questController.deleteQuest);
 

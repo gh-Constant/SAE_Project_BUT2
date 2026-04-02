@@ -150,7 +150,8 @@
         "delete": "Tilgen",
         "edit": "Bearbeiten",
         "save": "Speichern",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "show_qr": "QR-Code anzeigen"
       },
       "empty": {
         "title": "Keine Quests geschmiedet",
@@ -161,6 +162,13 @@
       "title": "Sie besitzen keine Ländereien",
       "subtitle": "Erkunden Sie die Karte, um Ihre erste Stätte zu erwerben.",
       "explore_button": "Karte erkunden"
+    },
+    "qr_modal": {
+      "title": "QR-Code zur Validierung",
+      "description": "Lassen Sie diesen QR-Code vom Abenteurer scannen, um diese Quest zu validieren.",
+      "manual_code": "Manueller Code",
+      "close": "Schlie?en",
+      "load_error": "QR-Code konnte nicht geladen werden"
     }
   },
   "order_scan": {
