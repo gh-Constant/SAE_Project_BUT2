@@ -173,7 +173,7 @@ const profileRoute = computed(() => {
           <MedievalButton v-if="isLoggedIn && isAventurier(auth.user)" to="/leaderboard" compact
             class="!shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]" active-class="!bg-[#8B6B43] !border-[#5D4037]">
             <i class="fas fa-trophy text-sm"></i>
-            <span class="ml-1.5">Classement</span>
+            <span class="ml-1.5">{{ $t('navbar.leaderboard') }}</span>
           </MedievalButton>
         </div>
 
@@ -280,19 +280,19 @@ const profileRoute = computed(() => {
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown">
                 <i class="fas fa-trophy mr-3 text-antique-bronze" />
-                Classement
+                {{ $t('navbar.leaderboard') }}
               </router-link>
               <router-link to="/conversations"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown">
                 <i class="fas fa-comments mr-3 text-antique-bronze" />
-                {{ $t('messaging.title') || 'Messages' }}
+                {{ $t('messaging.title') }}
               </router-link>
               <router-link v-if="isAventurier(auth.user)" to="/quiz"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
                 @click="closeDropdown">
                 <i class="fas fa-question-circle mr-3 text-antique-bronze" />
-                Quiz
+                {{ $t('navbar.quizzes') }}
               </router-link>
               <router-link :to="profileRoute"
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
@@ -387,7 +387,7 @@ const profileRoute = computed(() => {
             class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
             active-class="!bg-[#8B6B43] !border-[#5D4037]" @click="isMobileMenuOpen = false">
             <i class="fas fa-trophy text-lg w-8"></i>
-            <span class="ml-2">Classement</span>
+            <span class="ml-2">{{ $t('navbar.leaderboard') }}</span>
           </MedievalButton>
 
           <!-- Cart button in mobile menu -->
@@ -453,14 +453,14 @@ const profileRoute = computed(() => {
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
               @click="isMobileMenuOpen = false">
               <i class="fas fa-comments text-lg w-8"></i>
-              <span class="ml-2">{{ $t('messaging.title') || 'Messages' }}</span>
+              <span class="ml-2">{{ $t('messaging.title') }}</span>
             </MedievalButton>
 
             <MedievalButton v-if="isAventurier(auth.user)" to="/quiz" full-width
               class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
               @click="isMobileMenuOpen = false">
               <i class="fas fa-question-circle text-lg w-8"></i>
-              <span class="ml-2">Quiz</span>
+              <span class="ml-2">{{ $t('navbar.quizzes') }}</span>
             </MedievalButton>
 
             <MedievalButton :to="profileRoute" full-width

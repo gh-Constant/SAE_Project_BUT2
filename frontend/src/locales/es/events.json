@@ -6,7 +6,7 @@
     "unknown_location": "Ubicación desconocida",
     "from_price": "Desde {price} G",
     "view_details": "Ver detalles",
-    "dates_multiples": "Fechas m?ltiples"
+    "dates_multiples": "Fechas mltiples"
   },
   "details": {
     "back": "Volver",
@@ -26,7 +26,17 @@
     "error_default": "Ocurrió un error durante la reserva.",
     "choose_date": "Elegir una fecha",
     "select_slot": "Selecciona una franja",
-    "remaining_slot": "Quedan: {count}"
+    "remaining_slot": "Quedan: {count}",
+    "select_slot_required": "Selecciona una franja horaria para esta actividad.",
+    "error_title": "No se pudo reservar",
+    "success_message": "{count} plaza(s) reservada(s) para {title}.",
+    "features": {
+      "title": "Servicios del lugar",
+      "water": "Agua",
+      "electricity": "Electricidad",
+      "toilets": "Baños",
+      "accessible": "Accesible PMR"
+    }
   },
   "location": {
     "title": "Eventos del lugar",

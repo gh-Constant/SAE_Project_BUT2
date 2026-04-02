@@ -40,15 +40,15 @@
   "scan": {
     "title": "QR-Code scannen",
     "hint": "Richten Sie Ihre Kamera auf den QR-Code des Quest-Orts",
-    "camera_error": "Zugriff auf die Kamera nicht m?glich",
+    "camera_error": "Zugriff auf die Kamera nicht möglich",
     "camera_error_hint": "Bitte erlauben Sie den Kamerazugriff in den Einstellungen Ihres Browsers.",
     "retry": "Erneut versuchen",
     "or_manual": "Oder Code manuell eingeben",
     "enter_code": "Code des Ortes eingeben",
-    "validate": "Best?tigen",
+    "validate": "Bestätigen",
     "success": "Quest validiert!",
     "failed": "Validierung fehlgeschlagen",
     "try_again": "Erneut versuchen",
-    "close": "Schlie?en"
+    "close": "Schließen"
   }
 }

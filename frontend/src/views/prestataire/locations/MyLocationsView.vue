@@ -10,15 +10,15 @@
         <div class="mb-8 text-center">
           <h1 class="text-4xl md:text-5xl font-medieval font-bold text-iron-black mb-4">
             <i class="fas fa-map-marked-alt mr-3 text-antique-bronze"></i>
-            Mes Lieux
+            {{ t('prestataire.locations.title') }}
           </h1>
           <div class="h-1 w-24 bg-antique-bronze mx-auto rounded-full mb-6"></div>
-          <p class="text-lg text-stone-grey">Gérez vos établissements, vos événements et vos marchandises</p>
+          <p class="text-lg text-stone-grey">{{ t('prestataire.locations.subtitle') }}</p>
         </div>
 
         <!-- Loading State -->
         <div v-if="loading" class="text-center py-12">
-          <p class="text-xl font-medieval animate-pulse text-antique-bronze">Chargement de vos terres...</p>
+          <p class="text-xl font-medieval animate-pulse text-antique-bronze">{{ t('prestataire.locations.loading') }}</p>
         </div>
 
         <!-- Empty State -->
@@ -26,15 +26,15 @@
           class="text-center py-16 bg-white/40 rounded-sm border-2 border-dashed border-antique-bronze/30">
           <i class="fas fa-dungeon text-6xl text-antique-bronze/30 mb-4"></i>
           <h3 class="text-2xl font-medieval font-bold text-iron-black mb-3">
-            Vous ne possédez aucun lieu
+            {{ t('prestataire.quests.no_locations.title') }}
           </h3>
           <p class="text-stone-grey mb-6">
-            Explorez la carte pour acquérir votre premier établissement.
+            {{ t('prestataire.quests.no_locations.subtitle') }}
           </p>
           <router-link to="/map">
             <MedievalButton>
               <i class="fas fa-map mr-2"></i>
-              Explorer la carte
+              {{ t('prestataire.quests.no_locations.explore_button') }}
             </MedievalButton>
           </router-link>
         </div>
@@ -61,11 +61,11 @@
               <div class="absolute top-4 right-4 z-20">
                 <span v-if="location.status === 'PENDING'"
                   class="px-3 py-1 bg-amber-500/90 text-white text-sm font-bold rounded-full shadow-lg border border-white/20 backdrop-blur-sm">
-                  <i class="fas fa-hourglass-half mr-1"></i> En attente
+                  <i class="fas fa-hourglass-half mr-1"></i> {{ t('prestataire.locations.status.pending') }}
                 </span>
                 <span v-else-if="location.status === 'APPROVED'"
                   class="px-3 py-1 bg-green-600/90 text-white text-sm font-bold rounded-full shadow-lg border border-white/20 backdrop-blur-sm">
-                  <i class="fas fa-check-circle mr-1"></i> Actif
+                  <i class="fas fa-check-circle mr-1"></i> {{ t('prestataire.locations.status.active') }}
                 </span>
               </div>
             </div>
@@ -82,7 +82,7 @@
                 class="w-full mb-3 bg-white/50 hover:bg-white text-antique-bronze border border-antique-bronze font-medieval font-bold py-2.5 px-4 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2 group"
               >
                 <i class="fas fa-edit group-hover:scale-110 transition-transform"></i>
-                Modifier l’emplacement
+                {{ t('prestataire.locations.actions.edit') }}
               </button>
 
               <div v-if="location.status === 'APPROVED'"
@@ -90,19 +90,19 @@
                 <button @click="manageEvents(location.id)"
                   class="w-full bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2.5 px-4 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2 group">
                   <i class="fas fa-calendar-alt group-hover:scale-110 transition-transform"></i>
-                  Gérer les événements
+                  {{ t('prestataire.dashboard.quick_actions.manage_events') }}
                 </button>
 
                 <button @click="manageShop(location.id)"
                   class="w-full bg-white/50 hover:bg-white text-antique-bronze border border-antique-bronze font-medieval font-bold py-2.5 px-4 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2 group">
                   <i class="fas fa-store group-hover:scale-110 transition-transform"></i>
-                  Gérer la boutique
+                  {{ t('prestataire.dashboard.quick_actions.manage_shop') }}
                 </button>
 
                 <button @click="addQuiz(location.id)"
                   class="w-full bg-green-600 hover:bg-green-700 text-white font-medieval font-bold py-2.5 px-4 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2 group">
                   <i class="fas fa-scroll group-hover:scale-110 transition-transform"></i>
-                  Ajouter un quiz
+                  {{ t('prestataire.dashboard.quick_actions.manage_quizzes') }}
                 </button>
               </div>
 
@@ -110,7 +110,7 @@
               <div v-else class="mt-auto pt-4 border-t border-antique-bronze/20 text-center">
                 <div class="bg-amber-50 border border-amber-200 rounded p-3 text-amber-800 text-sm">
                   <i class="fas fa-lock mb-2 text-lg"></i><br />
-                  Votre demande d'acquisition est en cours de validation par un administrateur.
+                  {{ t('prestataire.locations.pending_notice') }}
                 </div>
               </div>
             </div>
@@ -129,8 +129,8 @@
         <div class="bg-parchment rounded-lg shadow-2xl border-2 border-antique-bronze/40 w-full max-w-4xl max-h-[90vh] overflow-hidden">
           <div class="flex items-center justify-between px-6 py-5 border-b border-antique-bronze/15 bg-white/60">
             <div>
-              <h2 class="text-2xl font-medieval font-bold text-iron-black">Modifier l’emplacement</h2>
-              <p class="text-sm text-stone-grey mt-1">{{ editForm.name || 'Sans nom' }}</p>
+              <h2 class="text-2xl font-medieval font-bold text-iron-black">{{ t('prestataire.locations.edit_modal.title') }}</h2>
+              <p class="text-sm text-stone-grey mt-1">{{ editForm.name || t('prestataire.locations.edit_modal.untitled') }}</p>
             </div>
             <button @click="closeEditModal" class="text-stone-grey hover:text-iron-black transition-colors">
               <i class="fas fa-times text-xl"></i>
@@ -144,17 +144,17 @@
 
             <div class="space-y-6">
               <div>
-                <label class="block text-sm font-bold text-iron-black mb-2">Nom</label>
+                <label class="block text-sm font-bold text-iron-black mb-2">{{ t('prestataire.locations.edit_modal.name_label') }}</label>
                 <input
                   v-model="editForm.name"
                   type="text"
                   class="w-full px-4 py-3 bg-white border border-antique-bronze/30 rounded-lg focus:ring-2 focus:ring-antique-bronze outline-none text-iron-black"
-                  placeholder="Nom de votre emplacement"
+                  :placeholder="t('prestataire.locations.edit_modal.name_placeholder')"
                 >
               </div>
 
               <div>
-                <label class="block text-sm font-bold text-iron-black mb-2">Image</label>
+                <label class="block text-sm font-bold text-iron-black mb-2">{{ t('prestataire.locations.edit_modal.image_label') }}</label>
                 <div class="bg-white/60 border border-antique-bronze/20 rounded-lg p-4">
                   <div class="h-56 rounded-lg overflow-hidden bg-stone-200 mb-4 flex items-center justify-center">
                     <img
@@ -165,17 +165,17 @@
                     >
                     <div v-else class="text-stone-grey flex flex-col items-center gap-2">
                       <i class="fas fa-image text-4xl"></i>
-                      <span>Aucune image</span>
+                      <span>{{ t('prestataire.locations.edit_modal.no_image') }}</span>
                     </div>
                   </div>
 
                   <div class="flex flex-wrap gap-3">
                     <label class="px-4 py-2 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded-md shadow-md transition-all cursor-pointer">
                       <span v-if="uploadingImage">
-                        <i class="fas fa-spinner fa-spin mr-2"></i> Upload...
+                        <i class="fas fa-spinner fa-spin mr-2"></i> {{ t('prestataire.locations.edit_modal.uploading') }}
                       </span>
                       <span v-else>
-                        <i class="fas fa-upload mr-2"></i> Changer l’image
+                        <i class="fas fa-upload mr-2"></i> {{ t('prestataire.locations.edit_modal.change_image') }}
                       </span>
                       <input type="file" accept="image/*" class="hidden" :disabled="uploadingImage" @change="handleImageUpload">
                     </label>
@@ -186,14 +186,14 @@
                       type="button"
                       class="px-4 py-2 bg-white hover:bg-stone-50 text-stone-grey border border-stone-300 rounded-md transition-colors"
                     >
-                      Retirer l’image
+                      {{ t('prestataire.locations.edit_modal.remove_image') }}
                     </button>
                   </div>
                 </div>
               </div>
 
               <div>
-                <label class="block text-sm font-bold text-iron-black mb-2">Description</label>
+                <label class="block text-sm font-bold text-iron-black mb-2">{{ t('prestataire.events.manager.form.description_label') }}</label>
                 <Editor ref="editorRef" :initial-content="editForm.description" />
               </div>
             </div>
@@ -204,7 +204,7 @@
                 type="button"
                 class="px-5 py-2.5 bg-white hover:bg-stone-50 text-stone-grey border border-stone-300 rounded-md transition-colors"
               >
-                Annuler
+                {{ t('prestataire.events.manager.form.cancel') }}
               </button>
               <button
                 @click="saveLocation"
@@ -213,9 +213,9 @@
                 class="px-5 py-2.5 bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold rounded-md shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span v-if="savingEdit">
-                  <i class="fas fa-spinner fa-spin mr-2"></i> Enregistrement...
+                  <i class="fas fa-spinner fa-spin mr-2"></i> {{ t('prestataire.locations.edit_modal.saving') }}
                 </span>
-                <span v-else>Enregistrer</span>
+                <span v-else>{{ t('prestataire.profile.messages.save') }}</span>
               </button>
             </div>
           </div>
@@ -235,8 +235,10 @@ import MedievalButton from '@/components/ui/MedievalButton.vue'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import Editor from '@/components/editor/Editor.vue'
 import { uploadService } from '@/services/uploadService'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t } = useI18n()
 const authStore = useAuthStore()
 const loading = ref(false)
 const allLocations = ref<LocationMock[]>([])
@@ -312,7 +314,7 @@ async function handleImageUpload(event: Event) {
     const response = await uploadService.uploadImage(file)
     editForm.value.banner_image = response.url
   } catch (error) {
-    editError.value = error instanceof Error ? error.message : 'Erreur lors de l’upload de l’image'
+    editError.value = error instanceof Error ? error.message : t('prestataire.locations.errors.upload')
   } finally {
     uploadingImage.value = false
     input.value = ''
@@ -326,7 +328,7 @@ async function saveLocation() {
   const description = editorRef.value?.getHTML() || editForm.value.description
 
   if (!trimmedName) {
-    editError.value = 'Le nom de l’emplacement est requis'
+    editError.value = t('prestataire.locations.errors.name_required')
     return
   }
 
@@ -348,7 +350,7 @@ async function saveLocation() {
 
     closeEditModal()
   } catch (error) {
-    editError.value = error instanceof Error ? error.message : 'Erreur lors de la mise à jour du lieu'
+    editError.value = error instanceof Error ? error.message : t('prestataire.locations.errors.update')
   } finally {
     savingEdit.value = false
   }

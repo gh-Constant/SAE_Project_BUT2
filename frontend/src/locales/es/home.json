@@ -42,7 +42,7 @@
   },
   "commitments": {
     "title": "Nuestros compromisos contigo",
-    "subtitle": "Cada espacio del festival est? pensado para tu comodidad y seguridad.",
+    "subtitle": "Cada espacio del festival está pensado para tu comodidad y seguridad.",
     "water": {
       "title": "Puntos de agua",
       "description": "Fuentes y puntos de agua potable repartidos por todo el pueblo para refrescarte durante tu aventura."
@@ -52,17 +52,17 @@
       "description": "Nuestros puestos y talleres disponen de electricidad para que cada artesano pueda trabajar en las mejores condiciones."
     },
     "toilets": {
-      "title": "Ba?os accesibles",
-      "description": "Instalaciones sanitarias limpias y cuidadas, accesibles para todos y distribuidas estrat?gicamente por el pueblo."
+      "title": "Baños accesibles",
+      "description": "Instalaciones sanitarias limpias y cuidadas, accesibles para todos y distribuidas estratégicamente por el pueblo."
     },
     "accessibility": {
       "title": "Accesible para todos",
-      "description": "El reino da la bienvenida a cada aventurero. Nuestros caminos y espacios est?n adaptados para personas con movilidad reducida."
+      "description": "El reino da la bienvenida a cada aventurero. Nuestros caminos y espacios están adaptados para personas con movilidad reducida."
     }
   },
   "leaderboard": {
     "title": "El gran grimorio de los aventureros",
-    "subtitle": "?Qui?nes son los h?roes m?s valientes del reino?",
+    "subtitle": "¿Quiénes son los héroes más valientes del reino?",
     "columns": {
       "rank": "Rango",
       "adventurer": "Aventurero",
@@ -71,12 +71,12 @@
     },
     "mysterious_adventurer": "Aventurero misterioso",
     "level_short": "Nv. {level}",
-    "empty": "Todav?a ning?n aventurero ha desafiado estas tierras.",
+    "empty": "Todavía ningún aventurero ha desafiado estas tierras.",
     "previous": "Anterior",
     "next": "Siguiente",
-    "page": "P?gina",
-    "sticky_title": "Tu posici?n",
-    "sticky_subtitle": "?Sigue esforz?ndote, aventurero!",
+    "page": "Página",
+    "sticky_title": "Tu posición",
+    "sticky_subtitle": "¡Sigue esforzándote, aventurero!",
     "total_xp": "XP total"
   }
 }

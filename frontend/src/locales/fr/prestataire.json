@@ -54,7 +54,9 @@
     },
     "location": {
       "register_count": "Registre contenant {n} marchandise | Registre contenant {n} marchandises",
-      "add_product": "Ajouter une marchandise"
+      "add_product": "Ajouter une marchandise",
+      "pending_validation": "En attente de validation",
+      "pending_tooltip": "Lieu en attente de validation"
     },
     "add_form": {
       "name_label": "Dénomination",
@@ -87,8 +89,8 @@
       }
     },
     "empty": {
-      "title": "Aucun produit enregistr?",
-      "subtitle": "Ajoutez votre premi?re marchandise pour commencer le commerce."
+      "title": "Aucun produit enregistr",
+      "subtitle": "Ajoutez votre premire marchandise pour commencer le commerce."
     }
   },
   "quests": {
@@ -243,6 +245,10 @@
       }
     },
     "manager": {
+      "location_id": "Lieu #{id}",
+      "loading": "Consultation des astres...",
+      "create_now": "Créer un événement maintenant",
+      "sold_places": "Places vendues",
       "create_button": "Créer un événement",
       "empty_search": {
         "title": "Aucun événement trouvé",
@@ -267,18 +273,54 @@
         "type_event": "Événement unique",
         "type_activity": "Activité (créneaux multiples)",
         "schedules_title": "Créneaux horaires",
-        "add_schedule": "Ajouter un créneau"
+        "add_schedule": "Ajouter un créneau",
+        "default_price": "Prix par défaut",
+        "modal_edit_title": "Modifier le décret",
+        "modal_create_title": "Nouveau décret",
+        "category_label": "Type d'événement",
+        "category_unspecified": "Non spécifié",
+        "category_options": {
+          "restauration": "Restauration",
+          "atelier": "Atelier",
+          "spectacle": "Spectacle",
+          "marche": "Marché",
+          "concours": "Concours",
+          "autre": "Autre"
+        },
+        "start_time_label": "Heure de début",
+        "end_time_label": "Heure de fin",
+        "slot_duration_label": "Durée d'un créneau (min)",
+        "select_time_range": "Sélectionnez une plage horaire",
+        "add_selection_hint": "Sélectionnez les horaires, puis validez l'ajout avec le bouton.",
+        "schedule_table": {
+          "date": "Date",
+          "time": "Heure",
+          "capacity": "Cap.",
+          "price": "Prix"
+        }
       },
       "reservations": {
-        "modal_title": "R?servations",
-        "empty": "Aucune r?servation pour cet ?v?nement.",
+        "modal_title": "Rservations",
+        "empty": "Aucune rservation pour cet vnement.",
         "close": "Fermer",
         "headers": {
           "adventurer": "Aventurier",
           "places": "Places",
           "total": "Total (Or)",
           "date": "Date"
-        }
+        },
+        "total_reserved": "Total réservé :",
+        "total_revenue": "Revenu total :"
+      },
+      "errors": {
+        "load_reservations": "Impossible de charger les réservations.",
+        "location_pending": "Ce lieu est en attente de validation. Vous ne pouvez pas encore gérer ses événements.",
+        "missing_start_end": "Veuillez définir une date et une heure de début et de fin.",
+        "missing_schedule": "Veuillez ajouter au moins un créneau pour cette activité.",
+        "save": "Erreur lors de l'enregistrement"
+      },
+      "confirm": {
+        "delete_event": "Êtes-vous sûr de vouloir supprimer cet événement "
       }
     }
   },
@@ -302,6 +344,36 @@
         "title": "Aucune réservation",
         "subtitle": "Vos événements n'ont pas encore reçu d'inscriptions."
       }
+    }
+  },
+  "locations": {
+    "title": "Mes lieux",
+    "subtitle": "Gérez vos établissements, vos événements et vos marchandises",
+    "loading": "Chargement de vos terres...",
+    "status": {
+      "pending": "En attente",
+      "active": "Actif"
+    },
+    "actions": {
+      "edit": "Modifier l'emplacement"
+    },
+    "pending_notice": "Votre demande d'acquisition est en cours de validation par un administrateur.",
+    "edit_modal": {
+      "title": "Modifier l'emplacement",
+      "untitled": "Sans nom",
+      "name_label": "Nom",
+      "name_placeholder": "Nom de votre emplacement",
+      "image_label": "Image",
+      "no_image": "Aucune image",
+      "uploading": "Upload...",
+      "change_image": "Changer l'image",
+      "remove_image": "Retirer l'image",
+      "saving": "Enregistrement..."
+    },
+    "errors": {
+      "upload": "Erreur lors de l'upload de l'image",
+      "name_required": "Le nom de l'emplacement est requis",
+      "update": "Erreur lors de la mise à jour du lieu"
     }
   },
   "details": {

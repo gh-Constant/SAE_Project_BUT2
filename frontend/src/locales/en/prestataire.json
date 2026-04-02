@@ -80,7 +80,9 @@
     },
     "location": {
       "register_count": "Registry containing {n} item | Registry containing {n} items",
-      "add_product": "Add Merchandise"
+      "add_product": "Add Merchandise",
+      "pending_validation": "Pending validation",
+      "pending_tooltip": "Location pending validation"
     },
     "add_form": {
       "title": "Inscribe New Merchandise",
@@ -294,6 +296,10 @@
       }
     },
     "manager": {
+      "location_id": "Location #{id}",
+      "loading": "Consulting the stars...",
+      "create_now": "Create an event now",
+      "sold_places": "Sold seats",
       "create_button": "Create Event",
       "empty_search": {
         "title": "No events found",
@@ -320,6 +326,30 @@
         "schedules_title": "Time Slots",
         "add_schedule": "Add Time Slot",
         "remove_schedule": "Remove",
+        "default_price": "Default price",
+        "modal_edit_title": "Edit Decree",
+        "modal_create_title": "New Decree",
+        "category_label": "Event category",
+        "category_unspecified": "Unspecified",
+        "category_options": {
+          "restauration": "Food service",
+          "atelier": "Workshop",
+          "spectacle": "Show",
+          "marche": "Market",
+          "concours": "Contest",
+          "autre": "Other"
+        },
+        "start_time_label": "Start time",
+        "end_time_label": "End time",
+        "slot_duration_label": "Slot duration (min)",
+        "select_time_range": "Select a time range",
+        "add_selection_hint": "Select times, then confirm with the add button.",
+        "schedule_table": {
+          "date": "Date",
+          "time": "Time",
+          "capacity": "Cap.",
+          "price": "Price"
+        },
         "schedule_start": "Start",
         "schedule_end": "End",
         "schedule_capacity": "Capacity (opt)",
@@ -334,8 +364,50 @@
           "places": "Seats",
           "total": "Total (Gold)",
           "date": "Date"
-        }
+        },
+        "total_reserved": "Total reserved:",
+        "total_revenue": "Total revenue:"
+      },
+      "errors": {
+        "load_reservations": "Unable to load reservations.",
+        "location_pending": "This location is pending validation. You cannot manage its events yet.",
+        "missing_start_end": "Please define a start and end date/time.",
+        "missing_schedule": "Please add at least one slot for this activity.",
+        "save": "Error while saving."
+      },
+      "confirm": {
+        "delete_event": "Are you sure you want to delete this event"
       }
+    }
+  },
+  "locations": {
+    "title": "My Locations",
+    "subtitle": "Manage your establishments, events and goods",
+    "loading": "Loading your lands...",
+    "status": {
+      "pending": "Pending",
+      "active": "Active"
+    },
+    "actions": {
+      "edit": "Edit location"
+    },
+    "pending_notice": "Your acquisition request is being validated by an administrator.",
+    "edit_modal": {
+      "title": "Edit location",
+      "untitled": "Untitled",
+      "name_label": "Name",
+      "name_placeholder": "Your location name",
+      "image_label": "Image",
+      "no_image": "No image",
+      "uploading": "Uploading...",
+      "change_image": "Change image",
+      "remove_image": "Remove image",
+      "saving": "Saving..."
+    },
+    "errors": {
+      "upload": "Error while uploading the image",
+      "name_required": "Location name is required",
+      "update": "Error while updating the location"
     }
   },
   "reservations": {

@@ -35,18 +35,18 @@
         <button @click="isClickDebugActive = !isClickDebugActive"
           class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10"
           :class="{ 'ring-2 ring-green-500 text-green-400': isClickDebugActive }">
-          {{ isClickDebugActive ? 'Click Debug ON' : 'Click Debug OFF' }}
+          {{ isClickDebugActive ? t('map.debug.click_on') : t('map.debug.click_off') }}
         </button>
         <button @click="showMarkerData = !showMarkerData"
           class="bg-gray-900/80 hover:bg-gray-800 text-white font-medium py-1.5 px-3 rounded-lg text-xs backdrop-blur-sm transition-all shadow-sm border border-white/10">
-          {{ showMarkerData ? 'Hide' : 'Show' }} JSON ({{ markerPositions.length }})
+          {{ showMarkerData ? t('map.debug.hide') : t('map.debug.show') }} {{ t('map.debug.json_label') }} ({{ markerPositions.length }})
         </button>
       </div>
 
       <!-- Données de débogage des marqueurs -->
       <div v-if="showMarkerData && markerPositions.length > 0"
         class="pointer-events-auto mt-2 bg-white/95 p-4 rounded-lg text-xs font-mono max-h-[20rem] overflow-y-auto shadow-xl backdrop-blur-md border border-gray-200 max-w-xs">
-        <p class="font-bold mb-2 text-gray-800 border-b pb-1">Marker Positions JSON</p>
+        <p class="font-bold mb-2 text-gray-800 border-b pb-1">{{ t('map.debug.marker_positions') }}</p>
         <pre class="text-gray-600 leading-relaxed">{{ JSON.stringify(markerPositions, null, 2) }}</pre>
       </div>
     </div>

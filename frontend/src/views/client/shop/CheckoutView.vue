@@ -68,7 +68,7 @@
                       <span class="text-antique-bronze ml-2">× {{ ligne.quantite }}</span>
                     </span>
                     <span class="font-semibold text-iron-black">
-                      {{ (ligne.price * ligne.quantite).toFixed(2) }} gold
+                      {{ t('cart.price_format', { price: (ligne.price * ligne.quantite).toFixed(2) }) }}
                     </span>
                   </div>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="text-left">
                   <p class="text-xs font-body text-stone-grey">{{ t('checkout.order_card.total_order') }}</p>
                   <p class="text-xl font-medieval font-bold text-antique-bronze">
-                    {{ order.total_price.toFixed(2) }} gold
+                    {{ t('cart.price_format', { price: order.total_price.toFixed(2) }) }}
                   </p>
                 </div>
 
@@ -108,15 +108,15 @@
           <div class="lg:col-span-1">
             <div class="bg-white/60 backdrop-blur-sm rounded-lg border border-antique-bronze/20 p-6 sticky top-8">
               <h3 class="text-xl font-medieval font-bold text-iron-black mb-4 border-b border-antique-bronze/10 pb-2">
-                Récapitulatif
+                {{ t('checkout.summary.title') }}
               </h3>
               <div class="space-y-3 font-body">
                 <div class="flex justify-between text-stone-grey text-sm">
-                  <span>Commandes à payer</span>
+                  <span>{{ t('checkout.summary.orders_to_pay') }}</span>
                   <span class="font-bold text-iron-black">{{ pendingOrders.length }}</span>
                 </div>
                 <div class="flex justify-between text-stone-grey text-sm">
-                  <span>Commandes déjà payées</span>
+                  <span>{{ t('checkout.summary.orders_already_paid') }}</span>
                   <span class="font-bold text-iron-black">{{ paidOrdersCount }}/{{ totalOrdersCount }}</span>
                 </div>
 
@@ -125,7 +125,7 @@
                 <div class="flex justify-between items-end">
                   <span class="text-base font-semibold text-iron-black">{{ t('checkout.summary.grand_total') }}</span>
                   <span class="text-2xl font-medieval font-bold text-antique-bronze">
-                    {{ totalToPay.toFixed(2) }} gold
+                    {{ t('cart.price_format', { price: totalToPay.toFixed(2) }) }}
                   </span>
                 </div>
               </div>
@@ -254,7 +254,7 @@ const payOrder = async (orderId: number) => {
   if (!order || order.etat_commande !== EtatCommande.WAITING) return
 
   if (authStore.user!.gold < order.total_price) {
-    notificationStore.error('Paiement refusé', "Vous n'avez pas assez d'or pour payer cette commande.")
+    notificationStore.error(t('checkout.notifications.payment_refused_title'), t('checkout.notifications.not_enough_gold'))
     return;
   }
 
@@ -270,8 +270,8 @@ const payOrder = async (orderId: number) => {
       }
 
       notificationStore.success(
-        'Commande payée',
-        `La commande #${Math.floor(order.id)} a bien été réglée.`
+        t('checkout.notifications.order_paid_title'),
+        t('checkout.notifications.order_paid_message', { id: Math.floor(order.id) })
       )
 
       const allPaid = realOrders.value.every((cmd) => cmd.etat_commande !== EtatCommande.WAITING)
@@ -297,8 +297,8 @@ const payOrder = async (orderId: number) => {
     order.etat_commande = EtatCommande.PAID
 
     notificationStore.success(
-      'Commande payée',
-      `La commande #${Math.floor(order.id)} a bien été réglée.`
+      t('checkout.notifications.order_paid_title'),
+      t('checkout.notifications.order_paid_message', { id: Math.floor(order.id) })
     )
 
     // Générer le token QR pour la collecte
@@ -316,8 +316,8 @@ const payOrder = async (orderId: number) => {
     }
     }
   } catch (error) {
-    console.error('Erreur lors du paiement:', error)
-    notificationStore.error('Paiement impossible', t('checkout.order_card.error_paying'))
+    console.error('Error while paying:', error)
+    notificationStore.error(t('checkout.notifications.payment_failed_title'), t('checkout.order_card.error_paying'))
   } finally {
     isPaying.value[orderId] = false
   }
@@ -335,7 +335,7 @@ onMounted(() => {
         realOrders.value = orders
       })
       .catch((error) => {
-        console.error('Erreur lors du chargement des commandes:', error)
+        console.error('Error while loading orders:', error)
       })
   }
 })

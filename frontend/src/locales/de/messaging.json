@@ -2,9 +2,9 @@
   "title": "Nachrichten",
   "conversations": "Unterhaltungen",
   "no_conversations": "Derzeit keine Unterhaltung.",
-  "select_conversation": "W?hlen Sie eine Unterhaltung, um zu chatten.",
-  "no_messages": "Keine Nachrichten. Starten Sie das Gespr?ch!",
+  "select_conversation": "Wählen Sie eine Unterhaltung, um zu chatten.",
+  "no_messages": "Keine Nachrichten. Starten Sie das Gespräch!",
   "type_placeholder": "Schreiben Sie Ihre Nachricht...",
-  "confirm_delete": "M?chten Sie diese Unterhaltung wirklich dauerhaft l?schen?",
-  "delete": "L?schen"
+  "confirm_delete": "Möchten Sie diese Unterhaltung wirklich dauerhaft löschen?",
+  "delete": "Löschen"
 }

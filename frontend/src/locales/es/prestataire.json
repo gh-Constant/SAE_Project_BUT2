@@ -76,7 +76,9 @@
     },
     "location": {
       "register_count": "Registro conteniendo {n} mercancía | Registro conteniendo {n} mercancías",
-      "add_product": "Añadir mercancía"
+      "add_product": "Añadir mercancía",
+      "pending_validation": "Pendiente de validación",
+      "pending_tooltip": "Lugar pendiente de validación"
     },
     "add_form": {
       "title": "Inscribir nueva mercancía",
@@ -116,7 +118,7 @@
     },
     "empty": {
       "title": "No hay productos registrados",
-      "subtitle": "A?ade tu primera mercanc?a para empezar a comerciar."
+      "subtitle": "Aade tu primera mercanca para empezar a comerciar."
     }
   },
   "quests": {
@@ -290,18 +292,22 @@
       }
     },
     "manager": {
+      "location_id": "Lugar #{id}",
+      "loading": "Consultando los astros...",
+      "create_now": "Crear un evento ahora",
+      "sold_places": "Plazas vendidas",
       "create_button": "Crear un evento",
       "empty_search": {
-        "title": "No se encontr? ning?n evento",
-        "description": "Todav?a no has creado eventos para este lugar o tu b?squeda no arroja resultados."
+        "title": "No se encontr ningn evento",
+        "description": "Todava no has creado eventos para este lugar o tu bsqueda no arroja resultados."
       },
       "stats": {
         "sold": "Vendidos",
         "revenue": "Ingresos"
       },
       "form": {
-        "title_label": "T?tulo del evento",
-        "description_label": "Descripci?n",
+        "title_label": "Ttulo del evento",
+        "description_label": "Descripcin",
         "date_label": "Elegir fecha y hora",
         "start": "Inicio",
         "end": "Fin",
@@ -311,10 +317,34 @@
         "submit_update": "Actualizar",
         "cancel": "Cancelar",
         "type_label": "Tipo de evento",
-        "type_event": "Evento ?nico",
-        "type_activity": "Actividad (m?ltiples franjas)",
+        "type_event": "Evento nico",
+        "type_activity": "Actividad (mltiples franjas)",
         "schedules_title": "Franjas horarias",
-        "add_schedule": "A?adir una franja"
+        "add_schedule": "Aadir una franja",
+        "default_price": "Precio por defecto",
+        "modal_edit_title": "Modificar decreto",
+        "modal_create_title": "Nuevo decreto",
+        "category_label": "Tipo de evento",
+        "category_unspecified": "No especificado",
+        "category_options": {
+          "restauration": "Restauración",
+          "atelier": "Taller",
+          "spectacle": "Espectáculo",
+          "marche": "Mercado",
+          "concours": "Concurso",
+          "autre": "Otro"
+        },
+        "start_time_label": "Hora de inicio",
+        "end_time_label": "Hora de fin",
+        "slot_duration_label": "Duración de franja (min)",
+        "select_time_range": "Selecciona una franja horaria",
+        "add_selection_hint": "Selecciona los horarios y valida con el botón de añadir.",
+        "schedule_table": {
+          "date": "Fecha",
+          "time": "Hora",
+          "capacity": "Cap.",
+          "price": "Precio"
+        }
       },
       "reservations": {
         "modal_title": "Reservas",
@@ -325,7 +355,19 @@
           "places": "Plazas",
           "total": "Total (oro)",
           "date": "Fecha"
-        }
+        },
+        "total_reserved": "Total reservado:",
+        "total_revenue": "Ingresos totales:"
+      },
+      "errors": {
+        "load_reservations": "No se pudieron cargar las reservas.",
+        "location_pending": "Este lugar está pendiente de validación. Aún no puedes gestionar sus eventos.",
+        "missing_start_end": "Define fecha y hora de inicio y fin.",
+        "missing_schedule": "Añade al menos una franja para esta actividad.",
+        "save": "Error al guardar"
+      },
+      "confirm": {
+        "delete_event": "¿Seguro que quieres eliminar este evento"
       }
     }
   },
@@ -363,12 +405,42 @@
       }
     }
   },
+  "locations": {
+    "title": "Mis lugares",
+    "subtitle": "Gestiona tus establecimientos, eventos y mercancías",
+    "loading": "Cargando tus tierras...",
+    "status": {
+      "pending": "En espera",
+      "active": "Activo"
+    },
+    "actions": {
+      "edit": "Editar ubicación"
+    },
+    "pending_notice": "Tu solicitud de adquisición está en proceso de validación por un administrador.",
+    "edit_modal": {
+      "title": "Editar ubicación",
+      "untitled": "Sin nombre",
+      "name_label": "Nombre",
+      "name_placeholder": "Nombre de tu ubicación",
+      "image_label": "Imagen",
+      "no_image": "Sin imagen",
+      "uploading": "Subiendo...",
+      "change_image": "Cambiar imagen",
+      "remove_image": "Quitar imagen",
+      "saving": "Guardando..."
+    },
+    "errors": {
+      "upload": "Error al subir la imagen",
+      "name_required": "El nombre de la ubicación es obligatorio",
+      "update": "Error al actualizar la ubicación"
+    }
+  },
   "tabs": {
     "dashboard": "Panel",
     "profile": "Perfil"
   },
   "reservations": {
-    "title": "Gesti?n de reservas",
+    "title": "Gestin de reservas",
     "subtitle": "Sigue las inscripciones a tus eventos",
     "search": {
       "label": "Buscar",
@@ -385,7 +457,7 @@
       },
       "empty": {
         "title": "No hay reservas",
-        "subtitle": "Tus eventos todav?a no han recibido inscripciones."
+        "subtitle": "Tus eventos todava no han recibido inscripciones."
       }
     }
   }

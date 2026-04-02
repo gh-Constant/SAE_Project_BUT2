@@ -36,7 +36,7 @@
     "pay": "Pagar ahora",
     "paid_waiting": "Pagado - En espera de recogida",
     "collected": "Pedido recogido",
-    "qr_code": "C?digo QR de recogida",
-    "qr_scan_hint": "Muestra este c?digo QR al prestador"
+    "qr_code": "Código QR de recogida",
+    "qr_scan_hint": "Muestra este código QR al prestador"
   }
 }

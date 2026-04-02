@@ -27,7 +27,7 @@
             <div class="flex flex-col md:flex-row gap-4">
               <!-- Champ de recherche -->
               <div class="flex-1">
-                <label for="search" class="sr-only">Rechercher un produit</label>
+                <label for="search" class="sr-only">{{ t('prestataire.products.search.label') }}</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-search text-antique-bronze/50"></i>
@@ -45,7 +45,7 @@
 
               <!-- Tri -->
               <div class="md:w-56">
-                <label for="sortBy" class="sr-only">Trier par</label>
+                <label for="sortBy" class="sr-only">{{ t('prestataire.products.sort.label') }}</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-sort text-antique-bronze/50"></i>
@@ -160,7 +160,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
-              <span class="text-sm font-bold">En attente de validation</span>
+              <span class="text-sm font-bold">{{ t('prestataire.products.location.pending_validation') }}</span>
             </div>
           </div>
 
@@ -173,7 +173,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
-              Inscrire une nouvelle marchandise
+              {{ t('prestataire.products.add_form.title') }}
             </h3>
 
             <form @submit.prevent="handleAddProduct(location.id)">
@@ -322,7 +322,7 @@
                     <td class="px-6 py-4 text-center whitespace-nowrap">
                       <div v-if="store.editId !== product.id"
                            class="text-sm font-medieval font-bold text-antique-bronze">
-                        {{ Number(product.price).toFixed(2) }} gold
+                        {{ t('cart.price_format', { price: Number(product.price).toFixed(2) }) }}
                       </div>
                       <input v-else v-model.number="store.editProduct.price" type="number" step="0.01"
                              class="w-20 text-sm border border-antique-bronze/30 rounded px-2 py-1 text-center focus:ring-1 focus:ring-antique-bronze">
@@ -351,14 +351,14 @@
                           <template
                             v-if="prestataireLocations.find(l => l.id === product.locationId)?.status === 'PENDING'">
                             <button disabled class="text-stone-300 cursor-not-allowed p-1"
-                                    :title="'Lieu en attente de validation'">
+                                    :title="t('prestataire.products.location.pending_tooltip')">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                               </svg>
                             </button>
                             <button disabled class="text-stone-300 cursor-not-allowed p-1"
-                                    :title="'Lieu en attente de validation'">
+                                    :title="t('prestataire.products.location.pending_tooltip')">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

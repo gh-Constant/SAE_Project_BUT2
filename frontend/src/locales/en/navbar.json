@@ -3,6 +3,7 @@
   "home": "Home",
   "map": "Map",
   "events": "Events",
+  "leaderboard": "Leaderboard",
   "quizzes": "Quizzes",
   "cart": "Cart",
   "signin": "Sign In",
@@ -17,5 +18,14 @@
   "products": "Products",
   "welcome": "Welcome, {name}",
   "select_language": "Select Language",
-  "dont_click": "Don't click"
+  "dont_click": "Don't click",
+  "treasure": "Treasure",
+  "buy_gold": "Buy gold",
+  "level_tiers": {
+    "legendary": "Legendary",
+    "epic": "Epic",
+    "rare": "Rare",
+    "adventurer": "Adventurer",
+    "novice": "Novice"
+  }
 }

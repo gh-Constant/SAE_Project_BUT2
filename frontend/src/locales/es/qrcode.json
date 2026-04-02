@@ -1,27 +1,27 @@
 {
-    "generate": {
-        "title": "Generar código QR",
-        "description": "Crea un código QR único para compartir información",
-        "button": "Generar",
-        "copyToken": "Copiar token",
-        "newQr": "Nuevo QR",
-        "scanned": "¡El código QR ha sido escaneado!"
-    },
-    "scan": {
-        "title": "Escanear código QR",
-        "description": "Apunta tu cámara a un código QR",
-        "requestCamera": "Solicitar acceso a la cámara",
-        "cameraError": "No se puede acceder a la cámara. Por favor, permite el acceso.",
-        "retry": "Reintentar",
-        "hint": "Posiciona el código QR en el marco",
-        "success": "¡Código QR validado!",
-        "failed": "Validación fallida",
-        "receivedData": "Datos recibidos",
-        "scanAgain": "Escanear de nuevo"
-    },
-    "status": {
-        "pending": "Pendiente",
-        "scanned": "Escaneado",
-        "used": "Usado"
-    }
+  "generate": {
+    "title": "Generar código QR",
+    "description": "Crea un código QR único para compartir información",
+    "button": "Generar",
+    "copyToken": "Copiar token",
+    "newQr": "Nuevo QR",
+    "scanned": "¡El código QR ha sido escaneado!"
+  },
+  "scan": {
+    "title": "Escanear código QR",
+    "description": "Apunta tu cámara a un código QR",
+    "requestCamera": "Solicitar acceso a la cámara",
+    "cameraError": "No se puede acceder a la cámara. Por favor, permite el acceso.",
+    "retry": "Reintentar",
+    "hint": "Posiciona el código QR en el marco",
+    "success": "¡Código QR validado!",
+    "failed": "Validación fallida",
+    "receivedData": "Datos recibidos",
+    "scanAgain": "Escanear de nuevo"
+  },
+  "status": {
+    "pending": "Pendiente",
+    "scanned": "Escaneado",
+    "used": "Usado"
+  }
 }

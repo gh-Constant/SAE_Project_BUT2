@@ -26,7 +26,17 @@
     "error_default": "An error occurred during booking.",
     "choose_date": "Select a date",
     "select_slot": "Select a time slot",
-    "remaining_slot": "Left: {count}"
+    "remaining_slot": "Left: {count}",
+    "select_slot_required": "Please select a time slot for this activity.",
+    "error_title": "Booking failed",
+    "success_message": "{count} seat(s) booked for {title}.",
+    "features": {
+      "title": "Location amenities",
+      "water": "Water",
+      "electricity": "Electricity",
+      "toilets": "Toilets",
+      "accessible": "Wheelchair accessible"
+    }
   },
   "location": {
     "title": "Events at this location",

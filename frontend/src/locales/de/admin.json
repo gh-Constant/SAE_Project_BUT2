@@ -275,7 +275,8 @@
     },
     "outcomes": {
       "title": "Statusverteilung"
-    }
+    },
+    "unit_xp": "XP"
   },
   "quizzes": {
     "title": "Quiz-Verwaltung",
@@ -315,7 +316,7 @@
       },
       "unknown_location": "Unbekannter Ort",
       "system_creator": "System",
-      "delete_confirm": "Sind Sie sicher, dass Sie das Quiz \"{title}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "delete_confirm": "Sind Sie sicher, dass Sie das Quiz \"{title}\" löschen möchten Diese Aktion kann nicht rückgängig gemacht werden.",
       "delete_error": "Fehler beim Löschen des Quiz"
     }
   },
@@ -510,7 +511,7 @@
   },
   "user_stats": {
     "title": "Benutzerstatistiken",
-    "subtitle": "Analyse von Profilen, Aktivit?t und Fortschritt",
+    "subtitle": "Analyse von Profilen, Aktivitt und Fortschritt",
     "cards": {
       "total_users": "Benutzer gesamt",
       "new_this_month": "neu in diesem Monat",
@@ -552,6 +553,85 @@
       "completed_quests": "abgeschlossene Quests",
       "spent": "ausgegeben"
     },
-    "empty": "Keine Daten verf?gbar"
+    "empty": "Keine Daten verfügbar"
+  },
+  "manage_users": {
+    "title": "Benutzerverwaltung",
+    "subtitle": "Überwachung und Validierung von Benutzerkonten",
+    "section_title": "Alle Benutzer",
+    "pending_count": "Ausstehende Registrierungen: {count}",
+    "table": {
+      "name": "Name",
+      "email": "E-Mail",
+      "type": "Typ",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "verified": "Verifiziert",
+      "pending": "Ausstehend"
+    },
+    "actions": {
+      "verify": "Verifizieren",
+      "delete": "Löschen"
+    },
+    "confirm_delete": "Möchten Sie diesen Benutzer wirklich löschen"
+  },
+  "manage_locations": {
+    "title": "Ortsverwaltung",
+    "subtitle": "Übersicht aller Orte und ihrer Besitzer",
+    "section_title": "Ortsliste",
+    "loading": "Daten werden geladen...",
+    "empty": "Keine Orte gefunden.",
+    "none": "Kein",
+    "system_story": "System / Geschichte",
+    "unknown_owner": "ID: {id} (Unbekannt)",
+    "table": {
+      "name": "Name",
+      "type": "Typ",
+      "price": "Preis",
+      "status": "Status",
+      "owner": "Besitzer",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "purchased": "Gekauft",
+      "pending": "Ausstehend",
+      "available": "Verfügbar"
+    },
+    "actions": {
+      "validate_purchase": "Kauf validieren",
+      "reject_request": "Anfrage ablehnen",
+      "edit_location": "Ort bearbeiten",
+      "delete_permanently": "Endgültig löschen",
+      "edit_assign": "Bearbeiten / Zuweisen"
+    },
+    "modal": {
+      "assign_owner": "Besitzer zuweisen",
+      "edit_location": "Ort bearbeiten",
+      "location_name": "Ortsname",
+      "price_gold": "Preis (Gold)",
+      "description": "Beschreibung",
+      "features": "Merkmale",
+      "features_water": "Wasserzugang",
+      "features_electricity": "Elektrizität",
+      "features_toilets": "Toiletten",
+      "features_accessible": "Barrierefrei",
+      "location_type": "Ortstyp",
+      "owner": "Besitzer",
+      "no_owner": "-- Kein Besitzer --"
+    },
+    "types": {
+      "story": "Geschichte",
+      "other": "Andere",
+      "unknown": "Unbekannt"
+    },
+    "confirm_validate": "Kauf von \"{name}\" validieren",
+    "confirm_reject": "Anfrage für \"{name}\" ablehnen",
+    "confirm_delete": "Möchten Sie \"{name}\" dauerhaft LÖSCHEN Diese Aktion ist unwiderruflich.",
+    "error_validate": "Fehler bei der Validierung",
+    "error_reject": "Fehler bei der Ablehnung",
+    "error_delete": "Fehler beim Löschen",
+    "error_save": "Fehler beim Speichern"
   }
 }

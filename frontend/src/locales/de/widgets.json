@@ -25,15 +25,15 @@
     "error_login": "Sie müssen eingeloggt sein, um einen Standort zu kaufen",
     "features": {
       "title": "Dieser Standort umfasst",
-      "subtitle": "Alles, was Sie f?r einen guten Start ben?tigen",
+      "subtitle": "Alles, was Sie fr einen guten Start bentigen",
       "water_title": "Wasserstelle",
-      "water_description": "Flie?endes Wasser verf?gbar",
+      "water_description": "Flieendes Wasser verfgbar",
       "power_title": "Strom",
-      "power_description": "Stromanschl?sse vor Ort",
-      "toilets_title": "Sanit?ranlagen",
-      "toilets_description": "Toiletten in der N?he",
+      "power_description": "Stromanschlsse vor Ort",
+      "toilets_title": "Sanitranlagen",
+      "toilets_description": "Toiletten in der Nhe",
       "accessible_title": "Barrierefrei",
-      "accessible_description": "Zugang f?r Personen mit eingeschr?nkter Mobilit?t"
+      "accessible_description": "Zugang fr Personen mit eingeschrnkter Mobilitt"
     },
     "purchase_success_message": "Standort erfolgreich gekauft!",
     "purchase_error": "Dieser Standort konnte nicht gekauft werden. Bitte versuchen Sie es erneut."
@@ -46,8 +46,23 @@
     "status_acquired": "Erworben",
     "value": "Wert:",
     "close": "Schließen",
-    "validate_button": "Best?tigen",
-    "reject_button": "Ablehnen"
+    "validate_button": "Besttigen",
+    "reject_button": "Ablehnen",
+    "provider_type": "Anbietertyp",
+    "location_type": "Ortstyp",
+    "pending_title": "Wartet auf Validierung.",
+    "pending_description": "Diese Kaufanfrage wird von einem Administrator geprüft.",
+    "provider_default": "Anbieter",
+    "confirm_validate": "Diesen Kauf bestätigen?",
+    "confirm_reject": "Diesen Kauf ablehnen?",
+    "error_validate": "Dieser Kauf konnte nicht bestätigt werden.",
+    "error_reject": "Dieser Kauf konnte nicht abgelehnt werden.",
+    "location_types": {
+      "food": "Gastronomie",
+      "animation": "Animation",
+      "craft": "Handwerk",
+      "provider": "Anbieter"
+    }
   },
   "blog": {
     "title": "Blogs",
@@ -59,30 +74,30 @@
     "save": "Speichern",
     "empty": "Noch keine Blogs veröffentlicht.",
     "empty_owner": "Teilen Sie Ihr erstes Update mit der Community!",
-    "delete_confirm": "Sind Sie sicher, dass Sie diesen Blogbeitrag löschen möchten?",
+    "delete_confirm": "Sind Sie sicher, dass Sie diesen Blogbeitrag löschen möchten",
     "alert_title": "Bitte geben Sie einen Blogtitel ein",
     "error_save": "Speichern fehlgeschlagen",
     "error_delete": "Löschen fehlgeschlagen",
-    "sellable_label": "Diesen Artikel im Shop verkaufen?",
+    "sellable_label": "Diesen Artikel im Shop verkaufen",
     "price_placeholder": "Preis (Gold)",
     "currency": "Gold",
     "purchased": "Gekauft",
     "premium_price": "Premium - {price} Gold",
     "edit_action": "Bearbeiten",
-    "delete_action": "L?schen",
+    "delete_action": "Lschen",
     "locked": "Gesperrter Artikel",
     "read": "Artikel lesen",
     "click_options": "Klicken, um Optionen anzuzeigen",
-    "click_open": "Klicken, um zu ?ffnen",
-    "buy_loading": "Kauf l?uft...",
+    "click_open": "Klicken, um zu ffnen",
+    "buy_loading": "Kauf luft...",
     "buy": "Kaufen",
     "premium_label": "Dieser Artikel ist Premium.",
-    "purchase_confirm": "M?chten Sie ihn f?r {price} Gold kaufen?",
+    "purchase_confirm": "Mchten Sie ihn fr {price} Gold kaufen",
     "buy_article": "Artikel kaufen",
     "login_to_buy": "Melden Sie sich an, um diesen Artikel zu kaufen und zu lesen.",
     "error_purchase": "Fehler beim Kauf des Blogartikels",
     "editor_placeholder": "Beginnen Sie mit dem Schreiben Ihres Updates...",
-    "error_invalid_price": "Bitte geben Sie einen g?ltigen Preis f?r diesen Blogartikel an."
+    "error_invalid_price": "Bitte geben Sie einen gltigen Preis fr diesen Blogartikel an."
   },
   "shop": {
     "title": "Shop-Vorschau",
@@ -111,7 +126,7 @@
     "accept": "Annehmen",
     "accepted": "Angenommen",
     "success_accept": "Quest angenommen! Finden Sie sie in Ihrem Profil.",
-    "error_accept": "Quest konnte nicht angenommen werden (vielleicht schon angenommen?)",
+    "error_accept": "Quest konnte nicht angenommen werden (vielleicht schon angenommen)",
     "completed": "Abgeschlossen",
     "view_more": "{count} weitere Quests anzeigen",
     "view_less": "Weniger anzeigen"
@@ -128,6 +143,11 @@
     "message_placeholder": "Ihre Nachricht hier...",
     "sending_button": "Senden...",
     "send_button": "Nachricht senden",
-    "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+    "close_alert": "Schließen"
+  },
+  "fallback": {
+    "unknown_type": "Unbekannter Ortstyp",
+    "type_id": "Typ-ID"
   }
 }

@@ -24,13 +24,23 @@
     "confirm_booking": "Buchung bestätigen",
     "success": "Buchung erfolgreich bestätigt!",
     "error_default": "Ein Fehler ist bei der Buchung aufgetreten.",
-    "choose_date": "Datum ausw?hlen",
-    "select_slot": "Zeitfenster ausw?hlen",
-    "remaining_slot": "Verbleibend: {count}"
+    "choose_date": "Datum auswhlen",
+    "select_slot": "Zeitfenster auswhlen",
+    "remaining_slot": "Verbleibend: {count}",
+    "select_slot_required": "Bitte wählen Sie ein Zeitfenster für diese Aktivität aus.",
+    "error_title": "Buchung fehlgeschlagen",
+    "success_message": "{count} Platz/Plätze für {title} reserviert.",
+    "features": {
+      "title": "Ausstattung des Ortes",
+      "water": "Wasser",
+      "electricity": "Strom",
+      "toilets": "Toiletten",
+      "accessible": "Barrierefrei"
+    }
   },
   "location": {
     "title": "Veranstaltungen an diesem Ort",
-    "empty": "F?r diesen Ort sind keine Veranstaltungen verf?gbar.",
+    "empty": "Fr diesen Ort sind keine Veranstaltungen verfgbar.",
     "book_button": "Reservieren"
   }
 }

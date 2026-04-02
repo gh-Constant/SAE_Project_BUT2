@@ -195,7 +195,7 @@
       "title": "Répartition par Lieu",
       "quests": "quêtes",
       "empty": "Aucune donnée disponible",
-      "distribution_title": "R?partition par lieu"
+      "distribution_title": "Rpartition par lieu"
     },
     "xp_distribution": {
       "title": "Distribution des Récompenses XP"
@@ -217,8 +217,9 @@
       "empty": "Aucun participant pour le moment"
     },
     "outcomes": {
-      "title": "R?partition des statuts"
-    }
+      "title": "Rpartition des statuts"
+    },
+    "unit_xp": "XP"
   },
   "quizzes": {
     "title": "Gestion des Quiz",
@@ -248,7 +249,7 @@
       },
       "unknown_location": "Lieu inconnu",
       "system_creator": "Système",
-      "delete_confirm": "Êtes-vous sûr de vouloir supprimer le quiz \"{title}\" ? Cette action est irréversible.",
+      "delete_confirm": "Êtes-vous sûr de vouloir supprimer le quiz \"{title}\"  Cette action est irréversible.",
       "delete_error": "Erreur lors de la suppression"
     }
   },
@@ -476,5 +477,84 @@
       }
     },
     "empty": "Aucune donnée disponible"
+  },
+  "manage_users": {
+    "title": "Gestion des utilisateurs",
+    "subtitle": "Supervision et validation des comptes utilisateurs",
+    "section_title": "Tous les utilisateurs",
+    "pending_count": "Inscription en attente : {count}",
+    "table": {
+      "name": "Nom",
+      "email": "Email",
+      "type": "Type",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "verified": "Vérifié",
+      "pending": "En attente"
+    },
+    "actions": {
+      "verify": "Vérifier",
+      "delete": "Supprimer"
+    },
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet utilisateur "
+  },
+  "manage_locations": {
+    "title": "Gestion des lieux",
+    "subtitle": "Visualisation de tous les lieux et leurs propriétaires",
+    "section_title": "Liste des lieux",
+    "loading": "Chargement des données...",
+    "empty": "Aucun lieu trouvé.",
+    "none": "Aucun",
+    "system_story": "Système / Histoire",
+    "unknown_owner": "ID : {id} (Inconnu)",
+    "table": {
+      "name": "Nom",
+      "type": "Type",
+      "price": "Prix",
+      "status": "Statut",
+      "owner": "Propriétaire",
+      "actions": "Actions"
+    },
+    "status": {
+      "purchased": "Acheté",
+      "pending": "En attente",
+      "available": "Disponible"
+    },
+    "actions": {
+      "validate_purchase": "Valider l'achat",
+      "reject_request": "Refuser la demande",
+      "edit_location": "Modifier le lieu",
+      "delete_permanently": "Supprimer définitivement",
+      "edit_assign": "Modifier / Assigner"
+    },
+    "modal": {
+      "assign_owner": "Assigner un propriétaire",
+      "edit_location": "Modifier le lieu",
+      "location_name": "Nom du lieu",
+      "price_gold": "Prix (Gold)",
+      "description": "Description",
+      "features": "Caractéristiques",
+      "features_water": "Accès à l'eau",
+      "features_electricity": "Électricité",
+      "features_toilets": "Toilettes",
+      "features_accessible": "Accessible PMR",
+      "location_type": "Type de lieu",
+      "owner": "Propriétaire",
+      "no_owner": "-- Aucun --"
+    },
+    "types": {
+      "story": "Histoire",
+      "other": "Autre",
+      "unknown": "Inconnu"
+    },
+    "confirm_validate": "Valider l'achat de \"{name}\" ",
+    "confirm_reject": "Refuser la demande pour \"{name}\" ",
+    "confirm_delete": "Êtes-vous sûr de vouloir SUPPRIMER DÉFINITIVEMENT le lieu \"{name}\"  Cette action est irréversible.",
+    "error_validate": "Erreur lors de la validation",
+    "error_reject": "Erreur lors du refus",
+    "error_delete": "Erreur lors de la suppression",
+    "error_save": "Erreur lors de l'enregistrement"
   }
 }

@@ -252,7 +252,7 @@
       "title": "Distribución por Ubicación",
       "quests": "misiones",
       "empty": "No hay datos disponibles",
-      "distribution_title": "Distribuci?n por ubicaci?n"
+      "distribution_title": "Distribucin por ubicacin"
     },
     "xp_distribution": {
       "title": "Distribución de Recompensas XP"
@@ -274,8 +274,9 @@
       "empty": "No hay participantes todavía"
     },
     "outcomes": {
-      "title": "Distribuci?n de estados"
-    }
+      "title": "Distribucin de estados"
+    },
+    "unit_xp": "XP"
   },
   "quizzes": {
     "title": "Gestión de Quiz",
@@ -315,7 +316,7 @@
       },
       "unknown_location": "Ubicación desconocida",
       "system_creator": "Sistema",
-      "delete_confirm": "¿Estás seguro de que quieres eliminar el quiz \"{title}\"? Esta acción no se puede deshacer.",
+      "delete_confirm": "¿Estás seguro de que quieres eliminar el quiz \"{title}\" Esta acción no se puede deshacer.",
       "delete_error": "Error al eliminar el quiz"
     }
   },
@@ -509,8 +510,8 @@
     "empty": "No hay datos disponibles"
   },
   "user_stats": {
-    "title": "Estad?sticas de usuarios",
-    "subtitle": "An?lisis de perfiles, actividad y progresi?n",
+    "title": "Estadsticas de usuarios",
+    "subtitle": "Anlisis de perfiles, actividad y progresin",
     "cards": {
       "total_users": "Usuarios totales",
       "new_this_month": "nuevos este mes",
@@ -525,12 +526,12 @@
       "top_users": "Top usuarios"
     },
     "charts": {
-      "roles": "Distribuci?n de roles",
-      "verification": "Verificaci?n de cuentas",
-      "level_distribution": "Distribuci?n de niveles"
+      "roles": "Distribucin de roles",
+      "verification": "Verificacin de cuentas",
+      "level_distribution": "Distribucin de niveles"
     },
     "top": {
-      "title": "Usuarios m?s activos"
+      "title": "Usuarios ms activos"
     },
     "table": {
       "title": "Detalle por usuario",
@@ -553,5 +554,84 @@
       "spent": "gastados"
     },
     "empty": "No hay datos disponibles"
+  },
+  "manage_users": {
+    "title": "Gestión de usuarios",
+    "subtitle": "Supervisión y validación de cuentas de usuario",
+    "section_title": "Todos los usuarios",
+    "pending_count": "Registros pendientes: {count}",
+    "table": {
+      "name": "Nombre",
+      "email": "Correo",
+      "type": "Tipo",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "verified": "Verificado",
+      "pending": "Pendiente"
+    },
+    "actions": {
+      "verify": "Verificar",
+      "delete": "Eliminar"
+    },
+    "confirm_delete": "¿Seguro que quieres eliminar este usuario"
+  },
+  "manage_locations": {
+    "title": "Gestión de ubicaciones",
+    "subtitle": "Vista de todos los lugares y sus propietarios",
+    "section_title": "Lista de lugares",
+    "loading": "Cargando datos...",
+    "empty": "No se encontró ningún lugar.",
+    "none": "Ninguno",
+    "system_story": "Sistema / Historia",
+    "unknown_owner": "ID: {id} (Desconocido)",
+    "table": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "price": "Precio",
+      "status": "Estado",
+      "owner": "Propietario",
+      "actions": "Acciones"
+    },
+    "status": {
+      "purchased": "Comprado",
+      "pending": "Pendiente",
+      "available": "Disponible"
+    },
+    "actions": {
+      "validate_purchase": "Validar compra",
+      "reject_request": "Rechazar solicitud",
+      "edit_location": "Editar lugar",
+      "delete_permanently": "Eliminar definitivamente",
+      "edit_assign": "Editar / Asignar"
+    },
+    "modal": {
+      "assign_owner": "Asignar propietario",
+      "edit_location": "Editar lugar",
+      "location_name": "Nombre del lugar",
+      "price_gold": "Precio (Gold)",
+      "description": "Descripción",
+      "features": "Características",
+      "features_water": "Acceso al agua",
+      "features_electricity": "Electricidad",
+      "features_toilets": "Sanitarios",
+      "features_accessible": "Accesible PMR",
+      "location_type": "Tipo de lugar",
+      "owner": "Propietario",
+      "no_owner": "-- Ninguno --"
+    },
+    "types": {
+      "story": "Historia",
+      "other": "Otro",
+      "unknown": "Desconocido"
+    },
+    "confirm_validate": "¿Validar la compra de \"{name}\"",
+    "confirm_reject": "¿Rechazar la solicitud para \"{name}\"",
+    "confirm_delete": "¿Seguro que quieres ELIMINAR DEFINITIVAMENTE el lugar \"{name}\" Esta acción es irreversible.",
+    "error_validate": "Error durante la validación",
+    "error_reject": "Error durante el rechazo",
+    "error_delete": "Error durante la eliminación",
+    "error_save": "Error durante el guardado"
   }
 }

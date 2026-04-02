@@ -2,5 +2,13 @@
   "title": "Interactive Map Explorer",
   "instructions": "️ Click on the map to add markers • ️ Click on markers to remove them",
   "popup": "Location at {lat}, {lng}",
-  "toilet_popup": "It's a toilet"
+  "toilet_popup": "It's a toilet",
+  "debug": {
+    "click_on": "Click Debug ON",
+    "click_off": "Click Debug OFF",
+    "show": "Show",
+    "hide": "Hide",
+    "marker_positions": "Marker Positions",
+    "json_label": "JSON"
+  }
 }

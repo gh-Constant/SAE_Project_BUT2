@@ -9,8 +9,10 @@
 import { computed, onMounted, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { userService } from '@/services/userService';
+import { useI18n } from 'vue-i18n';
 
 const auth = useAuthStore();
+const { t } = useI18n();
 
 // XP required for each level (simplified formula: level * 100)
 const xpForNextLevel = computed(() => {
@@ -60,11 +62,11 @@ const levelBadgeClasses = computed(() => {
 const levelTierName = computed(() => {
   const level = auth.user?.level || 1;
 
-  if (level >= 50) return 'Légendaire';
-  if (level >= 30) return 'Épique';
-  if (level >= 20) return 'Rare';
-  if (level >= 10) return 'Aventurier';
-  return 'Novice';
+  if (level >= 50) return t('navbar.level_tiers.legendary');
+  if (level >= 30) return t('navbar.level_tiers.epic');
+  if (level >= 20) return t('navbar.level_tiers.rare');
+  if (level >= 10) return t('navbar.level_tiers.adventurer');
+  return t('navbar.level_tiers.novice');
 });
 
 const xp = computed(() => auth.user?.xp);
@@ -167,7 +169,7 @@ const handleAddGold = () => {
       <!-- Gold Info -->
       <div class="flex-1 min-w-0">
         <div class="flex items-baseline justify-between mb-1">
-          <span class="text-xs font-medieval font-bold text-dark-wood tracking-wide">Trésor</span>
+          <span class="text-xs font-medieval font-bold text-dark-wood tracking-wide">{{ t('navbar.treasure') }}</span>
         </div>
         <span class="text-lg font-medieval font-bold text-dark-wood">{{ formatGold(gold) }}</span>
       </div>
@@ -176,7 +178,7 @@ const handleAddGold = () => {
       <div class="shrink-0">
         <button @click.stop="handleAddGold"
           class="w-12 h-12 rounded-full bg-gradient-to-br from-antique-bronze to-dark-wood flex items-center justify-center border-2 border-antique-bronze shadow-md hover:from-antique-bronze/80 hover:to-antique-bronze transition-all duration-200 relative overflow-hidden"
-          title="Acheter de l'or">
+          :title="t('navbar.buy_gold')">
           <div class="absolute inset-1 rounded-full border border-white/10"></div>
           <i class="fas fa-plus text-parchment z-10"></i>
         </button>

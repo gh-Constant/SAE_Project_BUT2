@@ -49,7 +49,22 @@
     "validate_button": "Validate",
     "reject_button": "Reject",
     "qr_code_title": "QR Code for Quests",
-    "qr_code_hint": "Display this QR code to adventurers so they can validate their quests at this location"
+    "qr_code_hint": "Display this QR code to adventurers so they can validate their quests at this location",
+    "provider_type": "Provider type",
+    "location_type": "Location type",
+    "pending_title": "Pending validation.",
+    "pending_description": "This purchase request is under review by an administrator.",
+    "provider_default": "Provider",
+    "confirm_validate": "Validate this purchase?",
+    "confirm_reject": "Reject this purchase?",
+    "error_validate": "Unable to validate this purchase.",
+    "error_reject": "Unable to reject this purchase.",
+    "location_types": {
+      "food": "Food",
+      "animation": "Animation",
+      "craft": "Craft",
+      "provider": "Provider"
+    }
   },
   "blog": {
     "title": "Blogs",
@@ -61,11 +76,11 @@
     "save": "Save Blog",
     "empty": "No blogs posted yet.",
     "empty_owner": "Share your first update with the community!",
-    "delete_confirm": "Are you sure you want to delete this blog post?",
+    "delete_confirm": "Are you sure you want to delete this blog post",
     "alert_title": "Please enter a blog title",
     "error_save": "Failed to save blog",
     "error_delete": "Failed to delete blog",
-    "sellable_label": "Sell this article in the shop?",
+    "sellable_label": "Sell this article in the shop",
     "price_placeholder": "Price (Gold)",
     "currency": "Gold",
     "purchased": "Purchased",
@@ -79,7 +94,7 @@
     "buy_loading": "Purchasing...",
     "buy": "Buy",
     "premium_label": "This article is premium.",
-    "purchase_confirm": "Do you want to buy it for {price} Gold?",
+    "purchase_confirm": "Do you want to buy it for {price} Gold",
     "buy_article": "Buy article",
     "login_to_buy": "Sign in to buy and read this article.",
     "error_purchase": "Error while purchasing the blog article",
@@ -114,7 +129,7 @@
     "accepted": "In Progress",
     "completed": "Completed",
     "success_accept": "Quest accepted! Find it in your profile.",
-    "error_accept": "Unable to accept quest (maybe already accepted?)",
+    "error_accept": "Unable to accept quest (maybe already accepted)",
     "view_more": "View {count} more quests",
     "view_less": "Show less"
   },
@@ -130,6 +145,11 @@
     "message_placeholder": "Your message here...",
     "sending_button": "Sending...",
     "send_button": "Send Message",
-    "error_message": "Failed to send message. Please try again."
+    "error_message": "Failed to send message. Please try again.",
+    "close_alert": "Close"
+  },
+  "fallback": {
+    "unknown_type": "Unknown Location Type",
+    "type_id": "Type id"
   }
 }

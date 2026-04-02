@@ -24,11 +24,21 @@
     "error_default": "Une erreur est survenue lors de la réservation.",
     "choose_date": "Choisir une date",
     "select_slot": "Sélectionnez un créneau",
-    "remaining_slot": "Reste: {count}"
+    "remaining_slot": "Reste: {count}",
+    "select_slot_required": "Veuillez sélectionner un créneau pour cette activité.",
+    "error_title": "Réservation impossible",
+    "success_message": "{count} place(s) réservée(s) pour {title}.",
+    "features": {
+      "title": "?quipements du lieu",
+      "water": "Eau",
+      "electricity": "?lectricit?",
+      "toilets": "Toilettes",
+      "accessible": "Accessible PMR"
+    }
   },
   "location": {
-    "title": "?v?nements du lieu",
-    "empty": "Aucun ?v?nement n'est disponible pour ce lieu.",
-    "book_button": "R?server"
+    "title": "vnements du lieu",
+    "empty": "Aucun vnement n'est disponible pour ce lieu.",
+    "book_button": "Rserver"
   }
 }

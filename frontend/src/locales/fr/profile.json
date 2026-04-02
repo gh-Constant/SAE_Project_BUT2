@@ -71,20 +71,20 @@
     "passwordMismatch": "Les nouveaux mots de passe ne correspondent pas"
   },
   "security_settings": {
-    "subtitle": "G?rez vos connexions externes et votre mot de passe depuis un seul ?cran.",
+    "subtitle": "Gérez vos connexions externes et votre mot de passe depuis un seul écran.",
     "providers": {
       "title": "Connexions externes",
       "description": "Liez Google ou Discord pour vous connecter sans mot de passe.",
-      "connected": "Connect?",
-      "disconnected": "Non connect?",
+      "connected": "Connecté",
+      "disconnected": "Non connecté",
       "connecting": "Connexion...",
       "removing": "Suppression...",
       "connect_action": "Connecter {provider}",
       "remove_action": "Retirer {provider}",
-      "linked_description": "Ce fournisseur est d?j? li? ? votre compte.",
+      "linked_description": "Ce fournisseur est déjà lié à votre compte.",
       "available_description": "Ajoutez cette connexion pour simplifier vos prochaines authentifications.",
-      "linked_success": "{provider} a bien ?t? li? ? votre compte.",
-      "unlinked_success": "{provider} a ?t? retir? de votre compte.",
+      "linked_success": "{provider} a bien été lié à votre compte.",
+      "unlinked_success": "{provider} a été retiré de votre compte.",
       "errors": {
         "start_link": "Impossible de lancer la connexion externe.",
         "unlink": "Impossible de retirer cette connexion."
@@ -95,17 +95,17 @@
       "title_missing": "Ajouter un mot de passe",
       "description_existing": "Modifiez votre mot de passe actuel.",
       "description_missing": "Ajoutez un mot de passe local pour conserver une connexion de secours.",
-      "oauth_notice": "Pour ajouter un mot de passe ? un compte connect? via OAuth, une v?rification par email est obligatoire.",
-      "send_email": "Envoyer l'email de v?rification",
+      "oauth_notice": "Pour ajouter un mot de passe à un compte connecté via OAuth, une vérification par email est obligatoire.",
+      "send_email": "Envoyer l'email de vérification",
       "sending_email": "Envoi...",
       "errors": {
-        "update": "Impossible de mettre ? jour le mot de passe.",
-        "send_email": "Impossible d'envoyer l'email de v?rification."
+        "update": "Impossible de mettre à jour le mot de passe.",
+        "send_email": "Impossible d'envoyer l'email de vérification."
       }
     },
     "delete_account": {
       "title": "Suppression du compte",
-      "description": "Cette action supprime d?finitivement votre compte et ses liaisons OAuth.",
+      "description": "Cette action supprime définitivement votre compte et ses liaisons OAuth.",
       "current_password": "Mot de passe actuel",
       "confirm_instruction": "Tapez",
       "confirm_keyword": "SUPPRIMER",

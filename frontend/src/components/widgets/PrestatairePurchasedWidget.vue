@@ -33,11 +33,11 @@
       <div class="bg-white/60 border border-antique-bronze/20 rounded-lg p-4 mb-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="rounded-md bg-antique-bronze/10 p-3 border border-antique-bronze/20">
-            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">Type de prestataire</p>
+            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">{{ t('widgets.purchased.provider_type') }}</p>
             <p class="text-base font-bold text-iron-black">{{ prestataireTypeName }}</p>
           </div>
           <div class="rounded-md bg-antique-bronze/10 p-3 border border-antique-bronze/20">
-            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">Type de location</p>
+            <p class="text-xs uppercase tracking-wide text-stone-grey font-body mb-1">{{ t('widgets.purchased.location_type') }}</p>
             <p class="text-base font-bold text-iron-black">{{ locationTypeName }}</p>
           </div>
         </div>
@@ -52,16 +52,16 @@
         v-if="location.has_water_access || location.has_electricity || location.has_toilets || location.is_accessible_pmr"
         class="bg-gradient-to-br from-white/50 to-antique-bronze/5 border border-antique-bronze/20 rounded-lg p-5 mb-6"
       >
-        <h3 class="text-lg font-medieval font-bold text-iron-black mb-1">Ce lieu vous offre</h3>
-        <p class="text-xs text-stone-grey mb-4 font-body">Tout le confort pour accueillir vos visiteurs</p>
+        <h3 class="text-lg font-medieval font-bold text-iron-black mb-1">{{ t('widgets.available.features.title') }}</h3>
+        <p class="text-xs text-stone-grey mb-4 font-body">{{ t('widgets.available.features.subtitle') }}</p>
         <div class="grid grid-cols-2 gap-3">
           <div v-if="location.has_water_access" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
             <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
               <i class="fas fa-tint text-blue-500 text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-bold text-iron-black">Point d'eau</p>
-              <p class="text-xs text-stone-grey">Eau courante disponible</p>
+              <p class="text-sm font-bold text-iron-black">{{ t('widgets.available.features.water_title') }}</p>
+              <p class="text-xs text-stone-grey">{{ t('widgets.available.features.water_description') }}</p>
             </div>
           </div>
           <div v-if="location.has_electricity" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
@@ -69,8 +69,8 @@
               <i class="fas fa-bolt text-yellow-500 text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-bold text-iron-black">Electricité</p>
-              <p class="text-xs text-stone-grey">Prises secteur sur place</p>
+              <p class="text-sm font-bold text-iron-black">{{ t('widgets.available.features.power_title') }}</p>
+              <p class="text-xs text-stone-grey">{{ t('widgets.available.features.power_description') }}</p>
             </div>
           </div>
           <div v-if="location.has_toilets" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
@@ -78,8 +78,8 @@
               <i class="fas fa-restroom text-emerald-500 text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-bold text-iron-black">Sanitaires</p>
-              <p class="text-xs text-stone-grey">Toilettes à proximité</p>
+              <p class="text-sm font-bold text-iron-black">{{ t('widgets.available.features.toilets_title') }}</p>
+              <p class="text-xs text-stone-grey">{{ t('widgets.available.features.toilets_description') }}</p>
             </div>
           </div>
           <div v-if="location.is_accessible_pmr" class="flex items-center gap-3 bg-white/60 rounded-lg p-3 border border-antique-bronze/10">
@@ -87,8 +87,8 @@
               <i class="fas fa-wheelchair text-purple-500 text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-bold text-iron-black">Accessible</p>
-              <p class="text-xs text-stone-grey">Accès personnes à mobilité réduite</p>
+              <p class="text-sm font-bold text-iron-black">{{ t('widgets.available.features.accessible_title') }}</p>
+              <p class="text-xs text-stone-grey">{{ t('widgets.available.features.accessible_description') }}</p>
             </div>
           </div>
         </div>
@@ -108,9 +108,8 @@
           </div>
           <div class="ml-3">
             <p class="text-sm text-amber-700" v-if="!isAdmin">
-              <span class="font-bold">Validation en cours :</span>
-              Ce lieu est en attente de validation par un administrateur. Les modifications sont temporairement
-              désactivées.
+              <span class="font-bold">{{ t('widgets.purchased.pending_title') }}</span>
+              {{ t('widgets.purchased.pending_description') }}
             </p>
             <div class="text-sm text-amber-700" v-else>
               <div class="flex gap-3 mt-2">
@@ -442,12 +441,12 @@ const prestataireTypeName = computed(() => {
   const resolvedTypeId = dynamicTypeId || fallbackTypeId;
 
   if (!resolvedTypeId) {
-    return 'Prestataire';
+    return t('widgets.purchased.provider_default');
   }
 
   const type = PRESTATAIRE_TYPES.find(item => item.id === resolvedTypeId);
   if (!type) {
-    return 'Prestataire';
+    return t('widgets.purchased.provider_default');
   }
 
   return t(`auth.register.prestataire_types.${type.name}`);
@@ -457,16 +456,16 @@ const locationTypeName = computed(() => {
   const normalizedType = prestataireTypeName.value.toLowerCase();
 
   if (normalizedType.includes('restaurant') || normalizedType.includes('restaurateur')) {
-    return 'Espace restauration';
+    return t('widgets.purchased.location_types.food');
   }
   if (normalizedType.includes('animateur') || normalizedType.includes('animation')) {
-    return 'Espace animation';
+    return t('widgets.purchased.location_types.animation');
   }
   if (normalizedType.includes('artisan') || normalizedType.includes('artisanat')) {
-    return 'Espace artisanat';
+    return t('widgets.purchased.location_types.craft');
   }
 
-  return 'Espace prestataire';
+  return t('widgets.purchased.location_types.provider');
 });
 
 // Check if current user is the owner
@@ -501,7 +500,7 @@ const isAdmin = computed(() => {
 });
 
 const validateLocation = async () => {
-  if (!confirm('Voulez-vous vraiment valider ce lieu ?')) return;
+  if (!confirm(t('widgets.purchased.confirm_validate'))) return;
   try {
     await locationService.validatePurchase(props.location.id);
     emit('close');
@@ -511,18 +510,18 @@ const validateLocation = async () => {
     // For MVP/Mock this is acceptable.
   } catch (error) {
     console.error('Failed to validate location:', error);
-    alert('Erreur lors de la validation du lieu.');
+    alert(t('widgets.purchased.error_validate'));
   }
 };
 
 const rejectLocation = async () => {
-  if (!confirm('Voulez-vous vraiment refuser ce lieu ? Il redeviendra disponible.')) return;
+  if (!confirm(t('widgets.purchased.confirm_reject'))) return;
   try {
     await locationService.rejectPurchase(props.location.id);
     emit('close');
   } catch (error) {
     console.error('Failed to reject location:', error);
-    alert('Erreur lors du refus du lieu.');
+    alert(t('widgets.purchased.error_reject'));
   }
 };
 
@@ -606,4 +605,3 @@ onMounted(() => {
 });
 
 </script>
-```

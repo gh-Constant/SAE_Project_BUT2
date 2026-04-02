@@ -43,7 +43,7 @@
       "time_yesterday": "Gestern"
     },
     "orders": {
-      "title": "Ausgef?hrte Bestellungen",
+      "title": "Ausgefhrte Bestellungen",
       "total_label": "Bestellungen gesamt",
       "scan": "Bestellung scannen"
     }
@@ -76,7 +76,9 @@
     },
     "location": {
       "register_count": "Register enthält {n} Ware | Register enthält {n} Waren",
-      "add_product": "Ware hinzufügen"
+      "add_product": "Ware hinzufügen",
+      "pending_validation": "Validierung ausstehend",
+      "pending_tooltip": "Ort wartet auf Validierung"
     },
     "add_form": {
       "title": "Neue Ware eintragen",
@@ -116,7 +118,7 @@
     },
     "empty": {
       "title": "Kein Produkt registriert",
-      "subtitle": "F?gen Sie Ihre erste Ware hinzu, um den Handel zu beginnen."
+      "subtitle": "Fgen Sie Ihre erste Ware hinzu, um den Handel zu beginnen."
     }
   },
   "quests": {
@@ -290,6 +292,10 @@
       }
     },
     "manager": {
+      "location_id": "Ort #{id}",
+      "loading": "Sternenkunde läuft...",
+      "create_now": "Jetzt ein Ereignis erstellen",
+      "sold_places": "Verkaufte Plätze",
       "create_button": "Veranstaltung erstellen",
       "empty_search": {
         "title": "Keine Veranstaltungen gefunden",
@@ -312,9 +318,33 @@
         "cancel": "Abbrechen",
         "type_label": "Veranstaltungstyp",
         "type_event": "Einzelveranstaltung",
-        "type_activity": "Aktivit?t (mehrere Zeitfenster)",
+        "type_activity": "Aktivitt (mehrere Zeitfenster)",
         "schedules_title": "Zeitfenster",
-        "add_schedule": "Zeitfenster hinzuf?gen"
+        "add_schedule": "Zeitfenster hinzufgen",
+        "default_price": "Standardpreis",
+        "modal_edit_title": "Erlass bearbeiten",
+        "modal_create_title": "Neuer Erlass",
+        "category_label": "Ereigniskategorie",
+        "category_unspecified": "Nicht angegeben",
+        "category_options": {
+          "restauration": "Gastronomie",
+          "atelier": "Workshop",
+          "spectacle": "Vorführung",
+          "marche": "Markt",
+          "concours": "Wettbewerb",
+          "autre": "Andere"
+        },
+        "start_time_label": "Startzeit",
+        "end_time_label": "Endzeit",
+        "slot_duration_label": "Slot-Dauer (Min.)",
+        "select_time_range": "Zeitbereich auswählen",
+        "add_selection_hint": "Zeiten auswählen und dann mit der Schaltfläche hinzufügen bestätigen.",
+        "schedule_table": {
+          "date": "Datum",
+          "time": "Uhrzeit",
+          "capacity": "Kap.",
+          "price": "Preis"
+        }
       },
       "reservations": {
         "modal_title": "Reservierungen",
@@ -325,8 +355,50 @@
           "places": "Plätze",
           "total": "Gesamt (Gold)",
           "date": "Datum"
-        }
+        },
+        "total_reserved": "Gesamt reserviert:",
+        "total_revenue": "Gesamtumsatz:"
+      },
+      "errors": {
+        "load_reservations": "Reservierungen konnten nicht geladen werden.",
+        "location_pending": "Dieser Ort wartet auf Validierung. Sie können die Ereignisse noch nicht verwalten.",
+        "missing_start_end": "Bitte Start- und Enddatum/Uhrzeit festlegen.",
+        "missing_schedule": "Bitte mindestens ein Zeitfenster für diese Aktivität hinzufügen.",
+        "save": "Fehler beim Speichern."
+      },
+      "confirm": {
+        "delete_event": "Möchten Sie dieses Ereignis wirklich löschen"
       }
+    }
+  },
+  "locations": {
+    "title": "Meine Orte",
+    "subtitle": "Verwalten Sie Ihre Standorte, Ereignisse und Waren",
+    "loading": "Ihre Ländereien werden geladen...",
+    "status": {
+      "pending": "Ausstehend",
+      "active": "Aktiv"
+    },
+    "actions": {
+      "edit": "Ort bearbeiten"
+    },
+    "pending_notice": "Ihre Erwerbsanfrage wird von einem Administrator geprüft.",
+    "edit_modal": {
+      "title": "Ort bearbeiten",
+      "untitled": "Ohne Namen",
+      "name_label": "Name",
+      "name_placeholder": "Name Ihres Ortes",
+      "image_label": "Bild",
+      "no_image": "Kein Bild",
+      "uploading": "Upload...",
+      "change_image": "Bild ändern",
+      "remove_image": "Bild entfernen",
+      "saving": "Speichern..."
+    },
+    "errors": {
+      "upload": "Fehler beim Bild-Upload",
+      "name_required": "Der Ortsname ist erforderlich",
+      "update": "Fehler beim Aktualisieren des Ortes"
     }
   },
   "tabs": {

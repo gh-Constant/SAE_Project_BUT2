@@ -34,37 +34,37 @@
   },
   "commitments": {
     "title": "Nos engagements envers vous",
-    "subtitle": "Chaque emplacement du festival est pens? pour votre confort et votre s?curit?.",
+    "subtitle": "Chaque emplacement du festival est pensé pour votre confort et votre sécurité.",
     "water": {
       "title": "Points d'eau",
-      "description": "Des fontaines et points d'eau potable r?partis dans tout le village pour vous rafra?chir durant votre aventure."
+      "description": "Des fontaines et points d'eau potable répartis dans tout le village pour vous rafraîchir durant votre aventure."
     },
     "power": {
-      "title": "Emplacements ?quip?s",
-      "description": "Nos ?choppes et ateliers disposent de l'?lectricit? pour que chaque artisan puisse exercer son art dans les meilleures conditions."
+      "title": "Emplacements équipés",
+      "description": "Nos échoppes et ateliers disposent de l'électricité pour que chaque artisan puisse exercer son art dans les meilleures conditions."
     },
     "toilets": {
       "title": "Sanitaires accessibles",
-      "description": "Des installations sanitaires propres et entretenues, accessibles ? tous, r?parties strat?giquement dans le village."
+      "description": "Des installations sanitaires propres et entretenues, accessibles à tous, réparties stratégiquement dans le village."
     },
     "accessibility": {
-      "title": "Accessible ? tous",
-      "description": "Le royaume accueille chaque aventurier. Nos chemins et emplacements sont adapt?s aux personnes ? mobilit? r?duite."
+      "title": "Accessible à tous",
+      "description": "Le royaume accueille chaque aventurier. Nos chemins et emplacements sont adaptés aux personnes à mobilité réduite."
     }
   },
   "leaderboard": {
     "title": "Le Grand Grimoire des Aventuriers",
-    "subtitle": "Qui sont les plus braves h?ros du royaume ?",
+    "subtitle": "Qui sont les plus braves héros du royaume ?",
     "columns": {
       "rank": "Rang",
       "adventurer": "Aventurier",
       "level": "Niveau",
       "xp": "XP"
     },
-    "mysterious_adventurer": "Aventurier myst?rieux",
+    "mysterious_adventurer": "Aventurier mystérieux",
     "level_short": "Niv. {level}",
-    "empty": "Aucun aventurier n'a encore brav? ces terres.",
-    "previous": "Pr?c?dent",
+    "empty": "Aucun aventurier n'a encore bravé ces terres.",
+    "previous": "Précédent",
     "next": "Suivant",
     "page": "Page",
     "sticky_title": "Votre position",

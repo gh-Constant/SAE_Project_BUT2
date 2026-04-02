@@ -100,55 +100,55 @@
     "orders": "Mis pedidos",
     "reservations": "Mis reservas",
     "quests": "Mis misiones",
-    "logout": "Cerrar sesi?n"
+    "logout": "Cerrar sesión"
   },
   "security": {
     "title": "Seguridad",
-    "changePassword": "Cambiar la contrase?a",
-    "currentPassword": "Contrase?a actual",
-    "newPassword": "Nueva contrase?a",
-    "confirmPassword": "Confirmar la contrase?a",
-    "passwordUpdated": "Contrase?a actualizada correctamente",
-    "error": "Error al actualizar la contrase?a",
-    "passwordMismatch": "Las nuevas contrase?as no coinciden"
+    "changePassword": "Cambiar la contraseña",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar la contraseña",
+    "passwordUpdated": "Contraseña actualizada correctamente",
+    "error": "Error al actualizar la contraseña",
+    "passwordMismatch": "Las nuevas contraseñas no coinciden"
   },
   "security_settings": {
-    "subtitle": "Gestiona tus accesos externos y tu contrase?a desde una sola pantalla.",
+    "subtitle": "Gestiona tus accesos externos y tu contraseña desde una sola pantalla.",
     "providers": {
       "title": "Accesos externos",
-      "description": "Vincula Google o Discord para iniciar sesi?n sin contrase?a.",
+      "description": "Vincula Google o Discord para iniciar sesión sin contraseña.",
       "connected": "Conectado",
       "disconnected": "No conectado",
       "connecting": "Conectando...",
       "removing": "Eliminando...",
       "connect_action": "Conectar {provider}",
       "remove_action": "Quitar {provider}",
-      "linked_description": "Este proveedor ya est? vinculado a tu cuenta.",
-      "available_description": "A?ade este acceso para simplificar tus pr?ximos inicios de sesi?n.",
+      "linked_description": "Este proveedor ya está vinculado a tu cuenta.",
+      "available_description": "Añade este acceso para simplificar tus próximos inicios de sesión.",
       "linked_success": "{provider} se ha vinculado a tu cuenta.",
       "unlinked_success": "{provider} se ha quitado de tu cuenta.",
       "errors": {
-        "start_link": "No se pudo iniciar la conexi?n externa.",
-        "unlink": "No se pudo quitar esta conexi?n."
+        "start_link": "No se pudo iniciar la conexión externa.",
+        "unlink": "No se pudo quitar esta conexión."
       }
     },
     "password": {
-      "title_existing": "Contrase?a",
-      "title_missing": "A?adir una contrase?a",
-      "description_existing": "Modifica tu contrase?a actual.",
-      "description_missing": "A?ade una contrase?a local para conservar un acceso de respaldo.",
-      "oauth_notice": "Para a?adir una contrase?a a una cuenta conectada por OAuth, es obligatoria una verificaci?n por correo.",
-      "send_email": "Enviar correo de verificaci?n",
+      "title_existing": "Contraseña",
+      "title_missing": "Añadir una contraseña",
+      "description_existing": "Modifica tu contraseña actual.",
+      "description_missing": "Añade una contraseña local para conservar un acceso de respaldo.",
+      "oauth_notice": "Para añadir una contraseña a una cuenta conectada por OAuth, es obligatoria una verificación por correo.",
+      "send_email": "Enviar correo de verificación",
       "sending_email": "Enviando...",
       "errors": {
-        "update": "No se pudo actualizar la contrase?a.",
-        "send_email": "No se pudo enviar el correo de verificaci?n."
+        "update": "No se pudo actualizar la contraseña.",
+        "send_email": "No se pudo enviar el correo de verificación."
       }
     },
     "delete_account": {
-      "title": "Eliminaci?n de la cuenta",
-      "description": "Esta acci?n elimina definitivamente tu cuenta y sus vinculaciones OAuth.",
-      "current_password": "Contrase?a actual",
+      "title": "Eliminación de la cuenta",
+      "description": "Esta acción elimina definitivamente tu cuenta y sus vinculaciones OAuth.",
+      "current_password": "Contraseña actual",
       "confirm_instruction": "Escribe",
       "confirm_keyword": "ELIMINAR",
       "confirm_suffix": "para confirmar",

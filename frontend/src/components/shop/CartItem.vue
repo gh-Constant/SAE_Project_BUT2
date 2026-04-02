@@ -12,8 +12,8 @@
 
     <!-- Informations du produit -->
     <div class="flex-1 min-w-0">
-      <h4 class="font-medieval font-bold text-iron-black text-lg mb-1 truncate">{{ product?.name || 'Produit' }}</h4>
-      <p class="text-sm font-body text-stone-grey mb-2">{{ item.price.toFixed(2) }} gold / unité</p>
+      <h4 class="font-medieval font-bold text-iron-black text-lg mb-1 truncate">{{ product?.name || t('cart.unknown_product') }}</h4>
+      <p class="text-sm font-body text-stone-grey mb-2">{{ t('cart.item_unit_price', { price: item.price.toFixed(2) }) }}</p>
       
       <!-- Contrôles de quantité -->
       <div class="flex items-center gap-3">
@@ -42,16 +42,16 @@
     <!-- Prix total et actions -->
     <div class="flex flex-col items-end gap-2">
       <p class="text-lg font-medieval font-bold text-antique-bronze">
-        {{ (item.price * item.quantity).toFixed(2) }} gold
+        {{ t('cart.price_format', { price: (item.price * item.quantity).toFixed(2) }) }}
       </p>
       
       <button
         @click="removeItem"
         class="text-red-800/70 hover:text-red-800 text-sm transition-colors flex items-center gap-1 font-body"
-        title="Supprimer"
+        :title="t('cart.remove_tooltip')"
       >
         <i class="fas fa-trash"></i>
-        <span class="hidden sm:inline">Retirer</span>
+        <span class="hidden sm:inline">{{ t('cart.remove_label') }}</span>
       </button>
     </div>
   </div>
@@ -63,6 +63,7 @@ import { CartItem } from '@/stores/cart'
 import { ProductMock } from '@/mocks/products'
 import { productService } from '@/services/productService'
 import { useCartStore } from '@/stores/cart'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   item: CartItem
@@ -70,6 +71,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const cartStore = useCartStore()
+const { t } = useI18n()
 
 // Récupérer les données du produit depuis productService (source unique de vérité)
 const product = computed(() => {

@@ -2,5 +2,13 @@
   "title": "Explorador de Mapa Interactivo",
   "instructions": "️ Haz clic en el mapa para agregar marcadores • ️ Haz clic en los marcadores para eliminarlos",
   "popup": "Ubicación en {lat}, {lng}",
-  "toilet_popup": "Es un inodoro"
+  "toilet_popup": "Es un inodoro",
+  "debug": {
+    "click_on": "Depuración de clics ON",
+    "click_off": "Depuración de clics OFF",
+    "show": "Mostrar",
+    "hide": "Ocultar",
+    "marker_positions": "Posiciones de marcadores",
+    "json_label": "JSON"
+  }
 }

@@ -275,7 +275,8 @@
     },
     "outcomes": {
       "title": "Status distribution"
-    }
+    },
+    "unit_xp": "XP"
   },
   "quizzes": {
     "title": "Quiz Management",
@@ -315,7 +316,7 @@
       },
       "unknown_location": "Unknown location",
       "system_creator": "System",
-      "delete_confirm": "Are you sure you want to delete the quiz \"{title}\"? This action cannot be undone.",
+      "delete_confirm": "Are you sure you want to delete the quiz \"{title}\" This action cannot be undone.",
       "delete_error": "Error deleting quiz"
     }
   },
@@ -554,5 +555,84 @@
       }
     },
     "empty": "No data available"
+  },
+  "manage_users": {
+    "title": "User management",
+    "subtitle": "Supervision and validation of user accounts",
+    "section_title": "All users",
+    "pending_count": "Pending registrations: {count}",
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "type": "Type",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "verified": "Verified",
+      "pending": "Pending"
+    },
+    "actions": {
+      "verify": "Verify",
+      "delete": "Delete"
+    },
+    "confirm_delete": "Are you sure you want to delete this user"
+  },
+  "manage_locations": {
+    "title": "Location management",
+    "subtitle": "Overview of all locations and their owners",
+    "section_title": "Location list",
+    "loading": "Loading data...",
+    "empty": "No locations found.",
+    "none": "None",
+    "system_story": "System / Story",
+    "unknown_owner": "ID: {id} (Unknown)",
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "price": "Price",
+      "status": "Status",
+      "owner": "Owner",
+      "actions": "Actions"
+    },
+    "status": {
+      "purchased": "Purchased",
+      "pending": "Pending",
+      "available": "Available"
+    },
+    "actions": {
+      "validate_purchase": "Validate purchase",
+      "reject_request": "Reject request",
+      "edit_location": "Edit location",
+      "delete_permanently": "Delete permanently",
+      "edit_assign": "Edit / Assign"
+    },
+    "modal": {
+      "assign_owner": "Assign an owner",
+      "edit_location": "Edit location",
+      "location_name": "Location name",
+      "price_gold": "Price (Gold)",
+      "description": "Description",
+      "features": "Features",
+      "features_water": "Water access",
+      "features_electricity": "Electricity",
+      "features_toilets": "Toilets",
+      "features_accessible": "Wheelchair accessible",
+      "location_type": "Location type",
+      "owner": "Owner",
+      "no_owner": "-- None --"
+    },
+    "types": {
+      "story": "Story",
+      "other": "Other",
+      "unknown": "Unknown"
+    },
+    "confirm_validate": "Validate purchase of \"{name}\"",
+    "confirm_reject": "Reject request for \"{name}\"",
+    "confirm_delete": "Are you sure you want to permanently DELETE \"{name}\" This action cannot be undone.",
+    "error_validate": "Validation failed",
+    "error_reject": "Rejection failed",
+    "error_delete": "Deletion failed",
+    "error_save": "Save failed"
   }
 }

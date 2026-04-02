@@ -14,5 +14,16 @@
   "logout": "Se déconnecter",
   "welcome": "Bienvenue, {name}",
   "select_language": "Changer de langue",
-  "dont_click": "Ne cliquez pas"
+  "dont_click": "Ne cliquez pas",
+  "leaderboard": "Classement",
+  "quizzes": "Quiz",
+  "treasure": "Trésor",
+  "buy_gold": "Acheter de l'or",
+  "level_tiers": {
+    "legendary": "Légendaire",
+    "epic": "Épique",
+    "rare": "Rare",
+    "adventurer": "Aventurier",
+    "novice": "Novice"
+  }
 }

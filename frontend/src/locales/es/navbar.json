@@ -3,6 +3,8 @@
   "home": "Inicio",
   "map": "Mapa",
   "events": "Eventos",
+  "leaderboard": "Clasificación",
+  "quizzes": "Quiz",
   "cart": "Carrito",
   "signin": "Iniciar Sesión",
   "register": "Registrarse",
@@ -16,5 +18,14 @@
   "products": "Productos",
   "welcome": "Bienvenido, {name}",
   "select_language": "Seleccionar Idioma",
-  "dont_click": "No hagas clic"
+  "dont_click": "No hagas clic",
+  "treasure": "Tesoro",
+  "buy_gold": "Comprar oro",
+  "level_tiers": {
+    "legendary": "Legendario",
+    "epic": "Épico",
+    "rare": "Raro",
+    "adventurer": "Aventurero",
+    "novice": "Novato"
+  }
 }

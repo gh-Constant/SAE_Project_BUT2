@@ -104,28 +104,28 @@
   },
   "security": {
     "title": "Sicherheit",
-    "changePassword": "Passwort ?ndern",
+    "changePassword": "Passwort ändern",
     "currentPassword": "Aktuelles Passwort",
     "newPassword": "Neues Passwort",
-    "confirmPassword": "Passwort best?tigen",
+    "confirmPassword": "Passwort bestätigen",
     "passwordUpdated": "Passwort erfolgreich aktualisiert",
     "error": "Fehler beim Aktualisieren des Passworts",
-    "passwordMismatch": "Die neuen Passw?rter stimmen nicht ?berein"
+    "passwordMismatch": "Die neuen Passwörter stimmen nicht überein"
   },
   "security_settings": {
     "subtitle": "Verwalten Sie Ihre externen Anmeldungen und Ihr Passwort auf einem einzigen Bildschirm.",
     "providers": {
       "title": "Externe Anmeldungen",
-      "description": "Verkn?pfen Sie Google oder Discord, um sich ohne Passwort anzumelden.",
+      "description": "Verknüpfen Sie Google oder Discord, um sich ohne Passwort anzumelden.",
       "connected": "Verbunden",
       "disconnected": "Nicht verbunden",
       "connecting": "Verbinden...",
       "removing": "Wird entfernt...",
       "connect_action": "{provider} verbinden",
       "remove_action": "{provider} entfernen",
-      "linked_description": "Dieser Anbieter ist bereits mit Ihrem Konto verkn?pft.",
-      "available_description": "F?gen Sie diese Anmeldung hinzu, um k?nftige Anmeldungen zu vereinfachen.",
-      "linked_success": "{provider} wurde mit Ihrem Konto verkn?pft.",
+      "linked_description": "Dieser Anbieter ist bereits mit Ihrem Konto verknüpft.",
+      "available_description": "Fügen Sie diese Anmeldung hinzu, um künftige Anmeldungen zu vereinfachen.",
+      "linked_success": "{provider} wurde mit Ihrem Konto verknüpft.",
       "unlinked_success": "{provider} wurde von Ihrem Konto entfernt.",
       "errors": {
         "start_link": "Die externe Anmeldung konnte nicht gestartet werden.",
@@ -134,28 +134,28 @@
     },
     "password": {
       "title_existing": "Passwort",
-      "title_missing": "Passwort hinzuf?gen",
+      "title_missing": "Passwort hinzufügen",
       "description_existing": "Aktualisieren Sie Ihr aktuelles Passwort.",
-      "description_missing": "F?gen Sie ein lokales Passwort hinzu, um eine Backup-Anmeldung zu behalten.",
-      "oauth_notice": "Um einem OAuth-Konto ein Passwort hinzuzuf?gen, ist eine E-Mail-Best?tigung erforderlich.",
-      "send_email": "Best?tigungs-E-Mail senden",
+      "description_missing": "Fügen Sie ein lokales Passwort hinzu, um eine Backup-Anmeldung zu behalten.",
+      "oauth_notice": "Um einem OAuth-Konto ein Passwort hinzuzufügen, ist eine E-Mail-Bestätigung erforderlich.",
+      "send_email": "Bestätigungs-E-Mail senden",
       "sending_email": "Wird gesendet...",
       "errors": {
         "update": "Das Passwort konnte nicht aktualisiert werden.",
-        "send_email": "Die Best?tigungs-E-Mail konnte nicht gesendet werden."
+        "send_email": "Die Bestätigungs-E-Mail konnte nicht gesendet werden."
       }
     },
     "delete_account": {
-      "title": "Konto l?schen",
-      "description": "Diese Aktion l?scht Ihr Konto und seine OAuth-Verkn?pfungen dauerhaft.",
+      "title": "Konto löschen",
+      "description": "Diese Aktion löscht Ihr Konto und seine OAuth-Verknüpfungen dauerhaft.",
       "current_password": "Aktuelles Passwort",
       "confirm_instruction": "Geben Sie",
-      "confirm_keyword": "L?SCHEN",
-      "confirm_suffix": "zur Best?tigung ein",
-      "deleting": "Wird gel?scht...",
-      "action": "Mein Konto l?schen",
+      "confirm_keyword": "LÖSCHEN",
+      "confirm_suffix": "zur Bestätigung ein",
+      "deleting": "Wird gelöscht...",
+      "action": "Mein Konto löschen",
       "errors": {
-        "delete": "Das Konto konnte nicht gel?scht werden."
+        "delete": "Das Konto konnte nicht gelöscht werden."
       }
     }
   }

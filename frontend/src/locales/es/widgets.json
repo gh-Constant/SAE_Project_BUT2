@@ -29,14 +29,14 @@
       "water_title": "Punto de agua",
       "water_description": "Agua corriente disponible",
       "power_title": "Electricidad",
-      "power_description": "Tomas el?ctricas en el lugar",
-      "toilets_title": "Ba?os",
-      "toilets_description": "Ba?os cercanos",
+      "power_description": "Tomas elctricas en el lugar",
+      "toilets_title": "Baos",
+      "toilets_description": "Baos cercanos",
       "accessible_title": "Accesible",
       "accessible_description": "Acceso para personas con movilidad reducida"
     },
-    "purchase_success_message": "?Lugar comprado con ?xito!",
-    "purchase_error": "No se puede comprar este lugar. Int?ntalo de nuevo."
+    "purchase_success_message": "Lugar comprado con xito!",
+    "purchase_error": "No se puede comprar este lugar. Intntalo de nuevo."
   },
   "purchased": {
     "owner_label": "Propietario",
@@ -47,7 +47,22 @@
     "value": "Valor:",
     "close": "Cerrar",
     "validate_button": "Validar",
-    "reject_button": "Rechazar"
+    "reject_button": "Rechazar",
+    "provider_type": "Tipo de prestador",
+    "location_type": "Tipo de lugar",
+    "pending_title": "Pendiente de validación.",
+    "pending_description": "Esta solicitud de compra est? siendo revisada por un administrador.",
+    "provider_default": "Prestador",
+    "confirm_validate": "?Validar esta compra?",
+    "confirm_reject": "?Rechazar esta compra?",
+    "error_validate": "No se puede validar esta compra.",
+    "error_reject": "No se puede rechazar esta compra.",
+    "location_types": {
+      "food": "Restauración",
+      "animation": "Animación",
+      "craft": "Artesanía",
+      "provider": "Prestador"
+    }
   },
   "blog": {
     "title": "Blogs",
@@ -59,30 +74,30 @@
     "save": "Guardar",
     "empty": "No hay blogs publicados todavía.",
     "empty_owner": "¡Comparte tu primera actualización con la comunidad!",
-    "delete_confirm": "¿Estás seguro de que quieres eliminar esta entrada de blog?",
+    "delete_confirm": "¿Estás seguro de que quieres eliminar esta entrada de blog",
     "alert_title": "Por favor ingrese un título de blog",
     "error_save": "Error al guardar",
     "error_delete": "Error al eliminar",
-    "sellable_label": "?Vender este art?culo en la tienda?",
+    "sellable_label": "Vender este artculo en la tienda",
     "price_placeholder": "Precio (oro)",
     "currency": "Gold",
     "purchased": "Comprado",
     "premium_price": "Premium - {price} Gold",
     "edit_action": "Editar",
     "delete_action": "Eliminar",
-    "locked": "Art?culo bloqueado",
-    "read": "Leer el art?culo",
+    "locked": "Artculo bloqueado",
+    "read": "Leer el artculo",
     "click_options": "Haz clic para ver las opciones",
     "click_open": "Haz clic para abrir",
     "buy_loading": "Compra en curso...",
     "buy": "Comprar",
-    "premium_label": "Este art?culo es premium.",
-    "purchase_confirm": "?Quieres comprarlo por {price} Gold?",
-    "buy_article": "Comprar el art?culo",
-    "login_to_buy": "Inicia sesi?n para comprar y leer este art?culo.",
-    "error_purchase": "Error al comprar el art?culo del blog",
-    "editor_placeholder": "Empieza a redactar tu actualizaci?n...",
-    "error_invalid_price": "Define un precio v?lido para este art?culo del blog."
+    "premium_label": "Este artculo es premium.",
+    "purchase_confirm": "Quieres comprarlo por {price} Gold",
+    "buy_article": "Comprar el artculo",
+    "login_to_buy": "Inicia sesin para comprar y leer este artculo.",
+    "error_purchase": "Error al comprar el artculo del blog",
+    "editor_placeholder": "Empieza a redactar tu actualizacin...",
+    "error_invalid_price": "Define un precio vlido para este artculo del blog."
   },
   "shop": {
     "title": "Vista previa de la tienda",
@@ -111,9 +126,9 @@
     "accept": "Aceptar",
     "accepted": "Aceptada",
     "success_accept": "¡Misión aceptada! Encuéntrala en tu perfil.",
-    "error_accept": "No se pudo aceptar la misión (¿quizás ya aceptada?)",
+    "error_accept": "No se pudo aceptar la misión (¿quizás ya aceptada)",
     "completed": "Completada",
-    "view_more": "Ver {count} misiones m?s",
+    "view_more": "Ver {count} misiones ms",
     "view_less": "Mostrar menos"
   },
   "contact": {
@@ -128,6 +143,11 @@
     "message_placeholder": "Su mensaje aquí...",
     "sending_button": "Enviando...",
     "send_button": "Enviar mensaje",
-    "error_message": "Error al enviar el mensaje. Inténtelo de nuevo."
+    "error_message": "Error al enviar el mensaje. Inténtelo de nuevo.",
+    "close_alert": "Cerrar"
+  },
+  "fallback": {
+    "unknown_type": "Tipo de lugar desconocido",
+    "type_id": "Id de tipo"
   }
 }

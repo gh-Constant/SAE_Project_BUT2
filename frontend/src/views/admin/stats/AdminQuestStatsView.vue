@@ -52,7 +52,7 @@
                 <p class="text-5xl font-medieval font-bold text-iron-black mb-1">{{ formatNumber(stats.totalXP) }}</p>
                 <p class="text-xs text-stone-grey/80 flex items-center justify-center gap-1">
                   <i class="fas fa-coins text-antique-bronze"></i>
-                  {{ t('admin.quest_stats.hero.avg_reward', { avg: stats.avgXP }) }} XP
+                  {{ t('admin.quest_stats.hero.avg_reward', { avg: stats.avgXP }) }} {{ t('admin.quest_stats.unit_xp') }}
                 </p>
               </div>
             </div>
@@ -129,7 +129,7 @@
                 <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm">
                   <i class="fas fa-chart-pie text-white text-sm"></i>
                 </div>
-                {{ t('admin.quest_stats.outcomes.title', 'Répartition des statuts') }}
+                {{ t('admin.quest_stats.outcomes.title') }}
               </h3>
             </div>
             <div class="p-6 flex justify-center">
@@ -145,7 +145,7 @@
                 <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-sm">
                   <i class="fas fa-map-marked-alt text-white text-sm"></i>
                 </div>
-                {{ t('admin.quest_stats.locations.distribution_title', 'Répartition par lieu') }}
+                {{ t('admin.quest_stats.locations.distribution_title') }}
               </h3>
             </div>
             <div class="p-6 flex justify-center">
@@ -186,7 +186,7 @@
                 <div class="text-right">
                   <span class="inline-flex items-center gap-1 px-2 py-1 bg-antique-bronze/20 text-iron-black rounded-full text-xs font-bold">
                     <i class="fas fa-star text-antique-bronze text-[10px]"></i>
-                    {{ quest.xp_reward }} XP
+                    {{ quest.xp_reward }} {{ t('admin.quest_stats.unit_xp') }}
                   </span>
                 </div>
               </div>
@@ -279,7 +279,7 @@
                   </div>
                   <div class="bg-amber-50 rounded-lg py-2 px-3 border border-amber-100">
                     <p class="text-lg font-medieval font-bold text-amber-800">{{ user.totalXpEarned }}</p>
-                    <p class="text-[10px] text-amber-800/60 uppercase tracking-widest">XP</p>
+                    <p class="text-[10px] text-amber-800/60 uppercase tracking-widest">{{ t('admin.quest_stats.unit_xp') }}</p>
                   </div>
                 </div>
                 
@@ -360,9 +360,9 @@
                     <span class="px-2 py-1 bg-antique-bronze/10 text-antique-bronze border border-antique-bronze/20 rounded-full text-xs font-bold shadow-sm">{{ loc.questCount }}</span>
                   </td>
                   <td class="px-6 py-4 text-center">
-                    <span class="font-medieval font-bold text-amber-700">{{ loc.totalXP }} XP</span>
+                    <span class="font-medieval font-bold text-amber-700">{{ loc.totalXP }} {{ t('admin.quest_stats.unit_xp') }}</span>
                   </td>
-                  <td class="px-6 py-4 text-center text-stone-grey">{{ loc.avgXP }} XP</td>
+                  <td class="px-6 py-4 text-center text-stone-grey">{{ loc.avgXP }} {{ t('admin.quest_stats.unit_xp') }}</td>
                   <td class="px-6 py-4 text-center">
                     <div class="flex items-center justify-center gap-2">
                       <div class="w-16 h-2 bg-stone-200 rounded-full overflow-hidden">

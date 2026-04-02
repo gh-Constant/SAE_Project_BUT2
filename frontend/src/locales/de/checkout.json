@@ -20,23 +20,25 @@
     "waiting_count": "Zu zahlende Bestellungen",
     "paid_count": "Bereits bezahlte Bestellungen",
     "grand_total": "Gesamtsumme",
-    "quote": "\"Eine bezahlte Schuld ist eine beruhigte Seele.\""
+    "quote": "\"Eine bezahlte Schuld ist eine beruhigte Seele.\"",
+    "orders_to_pay": "Zu zahlende Bestellungen",
+    "orders_already_paid": "Bereits bezahlte Bestellungen"
   },
   "gold": {
     "buy": {
-      "title": "K?nigliche Schatzkammer",
-      "subtitle": "Erwerben Sie Gold, um exklusive Gegenst?nde oder Grundst?cke im K?nigreich zu kaufen.",
+      "title": "Knigliche Schatzkammer",
+      "subtitle": "Erwerben Sie Gold, um exklusive Gegenstnde oder Grundstcke im Knigreich zu kaufen.",
       "current_total": "Ihr aktueller Schatz",
       "currency": "Gold",
-      "processing": "Transaktion l?uft...",
+      "processing": "Transaktion luft...",
       "buy_pack": "Dieses Paket kaufen",
       "custom_title": "Individueller Betrag",
-      "custom_description": "W?hlen Sie genau die Goldmenge zwischen 100 und 100.000.",
+      "custom_description": "Whlen Sie genau die Goldmenge zwischen 100 und 100.000.",
       "custom_label": "Goldmenge",
-      "estimated_price": "Gesch?tzter Preis",
+      "estimated_price": "Geschtzter Preis",
       "buy_custom": "Diesen Betrag kaufen",
       "login_required_title": "Anmeldung erforderlich",
-      "login_required_description": "Sie m?ssen angemeldet sein, um Gold zu erwerben. Treten Sie dem Abenteuer bei!",
+      "login_required_description": "Sie mssen angemeldet sein, um Gold zu erwerben. Treten Sie dem Abenteuer bei!",
       "cancel": "Abbrechen",
       "packages": {
         "peasant": {
@@ -44,12 +46,12 @@
           "description": "Ein kleiner Beutel, um Ihr Abenteuer gut zu beginnen."
         },
         "merchant": {
-          "name": "H?ndlertruhe",
-          "description": "Eine gut gef?llte Truhe f?r erfahrene Reisende."
+          "name": "Hndlertruhe",
+          "description": "Eine gut gefllte Truhe fr erfahrene Reisende."
         },
         "king": {
-          "name": "Schatz des K?nigs",
-          "description": "Der Reichtum, der f?r gro?e territoriale Ambitionen n?tig ist."
+          "name": "Schatz des Knigs",
+          "description": "Der Reichtum, der fr groe territoriale Ambitionen ntig ist."
         }
       },
       "errors": {
@@ -59,25 +61,32 @@
       }
     },
     "success": {
-      "loading": "Die Ankunft Ihres Goldkonvois wird gepr?ft...",
+      "loading": "Die Ankunft Ihres Goldkonvois wird geprft...",
       "title": "Kauf erfolgreich!",
-      "description": "Ihr Gold wurde sicher Ihrem Beutel hinzugef?gt. Das K?nigreich dankt Ihnen.",
+      "description": "Ihr Gold wurde sicher Ihrem Beutel hinzugefgt. Das Knigreich dankt Ihnen.",
       "total_label": "Neuer Gesamtschatz",
-      "back_to_offers": "Zur?ck zu den Angeboten",
-      "back_to_map": "Zur?ck zur Karte",
+      "back_to_offers": "Zurck zu den Angeboten",
+      "back_to_map": "Zurck zur Karte",
       "error_title": "Konvoi abgefangen",
       "retry": "Erneut versuchen",
       "errors": {
         "missing_session": "Sitzungs-ID fehlt.",
-        "validation_failed": "Die Zahlung konnte nicht best?tigt werden oder Ihre M?nzen konnten nicht gutgeschrieben werden.",
-        "network": "Fehler bei der Kommunikation mit dem H?ndlerservice."
+        "validation_failed": "Die Zahlung konnte nicht besttigt werden oder Ihre Mnzen konnten nicht gutgeschrieben werden.",
+        "network": "Fehler bei der Kommunikation mit dem Hndlerservice."
       }
     },
     "cancel": {
       "title": "Handel abgebrochen",
-      "description": "Sie sind umgekehrt. Es wurde kein Verm?gen abgebucht und Ihr Beutel bleibt unver?ndert.",
+      "description": "Sie sind umgekehrt. Es wurde kein Vermgen abgebucht und Ihr Beutel bleibt unverndert.",
       "back_to_offers": "Angebote erneut ansehen",
-      "back_to_map": "Zur Karte zur?ckkehren"
+      "back_to_map": "Zur Karte zurckkehren"
     }
+  },
+  "notifications": {
+    "payment_refused_title": "Zahlung abgelehnt",
+    "payment_failed_title": "Zahlung fehlgeschlagen",
+    "not_enough_gold": "Sie haben nicht genug Gold, um diese Bestellung zu bezahlen.",
+    "order_paid_title": "Bestellung bezahlt",
+    "order_paid_message": "Bestellung #{id} wurde erfolgreich bezahlt."
   }
 }

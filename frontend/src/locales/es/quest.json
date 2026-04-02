@@ -38,16 +38,16 @@
     "error_title": "Error en la acción"
   },
   "scan": {
-    "title": "Escanear el c?digo QR",
-    "hint": "Apunta con tu c?mara al c?digo QR del lugar de la misi?n",
-    "camera_error": "No se puede acceder a la c?mara",
-    "camera_error_hint": "Autoriza el acceso a la c?mara en la configuraci?n de tu navegador.",
+    "title": "Escanear el código QR",
+    "hint": "Apunta con tu cámara al código QR del lugar de la misión",
+    "camera_error": "No se puede acceder a la cámara",
+    "camera_error_hint": "Autoriza el acceso a la cámara en la configuración de tu navegador.",
     "retry": "Reintentar",
-    "or_manual": "O introduce el c?digo manualmente",
-    "enter_code": "Introduce el c?digo del lugar",
+    "or_manual": "O introduce el código manualmente",
+    "enter_code": "Introduce el código del lugar",
     "validate": "Validar",
-    "success": "?Misi?n validada!",
-    "failed": "Validaci?n fallida",
+    "success": "¡Misión validada!",
+    "failed": "Validación fallida",
     "try_again": "Volver a intentar",
     "close": "Cerrar"
   }

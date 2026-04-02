@@ -3,7 +3,7 @@
     "title": "Begeben Sie sich auf ein mittelalterliches Abenteuer",
     "subtitle": "Betreten Sie die Länder des Löwen, ein mittelalterliches Festival, auf dem jeder Besucher zum Helden wird und jeder Schritt das Abenteuer vorantreibt.",
     "cta": "Beginnen Sie Ihre Reise",
-    "background_alt": "Hintergrund des K?nigreichs",
+    "background_alt": "Hintergrund des Königreichs",
     "logo_alt": "Logo von Les Terres du Lion"
   },
   "intro": {
@@ -42,27 +42,27 @@
   },
   "commitments": {
     "title": "Unsere Zusagen an Sie",
-    "subtitle": "Jeder Ort des Festivals ist f?r Ihren Komfort und Ihre Sicherheit ausgelegt.",
+    "subtitle": "Jeder Ort des Festivals ist für Ihren Komfort und Ihre Sicherheit ausgelegt.",
     "water": {
       "title": "Wasserstellen",
-      "description": "Trinkbrunnen und Wasserstellen im ganzen Dorf, damit Sie w?hrend Ihres Abenteuers erfrischt bleiben."
+      "description": "Trinkbrunnen und Wasserstellen im ganzen Dorf, damit Sie während Ihres Abenteuers erfrischt bleiben."
     },
     "power": {
       "title": "Ausgestattete Standorte",
-      "description": "Unsere St?nde und Werkst?tten verf?gen ?ber Strom, damit jeder Handwerker unter besten Bedingungen arbeiten kann."
+      "description": "Unsere Stände und Werkstätten verfügen über Strom, damit jeder Handwerker unter besten Bedingungen arbeiten kann."
     },
     "toilets": {
-      "title": "Barrierefreie Sanit?ranlagen",
-      "description": "Saubere, gepflegte Sanit?ranlagen f?r alle, strategisch im Dorf verteilt."
+      "title": "Barrierefreie Sanitäranlagen",
+      "description": "Saubere, gepflegte Sanitäranlagen für alle, strategisch im Dorf verteilt."
     },
     "accessibility": {
-      "title": "F?r alle zug?nglich",
-      "description": "Das K?nigreich hei?t jeden Abenteurer willkommen. Unsere Wege und Orte sind f?r Menschen mit eingeschr?nkter Mobilit?t angepasst."
+      "title": "Für alle zugänglich",
+      "description": "Das Königreich heißt jeden Abenteurer willkommen. Unsere Wege und Orte sind für Menschen mit eingeschränkter Mobilität angepasst."
     }
   },
   "leaderboard": {
-    "title": "Das gro?e Grimoire der Abenteurer",
-    "subtitle": "Wer sind die mutigsten Helden des K?nigreichs?",
+    "title": "Das große Grimoire der Abenteurer",
+    "subtitle": "Wer sind die mutigsten Helden des Königreichs?",
     "columns": {
       "rank": "Rang",
       "adventurer": "Abenteurer",
@@ -72,7 +72,7 @@
     "mysterious_adventurer": "Geheimnisvoller Abenteurer",
     "level_short": "Lvl. {level}",
     "empty": "Noch hat kein Abenteurer diese Lande betreten.",
-    "previous": "Zur?ck",
+    "previous": "Zurück",
     "next": "Weiter",
     "page": "Seite",
     "sticky_title": "Ihre Position",

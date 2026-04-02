@@ -20,7 +20,9 @@
     "waiting_count": "Orders to Pay",
     "paid_count": "Orders Already Paid",
     "grand_total": "Grand Total",
-    "quote": "\"A paid debt is a soothed soul.\""
+    "quote": "\"A paid debt is a soothed soul.\"",
+    "orders_to_pay": "Orders to Pay",
+    "orders_already_paid": "Orders Already Paid"
   },
   "gold": {
     "buy": {
@@ -79,5 +81,12 @@
       "back_to_offers": "Review offers",
       "back_to_map": "Return to the map"
     }
+  },
+  "notifications": {
+    "payment_refused_title": "Payment refused",
+    "payment_failed_title": "Payment failed",
+    "not_enough_gold": "You don't have enough gold to pay for this order.",
+    "order_paid_title": "Order paid",
+    "order_paid_message": "Order #{id} was paid successfully."
   }
 }

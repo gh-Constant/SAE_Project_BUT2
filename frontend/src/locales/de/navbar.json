@@ -3,6 +3,8 @@
   "home": "Startseite",
   "map": "Karte",
   "events": "Veranstaltungen",
+  "leaderboard": "Rangliste",
+  "quizzes": "Quiz",
   "cart": "Warenkorb",
   "signin": "Anmelden",
   "register": "Registrieren",
@@ -16,5 +18,14 @@
   "products": "Produkte",
   "welcome": "Willkommen, {name}",
   "select_language": "Sprache auswählen",
-  "dont_click": "Nicht klicken"
+  "dont_click": "Nicht klicken",
+  "treasure": "Schatz",
+  "buy_gold": "Gold kaufen",
+  "level_tiers": {
+    "legendary": "Legendär",
+    "epic": "Episch",
+    "rare": "Selten",
+    "adventurer": "Abenteurer",
+    "novice": "Novize"
+  }
 }

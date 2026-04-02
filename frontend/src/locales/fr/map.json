@@ -1,5 +1,13 @@
 {
   "title": "Explorateur de Carte Interactif",
   "popup": "Emplacement à {lat}, {lng}",
-  "toilet_popup": "C'est des toilettes"
+  "toilet_popup": "C'est des toilettes",
+  "debug": {
+    "click_on": "Debug clic ON",
+    "click_off": "Debug clic OFF",
+    "show": "Afficher",
+    "hide": "Masquer",
+    "marker_positions": "Positions des marqueurs",
+    "json_label": "JSON"
+  }
 }

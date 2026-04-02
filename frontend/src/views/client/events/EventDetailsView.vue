@@ -21,7 +21,7 @@
               <div class="flex items-center gap-4 text-stone-grey">
                 <span class="flex items-center gap-1">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  {{ event.type === 'ACTIVITY' ? 'Dates multiples' : formatDate(event.start_time) }}
+                  {{ event.type === 'ACTIVITY' ? t('events.list.dates_multiples') : formatDate(event.start_time) }}
                 </span>
                 <span class="flex items-center gap-1">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
@@ -35,7 +35,7 @@
             <div class="bg-antique-bronze/10 px-4 py-2 rounded-lg border border-antique-bronze/20 text-center min-w-[120px]">
               <span class="block text-xs font-bold text-stone-grey uppercase tracking-wider">{{ t('events.details.price_label') }}</span>
               <span class="block text-2xl font-medieval font-bold text-antique-bronze">
-                {{ event.type === 'ACTIVITY' && !selectedSchedule ? t('events.list.from_price', { price: event.price }) : currentPrice + ' G' }}
+                {{ event.type === 'ACTIVITY' && !selectedSchedule ? t('events.list.from_price', { price: event.price }) : `${currentPrice} ${t('checkout.gold.buy.currency')}` }}
               </span>
             </div>
           </div>
@@ -49,19 +49,19 @@
             v-if="event.location?.has_water_access || event.location?.has_electricity || event.location?.has_toilets || event.location?.is_accessible_pmr"
             class="mb-8"
           >
-            <h3 class="font-medieval text-xl font-bold text-iron-black mb-3">Caractéristiques</h3>
+            <h3 class="font-medieval text-xl font-bold text-iron-black mb-3">{{ t('events.details.features.title') }}</h3>
             <div class="flex flex-wrap gap-2">
               <span v-if="event.location?.has_water_access" class="px-3 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200 text-sm">
-                <i class="fas fa-tint mr-1"></i> Accès à l'eau
+                <i class="fas fa-tint mr-1"></i> {{ t('events.details.features.water') }}
               </span>
               <span v-if="event.location?.has_electricity" class="px-3 py-1 rounded-full bg-yellow-50 text-yellow-800 border border-yellow-200 text-sm">
-                <i class="fas fa-bolt mr-1"></i> Électricité
+                <i class="fas fa-bolt mr-1"></i> {{ t('events.details.features.electricity') }}
               </span>
               <span v-if="event.location?.has_toilets" class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-sm">
-                <i class="fas fa-restroom mr-1"></i> Sanitaires
+                <i class="fas fa-restroom mr-1"></i> {{ t('events.details.features.toilets') }}
               </span>
               <span v-if="event.location?.is_accessible_pmr" class="px-3 py-1 rounded-full bg-purple-50 text-purple-800 border border-purple-200 text-sm">
-                <i class="fas fa-wheelchair mr-1"></i> Accessible PMR
+                <i class="fas fa-wheelchair mr-1"></i> {{ t('events.details.features.accessible') }}
               </span>
             </div>
           </div>
@@ -101,7 +101,7 @@
                 </div>
                   
                 <div class="flex-1 text-right sm:text-left sm:pl-4 pb-2">
-                  <p class="text-sm text-stone-grey">{{ t('events.details.total') }}: <span class="font-bold text-iron-black">{{ total }} G</span></p>
+                  <p class="text-sm text-stone-grey">{{ t('events.details.total') }}: <span class="font-bold text-iron-black">{{ total }} {{ t('checkout.gold.buy.currency') }}</span></p>
                   <p class="text-xs text-stone-grey/70">
                     {{ t('events.details.remaining_seats', { count: remainingCapacity }) }}
                   </p>
@@ -223,8 +223,8 @@ async function handleBooking() {
   if (!event.value) return
   
   if (event.value.type === 'ACTIVITY' && !selectedSchedule.value) {
-    bookingError.value = "Veuillez sélectionner un créneau horaire."
-    notificationStore.error('Réservation impossible', bookingError.value)
+    bookingError.value = t('events.details.select_slot_required')
+    notificationStore.error(t('events.details.error_title'), bookingError.value)
     return
   }
 
@@ -241,7 +241,7 @@ async function handleBooking() {
     bookingSuccess.value = true
     notificationStore.success(
       t('events.details.success'),
-      `${quantity.value} place(s) réservée(s) pour ${event.value.title}.`
+      t('events.details.success_message', { count: quantity.value, title: event.value.title })
     )
     // Refresh event data to update capacity
     await eventStore.fetchEventById(eventId)
@@ -251,14 +251,14 @@ async function handleBooking() {
   } catch (err: any) {
     const error = err as { response?: { data?: { message?: string } }; message?: string }
     bookingError.value = error.response?.data?.message || error.message || t('events.details.error_default')
-    notificationStore.error('Réservation impossible', bookingError.value)
+    notificationStore.error(t('events.details.error_title'), bookingError.value)
   } finally {
     bookingLoading.value = false
   }
 }
 
 function formatDate(dateStr?: string) {
-  if (!dateStr) return 'Dates multiples'
+  if (!dateStr) return t('events.list.dates_multiples')
   return new Date(dateStr).toLocaleDateString(undefined, { 
     weekday: 'long', 
     year: 'numeric', 
