@@ -68,6 +68,23 @@ export const useAuthStore = defineStore('auth', {
     async changePassword(currentPassword: string, newPassword: string) {
       await (authService as any).changePassword(currentPassword, newPassword);
     },
+    async completeOAuthLogin(token: string) {
+      const user = await (authService as any).completeOAuthLogin(token)
+      if (!user) {
+        throw new Error('OAuth login failed')
+      }
+
+      this.user = user
+      this.isAuthenticated = true
+      this.authReady = true
+
+      const cartStore = useCartStore()
+      cartStore.loadCartForUser(user.id)
+    },
+    async deleteMyAccount(currentPassword?: string) {
+      await (authService as any).deleteMyAccount(currentPassword)
+      this.logout()
+    },
     async validateAndRefreshUser() {
       if (isMockEnabled) {
         // Mode mock : utiliser la logique existante depuis localStorage

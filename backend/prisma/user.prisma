@@ -9,6 +9,11 @@ enum AvatarType {
   upload
 }
 
+enum OAuthProvider {
+  google
+  discord
+}
+
 model User {
   id_user         Int       @id @default(autoincrement())
   firstname       String    @db.VarChar(255)
@@ -29,7 +34,7 @@ model User {
   gold            Int       @default(0)
 
   is_verified     Boolean
-  password_hashed String   @db.Text
+  password_hashed String?  @db.Text
 
   created_at DateTime? @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt @db.DateTime(0)
@@ -56,9 +61,28 @@ model User {
   messagesSent      Message[]         @relation("MessageSender")
 
   purchasedBlogs    UserBlog[]
+  oauthAccounts     OAuthAccount[]
 
 
   @@map("users")
+}
+
+model OAuthAccount {
+  id_oauth_account Int           @id @default(autoincrement())
+  provider         OAuthProvider
+  provider_user_id String        @db.VarChar(255)
+  provider_email   String?       @db.VarChar(255)
+
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
+
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+
+  @@unique([provider, provider_user_id])
+  @@unique([id_user, provider])
+  @@index([id_user])
+  @@map("oauth_accounts")
 }
 
 model UserProfile {

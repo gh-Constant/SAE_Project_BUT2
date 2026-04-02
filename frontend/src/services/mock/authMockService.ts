@@ -253,6 +253,52 @@ export const authMockService = {
     });
   },
 
+  setAuthToken(token: string) {
+    localStorage.setItem('authToken', token);
+  },
+
+  completeOAuthLogin: async (): Promise<UserMock | null> => {
+    throw new Error('OAuth is not available in mock mode');
+  },
+
+  confirmOAuthLink: async () => {
+    throw new Error('OAuth is not available in mock mode');
+  },
+
+  getOAuthStartUrl: (_provider: 'google' | 'discord') => {
+    throw new Error('OAuth is not available in mock mode');
+  },
+
+  prepareOAuthLink: async (_provider: 'google' | 'discord'): Promise<string> => {
+    throw new Error('OAuth is not available in mock mode');
+  },
+
+  getSecuritySettings: async () => {
+    const currentUserStr = localStorage.getItem('currentUser');
+    if (!currentUserStr) {
+      throw new Error('Not authenticated');
+    }
+
+    const currentUser = JSON.parse(currentUserStr) as UserMock;
+    return {
+      email: currentUser.email,
+      hasPassword: true,
+      linkedProviders: [],
+    };
+  },
+
+  requestPasswordSetupEmail: async (): Promise<string> => {
+    throw new Error('Password setup verification is not available in mock mode');
+  },
+
+  deleteMyAccount: async (): Promise<string> => {
+    throw new Error('Account deletion is not available in mock mode');
+  },
+
+  unlinkOAuthProvider: async (_provider: 'google' | 'discord') => {
+    throw new Error('OAuth is not available in mock mode');
+  },
+
   forgotPassword: async (email: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       const user = mockUsers.find(u => u.email === email);

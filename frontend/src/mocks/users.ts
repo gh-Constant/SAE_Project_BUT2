@@ -35,6 +35,8 @@ export interface UserMock {
   role: Role;
   id_prestataire_type?: number;
   rank?: number;
+  hasPassword?: boolean;
+  oauthProviders?: Array<'google' | 'discord'>;
 }
 
 export const PRESTATAIRE_USER_ID = 1;

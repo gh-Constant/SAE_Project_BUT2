@@ -126,6 +126,31 @@
           </button>
         </form>
 
+        <div class="mt-6">
+          <div class="flex items-center gap-3 text-sm text-stone-grey">
+            <div class="h-px flex-1 bg-antique-bronze/20"></div>
+            <span>ou continuer avec</span>
+            <div class="h-px flex-1 bg-antique-bronze/20"></div>
+          </div>
+
+          <div class="mt-4 grid gap-3">
+            <button
+              type="button"
+              class="w-full rounded-lg border border-antique-bronze/20 bg-white px-4 py-3 font-semibold text-iron-black transition hover:border-antique-bronze hover:bg-antique-bronze/5"
+              @click="startOAuth('google')"
+            >
+              <i class="fab fa-google mr-2"></i>Continuer avec Google
+            </button>
+            <button
+              type="button"
+              class="w-full rounded-lg border border-antique-bronze/20 bg-white px-4 py-3 font-semibold text-iron-black transition hover:border-antique-bronze hover:bg-antique-bronze/5"
+              @click="startOAuth('discord')"
+            >
+              <i class="fab fa-discord mr-2"></i>Continuer avec Discord
+            </button>
+          </div>
+        </div>
+
         <!-- Sign Up Link -->
         <div class="mt-8 text-center">
           <p class="text-stone-grey">
@@ -145,6 +170,7 @@
 
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { authService } from '@/services/authService'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
@@ -169,6 +195,10 @@ const fieldErrors = ref<Record<string, string>>({
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
+}
+
+const startOAuth = (provider: 'google' | 'discord') => {
+  window.location.href = (authService as any).getOAuthStartUrl(provider)
 }
 
 const validateField = (field: string, value: string) => {

@@ -69,6 +69,16 @@ export const routes = [
     component: () => import('../views/auth/ResetPasswordView.vue'),
   },
   {
+    path: '/auth/oauth-success',
+    name: 'oauth-success',
+    component: () => import('../views/auth/OAuthSuccessView.vue'),
+  },
+  {
+    path: '/auth/oauth-link-confirm',
+    name: 'oauth-link-confirm',
+    component: () => import('../views/auth/OAuthLinkConfirmView.vue'),
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: () => import('../views/admin/AdminView.vue'),

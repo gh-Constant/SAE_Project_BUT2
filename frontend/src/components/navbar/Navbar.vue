@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useCartStore } from '@/stores/cart';
 import { isAdmin, isPrestataire, isAventurier } from '@/services/roleService';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import CartDropdown from './CartDropdown.vue';
 import MedievalButton from '@/components/ui/MedievalButton.vue';
@@ -19,6 +19,7 @@ const isScrolled = ref(false);
 
 // Check if we're on the home page
 const route = useRoute();
+const router = useRouter();
 
 const isSolidNavbar = computed(() => {
   // Routes where the navbar should be a transparent overlay
@@ -75,6 +76,7 @@ const handleLogout = () => {
   showDropdown.value = false;
   showDevDropdown.value = false;
   showCartDropdown.value = false;
+  router.push('/');
 };
 
 // Fermer le dropdown si on clique ailleurs

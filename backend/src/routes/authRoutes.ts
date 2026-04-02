@@ -40,6 +40,11 @@ router.post('/login', authController.login);
  */
 router.post('/register', handleSingleUpload('avatarFile'), authController.register);
 
+router.get('/google', authController.startOAuth);
+router.get('/google/callback', authController.handleOAuthCallback);
+router.get('/discord', authController.startOAuth);
+router.get('/discord/callback', authController.handleOAuthCallback);
+
 /**
  * GET /auth/me
  * Récupère les informations de l'utilisateur connecté à partir du token.
@@ -53,6 +58,9 @@ router.get('/me', authenticateToken, authController.getMe);
  * Route protégée par le middleware `authenticateToken`.
  */
 router.get('/role', authenticateToken, authController.getMyRole);
+router.get('/security', authenticateToken, authController.getSecurity);
+router.post('/password/setup-request', authenticateToken, authController.requestPasswordSetup);
+router.post('/oauth/confirm-link', authController.confirmOAuthLink);
 
 /**
  * PUT /auth/profile
@@ -62,6 +70,9 @@ router.get('/role', authenticateToken, authController.getMyRole);
  * Accepte un fichier 'avatarFile' pour l'image de profil.
  */
 router.put('/profile', authenticateToken, handleSingleUpload('avatarFile'), authController.updateMe);
+router.post('/oauth/:provider/link', authenticateToken, authController.prepareOAuthLink);
+router.delete('/oauth/:provider/link', authenticateToken, authController.unlinkOAuth);
+router.delete('/account', authenticateToken, authController.deleteMyAccount);
 
 /**
  * PUT /auth/change-password

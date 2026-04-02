@@ -23,11 +23,13 @@
 
 import express, { Application } from 'express';
 import cors from 'cors';
+import session from 'express-session';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { corsOptions, config } from './config/app.config.js';
+import passport from './config/passport.config.js';
 import { uploadRootDir } from './controllers/upload.controller.js';
 import { requestLogger, responseTimeLogger } from './middleware/logger.middleware.js';
 import { errorMiddleware, notFoundHandler } from './middleware/error.middleware.js';
@@ -46,6 +48,18 @@ export const createApp = (): Application => {
 
   // Configuration CORS plus permissive
   app.use(cors(corsOptions));
+  app.use(session({
+    secret: process.env.OAUTH_SESSION_SECRET || 'oauth_session_secret_change_me',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: config.isProduction,
+      maxAge: 15 * 60 * 1000,
+    },
+  }));
+  app.use(passport.initialize());
 
   // Swagger UI Documentation
   const swaggerDocument = YAML.load(path.join(__dirname, '../docs/swagger.yaml'));

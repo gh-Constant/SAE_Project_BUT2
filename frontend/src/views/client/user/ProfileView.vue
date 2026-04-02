@@ -4,7 +4,7 @@
       <ProfileForm />
     </div>
     <div v-else-if="activeTab === 'security'">
-      <ChangePasswordForm />
+      <SecuritySettingsForm />
     </div>
   </UserDashboardLayout>
 </template>
@@ -15,7 +15,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { isPrestataire } from '@/services/roleService'
 import ProfileForm from '@/components/forms/ProfileForm.vue'
-import ChangePasswordForm from '@/components/forms/ChangePasswordForm.vue'
+import SecuritySettingsForm from '@/components/forms/SecuritySettingsForm.vue'
 import UserDashboardLayout from '@/components/layout/UserDashboardLayout.vue'
 
 const router = useRouter()
