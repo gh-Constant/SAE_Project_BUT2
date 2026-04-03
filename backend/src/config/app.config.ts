@@ -1,30 +1,5 @@
-/**
- * @file app.config.ts
- * @description
- * Configuration principale de l'application.
- * Fournit les paramètres d'environnement, la configuration CORS et les paramètres spécifiques à l'API.
- *
- * @utilité
- * - Centralise toutes les variables de configuration de l'application.
- * - Définit le comportement de CORS pour les environnements de développement et de production.
- * - Fournit des paramètres pour la version et le préfixe de l'API ainsi que le rate limiting.
- *
- * @exports
- * - config : configuration générale de l'application (host, port, environnement).
- * - corsOptions : configuration CORS utilisée par le middleware cors.
- * - apiConfig : configuration spécifique à l'API (préfixe, version, rate limiting).
- *
- * @remarques
- * - Les valeurs par défaut sont fournies si les variables d'environnement ne sont pas définies.
- * - corsOptions autorise plusieurs origines pour supporter local/dev et production HTTP/HTTPS.
- * - apiConfig peut être étendu pour inclure d'autres paramètres liés à l'API.
- */
+﻿import { CorsOptions } from 'cors';
 
-import { CorsOptions } from 'cors';
-
-/**
- * Configuration générale de l'application (pas de la base de données).
- */
 export const config = {
   host: process.env.HOST ?? 'localhost',
   port: process.env.PORT ? Number(process.env.PORT) : 3000,
@@ -33,30 +8,27 @@ export const config = {
   isProduction: process.env.NODE_ENV === 'production',
 } as const;
 
-/**
- * Configuration CORS pour le middleware `cors`.
- */
+const configuredFrontendOrigin = process.env.FRONTEND_URL?.trim();
+const corsOrigins = [
+  'http://localhost:4200',
+  'http://localhost:4201',
+  'https://livrable.constantsuchet.fr',
+  configuredFrontendOrigin,
+].filter((origin): origin is string => Boolean(origin));
+
 export const corsOptions: CorsOptions = {
-  origin: [
-    'http://localhost:4200',                    // Frontend local en développement
-    'http://localhost:4201',                    // Frontend local (port alternatif)
-    'https://livrable.constantsuchet.fr',       // Frontend production HTTPS uniquement
-    // on a viré le HTTP en prod, faut toujours passer par HTTPS
-  ],
-  credentials: true,                            // Autorise l'envoi de cookies
+  origin: corsOrigins,
+  credentials: true,
   optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Méthodes autorisées
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], // Headers autorisés
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 };
 
-/**
- * Configuration spécifique à l'API.
- */
 export const apiConfig = {
-  prefix: '/api',                               // Préfixe pour toutes les routes API
-  version: 'v1',                                // Version de l'API
-  rateLimit: {                                  // Paramètres pour limiter les requêtes
-    windowMs: 15 * 60 * 1000,                   // Fenêtre de 15 minutes
-    max: 100,                                   // Maximum 100 requêtes par fenêtre
+  prefix: '/api',
+  version: 'v1',
+  rateLimit: {
+    windowMs: 15 * 60 * 1000,
+    max: 100,
   },
 } as const;
