@@ -1,7 +1,6 @@
 import prisma from '../prisma.js';
 import { Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
-import { toGoldAmount } from './orderPayment.utils.js';
 
 interface CreateOrderItemDTO {
     productId: number;
@@ -14,6 +13,21 @@ interface CreateOrderDTO {
     locationId: number;
     items: CreateOrderItemDTO[];
 }
+
+const toGoldAmount = (value: Prisma.Decimal | number) => {
+    const numericValue = Number(value);
+
+    if (!Number.isFinite(numericValue) || numericValue < 0) {
+        throw new Error('Invalid gold amount');
+    }
+
+    const roundedValue = Math.round(numericValue);
+    if (Math.abs(roundedValue - numericValue) > Number.EPSILON) {
+        throw new Error('Invalid gold amount');
+    }
+
+    return roundedValue;
+};
 
 const mapOrderForFrontend = (commande: any) => {
     const lines = commande.lignesCommande ?? [];

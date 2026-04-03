@@ -43,10 +43,6 @@ const toggleMobileMenu = () => {
   }
 };
 
-const closeMobileMenu = () => {
-  isMobileMenuOpen.value = false;
-};
-
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
   if (showDropdown.value) {
@@ -73,12 +69,6 @@ const toggleCartDropdown = () => {
 
 const closeDevDropdown = () => {
   showDevDropdown.value = false;
-};
-
-const loginAsDev = async (email: string) => {
-  await auth.login(email, 'password123');
-  closeDevDropdown();
-  closeMobileMenu();
 };
 
 const handleLogout = () => {
@@ -334,22 +324,22 @@ const profileRoute = computed(() => {
               </div>
               <button
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
-                @click="loginAsDev('aventurier@medieval.com')">
+                @click="() => { auth.login('aventurier@medieval.com', 'password123'); closeDevDropdown(); }">
                 <i class="fas fa-user mr-2 text-antique-bronze"></i> Aventurier
               </button>
               <button
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
-                @click="loginAsDev('prestataire@medieval.com')">
+                @click="() => { auth.login('prestataire@medieval.com', 'password123'); closeDevDropdown(); }">
                 <i class="fas fa-store mr-2 text-antique-bronze"></i> Prestataire
               </button>
               <button
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
-                @click="loginAsDev('prestataire2@medieval.com')">
+                @click="() => { auth.login('prestataire2@medieval.com', 'password123'); closeDevDropdown(); }">
                 <i class="fas fa-store mr-2 text-antique-bronze"></i> Prestataire 2
               </button>
               <button
                 class="flex items-center w-full px-4 py-2 text-sm font-medieval text-dark-wood hover:bg-antique-bronze/10 transition-colors"
-                @click="loginAsDev('admin@medieval.com')">
+                @click="() => { auth.login('admin@medieval.com', 'password123'); closeDevDropdown(); }">
                 <i class="fas fa-user-shield mr-2 text-antique-bronze"></i> Admin
               </button>
             </div>
@@ -517,43 +507,6 @@ const profileRoute = computed(() => {
             </MedievalButton>
           </template>
 
-          <template v-if="isDev">
-            <div class="border-t border-antique-bronze/20 my-2"></div>
-            <div class="px-2 pt-1">
-              <div
-                class="px-2 py-2 text-xs font-bold text-stone-grey uppercase tracking-wider font-medieval">
-                Quick Login (Dev)
-              </div>
-            </div>
-
-            <MedievalButton full-width
-              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
-              @click="loginAsDev('aventurier@medieval.com')">
-              <i class="fas fa-user text-lg w-8"></i>
-              <span class="ml-2">Aventurier</span>
-            </MedievalButton>
-
-            <MedievalButton full-width
-              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
-              @click="loginAsDev('prestataire@medieval.com')">
-              <i class="fas fa-store text-lg w-8"></i>
-              <span class="ml-2">Prestataire</span>
-            </MedievalButton>
-
-            <MedievalButton full-width
-              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
-              @click="loginAsDev('prestataire2@medieval.com')">
-              <i class="fas fa-store text-lg w-8"></i>
-              <span class="ml-2">Prestataire 2</span>
-            </MedievalButton>
-
-            <MedievalButton full-width
-              class="!justify-start !shadow-[0_2px_0_#5D4037] !active:translate-y-[2px]"
-              @click="loginAsDev('admin@medieval.com')">
-              <i class="fas fa-user-shield text-lg w-8"></i>
-              <span class="ml-2">Admin</span>
-            </MedievalButton>
-          </template>
         </div>
       </div>
     </transition>
