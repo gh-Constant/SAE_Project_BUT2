@@ -1,6 +1,6 @@
 .tiptap {
   p {
-    @apply my-4 first:mt-0 last:mb-0 text-base leading-relaxed text-left;
+    @apply my-4 first:mt-0 last:mb-0 text-base leading-relaxed text-justify;
   }
 
   h1 {
@@ -22,7 +22,7 @@
   }
 
   blockquote {
-    @apply pl-4 py-2 my-4 italic text-left;
+    @apply pl-4 py-2 my-4 italic text-justify;
     border-left: 4px solid #C19B6C;
     color: #757068;
     background: rgba(193, 155, 108, 0.06);
@@ -39,7 +39,7 @@
   }
 
   li {
-    @apply mb-1 text-left;
+    @apply mb-1 text-justify;
   }
 
   a {

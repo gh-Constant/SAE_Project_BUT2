@@ -15,6 +15,7 @@
 .description-preview p {
   margin: 0 !important;
   display: inline !important;
+  text-align: justify !important;
 }
 
 .description-preview ul,

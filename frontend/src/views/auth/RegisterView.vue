@@ -182,7 +182,7 @@ const handleRegister = async () => {
     await router.push('/')
   } catch (error) {
     console.error('Registration failed:', error)
-    errorMessage.value = error instanceof Error ? error.message : 'Registration failed'
+    errorMessage.value = error instanceof Error ? error.message : t('auth.errors.register_failed')
   } finally {
     isLoading.value = false
   }
@@ -555,7 +555,7 @@ const handleRegister = async () => {
         <div class="mt-6">
           <div class="flex items-center gap-3 text-sm text-stone-grey">
             <div class="h-px flex-1 bg-antique-bronze/20"></div>
-            <span>ou s'inscrire avec</span>
+            <span>{{ t('auth.oauth.register_separator') }}</span>
             <div class="h-px flex-1 bg-antique-bronze/20"></div>
           </div>
 
@@ -565,14 +565,14 @@ const handleRegister = async () => {
               class="w-full rounded-lg border border-antique-bronze/20 bg-white px-4 py-3 font-semibold text-iron-black transition hover:border-antique-bronze hover:bg-antique-bronze/5"
               @click="startOAuth('google')"
             >
-              <i class="fab fa-google mr-2"></i>Continuer avec Google
+              <i class="fab fa-google mr-2"></i>{{ t('auth.oauth.continue_with_google') }}
             </button>
             <button
               type="button"
               class="w-full rounded-lg border border-antique-bronze/20 bg-white px-4 py-3 font-semibold text-iron-black transition hover:border-antique-bronze hover:bg-antique-bronze/5"
               @click="startOAuth('discord')"
             >
-              <i class="fab fa-discord mr-2"></i>Continuer avec Discord
+              <i class="fab fa-discord mr-2"></i>{{ t('auth.oauth.continue_with_discord') }}
             </button>
           </div>
         </div>

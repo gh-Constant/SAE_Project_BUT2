@@ -1,25 +1,83 @@
 {
-    "title": "Bestellungen abschließen",
-    "subtitle": "Fahren Sie mit der Zahlung Ihrer ausstehenden Bestellungen fort",
-    "all_paid": {
-        "title": "Alle Ihre Bestellungen sind bezahlt!",
-        "description": "Sie können den Status Ihrer Einkäufe im Verlauf überprüfen.",
-        "button": "Meine Bestellungen ansehen"
+  "title": "Bestellungen abschließen",
+  "subtitle": "Fahren Sie mit der Zahlung Ihrer ausstehenden Bestellungen fort",
+  "all_paid": {
+    "title": "Alle Ihre Bestellungen sind bezahlt!",
+    "description": "Sie können den Status Ihrer Einkäufe im Verlauf überprüfen.",
+    "button": "Meine Bestellungen ansehen"
+  },
+  "order_card": {
+    "title": "Bestellung #{id}",
+    "waiting": "Wartend",
+    "unknown_product": "Unbekanntes Produkt",
+    "total_order": "Bestellsumme",
+    "pay": "Bezahlen",
+    "processing": "Verarbeitung...",
+    "error_paying": "Ein Fehler ist bei der Zahlung aufgetreten."
+  },
+  "summary": {
+    "title": "Zusammenfassung",
+    "waiting_count": "Zu zahlende Bestellungen",
+    "paid_count": "Bereits bezahlte Bestellungen",
+    "grand_total": "Gesamtsumme",
+    "quote": "\"Eine bezahlte Schuld ist eine beruhigte Seele.\""
+  },
+  "gold": {
+    "buy": {
+      "title": "K?nigliche Schatzkammer",
+      "subtitle": "Erwerben Sie Gold, um exklusive Gegenst?nde oder Grundst?cke im K?nigreich zu kaufen.",
+      "current_total": "Ihr aktueller Schatz",
+      "currency": "Gold",
+      "processing": "Transaktion l?uft...",
+      "buy_pack": "Dieses Paket kaufen",
+      "custom_title": "Individueller Betrag",
+      "custom_description": "W?hlen Sie genau die Goldmenge zwischen 100 und 100.000.",
+      "custom_label": "Goldmenge",
+      "estimated_price": "Gesch?tzter Preis",
+      "buy_custom": "Diesen Betrag kaufen",
+      "login_required_title": "Anmeldung erforderlich",
+      "login_required_description": "Sie m?ssen angemeldet sein, um Gold zu erwerben. Treten Sie dem Abenteuer bei!",
+      "cancel": "Abbrechen",
+      "packages": {
+        "peasant": {
+          "name": "Bauernbeutel",
+          "description": "Ein kleiner Beutel, um Ihr Abenteuer gut zu beginnen."
+        },
+        "merchant": {
+          "name": "H?ndlertruhe",
+          "description": "Eine gut gef?llte Truhe f?r erfahrene Reisende."
+        },
+        "king": {
+          "name": "Schatz des K?nigs",
+          "description": "Der Reichtum, der f?r gro?e territoriale Ambitionen n?tig ist."
+        }
+      },
+      "errors": {
+        "session_creation": "Beim Erstellen der Zahlungssitzung ist ein Fehler aufgetreten.",
+        "integer_required": "Bitte geben Sie eine ganze Zahl ein.",
+        "out_of_range": "Der Betrag muss zwischen 100 und 100.000 Gold liegen."
+      }
     },
-    "order_card": {
-        "title": "Bestellung #{id}",
-        "waiting": "Wartend",
-        "unknown_product": "Unbekanntes Produkt",
-        "total_order": "Bestellsumme",
-        "pay": "Bezahlen",
-        "processing": "Verarbeitung...",
-        "error_paying": "Ein Fehler ist bei der Zahlung aufgetreten."
+    "success": {
+      "loading": "Die Ankunft Ihres Goldkonvois wird gepr?ft...",
+      "title": "Kauf erfolgreich!",
+      "description": "Ihr Gold wurde sicher Ihrem Beutel hinzugef?gt. Das K?nigreich dankt Ihnen.",
+      "total_label": "Neuer Gesamtschatz",
+      "back_to_offers": "Zur?ck zu den Angeboten",
+      "back_to_map": "Zur?ck zur Karte",
+      "error_title": "Konvoi abgefangen",
+      "retry": "Erneut versuchen",
+      "errors": {
+        "missing_session": "Sitzungs-ID fehlt.",
+        "validation_failed": "Die Zahlung konnte nicht best?tigt werden oder Ihre M?nzen konnten nicht gutgeschrieben werden.",
+        "network": "Fehler bei der Kommunikation mit dem H?ndlerservice."
+      }
     },
-    "summary": {
-        "title": "Zusammenfassung",
-        "waiting_count": "Zu zahlende Bestellungen",
-        "paid_count": "Bereits bezahlte Bestellungen",
-        "grand_total": "Gesamtsumme",
-        "quote": "\"Eine bezahlte Schuld ist eine beruhigte Seele.\""
+    "cancel": {
+      "title": "Handel abgebrochen",
+      "description": "Sie sind umgekehrt. Es wurde kein Verm?gen abgebucht und Ihr Beutel bleibt unver?ndert.",
+      "back_to_offers": "Angebote erneut ansehen",
+      "back_to_map": "Zur Karte zur?ckkehren"
     }
+  }
 }

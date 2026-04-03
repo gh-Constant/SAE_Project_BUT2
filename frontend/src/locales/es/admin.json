@@ -1,508 +1,557 @@
 {
-    "dashboard": {
-        "users": {
-            "title": "Usuarios",
-            "subtitle": "usuarios activos",
-            "action": "Ver todos los usuarios"
-        },
-        "locations": {
-            "title": "Ubicaciones",
-            "subtitle": "ubicaciones activas",
-            "action": "Gestionar ubicaciones"
-        },
-        "system": {
-            "title": "Sistema",
-            "status": "Activo",
-            "subtitle": "estadísticas del sistema",
-            "action": "Ver estadísticas"
-        },
-        "stats": {
-            "users": "Usuarios",
-            "paying_users": "Clientes (Pago)",
-            "revenue": "Ingresos"
-        },
-        "charts": {
-            "users_growth": "Crecimiento de Usuarios (últimos 6 meses)",
-            "revenue_trend": "Tendencia de Ingresos (últimos 6 meses)"
-        },
-        "quizzes": {
-            "title": "Quiz",
-            "subtitle": "MCQ y Evaluaciones"
-        },
-        "festival": {
-            "title": "Festival del",
-            "to": "al",
-            "from_label": "Del",
-            "to_label": "Al",
-            "edit": "Editar fechas",
-            "validate": "Validar"
-        },
-        "categories": {
-            "quests": {
-                "title": "Misiones",
-                "subtitle": "Gestión y Estadísticas",
-                "manage": "Gestionar Misiones",
-                "stats": "Estadísticas"
-            },
-            "shop": {
-                "title": "Tienda",
-                "subtitle": "Productos y Ventas",
-                "manage": "Gestionar Tienda",
-                "stats": "Estadísticas"
-            },
-            "users": {
-                "title": "Usuarios",
-                "subtitle": "Cuentas y Actividad",
-                "manage": "Gestionar Usuarios",
-                "stats": "Estadísticas"
-            },
-            "events": {
-                "title": "Eventos y Reservas",
-                "subtitle": "Gestión y Planificación",
-                "manage": "Gestionar Eventos",
-                "stats": "Estadísticas"
-            },
-            "reservations": {
-                "title": "Reservas",
-                "subtitle": "Estadísticas",
-                "manage": "Gestionar Reservas",
-                "stats": "Estadísticas"
-            },
-            "locations": {
-                "title": "Ubicaciones",
-                "subtitle": "Puntos de interés",
-                "manage": "Gestionar Ubicaciones",
-                "stats": "Estadísticas"
-            },
-            "soon": "Pronto"
-        }
+  "dashboard": {
+    "users": {
+      "title": "Usuarios",
+      "subtitle": "usuarios activos",
+      "action": "Ver todos los usuarios"
     },
-    "quick_actions": {
-        "title": "Acciones Rápidas",
-        "create_user": "Crear usuario",
-        "add_location": "Añadir ubicación",
-        "manage_roles": "Gestionar roles",
-        "view_logs": "Ver registros",
-        "manage_products": "Gestionar artículos",
-        "quests_section": "Gestión de Misiones",
-        "manage_quests": "Gestionar Misiones",
-        "manage_quests_desc": "Crear, editar y eliminar misiones",
-        "quest_stats": "Estadísticas de Misiones",
-        "quest_stats_desc": "Ver estadísticas y clasificación",
-        "quizzes_section": "Gestión de Quiz",
-        "manage_quizzes": "Gestionar Quiz",
-        "manage_quizzes_desc": "Crear, editar y eliminar quiz",
-        "quiz_stats": "Estadísticas de Quiz",
-        "quiz_stats_desc": "Ver estadísticas y clasificación"
-    },
-    "recent_activity": {
-        "title": "Actividad Reciente",
-        "user_created": {
-            "title": "Nuevo usuario creado",
-            "status": "Confirmado",
-            "description": "Usuario \"{name}\" añadido al sistema"
-        },
-        "location_added": {
-            "title": "Nueva ubicación añadida",
-            "status": "Éxito",
-            "description": "Ubicación \"{name}\" añadida"
-        },
-        "time": {
-            "hour_ago": "Hace 1 hora",
-            "yesterday": "Ayer"
-        }
-    },
-    "products": {
-        "title": "Gestión de Productos",
-        "subtitle": "Resumen y gestión de todos los productos del sistema",
-        "search": {
-            "label": "Buscar producto",
-            "placeholder": "Buscar por nombre o descripción...",
-            "clear": "Borrar búsqueda"
-        },
-        "sort": {
-            "label": "Ordenar por",
-            "name_asc": "Nombre (A-Z)",
-            "name_desc": "Nombre (Z-A)",
-            "price_asc": "Precio (Ascendente)",
-            "price_desc": "Precio (Descendente)",
-            "stock_desc": "Stock (Alto)",
-            "stock_asc": "Stock (Bajo)"
-        },
-        "filter": {
-            "price": "Precio (Oro)",
-            "min": "Mín",
-            "max": "Max",
-            "availability": "Disponibilidad",
-            "all": "Todos los productos",
-            "in_stock": "En stock",
-            "out_of_stock": "Agotado",
-            "reset": "Restablecer filtros",
-            "price_error": "El precio mínimo no puede ser mayor que el máximo."
-        },
-        "table": {
-            "headers": {
-                "image": "Imagen",
-                "name": "Nombre",
-                "description": "Descripción",
-                "price": "Precio",
-                "stock": "Stock",
-                "location": "Ubicación",
-                "owner": "Pertenencia",
-                "actions": "Acciones"
-            },
-            "empty": {
-                "title": "No hay productos registrados",
-                "subtitle": "Añade tu primer producto para empezar a gestionar"
-            },
-            "actions": {
-                "edit": "Editar",
-                "delete": "Descartar",
-                "save": "Sellar",
-                "cancel": "Cancelar"
-            },
-            "stock": {
-                "sold_out": "Agotado"
-            }
-        }
+    "locations": {
+      "title": "Ubicaciones",
+      "subtitle": "ubicaciones activas",
+      "action": "Gestionar ubicaciones"
     },
     "system": {
-        "creator": "Sistema",
-        "unknown": "Desconocido"
+      "title": "Sistema",
+      "status": "Activo",
+      "subtitle": "estadísticas del sistema",
+      "action": "Ver estadísticas"
     },
-    "quests": {
-        "title": "Gestión de Misiones",
-        "subtitle": "Visión general y gestión de todas las misiones del sistema",
-        "view_stats": "Estadísticas",
-        "search": {
-            "label": "Buscar misión",
-            "placeholder": "Buscar por título o descripción..."
-        },
-        "filter": {
-            "location": "Filtrar por ubicación",
-            "all_locations": "Todas las ubicaciones",
-            "only_with_quests": "Mostrar solo ubicaciones con misiones"
-        },
-        "stats": {
-            "locations": "ubicaciones",
-            "quests": "misiones"
-        },
-        "view_more": "Ver {remaining} ubicación(es) más",
-        "location": {
-            "quest_count": "{n} misión | {n} misiones",
-            "create_quest": "Crear Misión"
-        },
-        "add_form": {
-            "title": "Escribir una nueva misión",
-            "quest_title_label": "Título de la misión",
-            "quest_title_placeholder": "Ej: Entregar un paquete en el castillo",
-            "reward_label": "Recompensa (XP)",
-            "description_label": "Descripción detallada",
-            "description_placeholder": "Describa los objetivos de la misión...",
-            "cancel": "Cancelar",
-            "submit": "Publicar Misión",
-            "submitting": "Publicando..."
-        },
-        "table": {
-            "headers": {
-                "title": "Título",
-                "description": "Descripción",
-                "reward": "Recompensa",
-                "actions": "Acciones"
-            },
-            "empty": {
-                "title": "No hay misiones registradas",
-                "subtitle": "Cree su primera misión para esta ubicación"
-            },
-            "actions": {
-                "edit": "Editar",
-                "delete": "Eliminar",
-                "save": "Guardar",
-                "cancel": "Cancelar"
-            }
-        },
-        "no_results": {
-            "title": "No se encontraron resultados",
-            "subtitle": "Intente modificar sus filtros de búsqueda",
-            "reset": "Restablecer filtros"
-        }
+    "stats": {
+      "users": "Usuarios",
+      "paying_users": "Clientes (Pago)",
+      "revenue": "Ingresos"
     },
-    "quest_stats": {
-        "title": "Estadísticas de Misiones",
-        "subtitle": "Panel de análisis de misiones y rendimiento",
-        "hero": {
-            "total_quests": "Misiones Totales",
-            "across_locations": "En {count} ubicaciones",
-            "total_xp": "XP Disponible",
-            "avg_reward": "Recompensa media",
-            "xp_range": "Rango XP",
-            "xp_range_label": "Mín - Máx recompensas"
-        },
-        "secondary": {
-            "locations": "Ubicaciones",
-            "avg_xp": "XP Medio",
-            "min_xp": "XP Mín",
-            "max_xp": "XP Máx"
-        },
-        "popular": {
-            "title": "Mejores Misiones",
-            "empty": "No hay misiones todavía"
-        },
-        "locations": {
-            "title": "Distribución por Ubicación",
-            "quests": "misiones",
-            "empty": "No hay datos disponibles"
-        },
-        "xp_distribution": {
-            "title": "Distribución de Recompensas XP"
-        },
-        "detailed": {
-            "title": "Estadísticas Detalladas",
-            "manage_link": "Gestionar misiones",
-            "location": "Ubicación",
-            "quests": "Misiones",
-            "total_xp": "Total XP",
-            "avg_xp": "Medio XP",
-            "distribution": "Distribución"
-        },
-        "leaderboard": {
-            "title": "Clasificación de Aventureros",
-            "level": "Nivel",
-            "completed": "Completadas",
-            "in_progress": "en curso",
-            "empty": "No hay participantes todavía"
-        }
+    "charts": {
+      "users_growth": "Crecimiento de Usuarios (últimos 6 meses)",
+      "revenue_trend": "Tendencia de Ingresos (últimos 6 meses)"
     },
     "quizzes": {
-        "title": "Gestión de Quiz",
-        "subtitle": "Visión general y gestión de todos los quiz del reino",
-        "view_stats": "Estadísticas",
-        "search": {
-            "label": "Buscar quiz",
-            "placeholder": "Buscar por título o descripción..."
-        },
-        "filter": {
-            "creator": "Filtrar por creador",
-            "all_creators": "Todos los creadores",
-            "location": "Filtrar por ubicación",
-            "all_locations": "Todas las ubicaciones"
-        },
-        "stats": {
-            "active": "quiz activos",
-            "total": "quiz totales"
-        },
-        "table": {
-            "headers": {
-                "title": "Título",
-                "location": "Ubicación",
-                "creator": "Creador",
-                "questions": "Preguntas",
-                "status": "Estado",
-                "actions": "Acciones"
-            },
-            "empty": {
-                "title": "No hay quiz registrados",
-                "subtitle": "Cree su primer quiz para empezar a gestionar"
-            },
-            "actions": {
-                "edit": "Editar",
-                "delete": "Eliminar",
-                "test": "Probar"
-            },
-            "unknown_location": "Ubicación desconocida",
-            "system_creator": "Sistema",
-            "delete_confirm": "¿Estás seguro de que quieres eliminar el quiz \"{title}\"? Esta acción no se puede deshacer.",
-            "delete_error": "Error al eliminar el quiz"
-        }
+      "title": "Quiz",
+      "subtitle": "MCQ y Evaluaciones"
     },
-    "quiz_stats": {
-        "title": "Estadísticas de Quiz",
-        "subtitle": "Panel de análisis de quiz y rendimiento",
-        "cards": {
-            "total_quizzes": "Quiz Totales",
-            "total_attempts": "Intentos Totales",
-            "avg_score": "Puntuación Media",
-            "locations": "ubicaciones implicadas",
-            "avg_attempts": "de media por quiz",
-            "total_questions": "preguntas totales"
-        },
-        "charts": {
-            "popular": "Quiz Más Populares",
-            "locations": "Distribución por Ubicación",
-            "creators": "Mejores Creadores",
-            "adventurers": "Mejores Aventureros",
-            "details": "Detalles por Quiz",
-            "empty": {
-                "quizzes": "No hay quiz disponibles",
-                "locations": "No hay ubicaciones con quiz",
-                "creators": "No hay creadores",
-                "adventurers": "No hay aventureros"
-            }
-        },
-        "secondary": {
-            "creators": "Creadores",
-            "questions_per_quiz": "Preguntas / Quiz"
-        },
-        "detailed": {
-            "manage_link": "Gestionar Quiz",
-            "headers": {
-                "quiz": "Quiz",
-                "creator": "Creador",
-                "questions": "Preguntas",
-                "participants": "Participantes",
-                "attempts": "Intentos",
-                "avg_score": "Puntuación Media"
-            }
-        },
-        "empty": "No hay datos disponibles"
+    "festival": {
+      "title": "Festival del",
+      "to": "al",
+      "from_label": "Del",
+      "to_label": "Al",
+      "edit": "Editar fechas",
+      "validate": "Validar"
     },
-    "location_stats": {
-        "title": "Estadísticas de Ubicaciones",
-        "subtitle": "Vista analítica de ubicaciones, actividad y propiedad",
-        "cards": {
-            "total_locations": "Ubicaciones totales",
-            "story_locations": "ubicaciones narrativas",
-            "purchased": "Ubicaciones ocupadas",
-            "active_providers": "proveedores activos",
-            "average_price": "Precio medio",
-            "potential_revenue": "Ingresos potenciales"
-        },
-        "secondary": {
-            "available": "Disponibles",
-            "buyable": "Comprables",
-            "total_activity": "Actividad total",
-            "top_locations": "Top ubicaciones"
-        },
-        "charts": {
-            "by_type": "Distribución por tipo",
-            "ownership": "Distribución de propiedad",
-            "price_distribution": "Distribución de precios"
-        },
-        "top": {
-            "title": "Ubicaciones más activas"
-        },
-        "table": {
-            "title": "Detalles por ubicación",
-            "manage_link": "Gestionar ubicaciones",
-            "location": "Ubicación",
-            "type": "Tipo",
-            "owner": "Propietario",
-            "price": "Precio",
-            "activity": "Actividad"
-        },
-        "empty": "No hay datos disponibles"
-    },
-    "reservation_stats": {
-        "title": "Estadísticas de Reservas",
-        "subtitle": "Análisis de reservas e ingresos",
-        "total_reservations": "Número de Reservas",
-        "revenue": "Ingresos",
-        "average_basket": "Cesta media",
-        "status_distribution": "Distribución de estados",
-        "revenue_by_location": "Ingresos por ubicación",
-        "details_by_location": "Detalles por ubicación",
-        "location": "Ubicación",
-        "reservations": "Reservas",
-        "table_revenue": "Ingresos",
-        "events_title": "Resumen de Eventos",
-        "total_events": "Total Eventos",
-        "active_events": "Eventos Activos",
-        "sold_tickets": "Entradas Vendidas",
-        "attendance_rate": "Tasa de Asistencia",
-        "top_events": "Mejores Eventos",
-        "occupancy": "Ocupación",
-        "revenue": "Ingresos"
-    },
-    "events": {
-        "title": "Gestión de Eventos",
-        "subtitle": "Descripción general y gestión de eventos del reino",
-        "search": {
-            "label": "Buscar evento",
-            "placeholder": "Buscar por título o descripción...",
-            "clear": "Borrar búsqueda"
-        },
-        "filter": {
-            "location": "Filtrar por ubicación",
-            "all_locations": "Todas las ubicaciones",
-            "reset": "Restablecer"
-        },
-        "sort": {
-            "date_asc": "Fecha (Ascendente)",
-            "date_desc": "Fecha (Descendente)"
-        },
-        "table": {
-            "headers": {
-                "image": "Imagen",
-                "title": "Título",
-                "start_date": "Fecha de inicio",
-                "end_date": "Fecha de fin",
-                "organizer": "Organizador",
-                "location": "Ubicación",
-                "price": "Precio",
-                "capacity": "Capacidad",
-                "sold": "Vendido",
-                "actions": "Acciones"
-            },
-            "empty": {
-                "title": "No se encontraron eventos",
-                "subtitle": "Intente ajustar sus filtros"
-            },
-            "actions": {
-                "delete": "Eliminar",
-                "cancel": "Cancelar"
-            }
-        }
-    },
-    "shop_stats": {
-        "title": "Estadísticas de la Tienda",
-        "subtitle": "Analice el rendimiento de ventas de su tienda",
-        "cards": {
-            "total_orders": "Pedidos Totales",
-            "active_locations": "ubicaciones activas",
-            "revenue": "Ingresos",
-            "total_revenue": "Ingresos totales",
-            "avg_cart": "Cesta Media",
-            "products_sold": "productos vendidos"
-        },
-        "secondary": {
-            "paid": "Pagados",
-            "collected": "Recogidos",
-            "waiting": "En espera",
-            "sold_items": "Artículos vendidos"
-        },
-        "charts": {
-            "order_status": "Estado de los Pedidos",
-            "sales_by_location": "Ventas por Ubicación",
-            "revenue_distribution": "Distribución de Ingresos"
-        },
-        "top_products": {
-            "title": "Productos Más Vendidos",
-            "empty": "Ningún producto vendido",
-            "sold_suffix": "vendidos"
-        },
-        "location_details": {
-            "title": "Detalles por Ubicación",
-            "location": "Ubicación",
-            "orders": "Pedidos",
-            "products": "Productos",
-            "revenue": "Ingresos"
-        },
-        "inventory": {
-            "title": "Estadísticas de Productos e Inventario",
-            "stock_value": "Valor del Stock",
-            "references": "Referencias",
-            "products_suffix": "productos",
-            "low_stock": "Stock Bajo",
-            "alerts_suffix": "alertas",
-            "detailed_title": "Inventario Detallado",
-            "manage_link": "Gestionar productos",
-            "table": {
-                "product": "Producto",
-                "price": "Precio",
-                "stock": "Stock",
-                "value": "Valor"
-            }
-        },
-        "empty": "No hay datos disponibles"
+    "categories": {
+      "quests": {
+        "title": "Misiones",
+        "subtitle": "Gestión y Estadísticas",
+        "manage": "Gestionar Misiones",
+        "stats": "Estadísticas"
+      },
+      "shop": {
+        "title": "Tienda",
+        "subtitle": "Productos y Ventas",
+        "manage": "Gestionar Tienda",
+        "stats": "Estadísticas"
+      },
+      "users": {
+        "title": "Usuarios",
+        "subtitle": "Cuentas y Actividad",
+        "manage": "Gestionar Usuarios",
+        "stats": "Estadísticas"
+      },
+      "events": {
+        "title": "Eventos y Reservas",
+        "subtitle": "Gestión y Planificación",
+        "manage": "Gestionar Eventos",
+        "stats": "Estadísticas"
+      },
+      "reservations": {
+        "title": "Reservas",
+        "subtitle": "Estadísticas",
+        "manage": "Gestionar Reservas",
+        "stats": "Estadísticas"
+      },
+      "locations": {
+        "title": "Ubicaciones",
+        "subtitle": "Puntos de interés",
+        "manage": "Gestionar Ubicaciones",
+        "stats": "Estadísticas"
+      },
+      "soon": "Pronto"
     }
+  },
+  "quick_actions": {
+    "title": "Acciones Rápidas",
+    "create_user": "Crear usuario",
+    "add_location": "Añadir ubicación",
+    "manage_roles": "Gestionar roles",
+    "view_logs": "Ver registros",
+    "manage_products": "Gestionar artículos",
+    "quests_section": "Gestión de Misiones",
+    "manage_quests": "Gestionar Misiones",
+    "manage_quests_desc": "Crear, editar y eliminar misiones",
+    "quest_stats": "Estadísticas de Misiones",
+    "quest_stats_desc": "Ver estadísticas y clasificación",
+    "quizzes_section": "Gestión de Quiz",
+    "manage_quizzes": "Gestionar Quiz",
+    "manage_quizzes_desc": "Crear, editar y eliminar quiz",
+    "quiz_stats": "Estadísticas de Quiz",
+    "quiz_stats_desc": "Ver estadísticas y clasificación"
+  },
+  "recent_activity": {
+    "title": "Actividad Reciente",
+    "user_created": {
+      "title": "Nuevo usuario creado",
+      "status": "Confirmado",
+      "description": "Usuario \"{name}\" añadido al sistema"
+    },
+    "location_added": {
+      "title": "Nueva ubicación añadida",
+      "status": "Éxito",
+      "description": "Ubicación \"{name}\" añadida"
+    },
+    "time": {
+      "hour_ago": "Hace 1 hora",
+      "yesterday": "Ayer"
+    }
+  },
+  "products": {
+    "title": "Gestión de Productos",
+    "subtitle": "Resumen y gestión de todos los productos del sistema",
+    "search": {
+      "label": "Buscar producto",
+      "placeholder": "Buscar por nombre o descripción...",
+      "clear": "Borrar búsqueda"
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "name_asc": "Nombre (A-Z)",
+      "name_desc": "Nombre (Z-A)",
+      "price_asc": "Precio (Ascendente)",
+      "price_desc": "Precio (Descendente)",
+      "stock_desc": "Stock (Alto)",
+      "stock_asc": "Stock (Bajo)"
+    },
+    "filter": {
+      "price": "Precio (Oro)",
+      "min": "Mín",
+      "max": "Max",
+      "availability": "Disponibilidad",
+      "all": "Todos los productos",
+      "in_stock": "En stock",
+      "out_of_stock": "Agotado",
+      "reset": "Restablecer filtros",
+      "price_error": "El precio mínimo no puede ser mayor que el máximo."
+    },
+    "table": {
+      "headers": {
+        "image": "Imagen",
+        "name": "Nombre",
+        "description": "Descripción",
+        "price": "Precio",
+        "stock": "Stock",
+        "location": "Ubicación",
+        "owner": "Pertenencia",
+        "actions": "Acciones"
+      },
+      "empty": {
+        "title": "No hay productos registrados",
+        "subtitle": "Añade tu primer producto para empezar a gestionar"
+      },
+      "actions": {
+        "edit": "Editar",
+        "delete": "Descartar",
+        "save": "Sellar",
+        "cancel": "Cancelar"
+      },
+      "stock": {
+        "sold_out": "Agotado"
+      }
+    }
+  },
+  "system": {
+    "creator": "Sistema",
+    "unknown": "Desconocido"
+  },
+  "quests": {
+    "title": "Gestión de Misiones",
+    "subtitle": "Visión general y gestión de todas las misiones del sistema",
+    "view_stats": "Estadísticas",
+    "search": {
+      "label": "Buscar misión",
+      "placeholder": "Buscar por título o descripción..."
+    },
+    "filter": {
+      "location": "Filtrar por ubicación",
+      "all_locations": "Todas las ubicaciones",
+      "only_with_quests": "Mostrar solo ubicaciones con misiones"
+    },
+    "stats": {
+      "locations": "ubicaciones",
+      "quests": "misiones"
+    },
+    "view_more": "Ver {remaining} ubicación(es) más",
+    "location": {
+      "quest_count": "{n} misión | {n} misiones",
+      "create_quest": "Crear Misión"
+    },
+    "add_form": {
+      "title": "Escribir una nueva misión",
+      "quest_title_label": "Título de la misión",
+      "quest_title_placeholder": "Ej: Entregar un paquete en el castillo",
+      "reward_label": "Recompensa (XP)",
+      "description_label": "Descripción detallada",
+      "description_placeholder": "Describa los objetivos de la misión...",
+      "cancel": "Cancelar",
+      "submit": "Publicar Misión",
+      "submitting": "Publicando..."
+    },
+    "table": {
+      "headers": {
+        "title": "Título",
+        "description": "Descripción",
+        "reward": "Recompensa",
+        "actions": "Acciones"
+      },
+      "empty": {
+        "title": "No hay misiones registradas",
+        "subtitle": "Cree su primera misión para esta ubicación"
+      },
+      "actions": {
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "save": "Guardar",
+        "cancel": "Cancelar"
+      }
+    },
+    "no_results": {
+      "title": "No se encontraron resultados",
+      "subtitle": "Intente modificar sus filtros de búsqueda",
+      "reset": "Restablecer filtros"
+    }
+  },
+  "quest_stats": {
+    "title": "Estadísticas de Misiones",
+    "subtitle": "Panel de análisis de misiones y rendimiento",
+    "hero": {
+      "total_quests": "Misiones Totales",
+      "across_locations": "En {count} ubicaciones",
+      "total_xp": "XP Disponible",
+      "avg_reward": "Recompensa media",
+      "xp_range": "Rango XP",
+      "xp_range_label": "Mín - Máx recompensas"
+    },
+    "secondary": {
+      "locations": "Ubicaciones",
+      "avg_xp": "XP Medio",
+      "min_xp": "XP Mín",
+      "max_xp": "XP Máx"
+    },
+    "popular": {
+      "title": "Mejores Misiones",
+      "empty": "No hay misiones todavía"
+    },
+    "locations": {
+      "title": "Distribución por Ubicación",
+      "quests": "misiones",
+      "empty": "No hay datos disponibles",
+      "distribution_title": "Distribuci?n por ubicaci?n"
+    },
+    "xp_distribution": {
+      "title": "Distribución de Recompensas XP"
+    },
+    "detailed": {
+      "title": "Estadísticas Detalladas",
+      "manage_link": "Gestionar misiones",
+      "location": "Ubicación",
+      "quests": "Misiones",
+      "total_xp": "Total XP",
+      "avg_xp": "Medio XP",
+      "distribution": "Distribución"
+    },
+    "leaderboard": {
+      "title": "Clasificación de Aventureros",
+      "level": "Nivel",
+      "completed": "Completadas",
+      "in_progress": "en curso",
+      "empty": "No hay participantes todavía"
+    },
+    "outcomes": {
+      "title": "Distribuci?n de estados"
+    }
+  },
+  "quizzes": {
+    "title": "Gestión de Quiz",
+    "subtitle": "Visión general y gestión de todos los quiz del reino",
+    "view_stats": "Estadísticas",
+    "search": {
+      "label": "Buscar quiz",
+      "placeholder": "Buscar por título o descripción..."
+    },
+    "filter": {
+      "creator": "Filtrar por creador",
+      "all_creators": "Todos los creadores",
+      "location": "Filtrar por ubicación",
+      "all_locations": "Todas las ubicaciones"
+    },
+    "stats": {
+      "active": "quiz activos",
+      "total": "quiz totales"
+    },
+    "table": {
+      "headers": {
+        "title": "Título",
+        "location": "Ubicación",
+        "creator": "Creador",
+        "questions": "Preguntas",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "empty": {
+        "title": "No hay quiz registrados",
+        "subtitle": "Cree su primer quiz para empezar a gestionar"
+      },
+      "actions": {
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "test": "Probar"
+      },
+      "unknown_location": "Ubicación desconocida",
+      "system_creator": "Sistema",
+      "delete_confirm": "¿Estás seguro de que quieres eliminar el quiz \"{title}\"? Esta acción no se puede deshacer.",
+      "delete_error": "Error al eliminar el quiz"
+    }
+  },
+  "quiz_stats": {
+    "title": "Estadísticas de Quiz",
+    "subtitle": "Panel de análisis de quiz y rendimiento",
+    "cards": {
+      "total_quizzes": "Quiz Totales",
+      "total_attempts": "Intentos Totales",
+      "avg_score": "Puntuación Media",
+      "locations": "ubicaciones implicadas",
+      "avg_attempts": "de media por quiz",
+      "total_questions": "preguntas totales"
+    },
+    "charts": {
+      "popular": "Quiz Más Populares",
+      "locations": "Distribución por Ubicación",
+      "creators": "Mejores Creadores",
+      "adventurers": "Mejores Aventureros",
+      "details": "Detalles por Quiz",
+      "empty": {
+        "quizzes": "No hay quiz disponibles",
+        "locations": "No hay ubicaciones con quiz",
+        "creators": "No hay creadores",
+        "adventurers": "No hay aventureros"
+      }
+    },
+    "secondary": {
+      "creators": "Creadores",
+      "questions_per_quiz": "Preguntas / Quiz"
+    },
+    "detailed": {
+      "manage_link": "Gestionar Quiz",
+      "headers": {
+        "quiz": "Quiz",
+        "creator": "Creador",
+        "questions": "Preguntas",
+        "participants": "Participantes",
+        "attempts": "Intentos",
+        "avg_score": "Puntuación Media"
+      }
+    },
+    "empty": "No hay datos disponibles"
+  },
+  "location_stats": {
+    "title": "Estadísticas de Ubicaciones",
+    "subtitle": "Vista analítica de ubicaciones, actividad y propiedad",
+    "cards": {
+      "total_locations": "Ubicaciones totales",
+      "story_locations": "ubicaciones narrativas",
+      "purchased": "Ubicaciones ocupadas",
+      "active_providers": "proveedores activos",
+      "average_price": "Precio medio",
+      "potential_revenue": "Ingresos potenciales"
+    },
+    "secondary": {
+      "available": "Disponibles",
+      "buyable": "Comprables",
+      "total_activity": "Actividad total",
+      "top_locations": "Top ubicaciones"
+    },
+    "charts": {
+      "by_type": "Distribución por tipo",
+      "ownership": "Distribución de propiedad",
+      "price_distribution": "Distribución de precios"
+    },
+    "top": {
+      "title": "Ubicaciones más activas"
+    },
+    "table": {
+      "title": "Detalles por ubicación",
+      "manage_link": "Gestionar ubicaciones",
+      "location": "Ubicación",
+      "type": "Tipo",
+      "owner": "Propietario",
+      "price": "Precio",
+      "activity": "Actividad"
+    },
+    "empty": "No hay datos disponibles"
+  },
+  "reservation_stats": {
+    "title": "Estadísticas de Reservas",
+    "subtitle": "Análisis de reservas e ingresos",
+    "total_reservations": "Número de Reservas",
+    "revenue": "Ingresos",
+    "average_basket": "Cesta media",
+    "status_distribution": "Distribución de estados",
+    "revenue_by_location": "Ingresos por ubicación",
+    "details_by_location": "Detalles por ubicación",
+    "location": "Ubicación",
+    "reservations": "Reservas",
+    "table_revenue": "Ingresos",
+    "events_title": "Resumen de Eventos",
+    "total_events": "Total Eventos",
+    "active_events": "Eventos Activos",
+    "sold_tickets": "Entradas Vendidas",
+    "attendance_rate": "Tasa de Asistencia",
+    "top_events": "Mejores Eventos",
+    "occupancy": "Ocupación"
+  },
+  "events": {
+    "title": "Gestión de Eventos",
+    "subtitle": "Descripción general y gestión de eventos del reino",
+    "search": {
+      "label": "Buscar evento",
+      "placeholder": "Buscar por título o descripción...",
+      "clear": "Borrar búsqueda"
+    },
+    "filter": {
+      "location": "Filtrar por ubicación",
+      "all_locations": "Todas las ubicaciones",
+      "reset": "Restablecer"
+    },
+    "sort": {
+      "date_asc": "Fecha (Ascendente)",
+      "date_desc": "Fecha (Descendente)"
+    },
+    "table": {
+      "headers": {
+        "image": "Imagen",
+        "title": "Título",
+        "start_date": "Fecha de inicio",
+        "end_date": "Fecha de fin",
+        "organizer": "Organizador",
+        "location": "Ubicación",
+        "price": "Precio",
+        "capacity": "Capacidad",
+        "sold": "Vendido",
+        "actions": "Acciones"
+      },
+      "empty": {
+        "title": "No se encontraron eventos",
+        "subtitle": "Intente ajustar sus filtros"
+      },
+      "actions": {
+        "delete": "Eliminar",
+        "cancel": "Cancelar"
+      }
+    }
+  },
+  "shop_stats": {
+    "title": "Estadísticas de la Tienda",
+    "subtitle": "Analice el rendimiento de ventas de su tienda",
+    "cards": {
+      "total_orders": "Pedidos Totales",
+      "active_locations": "ubicaciones activas",
+      "revenue": "Ingresos",
+      "total_revenue": "Ingresos totales",
+      "avg_cart": "Cesta Media",
+      "products_sold": "productos vendidos"
+    },
+    "secondary": {
+      "paid": "Pagados",
+      "collected": "Recogidos",
+      "waiting": "En espera",
+      "sold_items": "Artículos vendidos"
+    },
+    "charts": {
+      "order_status": "Estado de los Pedidos",
+      "sales_by_location": "Ventas por Ubicación",
+      "revenue_distribution": "Distribución de Ingresos"
+    },
+    "top_products": {
+      "title": "Productos Más Vendidos",
+      "empty": "Ningún producto vendido",
+      "sold_suffix": "vendidos"
+    },
+    "location_details": {
+      "title": "Detalles por Ubicación",
+      "location": "Ubicación",
+      "orders": "Pedidos",
+      "products": "Productos",
+      "revenue": "Ingresos"
+    },
+    "inventory": {
+      "title": "Estadísticas de Productos e Inventario",
+      "stock_value": "Valor del Stock",
+      "references": "Referencias",
+      "products_suffix": "productos",
+      "low_stock": "Stock Bajo",
+      "alerts_suffix": "alertas",
+      "detailed_title": "Inventario Detallado",
+      "manage_link": "Gestionar productos",
+      "table": {
+        "product": "Producto",
+        "price": "Precio",
+        "stock": "Stock",
+        "value": "Valor"
+      }
+    },
+    "empty": "No hay datos disponibles"
+  },
+  "user_stats": {
+    "title": "Estad?sticas de usuarios",
+    "subtitle": "An?lisis de perfiles, actividad y progresi?n",
+    "cards": {
+      "total_users": "Usuarios totales",
+      "new_this_month": "nuevos este mes",
+      "paying_users": "Usuarios compradores",
+      "orders": "pedidos",
+      "avg_level": "Nivel medio"
+    },
+    "secondary": {
+      "verified": "Verificados",
+      "active": "Activos",
+      "total_gold": "Oro total",
+      "top_users": "Top usuarios"
+    },
+    "charts": {
+      "roles": "Distribuci?n de roles",
+      "verification": "Verificaci?n de cuentas",
+      "level_distribution": "Distribuci?n de niveles"
+    },
+    "top": {
+      "title": "Usuarios m?s activos"
+    },
+    "table": {
+      "title": "Detalle por usuario",
+      "manage_link": "Gestionar usuarios",
+      "user": "Usuario",
+      "role": "Rol",
+      "level_xp": "Nivel / XP",
+      "engagement": "Actividad",
+      "value": "Valor"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "prestataire": "Prestador",
+      "aventurier": "Aventurero"
+    },
+    "labels": {
+      "verified": "Verificado",
+      "unverified": "No verificado",
+      "completed_quests": "misiones completadas",
+      "spent": "gastados"
+    },
+    "empty": "No hay datos disponibles"
+  }
 }

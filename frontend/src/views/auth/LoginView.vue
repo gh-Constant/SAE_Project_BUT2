@@ -129,7 +129,7 @@
         <div class="mt-6">
           <div class="flex items-center gap-3 text-sm text-stone-grey">
             <div class="h-px flex-1 bg-antique-bronze/20"></div>
-            <span>ou continuer avec</span>
+            <span>{{ t('auth.oauth.login_separator') }}</span>
             <div class="h-px flex-1 bg-antique-bronze/20"></div>
           </div>
 
@@ -139,14 +139,14 @@
               class="w-full rounded-lg border border-antique-bronze/20 bg-white px-4 py-3 font-semibold text-iron-black transition hover:border-antique-bronze hover:bg-antique-bronze/5"
               @click="startOAuth('google')"
             >
-              <i class="fab fa-google mr-2"></i>Continuer avec Google
+              <i class="fab fa-google mr-2"></i>{{ t('auth.oauth.continue_with_google') }}
             </button>
             <button
               type="button"
               class="w-full rounded-lg border border-antique-bronze/20 bg-white px-4 py-3 font-semibold text-iron-black transition hover:border-antique-bronze hover:bg-antique-bronze/5"
               @click="startOAuth('discord')"
             >
-              <i class="fab fa-discord mr-2"></i>Continuer avec Discord
+              <i class="fab fa-discord mr-2"></i>{{ t('auth.oauth.continue_with_discord') }}
             </button>
           </div>
         </div>

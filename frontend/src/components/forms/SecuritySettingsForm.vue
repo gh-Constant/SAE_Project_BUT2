@@ -1,11 +1,11 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <div>
       <h2 class="text-2xl font-bold text-gray-900 mb-2 pb-2 border-b border-orange-500">
         {{ t('profile.security.title') }}
       </h2>
       <p class="text-sm text-stone-grey">
-        Gérez vos connexions externes et votre mot de passe depuis un seul écran.
+        {{ t('profile.security_settings.subtitle') }}
       </p>
     </div>
 
@@ -18,9 +18,9 @@
 
     <section class="space-y-4">
       <div>
-        <h3 class="text-lg font-semibold text-iron-black">Connexions externes</h3>
+        <h3 class="text-lg font-semibold text-iron-black">{{ t('profile.security_settings.providers.title') }}</h3>
         <p class="text-sm text-stone-grey">
-          Liez Google ou Discord pour vous connecter sans mot de passe.
+          {{ t('profile.security_settings.providers.description') }}
         </p>
       </div>
 
@@ -41,7 +41,7 @@
               class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
               :class="isLinked(provider.id) ? 'bg-green-100 text-green-700' : 'bg-stone-100 text-stone-grey'"
             >
-              {{ isLinked(provider.id) ? 'Connecté' : 'Non connecté' }}
+              {{ isLinked(provider.id) ? t('profile.security_settings.providers.connected') : t('profile.security_settings.providers.disconnected') }}
             </span>
           </div>
 
@@ -57,7 +57,7 @@
               :disabled="loadingProvider === provider.id"
               @click="linkProvider(provider.id)"
             >
-              {{ loadingProvider === provider.id ? 'Connexion...' : `Connecter ${provider.label}` }}
+              {{ loadingProvider === provider.id ? t('profile.security_settings.providers.connecting') : t('profile.security_settings.providers.connect_action', { provider: provider.label }) }}
             </button>
 
             <button
@@ -67,7 +67,7 @@
               :disabled="loadingProvider === provider.id"
               @click="unlinkProvider(provider.id)"
             >
-              {{ loadingProvider === provider.id ? 'Suppression...' : `Retirer ${provider.label}` }}
+              {{ loadingProvider === provider.id ? t('profile.security_settings.providers.removing') : t('profile.security_settings.providers.remove_action', { provider: provider.label }) }}
             </button>
           </div>
         </article>
@@ -77,18 +77,16 @@
     <section class="space-y-4">
       <div>
         <h3 class="text-lg font-semibold text-iron-black">
-          {{ security?.hasPassword ? 'Mot de passe' : 'Ajouter un mot de passe' }}
+          {{ security?.hasPassword ? t('profile.security_settings.password.title_existing') : t('profile.security_settings.password.title_missing') }}
         </h3>
         <p class="text-sm text-stone-grey">
-          {{ security?.hasPassword
-            ? 'Modifiez votre mot de passe actuel.'
-            : 'Ajoutez un mot de passe local pour conserver une connexion de secours.' }}
+          {{ security?.hasPassword ? t('profile.security_settings.password.description_existing') : t('profile.security_settings.password.description_missing') }}
         </p>
       </div>
 
       <div v-if="!security?.hasPassword" class="rounded-xl border border-antique-bronze/20 bg-white p-5 shadow-sm">
         <p class="text-sm text-stone-grey">
-          Pour ajouter un mot de passe à un compte connecté via OAuth, une vérification par email est obligatoire.
+          {{ t('profile.security_settings.password.oauth_notice') }}
         </p>
         <div class="mt-4 flex justify-end">
           <button
@@ -97,7 +95,7 @@
             class="px-6 py-2 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             @click="requestPasswordSetupEmail"
           >
-            {{ isSendingSetupEmail ? 'Envoi...' : 'Envoyer l’email de vérification' }}
+            {{ isSendingSetupEmail ? t('profile.security_settings.password.sending_email') : t('profile.security_settings.password.send_email') }}
           </button>
         </div>
       </div>
@@ -152,7 +150,7 @@
             :disabled="isSavingPassword || passwordMismatch || newPassword.length < 6"
             class="px-6 py-2 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ isSavingPassword ? 'Enregistrement...' : t('profile.security.changePassword') }}
+            {{ isSavingPassword ? t('profile.messages.loading') : t('profile.security.changePassword') }}
           </button>
         </div>
       </form>
@@ -160,16 +158,16 @@
 
     <section class="space-y-4 border-t border-red-100 pt-8">
       <div>
-        <h3 class="text-lg font-semibold text-red-700">Suppression du compte</h3>
+        <h3 class="text-lg font-semibold text-red-700">{{ t('profile.security_settings.delete_account.title') }}</h3>
         <p class="text-sm text-stone-grey">
-          Cette action supprime définitivement votre compte et ses liaisons OAuth.
+          {{ t('profile.security_settings.delete_account.description') }}
         </p>
       </div>
 
       <div class="rounded-xl border border-red-200 bg-red-50/60 p-5">
         <div v-if="security?.hasPassword" class="mb-4">
           <label for="deletePassword" class="block text-sm font-medium text-gray-700 mb-1">
-            Mot de passe actuel
+            {{ t('profile.security_settings.delete_account.current_password') }}
           </label>
           <input
             id="deletePassword"
@@ -181,7 +179,7 @@
 
         <div class="mb-4">
           <label for="deleteConfirmText" class="block text-sm font-medium text-gray-700 mb-1">
-            Tapez <span class="font-semibold">SUPPRIMER</span> pour confirmer
+            {{ t('profile.security_settings.delete_account.confirm_instruction') }} <span class="font-semibold">{{ t('profile.security_settings.delete_account.confirm_keyword') }}</span> {{ t('profile.security_settings.delete_account.confirm_suffix') }}
           </label>
           <input
             id="deleteConfirmText"
@@ -194,11 +192,11 @@
         <div class="flex justify-end">
           <button
             type="button"
-            :disabled="isDeletingAccount || deleteConfirmText !== 'SUPPRIMER'"
+            :disabled="isDeletingAccount || deleteConfirmText !== t('profile.security_settings.delete_account.confirm_keyword')"
             class="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             @click="deleteAccount"
           >
-            {{ isDeletingAccount ? 'Suppression...' : 'Supprimer mon compte' }}
+            {{ isDeletingAccount ? t('profile.security_settings.delete_account.deleting') : t('profile.security_settings.delete_account.action') }}
           </button>
         </div>
       </div>
@@ -262,9 +260,9 @@ const getLinkedEmail = (provider: OAuthProvider) => {
 
 const getProviderDescription = (provider: OAuthProvider) => {
   if (isLinked(provider)) {
-    return 'Ce fournisseur est déjà lié à votre compte.'
+    return t('profile.security_settings.providers.linked_description')
   }
-  return 'Ajoutez cette connexion pour simplifier vos prochaines authentifications.'
+  return t('profile.security_settings.providers.available_description')
 }
 
 const loadSecurity = async () => {
@@ -289,7 +287,7 @@ const submitPassword = async () => {
     confirmPassword.value = ''
     await loadSecurity()
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Impossible de mettre à jour le mot de passe'
+    errorMessage.value = error instanceof Error ? error.message : t('profile.security_settings.password.errors.update')
   } finally {
     isSavingPassword.value = false
   }
@@ -303,7 +301,7 @@ const requestPasswordSetupEmail = async () => {
   try {
     successMessage.value = await (authService as any).requestPasswordSetupEmail()
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Impossible d’envoyer l’email de vérification'
+    errorMessage.value = error instanceof Error ? error.message : t('profile.security_settings.password.errors.send_email')
   } finally {
     isSendingSetupEmail.value = false
   }
@@ -318,7 +316,7 @@ const linkProvider = async (provider: OAuthProvider) => {
     const redirectUrl = await (authService as any).prepareOAuthLink(provider)
     window.location.href = redirectUrl
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Impossible de lancer la connexion externe'
+    errorMessage.value = error instanceof Error ? error.message : t('profile.security_settings.providers.errors.start_link')
     loadingProvider.value = null
   }
 }
@@ -330,9 +328,9 @@ const unlinkProvider = async (provider: OAuthProvider) => {
 
   try {
     security.value = await (authService as any).unlinkOAuthProvider(provider)
-    successMessage.value = `${provider === 'google' ? 'Google' : 'Discord'} a été retiré de votre compte.`
+    successMessage.value = t('profile.security_settings.providers.unlinked_success', { provider: provider === 'google' ? 'Google' : 'Discord' })
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Impossible de retirer cette connexion'
+    errorMessage.value = error instanceof Error ? error.message : t('profile.security_settings.providers.errors.unlink')
   } finally {
     loadingProvider.value = null
   }
@@ -347,7 +345,7 @@ const deleteAccount = async () => {
     await authStore.deleteMyAccount(security.value?.hasPassword ? deletePassword.value : undefined)
     await router.replace('/login')
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Impossible de supprimer le compte'
+    errorMessage.value = error instanceof Error ? error.message : t('profile.security_settings.delete_account.errors.delete')
   } finally {
     isDeletingAccount.value = false
   }
@@ -355,7 +353,9 @@ const deleteAccount = async () => {
 
 onMounted(async () => {
   if (route.query.oauth === 'linked' && typeof route.query.provider === 'string') {
-    successMessage.value = `${route.query.provider === 'google' ? 'Google' : 'Discord'} a bien été lié à votre compte.`
+    successMessage.value = t('profile.security_settings.providers.linked_success', {
+      provider: route.query.provider === 'google' ? 'Google' : 'Discord'
+    })
   }
 
   if (route.query.error && typeof route.query.error === 'string') {

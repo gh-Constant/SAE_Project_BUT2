@@ -105,6 +105,9 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
+    "express-rate-limit": "^8.3.2",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "mysql2": "^3.15.0",
@@ -112,6 +115,7 @@
     "stripe": "^20.3.1"
   },
   "devDependencies": {
+    "@types/hpp": "^0.2.7",
     "@types/multer": "^2.0.0"
   }
 }

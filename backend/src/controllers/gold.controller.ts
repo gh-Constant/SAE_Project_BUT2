@@ -5,7 +5,13 @@ import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
 const prisma = new PrismaClient();
 const stripeParams = { apiVersion: "2024-12-18.acacia" as any };
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', stripeParams);
+// on récupère la clé Stripe depuis le .env, plus de clé par défaut en dur
+// si la variable manque, le serveur plante au démarrage plutôt que de fonctionner avec une fausse clé
+const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
+if (!STRIPE_KEY) {
+  console.warn('⚠️ STRIPE_SECRET_KEY non défini — les paiements ne fonctionneront pas');
+}
+const stripe = new Stripe(STRIPE_KEY || '', stripeParams);
 const GOLD_PACKAGES = new Map([
   [100, 100],
   [500, 500],

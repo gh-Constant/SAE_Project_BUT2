@@ -87,6 +87,16 @@ import mcQuiz from './locales/mc/quiz.json';
 
 import enMessaging from './locales/en/messaging.json';
 import frMessaging from './locales/fr/messaging.json';
+import deMessaging from './locales/de/messaging.json';
+import esMessaging from './locales/es/messaging.json';
+
+import mcFooter from './locales/mc/footer.json';
+
+import frPages from './locales/fr/pages.json';
+import enPages from './locales/en/pages.json';
+import esPages from './locales/es/pages.json';
+import dePages from './locales/de/pages.json';
+import mcPages from './locales/mc/pages.json';
 
 
 const messages = {
@@ -109,7 +119,8 @@ const messages = {
     widgets: enWidgets,
     qrcode: enQrcode,
     quiz: enQuiz,
-    messaging: enMessaging
+    messaging: enMessaging,
+    pages: enPages
   },
   fr: {
     map: frMap,
@@ -130,7 +141,8 @@ const messages = {
     widgets: frWidgets,
     qrcode: frQrcode,
     quiz: frQuiz,
-    messaging: frMessaging
+    messaging: frMessaging,
+    pages: frPages
   },
   de: {
     map: deMap,
@@ -151,7 +163,8 @@ const messages = {
     widgets: deWidgets,
     qrcode: deQrcode,
     quiz: deQuiz,
-    messaging: enMessaging
+    messaging: deMessaging,
+    pages: dePages
   },
   es: {
     map: esMap,
@@ -172,7 +185,8 @@ const messages = {
     widgets: esWidgets,
     qrcode: esQrcode,
     quiz: esQuiz,
-    messaging: enMessaging
+    messaging: esMessaging,
+    pages: esPages
   },
   mc: {
     map: mcMap,
@@ -180,7 +194,9 @@ const messages = {
     home: mcHome,
     prestataire: mcPrestataire,
     quiz: mcQuiz,
-    messaging: frMessaging // Fallback to FR
+    footer: mcFooter,
+    messaging: frMessaging,
+    pages: mcPages
   }
 };
 
@@ -192,7 +208,7 @@ const i18n = createI18n({
   locale: savedLocale,
   fallbackLocale: 'fr',
   messages,
-  missingWarn: false, // Désactiver les warnings pour les traductions manquantes
+  missingWarn: false,
   fallbackWarn: false
 });
 

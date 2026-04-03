@@ -40,8 +40,8 @@ export const corsOptions: CorsOptions = {
   origin: [
     'http://localhost:4200',                    // Frontend local en développement
     'http://localhost:4201',                    // Frontend local (port alternatif)
-    'https://livrable.constantsuchet.fr',       // Frontend production HTTPS
-    'http://livrable.constantsuchet.fr'         // Frontend production HTTP
+    'https://livrable.constantsuchet.fr',       // Frontend production HTTPS uniquement
+    // on a viré le HTTP en prod, faut toujours passer par HTTPS
   ],
   credentials: true,                            // Autorise l'envoi de cookies
   optionsSuccessStatus: 200,

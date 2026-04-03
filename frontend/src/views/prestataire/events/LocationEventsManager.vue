@@ -1,15 +1,15 @@
-<template>
+﻿<template>
   <div class="min-h-screen bg-parchment font-body text-stone-grey selection:bg-antique-bronze selection:text-white">
     <BackToMapButton to="/prestataire" />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
-      <!-- En-tÃªte -->
+      <!-- En-tÃƒÂªte -->
       <div class="mb-8">
         <div class="flex gap-4 mb-6">
           <router-link :to="{ path: '/map', query: { locationId: locationId } }"
             class="inline-flex items-center text-antique-bronze hover:text-dark-wood font-medieval font-bold transition-colors group">
             <i class="fas fa-map-marked-alt mr-2"></i>
-            {{ t('details.view_on_map') }}
+            {{ t('prestataire.details.view_on_map') }}
             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform text-xs"></i>
           </router-link>
         </div>
@@ -31,7 +31,7 @@
             Lieu #{{ locationId }}
             <span class="mx-3 text-antique-bronze/40">|</span>
             <i class="fas fa-ticket-alt mr-2 text-antique-bronze"></i>
-            {{ events.length }} Ã©vÃ©nement(s)
+            {{ events.length }} ÃƒÂ©vÃƒÂ©nement(s)
           </p>
 
           <!-- Stats Row -->
@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <!-- Barre d'outils (Recherche, Filtres, CrÃ©ation) -->
+      <!-- Barre d'outils (Recherche, Filtres, CrÃƒÂ©ation) -->
       <div
         class="mb-8 bg-white/60 rounded-sm shadow-sm p-4 border border-antique-bronze/20 flex flex-col md:flex-row gap-4 justify-between items-center">
 
@@ -68,7 +68,7 @@
           </button>
         </div>
 
-        <!-- Bouton CrÃ©er -->
+        <!-- Bouton CrÃƒÂ©er -->
         <button @click="openCreateModal"
           class="w-full md:w-auto bg-antique-bronze hover:brightness-110 text-white font-medieval font-bold py-2.5 px-6 rounded-sm shadow-md transition-all flex items-center justify-center gap-2">
           <i class="fas fa-plus-circle"></i>
@@ -92,7 +92,7 @@
           {{ t('prestataire.events.manager.empty_search.description') }}
         </p>
         <button @click="openCreateModal" class="inline-flex items-center text-antique-bronze font-bold hover:underline">
-          CrÃ©er un Ã©vÃ©nement maintenant
+          CrÃƒÂ©er un ÃƒÂ©vÃƒÂ©nement maintenant
         </button>
       </div>
 
@@ -169,7 +169,7 @@
           <div class="bg-parchment px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex items-center justify-between mb-6 border-b border-antique-bronze/20 pb-4">
               <h3 class="text-2xl leading-6 font-medieval font-bold text-iron-black" id="modal-title">
-                {{ isEditing ? 'Modifier le DÃ©cret' : 'Nouveau DÃ©cret' }}
+                {{ isEditing ? 'Modifier le DÃƒÂ©cret' : 'Nouveau DÃƒÂ©cret' }}
               </h3>
               <button @click="closeModal" class="text-stone-grey hover:text-antique-bronze">
                 <i class="fas fa-times text-xl"></i>
@@ -216,14 +216,14 @@
               </div>
 
               <div class="lg:col-start-2">
-                <label class="block text-sm font-bold text-iron-black mb-1">Type d'événement</label>
+                <label class="block text-sm font-bold text-iron-black mb-1">Type d'Ã©vÃ©nement</label>
                 <select v-model="form.event_category"
                   class="block w-full border-antique-bronze/30 rounded-sm shadow-sm focus:ring-antique-bronze focus:border-antique-bronze bg-white">
-                  <option value="">Non spécifié</option>
+                  <option value="">Non spÃ©cifiÃ©</option>
                   <option value="restauration">Restauration</option>
                   <option value="atelier">Atelier</option>
                   <option value="spectacle">Spectacle</option>
-                  <option value="marche">Marché</option>
+                  <option value="marche">MarchÃ©</option>
                   <option value="concours">Concours</option>
                   <option value="autre">Autre</option>
                 </select>
@@ -237,11 +237,11 @@
                 </label>
 
                 <div class="mb-3 bg-antique-bronze/5 rounded-sm border border-antique-bronze/10 p-3" v-if="form.type === 'ACTIVITY'">
-                  <label class="block text-xs font-bold text-stone-500 mb-1">Durée d'un créneau (min)</label>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">DurÃ©e d'un crÃ©neau (min)</label>
                   <input v-model.number="form.globalDuration" type="number" min="1" step="1" @blur="normalizeGlobalDuration"
                     class="block w-full border-antique-bronze/30 rounded-sm text-sm focus:ring-antique-bronze bg-white">
                   <p class="mt-1 text-[11px] text-stone-500">
-                    Précision calendrier: {{ formatPrecisionLabel(slotMinutes) }} (Ctrl + molette)
+                    PrÃ©cision calendrier: {{ formatPrecisionLabel(slotMinutes) }} (Ctrl + molette)
                   </p>
                 </div>
 
@@ -289,7 +289,7 @@
                         <!-- Hover Hint -->
                         <div
                           class="hidden group-hover:flex absolute inset-0 items-center pl-2 text-xs text-stone-400 italic pointer-events-none">
-                          {{ isDraggingSelectionStarted ? 'DÃ©finir fin' : 'DÃ©finir dÃ©but' }}
+                          {{ isDraggingSelectionStarted ? 'DÃƒÂ©finir fin' : 'DÃƒÂ©finir dÃƒÂ©but' }}
                         </div>
                       </div>
                     </div>
@@ -303,7 +303,7 @@
                   <span v-if="currentSelection.start && currentSelection.end">
                     {{ formatDateTime(currentSelection.start) }} - {{ formatResultTime(currentSelection.end) }}
                   </span>
-                  <span v-else class="text-stone-400 italic">SÃ©lectionnez une plage horaire</span>
+                  <span v-else class="text-stone-400 italic">SÃƒÂ©lectionnez une plage horaire</span>
                 </div>
 
                 <!-- Manual Inputs (Precision) -->
@@ -311,7 +311,7 @@
                   :class="form.type === 'ACTIVITY' ? 'mt-0' : ''"
                   class="grid grid-cols-2 gap-4 mt-4 border-t border-antique-bronze/10 pt-4 bg-antique-bronze/5 rounded-sm p-3">
                   <div>
-                    <label class="block text-xs font-bold text-stone-500 mb-1">Heure de dÃ©but</label>
+                    <label class="block text-xs font-bold text-stone-500 mb-1">Heure de dÃƒÂ©but</label>
                     <input type="time" v-model="selectionStartTime" @change="updateFromTimeInput"
                       class="block w-full border-antique-bronze/30 rounded-sm text-sm focus:ring-antique-bronze bg-white">
                   </div>
@@ -324,11 +324,11 @@
 
                 <div v-if="form.type === 'ACTIVITY'"
                   class="text-xs font-bold text-stone-500 border-t border-antique-bronze/10 pt-3 flex items-center justify-between gap-2">
-                  <span>Sélectionnez les horaires, puis validez l'ajout avec le bouton.</span>
+                  <span>SÃ©lectionnez les horaires, puis validez l'ajout avec le bouton.</span>
                   <div class="flex items-center gap-2">
                     <button type="button" @click="addSelectedSchedules" :disabled="!hasValidSelection()"
                       class="bg-antique-bronze text-white px-3 py-1.5 rounded-sm text-xs font-bold border border-antique-bronze disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all">
-                      Ajouter la sélection
+                      Ajouter la sÃ©lection
                     </button>
                     <button type="button" @click="showSchedulePicker = false"
                       class="text-antique-bronze hover:text-iron-black font-bold text-xs whitespace-nowrap">
@@ -369,13 +369,13 @@
                         </td>
                         <td class="px-3 py-2">
                           <input type="number" :value="getScheduleCapacityDisplay(sch)"
-                            :placeholder="`Défaut (${form.capacity})`"
+                            :placeholder="`DÃ©faut (${form.capacity})`"
                             @input="onScheduleCapacityInput(sch, $event)"
                             class="w-20 text-xs border-stone-300 rounded-sm p-1">
                         </td>
                         <td class="px-3 py-2">
                           <input type="number" :value="getSchedulePriceDisplay(sch)"
-                            :placeholder="`Défaut (${form.price})`"
+                            :placeholder="`DÃ©faut (${form.price})`"
                             @input="onSchedulePriceInput(sch, $event)"
                             class="w-20 text-xs border-stone-300 rounded-sm p-1">
                         </td>
@@ -393,7 +393,7 @@
               <div class="grid grid-cols-2 gap-4 lg:col-start-2">
                 <div>
                   <label class="block text-sm font-bold text-iron-black mb-1">
-                    {{ form.type === 'ACTIVITY' ? 'Prix par dÃ©faut' : t('prestataire.events.manager.form.price_label')
+                    {{ form.type === 'ACTIVITY' ? 'Prix par dÃƒÂ©faut' : t('prestataire.events.manager.form.price_label')
                     }}
                   </label>
                   <div class="relative">
@@ -406,7 +406,7 @@
                 </div>
                 <div>
                   <label class="block text-sm font-bold text-iron-black mb-1">
-                    {{ form.type === 'ACTIVITY' ? 'CapacitÃ© par dÃ©faut' :
+                    {{ form.type === 'ACTIVITY' ? 'CapacitÃƒÂ© par dÃƒÂ©faut' :
                       t('prestataire.events.manager.form.capacity_label') }}
                   </label>
                   <div class="relative">
@@ -450,7 +450,7 @@
           <div class="bg-parchment px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex items-center justify-between mb-6 border-b border-antique-bronze/20 pb-4">
               <h3 class="text-2xl leading-6 font-medieval font-bold text-iron-black">
-                RÃ©servations : {{ currentReservationEvent?.title }}
+                RÃƒÂ©servations : {{ currentReservationEvent?.title }}
               </h3>
               <button @click="closeReservationsModal" class="text-stone-grey hover:text-antique-bronze">
                 <i class="fas fa-times text-xl"></i>
@@ -459,13 +459,13 @@
 
             <div v-if="loadingReservations" class="text-center py-8">
               <p class="text-lg font-medieval animate-pulse text-antique-bronze">Recherche des parchemins de
-                rÃ©servation...</p>
+                rÃƒÂ©servation...</p>
             </div>
 
             <div v-else-if="currentEventReservations.length === 0"
               class="text-center py-8 bg-white/40 rounded-sm border border-dashed border-antique-bronze/30">
               <i class="fas fa-scroll text-4xl text-antique-bronze/30 mb-3"></i>
-              <p class="text-stone-grey">{{ t('events.manager.reservations.empty') }}</p>
+              <p class="text-stone-grey">{{ t('prestataire.events.manager.reservations.empty') }}</p>
             </div>
 
             <div v-else class="overflow-x-auto">
@@ -474,16 +474,16 @@
                   <tr>
                     <th scope="col"
                       class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
-                      {{ t('events.manager.reservations.headers.adventurer') }}</th>
+                      {{ t('prestataire.events.manager.reservations.headers.adventurer') }}</th>
                     <th scope="col"
                       class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
-                      {{ t('events.manager.reservations.headers.places') }}</th>
+                      {{ t('prestataire.events.manager.reservations.headers.places') }}</th>
                     <th scope="col"
                       class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
-                      {{ t('events.manager.reservations.headers.total') }}</th>
+                      {{ t('prestataire.events.manager.reservations.headers.total') }}</th>
                     <th scope="col"
                       class="px-6 py-3 text-left text-xs font-bold text-antique-bronze uppercase tracking-wider font-medieval">
-                      {{ t('events.manager.reservations.headers.date') }}</th>
+                      {{ t('prestataire.events.manager.reservations.headers.date') }}</th>
                   </tr>
                 </thead>
                 <tbody class="bg-white/60 divide-y divide-antique-bronze/10">
@@ -518,7 +518,7 @@
 
             <div class="mt-6 flex justify-end pt-4 border-t border-antique-bronze/10">
               <div class="text-sm text-stone-grey mr-4 flex items-center">
-                <span class="font-bold mr-2">Total RÃ©servÃ©:</span>
+                <span class="font-bold mr-2">Total RÃƒÂ©servÃƒÂ©:</span>
                 {{currentEventReservations.reduce((acc, r) => acc + r.quantity, 0)}} places
               </div>
               <div class="text-sm text-stone-grey flex items-center">
@@ -533,7 +533,7 @@
             class="bg-antique-bronze/5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-antique-bronze/10">
             <button @click="closeReservationsModal" type="button"
               class="w-full inline-flex justify-center rounded-sm border border-transparent shadow-sm px-4 py-2 bg-antique-bronze text-base font-medium text-white hover:brightness-110 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm font-medieval">
-              {{ t('events.manager.reservations.close') }}
+              {{ t('prestataire.events.manager.reservations.close') }}
             </button>
           </div>
         </div>
@@ -1071,7 +1071,7 @@ async function viewReservations(event: Event) {
     currentEventReservations.value = await eventStore.fetchEventReservations(event.id_event)
   } catch (e) {
     console.error("Failed to load reservations", e)
-    alert("Impossible de charger les rÃ©servations.")
+    alert("Impossible de charger les rÃƒÂ©servations.")
   } finally {
     loadingReservations.value = false
   }
@@ -1098,7 +1098,7 @@ onMounted(async () => {
     }
 
     if (loc.status === 'PENDING') {
-      alert("Ce lieu est en attente de validation. Vous ne pouvez pas encore gÃ©rer ses Ã©vÃ©nements.");
+      alert("Ce lieu est en attente de validation. Vous ne pouvez pas encore gÃƒÂ©rer ses ÃƒÂ©vÃƒÂ©nements.");
       router.back();
       return;
     }
@@ -1198,7 +1198,7 @@ function editEvent(event: Event) {
 }
 
 async function deleteEvent(id: number) {
-  if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©vÃ©nement ?')) {
+  if (confirm('ÃƒÅ tes-vous sÃƒÂ»r de vouloir supprimer cet ÃƒÂ©vÃƒÂ©nement ?')) {
     await eventStore.deleteEvent(id)
   }
 }
@@ -1222,14 +1222,14 @@ async function saveEvent() {
 
   if (form.type === 'EVENT') {
     if (!form.start_time || !form.end_time) {
-      alert("Veuillez dÃ©finir une date et une heure de dÃ©but et fin.");
+      alert("Veuillez dÃƒÂ©finir une date et une heure de dÃƒÂ©but et fin.");
       return;
     }
     eventData.start_time = new Date(form.start_time).toISOString();
     eventData.end_time = new Date(form.end_time).toISOString();
   } else {
     if (!form.schedules || form.schedules.length === 0) {
-      alert("Veuillez ajouter au moins un crÃ©neau pour cette activitÃ©.");
+      alert("Veuillez ajouter au moins un crÃƒÂ©neau pour cette activitÃƒÂ©.");
       return;
     }
     eventData.schedules = form.schedules.map(toSchedulePayload);
@@ -1248,5 +1248,6 @@ async function saveEvent() {
   }
 }
 </script>
+
 
 

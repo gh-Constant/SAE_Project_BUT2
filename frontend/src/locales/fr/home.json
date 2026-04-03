@@ -2,7 +2,9 @@
   "hero": {
     "title": "Embarquez pour une Aventure Médiévale",
     "subtitle": "Entrez dans Les Terres du Lion, un festival médiéval où chaque visiteur devient un héros et chaque pas fait avancer l’aventure.",
-    "cta": "Commencez Votre Voyage"
+    "cta": "Commencez Votre Voyage",
+    "background_alt": "Fond du royaume",
+    "logo_alt": "Logo des Terres du Lion"
   },
   "intro": {
     "title": "Le Royaume Vous Attend",
@@ -12,14 +14,6 @@
   },
   "features": {
     "title": "Explorez l'Ère Médiévale",
-    "subtitle": "Plongez dans l'histoire avec nos fonctionnalités complètes",
-    "paragraphs": {
-      "1": "Bienvenue sur Les Terres du Lion, un événement médiéval unique inspiré du jeu de rôle grandeur nature. Conçu pour offrir une immersion totale, le festival vous plonge dans un monde de quêtes et de savoir-faire ancestraux.",
-      "2": "Organisé autour d'un vaste village thématique, chaque quartier vous invite à rencontrer des artisans passionnés, des troubadours mélodieux, des aubergistes accueillants et des créateurs inspirés qui donnent vie à un univers authentique, fidèle aux traditions séculaires de la région.",
-      "3": "Grâce à une expérience interactive enrichie avec quêtes via QR-codes, réservations d'ateliers d'artisanat, commande et retrait à l'échoppe, énigmes médiévales et galeries de créations, chaque visiteur devient le héros de sa propre épopée.",
-      "4": "Votre grimoire numérique vous guide dans l'exploration, l'apprentissage et la progression tout au long du parcours jusqu'au château, où votre épopée personnelle atteint son apogée.",
-      "5": "Les Terres du Lion, c'est un lieu où l'immersion rencontre l'innovation, où le patrimoine inspire le jeu, et où chaque visite forge une nouvelle légende."
-    },
     "discover": {
       "title": "Cartes Interactives",
       "description": "Naviguez à travers une carte interactive et détaillée de notre village médiéval. Repérez les emplacements des artisans, des ateliers, des tavernes et des points d'intérêt clés pour optimiser votre exploration et ne manquer aucune des merveilles des Terres du Lion."
@@ -37,5 +31,44 @@
     "title": "Commencez Votre Quête",
     "subtitle": "Inscrivez-vous dès maintenant et débloquez les merveilles du monde médiéval",
     "button": "Rejoignez la Quête"
+  },
+  "commitments": {
+    "title": "Nos engagements envers vous",
+    "subtitle": "Chaque emplacement du festival est pens? pour votre confort et votre s?curit?.",
+    "water": {
+      "title": "Points d'eau",
+      "description": "Des fontaines et points d'eau potable r?partis dans tout le village pour vous rafra?chir durant votre aventure."
+    },
+    "power": {
+      "title": "Emplacements ?quip?s",
+      "description": "Nos ?choppes et ateliers disposent de l'?lectricit? pour que chaque artisan puisse exercer son art dans les meilleures conditions."
+    },
+    "toilets": {
+      "title": "Sanitaires accessibles",
+      "description": "Des installations sanitaires propres et entretenues, accessibles ? tous, r?parties strat?giquement dans le village."
+    },
+    "accessibility": {
+      "title": "Accessible ? tous",
+      "description": "Le royaume accueille chaque aventurier. Nos chemins et emplacements sont adapt?s aux personnes ? mobilit? r?duite."
+    }
+  },
+  "leaderboard": {
+    "title": "Le Grand Grimoire des Aventuriers",
+    "subtitle": "Qui sont les plus braves h?ros du royaume ?",
+    "columns": {
+      "rank": "Rang",
+      "adventurer": "Aventurier",
+      "level": "Niveau",
+      "xp": "XP"
+    },
+    "mysterious_adventurer": "Aventurier myst?rieux",
+    "level_short": "Niv. {level}",
+    "empty": "Aucun aventurier n'a encore brav? ces terres.",
+    "previous": "Pr?c?dent",
+    "next": "Suivant",
+    "page": "Page",
+    "sticky_title": "Votre position",
+    "sticky_subtitle": "Continuez vos efforts, aventurier !",
+    "total_xp": "XP total"
   }
 }

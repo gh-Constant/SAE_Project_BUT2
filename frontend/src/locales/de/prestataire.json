@@ -29,7 +29,9 @@
       "manage_quests": "Quests verwalten",
       "create_location": "Ort gründen",
       "view_bookings": "Buchungen ansehen",
-      "edit_profile": "Chronik bearbeiten"
+      "edit_profile": "Chronik bearbeiten",
+      "manage_quizzes": "Quiz verwalten",
+      "scan_order": "Bestellung scannen"
     },
     "recent_activity": {
       "title": "Neueste Kunde",
@@ -39,6 +41,11 @@
       "status_success": "Erfolg",
       "time_now": "Vor 2 Stunden",
       "time_yesterday": "Gestern"
+    },
+    "orders": {
+      "title": "Ausgef?hrte Bestellungen",
+      "total_label": "Bestellungen gesamt",
+      "scan": "Bestellung scannen"
     }
   },
   "products": {
@@ -106,6 +113,10 @@
         "save": "Versiegeln",
         "cancel": "Abbrechen"
       }
+    },
+    "empty": {
+      "title": "Kein Produkt registriert",
+      "subtitle": "F?gen Sie Ihre erste Ware hinzu, um den Handel zu beginnen."
     }
   },
   "quests": {
@@ -134,7 +145,10 @@
         "actions": "Taten"
       },
       "actions": {
-        "delete": "Tilgen"
+        "delete": "Tilgen",
+        "edit": "Bearbeiten",
+        "save": "Speichern",
+        "cancel": "Abbrechen"
       },
       "empty": {
         "title": "Keine Quests geschmiedet",
@@ -295,7 +309,12 @@
         "capacity_label": "Kapazität",
         "submit_create": "Veröffentlichen",
         "submit_update": "Aktualisieren",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "type_label": "Veranstaltungstyp",
+        "type_event": "Einzelveranstaltung",
+        "type_activity": "Aktivit?t (mehrere Zeitfenster)",
+        "schedules_title": "Zeitfenster",
+        "add_schedule": "Zeitfenster hinzuf?gen"
       },
       "reservations": {
         "modal_title": "Reservierungen",
@@ -307,6 +326,32 @@
           "total": "Gesamt (Gold)",
           "date": "Datum"
         }
+      }
+    }
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "profile": "Profil"
+  },
+  "reservations": {
+    "title": "Reservierungsverwaltung",
+    "subtitle": "Verfolgen Sie die Anmeldungen zu Ihren Veranstaltungen",
+    "search": {
+      "label": "Suchen",
+      "placeholder": "Nach Kunde oder Veranstaltung suchen..."
+    },
+    "table": {
+      "headers": {
+        "event": "Veranstaltung",
+        "customer": "Kunde",
+        "date": "Datum",
+        "quantity": "Menge",
+        "total": "Gesamt",
+        "status": "Status"
+      },
+      "empty": {
+        "title": "Keine Reservierungen",
+        "subtitle": "Ihre Veranstaltungen haben noch keine Anmeldungen erhalten."
       }
     }
   }
