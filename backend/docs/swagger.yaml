@@ -26,6 +26,8 @@ tags:
     description: Authentification et gestion de session
   - name: Users
     description: Gestion des utilisateurs (Admin)
+  - name: Stats
+    description: Statistiques et tableaux de bord
   - name: Locations
     description: Points d'intérêt et établissements
   - name: Products
@@ -50,16 +52,16 @@ tags:
     description: Gestion des quiz et tentatives
   - name: Upload
     description: Upload de fichiers
+  - name: Gold
+    description: Achat et consultation du solde de gold
   - name: Non-Trivial
     description: Routes complexes avec logique métier avancée (≥2 tables + algorithmes)
 
 paths:
-  # ========== AUTH ===================
   /auth/login:
     post:
       tags: [Auth]
       summary: Authentifier un utilisateur
-      description: Authentifie un utilisateur avec email et mot de passe, retourne un token JWT.
       operationId: login
       requestBody:
         required: true
@@ -67,9 +69,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/LoginInput'
-            example:
-              email: user@example.com
-              password: MonmotDepasse898
       responses:
         '200':
           description: Authentification réussie
@@ -84,25 +83,22 @@ paths:
     post:
       tags: [Auth]
       summary: Inscrire un nouvel utilisateur
-      description: Crée un nouveau compte utilisateur.
       operationId: register
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UserInput'
-            example:
-              firstName: Jean
-              lastName: Dupont
-              email: jean.dupont@example.com
-              password: BonneAnnee2026!
-              role: aventurier
-              avatarUrl: /avatars/default.png
-              avatarType: gallery
+              allOf:
+                - $ref: '#/components/schemas/UserInput'
+                - type: object
+                  properties:
+                    avatarFile:
+                      type: string
+                      format: binary
       responses:
         '201':
-          description: Utilisateur créé avec succès
+          description: Utilisateur créé
           content:
             application/json:
               schema:
@@ -110,25 +106,58 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
+  /auth/google:
+    get:
+      tags: [Auth]
+      summary: Démarrer l'authentification Google
+      operationId: startGoogleOAuth
+      responses:
+        '302':
+          description: Redirection vers Google OAuth
+
+  /auth/google/callback:
+    get:
+      tags: [Auth]
+      summary: Callback OAuth Google
+      operationId: handleGoogleOAuthCallback
+      responses:
+        '302':
+          description: Redirection vers le frontend avec le résultat OAuth
+
+  /auth/discord:
+    get:
+      tags: [Auth]
+      summary: Démarrer l'authentification Discord
+      operationId: startDiscordOAuth
+      responses:
+        '302':
+          description: Redirection vers Discord OAuth
+
+  /auth/discord/callback:
+    get:
+      tags: [Auth]
+      summary: Callback OAuth Discord
+      operationId: handleDiscordOAuthCallback
+      responses:
+        '302':
+          description: Redirection vers le frontend avec le résultat OAuth
+
   /auth/me:
     get:
       tags: [Auth]
-      summary: Récupérer les informations de l'utilisateur connecté
-      description: Retourne les informations du profil de l'utilisateur authentifié.
+      summary: Récupérer l'utilisateur connecté
       operationId: getMe
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Informations utilisateur récupérées
+          description: Utilisateur récupéré
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
 
   /auth/role:
     get:
@@ -148,24 +177,97 @@ paths:
                   role:
                     type: string
                     enum: [admin, aventurier, prestataire]
-                    example: aventurier
         '401':
           $ref: '#/components/responses/Unauthorized'
+
+  /auth/security:
+    get:
+      tags: [Auth]
+      summary: Récupérer les paramètres de sécurité du compte
+      operationId: getSecurity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Paramètres de sécurité récupérés
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasPassword:
+                    type: boolean
+                  linkedProviders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        provider:
+                          type: string
+                          enum: [google, discord]
+                        email:
+                          type: string
+                          nullable: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/password/setup-request:
+    post:
+      tags: [Auth]
+      summary: Demander la création d'un mot de passe
+      operationId: requestPasswordSetup
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Email de configuration envoyé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/oauth/confirm-link:
+    post:
+      tags: [Auth]
+      summary: Confirmer la liaison OAuth par email
+      operationId: confirmOAuthLink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Compte OAuth lié
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
 
   /auth/profile:
     put:
       tags: [Auth]
       summary: Mettre à jour le profil utilisateur
-      description: Permet de modifier le profil de l'utilisateur connecté.
       operationId: updateMe
       security:
         - bearerAuth: []
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ProfileUpdate'
+              allOf:
+                - $ref: '#/components/schemas/ProfileUpdate'
+                - type: object
+                  properties:
+                    avatarFile:
+                      type: string
+                      format: binary
       responses:
         '200':
           description: Profil mis à jour
@@ -178,12 +280,188 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  # ========== USERS ==========
+  /auth/oauth/{provider}/link:
+    post:
+      tags: [Auth]
+      summary: Préparer la liaison d'un provider OAuth
+      operationId: prepareOAuthLink
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [google, discord]
+      responses:
+        '200':
+          description: Liaison OAuth préparée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags: [Auth]
+      summary: Délier un provider OAuth
+      operationId: unlinkOAuth
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [google, discord]
+      responses:
+        '200':
+          description: Provider OAuth délié
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/account:
+    delete:
+      tags: [Auth]
+      summary: Supprimer son compte
+      operationId: deleteMyAccount
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Compte supprimé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/change-password:
+    put:
+      tags: [Auth]
+      summary: Changer le mot de passe
+      operationId: changePassword
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currentPassword, newPassword]
+              properties:
+                currentPassword:
+                  type: string
+                  format: password
+                newPassword:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Mot de passe modifié
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Demander une réinitialisation de mot de passe
+      operationId: forgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Demande prise en compte
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Réinitialiser le mot de passe
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, newPassword]
+              properties:
+                token:
+                  type: string
+                newPassword:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Mot de passe réinitialisé
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /users/leaderboard:
+    get:
+      tags: [Users]
+      summary: Récupérer le classement global
+      operationId: getLeaderboard
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Classement récupéré
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /users/{id}/rank:
+    get:
+      tags: [Users]
+      summary: Récupérer le rang d'un utilisateur
+      operationId: getUserRank
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Rang récupéré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rank:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   /users:
     get:
       tags: [Users]
       summary: Lister tous les utilisateurs
-      description: Retourne la liste de tous les utilisateurs. Réservé aux administrateurs.
       operationId: getAllUsers
       security:
         - bearerAuth: []
@@ -205,7 +483,6 @@ paths:
     post:
       tags: [Users]
       summary: Vérifier un utilisateur
-      description: Marque un utilisateur comme vérifié. Réservé aux administrateurs.
       operationId: verifyUser
       security:
         - bearerAuth: []
@@ -218,14 +495,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
 
   /users/{id}:
     delete:
       tags: [Users]
       summary: Supprimer un utilisateur
-      description: Supprime un utilisateur du système. Réservé aux administrateurs.
       operationId: deleteUser
       security:
         - bearerAuth: []
@@ -234,14 +508,6 @@ paths:
       responses:
         '200':
           description: Utilisateur supprimé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Utilisateur supprimé avec succès 
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -249,12 +515,10 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  # ========== LOCATIONS ==========
   /locations:
     get:
       tags: [Locations]
       summary: Lister toutes les locations
-      description: Retourne la liste de tous les points d'intérêt avec leurs prestataires.
       operationId: getAllLocations
       responses:
         '200':
@@ -265,8 +529,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Location'
-        '500':
-          $ref: '#/components/responses/ServerError'
 
   /locations/{id}:
     get:
@@ -274,7 +536,11 @@ paths:
       summary: Récupérer une location par ID
       operationId: getLocationById
       parameters:
-        - $ref: '#/components/parameters/LocationId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: Location trouvée
@@ -287,12 +553,15 @@ paths:
     patch:
       tags: [Locations]
       summary: Mettre à jour une location
-      description: Met à jour les informations d'une location. Nécessite authentification et disponibilité.
       operationId: updateLocation
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/LocationId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -308,63 +577,141 @@ paths:
                 $ref: '#/components/schemas/Location'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
 
-  # ========== PRODUCTS ==========
+    delete:
+      tags: [Locations]
+      summary: Supprimer une location
+      operationId: deleteLocation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Location supprimée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /locations/{id}/purchase:
+    post:
+      tags: [Locations]
+      summary: Acheter une location
+      operationId: purchaseLocation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Achat enregistré
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /locations/{id}/validate:
+    post:
+      tags: [Locations]
+      summary: Valider l'achat d'une location
+      operationId: validatePurchase
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Achat validé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /locations/{id}/reject:
+    post:
+      tags: [Locations]
+      summary: Rejeter l'achat d'une location
+      operationId: rejectPurchase
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Achat rejeté
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /locations/{id}/owner:
+    put:
+      tags: [Locations]
+      summary: Mettre à jour le propriétaire d'une location
+      operationId: updateOwner
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Propriétaire mis à jour
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    delete:
+      tags: [Locations]
+      summary: Retirer le propriétaire d'une location
+      operationId: removeOwner
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Propriétaire retiré
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
   /products:
     get:
-      tags: [Products, Non-Trivial]
+      tags: [Products]
       summary: Lister tous les produits
-      description: |
-        **Route Non-Triviale** : Recherche avancée de produits avec filtrage dynamique et tri.
-        
-        **Complexité** :
-        - Filtrage dynamique multi-critères (search, price range, stock, location, prestataire)
-        - Construction WHERE conditionnelle avec Prisma
-        - Tri configurable (price-asc/desc, name-asc/desc)
-        - Jointures avec Location et Prestataire (include)
-        
-        **Tables impliquées** : Products, Locations, Users (prestataires)
       operationId: getAllProducts
-      parameters:
-        - name: search
-          in: query
-          description: Recherche par nom
-          schema:
-            type: string
-        - name: minPrice
-          in: query
-          description: Prix minimum
-          schema:
-            type: number
-        - name: maxPrice
-          in: query
-          description: Prix maximum
-          schema:
-            type: number
-        - name: stock
-          in: query
-          description: Filtrer par stock
-          schema:
-            type: string
-            enum: [in-stock, out-of-stock]
-        - name: sortBy
-          in: query
-          description: Tri
-          schema:
-            type: string
-            enum: [price-asc, price-desc, name-asc, name-desc]
-        - name: locationId
-          in: query
-          description: Filtrer par location
-          schema:
-            type: integer
-        - name: prestataireId
-          in: query
-          description: Filtrer par prestataire
-          schema:
-            type: integer
       responses:
         '200':
           description: Liste des produits
@@ -374,12 +721,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-        '500':
-          $ref: '#/components/responses/ServerError'
     post:
       tags: [Products]
       summary: Créer un produit
-      description: Réservé aux prestataires. Le produit sera lié au prestataire connecté.
       operationId: createProduct
       security:
         - bearerAuth: []
@@ -396,12 +740,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-        '400':
-          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
 
   /products/{id}:
     get:
@@ -422,7 +762,6 @@ paths:
     put:
       tags: [Products]
       summary: Mettre à jour un produit
-      description: Réservé au prestataire propriétaire du produit.
       operationId: updateProduct
       security:
         - bearerAuth: []
@@ -443,14 +782,9 @@ paths:
                 $ref: '#/components/schemas/Product'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
     delete:
       tags: [Products]
       summary: Supprimer un produit
-      description: Réservé au prestataire propriétaire du produit.
       operationId: deleteProduct
       security:
         - bearerAuth: []
@@ -459,22 +793,9 @@ paths:
       responses:
         '200':
           description: Produit supprimé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Produit supprimé avec succès
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
 
-  # ========== EVENTS ==========
   /events:
     get:
       tags: [Events]
@@ -510,8 +831,69 @@ paths:
                 $ref: '#/components/schemas/Event'
         '401':
           $ref: '#/components/responses/Unauthorized'
+
+  /events/user/reservations:
+    get:
+      tags: [Events]
+      summary: Récupérer les réservations de l'utilisateur connecté
+      operationId: getUserReservations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des réservations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventReservation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /events/provider/reservations:
+    get:
+      tags: [Events]
+      summary: Récupérer les réservations des événements d'un prestataire
+      operationId: getProviderReservations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des réservations prestataire
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventReservation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /events/book:
+    post:
+      tags: [Events]
+      summary: Réserver un événement
+      operationId: bookEvent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingInput'
+      responses:
+        '201':
+          description: Réservation créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventReservation'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /events/{id}:
     get:
@@ -548,8 +930,6 @@ paths:
           description: Événement mis à jour
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
     delete:
       tags: [Events]
       summary: Supprimer un événement
@@ -563,63 +943,19 @@ paths:
           description: Événement supprimé
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
 
-  /events/book:
-    post:
-      tags: [Events, Non-Trivial]
-      summary: Réserver un événement
-      description: |
-        **Route Non-Triviale** : Gère la réservation d'événements avec validation de capacité.
-        
-        **Complexité** :
-        - Vérification de disponibilité (sold + quantity ≤ capacity)
-        - Calcul du prix total (price × quantity)
-        - Transaction atomique (création réservation + mise à jour sold)
-        - Gestion d'erreurs métier (capacité dépassée)
-        
-        **Tables impliquées** : Events, EventReservation, Users
-      operationId: bookEvent
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookingInput'
-      responses:
-        '201':
-          description: Réservation créée
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventReservation'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /events/user/reservations:
+  /events/{id}/reservations:
     get:
-      tags: [Events, Non-Trivial]
-      summary: Récupérer mes réservations
-      description: |
-        **Route Non-Triviale** : Récupère toutes les réservations d'événements d'un utilisateur.
-        
-        **Complexité** :
-        - Jointure triple : User → EventReservation → Events
-        - Filtrage par utilisateur authentifié (JWT)
-        - Inclusion des détails d'événements liés
-        
-        **Tables impliquées** : EventReservation, Events, Users
-      operationId: getUserReservations
+      tags: [Events]
+      summary: Récupérer les réservations d'un événement
+      operationId: getEventReservations
       security:
         - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/EventId'
       responses:
         '200':
-          description: Liste des réservations
+          description: Réservations récupérées
           content:
             application/json:
               schema:
@@ -629,7 +965,92 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  # ========== QUESTS ==========
+  /events/{id}/schedules:
+    post:
+      tags: [Events]
+      summary: Ajouter un créneau à un événement
+      operationId: addSchedule
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [start_time, end_time]
+              properties:
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+                capacity:
+                  type: integer
+                price:
+                  type: number
+      responses:
+        '201':
+          description: Créneau ajouté
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /events/schedules/{id}:
+    put:
+      tags: [Events]
+      summary: Mettre à jour un créneau d'événement
+      operationId: updateSchedule
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+                capacity:
+                  type: integer
+                price:
+                  type: number
+      responses:
+        '200':
+          description: Créneau mis à jour
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags: [Events]
+      summary: Supprimer un créneau d'événement
+      operationId: deleteSchedule
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Créneau supprimé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   /quests:
     get:
       tags: [Quests]
@@ -649,18 +1070,8 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
     post:
-      tags: [Quests, Non-Trivial]
+      tags: [Quests]
       summary: Créer une quête
-      description: |
-        **Route Non-Triviale** : Crée une quête avec vérification d'ownership de la location.
-        
-        **Complexité** :
-        - Vérification ownership : seul le prestataire propriétaire de la location peut créer
-        - Middleware checkLocationOwnership vérifie Location.id_prestataire = user.id
-        - Validation des données (titre, XP reward, location ID)
-        - Gestion d'erreurs (location inexistante, prestataire non autorisé)
-        
-        **Tables impliquées** : Quest, Location, Users (prestataires)
       operationId: createQuest
       security:
         - bearerAuth: []
@@ -682,48 +1093,27 @@ paths:
 
   /quests/statistics:
     get:
-      tags: [Quests, Non-Trivial]
+      tags: [Quests]
       summary: Statistiques des quêtes
-      description: |
-        **Route Non-Triviale** : Statistiques agrégées sur le système de quêtes.
-        
-        **Complexité** :
-        - Agrégations SQL multiples (COUNT, GROUP BY)
-        - Calcul : total quêtes, quêtes complétées, utilisateurs actifs
-        - Combinaison de données depuis Quest et UserQuest
-        
-        **Tables impliquées** : Quest, UserQuest, Users
       operationId: getQuestStatistics
       security:
         - bearerAuth: []
       responses:
         '200':
           description: Statistiques récupérées
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  totalQuests:
-                    type: integer
-                    example: 25
-                  completedQuests:
-                    type: integer
-                    example: 150
-                  activeUsers:
-                    type: integer
-                    example: 42
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /quests/locations/{locationId}:
     get:
       tags: [Quests]
-      summary: Quêtes par location
+      summary: Récupérer les quêtes d'une location
       operationId: getQuestsByLocation
       parameters:
         - $ref: '#/components/parameters/LocationId'
       responses:
         '200':
-          description: Liste des quêtes de cette location
+          description: Liste des quêtes
           content:
             application/json:
               schema:
@@ -734,13 +1124,13 @@ paths:
   /quests/my-quests:
     get:
       tags: [Quests]
-      summary: Mes quêtes
+      summary: Récupérer mes quêtes
       operationId: getUserQuests
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Liste de mes quêtes
+          description: Quêtes utilisateur récupérées
           content:
             application/json:
               schema:
@@ -767,19 +1157,8 @@ paths:
 
   /quests/{questId}/complete:
     post:
-      tags: [Quests, Non-Trivial]
+      tags: [Quests]
       summary: Compléter une quête
-      description: |
-        **Route Non-Triviale** : Marque une quête comme complétée et attribue l'XP à l'utilisateur.
-        
-        **Complexité** :
-        - Vérification état quête (doit être ACCEPTED)
-        - Mise à jour statut : ACCEPTED → COMPLETED
-        - Attribution XP (user.xp += quest.xp_reward)
-        - Calcul potentiel du niveau (level up si seuil atteint)
-        - Gestion d'erreurs métier (quête déjà complétée, non acceptée)
-        
-        **Tables impliquées** : UserQuest, Quest, Users
       operationId: completeQuest
       security:
         - bearerAuth: []
@@ -809,7 +1188,7 @@ paths:
   /quests/{questId}:
     put:
       tags: [Quests]
-      summary: Modifier une quête
+      summary: Mettre à jour une quête
       operationId: updateQuest
       security:
         - bearerAuth: []
@@ -844,12 +1223,10 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  # ========== BLOGS ==========
   /blogs:
     post:
       tags: [Blogs]
       summary: Créer un article
-      description: Création d'article. Seul le prestataire de la location peut poster.
       operationId: createBlog
       security:
         - bearerAuth: []
@@ -868,22 +1245,11 @@ paths:
                 $ref: '#/components/schemas/Blog'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
 
   /blogs/locations/{locationId}/blogs:
     get:
-      tags: [Blogs, Non-Trivial]
-      summary: Articles par location
-      description: |
-        **Route Non-Triviale** : Récupère tous les blogs associés à une location spécifique.
-        
-        **Complexité** :
-        - Filtrage relationnel : Blogs WHERE id_location = :locationId
-        - Jointure avec Location et Prestataire (auteur des blogs)
-        - Tri chronologique (ORDER BY created_at DESC)
-        
-        **Tables impliquées** : Blogs, Locations, Users (prestataires)
+      tags: [Blogs]
+      summary: Récupérer les blogs d'une location
       operationId: getBlogsByLocation
       parameters:
         - $ref: '#/components/parameters/LocationId'
@@ -915,7 +1281,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       tags: [Blogs]
-      summary: Modifier un article
+      summary: Mettre à jour un article
       operationId: updateBlog
       security:
         - bearerAuth: []
@@ -932,8 +1298,6 @@ paths:
           description: Article mis à jour
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
     delete:
       tags: [Blogs]
       summary: Supprimer un article
@@ -947,253 +1311,218 @@ paths:
           description: Article supprimé
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
 
-  # ========== ORDERS ==========
+  /blogs/{id}/purchase:
+    post:
+      tags: [Blogs]
+      summary: Acheter un blog payant
+      operationId: purchaseBlog
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/BlogId'
+      responses:
+        '200':
+          description: Blog acheté
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   /orders:
     post:
       tags: [Orders]
       summary: Créer une commande
-      description: Crée une nouvelle commande à partir des produits sélectionnés.
       operationId: createOrder
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrderInput'
-            example:
-              userId: 1
-              items:
-                - productId: 1
-                  quantity: 2
-                  price: 25.00
-                - productId: 3
-                  quantity: 1
-                  price: 50.00
       responses:
         '201':
-          description: Commande créée avec succès
+          description: Commande créée
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  /orders/{id}/pay:
-    put:
+  /orders/my:
+    get:
       tags: [Orders]
-      summary: Payer une commande
-      description: Marque une commande comme payée et finalise la transaction.
-      operationId: payOrder
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: Identifiant de la commande
-          schema:
-            type: integer
-            minimum: 1
-          example: 1
+      summary: Récupérer mes commandes
+      operationId: getMyOrders
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Paiement effectué avec succès
+          description: Liste des commandes
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  # ========== QRCODE ==========
-  /qrcode/generate:
+  /orders/collect:
     post:
-      tags: [QRCode]
-      summary: Générer un QR code
-      description: Génère une nouvelle session de QR code pour l'authentification ou l'accès à une quête.
-      operationId: generateQR
-      responses:
-        '201':
-          description: QR code généré avec succès
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/QRSession'
-        '500':
-          $ref: '#/components/responses/ServerError'
-
-  /qrcode/validate:
-    post:
-      tags: [QRCode]
-      summary: Valider un QR code scanné
-      description: Valide un token de QR code après scan par l'utilisateur.
-      operationId: validateQR
+      tags: [Orders]
+      summary: Marquer une commande comme collectée
+      operationId: collectOrder
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [token]
-              properties:
-                token:
-                  type: string
-                  description: Token du QR code scanné
-                  example: "qr_abc123xyz789"
       responses:
         '200':
-          description: QR code valide
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  valid:
-                    type: boolean
-                    example: true
-                  session:
-                    $ref: '#/components/schemas/QRSession'
+          description: Commande collectée
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '400':
-          $ref: '#/components/responses/BadRequest'
 
-  /qrcode/status/{id}:
-    get:
-      tags: [QRCode]
-      summary: Récupérer le statut d'une session QR
-      description: Permet de vérifier l'état actuel d'une session QR (pour polling côté client).
-      operationId: getQRStatus
+  /orders/{id}/pay:
+    put:
+      tags: [Orders]
+      summary: Payer une commande
+      operationId: payOrder
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          description: Identifiant de la session QR
           schema:
-            type: string
-          example: "session_abc123"
+            type: integer
       responses:
         '200':
-          description: Statut récupéré avec succès
+          description: Commande payée
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QRSession'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  /qrcode/{id}/use:
+  /qrcode/generate:
     post:
       tags: [QRCode]
-      summary: Marquer un QR code comme utilisé
-      description: Marque une session QR code comme utilisée après validation.
-      operationId: markQRAsUsed
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: Identifiant de la session QR
-          schema:
-            type: string
-          example: "session_abc123"
+      summary: Générer un QR code
+      operationId: generateQR
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: QR code marqué comme utilisé
+          description: QR code généré
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/QRSession'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  # ========== TRANSLATION ==========
-  /translate:
+  /qrcode/validate:
     post:
-      tags: [System]
-      summary: Traduire du texte
-      description: Traduit un texte d'une langue source vers une langue cible.
-      operationId: translateText
+      tags: [QRCode]
+      summary: Valider un QR code
+      operationId: validateQR
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TranslationRequest'
-            example:
-              text: "Bonjour le monde"
-              sourceLang: "fr"
-              targetLang: "en"
+              type: object
+              properties:
+                token:
+                  type: string
       responses:
         '200':
-          description: Traduction effectuée avec succès
+          description: Résultat de validation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TranslationResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/ServerError'
+                $ref: '#/components/schemas/QRCodeStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  # ========== ROLES ==========
+  /qrcode/status/{id}:
+    get:
+      tags: [QRCode]
+      summary: Récupérer le statut d'une session QR
+      operationId: getQRStatus
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Statut récupéré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /qrcode/{id}/use:
+    post:
+      tags: [QRCode]
+      summary: Marquer un QR code comme utilisé
+      operationId: markQRAsUsed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: QR code utilisé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   /roles:
     get:
       tags: [System]
       summary: Lister tous les rôles
-      description: Retourne la liste de tous les rôles disponibles dans le système.
       operationId: getAllRoles
       responses:
         '200':
           description: Liste des rôles
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    name:
-                      type: string
-                      example: aventurier
 
   /roles/name/{name}:
     get:
       tags: [System]
       summary: Récupérer un rôle par son nom
-      description: Retourne les informations d'un rôle spécifique à partir de son nom.
       operationId: getRoleByName
       parameters:
         - name: name
           in: path
           required: true
-          description: Nom du rôle
           schema:
             type: string
-            enum: [admin, aventurier, prestataire]
-          example: aventurier
       responses:
         '200':
           description: Rôle trouvé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 2
-                  name:
-                    type: string
-                    example: aventurier
         '404':
           $ref: '#/components/responses/NotFound'
 
@@ -1201,82 +1530,37 @@ paths:
     get:
       tags: [System]
       summary: Récupérer le rôle d'un utilisateur
-      description: Retourne le rôle d'un utilisateur spécifique à partir de son ID.
       operationId: getUserRole
       parameters:
         - name: userId
           in: path
           required: true
-          description: Identifiant de l'utilisateur
           schema:
             type: integer
-            minimum: 1
-          example: 1
       responses:
         '200':
-          description: Rôle de l'utilisateur récupéré
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  userId:
-                    type: integer
-                    example: 1
-                  role:
-                    type: string
-                    example: aventurier
+          description: Rôle utilisateur récupéré
         '404':
           $ref: '#/components/responses/NotFound'
 
-  # ========== HEALTH ==========
   /health:
     get:
       tags: [System]
       summary: Vérifier la santé de l'API
-      description: Endpoint détaillé pour vérifier l'état de l'API, l'environnement et l'uptime.
       operationId: getHealth
       responses:
         '200':
-          description: API en bonne santé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: healthy
-                  timestamp:
-                    type: string
-                    format: date-time
-                  environment:
-                    type: string
-                    example: development
+          description: Santé de l'API
 
   /status:
     get:
       tags: [System]
       summary: Vérifier le statut du serveur
-      description: Endpoint simple pour vérifier que le serveur est en ligne (health check rapide).
       operationId: getStatus
       responses:
         '200':
-          description: Serveur en ligne
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: online
-                  timestamp:
-                    type: string
-                    format: date-time
+          description: Statut du serveur
 
-
-  # ========== CONTACT ================
   /contact:
     post:
       tags: [Contact]
@@ -1298,10 +1582,10 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
-  /contact/location/{id}:
+  /contact/location/{locationId}:
     get:
       tags: [Contact]
-      summary: Récupérer les messages de contact pour une location
+      summary: Récupérer les messages de contact d'une location
       operationId: getContactMessages
       security:
         - bearerAuth: []
@@ -1309,7 +1593,7 @@ paths:
         - $ref: '#/components/parameters/LocationId'
       responses:
         '200':
-          description: Liste des messages
+          description: Messages récupérés
           content:
             application/json:
               schema:
@@ -1319,7 +1603,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  # ========== MESSAGING ==============
   /conversations:
     get:
       tags: [Messaging]
@@ -1336,6 +1619,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
     post:
       tags: [Messaging]
       summary: Créer une conversation
@@ -1355,6 +1640,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /conversations/{id}:
     delete:
@@ -1372,6 +1659,8 @@ paths:
       responses:
         '200':
           description: Conversation supprimée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /conversations/{id}/messages:
     get:
@@ -1388,13 +1677,15 @@ paths:
             type: integer
       responses:
         '200':
-          description: Liste des messages
+          description: Messages récupérés
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /messages:
     post:
@@ -1416,8 +1707,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  # ========== QUIZZES ==============
   /quizzes:
     get:
       tags: [Quizzes]
@@ -1451,380 +1743,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quiz'
-
-  /quizzes/{id}:
-    get:
-      tags: [Quizzes]
-      summary: Récupérer un quiz par ID
-      operationId: getQuizById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Quiz trouvé
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Quiz'
-    put:
-      tags: [Quizzes]
-      summary: Mettre à jour un quiz
-      operationId: updateQuiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuizInput'
-      responses:
-        '200':
-          description: Quiz mis à jour
-    delete:
-      tags: [Quizzes]
-      summary: Supprimer un quiz
-      operationId: deleteQuiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Quiz supprimé
-
-  /quizzes/{id}/play:
-    get:
-      tags: [Quizzes]
-      summary: Récupérer un quiz pour jouer
-      operationId: getQuizForPlay
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Quiz prêt à jouer
-
-  /quizzes/{id}/submit:
-    post:
-      tags: [Quizzes]
-      summary: Soumettre une tentative de quiz
-      operationId: submitQuiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Tentative enregistrée
-
-  /quizzes/my-attempts:
-    get:
-      tags: [Quizzes]
-      summary: Mes tentatives de quiz
-      operationId: getMyAttempts
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Historique des tentatives
-
-  # ========== ORDERS ===============
-  /orders:
-    post:
-      tags: [Orders]
-      summary: Créer une commande
-      operationId: createOrder
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderInput'
-      responses:
-        '201':
-          description: Commande créée
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-
-  /orders/{id}/pay:
-    put:
-      tags: [Orders]
-      summary: Payer une commande
-      operationId: payOrder
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Commande payée
-
-  # ========== QRCODE ===============
-  /qrcode/generate:
-    post:
-      tags: [QRCode]
-      summary: Générer un QR Code
-      operationId: generateQR
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: QR Code généré
-
-  /qrcode/validate:
-    post:
-      tags: [QRCode]
-      summary: Valider un QR Code
-      operationId: validateQR
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Résultat de validation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/QRCodeStatus'
-
-  # ========== UPLOAD ===============
-  /upload:
-    post:
-      tags: [Upload]
-      summary: Uploader un fichier
-      operationId: uploadFile
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-      responses:
-        '200':
-          description: Fichier uploadé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  url:
-                    type: string
-
-  # ========== CONTACT ================
-  /contact:
-    post:
-      tags: [Contact]
-      summary: Envoyer un message de contact
-      operationId: createContactMessage
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ContactMessageInput'
-      responses:
-        '201':
-          description: Message envoyé
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ContactMessage'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-
-  /contact/location/{id}:
-    get:
-      tags: [Contact]
-      summary: Récupérer les messages de contact pour une location
-      operationId: getContactMessages
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/LocationId'
-      responses:
-        '200':
-          description: Liste des messages
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ContactMessage'
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  # ========== MESSAGING ==============
-  /conversations:
+  /quizzes/my-attempts:
     get:
-      tags: [Messaging]
-      summary: Lister mes conversations
-      operationId: getConversations
+      tags: [Quizzes]
+      summary: Récupérer mes tentatives de quiz
+      operationId: getMyAttempts
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Liste des conversations
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Conversation'
-    post:
-      tags: [Messaging]
-      summary: Créer une conversation
-      operationId: createConversation
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ConversationInput'
-      responses:
-        '201':
-          description: Conversation créée
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Conversation'
+          description: Tentatives récupérées
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  /conversations/{id}:
-    delete:
-      tags: [Messaging]
-      summary: Supprimer une conversation
-      operationId: deleteConversation
+  /quizzes/attempts/{attemptId}:
+    get:
+      tags: [Quizzes]
+      summary: Récupérer le détail d'une tentative
+      operationId: getAttemptDetails
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: attemptId
           in: path
           required: true
           schema:
             type: integer
       responses:
         '200':
-          description: Conversation supprimée
-
-  /conversations/{id}/messages:
-    get:
-      tags: [Messaging]
-      summary: Récupérer les messages d'une conversation
-      operationId: getMessages
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Liste des messages
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Message'
-
-  /messages:
-    post:
-      tags: [Messaging]
-      summary: Envoyer un message
-      operationId: sendMessage
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MessageInput'
-      responses:
-        '201':
-          description: Message envoyé
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-
-  # ========== QUIZZES ==============
-  /quizzes:
-    get:
-      tags: [Quizzes]
-      summary: Lister les quiz
-      operationId: getQuizzes
-      responses:
-        '200':
-          description: Liste des quiz
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Quiz'
-    post:
-      tags: [Quizzes]
-      summary: Créer un quiz
-      operationId: createQuiz
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuizInput'
-      responses:
-        '201':
-          description: Quiz créé
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Quiz'
+          description: Tentative récupérée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /quizzes/{id}:
     get:
       tags: [Quizzes]
       summary: Récupérer un quiz par ID
       operationId: getQuizById
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -1838,6 +1798,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quiz'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
     put:
       tags: [Quizzes]
       summary: Mettre à jour un quiz
@@ -1859,6 +1821,8 @@ paths:
       responses:
         '200':
           description: Quiz mis à jour
+        '401':
+          $ref: '#/components/responses/Unauthorized'
     delete:
       tags: [Quizzes]
       summary: Supprimer un quiz
@@ -1874,6 +1838,8 @@ paths:
       responses:
         '200':
           description: Quiz supprimé
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /quizzes/{id}/play:
     get:
@@ -1889,6 +1855,26 @@ paths:
       responses:
         '200':
           description: Quiz prêt à jouer
+
+  /quizzes/{id}/question/{id_question}/check:
+    get:
+      tags: [Quizzes]
+      summary: Vérifier une question de quiz
+      operationId: checkQuestion
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id_question
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Résultat de vérification
 
   /quizzes/{id}/submit:
     post:
@@ -1906,45 +1892,14 @@ paths:
       responses:
         '200':
           description: Tentative enregistrée
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  /quizzes/my-attempts:
+  /quizzes/{id}/statistics:
     get:
       tags: [Quizzes]
-      summary: Mes tentatives de quiz
-      operationId: getMyAttempts
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Historique des tentatives
-
-  # ========== ORDERS ===============
-  /orders:
-    post:
-      tags: [Orders]
-      summary: Créer une commande
-      operationId: createOrder
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderInput'
-      responses:
-        '201':
-          description: Commande créée
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-
-  /orders/{id}/pay:
-    put:
-      tags: [Orders]
-      summary: Payer une commande
-      operationId: payOrder
+      summary: Récupérer les statistiques d'un quiz
+      operationId: getQuizStatistics
       security:
         - bearerAuth: []
       parameters:
@@ -1955,36 +1910,10 @@ paths:
             type: integer
       responses:
         '200':
-          description: Commande payée
+          description: Statistiques récupérées
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
-  # ========== QRCODE ===============
-  /qrcode/generate:
-    post:
-      tags: [QRCode]
-      summary: Générer un QR Code
-      operationId: generateQR
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: QR Code généré
-
-  /qrcode/validate:
-    post:
-      tags: [QRCode]
-      summary: Valider un QR Code
-      operationId: validateQR
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Résultat de validation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/QRCodeStatus'
-
-  # ========== UPLOAD ===============
   /upload:
     post:
       tags: [Upload]
@@ -1993,6 +1922,7 @@ paths:
       security:
         - bearerAuth: []
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
@@ -2011,6 +1941,153 @@ paths:
                 properties:
                   url:
                     type: string
+
+  /stats/admin/global:
+    get:
+      tags: [Stats]
+      summary: Récupérer les statistiques globales admin
+      operationId: getAdminGlobalStats
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistiques globales récupérées
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /stats/provider/global:
+    get:
+      tags: [Stats]
+      summary: Récupérer les statistiques globales prestataire
+      operationId: getProviderGlobalStats
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistiques prestataire récupérées
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /stats/admin/locations:
+    get:
+      tags: [Stats]
+      summary: Récupérer les statistiques des locations
+      operationId: getAdminLocationStats
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistiques des locations récupérées
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /stats/admin/users:
+    get:
+      tags: [Stats]
+      summary: Récupérer les statistiques utilisateurs
+      operationId: getAdminUserStats
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistiques utilisateurs récupérées
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /gold/checkout:
+    post:
+      tags: [Gold]
+      summary: Créer une session de paiement gold
+      operationId: createCheckoutSession
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amountGold, priceInCents]
+              properties:
+                amountGold:
+                  type: integer
+                priceInCents:
+                  type: integer
+      responses:
+        '200':
+          description: Session de paiement créée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                  sessionId:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /gold/fulfill:
+    post:
+      tags: [Gold]
+      summary: Finaliser un achat de gold
+      operationId: fulfillPurchase
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sessionId]
+              properties:
+                sessionId:
+                  type: string
+      responses:
+        '200':
+          description: Achat finalisé
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /gold/{userId}:
+    get:
+      tags: [Gold]
+      summary: Récupérer le solde de gold d'un utilisateur
+      operationId: getBalance
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Solde récupéré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gold:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
 
 # ========== COMPONENTS ==========
 components:
@@ -2142,6 +2219,10 @@ components:
           type: string
           enum: [gallery, upload]
           example: gallery
+        prestataireTypeId:
+          type: integer
+          nullable: true
+          example: 1
 
     ProfileUpdate:
       type: object
@@ -2173,6 +2254,10 @@ components:
           type: string
           maxLength: 500
           example: Aventurier passionné de découvertes
+        prestataireTypeId:
+          type: integer
+          nullable: true
+          example: 1
 
     User:
       type: object
@@ -2300,13 +2385,25 @@ components:
           type: string
         description:
           type: string
+        banner_image:
+          type: string
         price:
           type: number
+        has_water_access:
+          type: boolean
+        has_electricity:
+          type: boolean
+        has_toilets:
+          type: boolean
+        is_accessible_pmr:
+          type: boolean
         purchased:
           type: boolean
         id_prestataire:
           type: integer
           nullable: true
+        id_location_type:
+          type: integer
 
     # ===== PRODUCT SCHEMAS =====
     Product:
@@ -2560,65 +2657,6 @@ components:
           type: integer
           example: 1
 
-    # ===== ORDER SCHEMAS =====
-    OrderInput:
-      type: object
-      required: [userId, items]
-      properties:
-        userId:
-          type: integer
-          example: 1
-        items:
-          type: array
-          items:
-            type: object
-            required: [productId, quantity, price]
-            properties:
-              productId:
-                type: integer
-                example: 1
-              quantity:
-                type: integer
-                minimum: 1
-                example: 2
-              price:
-                type: number
-                example: 25.00
-
-    Order:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        userId:
-          type: integer
-          example: 1
-        totalAmount:
-          type: number
-          example: 100.00
-        status:
-          type: string
-          enum: [pending, paid, cancelled]
-          example: pending
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              productId:
-                type: integer
-              quantity:
-                type: integer
-              price:
-                type: number
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
     # ===== QRCODE SCHEMAS =====
     QRSession:
       type: object
@@ -2650,37 +2688,6 @@ components:
           type: integer
           nullable: true
           example: null
-
-    # ===== TRANSLATION SCHEMAS =====
-    TranslationRequest:
-      type: object
-      required: [text, sourceLang, targetLang]
-      properties:
-        text:
-          type: string
-          example: Bonjour le monde
-        sourceLang:
-          type: string
-          example: fr
-        targetLang:
-          type: string
-          example: en
-
-    TranslationResponse:
-      type: object
-      properties:
-        originalText:
-          type: string
-          example: Bonjour le monde
-        translatedText:
-          type: string
-          example: Hello world
-        sourceLang:
-          type: string
-          example: fr
-        targetLang:
-          type: string
-          example: en
 
     # ===== ERROR SCHEMAS =====
     Error:
@@ -2960,4 +2967,3 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             error: Erreur serveur interne
-
