@@ -233,11 +233,14 @@ async function handleBooking() {
   bookingSuccess.value = false
 
   try {
-    await eventStore.bookEvent(
+    const result = await eventStore.bookEvent(
       event.value.id_event, 
       quantity.value, 
       selectedSchedule.value?.id_schedule
     )
+    if (authStore.user) {
+      authStore.user.gold = result.remainingGold
+    }
     bookingSuccess.value = true
     notificationStore.success(
       t('events.details.success'),
@@ -249,8 +252,8 @@ async function handleBooking() {
       router.push('/my-reservations')
     }, 1500)
   } catch (err: any) {
-    const error = err as { response?: { data?: { message?: string } }; message?: string }
-    bookingError.value = error.response?.data?.message || error.message || t('events.details.error_default')
+    const error = err as { response?: { data?: { message?: string; error?: string } }; message?: string }
+    bookingError.value = error.response?.data?.error || error.response?.data?.message || error.message || t('events.details.error_default')
     notificationStore.error(t('events.details.error_title'), bookingError.value)
   } finally {
     bookingLoading.value = false

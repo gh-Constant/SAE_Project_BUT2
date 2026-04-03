@@ -176,7 +176,7 @@ export const eventMockService = {
     });
   },
 
-  bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock> => {
+  bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock & { remainingGold: number }> => {
     return new Promise((resolve, reject) => {
       const event = EVENTS.find(e => e.id_event === eventId);
       if (!event) {
@@ -222,15 +222,45 @@ export const eventMockService = {
         event.sold += quantity;
       }
 
-      const newReservation: ReservationMock = {
+      const totalPrice = price * quantity;
+      const userId = getCurrentUserId();
+      const user = USERS.find(entry => entry.id === userId);
+
+      if (!user) {
+        reject(new Error('User not found'));
+        return;
+      }
+
+      if ((user.gold || 0) < totalPrice) {
+        reject(new Error('Not enough gold'));
+        return;
+      }
+
+      user.gold = Math.max(0, (user.gold || 0) - totalPrice);
+
+      const currentUserStr = localStorage.getItem('currentUser');
+      if (currentUserStr) {
+        try {
+          const currentUser = JSON.parse(currentUserStr) as UserMock;
+          if (currentUser.id === user.id) {
+            currentUser.gold = user.gold;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          }
+        } catch {
+          // Ignore storage sync errors in mock mode and keep in-memory mock state.
+        }
+      }
+
+      const newReservation: ReservationMock & { remainingGold: number } = {
         id_reservation: Math.max(...RESERVATIONS.map(r => r.id_reservation), 0) + 1,
-        id_user: getCurrentUserId(), // Use actual logged-in user ID
+        id_user: userId,
         id_event: eventId,
         id_schedule: scheduleId,
         quantity,
-        total_price: price * quantity,
+        total_price: totalPrice,
         status: 'CONFIRMED',
         created_at: new Date().toISOString(),
+        remainingGold: user.gold,
         event: {
           ...event,
           location: LOCATIONS.find(l => l.id === event.id_location)

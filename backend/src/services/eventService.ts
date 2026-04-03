@@ -22,6 +22,21 @@ interface EventData {
   schedules?: EventScheduleData[];
 }
 
+const toGoldAmount = (value: Prisma.Decimal | number) => {
+  const numericValue = Number(value);
+
+  if (!Number.isFinite(numericValue) || numericValue < 0) {
+    throw new Error('Invalid gold amount');
+  }
+
+  const roundedValue = Math.round(numericValue);
+  if (Math.abs(roundedValue - numericValue) > Number.EPSILON) {
+    throw new Error('Invalid gold amount');
+  }
+
+  return roundedValue;
+};
+
 const assertLocationOwnership = async (locationId: number, actorId?: number, actorRole?: string) => {
   if (actorRole === 'admin') {
     return;
@@ -322,6 +337,30 @@ export const bookEvent = async (userId: number, eventId: number, quantity: numbe
       });
     }
 
+    const reservationTotal = toGoldAmount(targetPrice * quantity);
+    const user = await tx.user.findUnique({
+      where: { id_user: userId },
+      select: { gold: true }
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (user.gold < reservationTotal) {
+      throw new Error('Not enough gold');
+    }
+
+    const updatedUser = await tx.user.update({
+      where: { id_user: userId },
+      data: {
+        gold: {
+          decrement: reservationTotal,
+        },
+      },
+      select: { gold: true }
+    });
+
     // Create reservation
     const reservation = await tx.eventReservation.create({
       data: {
@@ -329,12 +368,16 @@ export const bookEvent = async (userId: number, eventId: number, quantity: numbe
         id_event: eventId,
         id_schedule: scheduleId,
         quantity,
-        total_price: targetPrice * quantity,
+        total_price: reservationTotal,
         status: ReservationStatus.CONFIRMED, // Auto-confirm
       },
     });
 
-    return reservation;
+    return {
+      ...reservation,
+      total_price: Number(reservation.total_price),
+      remainingGold: updatedUser.gold
+    };
   });
 };
 

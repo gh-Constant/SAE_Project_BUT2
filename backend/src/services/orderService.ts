@@ -1,6 +1,6 @@
 import prisma from '../prisma.js';
 import { Prisma } from '@prisma/client';
-import qrcodeService from './qrcodeService.js';
+import { randomUUID } from 'crypto';
 
 interface CreateOrderItemDTO {
     productId: number;
@@ -13,6 +13,21 @@ interface CreateOrderDTO {
     locationId: number;
     items: CreateOrderItemDTO[];
 }
+
+const toGoldAmount = (value: Prisma.Decimal | number) => {
+    const numericValue = Number(value);
+
+    if (!Number.isFinite(numericValue) || numericValue < 0) {
+        throw new Error('Invalid gold amount');
+    }
+
+    const roundedValue = Math.round(numericValue);
+    if (Math.abs(roundedValue - numericValue) > Number.EPSILON) {
+        throw new Error('Invalid gold amount');
+    }
+
+    return roundedValue;
+};
 
 const mapOrderForFrontend = (commande: any) => {
     const lines = commande.lignesCommande ?? [];
@@ -216,14 +231,17 @@ const payOrder = async (orderId: number, userId: number) => {
             select: { gold: true }
         });
 
-        if (!user || user.gold < Number(commande.total_price)) {
+        const orderTotal = toGoldAmount(commande.total_price);
+
+        if (!user || user.gold < orderTotal) {
             throw new Error('Not enough gold');
         }
 
         // Update user's gold
-        await tx.user.update({
+        const updatedUser = await tx.user.update({
             where: { id_user: userId },
-            data: { gold: user.gold - Number(commande.total_price) }
+            data: { gold: { decrement: orderTotal } },
+            select: { gold: true }
         });
 
         // Update order status to payed
@@ -233,17 +251,20 @@ const payOrder = async (orderId: number, userId: number) => {
         });
 
         // Generate QR code with order data
-        const qrSession = await qrcodeService.generate({
-            createdById: userId,
+        const qrSession = await tx.qRSession.create({
             data: {
-                orderId: commande.id_commande,
-                userId: commande.id_user,
-                totalPrice: Number(commande.total_price),
-                items: commande.lignesCommande.map((l: any) => ({
-                    productId: l.id_product,
-                    quantity: l.quantite,
-                    price: Number(l.price)
-                }))
+                token: randomUUID(),
+                created_by_id: userId,
+                data: {
+                    orderId: commande.id_commande,
+                    userId: commande.id_user,
+                    totalPrice: orderTotal,
+                    items: commande.lignesCommande.map((l: any) => ({
+                        productId: l.id_product,
+                        quantity: l.quantite,
+                        price: Number(l.price)
+                    }))
+                }
             }
         });
 
@@ -279,7 +300,8 @@ const payOrder = async (orderId: number, userId: number) => {
                 date_commande: updated.date_commande,
                 total_price: Number(updated.total_price)
             },
-            qrToken: qrSession.token
+            qrToken: qrSession.token,
+            remainingGold: updatedUser.gold
         };
     });
 };

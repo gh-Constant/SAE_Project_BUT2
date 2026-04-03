@@ -39,7 +39,7 @@ export const orderService = {
     return response.data.map(normalizeOrder);
   },
 
-  async payOrder(orderId: number): Promise<{ order: Partial<Order>; qrToken: string }> {
+  async payOrder(orderId: number): Promise<{ order: Partial<Order>; qrToken: string; remainingGold: number }> {
     const response = await apiClient.put(`/orders/${orderId}/pay`);
     return response.data;
   },

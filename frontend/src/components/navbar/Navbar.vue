@@ -506,6 +506,7 @@ const profileRoute = computed(() => {
               <span class="ml-2">{{ $t('navbar.register') }}</span>
             </MedievalButton>
           </template>
+
         </div>
       </div>
     </transition>
