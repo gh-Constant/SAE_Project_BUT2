@@ -51,6 +51,10 @@ export interface EventReservation {
   event?: Event
 }
 
+export interface EventBookingResult extends EventReservation {
+  remainingGold: number
+}
+
 export interface ProviderReservation extends EventReservation {
   user?: UserMock
 }
@@ -139,7 +143,7 @@ export const useEventStore = defineStore('event', {
     async bookEvent(eventId: number, quantity: number, scheduleId?: number) {
       this.loading = true
       try {
-        const result = await eventService.bookEvent(eventId, quantity, scheduleId)
+        const result = await eventService.bookEvent(eventId, quantity, scheduleId) as EventBookingResult
         this.loading = false
         return result
       } catch (err: unknown) {

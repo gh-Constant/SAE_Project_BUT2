@@ -30,7 +30,7 @@ const eventServiceImpl = {
     await apiClient.delete(`/events/${id}`);
   },
 
-  bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock> => {
+  bookEvent: async (eventId: number, quantity: number, scheduleId?: number): Promise<ReservationMock & { remainingGold: number }> => {
     const response = await apiClient.post('/events/book', { id_event: eventId, quantity, id_schedule: scheduleId });
     return response.data;
   },

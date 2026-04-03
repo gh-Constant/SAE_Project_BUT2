@@ -86,7 +86,25 @@ export const eventController = {
       const reservation = await eventService.bookEvent(userId, Number(id_event), Number(quantity), id_schedule ? Number(id_schedule) : undefined);
       res.status(201).json(reservation);
     } catch (error) {
-      res.status(500).json({ error: (error as Error).message });
+      const message = (error as Error).message;
+      if ([
+        'Event not found',
+        'Schedule not found',
+        'Schedule does not belong to this event',
+        'Not enough capacity in schedule',
+        'This is an activity, you must specify a schedule id',
+        'Not enough capacity',
+        'Not enough gold',
+        'Invalid gold amount'
+      ].includes(message)) {
+        res.status(400).json({ error: message });
+        return;
+      }
+      if (message === 'User not found') {
+        res.status(404).json({ error: message });
+        return;
+      }
+      res.status(500).json({ error: message });
     }
   },
 
