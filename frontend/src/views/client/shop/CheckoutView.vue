@@ -266,7 +266,7 @@ const payOrder = async (orderId: number) => {
       order.etat_commande = EtatCommande.PAID
       order.qrToken = result.qrToken
       if (authStore.user) {
-        authStore.user.gold -= order.total_price
+        authStore.user.gold = result.remainingGold
       }
 
       notificationStore.success(

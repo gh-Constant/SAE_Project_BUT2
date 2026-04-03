@@ -63,6 +63,9 @@ export const payOrder = async (req: Request, res: Response) => {
         if (errorMessage === 'Not enough gold') {
             return res.status(400).json({ error: errorMessage });
         }
+        if (errorMessage === 'Invalid gold amount') {
+            return res.status(400).json({ error: errorMessage });
+        }
         console.error('Error paying order:', error);
         return res.status(500).json({ error: 'Failed to pay order' });
     }
