@@ -167,6 +167,9 @@
                         <img :src="product.imageUrl" :alt="product.name" class="h-full w-full object-cover">
                       </div>
                       <div v-else class="space-y-2 w-32">
+                        <div v-if="store.editProduct.imageUrl" class="h-12 w-12 mx-auto rounded-md border border-antique-bronze/20 overflow-hidden bg-white">
+                          <img :src="store.editProduct.imageUrl" :alt="store.editProduct.name || product.name" class="h-full w-full object-cover">
+                        </div>
                         <input v-model="store.editProduct.imageUrl" type="text" class="w-full text-xs border border-antique-bronze/30 rounded px-1 py-1" placeholder="URL">
                       </div>
                     </div>
@@ -257,7 +260,7 @@
                           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                         </button>
                         <button 
-                          @click="store.deleteProduct(product.id)" 
+                          @click="handleDeleteProduct(product.id)" 
                           class="text-stone-grey hover:text-red-700 transition-colors p-1"
                           :title="t('admin.products.table.actions.delete')"
                         >
@@ -266,7 +269,7 @@
                       </template>
                       <template v-else>
                         <button 
-                          @click="store.saveEdit()" 
+                          @click="handleSaveEdit()" 
                           class="text-green-700 hover:text-green-800 transition-colors p-1"
                           :title="t('admin.products.table.actions.save')"
                         >
@@ -307,7 +310,6 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue'
-import { stripHtml } from '@/utils/stripHtml'
 import BackToMapButton from '@/components/shared/BackToMapButton.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
@@ -390,6 +392,22 @@ function getLocationOwner(locationId: number): string | null {
     }
   }
   return null
+}
+
+async function handleDeleteProduct(productId: number) {
+  try {
+    await store.deleteProduct(productId)
+  } catch {
+    alert(store.error || t('admin.products.table.actions.delete'))
+  }
+}
+
+async function handleSaveEdit() {
+  try {
+    await store.saveEdit()
+  } catch {
+    alert(store.error || t('admin.products.table.actions.edit'))
+  }
 }
 
 </script>

@@ -1199,7 +1199,12 @@ function editEvent(event: Event) {
 
 async function deleteEvent(id: number) {
   if (confirm(t('prestataire.events.manager.confirm.delete_event'))) {
-    await eventStore.deleteEvent(id)
+    try {
+      await eventStore.deleteEvent(id)
+    } catch (error) {
+      console.error('Failed to delete event:', error)
+      alert(t('prestataire.events.manager.errors.save'))
+    }
   }
 }
 

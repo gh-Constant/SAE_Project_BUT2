@@ -114,9 +114,9 @@ export const updateProduct = async (req: Request, res: Response) => {
 
         const updatedProduct = await productService.updateProduct(id, req.body);
         return res.json(updatedProduct);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error updating product:', error);
-        return res.status(500).json({ error: 'Failed to update product' });
+        return res.status(500).json({ error: error?.message || 'Failed to update product' });
     }
 };
 
@@ -129,8 +129,8 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
         await productService.deleteProduct(id);
         return res.json({ message: 'Product deleted successfully' });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error deleting product:', error);
-        return res.status(500).json({ error: 'Failed to delete product' });
+        return res.status(500).json({ error: error?.message || 'Failed to delete product' });
     }
 };

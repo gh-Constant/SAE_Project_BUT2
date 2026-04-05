@@ -288,6 +288,9 @@
                           <img :src="product.imageUrl" :alt="product.name" class="h-full w-full object-cover">
                         </div>
                         <div v-else class="space-y-2 w-32">
+                          <div v-if="store.editProduct.imageUrl" class="h-12 w-12 mx-auto rounded-md border border-antique-bronze/20 overflow-hidden bg-white">
+                            <img :src="store.editProduct.imageUrl" :alt="store.editProduct.name || product.name" class="h-full w-full object-cover">
+                          </div>
                           <div class="flex gap-1">
                             <label
                               class="cursor-pointer bg-antique-bronze/10 hover:bg-antique-bronze/20 text-antique-bronze rounded p-1 flex-1 flex justify-center">
@@ -374,7 +377,7 @@
                                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                               </svg>
                             </button>
-                            <button @click="store.deleteProduct(product.id)"
+                                <button @click="handleDeleteProduct(product.id)"
                                     class="text-stone-grey hover:text-red-700 transition-colors p-1"
                                     :title="t('prestataire.products.table.actions.delete')">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -385,7 +388,7 @@
                           </template>
                         </template>
                         <template v-else>
-                          <button @click="store.saveEdit()"
+                            <button @click="handleSaveEdit()"
                                   class="text-green-700 hover:text-green-800 transition-colors p-1"
                                   :title="t('prestataire.products.table.actions.save')">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -434,7 +437,6 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue'
-import { stripHtml } from '@/utils/stripHtml'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
@@ -543,13 +545,34 @@ function startAddProduct(locationId: number) {
 }
 
 async function handleAddProduct(locationId: number) {
-  await store.addProductForLocation(locationId, authStore.user?.id || 0)
-  cancelAddProduct()
+  try {
+    await store.addProductForLocation(locationId, authStore.user?.id || 0)
+    cancelAddProduct()
+  } catch (error) {
+    console.error('Failed to add product:', error)
+    alert(error instanceof Error ? error.message : t('prestataire.products.messages.error'))
+  }
 }
 
 function cancelAddProduct() {
   addingProductLocationId.value = null
   store.resetNewProduct()
+}
+
+async function handleDeleteProduct(productId: number) {
+  try {
+    await store.deleteProduct(productId)
+  } catch {
+    alert(store.error || t('prestataire.products.messages.error'))
+  }
+}
+
+async function handleSaveEdit() {
+  try {
+    await store.saveEdit()
+  } catch {
+    alert(store.error || t('prestataire.products.messages.error'))
+  }
 }
 
 // Logout handler

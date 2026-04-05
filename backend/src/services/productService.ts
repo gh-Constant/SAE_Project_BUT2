@@ -39,6 +39,7 @@ export interface UpdateProductDTO {
     price?: number;
     image?: string;
     stock?: number; // Might need special handling if stock is relational
+    locationId?: number;
 }
 
 const productService = {
@@ -271,14 +272,99 @@ const productService = {
      * Update an existing product.
      */
     async updateProduct(id: number, data: UpdateProductDTO) {
-        return prisma.product.update({
-            where: { id_product: id },
-            data: {
-                name: data.name,
-                description: data.description,
-                price: data.price,
-                image: data.image
+        return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+            const existing = await tx.product.findUnique({
+                where: { id_product: id },
+                include: {
+                    stock: {
+                        include: { service: true }
+                    }
+                }
+            });
+
+            if (!existing) {
+                throw new Error('Product not found');
             }
+
+            await tx.product.update({
+                where: { id_product: id },
+                data: {
+                    name: data.name,
+                    description: data.description,
+                    price: data.price,
+                    image: data.image
+                }
+            });
+
+            const wantsStockOrLocationUpdate = data.stock !== undefined || data.locationId !== undefined;
+            if (wantsStockOrLocationUpdate) {
+                const currentStockTotal = existing.stock.reduce((sum, s) => sum + s.stock, 0);
+                const targetStock = data.stock ?? currentStockTotal;
+
+                const existingLocationId = existing.stock[0]?.service?.id_location;
+                const targetLocationId = data.locationId ?? existingLocationId;
+
+                if (targetLocationId) {
+                    let service = await tx.service.findFirst({
+                        where: {
+                            id_location: targetLocationId,
+                            id_service_type: 1,
+                            id_prestataire: existing.id_prestataire
+                        }
+                    });
+
+                    if (!service) {
+                        service = await tx.service.create({
+                            data: {
+                                name: 'Boutique',
+                                description: 'Echoppe automatique',
+                                id_service_type: 1,
+                                id_location: targetLocationId,
+                                id_prestataire: existing.id_prestataire
+                            }
+                        });
+                    }
+
+                    await tx.stock.deleteMany({
+                        where: { id_product: id }
+                    });
+
+                    await tx.stock.create({
+                        data: {
+                            id_product: id,
+                            id_service: service.id_service,
+                            stock: targetStock
+                        }
+                    });
+                }
+            }
+
+            const updated = await tx.product.findUnique({
+                where: { id_product: id },
+                include: {
+                    stock: {
+                        include: { service: true }
+                    }
+                }
+            });
+
+            if (!updated) {
+                throw new Error('Product not found after update');
+            }
+
+            const totalStock = updated.stock.reduce((sum, s) => sum + s.stock, 0);
+            const locationId = updated.stock[0]?.service?.id_location ?? null;
+
+            return {
+                id: updated.id_product,
+                name: updated.name,
+                description: updated.description,
+                price: Number(updated.price),
+                imageUrl: updated.image,
+                stock: totalStock,
+                locationId,
+                id_prestataire: updated.id_prestataire
+            };
         });
     },
 
@@ -290,10 +376,14 @@ const productService = {
         const exists = await prisma.product.findUnique({ where: { id_product: id } });
         if (!exists) throw new Error("Product not found");
 
-        // Delete dependencies if any (stock, etc.) - Prisma Cascade might handle this depending on schema
-        // For safety, proceed to delete product
-        return prisma.product.delete({
-            where: { id_product: id }
+        return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+            await tx.lignePanier.deleteMany({ where: { id_product: id } });
+            await tx.stock.deleteMany({ where: { id_product: id } });
+            await tx.ligneCommande.deleteMany({ where: { id_product: id } });
+
+            return tx.product.delete({
+                where: { id_product: id }
+            });
         });
     }
 };

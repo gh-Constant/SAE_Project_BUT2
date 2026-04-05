@@ -324,7 +324,7 @@ const onRefuse = async (loc: LocationMock) => {
 const onDelete = async (loc: LocationMock) => {
     if (confirm(t('admin.manage_locations.confirm_delete', { name: loc.name }))) {
         try {
-            await locationService.deleteLocation(loc.id);
+            await locationService.removeOwner(loc.id);
             await refreshData();
         } catch (e) {
             console.error(e);

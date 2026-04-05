@@ -41,14 +41,20 @@ export const useProductStore = defineStore('product', {
 
     // Save the modifications of an product
     async saveEdit() {
-      const updatedProduct = await productService.updateProduct(this.editProduct)
-      if (updatedProduct) {
+      this.error = null;
+      try {
+        await productService.updateProduct(this.editProduct)
+
         // Update the product in the list
         const index = this.products.findIndex(p => p.id === this.editProduct.id);
         if (index !== -1) {
           this.products[index] = { ...this.editProduct };
         }
         this.editId = null
+      } catch (err) {
+        console.error('Error updating product:', err);
+        this.error = err instanceof Error ? err.message : 'Failed to update product';
+        throw err;
       }
     },
 
@@ -59,9 +65,17 @@ export const useProductStore = defineStore('product', {
 
     // Delete an product
     async deleteProduct(idProduct: number) {
-      if (await productService.deleteProduct(idProduct)) {
+      this.error = null;
+      try {
+        const deleted = await productService.deleteProduct(idProduct);
+        if (!deleted) return;
+
         // Remove the product from the list
         this.products = this.products.filter(p => p.id !== idProduct);
+      } catch (err) {
+        console.error('Error deleting product:', err);
+        this.error = err instanceof Error ? err.message : 'Failed to delete product';
+        throw err;
       }
     },
 

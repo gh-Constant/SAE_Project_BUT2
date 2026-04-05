@@ -277,8 +277,9 @@ const productServiceImpl = {
     try {
       await apiClient.delete(`/products/${id}`);
       return true;
-    } catch {
-      return false;
+    } catch (error: any) {
+      console.error('Error deleting product:', error);
+      throw new Error(error.response?.data?.error || 'Failed to delete product');
     }
   },
 
@@ -290,11 +291,12 @@ const productServiceImpl = {
         price: productToUpdate.price,
         image: productToUpdate.imageUrl,
         stock: productToUpdate.stock,
+        locationId: productToUpdate.locationId,
       });
       return response.data;
     } catch (err) {
       console.error('Error updating product:', err);
-      return null;
+      throw err;
     }
   },
 
